@@ -10,11 +10,9 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal2;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -32,31 +30,20 @@ public class FactoryReviewNode {
     private FactoryReviews mReviewsFactory;
     private FactoryBinders mBinderFactory;
     private FactoryDataCollector mDataCollectorFactory;
-    private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryNodeTraverser mTraverserFactory;
+    private FactoryMdReference mReferenceFactory;
 
     public FactoryReviewNode(FactoryReviews reviewFactory,
                              FactoryBinders binderFactory,
-                             FactoryVisitorReviewNode visitorFactory,
-                             FactoryNodeTraverser traverserFactory) {
+                             FactoryMdReference referenceFactory) {
         mReviewsFactory = reviewFactory;
         mBinderFactory = binderFactory;
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
+        mReferenceFactory = referenceFactory;
         mDataCollectorFactory = new FactoryDataCollector();
     }
 
 
     public FactoryBinders getBinderFactory() {
         return mBinderFactory;
-    }
-
-    public FactoryVisitorReviewNode getVisitorFactory() {
-        return mVisitorFactory;
-    }
-
-    public FactoryNodeTraverser getTraverserFactory() {
-        return mTraverserFactory;
     }
 
     public FactoryDataCollector getDataCollectorFactory() {
@@ -72,7 +59,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {
-        return new NodeInternal(meta, this);
+        return new NodeInternal2(meta, mReferenceFactory);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {

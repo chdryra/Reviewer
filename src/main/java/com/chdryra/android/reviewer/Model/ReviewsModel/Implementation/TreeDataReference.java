@@ -27,15 +27,12 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  */
 public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
     private FactoryMdReference mReferenceFactory;
-    private VisitorFactory<T> mVisitorFactory;
+    private VisitorFactory.ListVisitor<T> mVisitorFactory;
 
-    public interface VisitorFactory<T extends HasReviewId> {
-        VisitorDataGetter<ReviewListReference<T>> newVisitor();
-    }
     public TreeDataReference(ReviewNode root,
                              FactoryMdReference referenceFactory,
                              FactoryNodeTraverser traverserFactory,
-                             VisitorFactory<T> visitorFactory) {
+                             VisitorFactory.ListVisitor<T> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
@@ -88,7 +85,7 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
 
         private void convert() {
             mData = new IdableDataList<>(mRefs.getReviewId());
-            for(ReviewListReference<T> ref : mRefs) {
+            for (ReviewListReference<T> ref : mRefs) {
                 ref.toItemReferences(new ItemReferencesCallback<T>() {
                     @Override
                     public void onItemReferences(IdableList<ReviewItemReference<T>> references) {
@@ -101,7 +98,7 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
         private void add(IdableList<ReviewItemReference<T>> data) {
             mData.addAll(data);
             mNumDereferences++;
-            if(mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
+            if (mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
         }
     }
 }

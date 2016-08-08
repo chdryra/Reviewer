@@ -11,9 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 
 /**
@@ -29,12 +27,4 @@ public interface MetaReviewData extends ReviewReferenceData {
     ReviewListReference<DataAuthorId> getAuthorIds();
 
     ReviewListReference<DataDate> getDates();
-
-    ReviewItemReference<DataSize> getNumReviews();
-
-    ReviewItemReference<DataSize> getNumSubjects();
-
-    ReviewItemReference<DataSize> getNumAuthors();
-
-    ReviewItemReference<DataSize> getNumDates();
 }

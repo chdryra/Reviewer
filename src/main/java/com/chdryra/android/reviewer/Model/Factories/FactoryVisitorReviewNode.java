@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
@@ -38,12 +39,17 @@ public class FactoryVisitorReviewNode {
         }
     };
 
-    private <T extends HasReviewId> VisitorDataGetter<T> newLeafCollector(NodeDataGetter<T> getter) {
-        return new VisitorDataGetter.ItemGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
+    private <T extends HasReviewId> VisitorDataGetter<T> newItemCollector(NodeDataGetter<T> getter) {
+        return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
+    }
+
+    private <T extends HasReviewId> VisitorDataGetter<ReviewListReference<T>>
+    newListCollector(NodeDataGetter<ReviewListReference<T>> getter) {
+        return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
     }
 
     public VisitorDataGetter<DataSubject> newSubjectsCollector() {
-        return newLeafCollector(new NodeDataGetter<DataSubject>() {
+        return newItemCollector(new NodeDataGetter<DataSubject>() {
             @Nullable
             @Override
             public DataSubject getData(@NonNull ReviewNode node) {
@@ -53,7 +59,7 @@ public class FactoryVisitorReviewNode {
     }
 
     public VisitorDataGetter<DataAuthorId> newAuthorsCollector() {
-        return newLeafCollector(new NodeDataGetter<DataAuthorId>() {
+        return newItemCollector(new NodeDataGetter<DataAuthorId>() {
             @Nullable
             @Override
             public DataAuthorId getData(@NonNull ReviewNode node) {
@@ -63,7 +69,7 @@ public class FactoryVisitorReviewNode {
     }
 
     public VisitorDataGetter<DataDate> newDatesCollector() {
-        return newLeafCollector(new NodeDataGetter<DataDate>() {
+        return newItemCollector(new NodeDataGetter<DataDate>() {
             @Nullable
             @Override
             public DataDate getData(@NonNull ReviewNode node) {
@@ -72,12 +78,12 @@ public class FactoryVisitorReviewNode {
         });
     }
 
-    public VisitorDataGetter<ReviewReference> newLeavesCollector() {
-        return newLeafCollector(new NodeDataGetter<ReviewReference>() {
+    public VisitorDataGetter<ReviewListReference<ReviewReference>> newReviewsCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<ReviewReference>>() {
             @Nullable
             @Override
-            public ReviewReference getData(@NonNull ReviewNode node) {
-                return node.getReference();
+            public ReviewListReference<ReviewReference> getData(@NonNull ReviewNode node) {
+                return node.getReviews();
             }
         });
     }

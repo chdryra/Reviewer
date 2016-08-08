@@ -19,15 +19,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -37,29 +35,27 @@ import java.util.ArrayList;
 
 public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
     private DataReviewInfo mMeta;
-    private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryNodeTraverser mTraverserFactory;
+    private FactoryMdReference mReferenceFactory;
 
     private ArrayList<NodeObserver> mObservers;
     private MdDataList<ReviewNodeComponent> mChildren;
 
-    public NodeInternal2(DataReviewInfo meta, FactoryVisitorReviewNode visitorFactory,
-                         FactoryNodeTraverser traverserFactory) {
+    public NodeInternal2(DataReviewInfo meta,
+                         FactoryMdReference referenceFactory) {
         mMeta = meta;
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
+        mReferenceFactory = referenceFactory;
         mChildren = new MdDataList<>(getReviewId());
         mObservers = new ArrayList<>();
     }
 
     @Override
     public ReviewListReference<ReviewReference> getReviews() {
-        return null;
+        return mReferenceFactory.newReviewsReference(this);
     }
 
     @Override
     public ReviewListReference<DataSubject> getSubjects() {
-        return null;
+        return mReferenceFactory.newSubjectsReference(this);
     }
 
     @Override
@@ -69,26 +65,6 @@ public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNod
 
     @Override
     public ReviewListReference<DataDate> getDates() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumReviews() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumSubjects() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumAuthors() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumDates() {
         return null;
     }
 
