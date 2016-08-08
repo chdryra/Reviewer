@@ -23,7 +23,7 @@ public interface ReviewListReference<T extends HasReviewId> extends ListReferenc
 
     void toItemReferences(ItemReferencesCallback<T> callback);
 
-    ReviewItemReference<DataSize> getSizeReference();
+    ReviewItemReference<DataSize> getSize();
 
     @Override
     void bindToItems(ListItemBinder<T> binder);

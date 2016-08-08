@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class FactoryReviewNode {
     private FactoryReviews mReviewsFactory;
-    private FactoryBinders mBinderFactory;
+    //private FactoryBinders mBinderFactory;
     private FactoryDataCollector mDataCollectorFactory;
     private FactoryMdReference mReferenceFactory;
 
@@ -55,7 +55,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference review) {
-        return new NodeLeaf(review, this);
+        return new NodeLeaf(review);
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {

@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReviewData;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.NodeData;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -98,7 +98,7 @@ public class FactoryGridDataViewer {
     }
 
     @Nullable
-    public <T extends GvData> GridDataWrapper<T> newMetaDataViewer(MetaReviewData review,
+    public <T extends GvData> GridDataWrapper<T> newMetaDataViewer(NodeData review,
                                                                GvDataType<T> type,
                                                                ConverterGv converter) {
         GridDataViewer viewer = null;

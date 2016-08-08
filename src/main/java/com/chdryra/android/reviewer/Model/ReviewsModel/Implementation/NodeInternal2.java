@@ -50,22 +50,22 @@ public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNod
 
     @Override
     public ReviewListReference<ReviewReference> getReviews() {
-        return mReferenceFactory.newReviewsReference(this);
+        return mReferenceFactory.newReviewsList(this);
     }
 
     @Override
     public ReviewListReference<DataSubject> getSubjects() {
-        return mReferenceFactory.newSubjectsReference(this);
+        return mReferenceFactory.newSubjectsList(this);
     }
 
     @Override
     public ReviewListReference<DataAuthorId> getAuthorIds() {
-        return null;
+        return mReferenceFactory.newAuthorsList(this);
     }
 
     @Override
     public ReviewListReference<DataDate> getDates() {
-        return null;
+        return mReferenceFactory.newDatesList(this);
     }
 
     @Override
@@ -75,32 +75,32 @@ public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNod
 
     @Override
     public ReviewListReference<DataCriterion> getCriteria() {
-        return null;
+        return mReferenceFactory.newCriteriaList(this);
     }
 
     @Override
     public ReviewListReference<DataComment> getComments() {
-        return null;
+        return mReferenceFactory.newCommentsList(this);
     }
 
     @Override
     public ReviewListReference<DataFact> getFacts() {
-        return null;
+        return mReferenceFactory.newFactsList(this);
     }
 
     @Override
     public ReviewListReference<DataImage> getImages() {
-        return null;
+        return mReferenceFactory.newImagesList(this);
     }
 
     @Override
     public ReviewListReference<DataLocation> getLocations() {
-        return null;
+        return mReferenceFactory.newLocationsList(this);
     }
 
     @Override
     public ReviewListReference<DataTag> getTags() {
-        return null;
+        return mReferenceFactory.newTagsList(this);
     }
 
     @Override

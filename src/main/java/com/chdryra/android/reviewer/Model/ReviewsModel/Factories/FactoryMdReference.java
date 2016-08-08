@@ -8,8 +8,16 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -19,10 +27,10 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReferenceSize;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReferenceSize;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemReferences;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemReferencesSize;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListReferences;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListReferencesSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.VisitorFactory;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -37,12 +45,10 @@ public class FactoryMdReference {
     private FactoryNodeTraverser mTraverserFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
 
-    public FactoryNodeTraverser getTraverserFactory() {
-        return mTraverserFactory;
-    }
-
-    public FactoryVisitorReviewNode getVisitorFactory() {
-        return mVisitorFactory;
+    public FactoryMdReference(FactoryNodeTraverser traverserFactory, FactoryVisitorReviewNode 
+            visitorFactory) {
+        mTraverserFactory = traverserFactory;
+        mVisitorFactory = visitorFactory;
     }
 
     public <T extends HasReviewId> ReviewItemReference<T> newWrapper(ReviewId id, T datum) {
@@ -54,27 +60,27 @@ public class FactoryMdReference {
         return new StaticListReference<>(id, data);
     }
 
-    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeInfoReference<T>
+    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeItemReferences<T>
                                                                                  treeRef) {
-        return new TreeInfoReferenceSize<>(treeRef);
+        return new TreeItemReferencesSize<>(treeRef);
     }
 
-    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeDataReference<T>
+    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeListReferences<T>
                                                                                  treeRef) {
-        return new TreeDataReferenceSize<>(treeRef);
+        return new TreeListReferencesSize<>(treeRef);
     }
 
-    public ReviewListReference<ReviewReference> newReviewsReference(ReviewNode root) {
-        return new TreeDataReference<>(root, this, mTraverserFactory, new VisitorFactory.ListVisitor<ReviewReference>() {
+    public ReviewListReference<ReviewReference> newReviewsList(ReviewNode root) {
+        return newItemList(root, new VisitorFactory.ItemVisitor<ReviewReference>() {
             @Override
-            public VisitorDataGetter<ReviewListReference<ReviewReference>> newVisitor() {
+            public VisitorDataGetter<ReviewReference> newVisitor() {
                 return mVisitorFactory.newReviewsCollector();
             }
         });
     }
 
-    public ReviewListReference<DataSubject> newSubjectsReference(ReviewNode root) {
-        return new TreeInfoReference<>(root, this, mTraverserFactory, new VisitorFactory.InfoVisitor<DataSubject>() {
+    public ReviewListReference<DataSubject> newSubjectsList(ReviewNode root) {
+        return newItemList(root, new VisitorFactory.ItemVisitor<DataSubject>() {
             @Override
             public VisitorDataGetter<DataSubject> newVisitor() {
                 return mVisitorFactory.newSubjectsCollector();
@@ -82,16 +88,87 @@ public class FactoryMdReference {
         });
     }
 
-    private <T extends HasReviewId> ReviewListReference<T> newReferenceList(ReviewNode root,
-                                                                            VisitorFactory
-                                                                                    .ListVisitor<T> visitorFactory) {
-        return new TreeDataReference<>(root, this, mTraverserFactory, visitorFactory);
+    public ReviewListReference<DataAuthorId> newAuthorsList(ReviewNode root) {
+        return newItemList(root, new VisitorFactory.ItemVisitor<DataAuthorId>() {
+            @Override
+            public VisitorDataGetter<DataAuthorId> newVisitor() {
+                return mVisitorFactory.newAuthorsCollector();
+            }
+        });
     }
 
-    private <T extends HasReviewId> ReviewListReference<T> newInfoList(ReviewNode root,
-                                                                       VisitorFactory
-                                                                               .InfoVisitor<T>
+    public ReviewListReference<DataDate> newDatesList(ReviewNode root) {
+        return newItemList(root, new VisitorFactory.ItemVisitor<DataDate>() {
+            @Override
+            public VisitorDataGetter<DataDate> newVisitor() {
+                return mVisitorFactory.newDatesCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataCriterion> newCriteriaList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataCriterion>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataCriterion>> newVisitor() {
+                return mVisitorFactory.newCriteriaCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataComment> newCommentsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataComment>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataComment>> newVisitor() {
+                return mVisitorFactory.newCommentsCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataImage> newImagesList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataImage>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataImage>> newVisitor() {
+                return mVisitorFactory.newImagesCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataLocation> newLocationsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataLocation>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataLocation>> newVisitor() {
+                return mVisitorFactory.newLocationsCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataFact> newFactsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataFact>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataFact>> newVisitor() {
+                return mVisitorFactory.newFactsCollector();
+            }
+        });
+    }
+
+    public ReviewListReference<DataTag> newTagsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataTag>() {
+            @Override
+            public VisitorDataGetter<ReviewListReference<DataTag>> newVisitor() {
+                return mVisitorFactory.newTagsCollector();
+            }
+        });
+    }
+    
+    private <T extends HasReviewId> ReviewListReference<T> newDataList(ReviewNode root,
+                                                                            VisitorFactory
+                                                                                    .ListVisitor<T> visitorFactory) {
+        return new TreeListReferences<>(root, this, mTraverserFactory, visitorFactory);
+    }
+
+    private <T extends HasReviewId> ReviewListReference<T> newItemList(ReviewNode root,
+                                                                       VisitorFactory.ItemVisitor<T>
                                                                                visitorFactory) {
-        return new TreeInfoReference<>(root, this, mTraverserFactory, visitorFactory);
+        return new TreeItemReferences<>(root, this, mTraverserFactory, visitorFactory);
     }
 }

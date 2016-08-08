@@ -25,14 +25,14 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 04/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
+public class TreeListReferences<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
     private FactoryMdReference mReferenceFactory;
     private VisitorFactory.ListVisitor<T> mVisitorFactory;
 
-    public TreeDataReference(ReviewNode root,
-                             FactoryMdReference referenceFactory,
-                             FactoryNodeTraverser traverserFactory,
-                             VisitorFactory.ListVisitor<T> visitorFactory) {
+    public TreeListReferences(ReviewNode root,
+                              FactoryMdReference referenceFactory,
+                              FactoryNodeTraverser traverserFactory,
+                              VisitorFactory.ListVisitor<T> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
@@ -51,7 +51,7 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
     }
 
     @Override
-    public ReviewItemReference<DataSize> getSizeReference() {
+    public ReviewItemReference<DataSize> getSize() {
         return mReferenceFactory.newSize(this);
     }
 

@@ -19,14 +19,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeInfoReferenceSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
-    public TreeInfoReferenceSize(TreeInfoReference<T> dataReference) {
+public class TreeItemReferencesSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
+    public TreeItemReferencesSize(TreeItemReferences<T> dataReference) {
         super(dataReference);
     }
 
     @Override
-    protected TreeInfoReference<T> getReference() {
-        return (TreeInfoReference<T>) super.getReference();
+    protected TreeItemReferences<T> getReference() {
+        return (TreeItemReferences<T>) super.getReference();
     }
 
     @Override

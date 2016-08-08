@@ -26,15 +26,15 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeDataReferenceSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
+public class TreeListReferencesSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
 
-    public TreeDataReferenceSize(TreeDataReference<T> dataReference) {
+    public TreeListReferencesSize(TreeListReferences<T> dataReference) {
         super(dataReference);
     }
 
     @Override
-    protected TreeDataReference<T> getReference() {
-        return (TreeDataReference<T>) super.getReference();
+    protected TreeListReferences<T> getReference() {
+        return (TreeListReferences<T>) super.getReference();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class TreeDataReferenceSize<T extends HasReviewId> extends TreeSizeRefere
         IdableList<ReviewItemReference<DataSize>> refs
                 = new IdableDataList<>(getReviewId());
         for (ReviewListReference<T> reference : getter.getData()) {
-            refs.add(reference.getSizeReference());
+            refs.add(reference.getSize());
         }
 
         return refs;

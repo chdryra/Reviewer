@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -22,7 +21,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -30,7 +28,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -40,8 +37,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
         DataReference.InvalidationListener {
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review, FactoryReviewNode nodeFactory) {
-        super(nodeFactory);
+    public NodeLeaf(ReviewReference review) {
         mReview = review;
     }
 
@@ -53,42 +49,22 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @Override
     public ReviewListReference<ReviewReference> getReviews() {
-        return newStaticReference(mReview);
+        return newEmptyReference();
     }
 
     @Override
     public ReviewListReference<DataSubject> getSubjects() {
-        return newStaticReference(mReview.getSubject());
+        return newEmptyReference();
     }
 
     @Override
     public ReviewListReference<DataAuthorId> getAuthorIds() {
-        return newStaticReference(mReview.getAuthorId());
+        return newEmptyReference();
     }
 
     @Override
     public ReviewListReference<DataDate> getDates() {
-        return newStaticReference(mReview.getPublishDate());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumReviews() {
-        return sizeOne();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumSubjects() {
-        return sizeOne();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumAuthors() {
-        return sizeOne();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getNumDates() {
-        return sizeOne();
+        return newEmptyReference();
     }
 
     @Override
@@ -222,15 +198,8 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @NonNull
-    private <T extends HasReviewId> ReviewListReference<T> newStaticReference(T item) {
+    private <T extends HasReviewId> ReviewListReference<T> newEmptyReference() {
         IdableList<T> data = new IdableDataList<>(mReview.getReviewId());
-        data.add(item);
         return new StaticListReference<>(mReview.getReviewId(), data);
-    }
-
-    @NonNull
-    private ReviewItemReference<DataSize> sizeOne() {
-        DataSize size = new DatumSize(getReviewId(), 1);
-        return new StaticItemReference<>(mReview.getReviewId(), size);
     }
 }

@@ -10,11 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -41,29 +38,8 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
     public ViewerTreeSummary(ReviewNode node,
                              ConverterGv converter,
                              TagsManager tagsManager,
-                             FactoryBinders bindersFactory,
                              FactoryReviewViewAdapter adapterFactory) {
-        super(node, converter, tagsManager, bindersFactory, adapterFactory, NUM_DATA);
-    }
-
-    @Override
-    public void onNumAuthors(DataSize size, CallbackMessage message) {
-        update(size, GvAuthor.TYPE, CallbackMessage.ok());
-    }
-
-    @Override
-    public void onNumDates(DataSize size, CallbackMessage message) {
-        update(size, GvDate.TYPE, CallbackMessage.ok());
-    }
-
-    @Override
-    public void onNumReviews(DataSize size, CallbackMessage message) {
-        update(size, GvReference.TYPE, CallbackMessage.ok());
-    }
-
-    @Override
-    public void onNumSubjects(DataSize size, CallbackMessage message) {
-        update(size, GvSubject.TYPE, CallbackMessage.ok());
+        super(node, converter, tagsManager, adapterFactory, NUM_DATA);
     }
 
     @Override
@@ -79,18 +55,20 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
     @Override
     protected void onAttach() {
         super.onAttach();
-        getBinder().bindToNumReviews();
-        getBinder().bindToNumAuthors();
-        getBinder().bindToNumSubjects();
-        getBinder().bindToNumDates();
+        ReviewNode node = getReviewNode();
+        node.getReviews().getSize().bindToValue(getBinder(GvReference.TYPE));
+        node.getAuthorIds().getSize().bindToValue(getBinder(GvAuthor.TYPE));
+        node.getSubjects().getSize().bindToValue(getBinder(GvSubject.TYPE));
+        node.getDates().getSize().bindToValue(getBinder(GvDate.TYPE));
     }
 
     @Override
     protected void onDetach() {
-        getBinder().unbindFromNumReviews();
-        getBinder().unbindFromNumAuthors();
-        getBinder().unbindFromNumSubjects();
-        getBinder().unbindFromNumDates();
+        ReviewNode node = getReviewNode();
+        node.getReviews().getSize().unbindFromValue(getBinder(GvReference.TYPE));
+        node.getAuthorIds().getSize().unbindFromValue(getBinder(GvAuthor.TYPE));
+        node.getSubjects().getSize().unbindFromValue(getBinder(GvSubject.TYPE));
+        node.getDates().getSize().unbindFromValue(getBinder(GvDate.TYPE));
         super.onDetach();
     }
 

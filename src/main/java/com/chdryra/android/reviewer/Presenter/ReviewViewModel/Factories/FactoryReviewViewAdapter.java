@@ -75,10 +75,12 @@ public class FactoryReviewViewAdapter {
     }
 
     public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
+        //adapter shows children nodes
         return mReviewViewFactory.newReviewsListAdapter(node, this);
     }
 
     public ReviewViewAdapter<?> newFlattenedReviewsListAdapter(ReviewNode toFlatten) {
+        //adapter shows list of all reviews
         return mReviewViewFactory.newReviewsListAdapter(newFlattenedNode(toFlatten), this);
     }
 
@@ -215,9 +217,5 @@ public class FactoryReviewViewAdapter {
                 new ArrayList<DataLocation>(), true);
 
         return mReviewsFactory.createLeafNode(mReviewsFactory.asReference(fetching, mReviewSource.getTagsManager()));
-    }
-
-    private ReviewTreeFlat newFlattenedNode(ReviewNode toFlatten) {
-        return new ReviewTreeFlat(getFetchingPlaceholder(), toFlatten, mReviewsFactory);
     }
 }

@@ -14,7 +14,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -23,13 +22,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
@@ -41,36 +39,19 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ReviewTree extends ReviewNodeBasic implements
         ReviewNode,
-        ReviewNode.NodeObserver,
-        ReviewReferenceBinder.DataBinder,
-        ReviewReferenceBinder.DataSizeBinder{
-    private final FactoryBinders mBindersFactory;
-    private ReviewReferenceBinder mNodeBinder;
+        ReviewNode.NodeObserver {
     private ReviewNode mNode;
 
-    public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
-        super(bindersFactory);
-        mBindersFactory = bindersFactory;
+    public ReviewTree(@NotNull ReviewNode node) {
         setNode(node);
     }
 
     protected void setNode(ReviewNode node) {
-        if (mNode != null) unbindAndUnregister();
+        if (mNode != null) mNode.unregisterObserver(this);
 
         mNode = node;
-        bindAndRegister();
-        notifyOnNodeChanged();
-    }
-
-    private void bindAndRegister() {
-        mNodeBinder = mBindersFactory.bindTo(mNode, this, this);
-        getBindersManager().manageBinder(mNodeBinder);
         mNode.registerObserver(this);
-    }
-
-    private void unbindAndUnregister() {
-        getBindersManager().unmanageBinder(mNodeBinder);
-        mNode.unregisterObserver(this);
+        notifyOnNodeChanged();
     }
 
     @Override
@@ -144,208 +125,23 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
-    public ReviewNode asNode() {
-        return this;
+    public ReviewListReference<ReviewReference> getReviews() {
+        return mNode.getReviews();
     }
 
     @Override
-    public void getData(ReviewsCallback callback) {
-        mNode.getData(callback);
+    public ReviewListReference<DataSubject> getSubjects() {
+        return mNode.getSubjects();
     }
 
     @Override
-    public void getData(SubjectsCallback callback) {
-        mNode.getData(callback);
+    public ReviewListReference<DataAuthorId> getAuthorIds() {
+        return mNode.getAuthorIds();
     }
 
     @Override
-    public void getData(AuthorsCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(DatesCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(CoverCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(TagsCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(CriteriaCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(ImagesCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(CommentsCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(LocationsCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getData(FactsCallback callback) {
-        mNode.getData(callback);
-    }
-
-    @Override
-    public void getSize(ReviewsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(SubjectsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(AuthorsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(DatesSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(TagsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(CriteriaSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(ImagesSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(CommentsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(LocationsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void getSize(FactsSizeCallback callback) {
-        mNode.getSize(callback);
-    }
-
-    @Override
-    public void onAuthors(IdableList<? extends DataAuthorId> Authors, CallbackMessage message) {
-        notifyAuthorsBinders();
-    }
-
-    @Override
-    public void onNumAuthors(DataSize size, CallbackMessage message) {
-        notifyNumAuthorsBinders();
-    }
-
-    @Override
-    public void onDates(IdableList<? extends DataDate> Dates, CallbackMessage message) {
-        notifyDatesBinders();
-    }
-
-    @Override
-    public void onNumDates(DataSize size, CallbackMessage message) {
-        notifyNumDatesBinders();
-    }
-
-    @Override
-    public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
-        notifyReviewsBinders();
-    }
-
-    @Override
-    public void onNumReviews(DataSize size, CallbackMessage message) {
-        notifyNumReviewsBinders();
-    }
-
-    @Override
-    public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
-        notifySubjectsBinders();
-    }
-
-    @Override
-    public void onNumSubjects(DataSize size, CallbackMessage message) {
-        notifyNumSubjectsBinders();
-    }
-
-    @Override
-    public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
-        notifyCommentsBinders();
-    }
-
-    @Override
-    public void onNumComments(DataSize size, CallbackMessage message) {
-        notifyNumCommentsBinders();
-    }
-
-    @Override
-    public void onCover(DataImage cover, CallbackMessage message) {
-        notifyCoversBinders();
-    }
-
-    @Override
-    public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
-        notifyCriteriaBinders();
-    }
-
-    @Override
-    public void onNumCriteria(DataSize size, CallbackMessage message) {
-        notifyNumCriteriaBinders();
-    }
-
-    @Override
-    public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-        notifyFactsBinders();
-    }
-
-    @Override
-    public void onNumFacts(DataSize size, CallbackMessage message) {
-        notifyNumFactsBinders();
-    }
-
-    @Override
-    public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-        notifyImagesBinders();
-    }
-
-    @Override
-    public void onNumImages(DataSize size, CallbackMessage message) {
-        notifyNumImagesBinders();
-    }
-
-    @Override
-    public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
-        notifyLocationsBinders();
-    }
-
-    @Override
-    public void onNumLocations(DataSize size, CallbackMessage message) {
-        notifyNumLocationsBinders();
+    public ReviewListReference<DataDate> getDates() {
+        return mNode.getDates();
     }
 
     @Override
@@ -354,38 +150,37 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
-    public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
-        notifyTagsBinders();
+    public ReviewItemReference<DataImage> getCover() {
+        return mNode.getCover();
     }
 
     @Override
-    public void onNumTags(DataSize size, CallbackMessage message) {
-        notifyNumTagsBinders();
+    public ReviewListReference<DataCriterion> getCriteria() {
+        return mNode.getCriteria();
     }
 
     @Override
-    public void dereference(DereferenceCallback<Review> callback) {
-        mNode.dereference(callback);
+    public ReviewListReference<DataComment> getComments() {
+        return mNode.getComments();
     }
 
     @Override
-    public boolean isValidReference() {
-        return mNode.isValidReference();
+    public ReviewListReference<DataFact> getFacts() {
+        return mNode.getFacts();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ReviewTree)) return false;
-
-        ReviewTree that = (ReviewTree) o;
-
-        return mNode.equals(that.mNode);
-
+    public ReviewListReference<DataImage> getImages() {
+        return mNode.getImages();
     }
 
     @Override
-    public int hashCode() {
-        return mNode.hashCode();
+    public ReviewListReference<DataLocation> getLocations() {
+        return mNode.getLocations();
+    }
+
+    @Override
+    public ReviewListReference<DataTag> getTags() {
+        return mNode.getTags();
     }
 }

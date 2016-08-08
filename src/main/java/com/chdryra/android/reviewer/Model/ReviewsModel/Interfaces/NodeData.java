@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MetaReviewData extends ReviewReferenceData {
+public interface NodeData extends ReviewReferenceData {
     ReviewListReference<ReviewReference> getReviews();
 
     ReviewListReference<DataSubject> getSubjects();

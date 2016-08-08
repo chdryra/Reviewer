@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
@@ -71,9 +72,8 @@ public class FactoryReviews implements ReviewMaker {
 
     public FactoryReviews(ConverterMd converter,
                           FactoryBinders binderFactory,
-                          FactoryVisitorReviewNode visitorFactory,
-                          FactoryNodeTraverser traverserFactory) {
-        mNodeFactory = new FactoryReviewNode(this, binderFactory, visitorFactory, traverserFactory);
+                          FactoryMdReference referenceFactory) {
+        mNodeFactory = new FactoryReviewNode(this, binderFactory, referenceFactory);
         mConverter = converter;
         mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
     }

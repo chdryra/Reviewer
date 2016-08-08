@@ -44,7 +44,7 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     }
 
     @Override
-    public ReviewItemReference<DataSize> getSizeReference() {
+    public ReviewItemReference<DataSize> getSize() {
         DataSize size = new DatumSize(getReviewId(), getData().size());
         return new StaticItemReference<>(getReviewId(), size);
     }

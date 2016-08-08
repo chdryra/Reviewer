@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorData
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VisitorFactory<T extends HasReviewId> {
-    interface InfoVisitor<T extends HasReviewId> {
+    interface ItemVisitor<T extends HasReviewId> {
         VisitorDataGetter<T> newVisitor();
     }
 

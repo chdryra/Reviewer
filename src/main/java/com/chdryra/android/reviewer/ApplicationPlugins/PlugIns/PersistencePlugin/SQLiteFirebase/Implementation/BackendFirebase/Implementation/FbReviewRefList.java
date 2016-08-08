@@ -48,7 +48,7 @@ public class FbReviewRefList<T extends HasReviewId> extends FbRefListData<T, Ida
     }
 
     @Override
-    public ReviewItemReference<DataSize> getSizeReference() {
+    public ReviewItemReference<DataSize> getSize() {
         return mSizeReference;
     }
 

@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceBinder;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReviewData;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.NodeData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReviewData
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBinders {
-    public ReviewReferenceBinder bindTo(MetaReviewData reference, ReviewReferenceBinder.DataSizeBinder sizebinder, @Nullable ReviewReferenceBinder.DataBinder dataBinder) {
+    public ReviewReferenceBinder bindTo(NodeData reference, ReviewReferenceBinder.DataSizeBinder sizebinder, @Nullable ReviewReferenceBinder.DataBinder dataBinder) {
         return new ReviewReferenceBinder(reference, sizebinder, dataBinder);
     }
 

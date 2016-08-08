@@ -25,7 +25,7 @@ public class ConditionalDataGetter<T extends HasReviewId> implements NodeDataGet
     private NodeDataGetter<T> mMethod;
 
     public interface Condition {
-        boolean passesOnNode(ReviewNode node);
+        boolean isTrue(ReviewNode node);
     }
 
     public ConditionalDataGetter(Condition condition, NodeDataGetter<T> method) {
@@ -36,6 +36,6 @@ public class ConditionalDataGetter<T extends HasReviewId> implements NodeDataGet
     @Override
     @Nullable
     public T getData(@NonNull ReviewNode node) {
-        return mCondition.passesOnNode(node) ? mMethod.getData(node) : null;
+        return mCondition.isTrue(node) ? mMethod.getData(node) : null;
     }
 }

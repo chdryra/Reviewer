@@ -11,18 +11,21 @@ package com.chdryra.android.reviewer.Model.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemCounter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 
 /**
@@ -34,7 +37,7 @@ public class FactoryVisitorReviewNode {
     private static final ConditionalDataGetter.Condition IS_LEAF
             = new ConditionalDataGetter.Condition() {
         @Override
-        public boolean passesOnNode(ReviewNode node) {
+        public boolean isTrue(ReviewNode node) {
             return node.isLeaf();
         }
     };
@@ -78,30 +81,73 @@ public class FactoryVisitorReviewNode {
         });
     }
 
-    public VisitorDataGetter<ReviewListReference<ReviewReference>> newReviewsCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<ReviewReference>>() {
+    public VisitorDataGetter<ReviewReference> newReviewsCollector() {
+        return newItemCollector(new NodeDataGetter<ReviewReference>() {
             @Nullable
             @Override
-            public ReviewListReference<ReviewReference> getData(@NonNull ReviewNode node) {
-                return node.getReviews();
+            public ReviewReference getData(@NonNull ReviewNode node) {
+                return node.getReference();
+            }
+        });
+    }
+    
+    public VisitorDataGetter<ReviewListReference<DataCriterion>> newCriteriaCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataCriterion>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataCriterion> getData(@NonNull ReviewNode node) {
+                return node.getCriteria();
             }
         });
     }
 
-    public VisitorItemCounter<String> newSubjectsCounter() {
-        return new VisitorItemCounter.SubjectsCounter();
+    public VisitorDataGetter<ReviewListReference<DataComment>> newCommentsCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataComment>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataComment> getData(@NonNull ReviewNode node) {
+                return node.getComments();
+            }
+        });
     }
 
-    public VisitorItemCounter<AuthorId> newAuthorsCounter() {
-        return new VisitorItemCounter.AuthorsCounter();
+    public VisitorDataGetter<ReviewListReference<DataImage>> newImagesCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataImage>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataImage> getData(@NonNull ReviewNode node) {
+                return node.getImages();
+            }
+        });
+    }
+    
+    public VisitorDataGetter<ReviewListReference<DataLocation>> newLocationsCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataLocation>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataLocation> getData(@NonNull ReviewNode node) {
+                return node.getLocations();
+            }
+        });
     }
 
-    public VisitorItemCounter<String> newDatesCounter() {
-        return new VisitorItemCounter.DatesCounter();
+    public VisitorDataGetter<ReviewListReference<DataFact>> newFactsCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataFact>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataFact> getData(@NonNull ReviewNode node) {
+                return node.getFacts();
+            }
+        });
     }
 
-    public VisitorItemCounter<ReviewId> newReviewsCounter() {
-        return new VisitorItemCounter.ReviewsCounter();
+    public VisitorDataGetter<ReviewListReference<DataTag>> newTagsCollector() {
+        return newListCollector(new NodeDataGetter<ReviewListReference<DataTag>>() {
+            @Nullable
+            @Override
+            public ReviewListReference<DataTag> getData(@NonNull ReviewNode node) {
+                return node.getTags();
+            }
+        });
     }
-
 }
