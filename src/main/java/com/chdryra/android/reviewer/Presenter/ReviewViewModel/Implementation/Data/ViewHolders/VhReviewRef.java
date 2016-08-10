@@ -33,8 +33,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
 import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhReviewReference extends ViewHolderBasic {
+public class VhReviewRef extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -69,8 +68,8 @@ public class VhReviewReference extends ViewHolderBasic {
     private CommentsBinder mCommentsBinder;
     private LocationsBinder mLocationsBinder;
 
-    public VhReviewReference(GvConverterComments converterComments,
-                             GvConverterLocations converterLocations) {
+    public VhReviewRef(GvConverterComments converterComments,
+                       GvConverterLocations converterLocations) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
 
         mConverterComments = converterComments;
@@ -97,7 +96,7 @@ public class VhReviewReference extends ViewHolderBasic {
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
-        setReference(((GvReference) data));
+        setReference(((GvReviewRef) data));
     }
 
     private void setViewsIfNecessary() {
@@ -109,7 +108,7 @@ public class VhReviewReference extends ViewHolderBasic {
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
     }
 
-    private void setReference(GvReference gvReference) {
+    private void setReference(GvReviewRef gvReference) {
         ReviewReference reference = gvReference.getReference();
         if (isBoundTo(reference)) return;
 

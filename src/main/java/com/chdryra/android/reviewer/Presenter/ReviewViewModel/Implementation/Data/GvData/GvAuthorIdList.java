@@ -15,7 +15,7 @@ import android.os.Parcel;
  * On: 18/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvAuthorIdList extends GvDataListImpl<GvAuthorId> {
+public class GvAuthorIdList extends GvDataListParcelable<GvAuthorId> {
     public static final Creator<GvAuthorIdList> CREATOR = new Creator<GvAuthorIdList>() {
         @Override
         public GvAuthorIdList createFromParcel(Parcel in) {

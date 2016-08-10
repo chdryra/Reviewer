@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhText;
 
@@ -32,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
  * Parcelable version of {@link VHDString} to comply with
  * {@link GvData}
  */
-public class GvText<T extends GvText> extends VHDString implements GvData {
+public class GvText<T extends GvText> extends VHDString implements GvDataParcelable {
     public static final GvDataType<GvText> TYPE = new GvDataType<>(GvText.class, "text");
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
@@ -110,6 +111,12 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validateString(getString());
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return this;
     }
 
     @Override

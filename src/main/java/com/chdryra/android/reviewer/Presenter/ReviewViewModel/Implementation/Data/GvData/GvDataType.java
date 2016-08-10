@@ -21,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataType<T extends GvData> implements Parcelable {
-    public static final GvDataType NULL_TYPE = new GvDataType<>();
     public static final Parcelable.Creator<GvDataType> CREATOR = new Parcelable
             .Creator<GvDataType>() {
         @Override

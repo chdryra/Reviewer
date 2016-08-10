@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  *
  * @see AndroidAppInstance
  */
-public class GvReviewList extends GvDataListImpl<GvReview> {
+public class GvReviewList extends GvDataListParcelable<GvReview> {
     public static final Creator<GvReviewList> CREATOR = new Creator<GvReviewList>() {
         @Override
         public GvReviewList createFromParcel(Parcel in) {

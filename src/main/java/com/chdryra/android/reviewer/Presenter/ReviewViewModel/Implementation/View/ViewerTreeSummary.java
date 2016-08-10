@@ -8,23 +8,23 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSizeRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,13 +33,9 @@ import java.util.List;
  */
 public class ViewerTreeSummary extends ViewerReviewSummary {
     private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.MetaOrder.ORDER;
-    private static final int NUM_DATA = ORDER.size();
 
-    public ViewerTreeSummary(ReviewNode node,
-                             ConverterGv converter,
-                             TagsManager tagsManager,
-                             FactoryReviewViewAdapter adapterFactory) {
-        super(node, converter, tagsManager, adapterFactory, NUM_DATA);
+    public ViewerTreeSummary(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
+        super(node, adapterFactory);
     }
 
     @Override
@@ -52,34 +48,26 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
         return ORDER;
     }
 
+    @NonNull
     @Override
-    protected void onAttach() {
-        super.onAttach();
-        ReviewNode node = getReviewNode();
-        node.getReviews().getSize().bindToValue(getBinder(GvReference.TYPE));
-        node.getAuthorIds().getSize().bindToValue(getBinder(GvAuthor.TYPE));
-        node.getSubjects().getSize().bindToValue(getBinder(GvSubject.TYPE));
-        node.getDates().getSize().bindToValue(getBinder(GvDate.TYPE));
-    }
+    protected Map<GvDataType<?>, GvSizeRef> getDataSizesMap(ReviewNode node) {
+        Map<GvDataType<?>, GvSizeRef> map = super.getDataSizesMap(node);
+        map.put(GvReviewRef.TYPE, new GvSizeRef(GvReviewRef.TYPE, node.getReviews().getSize()));
+        map.put(GvAuthorId.TYPE, new GvSizeRef(GvAuthorId.TYPE, node.getAuthorIds().getSize()));
+        map.put(GvSubject.TYPE, new GvSizeRef(GvSubject.TYPE, node.getSubjects().getSize()));
+        map.put(GvDate.TYPE, new GvSizeRef(GvDate.TYPE, node.getDates().getSize()));
 
-    @Override
-    protected void onDetach() {
-        ReviewNode node = getReviewNode();
-        node.getReviews().getSize().unbindFromValue(getBinder(GvReference.TYPE));
-        node.getAuthorIds().getSize().unbindFromValue(getBinder(GvAuthor.TYPE));
-        node.getSubjects().getSize().unbindFromValue(getBinder(GvSubject.TYPE));
-        node.getDates().getSize().unbindFromValue(getBinder(GvDate.TYPE));
-        super.onDetach();
+        return map;
     }
 
     @Nullable
     @Override
-    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
+    protected ReviewViewAdapter<?> getExpansionAdapter(GvSizeRef datum) {
         FactoryReviewViewAdapter factory = getAdapterFactory();
-        if(datum.getType().equals(GvReference.TYPE)) {
+        if(datum.getSizedType().equals(GvReviewRef.TYPE)) {
             return factory.newFlattenedReviewsListAdapter(getReviewNode());
         } else{
-            return factory.newMetaDataAdapter(getReviewNode(), datum.getType());
+            return factory.newMetaDataAdapter(getReviewNode(), datum.getSizedType());
         }
     }
 }

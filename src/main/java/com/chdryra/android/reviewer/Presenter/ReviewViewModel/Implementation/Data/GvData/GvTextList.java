@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvTextList<T extends GvText> extends GvDataListImpl<T> {
+public class GvTextList<T extends GvText> extends GvDataListParcelable<T> {
     public static final Parcelable.Creator<GvTextList> CREATOR = new Parcelable
             .Creator<GvTextList>() {
         @Override

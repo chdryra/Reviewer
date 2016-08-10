@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .VhReviewLive;
 
 
-public class GvReview extends GvDataBasic<GvReview> implements DataReviewInfo {
+public class GvReview extends GvDataParcelableBasic<GvReview> implements DataReviewInfo {
     public static final GvDataType<GvReview> TYPE =
             new GvDataType<>(GvReview.class, "review");
     public static final Creator<GvReview> CREATOR = new Creator<GvReview>() {

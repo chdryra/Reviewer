@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReferenceList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRefList;
 
 
 /**
@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterReferences
-        extends GvConverterBasic<ReviewReference, GvReference, GvReferenceList>
-        implements DataConverter<ReviewReference, GvReference, GvReferenceList> {
+        extends GvConverterBasic<ReviewReference, GvReviewRef, GvReviewRefList>
+        implements DataConverter<ReviewReference, GvReviewRef, GvReviewRefList> {
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
@@ -34,7 +34,7 @@ public class GvConverterReferences
                                  GvConverterImages converterImages,
                                  GvConverterComments converterComments,
                                  GvConverterLocations converterLocations) {
-        super(GvReferenceList.class);
+        super(GvReviewRefList.class);
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
@@ -42,18 +42,18 @@ public class GvConverterReferences
     }
 
     @Override
-    public GvReference convert(ReviewReference review, ReviewId parentId) {
-        return new GvReference(review, mConverterComments, mConverterLocations);
+    public GvReviewRef convert(ReviewReference review, ReviewId parentId) {
+        return new GvReviewRef(review, mConverterComments, mConverterLocations);
     }
 
     @Override
-    public GvReference convert(ReviewReference review) {
+    public GvReviewRef convert(ReviewReference review) {
         return convert(review, null);
     }
 
     @Override
-    public GvReferenceList convert(IdableList<? extends ReviewReference> data) {
-        GvReferenceList list = new GvReferenceList(newId(data.getReviewId()));
+    public GvReviewRefList convert(IdableList<? extends ReviewReference> data) {
+        GvReviewRefList list = new GvReviewRefList(newId(data.getReviewId()));
         for(ReviewReference datum : data) {
             list.add(convert(datum, data.getReviewId()));
         }

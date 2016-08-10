@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Ignores case when comparing authors.
  * </p>
  */
-public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthor {
+public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAuthor {
     public static final GvDataType<GvAuthor> TYPE =
             new GvDataType<>(GvAuthor.class, "author");
     public static final Creator<GvAuthor> CREATOR = new Creator<GvAuthor>() {

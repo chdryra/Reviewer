@@ -10,11 +10,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
 
 /**
@@ -22,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvReviewId implements GvData, ReviewId {
+public class GvReviewId implements GvDataParcelable, ReviewId {
     public static final GvDataType<GvReviewId> TYPE =
             new GvDataType<>(GvReviewId.class, "ReviewId");
 
@@ -51,6 +52,12 @@ public class GvReviewId implements GvData, ReviewId {
 
     public GvReviewId(String id) {
         mId = id;
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return this;
     }
 
     @Override

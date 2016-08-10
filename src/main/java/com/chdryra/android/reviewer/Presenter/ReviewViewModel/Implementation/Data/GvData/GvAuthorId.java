@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthorId;
 
 /**
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvAuthorId implements GvData, AuthorId {
+public class GvAuthorId implements GvDataParcelable, AuthorId {
     public static final GvDataType<GvAuthorId> TYPE =
             new GvDataType<>(GvAuthorId.class, "ReviewId");
 
@@ -103,6 +103,11 @@ public class GvAuthorId implements GvData, AuthorId {
     @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validateString(mUserId);
+    }
+
+    @Override
+    public GvAuthorId getParcelable() {
+        return this;
     }
 
     @Override

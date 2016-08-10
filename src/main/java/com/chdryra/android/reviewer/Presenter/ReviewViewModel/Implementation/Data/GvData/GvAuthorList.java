@@ -16,7 +16,7 @@ import android.os.Parcelable;
  * On: 18/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvAuthorList extends GvDataListImpl<GvAuthor> {
+public class GvAuthorList extends GvDataListParcelable<GvAuthor> {
     public static final Parcelable.Creator<GvAuthorList> CREATOR = new Parcelable
             .Creator<GvAuthorList>() {
         @Override

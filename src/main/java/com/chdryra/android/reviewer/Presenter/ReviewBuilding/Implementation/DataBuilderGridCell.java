@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataListImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -27,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
+public class DataBuilderGridCell<T extends GvData> extends GvDataListParcelable<T>
         implements DataObservable.DataObserver {
 
     public static final Parcelable.Creator<DataBuilderGridCell> CREATOR = new Parcelable.Creator<DataBuilderGridCell>() {

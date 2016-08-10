@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Parcelable version of {@link VHDDualString} to comply with
  * {@link GvData}
  */
-public class GvDualText extends VHDDualString implements GvData {
+public class GvDualText extends VHDDualString implements GvDataParcelable {
     public static final Parcelable.Creator<GvDualText> CREATOR = new Parcelable
             .Creator<GvDualText>() {
         @Override
@@ -113,6 +114,12 @@ public class GvDualText extends VHDDualString implements GvData {
         parcel.writeString(getUpper());
         parcel.writeString(getLower());
         parcel.writeParcelable(mId, i);
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return this;
     }
 
     @Override

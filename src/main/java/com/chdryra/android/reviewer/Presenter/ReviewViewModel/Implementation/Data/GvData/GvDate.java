@@ -29,7 +29,7 @@ import java.util.Date;
  * Ignores case when comparing dates.
  * </p>
  */
-public class GvDate extends GvDataBasic<GvDate> implements DataDate {
+public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
     public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
     public static final Creator<GvDate> CREATOR = new Creator<GvDate>() {
         @Override

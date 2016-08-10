@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
  * @see AndroidAppInstance
  * @see SocialPlatformList
  */
-public class GvSocialPlatformList extends GvDataListImpl<GvSocialPlatform> {
+public class GvSocialPlatformList extends GvDataListParcelable<GvSocialPlatform> {
     public static final Parcelable.Creator<GvSocialPlatformList> CREATOR = new Parcelable
             .Creator<GvSocialPlatformList>() {
         @Override

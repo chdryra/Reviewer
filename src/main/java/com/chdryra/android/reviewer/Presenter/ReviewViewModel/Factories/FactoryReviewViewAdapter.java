@@ -31,11 +31,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
+
+
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
@@ -102,8 +104,8 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(node);
     }
 
-    public ReviewViewAdapter<GvReference> newChildListAdapter(ReviewNode node) {
-        GridDataWrapper<GvReference> viewer
+    public ReviewViewAdapter<GvReviewRef> newChildListAdapter(ReviewNode node) {
+        GridDataWrapper<GvReviewRef> viewer
                 = new ViewerChildList(node, mConverter.getConverterReferences(), this);
         return newNodeAdapter(node, viewer);
     }
@@ -194,7 +196,7 @@ public class FactoryReviewViewAdapter {
             (GvCanonicalCollection<T> data,
                                                                                String subject) {
         GvDataType<T> gvDataType = data.getGvDataType();
-        GvDataListImpl<T> allData = new GvDataListImpl<>(gvDataType, data.getGvReviewId());
+        GvDataListParcelable<T> allData = new GvDataListParcelable<>(gvDataType, data.getGvReviewId());
         for (GvCanonical<T> canonical : data) {
             allData.addAll(canonical.toList());
         }

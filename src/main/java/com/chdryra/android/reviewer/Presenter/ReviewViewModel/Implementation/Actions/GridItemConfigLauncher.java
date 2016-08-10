@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -28,12 +29,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
     private static final String TAG = "GridItemConfigLauncher:";
     private final LaunchableConfig mDataConfig;
-    private final ParcelablePacker<GvData> mPacker;
+    private final ParcelablePacker<GvDataParcelable> mPacker;
     private final int mLaunchCode;
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewView launchableFactory,
-                                  ParcelablePacker<GvData> packer) {
+                                  ParcelablePacker<GvDataParcelable> packer) {
         super(launchableFactory);
         mDataConfig = dataConfig;
         mPacker = packer;
@@ -50,12 +51,12 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
             datum = canonical.size() == 1 ? canonical.getItem(0) : canonical.getCanonical();
         }
 
-        launchViewer(datum);
+        launchViewerIfPossible(datum);
     }
 
     @Override
     public void onClickNotExpandable(T item, int position, View v) {
-        launchViewer(item);
+        launchViewerIfPossible(item);
     }
 
     @Override
@@ -63,10 +64,10 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         onClickNotExpandable(item, position, v);
     }
 
-    private void launchViewer(GvData item) {
-        if (item.isVerboseCollection() || mDataConfig == null) return;
+    private void launchViewerIfPossible(GvData item) {
+        if (item.isVerboseCollection() || mDataConfig == null || item.getParcelable() == null) return;
         Bundle args = new Bundle();
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), args);
         launch(mDataConfig.getLaunchable(), mLaunchCode, args);
     }
 }

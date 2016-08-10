@@ -20,17 +20,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataSize extends GvDualText implements DataSize{
-    public static final GvDataType<GvDataSize> TYPE = new GvDataType<>(GvDataSize.class, "size");
-    public static final Creator<GvDataSize> CREATOR = new Creator<GvDataSize>() {
+public class GvSize extends GvDualText implements DataSize{
+    public static final GvDataType<GvSize> TYPE = new GvDataType<>(GvSize.class, "size");
+    public static final Creator<GvSize> CREATOR = new Creator<GvSize>() {
         @Override
-        public GvDataSize createFromParcel(Parcel in) {
-            return new GvDataSize(in);
+        public GvSize createFromParcel(Parcel in) {
+            return new GvSize(in);
         }
 
         @Override
-        public GvDataSize[] newArray(int size) {
-            return new GvDataSize[size];
+        public GvSize[] newArray(int size) {
+            return new GvSize[size];
         }
     };
 
@@ -39,22 +39,22 @@ public class GvDataSize extends GvDualText implements DataSize{
     private int mSize;
     private GvDataType<?> mType;
 
-    public GvDataSize() {
+    public GvSize() {
     }
 
-    public GvDataSize(GvReviewId id, GvDataType<?> type, int size) {
+    public GvSize(GvReviewId id, GvDataType<?> type, int size) {
         super(id, String.valueOf(size), size == 1 ? type.getDatumName() : type.getDataName());
         mType = type;
         mSize = size;
     }
 
-    public GvDataSize(GvReviewId id, GvDataType<?> type) {
+    public GvSize(GvReviewId id, GvDataType<?> type) {
         super(id, PLACEHOLDER, type.getDataName());
         mType = type;
         mSize = 0;
     }
 
-    public GvDataSize(Parcel in) {
+    public GvSize(Parcel in) {
         super(in);
     }
 
@@ -94,10 +94,10 @@ public class GvDataSize extends GvDualText implements DataSize{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GvDataSize)) return false;
+        if (!(o instanceof GvSize)) return false;
         if (!super.equals(o)) return false;
 
-        GvDataSize that = (GvDataSize) o;
+        GvSize that = (GvSize) o;
 
         if (mSize != that.mSize) return false;
         return mType.equals(that.mType);

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import android.widget.TextView;
+
 import com.chdryra.android.mygenerallibrary.Viewholder.VHDDualString;
 import com.chdryra.android.mygenerallibrary.Viewholder.VHDualString;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
@@ -36,5 +38,10 @@ class VhDualText extends VHDualString {
 
     protected void updateView(String upper, String lower) {
         super.updateView(new VHDDualString(upper, lower));
+    }
+
+    protected void updateUpper(String lower) {
+        TextView view = (TextView) getView(UPPER);
+        super.updateView(new VHDDualString(view.getText().toString(), lower));
     }
 }

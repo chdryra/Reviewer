@@ -18,7 +18,7 @@ import java.util.Random;
  * Includes methods for adding captions and getting images designated as "covers" which can be
  * used as a background image for a review.
  */
-public class GvImageList extends GvDataListImpl<GvImage> {
+public class GvImageList extends GvDataListParcelable<GvImage> {
     public static final Parcelable.Creator<GvImageList> CREATOR = new Parcelable
             .Creator<GvImageList>() {
         @Override

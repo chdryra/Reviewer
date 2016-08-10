@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class VhDataSize extends VhDualText {
     @Override
     public void updateView(ViewHolderData data) {
-        GvDataSize datum = (GvDataSize) data;
+        GvSize datum = (GvSize) data;
         int size = datum.getSize();
         String upper = datum.hasSize() ? String.valueOf(size) : datum.getPlaceholder();
         GvDataType<?> type = datum.getType();

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class GvFactList extends GvDataListImpl<GvFact> {
+public class GvFactList extends GvDataListParcelable<GvFact> {
     public static final Parcelable.Creator<GvFactList> CREATOR = new Parcelable
             .Creator<GvFactList>() {
         @Override

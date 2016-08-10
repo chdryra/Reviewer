@@ -14,7 +14,7 @@ import android.os.Parcelable;
 /**
  * Includes method for generating split comments {@link GvCommentList} from current list.
  */
-public class GvCommentList extends GvDataListImpl<GvComment> {
+public class GvCommentList extends GvDataListParcelable<GvComment> {
     public static final Parcelable.Creator<GvCommentList> CREATOR = new Parcelable
             .Creator<GvCommentList>() {
         @Override

@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
@@ -38,9 +39,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -66,8 +67,8 @@ public class FactoryReviewView {
         return mParamsFactory;
     }
 
-    public ReviewViewAdapter<GvReference> newReviewsListAdapter(ReviewNode node,
-                                                             FactoryReviewViewAdapter adapterFactory) {
+    public ReviewViewAdapter<GvReviewRef> newReviewsListAdapter(ReviewNode node,
+                                                                FactoryReviewViewAdapter adapterFactory) {
         return newReviewsListScreen(node, adapterFactory, false).getAdapter();
     }
 
@@ -120,7 +121,7 @@ public class FactoryReviewView {
         LaunchableConfig viewerConfig = mConfig.getViewer(dataType.getDatumName());
         if (dataType.equals(GvComment.TYPE)) {
             return (GridItemAction<T>) new GridItemComments(viewerConfig, this, new
-                    ParcelablePacker<GvData>());
+                    ParcelablePacker<GvDataParcelable>());
         } else {
             return new GridItemConfigLauncher<>(viewerConfig, this, new ParcelablePacker<GvData>());
         }
@@ -135,15 +136,15 @@ public class FactoryReviewView {
         }
     }
 
-    private ReviewViewActions<GvReference> newReviewsListActions(boolean withMenu) {
+    private ReviewViewActions<GvReviewRef> newReviewsListActions(boolean withMenu) {
         BuildScreenLauncher buildUiLauncher = new BuildScreenLauncher();
         GridItemReviewsList gi = new GridItemReviewsList(this,
                 mConfig.getShareEdit().getLaunchable(), buildUiLauncher);
-        SubjectAction<GvReference> sa = new SubjectActionNone<>();
-        RatingBarAction<GvReference> rb = new RatingBarExpandGrid<>(this);
-        BannerButtonAction<GvReference> bba = new BannerButtonActionNone<>();
-        MenuAction<GvReference> ma = withMenu ?
-                new MenuNewReview<GvReference>(buildUiLauncher) : new MenuActionNone<GvReference>();
+        SubjectAction<GvReviewRef> sa = new SubjectActionNone<>();
+        RatingBarAction<GvReviewRef> rb = new RatingBarExpandGrid<>(this);
+        BannerButtonAction<GvReviewRef> bba = new BannerButtonActionNone<>();
+        MenuAction<GvReviewRef> ma = withMenu ?
+                new MenuNewReview<GvReviewRef>(buildUiLauncher) : new MenuActionNone<GvReviewRef>();
 
         return new ReviewsListView.Actions(sa, rb, bba, gi, ma);
     }
@@ -152,7 +153,7 @@ public class FactoryReviewView {
                                                                          ApplicationInstance app,
                                                                          ReviewViewAdapter<T>
                                                                                  adapter) {
-        if (dataType.equals(GvDataSize.TYPE)) return newDefaultScreenActions(dataType, app, adapter);
+        if (dataType.equals(GvSize.TYPE)) return newDefaultScreenActions(dataType, app, adapter);
 
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.os.Parcel;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -16,18 +15,12 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/03/2015
+ * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataBasic<T extends GvData> implements GvData {
-    private GvDataType<T> mType;
-    private GvReviewId mReviewId;
-
-    //Constructors
-    public GvDataBasic(Parcel in) {
-        mType = in.readParcelable(GvDataType.class.getClassLoader());
-        mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
-    }
+    protected GvDataType<T> mType;
+    protected GvReviewId mReviewId;
 
     protected GvDataBasic(GvDataType<T> type) {
         mType = type;
@@ -38,25 +31,23 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         mReviewId = reviewId;
     }
 
-    //Overridden
     @Override
-    public GvReviewId getGvReviewId() {
-        return mReviewId;
+    public int hashCode() {
+        int result = mType.hashCode();
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        return result;
     }
 
     @Override
-    public GvDataType<T> getGvDataType() {
-        return mType;
-    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvDataParcelableBasic)) return false;
 
-    @Override
-    public ReviewId getReviewId() {
-        return mReviewId;
-    }
+        GvDataParcelableBasic<?> that = (GvDataParcelableBasic<?>) o;
 
-    @Override
-    public boolean hasElements() {
-        return false;
+        if (!mType.equals(that.mType)) return false;
+        return !(mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null);
+
     }
 
     @Override
@@ -65,32 +56,23 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
+    public boolean hasElements() {
+        return false;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(mType, i);
-        parcel.writeParcelable(mReviewId, i);
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GvDataBasic)) return false;
-
-        GvDataBasic<?> that = (GvDataBasic<?>) o;
-
-        if (!mType.equals(that.mType)) return false;
-        return !(mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null);
-
+    public GvDataType<T> getGvDataType() {
+        return mType;
     }
 
+    //Overridden
     @Override
-    public int hashCode() {
-        int result = mType.hashCode();
-        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
-        return result;
+    public GvReviewId getGvReviewId() {
+        return mReviewId;
     }
 }

@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
@@ -46,7 +45,7 @@ public class DataTypeCellOrder {
     public static class MetaOrder {
         public static final List<GvDataType<?>> ORDER = new ArrayList<>();
         static {
-            ORDER.add(GvReference.TYPE);
+            ORDER.add(GvReviewRef.TYPE);
             ORDER.add(GvAuthor.TYPE);
             ORDER.add(GvSubject.TYPE);
             ORDER.add(GvDate.TYPE);

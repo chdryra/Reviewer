@@ -8,51 +8,24 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhDataCollection;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataCollection;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
-/**
- * The View layer (V) data equivalent of the Model layer (M) data {@link com.chdryra.android
- * .reviewer.Model.MdDataList}.
- * Implementation of {@link ViewHolderDataList} tailored for data accessed via a {@link
- * ReviewViewAdapter} (A) (Model-View-Adapter pattern).
- * <p/>
- *
- * @param <T>: {@link GvData} type.GvDataList
- */
-public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements GvDataList<T> {
-    public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
-            .Creator<GvDataList>() {
-        @Override
-        public GvDataList createFromParcel(Parcel in) {
-            return new GvDataListImpl(in);
-        }
-
-        @Override
-        public GvDataList[] newArray(int size) {
-            return new GvDataList[size];
-        }
-    };
+public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements GvDataList<T>{
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
@@ -69,24 +42,20 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         }
     }
 
-    public GvDataListImpl(@NotNull GvDataType<T> mDataType, GvReviewId reviewId) {
-        mReviewId = reviewId;
-        mType = mDataType;
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return null;
     }
 
-    //Copy constructor
+    public GvDataListImpl(@NotNull GvDataType<T> type, GvReviewId reviewId) {
+        mReviewId = reviewId;
+        mType = type;
+    }
+
     public GvDataListImpl(GvDataList<T> data) {
         this(data.getGvReviewId(), data);
     }
-
-    public GvDataListImpl(Parcel in) {
-        mType = in.readParcelable(GvDataType.class.getClassLoader());
-        //TODO make type safe
-        T[] data = (T[]) in.readParcelableArray(mType.getDataClass().getClassLoader());
-        mData = new ArrayList<>(Arrays.asList(data));
-        mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
-    }
-
 
     @Override
     public GvReviewId getGvReviewId() {
@@ -139,19 +108,6 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     @Override
     public GvDataList<T> toList() {
         return this;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(mType, flags);
-        //TODO make type safe
-        dest.writeParcelableArray((T[]) mData.toArray(), flags);
-        dest.writeParcelable(mReviewId, flags);
     }
 
     @Override

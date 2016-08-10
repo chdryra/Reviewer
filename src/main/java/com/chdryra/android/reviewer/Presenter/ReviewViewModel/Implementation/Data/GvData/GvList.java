@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvList extends GvDataListImpl<GvData> {
+public class GvList extends GvDataListParcelable<GvDataParcelable> {
     public static final Parcelable.Creator<GvList> CREATOR = new Parcelable
             .Creator<GvList>() {
         @Override
@@ -32,8 +32,8 @@ public class GvList extends GvDataListImpl<GvData> {
         }
     };
 
-    public static final GvDataType<GvData> TYPE =
-            new GvDataType<>(GvData.class, "Review Data", "Review Data");
+    public static final GvDataType<GvDataParcelable> TYPE =
+            new GvDataType<>(GvDataParcelable.class, "Review Data", "Review Data");
 
     public GvList() {
         super(TYPE, null);

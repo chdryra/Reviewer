@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Methods for getting the comment headline and for splitting and unsplitting comments.
  * </p>
  */
-public class GvComment extends GvDataBasic<GvComment> implements DataComment {
+public class GvComment extends GvDataParcelableBasic<GvComment> implements DataComment {
     public static final GvDataType<GvComment> TYPE =
             new GvDataType<>(GvComment.class, "comment");
     public static final Creator<GvComment> CREATOR = new Creator<GvComment>() {

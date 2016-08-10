@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
  * .android.reviewer.MdLocationList.MdLocation}
  * {@link ViewHolder}: {@link VhLocation}
  */
-public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation {
+public class GvLocation extends GvDataParcelableBasic<GvLocation> implements DataLocation {
     private static final String DELIMITERS = ",|";
     public static final GvDataType<GvLocation> TYPE = new GvDataType<>(GvLocation.class,
             "location");

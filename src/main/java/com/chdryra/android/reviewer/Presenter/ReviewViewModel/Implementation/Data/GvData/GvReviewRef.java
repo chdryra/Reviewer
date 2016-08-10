@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -18,49 +18,31 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhReviewReference;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewRef;
 
-public class GvReference extends GvDataBasic<GvReference> implements DataReviewInfo {
-    public static final GvDataType<GvReference> TYPE =
-            new GvDataType<>(GvReference.class, "review");
-    public static final Creator<GvReference> CREATOR = new Creator<GvReference>() {
-        @Override
-        public GvReference createFromParcel(Parcel in) {
-            return new GvReference(in);
-        }
+public class GvReviewRef extends GvDataBasic<GvReviewRef> implements DataReviewInfo {
+    public static final GvDataType<GvReviewRef> TYPE =
+            new GvDataType<>(GvReviewRef.class, "review");
 
-        @Override
-        public GvReference[] newArray(int size) {
-            return new GvReference[size];
-        }
-    };
-
-    //Not really parcelable but should not need to parcel this class anyway...
     private ReviewReference mReference;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
-    private VhReviewReference mViewHolder;
+    private VhReviewRef mViewHolder;
 
-    public GvReference() {
-        super(GvReference.TYPE);
+    public GvReviewRef() {
+        super(GvReviewRef.TYPE);
     }
 
-    public GvReference(ReviewReference reference,
+    public GvReviewRef(ReviewReference reference,
                        GvConverterComments converterComments,
                        GvConverterLocations converterLocations) {
-        super(GvReference.TYPE, new GvReviewId(reference.getReviewId()));
+        super(GvReviewRef.TYPE, new GvReviewId(reference.getReviewId()));
         mReference = reference;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
-    }
-
-    private GvReference(Parcel in) {
-        super(in);
     }
 
     public ReviewReference getReference() {
@@ -73,7 +55,7 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
         }
     }
 
-    public void setViewHolder(VhReviewReference viewHolder) {
+    public void setViewHolder(VhReviewRef viewHolder) {
         mViewHolder = viewHolder;
     }
 
@@ -99,7 +81,7 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewReference(mConverterComments, mConverterLocations);
+        return new VhReviewRef(mConverterComments, mConverterLocations);
     }
 
     @Override
@@ -112,14 +94,10 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
         return mReference.isValidReference();
     }
 
+    @Nullable
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        super.writeToParcel(parcel, i);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public GvDataParcelable getParcelable() {
+        return null;
     }
 
     @Override

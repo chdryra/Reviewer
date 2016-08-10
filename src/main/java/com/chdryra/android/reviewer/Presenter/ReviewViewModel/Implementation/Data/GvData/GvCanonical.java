@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -21,8 +19,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhCanonical;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCanonical;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -35,19 +33,6 @@ import java.util.Iterator;
  */
 public class GvCanonical<T extends GvData> extends AbstractCollection<T>
         implements GvDataCollection<T>, AggregatedData<T> {
-    public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
-            .Creator<GvCanonical>() {
-        @Override
-        public GvCanonical createFromParcel(Parcel in) {
-            return new GvCanonical(in);
-        }
-
-        @Override
-        public GvCanonical[] newArray(int size) {
-            return new GvCanonical[size];
-        }
-    };
-
     private T mCanonical;
     private GvDataList<T> mData;
     private GvDataType<T> mType;
@@ -63,12 +48,6 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
             throw new IllegalArgumentException("Data must have size!");
         }
         mData = data;
-    }
-
-    public GvCanonical(Parcel in) {
-        mType = in.readParcelable(GvDataType.class.getClassLoader());
-        mCanonical = in.readParcelable(mType.getDataClass().getClassLoader());
-        mData = in.readParcelable(GvDataList.class.getClassLoader());
     }
 
     @Override
@@ -194,15 +173,9 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
         return mData.iterator();
     }
 
+    @Nullable
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(mType, flags);
-        dest.writeParcelable(mCanonical, flags);
-        dest.writeParcelable(mData, flags);
+    public GvDataParcelable getParcelable() {
+        return null;
     }
 }

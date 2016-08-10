@@ -67,10 +67,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReferenceList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRefList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -127,14 +125,14 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         return getGridData().contains(datum);
     }
 
-    public static class Reviews extends ViewerMetaData<GvReference> implements MetaBinders
+    public static class Reviews extends ViewerMetaData<GvReviewRef> implements MetaBinders
             .ReviewsBinder {
         private GvConverterReferences mConverter;
 
         public Reviews(NodeData reference,
                        GvConverterReferences converter,
                        FactoryReviewViewAdapter adapterFactory) {
-            super(reference, new GvReferenceList(getId(reference)), adapterFactory);
+            super(reference, new GvReviewRefList(getId(reference)), adapterFactory);
             mConverter = converter;
         }
 

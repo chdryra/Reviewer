@@ -14,7 +14,7 @@ import android.os.Parcelable;
 /**
  * Used for review children (sub-reviews).
  */
-public class GvCriterionList extends GvDataListImpl<GvCriterion> {
+public class GvCriterionList extends GvDataListParcelable<GvCriterion> {
     public static final Parcelable.Creator<GvCriterionList> CREATOR = new Parcelable
             .Creator<GvCriterionList>() {
         @Override

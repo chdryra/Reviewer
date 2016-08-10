@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * for review children (sub-reviews).
  * {@link ViewHolder}: {@link VhCriterion}
  */
-public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriterion {
+public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements DataCriterion {
     public static final GvDataType<GvCriterion> TYPE =
             new GvDataType<>(GvCriterion.class, "criterion", "criteria");
     public static final Creator<GvCriterion> CREATOR = new Creator<GvCriterion>() {

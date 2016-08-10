@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.os.Parcel;
-
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -18,44 +16,27 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  *
  * @see AndroidAppInstance
  */
-public class GvReferenceList extends GvDataListImpl<GvReference> {
-    public static final Creator<GvReferenceList> CREATOR = new Creator<GvReferenceList>() {
-        @Override
-        public GvReferenceList createFromParcel(Parcel in) {
-            return new GvReferenceList(in);
-        }
-
-        @Override
-        public GvReferenceList[] newArray(int size) {
-            return new GvReferenceList[size];
-        }
-    };
-
-    //Constructors
-    public GvReferenceList() {
-        super(GvReference.TYPE, null);
+public class GvReviewRefList extends GvDataListImpl<GvReviewRef> {
+    public GvReviewRefList() {
+        super(GvReviewRef.TYPE, null);
     }
 
-    public GvReferenceList(Parcel in) {
-        super(in);
+    public GvReviewRefList(GvReviewId parentId) {
+        super(GvReviewRef.TYPE, parentId);
     }
 
-    public GvReferenceList(GvReviewId parentId) {
-        super(GvReference.TYPE, parentId);
-    }
-
-    public GvReferenceList(GvReferenceList data) {
+    public GvReviewRefList(GvReviewRefList data) {
         super(data);
     }
 
     public void unbind() {
-        for(GvReference reference : this) {
+        for(GvReviewRef reference : this) {
             reference.unbind();
         }
     }
 
     private boolean contains(ReviewId id) {
-        for (GvReference review : this) {
+        for (GvReviewRef review : this) {
             if (review.getReviewId().equals(id)) return true;
         }
 
@@ -63,14 +44,14 @@ public class GvReferenceList extends GvDataListImpl<GvReference> {
     }
 
     @Override
-    public boolean add(GvReference overview) {
+    public boolean add(GvReviewRef overview) {
         return !contains(overview.getReviewId()) && super.add(overview);
     }
 
     @Override
     public boolean contains(Object object) {
         try {
-            GvReference item = (GvReference) object;
+            GvReviewRef item = (GvReviewRef) object;
             return contains(item.getReviewId());
         } catch (ClassCastException e) {
             return false;
