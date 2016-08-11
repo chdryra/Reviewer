@@ -13,8 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFact;
 
 import java.net.URL;
 
@@ -118,5 +121,20 @@ public class GvUrl extends GvFact implements DataUrl {
         int result = super.hashCode();
         result = 31 * result + (mUrl != null ? mUrl.hashCode() : 0);
         return result;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataUrl, VhFact> {
+        public static final GvDataType<GvUrl.Reference> TYPE
+                = new GvDataType<>(GvUrl.Reference.class, GvUrl.TYPE);
+
+        public Reference(ReviewItemReference<DataUrl> reference,
+                         DataConverter<DataUrl, GvUrl, ?> converter) {
+            super(TYPE, reference, converter, VhFact.class, new PlaceHolderFactory<DataUrl>() {
+                @Override
+                public DataUrl newPlaceHolder(String placeHolder) {
+                    return new GvUrl();
+                }
+            });
+        }
     }
 }

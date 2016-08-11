@@ -13,7 +13,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
 
@@ -81,5 +83,20 @@ public class GvTag extends GvText<GvTag> implements DataTag {
     @Override
     public ViewHolder getViewHolder() {
         return new VhTag();
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataTag, VhTag> {
+        public static final GvDataType<GvTag.Reference> TYPE
+                = new GvDataType<>(GvTag.Reference.class, GvTag.TYPE);
+
+        public Reference(ReviewItemReference<DataTag> reference,
+                         DataConverter<DataTag, GvTag, ?> converter) {
+            super(TYPE, reference, converter, VhTag.class, new PlaceHolderFactory<DataTag>() {
+                @Override
+                public DataTag newPlaceHolder(String placeHolder) {
+                    return new GvTag(placeHolder);
+                }
+            });
+        }
     }
 }

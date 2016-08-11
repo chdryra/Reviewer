@@ -67,7 +67,7 @@ public class FactoryReviewViewAdapter {
                                     GvDataAggregator aggregator,
                                     ReviewsSource reviewsSource,
                                     ConverterGv converter) {
-        mViewerFactory = new FactoryGridDataViewer(this, bindersFactory);
+        mViewerFactory = new FactoryGridDataViewer(this);
         mReviewViewFactory = reviewViewFactory;
         mReviewsFactory = reviewsFactory;
         mBindersFactory = bindersFactory;

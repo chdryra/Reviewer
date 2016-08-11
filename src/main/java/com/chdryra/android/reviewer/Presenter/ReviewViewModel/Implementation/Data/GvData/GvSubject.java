@@ -11,7 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
 
 /**
  * Created by: Rizwan Choudrey
@@ -56,5 +59,20 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
     @Override
     public String getSubject() {
         return getString();
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataSubject, VhText> {
+        public static final GvDataType<GvSubject.Reference> TYPE
+                = new GvDataType<>(GvSubject.Reference.class, GvSubject.TYPE);
+
+        public Reference(ReviewItemReference<DataSubject> reference,
+                         DataConverter<DataSubject, GvSubject, ?> converter) {
+            super(TYPE, reference, converter, VhText.class, new PlaceHolderFactory<DataSubject>() {
+                @Override
+                public DataSubject newPlaceHolder(String placeHolder) {
+                    return new GvSubject(placeHolder);
+                }
+            });
+        }
     }
 }

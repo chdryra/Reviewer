@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
@@ -19,13 +20,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterDataTags extends GvConverterBasic<DataTag, GvTag, GvTagList>{
+public class GvConverterDataTags extends GvConverterReviewData<DataTag, GvTag, GvTagList, GvTag.Reference> {
     public GvConverterDataTags() {
-        super(GvTagList.class);
+        super(GvTagList.class, GvTag.Reference.TYPE);
     }
 
     @Override
     public GvTag convert(DataTag datum, ReviewId reviewId) {
         return new GvTag(getGvReviewId(datum, reviewId), datum.getTag());
+    }
+
+    @Override
+    protected GvTag.Reference convertReference(ReviewItemReference<DataTag> reference) {
+        return new GvTag.Reference(reference, this);
     }
 }

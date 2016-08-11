@@ -33,12 +33,10 @@ public class VhCriterion extends ViewHolderBasic {
     private TextView mSubject;
     private RatingBar mRating;
 
-    //Constructors
     public VhCriterion() {
         super(LAYOUT, new int[]{SUBJECT, RATING});
     }
 
-    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);

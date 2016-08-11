@@ -13,9 +13,10 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -122,5 +123,20 @@ public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
     @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validate(this);
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataDate, VhDate> {
+        public static final GvDataType<GvDate.Reference> TYPE
+                = new GvDataType<>(GvDate.Reference.class, GvDate.TYPE);
+
+        public Reference(ReviewItemReference<DataDate> reference,
+                         DataConverter<DataDate, GvDate, ?> converter) {
+            super(TYPE, reference, converter, VhDate.class, new PlaceHolderFactory<DataDate>() {
+                @Override
+                public DataDate newPlaceHolder(String placeHolder) {
+                    return new GvDate(0);
+                }
+            });
+        }
     }
 }

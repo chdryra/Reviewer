@@ -11,9 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhDataSize;
+        .VhDataReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSize;
+
 
 /**
  * Created by: Rizwan Choudrey
@@ -77,7 +81,7 @@ public class GvSize extends GvDualText implements DataSize{
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhDataSize();
+        return new VhSize();
     }
 
     @Override
@@ -110,5 +114,42 @@ public class GvSize extends GvDualText implements DataSize{
         result = 31 * result + mSize;
         result = 31 * result + mType.hashCode();
         return result;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataSize, VhSize> {
+        public static final GvDataType<Reference> TYPE
+                = new GvDataType<>(Reference.class, GvSize.TYPE);
+
+        private GvDataType<?> mSizedType;
+
+        public Reference(ReviewItemReference<DataSize> reference,
+                         DataConverter<DataSize, GvSize, ?> converter,
+                         GvDataType<?> sizedType) {
+            super(TYPE, reference, converter, VhSize.class, new Factory());
+            mSizedType = sizedType;
+            ((Factory)getPlaceholderFactory()).setType(mSizedType);
+        }
+
+        public GvDataType<?> getSizedType() {
+            return mSizedType;
+        }
+
+        @Override
+        protected VhDataReference<DataSize> newViewHolder() {
+            return new VhSize.Reference(new Factory());
+        }
+
+        public static class Factory implements PlaceHolderFactory<DataSize> {
+            private GvDataType<?> mSizedType;
+
+            @Override
+            public DataSize newPlaceHolder(String placeHolder) {
+                return new GvSize(new GvReviewId(), mSizedType);
+            }
+
+            public void setType(GvDataType<?> sizedType) {
+                mSizedType = sizedType;
+            }
+        }
     }
 }

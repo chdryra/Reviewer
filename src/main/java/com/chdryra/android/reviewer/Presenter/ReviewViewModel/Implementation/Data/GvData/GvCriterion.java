@@ -13,7 +13,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterion;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
@@ -128,5 +130,20 @@ public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements D
         result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
         result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         return result;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataCriterion, VhCriterion> {
+        public static final GvDataType<GvCriterion.Reference> TYPE
+                = new GvDataType<>(GvCriterion.Reference.class, GvCriterion.TYPE);
+
+        public Reference(ReviewItemReference<DataCriterion> reference,
+                         DataConverter<DataCriterion, GvCriterion, ?> converter) {
+            super(TYPE, reference, converter, VhCriterion.class, new PlaceHolderFactory<DataCriterion>() {
+                @Override
+                public DataCriterion newPlaceHolder(String placeHolder) {
+                    return new GvCriterion(placeHolder, 0f);
+                }
+            });
+        }
     }
 }

@@ -123,7 +123,7 @@ public class FactoryReviewView {
             return (GridItemAction<T>) new GridItemComments(viewerConfig, this, new
                     ParcelablePacker<GvDataParcelable>());
         } else {
-            return new GridItemConfigLauncher<>(viewerConfig, this, new ParcelablePacker<GvData>());
+            return new GridItemConfigLauncher<>(viewerConfig, this, new ParcelablePacker<GvDataParcelable>());
         }
     }
 

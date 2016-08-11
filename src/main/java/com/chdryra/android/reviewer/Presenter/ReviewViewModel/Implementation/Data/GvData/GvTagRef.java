@@ -8,38 +8,25 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterDataTags;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
 
 
-public class GvTagRef extends GvDataRef<DataTag, GvTagRef, VhTagRef> implements DataReference.InvalidationListener {
-    public static final GvDataType<GvTagRef> TYPE =
-            new GvDataType<>(GvTagRef.class, GvTag.TYPE.getDatumName());
+public class GvTagRef extends GvDataRef<DataTag, VhTag> implements DataReference.InvalidationListener {
+    public static final GvDataType<GvDataRef> TYPE = GvDataRef.getType(GvTag.TYPE);
 
-    private GvConverterDataTags mConverter;
-
-    public GvTagRef(ReviewItemReference<DataTag> reference, GvConverterDataTags converter) {
-        super(GvTagRef.TYPE, reference);
-        mConverter = converter;
+    public GvTagRef(ReviewItemReference<DataTag> reference, DataConverter<DataTag, GvTag, ?> converter) {
+        super(GvTag.TYPE, reference, converter, VhTag.class, new PlaceHolderFactory<DataTag>() {
+            @Override
+            public DataTag newPlaceHolder(String placeHolder) {
+                return new GvTag(placeHolder);
+            }
+        });
     }
 
-    @Override
-    protected VhTagRef newViewHolder() {
-        return new VhTagRef();
-    }
 
-    @Nullable
-    @Override
-    public GvDataParcelable getParcelable() {
-        DataTag value = getDataValue() != null ? getDataValue() : new DatumTag(getReviewId());
-        return mConverter.convert(value);
-    }
+
 }

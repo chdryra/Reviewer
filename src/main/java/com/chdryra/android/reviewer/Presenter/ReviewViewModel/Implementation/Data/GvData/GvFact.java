@@ -13,10 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFact;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -91,5 +92,20 @@ public class GvFact extends GvDualText implements DataFact {
     @Override
     public boolean isUrl() {
         return false;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataFact, VhFact> {
+        public static final GvDataType<GvFact.Reference> TYPE
+                = new GvDataType<>(GvFact.Reference.class, GvFact.TYPE);
+
+        public Reference(ReviewItemReference<DataFact> reference,
+                         DataConverter<DataFact, GvFact, ?> converter) {
+            super(TYPE, reference, converter, VhFact.class, new PlaceHolderFactory<DataFact>() {
+                @Override
+                public DataFact newPlaceHolder(String placeHolder) {
+                    return new GvFact(placeHolder, placeHolder);
+                }
+            });
+        }
     }
 }

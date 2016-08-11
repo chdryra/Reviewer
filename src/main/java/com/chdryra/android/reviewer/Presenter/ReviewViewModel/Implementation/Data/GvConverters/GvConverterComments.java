@@ -10,24 +10,29 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterComments extends GvConverterDataReview<DataComment, GvComment, GvCommentList> {
+public class GvConverterComments extends GvConverterReviewData<DataComment, GvComment, GvCommentList, GvComment.Reference> {
 
     public GvConverterComments() {
-        super(GvCommentList.class);
+        super(GvCommentList.class, GvComment.Reference.TYPE);
     }
 
     @Override
     public GvComment convert(DataComment datum, ReviewId reviewId) {
         return new GvComment(getGvReviewId(datum, reviewId),
                 datum.getComment(), datum.isHeadline());
+    }
+
+    @Override
+    protected GvComment.Reference convertReference(ReviewItemReference<DataComment> reference) {
+        return new GvComment.Reference(reference, this);
     }
 }

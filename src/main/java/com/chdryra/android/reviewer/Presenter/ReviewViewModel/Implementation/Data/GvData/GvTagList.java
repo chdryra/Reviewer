@@ -25,7 +25,6 @@ public class GvTagList extends GvTextList<GvTag> {
         }
     };
 
-    //Constructors
     public GvTagList() {
         super(GvTag.TYPE);
     }

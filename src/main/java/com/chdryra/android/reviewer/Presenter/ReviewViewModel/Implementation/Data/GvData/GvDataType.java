@@ -55,6 +55,12 @@ public class GvDataType<T extends GvData> implements Parcelable {
         mDataName = data;
     }
 
+    public GvDataType(@NotNull Class<T> dataClass, GvDataType<?> forNaming) {
+        mDataClass = dataClass;
+        mDatumName = forNaming.getDatumName();
+        mDataName = forNaming.getDataName();
+    }
+
     //TODO make typesafe
     public GvDataType(Parcel in) {
         mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());

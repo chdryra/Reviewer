@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
 
@@ -19,14 +20,19 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterLocations extends
-        GvConverterDataReview<DataLocation, GvLocation, GvLocationList> {
+        GvConverterReviewData<DataLocation, GvLocation, GvLocationList, GvLocation.Reference> {
 
     public GvConverterLocations() {
-        super(GvLocationList.class);
+        super(GvLocationList.class, GvLocation.Reference.TYPE);
     }
 
     @Override
     public GvLocation convert(DataLocation datum, ReviewId reviewId) {
         return new GvLocation(getGvReviewId(datum, reviewId), datum.getLatLng(), datum.getName());
+    }
+
+    @Override
+    protected GvLocation.Reference convertReference(ReviewItemReference<DataLocation> reference) {
+        return new GvLocation.Reference(reference, this);
     }
 }

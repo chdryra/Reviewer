@@ -20,13 +20,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * location name.
  */
 public class VhLocation extends VhText {
-    public VhLocation(final boolean showAt) {
+    public VhLocation() {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
                 GvLocation location = (GvLocation) data;
-                String at = showAt ? "@" : "";
-                String name = location != null ? at + location.getShortenedName() : null;
+                String name = location != null ? location.getShortenedName() : null;
                 return name != null ? name : "";
             }
         });

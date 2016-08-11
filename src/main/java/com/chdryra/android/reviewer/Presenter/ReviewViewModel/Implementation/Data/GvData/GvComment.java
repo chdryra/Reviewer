@@ -14,10 +14,11 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -174,5 +175,20 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         result = 31 * result + (mUnsplitParent != null ? mUnsplitParent.hashCode() : 0);
         result = 31 * result + (mIsHeadline ? 1 : 0);
         return result;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataComment, VhComment> {
+        public static final GvDataType<GvComment.Reference> TYPE
+                = new GvDataType<>(GvComment.Reference.class, GvComment.TYPE);
+
+        public Reference(ReviewItemReference<DataComment> reference,
+                         DataConverter<DataComment, GvComment, ?> converter) {
+            super(TYPE, reference, converter, VhComment.class, new PlaceHolderFactory<DataComment>() {
+                @Override
+                public DataComment newPlaceHolder(String placeHolder) {
+                    return new GvComment(placeHolder, false);
+                }
+            });
+        }
     }
 }

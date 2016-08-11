@@ -34,6 +34,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
+    private static final String ILLEGAL_ARGUMENT_ERR = "Need to override newList if listClass not passed";
 
     private GvDataType<T2> mDataType;
     private Class<T3> mListClass;
@@ -43,7 +44,11 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         setDataType();
     }
 
-    protected GvDataType<T2> getDataType() {
+    public GvConverterBasic(GvDataType<T2> dataType) {
+        mDataType = dataType;
+    }
+
+    public GvDataType<T2> getOutputType() {
         return mDataType;
     }
 
@@ -53,9 +58,8 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         return id != null ? newId(id) : newId(reviewId);
     }
 
-    @Nullable
-    protected GvReviewId newId(ReviewId reviewId) {
-        return reviewId != null ? new GvReviewId(reviewId) : null;
+    protected GvReviewId newId(@Nullable ReviewId reviewId) {
+        return reviewId != null ? new GvReviewId(reviewId) : new GvReviewId();
     }
 
     @Override
@@ -96,19 +100,23 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         }
     }
 
-    private T3 newList(ReviewId reviewId) {
+    protected T3 newList(ReviewId reviewId) {
         GvReviewId id = new GvReviewId(reviewId);
-        try {
-            Constructor<T3> ctor = mListClass.getConstructor(GvReviewId.class);
-            return ctor.newInstance(id);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(NO_CTOR_ERR + mListClass.getName(), e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + mListClass.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + mListClass.getName(), e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(INVOCATION_ERR + mListClass.getName());
+        if(mListClass != null) {
+            try {
+                Constructor<T3> ctor = mListClass.getConstructor(GvReviewId.class);
+                return ctor.newInstance(id);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(NO_CTOR_ERR + mListClass.getName(), e);
+            } catch (InstantiationException e) {
+                throw new RuntimeException(INSTANTIATION_ERR + mListClass.getName(), e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(ILLEGAL_ACCESS_ERR + mListClass.getName(), e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(INVOCATION_ERR + mListClass.getName());
+            }
+        } else {
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ERR);
         }
     }
 }

@@ -14,10 +14,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhImage;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -178,5 +179,20 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
     @Override
     public boolean isCover() {
         return mIsCover;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataImage, VhImage> {
+        public static final GvDataType<GvImage.Reference> TYPE
+                = new GvDataType<>(GvImage.Reference.class, GvImage.TYPE);
+
+        public Reference(ReviewItemReference<DataImage> reference,
+                         DataConverter<DataImage, GvImage, ?> converter) {
+            super(TYPE, reference, converter, VhImage.class, new PlaceHolderFactory<DataImage>() {
+                @Override
+                public DataImage newPlaceHolder(String placeHolder) {
+                    return new GvImage();
+                }
+            });
+        }
     }
 }

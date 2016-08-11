@@ -43,8 +43,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviewReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterSubjects;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
@@ -127,10 +126,10 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
     public static class Reviews extends ViewerMetaData<GvReviewRef> implements MetaBinders
             .ReviewsBinder {
-        private GvConverterReferences mConverter;
+        private GvConverterReviewReferences mConverter;
 
         public Reviews(NodeData reference,
-                       GvConverterReferences converter,
+                       GvConverterReviewReferences converter,
                        FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvReviewRefList(getId(reference)), adapterFactory);
             mConverter = converter;

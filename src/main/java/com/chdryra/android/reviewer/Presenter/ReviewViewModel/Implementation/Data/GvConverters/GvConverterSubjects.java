@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubjectList;
 
@@ -18,13 +19,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterSubjects extends GvConverterDataReview<DataSubject, GvSubject, GvSubjectList>{
+public class GvConverterSubjects extends GvConverterReviewData<DataSubject, GvSubject, GvSubjectList, GvSubject.Reference> {
     public GvConverterSubjects() {
-        super(GvSubjectList.class);
+        super(GvSubjectList.class, GvSubject.Reference.TYPE);
     }
 
     @Override
     public GvSubject convert(DataSubject datum, ReviewId reviewId) {
         return new GvSubject(getGvReviewId(datum, reviewId), datum.getSubject());
+    }
+
+    @Override
+    protected GvSubject.Reference convertReference(ReviewItemReference<DataSubject> reference) {
+        return new GvSubject.Reference(reference, this);
     }
 }

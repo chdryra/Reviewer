@@ -20,8 +20,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterCriteriaSubjects;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterDataTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterDateReviews;
@@ -35,8 +33,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvConverterItemTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviewReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
@@ -63,14 +60,14 @@ public class FactoryGvConverter {
         GvConverterImages converterImages = new GvConverterImages(new GvConverterDates());
         GvConverterLocations converterLocations = new GvConverterLocations();
         GvConverterCriteria converterCriteria = new GvConverterCriteria();
-        GvConverterCriteriaSubjects converterCriteriaSubjects = new GvConverterCriteriaSubjects();
+        GvConverterCriteria.SubjectOnly converterCriteriaSubjects = new GvConverterCriteria.SubjectOnly();
         GvConverterSubjects converterSubjects = new GvConverterSubjects();
         GvConverterAuthors converterAuthors = new GvConverterAuthors();
         GvConverterAuthorIds converterAuthorIds = new GvConverterAuthorIds();
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
         GvConverterReviews converterReview = new GvConverterReviews(mTagsManager, converterImages,
                 converterComments, converterLocations);
-        GvConverterReferences converterReferences = new GvConverterReferences(mTagsManager, converterImages, converterComments, converterLocations);
+        GvConverterReviewReferences converterReferences = new GvConverterReviewReferences(mTagsManager, converterImages, converterComments, converterLocations);
         GvConverterDataTags converterTags = new GvConverterDataTags();
         GvConverterItemTags converterItemTags = new GvConverterItemTags();
 

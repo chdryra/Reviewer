@@ -177,8 +177,4 @@ public class ReviewReferenceWrapper implements ReviewReference {
     public boolean isValidReference() {
         return mReview != null;
     }
-
-    private DataSize newSize(int size) {
-        return new DatumSize(getReviewId(), size);
-    }
 }

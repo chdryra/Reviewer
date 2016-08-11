@@ -42,6 +42,9 @@ public class GvReviewId implements GvDataParcelable, ReviewId {
 
     private String mId;
 
+    public GvReviewId() {
+    }
+
     public GvReviewId(ReviewId id) {
         this(id.toString());
     }

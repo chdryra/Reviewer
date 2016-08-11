@@ -13,10 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
@@ -81,7 +82,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhLocation(false);
+        return new VhLocation();
     }
 
     @Override
@@ -142,5 +143,20 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
     @Override
     public String getName() {
         return mName;
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataLocation, VhLocation> {
+        public static final GvDataType<GvLocation.Reference> TYPE
+                = new GvDataType<>(GvLocation.Reference.class, GvLocation.TYPE);
+
+        public Reference(ReviewItemReference<DataLocation> reference,
+                         DataConverter<DataLocation, GvLocation, ?> converter) {
+            super(TYPE, reference, converter, VhLocation.class, new PlaceHolderFactory<DataLocation>() {
+                @Override
+                public DataLocation newPlaceHolder(String placeHolder) {
+                    return new GvLocation(new LatLng(0,0), placeHolder);
+                }
+            });
+        }
     }
 }

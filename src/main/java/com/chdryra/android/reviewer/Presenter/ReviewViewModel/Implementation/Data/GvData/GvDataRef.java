@@ -8,44 +8,83 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataReference;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataRef<R extends HasReviewId, T extends GvData, V extends VhDataRef<R>>
-        extends GvDataBasic<T> implements DataReference.InvalidationListener {
-    private ReviewItemReference<R> mReference;
-    private V mViewHolder;
+public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHolder>,
+        ValueType extends HasReviewId, ValueHolder extends ViewHolder>
+        extends GvDataBasic<Reference> implements DataReference.InvalidationListener {
 
-    protected abstract V newViewHolder();
+    private ReviewItemReference<ValueType> mReference;
+    private VhDataReference<ValueType> mViewHolder;
+    private PlaceHolderFactory<ValueType> mFactory;
+    private DataConverter<ValueType, ? extends GvDataParcelable, ?> mConverter;
+    private Class<ValueHolder> mValueHolderClass;
 
-    public GvDataRef(GvDataType<T> type, ReviewItemReference<R> reference) {
+    protected VhDataReference<ValueType> newViewHolder() {
+        try {
+            return new VhDataRef<Reference, ValueType, ValueHolder>(mValueHolderClass.newInstance(), mConverter, mFactory);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public interface PlaceHolderFactory<ValueType extends HasReviewId> {
+        ValueType newPlaceHolder(String placeHolder);
+    }
+
+    public GvDataRef(GvDataType<Reference> type,
+                     ReviewItemReference<ValueType> reference,
+                     DataConverter<ValueType, ? extends GvDataParcelable, ?> converter,
+                     Class<ValueHolder> valueHolderClass,
+                     PlaceHolderFactory<ValueType> factory) {
         super(type, new GvReviewId(reference.getReviewId()));
         mReference = reference;
+        mConverter = converter;
+        mFactory = factory;
+        mValueHolderClass = valueHolderClass;
         mReference.registerListener(this);
     }
 
-    public GvDataRef(GvDataType<T> type) {
-        super(type);
+    protected PlaceHolderFactory<ValueType> getPlaceholderFactory() {
+        return mFactory;
     }
 
-    public ReviewItemReference<R> getReference() {
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        ValueType value = getDataValue() != null ? getDataValue() : mFactory.newPlaceHolder("");
+        return mConverter.convert(value);
+    }
+
+    @NonNull
+    protected static GvDataType<GvDataRef> getType(GvDataType<?> type) {
+        return new GvDataType<>(GvDataRef.class, type.getDatumName(), type.getDataName());
+    }
+
+    public ReviewItemReference<ValueType> getReference() {
         return mReference;
     }
 
     @Nullable
-    public R getDataValue() {
+    public ValueType getDataValue() {
         return mViewHolder != null ? mViewHolder.getDataValue() : null;
     }
 
@@ -60,7 +99,7 @@ public abstract class GvDataRef<R extends HasReviewId, T extends GvData, V exten
         return newViewHolder();
     }
 
-    public void setViewHolder(V viewHolder) {
+    public void setViewHolder(VhDataReference<ValueType> viewHolder) {
         mViewHolder = viewHolder;
     }
 

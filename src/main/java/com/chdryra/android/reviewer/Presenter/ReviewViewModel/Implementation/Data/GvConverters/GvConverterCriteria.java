@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
 
@@ -18,15 +19,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterCriteria extends GvConverterDataReview<DataCriterion,
-        GvCriterion, GvCriterionList> {
+public class GvConverterCriteria extends GvConverterReviewData<DataCriterion,
+        GvCriterion, GvCriterionList, GvCriterion.Reference> {
 
     public GvConverterCriteria() {
-        super(GvCriterionList.class);
+        super(GvCriterionList.class, GvCriterion.Reference.TYPE);
     }
 
     @Override
     public GvCriterion convert(DataCriterion datum, ReviewId reviewId) {
         return new GvCriterion(newId(reviewId), datum.getSubject(), datum.getRating());
+    }
+
+    @Override
+    protected GvCriterion.Reference convertReference(ReviewItemReference<DataCriterion> reference) {
+        return new GvCriterion.Reference(reference, this);
+    }
+
+    public static class SubjectOnly extends GvConverterCriteria {
+        @Override
+        public GvCriterion convert(DataCriterion datum, ReviewId reviewId) {
+            return new GvCriterion(newId(reviewId), datum.getSubject(), 0f);
+        }
     }
 }

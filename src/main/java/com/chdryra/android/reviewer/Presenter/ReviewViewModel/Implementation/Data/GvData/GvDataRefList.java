@@ -16,13 +16,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataRefList<T extends GvDataRef<?, T, ?>> extends GvDataListImpl<T> {
+public class GvDataRefList<T extends GvDataRef<?, ?>> extends GvDataListImpl<T> {
     public GvDataRefList(GvDataList<T> data) {
         super(data);
     }
 
-    public GvDataRefList(GvDataType<T> mDataType, GvReviewId reviewId) {
-        super(mDataType, reviewId);
+    public GvDataRefList(GvDataType<T> dataType, GvReviewId reviewId) {
+        super(dataType, reviewId);
     }
 
     public void unbind() {

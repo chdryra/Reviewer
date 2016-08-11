@@ -14,6 +14,7 @@ import android.webkit.URLUtil;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
@@ -27,11 +28,11 @@ import java.net.URL;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFact, GvFactList> {
+public class GvConverterFacts extends GvConverterReviewData<DataFact, GvFact, GvFactList, GvFact.Reference> {
     private GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {
-        super(GvFactList.class);
+        super(GvFactList.class, GvFact.Reference.TYPE);
         mUrlConverter = urlConverter;
     }
 
@@ -62,5 +63,10 @@ public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFact, Gv
         }
 
         return null;
+    }
+
+    @Override
+    protected GvFact.Reference convertReference(ReviewItemReference<DataFact> reference) {
+        return new GvFact.Reference(reference, this);
     }
 }

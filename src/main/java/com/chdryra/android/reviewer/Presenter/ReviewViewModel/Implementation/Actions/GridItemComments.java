@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class GridItemComments extends GridItemConfigLauncher<GvComment> {
     public GridItemComments(LaunchableConfig commentsViewConfig,
                             FactoryReviewView launchableFactory,
-                            ParcelablePacker<GvData> packer) {
+                            ParcelablePacker<GvDataParcelable> packer) {
         super(commentsViewConfig, launchableFactory, packer);
     }
 

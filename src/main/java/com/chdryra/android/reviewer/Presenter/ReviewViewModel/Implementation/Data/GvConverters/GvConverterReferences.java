@@ -8,56 +8,31 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRefList;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataRefList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 10/11/2015
+ * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterReferences
-        extends GvConverterBasic<ReviewReference, GvReviewRef, GvReviewRefList>
-        implements DataConverter<ReviewReference, GvReviewRef, GvReviewRefList> {
-    private TagsManager mTagsManager;
-    private GvConverterImages mConverterImages;
-    private GvConverterComments mConverterComments;
-    private GvConverterLocations mConverterLocations;
+public abstract class GvConverterReferences<T1 extends HasReviewId, T2 extends GvDataRef<T2, T1, ?>>
+        extends GvConverterBasic<ReviewItemReference<T1>, T2, GvDataRefList<T2>> {
 
-    public GvConverterReferences(TagsManager tagsManager,
-                                 GvConverterImages converterImages,
-                                 GvConverterComments converterComments,
-                                 GvConverterLocations converterLocations) {
-        super(GvReviewRefList.class);
-        mTagsManager = tagsManager;
-        mConverterImages = converterImages;
-        mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
+    public GvConverterReferences(GvDataType<T2> dataType) {
+        super(dataType);
     }
 
     @Override
-    public GvReviewRef convert(ReviewReference review, ReviewId parentId) {
-        return new GvReviewRef(review, mConverterComments, mConverterLocations);
-    }
-
-    @Override
-    public GvReviewRef convert(ReviewReference review) {
-        return convert(review, null);
-    }
-
-    @Override
-    public GvReviewRefList convert(IdableList<? extends ReviewReference> data) {
-        GvReviewRefList list = new GvReviewRefList(newId(data.getReviewId()));
-        for(ReviewReference datum : data) {
-            list.add(convert(datum, data.getReviewId()));
-        }
-
-        return list;
+    protected GvDataRefList<T2> newList(ReviewId reviewId) {
+        GvReviewId id = new GvReviewId(reviewId);
+        return new GvDataRefList<>(getOutputType(), id);
     }
 }
