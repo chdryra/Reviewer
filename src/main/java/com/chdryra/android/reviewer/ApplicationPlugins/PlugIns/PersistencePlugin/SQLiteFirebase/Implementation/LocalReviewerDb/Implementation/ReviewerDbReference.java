@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -33,11 +35,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -51,15 +53,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.DataReferenceBasic;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -69,26 +74,22 @@ import java.util.Random;
  * On: 15/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbReference extends ReviewReferenceBasic {
+public class ReviewerDbReference extends DataReferenceBasic<Review> implements ReviewReference {
     private static final CallbackMessage OK = CallbackMessage.ok();
     private static final Random RANDOM = new Random();
 
     private DataReviewInfo mInfo;
     private ReviewerDbRepository mRepo;
-    private ReviewNode mNode;
+    private ArrayList<ReferenceBinder<Review>> mBinders;
 
     private interface LoadListener<T extends ReviewDataRow> {
         void onLoaded(IdableList<T> data);
     }
 
-    public ReviewerDbReference(DataReviewInfo info,
-                               ReviewerDbRepository repo,
-                               FactoryReviews reviewsFactory,
-                               BindersManager bindersManager) {
-        super(bindersManager);
+    public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepository repo) {
         mInfo = info;
         mRepo = repo;
-        mNode = reviewsFactory.createLeafNode(this);
+        mBinders = new ArrayList<>();
     }
 
     @Override
@@ -117,150 +118,78 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public ReviewNode asNode() {
-        return mNode;
-    }
-
-    @Override
-    public void getData(final CoverCallback callback) {
-        new DataLoader<>(getDb().getImagesTable(), RowImage.REVIEW_ID,
-                new LoadListener<RowImage>() {
-                    @Override
-                    public void onLoaded(IdableList<RowImage> data) {
-                        IdableList<DataImage> covers = new IdableDataList<>(data.getReviewId());
-                        for (RowImage image : data) {
-                            if (image.isCover()) covers.add(image);
-                        }
-                        callback.onCover(covers.getItem(RANDOM.nextInt(covers.size())), OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getData(final TagsCallback callback) {
-        ItemTagCollection tags = getTags();
-        if (tags.size() == 0) {
-            mRepo.getReview(getReviewId(), new RepositoryCallback() {
-                @Override
-                public void onRepositoryCallback(RepositoryResult result) {
-                    observeTags(callback, getTags());
-                }
-            });
-            return;
-        }
-
-        observeTags(callback, tags);
-    }
-
-    @Override
-    public void getData(final CriteriaCallback callback) {
-        new DataLoader<>(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID,
-                new LoadListener<RowCriterion>() {
-                    @Override
-                    public void onLoaded(IdableList<RowCriterion> data) {
-                        callback.onCriteria(data, OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getData(final ImagesCallback callback) {
-        new DataLoader<>(getDb().getImagesTable(), RowImage.REVIEW_ID,
-                new LoadListener<RowImage>() {
-                    @Override
-                    public void onLoaded(IdableList<RowImage> data) {
-                        callback.onImages(data, OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getData(final CommentsCallback callback) {
-        new DataLoader<>(getDb().getCommentsTable(), RowComment.REVIEW_ID,
-                new LoadListener<RowComment>() {
-                    @Override
-                    public void onLoaded(IdableList<RowComment> data) {
-                        callback.onComments(data, OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getData(final LocationsCallback callback) {
-        new DataLoader<>(getDb().getLocationsTable(), RowLocation.REVIEW_ID,
-                new LoadListener<RowLocation>() {
-                    @Override
-                    public void onLoaded(IdableList<RowLocation> data) {
-                        callback.onLocations(data, OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getData(final FactsCallback callback) {
-        new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
-                new LoadListener<RowFact>() {
-                    @Override
-                    public void onLoaded(IdableList<RowFact> data) {
-                        callback.onFacts(data, OK);
-                    }
-                }).execute();
-    }
-
-    @Override
-    public void getSize(TagsSizeCallback callback) {
-        observeNumTags(callback);
-    }
-
-    //TODO move to SQL
-    @Override
-    public void getSize(final CriteriaSizeCallback callback) {
-        getData(new CriteriaCallback() {
+    public void bindToValue(final ReferenceBinder<Review> binder) {
+        if (!mBinders.contains(binder)) mBinders.add(binder);
+        dereference(new DereferenceCallback<Review>() {
             @Override
-            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
-                callback.onNumCriteria(size(criteria), message);
-            }
-        });
-    }
-    
-    @Override
-    public void getSize(final ImagesSizeCallback callback) {
-        getData(new ImagesCallback() {
-            @Override
-            public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-                callback.onNumImages(size(images), message);
+            public void onDereferenced(@Nullable Review data, CallbackMessage message) {
+                if (!message.isError() && data != null) binder.onReferenceValue(data);
             }
         });
     }
 
     @Override
-    public void getSize(final CommentsSizeCallback callback) {
-        getData(new CommentsCallback() {
-            @Override
-            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
-                callback.onNumComments(size(comments), message);
-            }
-        });
+    public void unbindFromValue(ReferenceBinder<Review> binder) {
+        if (mBinders.contains(binder)) mBinders.remove(binder);
     }
 
     @Override
-    public void getSize(final LocationsSizeCallback callback) {
-        getData(new LocationsCallback() {
-            @Override
-            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
-                callback.onNumLocations(size(locations), message);
-            }
-        });
+    public ReviewItemReference<DataImage> getCover() {
+        return;
     }
 
     @Override
-    public void getSize(final FactsSizeCallback callback) {
-        getData(new FactsCallback() {
+    public ReviewListReference<DataCriterion> getCriteria() {
+        return newListReference(mRepo.getReadableDatabase().getCriteriaTable(),
+                RowCriterion.REVIEW_ID, getConverter());
+    }
+
+    @NonNull
+    private <R extends ReviewDataRow<R>, T extends HasReviewId> Converter<R, T> getConverter(Class<R> classR, Class<T> classT) {
+        return new Converter<R, T>() {
             @Override
-            public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-                callback.onNumFacts(size(facts), message);
+            public IdableList<T> convert(IdableRowList<R> data) {
+                IdableDataList<T> list = new IdableDataList<>(getReviewId());
+                list.addAll(data);
+                return list;
             }
-        });
+        };
+    }
+
+    @NonNull
+    private <T extends HasReviewId> IdableList<T> newList(Class<T> clazz, IdableRowList<? extends T> data) {
+        IdableDataList<T> list = new IdableDataList<>(getReviewId());
+        list.addAll(data);
+        return list;
+    }
+
+    @Override
+    public ReviewListReference<DataComment> getComments() {
+        return newListReference(mRepo.getReadableDatabase().getCommentsTable(), RowComment
+                .REVIEW_ID);
+    }
+
+    @Override
+    public ReviewListReference<DataFact> getFacts() {
+        return newListReference(mRepo.getReadableDatabase().getFactsTable(), RowFact
+                .REVIEW_ID);
+    }
+
+    @Override
+    public ReviewListReference<DataImage> getImages() {
+        return newListReference(mRepo.getReadableDatabase().getImagesTable(), RowImage
+                .REVIEW_ID);
+    }
+
+    @Override
+    public ReviewListReference<DataLocation> getLocations() {
+        return newListReference(mRepo.getReadableDatabase().getLocationsTable(), RowLocation
+                .REVIEW_ID);
+    }
+
+    @Override
+    public ReviewListReference<DataTag> getTags() {
+        return null;
     }
 
     @Override
@@ -278,7 +207,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
         return mInfo != null;
     }
 
-    private ItemTagCollection getTags() {
+    private ItemTagCollection getItemTags() {
         return mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
     }
 
@@ -286,20 +215,11 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
         return mRepo.getReadableDatabase();
     }
 
-    private <T extends HasReviewId> DataSize size(IdableList<T> facts) {
-        return new DatumSize(facts.getReviewId(), facts.size());
-    }
-
-    private void observeNumTags(final TagsSizeCallback callback) {
-        ItemTagCollection tags = getTags();
-        if (tags.size() == 0) {
-            mRepo.getReview(getReviewId(), new RepositoryCallback() {
-                @Override
-                public void onRepositoryCallback(RepositoryResult result) {
-                    callback.onNumTags(new DatumSize(getReviewId(), getTags().size()), OK);
-                }
-            });
-        }
+    @NonNull
+    private <T extends ReviewDataRow<T>, R extends HasReviewId> ReviewListReference<R>
+    newListReference(DbTable<T> table, ColumnInfo<String> idCol, Converter<T, R> converter) {
+        return new DbListReference<>(new DataLoader<>(getReviewId(),
+                mRepo.getReadableDatabase(), table, idCol), converter);
     }
 
     private void observeTags(TagsCallback callback, ItemTagCollection tags) {
@@ -311,35 +231,103 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
         callback.onTags(dataTags, OK);
     }
 
-    private class DataLoader<T extends ReviewDataRow> extends AsyncTask<Void, Void, 
-            IdableRowList<T>> {
-        private final LoadListener<T> mListener;
-        private DbTable<T> mTable;
-        private ColumnInfo<String> mIdCol;
+    private interface Converter<T extends ReviewDataRow<T>, R extends HasReviewId> {
+        IdableList<R>  convert(IdableRowList<T> data);
+    }
 
-        public DataLoader(DbTable<T> table, ColumnInfo<String> idCol, LoadListener<T> listener) {
-            mTable = table;
-            mIdCol = idCol;
-            mListener = listener;
+    public static class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
+            extends DataReferenceBasic<IdableList<R>>
+            implements ReviewListReference<R> {
+        private DataLoader<T> mLoader;
+        private ArrayList<ReferenceBinder<IdableList<R>>> mBinders;
+        private Converter<T, R> mConverter;
+
+        public DbListReference(DataLoader<T> loader, Converter<T, R> converter) {
+            mLoader = loader;
+            mConverter = converter;
+            mBinders = new ArrayList<>();
         }
 
         @Override
-        protected IdableRowList<T> doInBackground(Void... params) {
-            RowEntry<T, String> clause = new RowEntryImpl<>(mTable.getRowClass(), mIdCol,
-                    mInfo.getReviewId().toString());
+        public ReviewItemReference<DataSize> getSize() {
+            return null;
+        }
+
+        @Override
+        public ReviewId getReviewId() {
+            return mLoader.getReviewId();
+        }
+
+        @Override
+        public void dereference(final DereferenceCallback<IdableList<R>> callback) {
+            mLoader.onLoaded(new LoadListener<T>() {
+                @Override
+                public void onLoaded(IdableList<T> data) {
+                    callback.onDereferenced(mConverter.convert(data), CallbackMessage.ok());
+                }
+            }).execute();
+        }
+
+        @Override
+        public void bindToValue(final ReferenceBinder<IdableList<R>> binder) {
+            if (!mBinders.contains(binder)) mBinders.add(binder);
+            dereference(new DereferenceCallback<IdableList<R>>() {
+                @Override
+                public void onDereferenced(@Nullable IdableList<R> data, CallbackMessage message) {
+                    if (data != null && !message.isError()) binder.onReferenceValue(data);
+                }
+            });
+        }
+
+        @Override
+        public void unbindFromValue(ReferenceBinder<IdableList<R>> binder) {
+            if (mBinders.contains(binder)) mBinders.remove(binder);
+        }
+    }
+
+    private static class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void,
+            IdableRowList<T>> {
+        private ReviewId mId;
+        private ReviewerDbReadable mDb;
+        private LoadListener<T> mListener;
+        private DbTable<T> mTable;
+        private ColumnInfo<String> mIdCol;
+
+        public DataLoader(ReviewId id,
+                          ReviewerDbReadable db,
+                          DbTable<T> table,
+                          ColumnInfo<String> idCol) {
+            mId = id;
+            mDb = db;
+            mTable = table;
+            mIdCol = idCol;
+        }
+
+        public ReviewId getReviewId() {
+            return mId;
+        }
+
+        public DataLoader<T> onLoaded(LoadListener<T> listener) {
+            mListener = listener;
+            return this;
+        }
+
+        @Override
+        protected final IdableRowList<T> doInBackground(Void... params) {
+            RowEntry<T, String> clause = new RowEntryImpl<>(mTable.getRowClass(), mIdCol, mId
+                    .toString());
 
             ArrayList<T> data = new ArrayList<>();
-            ReviewerDbReadable db = getDb();
-            TableTransactor transactor = db.beginReadTransaction();
-            data.addAll(db.getRowsWhere(mTable, clause, transactor));
-            db.endTransaction(transactor);
+            TableTransactor transactor = mDb.beginReadTransaction();
+            data.addAll(mDb.getRowsWhere(mTable, clause, transactor));
+            mDb.endTransaction(transactor);
 
-            return new IdableRowList<>(mInfo.getReviewId(), data);
+            return new IdableRowList<>(mId, data);
         }
 
         @Override
         protected void onPostExecute(IdableRowList<T> data) {
-            mListener.onLoaded(data);
+            if (mListener != null) mListener.onLoaded(data);
         }
     }
 }

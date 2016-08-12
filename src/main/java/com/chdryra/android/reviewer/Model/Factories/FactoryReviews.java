@@ -26,7 +26,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId;
@@ -41,7 +40,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -55,7 +53,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Factory for creating Reviews and ReviewNodes.
@@ -69,11 +66,12 @@ public class FactoryReviews implements ReviewMaker {
     private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
+    private FactoryMdReference mReferenceFactory;
 
     public FactoryReviews(ConverterMd converter,
-                          FactoryBinders binderFactory,
                           FactoryMdReference referenceFactory) {
-        mNodeFactory = new FactoryReviewNode(this, binderFactory, referenceFactory);
+        mNodeFactory = new FactoryReviewNode(this, referenceFactory);
+        mReferenceFactory = referenceFactory;
         mConverter = converter;
         mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
     }
@@ -114,10 +112,6 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public Review createMetaReview(DataReviewInfo info, List<Review> reviews) {
-        return new ReviewMetaSnapshot(info, reviews);
-    }
-
     public ReviewNodeRepo createMetaReview(ReferencesRepository repo, String title) {
         ReviewStamp stamp = newStamp();
         DataReviewInfo info = new ReviewInfo(stamp,
@@ -129,7 +123,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {
-        return new ReviewReferenceWrapper(review, manager, this, getNodeFactory().getBinderFactory());
+        return new ReviewReferenceWrapper(review, manager, mReferenceFactory);
     }
 
     @Override

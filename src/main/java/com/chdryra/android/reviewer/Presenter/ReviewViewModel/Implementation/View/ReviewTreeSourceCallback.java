@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -22,8 +21,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 public class ReviewTreeSourceCallback extends ReviewTree
         implements ReviewsSource.ReviewsSourceCallback {
 
-    public ReviewTreeSourceCallback(ReviewNodeComponent initial, FactoryBinders bindersFactory) {
-        super(initial, bindersFactory);
+    public ReviewTreeSourceCallback(ReviewNodeComponent initial) {
+        super(initial);
     }
 
     @Override

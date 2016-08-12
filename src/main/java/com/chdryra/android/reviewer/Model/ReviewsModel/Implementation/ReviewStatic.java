@@ -17,12 +17,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  */
 public abstract class ReviewStatic implements Review {
     @Override
-    public void registerObserver(ReviewObserver observer) {
+    public final void registerObserver(ReviewObserver observer) {
         //Does nothing
     }
 
     @Override
-    public void unregisterObserver(ReviewObserver observer) {
+    public final void unregisterObserver(ReviewObserver observer) {
         //Does nothing
     }
 

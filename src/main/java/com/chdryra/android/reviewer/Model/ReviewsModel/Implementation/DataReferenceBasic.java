@@ -33,7 +33,11 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
 
     @Override
     public void registerListener(DataReference.InvalidationListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if(mDeleted) {
+            listener.onReferenceInvalidated(this);
+        } else {
+            if (!mListeners.contains(listener)) mListeners.add(listener);
+        }
     }
 
     @Override

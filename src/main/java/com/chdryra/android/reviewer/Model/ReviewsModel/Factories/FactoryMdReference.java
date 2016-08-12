@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -31,7 +32,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemReferencesSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListReferencesSize;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.VisitorFactory;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
@@ -55,9 +56,16 @@ public class FactoryMdReference {
         return new StaticItemReference<>(id, datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newWrapper(ReviewId id, IdableList<T>
-            data) {
+    public <T extends HasReviewId> ReviewListReference<T> newWrapper(ReviewId id,
+                                                                     IdableList<T> data) {
         return new StaticListReference<>(id, data);
+    }
+
+    public <T extends HasReviewId> ReviewListReference<T> newSuperClassWrapper(ReviewId id,
+                                                                               IdableList<? extends T> data) {
+        IdableList<T> list = new IdableDataList<>(data.getReviewId());
+        list.addAll(data);
+        return new StaticListReference<>(id, list);
     }
 
     public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeItemReferences<T>

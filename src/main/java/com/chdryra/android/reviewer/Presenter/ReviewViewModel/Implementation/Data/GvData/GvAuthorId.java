@@ -13,8 +13,10 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthorId;
 
@@ -23,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvAuthorId implements GvDataParcelable, AuthorId {
+public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     public static final GvDataType<GvAuthorId> TYPE =
             new GvDataType<>(GvAuthorId.class, "ReviewId");
 
@@ -135,5 +137,20 @@ public class GvAuthorId implements GvDataParcelable, AuthorId {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(toString());
+    }
+
+    public static class Reference extends GvDataRef<Reference, DataAuthorId, VhAuthorId> {
+        public static final GvDataType<GvAuthorId.Reference> TYPE
+                = new GvDataType<>(GvAuthorId.Reference.class, GvAuthorId.TYPE);
+
+        public Reference(ReviewItemReference<DataAuthorId> reference,
+                         DataConverter<DataAuthorId, GvAuthorId, ?> converter) {
+            super(TYPE, reference, converter, VhAuthorId.class, new PlaceHolderFactory<DataAuthorId>() {
+                @Override
+                public DataAuthorId newPlaceHolder(String placeHolder) {
+                    return new GvAuthorId(placeHolder);
+                }
+            });
+        }
     }
 }

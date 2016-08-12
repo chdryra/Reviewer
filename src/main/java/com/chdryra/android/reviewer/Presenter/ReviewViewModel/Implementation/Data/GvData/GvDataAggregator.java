@@ -90,7 +90,7 @@ public class GvDataAggregator {
             aggregator = mAggregators.newCriteriaAggregatorSameSubjectRating(mParams.getSimilarBoolean());
         }
         AggregatedList<DataCriterion> aggregated = aggregator.aggregate(data);
-        return newCollection(mConverter.getConverterCriteria(), aggregated, GvCriterion.TYPE);
+        return newCollection(mConverter.newConverterCriteria(), aggregated, GvCriterion.TYPE);
     }
 //
 //    public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
@@ -106,7 +106,7 @@ public class GvDataAggregator {
     public GvCanonicalCollection<GvComment> aggregateComments(IdableList<? extends DataComment> data) {
         DataAggregator<DataComment> aggregator = mAggregators.newCommentsAggregator(mParams.getSimilarPercentage());
         AggregatedList<DataComment> aggregated = aggregator.aggregate(data);
-        return newCollection(mConverter.getConverterComments(), aggregated, GvComment.TYPE);
+        return newCollection(mConverter.newConverterComments(), aggregated, GvComment.TYPE);
     }
 //
 //    public GvCanonicalCollection<GvLocation> aggregateLocations(ReviewNode root) {

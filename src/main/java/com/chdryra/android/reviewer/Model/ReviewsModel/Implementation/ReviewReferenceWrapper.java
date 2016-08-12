@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
@@ -20,19 +18,17 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -40,16 +36,17 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * On: 27/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewReferenceWrapper implements ReviewReference {
-    private static final CallbackMessage OK = CallbackMessage.ok();
+public class ReviewReferenceWrapper extends StaticItemReference<Review> implements ReviewReference {
     private Review mReview;
     private TagsManager mTagsManager;
+    private FactoryMdReference mReferenceFactory;
 
-    public ReviewReferenceWrapper(Review review,
-                                  TagsManager tagsManager,
-                                  FactoryBinders bindersFactory) {
+    public ReviewReferenceWrapper(Review review, TagsManager tagsManager, FactoryMdReference
+            referenceFactory) {
+        super(review.getReviewId(), review);
         mReview = review;
         mTagsManager = tagsManager;
+        mReferenceFactory = referenceFactory;
     }
 
     @Override
@@ -84,97 +81,40 @@ public class ReviewReferenceWrapper implements ReviewReference {
 
     @Override
     public ReviewListReference<DataCriterion> getCriteria() {
-        return null;
+        return newWrapper(mReview.getCriteria());
     }
 
     @Override
     public ReviewListReference<DataComment> getComments() {
-        return null;
+        return newWrapper(mReview.getComments());
     }
 
     @Override
     public ReviewListReference<DataFact> getFacts() {
-        return null;
+        return newWrapper(mReview.getFacts());
     }
 
     @Override
     public ReviewListReference<DataImage> getImages() {
-        return null;
+        return newWrapper(mReview.getImages());
     }
 
     @Override
     public ReviewListReference<DataLocation> getLocations() {
-        return null;
+        return newWrapper(mReview.getLocations());
     }
 
     @Override
     public ReviewListReference<DataTag> getTags() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCriteriaSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCommentsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getFactsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getImagesSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getLocationsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getTagsSize() {
-        return null;
-    }
-
-    @Override
-    public void bindToValue(ReferenceBinder<Review> binder) {
-
-    }
-
-    @Override
-    public void unbindFromValue(ReferenceBinder<Review> binder) {
-
-    }
-
-    @Override
-    public void invalidate() {
-
-    }
-
-    @Override
-    public void getData(TagsCallback callback) {
-        ItemTagCollection tagCollection = mTagsManager.getTags(getReviewId().toString());
         IdableList<DataTag> tags = new IdableDataList<>(getReviewId());
-        for (ItemTag tag : tagCollection) {
+        for(ItemTag tag : mTagsManager.getTags(getReviewId().toString())) {
             tags.add(new DatumTag(getReviewId(), tag.getTag()));
         }
-        callback.onTags(tags, OK);
+        return newWrapper(tags);
     }
 
-
-    @Override
-    public void dereference(DereferenceCallback<Review> callback) {
-        callback.onDereferenced(mReview, OK);
-    }
-
-    @Override
-    public boolean isValidReference() {
-        return mReview != null;
+    private <T extends HasReviewId> ReviewListReference<T> newWrapper(IdableList<? extends T>
+                                                                              data) {
+        return mReferenceFactory.newSuperClassWrapper(getReviewId(), data);
     }
 }

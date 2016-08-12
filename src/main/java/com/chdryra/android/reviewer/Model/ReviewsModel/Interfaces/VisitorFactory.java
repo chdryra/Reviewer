@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
+package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorData
  * On: 08/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface VisitorFactory<T extends HasReviewId> {
+public interface VisitorFactory {
     interface ItemVisitor<T extends HasReviewId> {
         VisitorDataGetter<T> newVisitor();
     }

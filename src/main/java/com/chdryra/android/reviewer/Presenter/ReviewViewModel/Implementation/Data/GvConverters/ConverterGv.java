@@ -9,26 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,137 +18,77 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConverterGv {
-    private ConvertersMap mMap;
-    private GvConverterItemTags mItemTagsConverter;
-    private GvConverterCriteria.SubjectOnly mCriteriaSubjectsConverter;
+    private TagsManager mTagsManager;
 
-    public ConverterGv(GvConverterComments converterComments,
-                       GvConverterFacts converterFacts,
-                       GvConverterImages converterImages,
-                       GvConverterLocations converterLocations,
-                       GvConverterUrls converterUrl,
-                       GvConverterCriteria converterCriteria,
-                       GvConverterReviews converterReview,
-                       GvConverterReviewReferences converterReferences,
-                       GvConverterSubjects converterSubjects,
-                       GvConverterAuthors converterAuthors,
-                       GvConverterAuthorIds converterAuthorIds,
-                       GvConverterDateReviews converterDates,
-                       GvConverterDataTags converterTags,
-                       GvConverterItemTags converterItemTags) {
-        mMap = new ConvertersMap();
-        mMap.add(converterComments.getOutputType(), converterComments);
-        mMap.add(converterFacts.getOutputType(), converterFacts);
-        mMap.add(converterImages.getOutputType(), converterImages);
-        mMap.add(converterLocations.getOutputType(), converterLocations);
-        mMap.add(converterUrl.getOutputType(), converterUrl);
-        mMap.add(converterCriteria.getOutputType(), converterCriteria);
-        mMap.add(converterReview.getOutputType(), converterReview);
-        mMap.add(converterReferences.getOutputType(), converterReferences);
-        mMap.add(converterSubjects.getOutputType(), converterSubjects);
-        mMap.add(converterAuthors.getOutputType(), converterAuthors);
-        mMap.add(converterAuthorIds.getOutputType(), converterAuthorIds);
-        mMap.add(converterDates.getOutputType(), converterDates);
-        mMap.add(converterTags.getOutputType(), converterTags);
-        mItemTagsConverter = converterItemTags;
-        mCriteriaSubjectsConverter = new GvConverterCriteria.SubjectOnly();
+    public ConverterGv(TagsManager tagsManager) {
+        mTagsManager = tagsManager;
     }
 
-    public <T extends GvData> DataConverter<?, T, ? extends GvDataList<T>>
-    getConverter(GvDataType<T> dataType) {
-        return mMap.get(dataType);
+    public GvConverterSizes newConverterSizes(GvDataType<?> type) {
+        return new GvConverterSizes(type);
     }
 
-    public <T extends GvData> DataConverter<? super T, T, ? extends GvDataList<T>>
-    getCopier(GvDataType<T> dataType) {
-        //TODO not sure how to enforce this is DataConverter spec...
-        return (DataConverter<? super T, T, ? extends GvDataList<T>>) mMap.get(dataType);
+    public GvConverterImages newConverterImages() {
+        return new GvConverterImages(newConverterDates());
     }
 
-    public GvConverterImages getConverterImages() {
-        return (GvConverterImages) getConverter(GvImage.TYPE);
+    public GvConverterReviews newConverterReviews() {
+        return new GvConverterReviews(mTagsManager, newConverterImages(), newConverterComments(), newConverterLocations());
     }
 
-    public GvConverterReviews getConverterReviews() {
-        return (GvConverterReviews) getConverter(GvReview.TYPE);
+    public GvConverterReviewReferences newConverterReviewReferences() {
+        return new GvConverterReviewReferences(newConverterComments(), newConverterLocations());
     }
 
-    public GvConverterReviewReferences getConverterReferences() {
-        return (GvConverterReviewReferences) getConverter(GvReviewRef.TYPE);
+    public GvConverterComments newConverterComments() {
+        return new GvConverterComments();
     }
 
-    public GvConverterComments getConverterComments() {
-        return (GvConverterComments) getConverter(GvComment.TYPE);
+    public GvConverterFacts newConverterFacts() {
+        return new GvConverterFacts(newConverterUrls());
     }
 
-    public GvConverterFacts getConverterFacts() {
-        return (GvConverterFacts) getConverter(GvFact.TYPE);
+    public GvConverterLocations newConverterLocations() {
+        return new GvConverterLocations();
     }
 
-    public GvConverterLocations getConverterLocations() {
-        return (GvConverterLocations) getConverter(GvLocation.TYPE);
+    public GvConverterUrls newConverterUrls() {
+        return new GvConverterUrls();
     }
 
-    public GvConverterUrls getConverterUrls() {
-        return (GvConverterUrls) getConverter(GvUrl.TYPE);
+    public GvConverterCriteria newConverterCriteria() {
+        return new GvConverterCriteria();
     }
 
-    public GvConverterCriteria getConverterCriteria() {
-        return (GvConverterCriteria) getConverter(GvCriterion.TYPE);
+    public GvConverterCriteria.SubjectOnly newConverterCriteriaSubjects() {
+        return new GvConverterCriteria.SubjectOnly();
     }
 
-    public GvConverterCriteria.SubjectOnly getConverterCriteriaSubjects() {
-        return mCriteriaSubjectsConverter;
+    public GvConverterSubjects newConverterSubjects() {
+        return new GvConverterSubjects();
     }
 
-    public GvConverterSubjects getConverterSubjects() {
-        return (GvConverterSubjects) getConverter(GvSubject.TYPE);
+    public GvConverterAuthors newConverterAuthors() {
+        return  new GvConverterAuthors();
     }
 
-    public GvConverterAuthors getConverterAuthors() {
-        return (GvConverterAuthors) getConverter(GvAuthor.TYPE);
+    public GvConverterAuthorIds newConverterAuthorsIds() {
+        return new GvConverterAuthorIds();
     }
 
-    public GvConverterAuthorIds getConverterAuthorsIds() {
-        return (GvConverterAuthorIds) getConverter(GvAuthorId.TYPE);
+    public GvConverterDateReviews newConverterDateReviews() {
+        return new GvConverterDateReviews();
     }
 
-    public GvConverterDateReviews getConverterDates() {
-        return (GvConverterDateReviews) getConverter(GvDate.TYPE);
+    private GvConverterDates newConverterDates() {
+        return new GvConverterDates();
     }
 
-    public GvConverterItemTags getConverterItemTags() {
-        return mItemTagsConverter;
+    public GvConverterItemTags newConverterItemTags() {
+        return new GvConverterItemTags();
     }
 
-    public GvConverterDataTags getConverterTags() {
-        return (GvConverterDataTags) getConverter(GvTag.TYPE);
-    }
-
-    //Copy
-    public <T extends GvData> GvDataList<T> copy(GvDataList<T> data) {
-        DataConverter<? super T, T, ? extends GvDataList<T>> copier;
-        copier = getCopier(data.getGvDataType());
-        return copier.convert(data);
-    }
-
-    //To ensure type safety
-    private class ConvertersMap {
-        private final Map<GvDataType<? extends GvData>, DataConverter<?, ? extends GvData, ? extends GvDataList>>
-
-                mConverters;
-
-        private ConvertersMap() {
-            mConverters = new HashMap<>();
-        }
-
-        private <T extends GvData> void add(GvDataType<T> type, DataConverter<?, T, ? extends GvDataList<T>> converter) {
-            mConverters.put(type, converter);
-        }
-
-        //TODO make type safe although it is really....
-        private <T extends GvData> DataConverter<?, T, ? extends GvDataList<T>> get(GvDataType<T> type) {
-            return (DataConverter<?, T, ? extends GvDataList<T>>) mConverters.get(type);
-        }
+    public GvConverterDataTags newConverterTags() {
+        return new GvConverterDataTags();
     }
 }

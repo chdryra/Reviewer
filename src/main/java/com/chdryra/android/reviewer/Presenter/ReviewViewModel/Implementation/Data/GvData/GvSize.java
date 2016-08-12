@@ -11,11 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhDataReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSizes;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSize;
 
 
@@ -122,11 +121,9 @@ public class GvSize extends GvDualText implements DataSize{
 
         private GvDataType<?> mSizedType;
 
-        public Reference(ReviewItemReference<DataSize> reference,
-                         DataConverter<DataSize, GvSize, ?> converter,
-                         GvDataType<?> sizedType) {
+        public Reference(ReviewItemReference<DataSize> reference, GvConverterSizes converter) {
             super(TYPE, reference, converter, VhSize.class, new Factory());
-            mSizedType = sizedType;
+            mSizedType = converter.getType();
             ((Factory)getPlaceholderFactory()).setType(mSizedType);
         }
 
@@ -136,7 +133,7 @@ public class GvSize extends GvDualText implements DataSize{
 
         @Override
         protected VhDataReference<DataSize> newViewHolder() {
-            return new VhSize.Reference(new Factory());
+            return new VhSize.Reference(new Factory(), new GvConverterSizes(TYPE));
         }
 
         public static class Factory implements PlaceHolderFactory<DataSize> {

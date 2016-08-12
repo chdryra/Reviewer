@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -31,9 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
-
-
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -55,7 +52,6 @@ import java.util.ArrayList;
 public class FactoryReviewViewAdapter {
     private FactoryReviewView mReviewViewFactory;
     private FactoryReviews mReviewsFactory;
-    private FactoryBinders mBindersFactory;
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregator mAggregator;
     private ConverterGv mConverter;
@@ -63,14 +59,12 @@ public class FactoryReviewViewAdapter {
 
     public FactoryReviewViewAdapter(FactoryReviewView reviewViewFactory,
                                     FactoryReviews reviewsFactory,
-                                    FactoryBinders bindersFactory,
                                     GvDataAggregator aggregator,
                                     ReviewsSource reviewsSource,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
         mReviewViewFactory = reviewViewFactory;
         mReviewsFactory = reviewsFactory;
-        mBindersFactory = bindersFactory;
         mAggregator = aggregator;
         mReviewSource = reviewsSource;
         mConverter = converter;
@@ -83,8 +77,9 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter<?> newFlattenedReviewsListAdapter(ReviewNode toFlatten) {
         //adapter shows list of all reviews
-        return mReviewViewFactory.newReviewsListAdapter(newFlattenedNode(toFlatten), this);
+        return mReviewViewFactory.newReviewsListAdapter(newFlattenedTree(toFlatten), this);
     }
+
 
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {
         ReviewTreeSourceCallback node = newAsyncNode();
@@ -106,21 +101,19 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter<GvReviewRef> newChildListAdapter(ReviewNode node) {
         GridDataWrapper<GvReviewRef> viewer
-                = new ViewerChildList(node, mConverter.getConverterReferences(), this);
+                = new ViewerChildList(node, mConverter.newConverterReviewReferences(), this);
         return newNodeAdapter(node, viewer);
     }
 
     public ReviewViewAdapter<?> newNodeDataAdapter(ReviewNode node) {
-        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter,
-                mReviewSource.getTagsManager());
+        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
         return newNodeAdapter(node, viewer);
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newNodeDataAdapter(GvDataCollection<T> data) {
         ReviewTreeSourceCallback node = newAsyncNode();
         mReviewSource.getMetaReview(data, data.getStringSummary(), node);
-        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter,
-                mReviewSource.getTagsManager());
+        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
         return newNodeAdapter(node, viewer);
     }
 //
@@ -136,7 +129,7 @@ public class FactoryReviewViewAdapter {
         if (type.equals(GvComment.TYPE)) {
             ReviewTreeSourceCallback node = getFlattenedMetaReview(data, subject);
             //TODO make type safe
-            return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
+            return new AdapterCommentsAggregate(node, mConverter.newConverterImages(),
                     (GvCanonicalCollection<GvComment>) data, mViewerFactory, mAggregator);
         }
 
@@ -160,21 +153,21 @@ public class FactoryReviewViewAdapter {
 
     @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newDataAdapter(ReviewNode node,
-                                                                  GvDataType<T> gvDataType) {
-        return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, gvDataType, mConverter));
+                                                                  GvDataType<T> dataType) {
+        return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
     }
 
     @Nullable
-    public <T extends GvData> ReviewViewAdapter<?> newMetaDataAdapter(ReviewNode node,
-                                                                  GvDataType<T> gvDataType) {
-        return newNodeAdapter(node, mViewerFactory.newMetaDataViewer(node, gvDataType, mConverter));
+    public <T extends GvData> ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node,
+                                                                      GvDataType<T> dataType) {
+        return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType, mConverter));
     }
 
     //Private
     @Nullable
     private <T extends GvData> ReviewViewAdapter<T> newNodeAdapter(ReviewNode node,
                                                                    @Nullable GridDataWrapper<T> viewer) {
-        return viewer != null ? new AdapterReviewNode<>(node, mConverter.getConverterImages(), viewer) : null;
+        return viewer != null ? new AdapterReviewNode<>(node, mConverter.newConverterImages(), viewer) : null;
     }
 
     private <T extends GvData> ReviewViewAdapter<T> newMetaReviewAdapter(GvDataCollection<T> data,
@@ -193,10 +186,9 @@ public class FactoryReviewViewAdapter {
     }
 
     private <T extends GvData> ReviewTreeSourceCallback getFlattenedMetaReview
-            (GvCanonicalCollection<T> data,
-                                                                               String subject) {
+            (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> gvDataType = data.getGvDataType();
-        GvDataListParcelable<T> allData = new GvDataListParcelable<>(gvDataType, data.getGvReviewId());
+        GvDataListImpl<T> allData = new GvDataListImpl<>(gvDataType, data.getGvReviewId());
         for (GvCanonical<T> canonical : data) {
             allData.addAll(canonical.toList());
         }
@@ -209,7 +201,11 @@ public class FactoryReviewViewAdapter {
 
     @NonNull
     private ReviewTreeSourceCallback newAsyncNode() {
-        return new ReviewTreeSourceCallback(getFetchingPlaceholder(), mBindersFactory);
+        return new ReviewTreeSourceCallback(getFetchingPlaceholder());
+    }
+
+    private ReviewNode newFlattenedTree(ReviewNode node) {
+        return new ReviewTreeFlat(node, mReviewsFactory);
     }
 
     private ReviewNodeComponent getFetchingPlaceholder() {

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal2;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -28,26 +28,12 @@ import java.util.ArrayList;
  */
 public class FactoryReviewNode {
     private FactoryReviews mReviewsFactory;
-    //private FactoryBinders mBinderFactory;
-    private FactoryDataCollector mDataCollectorFactory;
     private FactoryMdReference mReferenceFactory;
 
     public FactoryReviewNode(FactoryReviews reviewFactory,
-                             FactoryBinders binderFactory,
                              FactoryMdReference referenceFactory) {
         mReviewsFactory = reviewFactory;
-        mBinderFactory = binderFactory;
         mReferenceFactory = referenceFactory;
-        mDataCollectorFactory = new FactoryDataCollector();
-    }
-
-
-    public FactoryBinders getBinderFactory() {
-        return mBinderFactory;
-    }
-
-    public FactoryDataCollector getDataCollectorFactory() {
-        return mDataCollectorFactory;
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -59,11 +45,11 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {
-        return new NodeInternal2(meta, mReferenceFactory);
+        return new NodeInternal(meta, mReferenceFactory);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {
-        return new ReviewTree(node, mBinderFactory);
+        return new ReviewTree(node);
     }
 
     public ReviewNodeComponent createMetaTree(DataReviewInfo meta,

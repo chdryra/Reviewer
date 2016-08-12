@@ -75,7 +75,7 @@ public class FactoryReviewBuilder {
         DataBuilder<GvTag> dataBuilder = builder.getDataBuilder(GvTag.TYPE);
         ReviewId reviewId = template.getReviewId();
         ItemTagCollection tags = mTagsManager.getTags(reviewId.toString());
-        for(GvTag tag : mConverterGv.getConverterItemTags().convert(tags, reviewId)) {
+        for(GvTag tag : mConverterGv.newConverterItemTags().convert(tags, reviewId)) {
             dataBuilder.add(tag);
         }
 
@@ -84,7 +84,7 @@ public class FactoryReviewBuilder {
 
     private void setCriteria(Review template, ReviewBuilder builder) {
         DataBuilder<GvCriterion> dataBuilder = builder.getDataBuilder(GvCriterion.TYPE);
-        for(GvCriterion datum : mConverterGv.getConverterCriteriaSubjects().convert(template.getCriteria())){
+        for(GvCriterion datum : mConverterGv.newConverterCriteriaSubjects().convert(template.getCriteria())){
             dataBuilder.add(datum);
         }
 
@@ -93,13 +93,13 @@ public class FactoryReviewBuilder {
 
     private void setCover(Review template, ReviewBuilder builder) {
         DataBuilder<GvImage> dataBuilder = builder.getDataBuilder(GvImage.TYPE);
-        dataBuilder.add(mConverterGv.getConverterImages().convert(template.getCover()));
+        dataBuilder.add(mConverterGv.newConverterImages().convert(template.getCover()));
         dataBuilder.buildData();
     }
 
     private void setLocations(Review template, ReviewBuilder builder) {
         DataBuilder<GvLocation> dataBuilder = builder.getDataBuilder(GvLocation.TYPE);
-        for(GvLocation datum : mConverterGv.getConverterLocations().convert(template.getLocations())){
+        for(GvLocation datum : mConverterGv.newConverterLocations().convert(template.getLocations())){
             dataBuilder.add(datum);
         }
 
@@ -108,7 +108,7 @@ public class FactoryReviewBuilder {
 
     private void setFacts(Review template, ReviewBuilder builder) {
         DataBuilder<GvFact> dataBuilder = builder.getDataBuilder(GvFact.TYPE);
-        for(GvFact datum : mConverterGv.getConverterFacts().convert(template.getFacts())){
+        for(GvFact datum : mConverterGv.newConverterFacts().convert(template.getFacts())){
             dataBuilder.add(datum);
         }
 

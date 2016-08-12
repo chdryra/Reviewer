@@ -11,12 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSizes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSizeList;
 
 /**
  * {@link ViewHolder}: {@link com.chdryra.android.reviewer
@@ -35,32 +32,17 @@ public class VhSize extends VhDualText {
     }
 
     public static class Reference extends VhDataRef<GvSize.Reference, DataSize, VhSize> {
-        public Reference(GvSize.Reference.Factory factory) {
-            super(new VhSize(), new GvSizeConverter(), factory);
+        public Reference(GvSize.Reference.Factory factory, GvConverterSizes converter) {
+            super(new VhSize(), converter, factory);
         }
 
         @Override
         protected void onReference(GvSize.Reference reference) {
             GvDataType<?> sizedType = reference.getSizedType();
-            ((GvSizeConverter) getConverter()).setType(sizedType);
+            ((GvConverterSizes) getConverter()).setType(sizedType);
             ((GvSize.Reference.Factory)getPlaceHolderFactory()).setType(sizedType);
         }
 
-        private static class GvSizeConverter extends GvConverterBasic<DataSize, GvSize, GvSizeList> {
-            private GvDataType<?> mType;
-
-            public GvSizeConverter() {
-                super(GvSizeList.class);
-            }
-
-            public void setType(GvDataType<?> type) {
-                mType = type;
-            }
-
-            @Override
-            public GvSize convert(DataSize datum, ReviewId reviewId) {
-                return new GvSize(newId(datum.getReviewId()), mType, datum.getSize());
-            }
-        }
     }
+
 }

@@ -107,17 +107,6 @@ public class FbStructUsersLed implements FirebaseStructure {
         return root.child(pathToListEntry(reviewId));
     }
 
-    //
-//    @Override
-//    public Firebase getAggregatesDb(Firebase root) {
-//        return root.child(pathToAggregates());
-//    }
-//
-//    @Override
-//    public Firebase getAggregatesDb(Firebase root, String reviewId) {
-//        return root.child(pathToAggregates(reviewId));
-//    }
-//
     @Override
     public Firebase getAggregatesDb(Firebase root, AuthorId authorId, ReviewId reviewId) {
         return root.child(pathToAggregates(authorId, reviewId));
