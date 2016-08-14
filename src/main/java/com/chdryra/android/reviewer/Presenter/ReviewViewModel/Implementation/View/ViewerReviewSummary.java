@@ -19,13 +19,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataRefList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -34,6 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +43,6 @@ import java.util.Map;
  */
 public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     private static final GvDataType<GvSize.Reference> TYPE = GvSize.Reference.TYPE;
-    private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.ReviewOrder.ORDER;
 
     private FactoryReviewViewAdapter mAdapterFactory;
     private ConverterGv mConverter;
@@ -55,16 +52,18 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
                                FactoryReviewViewAdapter adapterFactory,
                                ConverterGv converter,
                                List<GvDataType<?>> cellOrder) {
-        super(node, TYPE);
-        mAdapterFactory = adapterFactory;
-        mConverter = converter;
+        this(node, adapterFactory, converter);
         mCellOrder = cellOrder;
     }
 
     public ViewerReviewSummary(ReviewNode node,
                                FactoryReviewViewAdapter adapterFactory,
                                ConverterGv converter) {
-        this(node, adapterFactory, converter, ORDER);
+        super(node, TYPE);
+        mAdapterFactory = adapterFactory;
+        mConverter = converter;
+        mCellOrder = new ArrayList<>();
+        mCellOrder.addAll(DataTypeCellOrder.ReviewOrder.ORDER);
     }
 
     protected FactoryReviewViewAdapter getAdapterFactory() {

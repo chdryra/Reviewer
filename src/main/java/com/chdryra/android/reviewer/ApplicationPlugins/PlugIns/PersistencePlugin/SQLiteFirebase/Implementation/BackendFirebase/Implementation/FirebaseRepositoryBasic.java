@@ -40,7 +40,7 @@ import java.util.Map;
 public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
     private Firebase mDataBase;
-    private ConverterEntry mEntryConverter;
+    private SnapshotConverter<ReviewListEntry> mEntryConverter;
     private FbReviewsStructure mStructure;
     private FactoryFbReference mReferencer;
     private Map<String, ChildEventListener> mSubscribers;
@@ -49,7 +49,7 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    public FirebaseRepositoryBasic(Firebase dataBase, ConverterEntry entryConverter,
+    public FirebaseRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry> entryConverter,
                                    FbReviewsStructure structure, FactoryFbReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;

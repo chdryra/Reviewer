@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenGridUiImpl implements BuildScreenGridUi<DataBuilderGridCell> {
-    private final ArrayList<GvDataType<?>> mCells;
+    private final ArrayList<GvDataType<? extends GvDataParcelable>> mCells;
     private final DataBuilderGridCellList mWrapper;
     private final FactoryVhDataCollection mVhFactory;
 
@@ -32,13 +32,13 @@ public class BuildScreenGridUiImpl implements BuildScreenGridUi<DataBuilderGridC
         mCells = new ArrayList<>();
     }
 
-    public <T extends GvData> void addGridCell(GvDataType<T> dataType) {
+    public <T extends GvDataParcelable> void addGridCell(GvDataType<T> dataType) {
         mCells.add(dataType);
     }
 
     @Override
     public void setParentAdapter(ReviewBuilderAdapter<?> adapter) {
-        for(GvDataType<?> dataType : mCells) {
+        for(GvDataType<? extends GvDataParcelable> dataType : mCells) {
             mWrapper.addNewGridCell(adapter.getDataBuilderAdapter(dataType), mVhFactory);
         }
     }

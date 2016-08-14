@@ -15,11 +15,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReferen
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
 
 
-public class GvTagRef extends GvDataRef<DataTag, VhTag> implements DataReference.InvalidationListener {
-    public static final GvDataType<GvDataRef> TYPE = GvDataRef.getType(GvTag.TYPE);
+public class GvTagRef extends GvDataRef<GvTagRef, DataTag, VhTag> implements DataReference.InvalidationListener {
+    public static final GvDataType<GvTagRef> TYPE = GvDataRef.getType(GvTagRef.class, GvTag.TYPE);
 
     public GvTagRef(ReviewItemReference<DataTag> reference, DataConverter<DataTag, GvTag, ?> converter) {
-        super(GvTag.TYPE, reference, converter, VhTag.class, new PlaceHolderFactory<DataTag>() {
+        super(TYPE, reference, converter, VhTag.class, new PlaceHolderFactory<DataTag>() {
             @Override
             public DataTag newPlaceHolder(String placeHolder) {
                 return new GvTag(placeHolder);

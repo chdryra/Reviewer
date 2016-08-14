@@ -46,10 +46,11 @@ public class FirebaseMutableRepository extends FirebaseAuthorsRepository impleme
 
     public FirebaseMutableRepository(Firebase dataBase,
                                      FbAuthorsReviews structure,
+                                     SnapshotConverter<ReviewListEntry> entryConverter,
                                      BackendReviewConverter converter,
                                      BackendValidator validator,
                                      FactoryFbReference referencer) {
-        super(dataBase, structure, referencer);
+        super(dataBase, structure, entryConverter, referencer);
         mConverter = converter;
         mValidator = validator;
     }

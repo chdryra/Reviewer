@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
         .ReviewBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
@@ -26,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewBuilderAdapter<GC extends GvDataList<?>> {
+public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParcelable>> {
     private final FactoryReviewBuilder mBuilderFactory;
     private final FactoryGridUi<GC> mGridUiFactory;
     private final FactoryVhDataCollection mVhFactory;

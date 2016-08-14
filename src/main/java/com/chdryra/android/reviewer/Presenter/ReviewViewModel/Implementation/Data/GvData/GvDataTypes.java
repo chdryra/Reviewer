@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataTypes {
-    public static final ArrayList<GvDataType<? extends GvData>> BUILD_TYPES = new ArrayList<>();
-    public static final ArrayList<GvDataType<? extends GvData>> ALL_TYPES = new ArrayList<>();
+    public static final ArrayList<GvDataType<? extends GvDataParcelable>> BUILD_TYPES = new ArrayList<>();
+    public static final ArrayList<GvDataType<? extends GvDataParcelable>> ALL_TYPES = new ArrayList<>();
     static {
         BUILD_TYPES.add(GvComment.TYPE);
         BUILD_TYPES.add(GvFact.TYPE);

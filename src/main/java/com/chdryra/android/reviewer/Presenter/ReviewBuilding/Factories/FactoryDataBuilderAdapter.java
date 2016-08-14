@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDataBuilderAdapter {
-    public <T extends GvData> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T> dataType,
-                                                            ReviewBuilderAdapter parentBuilder) {
+    public <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T> dataType,
+                                                                                    ReviewBuilderAdapter parentBuilder) {
         return new DataBuilderAdapterImpl<>(dataType, parentBuilder);
     }
 }

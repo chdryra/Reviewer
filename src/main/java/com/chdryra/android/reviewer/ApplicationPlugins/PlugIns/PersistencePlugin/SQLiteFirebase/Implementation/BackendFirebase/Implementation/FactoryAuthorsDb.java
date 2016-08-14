@@ -25,26 +25,27 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorsDb {
-    private BackendReviewConverter mConverter;
+    private BackendReviewConverter mReviewConverter;
     private BackendValidator mValidator;
-    private ConverterEntry mEntryConverter;
+    private SnapshotConverter<ReviewListEntry> mEntryConverter;
     private FactoryFbReference mReferencer;
 
-    public FactoryAuthorsDb(BackendReviewConverter converter,
+    public FactoryAuthorsDb(BackendReviewConverter reviewConverter,
                             BackendValidator validator,
-                            ConverterEntry entryConverter,
+                            SnapshotConverter<ReviewListEntry> entryConverter,
                             FactoryFbReference referencer) {
-        mConverter = converter;
+        mReviewConverter = reviewConverter;
         mValidator = validator;
         mEntryConverter = entryConverter;
         mReferencer = referencer;
     }
 
     public ReferencesRepository newAuthorReviews(Firebase root, FbAuthorsReviews structure) {
-        return new FirebaseAuthorsRepository(root, mEntryConverter, structure, mReferencer);
+        return new FirebaseAuthorsRepository(root, structure, mEntryConverter, mReferencer);
     }
 
     public MutableRepository newAuthorsDb(Firebase root, FbAuthorsReviews structure) {
-        return new FirebaseMutableRepository(root, structure, mConverter, mValidator, mReferencer);
+        return new FirebaseMutableRepository(root, structure, mEntryConverter, mReviewConverter,
+                mValidator, mReferencer);
     }
 }

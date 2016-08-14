@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
+public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListImpl<T>
         implements DataObservable.DataObserver {
 
     public static final GvDataType<DataBuilderGridCell> TYPE =
@@ -54,5 +54,10 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
     @Override
     public void onDataChanged() {
         mData = mDataAdapter.getGridData().toArrayList();
+    }
+
+    @Override
+    public GvDataType<T> getGvDataType() {
+        return super.getGvDataType();
     }
 }

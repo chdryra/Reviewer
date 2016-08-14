@@ -16,17 +16,17 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataRefList<T extends GvDataRef<?, ?>> extends GvDataListImpl<T> {
-    public GvDataRefList(GvDataList<T> data) {
+public class GvDataRefList<Reference extends GvDataRef> extends GvDataListImpl<Reference> {
+    public GvDataRefList(GvDataList<Reference> data) {
         super(data);
     }
 
-    public GvDataRefList(GvDataType<T> dataType, GvReviewId reviewId) {
+    public GvDataRefList(GvDataType<Reference> dataType, GvReviewId reviewId) {
         super(dataType, reviewId);
     }
 
     public void unbind() {
-        for(T reference : this) {
+        for(Reference reference : this) {
             reference.unbind();
         }
     }
@@ -34,7 +34,7 @@ public class GvDataRefList<T extends GvDataRef<?, ?>> extends GvDataListImpl<T> 
     @Override
     public boolean contains(Object object) {
         try {
-            GvSizeRef item = (GvSizeRef) object;
+            Reference item = (Reference) object;
             return contains(item.getReviewId());
         } catch (ClassCastException e) {
             return false;
@@ -42,12 +42,12 @@ public class GvDataRefList<T extends GvDataRef<?, ?>> extends GvDataListImpl<T> 
     }
 
     @Override
-    public boolean add(T size) {
+    public boolean add(Reference size) {
         return !contains(size.getReviewId()) && add(size);
     }
 
     private boolean contains(ReviewId id) {
-        for (T review : this) {
+        for (Reference review : this) {
             if (review.getReviewId().equals(id)) return true;
         }
 

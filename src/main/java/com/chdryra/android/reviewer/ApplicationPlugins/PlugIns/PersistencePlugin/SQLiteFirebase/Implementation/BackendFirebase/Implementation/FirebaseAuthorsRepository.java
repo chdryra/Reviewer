@@ -27,8 +27,8 @@ public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
     private FbAuthorsReviews mStructure;
 
     public FirebaseAuthorsRepository(Firebase dataBase,
-                                     ConverterEntry entryConverter,
                                      FbAuthorsReviews structure,
+                                     SnapshotConverter<ReviewListEntry> entryConverter,
                                      FactoryFbReference referencer) {
         super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;

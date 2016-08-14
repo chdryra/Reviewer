@@ -10,22 +10,20 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,11 +76,11 @@ public class FactoryEditActions {
                         new ParcelablePacker<GvTag>()));
     }
 
-    public <T extends GvData> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
+    public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
         return getFactory(dataType).newActions();
     }
 
-    private <T extends GvData> FactoryEditActionsDefault<T> getFactory(GvDataType<T> dataType) {
+    private <T extends GvDataParcelable> FactoryEditActionsDefault<T> getFactory(GvDataType<T> dataType) {
         //TODO make type safe
         FactoryEditActionsDefault<T> factory = (FactoryEditActionsDefault<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
@@ -93,7 +91,7 @@ public class FactoryEditActions {
         return factory;
     }
 
-    private <T extends GvData> void addFactory(GvDataType<T> dataType, FactoryEditActionsDefault<T> factory) {
+    private <T extends GvDataParcelable> void addFactory(GvDataType<T> dataType, FactoryEditActionsDefault<T> factory) {
         mFactoriesMap.put(dataType, factory);
     }
 }

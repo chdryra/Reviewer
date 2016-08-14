@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
@@ -27,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapterBasic<T>
+public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewViewAdapterBasic<T>
     implements DataBuilderAdapter<T> {
 
     private final ReviewBuilderAdapter mParentBuilder;

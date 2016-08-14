@@ -44,7 +44,7 @@ public class FactoryApplicationContext {
 
         DeviceContext deviceContext = new ReleaseDeviceContext(context);
 
-        ModelContext modelContext = new ReleaseModelContext(validator);
+        ModelContext modelContext = new ReleaseModelContext();
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 

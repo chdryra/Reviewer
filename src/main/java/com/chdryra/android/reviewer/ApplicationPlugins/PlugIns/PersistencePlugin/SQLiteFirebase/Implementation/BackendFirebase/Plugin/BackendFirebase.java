@@ -65,7 +65,7 @@ public class BackendFirebase implements Backend {
                 = new BackendReviewConverter(beValidator,
                 model.getReviewsFactory(), model.getTagsManager());
 
-        FactoryFbReference referencer = new FactoryFbReference(new BackendDataConverter(), reviewConverter, model.getReviewsFactory(), cache);
+        FactoryFbReference referencer = new FactoryFbReference(new BackendDataConverter(), reviewConverter, cache);
 
         ConverterEntry entryConverter = new ConverterEntry();
         FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, entryConverter, referencer);

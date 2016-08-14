@@ -14,11 +14,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -73,10 +75,10 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     @Override
     public void getCover(final CoverCallback callback) {
-        mNode.getData(new ReviewReference.CoverCallback() {
+        mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
             @Override
-            public void onCover(DataImage cover, CallbackMessage message) {
-                if(!message.isError()) callback.onAdapterCover(mCoversConverter.convert(cover));
+            public void onDereferenced(@Nullable DataImage data, CallbackMessage message) {
+                if(!message.isError()) callback.onAdapterCover(mCoversConverter.convert(data));
             }
         });
     }

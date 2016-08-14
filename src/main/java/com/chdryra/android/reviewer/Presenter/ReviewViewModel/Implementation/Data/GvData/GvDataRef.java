@@ -17,9 +17,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -75,8 +78,8 @@ public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType
     }
 
     @NonNull
-    protected static GvDataType<GvDataRef> getType(GvDataType<?> type) {
-        return new GvDataType<>(GvDataRef.class, type.getDatumName(), type.getDataName());
+    protected static <T extends GvData> GvDataType<T> getType(Class<T> refClass, GvDataType<?> type) {
+        return new GvDataType<>(refClass, type.getDatumName(), type.getDataName());
     }
 
     public ReviewItemReference<ValueType> getReference() {

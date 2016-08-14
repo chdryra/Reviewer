@@ -18,8 +18,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
@@ -33,21 +31,15 @@ public class GvDataAggregator {
     private final DataAggregatorsApi mAggregators;
     private final DataAggregatorParams mParams;
     private final ConverterGv mConverter;
-    private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryNodeTraverser mTraverserFactory;
 
     public enum CriterionAggregation {SUBJECT, SUBJECT_RATING}
 
     public GvDataAggregator(DataAggregatorsApi aggregators,
                             DataAggregatorParams params,
-                            ConverterGv converter,
-                            FactoryVisitorReviewNode visitorFactory,
-                            FactoryNodeTraverser traverserFactory) {
+                            ConverterGv converter) {
         mAggregators = aggregators;
         mParams = params;
         mConverter = converter;
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
     }
 //
 //    public GvCanonicalCollection<GvAuthor> aggregateAuthors(ReviewNode root) {

@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -48,6 +49,11 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
             throw new IllegalArgumentException("Data must have size!");
         }
         mData = data;
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new GvSize(getGvReviewId(), mType, size());
     }
 
     @Override

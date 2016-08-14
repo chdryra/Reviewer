@@ -9,14 +9,12 @@
 package com.chdryra.android.reviewer.Model;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ModelContextBasic;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,18 +22,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseModelContext extends ModelContextBasic {
-
-    public ReleaseModelContext(DataValidator validator) {
+    public ReleaseModelContext() {
         setTagsManager(new FactoryTagsManager().newTagsManager());
 
-        setVisitorsFactory(new FactoryVisitorReviewNode());
-
-        setTreeTraversersFactory(new FactoryNodeTraverser());
-
-        ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        setBindersFactory(new FactoryBinders());
-        FactoryReviews reviews = new FactoryReviews(converter, getBindersFactory(),
-                getVisitorsFactory(), getNodeTraversersFactory());
+        FactoryReviews reviews = new FactoryReviews(new FactoryMdConverter().newMdConverter(),
+                new FactoryMdReference(new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
         setReviewsFactory(reviews);
     }
 }

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataBuilderAdapter<T extends GvData> extends ReviewViewAdapter<T>{
+public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewViewAdapter<T>{
     ReviewBuilderAdapter<?> getParentBuilder();
 
     boolean isRatingAverage();

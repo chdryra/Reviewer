@@ -11,6 +11,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
+
+
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -41,6 +45,11 @@ public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T
     @Override
     public int size() {
         return mData.size();
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new DatumSize(getReviewId(), size());
     }
 
     @Override

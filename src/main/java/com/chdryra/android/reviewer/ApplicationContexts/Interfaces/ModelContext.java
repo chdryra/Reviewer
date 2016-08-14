@@ -8,10 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -23,10 +20,4 @@ public interface ModelContext {
     TagsManager getTagsManager();
 
     FactoryReviews getReviewsFactory();
-
-    FactoryVisitorReviewNode getVisitorsFactory();
-
-    FactoryNodeTraverser getNodeTraversersFactory();
-
-    FactoryBinders getBindersFactory();
 }

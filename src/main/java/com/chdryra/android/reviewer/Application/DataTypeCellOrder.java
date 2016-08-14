@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Application;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -17,7 +19,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
@@ -31,7 +34,7 @@ import java.util.List;
  */
 public class DataTypeCellOrder {
     public static class ReviewOrder {
-        public static final List<GvDataType<?>> ORDER = new ArrayList<>();
+        public static final List<GvDataType<? extends GvDataParcelable>> ORDER = new ArrayList<>();
         static {
             ORDER.add(GvTag.TYPE);
             ORDER.add(GvCriterion.TYPE);
@@ -43,7 +46,7 @@ public class DataTypeCellOrder {
     }
 
     public static class MetaOrder {
-        public static final List<GvDataType<?>> ORDER = new ArrayList<>();
+        public static final List<GvDataType<? extends GvData>> ORDER = new ArrayList<>();
         static {
             ORDER.add(GvReviewRef.TYPE);
             ORDER.add(GvAuthor.TYPE);

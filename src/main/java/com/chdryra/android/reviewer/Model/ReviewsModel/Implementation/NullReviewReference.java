@@ -22,14 +22,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
@@ -38,76 +36,43 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullReviewReference extends NullDataReference<Review> implements ReviewReference {
+    
     @Override
-    public ReviewNode asNode() {
-        return null;
+    public ReviewItemReference<DataImage> getCover() {
+        return new NullDataReference.Item<>();
     }
 
     @Override
-    public DataReference<DataImage> getCover() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataCriterion> getCriteria() {
+        return new NullDataReference.List<>();
     }
 
     @Override
-    public DataReference<IdableList<DataCriterion>> getCriteria() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataComment> getComments() {
+        return new NullDataReference.List<>();
     }
 
     @Override
-    public DataReference<IdableList<DataComment>> getComments() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataFact> getFacts() {
+        return new NullDataReference.List<>();
     }
 
     @Override
-    public DataReference<IdableList<DataFact>> getFacts() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataImage> getImages() {
+        return new NullDataReference.List<>();
     }
 
     @Override
-    public DataReference<IdableList<DataImage>> getImages() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataLocation> getLocations() {
+        return new NullDataReference.List<>();
     }
 
     @Override
-    public DataReference<IdableList<DataLocation>> getLocations() {
-        return new NullDataReference<>();
+    public ReviewListReference<DataTag> getTags() {
+        return new NullDataReference.List<>();
     }
 
-    @Override
-    public DataReference<IdableList<DataTag>> getTags() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getCriteriaSize() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getCommentsSize() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getFactsSize() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getImagesSize() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getLocationsSize() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<DataSize> getTagsSize() {
-        return new NullDataReference<>();
-    }
-
+    
     @Override
     public DataSubject getSubject() {
         return new DatumSubject();

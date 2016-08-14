@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
+public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewViewDefault<T>
         implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;

@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEdit;
@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsDefault<T extends GvData> {
+public class FactoryEditActionsDefault<T extends GvDataParcelable> {
     private Context mContext;
     private GvDataType<T> mDataType;
     private ConfigUi mConfig;

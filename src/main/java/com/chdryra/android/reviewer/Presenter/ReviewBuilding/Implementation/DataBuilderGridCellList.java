@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
@@ -24,8 +24,8 @@ public class DataBuilderGridCellList extends GvDataListImpl<DataBuilderGridCell>
         super(DataBuilderGridCell.TYPE, null);
     }
 
-    <T extends GvData> void addNewGridCell(DataBuilderAdapter<T> dataAdapter,
-                FactoryVhDataCollection viewHolderFactory) {
+    <T extends GvDataParcelable> void addNewGridCell(DataBuilderAdapter<T> dataAdapter,
+                                                     FactoryVhDataCollection viewHolderFactory) {
         add(new DataBuilderGridCell<>(dataAdapter, viewHolderFactory));
     }
 

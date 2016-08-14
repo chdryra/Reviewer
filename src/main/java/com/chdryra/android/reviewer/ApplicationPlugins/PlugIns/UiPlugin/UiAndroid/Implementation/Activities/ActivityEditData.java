@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataEditPresenter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;
@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 19/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditData<T extends GvData> extends ActivityReviewView implements
+public class ActivityEditData<T extends GvDataParcelable> extends ActivityReviewView implements
         AlertListener,
         DataEditListener<T>,
         DataAddListener<T> {
@@ -53,7 +53,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     }
 
-    public static <T extends GvData> void start(Activity launcher, GvDataType<T> dataType) {
+    public static <T extends GvDataParcelable> void start(Activity launcher, GvDataType<T> dataType) {
         //Because activity is typed and want class info at runtime to start activity
         ActivityEditData<T> dummy = new ActivityEditData<>(dataType);
         Intent i = new Intent(launcher, dummy.getClass());

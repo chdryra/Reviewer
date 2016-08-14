@@ -9,10 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -23,28 +20,13 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mFactoryReviews;
     private TagsManager mTagsManager;
-    private FactoryVisitorReviewNode mVisitorsFactory;
-    private FactoryNodeTraverser mTreeTraversersFactory;
-    private FactoryBinders mBindersFactory;
 
     public void setTagsManager(TagsManager tagsManager) {
         mTagsManager = tagsManager;
     }
 
-    public void setVisitorsFactory(FactoryVisitorReviewNode visitorsFactory) {
-        mVisitorsFactory = visitorsFactory;
-    }
-
-    public void setTreeTraversersFactory(FactoryNodeTraverser treeTraversersFactory) {
-        mTreeTraversersFactory = treeTraversersFactory;
-    }
-
     public void setReviewsFactory(FactoryReviews factoryReviews) {
         mFactoryReviews = factoryReviews;
-    }
-
-    public void setBindersFactory(FactoryBinders bindersFactory) {
-        mBindersFactory = bindersFactory;
     }
 
     @Override
@@ -53,22 +35,7 @@ public abstract class ModelContextBasic implements ModelContext {
     }
 
     @Override
-    public FactoryVisitorReviewNode getVisitorsFactory() {
-        return mVisitorsFactory;
-    }
-
-    @Override
-    public FactoryNodeTraverser getNodeTraversersFactory() {
-        return mTreeTraversersFactory;
-    }
-
-    @Override
     public TagsManager getTagsManager() {
         return mTagsManager;
-    }
-
-    @Override
-    public FactoryBinders getBindersFactory() {
-        return mBindersFactory;
     }
 }

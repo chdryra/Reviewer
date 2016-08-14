@@ -14,8 +14,8 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 09/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonAdd<T extends GvData> extends LaunchAndAlertableAction<T> implements
+public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAction<T> implements
         BannerButtonAction<T>, DataAddListener<T>, ActivityResultListener {
     private static final String TAG = "BannerButtonAdd:";
 

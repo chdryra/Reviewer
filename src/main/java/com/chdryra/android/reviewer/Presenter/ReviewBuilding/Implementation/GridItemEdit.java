@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEdit<T extends GvData> extends LaunchAndAlertableAction<T> implements
+public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertableAction<T> implements
         GridItemAction<T>, DataEditListener<T>, ActivityResultListener {
     private static final String TAG = "GridItemEdit:";
 

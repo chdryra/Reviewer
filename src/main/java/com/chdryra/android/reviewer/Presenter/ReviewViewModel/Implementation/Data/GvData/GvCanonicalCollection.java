@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
@@ -53,6 +55,11 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
 
     public boolean addCanonnical(GvCanonical<T> canonical) {
         return mData.add(canonical);
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new GvSize(getGvReviewId(), mType, size());
     }
 
     @Override

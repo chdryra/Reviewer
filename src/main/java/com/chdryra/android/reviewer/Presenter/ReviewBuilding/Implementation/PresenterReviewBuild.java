@@ -19,20 +19,18 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -45,7 +43,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewBuild<GC extends GvDataList<?>> implements
+public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelable>> implements
         ImageChooser.ImageChooserListener,
         LocationClientConnector.Locatable,
         ReviewViewActions.ReviewViewAttachedObserver,
@@ -118,8 +116,8 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         return getAdderConfig(GvImage.TYPE).getRequestCode();
     }
 
-    private void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
-        GvDataType<? extends GvData> type = gridCell.getGvDataType();
+    private void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
+        GvDataType<? extends GvDataParcelable> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
         } else {
@@ -199,7 +197,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return buildPresenter(adapter);
         }
 
-        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter
+        private <GC extends GvDataList<? extends GvDataParcelable>> PresenterReviewBuild<GC> buildPresenter
                 (ReviewBuilderAdapter<GC> adapter) {
             ReviewEditor<GC> editor = newEditor(adapter,
                     mApp.getConfigUi().getShareReview(), mEditorFactory);
@@ -207,7 +205,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return new PresenterReviewBuild<>(mApp, editor);
         }
 
-        private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC>
+        private <GC extends GvDataList<? extends GvDataParcelable>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC>
                                                                               builder,
                                                                       LaunchableConfig
                                                                               shareScreenUi,

@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
@@ -36,9 +37,9 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewViewAdapterBasic<GC>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypes.BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES = GvDataTypes.BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
     private final BuildScreenGridUi<GC> mGridUi;
@@ -93,7 +94,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
     }
 
     @Override
-    public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
+    public <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
     }
 
@@ -169,19 +170,19 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
 
         private DataBuildersMap() {
             mDataBuilders = new HashMap<>();
-            for (GvDataType<? extends GvData> type : TYPES) {
+            for (GvDataType<? extends GvDataParcelable> type : TYPES) {
                 mDataBuilders.put(type, newDataBuilderAdapter(type));
             }
         }
 
-        private <T extends GvData> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T>
+        private <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T>
                                                                                        dataType) {
             return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType,
                     ReviewBuilderAdapterImpl.this);
         }
 
         //TODO make type safe although it is really....
-        private <T extends GvData> DataBuilderAdapter<T> get(GvDataType<T> type) {
+        private <T extends GvDataParcelable> DataBuilderAdapter<T> get(GvDataType<T> type) {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
         }
     }

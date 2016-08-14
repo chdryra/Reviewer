@@ -12,18 +12,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewDataEditImpl<T extends GvData> implements PresenterReviewDataEdit<T> {
+public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements PresenterReviewDataEdit<T> {
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
     private MenuEdit<T> mMenu;
