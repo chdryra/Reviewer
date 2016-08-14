@@ -213,7 +213,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
         mAppContext.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
-                ReviewNode node = result.getReviewNode();
+                ReviewNode node = result.getReviewTree();
                 if (!result.isError() && node != null) launchReview(node);
             }
         });

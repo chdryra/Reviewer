@@ -27,7 +27,7 @@ public class ReviewTreeSourceCallback extends ReviewTree
 
     @Override
     public void onMetaReviewCallback(RepositoryResult result) {
-        ReviewNodeComponent node = result.getReviewNode();
+        ReviewNodeComponent node = result.getReviewTree();
         if (!result.isError() && node != null) {
             setNode(node);
         }

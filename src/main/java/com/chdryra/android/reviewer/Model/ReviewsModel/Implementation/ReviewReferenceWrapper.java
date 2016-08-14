@@ -110,11 +110,10 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
         for(ItemTag tag : mTagsManager.getTags(getReviewId().toString())) {
             tags.add(new DatumTag(getReviewId(), tag.getTag()));
         }
-        return newWrapper(tags);
+        return mReferenceFactory.newWrapper(tags);
     }
 
-    private <T extends HasReviewId> ReviewListReference<T> newWrapper(IdableList<? extends T>
-                                                                              data) {
-        return mReferenceFactory.newSuperClassWrapper(getReviewId(), data);
+    private <T extends HasReviewId> ReviewListReference<T> newWrapper(IdableList<? extends T> data) {
+        return mReferenceFactory.newSuperClassWrapper(data);
     }
 }

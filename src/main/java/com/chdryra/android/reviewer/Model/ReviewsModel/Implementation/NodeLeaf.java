@@ -200,6 +200,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     @NonNull
     private <T extends HasReviewId> ReviewListReference<T> newEmptyReference() {
         IdableList<T> data = new IdableDataList<>(mReview.getReviewId());
-        return new StaticListReference<>(mReview.getReviewId(), data);
+        return new StaticListReference<>(data);
     }
 }

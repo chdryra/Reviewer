@@ -86,6 +86,7 @@ public class ReviewerDbRepository implements LocalRepository {
 
     @Override
     public TagsManager getTagsManager() {
+        if(!mTagsLoaded) loadTagsIfNecessary();
         return mTagsManager;
     }
 
@@ -232,6 +233,12 @@ public class ReviewerDbRepository implements LocalRepository {
 
     private ReviewReference newReference(RowReview review) {
         return mReferenceFactory.newReference(review, this);
+    }
+
+    private void loadTagsIfNecessary() {
+        TableTransactor transactor = mDatabase.beginReadTransaction();
+        loadTagsIfNecessary(transactor);
+        mDatabase.endTransaction(transactor);
     }
 
     private void loadTagsIfNecessary(TableTransactor transactor) {

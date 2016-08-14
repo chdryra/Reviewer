@@ -109,7 +109,7 @@ public class ReviewsSourceImplTest {
 
     private ReviewNode getNode(RepositoryResult result) {
         assertThat(result.isError(), is(false));
-        ReviewNode node = result.getReviewNode();
+        ReviewNode node = result.getReviewTree();
         assertThat(node, not(nullValue()));
         return node;
     }

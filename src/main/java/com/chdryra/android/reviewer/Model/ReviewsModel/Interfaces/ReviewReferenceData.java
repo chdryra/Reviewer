@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewReferenceData extends DataReviewInfo {
+    //Can't do ReviewItemReference<? extends DataImage> etc. as I want to dereference to known class
     ReviewItemReference<DataImage> getCover();
 
     ReviewListReference<DataCriterion> getCriteria();

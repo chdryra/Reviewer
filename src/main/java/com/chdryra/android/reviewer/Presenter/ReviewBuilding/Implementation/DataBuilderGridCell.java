@@ -8,16 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -26,20 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderGridCell<T extends GvData> extends GvDataListParcelable<T>
+public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
         implements DataObservable.DataObserver {
-
-    public static final Parcelable.Creator<DataBuilderGridCell> CREATOR = new Parcelable.Creator<DataBuilderGridCell>() {
-        @Override
-        public DataBuilderGridCell createFromParcel(Parcel in) {
-            return new DataBuilderGridCell(in);
-        }
-
-        @Override
-        public DataBuilderGridCell[] newArray(int size) {
-            return new DataBuilderGridCell[size];
-        }
-    };
 
     public static final GvDataType<DataBuilderGridCell> TYPE =
             new GvDataType<>(DataBuilderGridCell.class, "create", "create");
@@ -54,10 +39,6 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListParcelable<
         mViewHolderFactory = viewHolderFactory;
         mDataAdapter.registerObserver(this);
         onDataChanged();
-    }
-
-    private DataBuilderGridCell(Parcel in) {
-        super(in);
     }
 
     @Override

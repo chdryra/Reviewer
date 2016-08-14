@@ -56,16 +56,14 @@ public class FactoryMdReference {
         return new StaticItemReference<>(id, datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newWrapper(ReviewId id,
-                                                                     IdableList<T> data) {
-        return new StaticListReference<>(id, data);
+    public <T extends HasReviewId> ReviewListReference<T> newWrapper(IdableList<T> data) {
+        return new StaticListReference<>(data);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newSuperClassWrapper(ReviewId id,
-                                                                               IdableList<? extends T> data) {
+    public <T extends HasReviewId> ReviewListReference<T> newSuperClassWrapper(IdableList<? extends T> data) {
         IdableList<T> list = new IdableDataList<>(data.getReviewId());
         list.addAll(data);
-        return new StaticListReference<>(id, list);
+        return new StaticListReference<>(list);
     }
 
     public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeItemReferences<T>

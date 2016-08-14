@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
@@ -23,12 +24,15 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  */
 public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
     private ReferencesRepository mRepo;
+    private FactoryReviewNode mNodeFactory;
 
     public ReviewNodeRepo(DataReviewInfo meta,
                           ReferencesRepository repo,
+                          FactoryMdReference referenceFactory,
                           FactoryReviewNode nodeFactory) {
-        super(meta, nodeFactory);
+        super(meta, referenceFactory);
         mRepo = repo;
+        mNodeFactory = nodeFactory;
         mRepo.bind(this);
     }
 
@@ -53,7 +57,7 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
     }
 
     private void addChild(ReviewReference review) {
-        addChild(getNodeFactory().createLeafNode(review));
+        addChild(mNodeFactory.createLeafNode(review));
     }
 
     public void detachFromRepo() {

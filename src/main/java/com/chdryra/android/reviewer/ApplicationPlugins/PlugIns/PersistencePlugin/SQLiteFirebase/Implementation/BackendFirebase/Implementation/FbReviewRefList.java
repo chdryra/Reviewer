@@ -54,19 +54,19 @@ public class FbReviewRefList<T extends HasReviewId> extends FbRefListData<T, Ida
 
     @Override
     public void toItemReferences(final ItemReferencesCallback<T> callback) {
+        final ReviewId id = getReviewId();
+        final IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(id);
         mSizeReference.dereference(new DereferenceCallback<DataSize>() {
             @Override
             public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
                 if(data != null && !message.isError()) {
-                    ReviewId id = getReviewId();
-                    IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(id);
                     for(int i = 0; i < data.getSize(); ++i) {
                         Firebase child = getReference().child(String.valueOf(i));
                         refs.add(new FbReviewRefItem<>(id, child, getItemConverter()));
                     }
-
-                    callback.onItemReferences(refs);
                 }
+
+                callback.onItemReferences(refs);
             }
         });
     }

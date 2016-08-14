@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -37,6 +39,11 @@ public class AggregatedListImpl<T extends HasReviewId>
     @Override
     public int size() {
         return mData.size();
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new DatumSize(getReviewId(), size());
     }
 
     @Override

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -27,5 +29,10 @@ public class MdDataList<T extends HasReviewId> extends MdDataCollection<T> imple
     @Override
     public ReviewId getReviewId() {
         return mReviewId;
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new DatumSize(getReviewId(), size());
     }
 }

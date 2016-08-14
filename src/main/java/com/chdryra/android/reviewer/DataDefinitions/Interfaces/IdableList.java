@@ -16,4 +16,6 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 public interface IdableList<T extends HasReviewId> extends IdableCollection<T>, HasReviewId {
     @Override
     ReviewId getReviewId();
+
+    DataSize getDataSize();
 }

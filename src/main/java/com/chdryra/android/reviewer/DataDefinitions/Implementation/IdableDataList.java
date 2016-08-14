@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -28,5 +29,10 @@ public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<
     @Override
     public ReviewId getReviewId() {
         return mReviewId;
+    }
+
+    @Override
+    public DataSize getDataSize() {
+        return new DatumSize(getReviewId(), size());
     }
 }

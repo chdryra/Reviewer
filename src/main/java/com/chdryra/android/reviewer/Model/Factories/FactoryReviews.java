@@ -119,7 +119,7 @@ public class FactoryReviews implements ReviewMaker {
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
                 new DatumDate(stamp, stamp.getDate().getTime()));
-        return new ReviewNodeRepo(info, repo, getNodeFactory());
+        return new ReviewNodeRepo(info, repo, mReferenceFactory, getNodeFactory());
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {
