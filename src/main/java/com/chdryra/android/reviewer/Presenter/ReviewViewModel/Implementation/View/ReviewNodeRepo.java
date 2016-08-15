@@ -48,7 +48,8 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
 
     @Override
     public void onReviewEdited(ReviewReference reference) {
-
+        removeChild(reference.getReviewId());
+        addChild(reference);
     }
 
     @Override

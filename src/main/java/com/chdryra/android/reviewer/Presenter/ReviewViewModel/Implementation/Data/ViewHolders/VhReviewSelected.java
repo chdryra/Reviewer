@@ -101,6 +101,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getLocations().unbindFromValue(mLocationsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
+        mSelector.unregister(mNodeId);
     }
 
     @Override

@@ -87,7 +87,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
             public void onRepositoryCallback(RepositoryResult result) {
                 if (!result.isError()) {
                     Collection<ReviewReference> reviews = result.getReferences();
-                    ReviewNode meta = mReviewFactory.createMetaTree(reviews, subject);
+                    ReviewNode meta = mReviewFactory.createTree(reviews, subject);
                     result = new RepositoryResult(meta, result.getMessage());
                 }
 
@@ -139,7 +139,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 if(result.isError() || review == null) {
                     repoResult = result;
                 } else {
-                    ReviewNodeComponent node = mReviewFactory.createMetaTree(review);
+                    ReviewNodeComponent node = mReviewFactory.createTree(review);
                     repoResult = new RepositoryResult(node, result.getMessage());
                 }
 

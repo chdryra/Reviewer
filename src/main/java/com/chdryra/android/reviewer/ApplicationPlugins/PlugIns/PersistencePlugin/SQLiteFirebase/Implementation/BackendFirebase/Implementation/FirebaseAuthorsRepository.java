@@ -40,16 +40,16 @@ public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
 
     @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(getDataBase(), toReviewId(entry));
+        return mStructure.getAggregatesDb(getDataBase(), getReviewId(entry));
     }
 
     @Override
     protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(getDataBase(), toReviewId(entry));
+        return mStructure.getReviewDb(getDataBase(), getReviewId(entry));
     }
 
     @NonNull
-    private DatumReviewId toReviewId(ReviewListEntry entry) {
+    private DatumReviewId getReviewId(ReviewListEntry entry) {
         return new DatumReviewId(entry.getReviewId());
     }
 }

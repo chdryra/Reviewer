@@ -8,11 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-
-import java.util.Date;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +28,6 @@ public class AuthorsStamp {
     }
 
     public ReviewStamp newStamp() {
-        return ReviewStamp.newStamp(mAuthor.getAuthorId(), new PublishDate(new Date().getTime()));
+        return ReviewStamp.newStamp(mAuthor.getAuthorId());
     }
 }

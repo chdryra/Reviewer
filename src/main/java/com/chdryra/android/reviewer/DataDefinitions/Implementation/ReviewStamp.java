@@ -45,6 +45,10 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         return new ReviewStamp(authorId, date);
     }
 
+    public static ReviewStamp newStamp(AuthorId authorId){
+        return new ReviewStamp(authorId, new PublishDate(new Date().getTime()));
+    }
+
     public static ReviewStamp noStamp(){
         return new ReviewStamp();
     }

@@ -100,11 +100,11 @@ public class FactoryReviews implements ReviewMaker {
                 images, facts, locations, ratingIsAverage);
     }
 
-    public ReviewNodeComponent createMetaTree(ReviewReference review) {
+    public ReviewNodeComponent createTree(ReviewReference review) {
         return mNodeFactory.createMetaTree(review);
     }
 
-    public ReviewNodeComponent createMetaTree(Iterable<ReviewReference> reviews, String subject) {
+    public ReviewNodeComponent createTree(Iterable<ReviewReference> reviews, String subject) {
         return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews);
     }
 
@@ -112,8 +112,7 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNodeRepo createMetaReview(ReferencesRepository repo, String title) {
-        ReviewStamp stamp = newStamp();
+    public ReviewNodeRepo createTree(ReferencesRepository repo, String title, ReviewStamp stamp) {
         DataReviewInfo info = new ReviewInfo(stamp,
                 new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1),

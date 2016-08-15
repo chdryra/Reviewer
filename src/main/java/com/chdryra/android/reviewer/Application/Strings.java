@@ -67,4 +67,6 @@ public class Strings {
             public static final String NAME_IMAGE_LOCATION = "name image location";
         }
     }
+
+    public static final String LOADING = "loading...";
 }

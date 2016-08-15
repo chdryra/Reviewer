@@ -37,7 +37,7 @@ public class ReviewTreeFlat extends ReviewTree
     @Override
     public void onDereferenced(@Nullable IdableList<ReviewReference> data, CallbackMessage message) {
         if(!message.isError() && data != null) {
-            setNode(mReviewsFactory.createMetaTree(data, getSubject().getSubject()));
+            setNode(mReviewsFactory.createTree(data, getSubject().getSubject()));
         }
     }
 }
