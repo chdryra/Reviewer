@@ -37,7 +37,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
+public abstract class FbReferencesRepositoryBasic implements ReferencesRepository{
 
     private Firebase mDataBase;
     private SnapshotConverter<ReviewListEntry> mEntryConverter;
@@ -49,8 +49,8 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    public FirebaseRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry> entryConverter,
-                                   FbReviewsStructure structure, FactoryFbReference referencer) {
+    public FbReferencesRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry> entryConverter,
+                                       FbReviewsStructure structure, FactoryFbReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;

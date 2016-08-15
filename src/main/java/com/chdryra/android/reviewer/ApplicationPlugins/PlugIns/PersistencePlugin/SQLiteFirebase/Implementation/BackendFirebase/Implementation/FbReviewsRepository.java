@@ -30,16 +30,16 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseReviewsRepository extends FirebaseRepositoryBasic implements
+public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
         ReviewsRepository {
     private FactoryAuthorsDb mAuthorsDbFactory;
     private FbReviews mStructure;
 
-    public FirebaseReviewsRepository(Firebase dataBase,
-                                     ConverterEntry entryConverter,
-                                     FbReviews structure,
-                                     FactoryFbReference referencer,
-                                     FactoryAuthorsDb authorsDbFactory) {
+    public FbReviewsRepository(Firebase dataBase,
+                               FbReviews structure,
+                               ConverterEntry entryConverter,
+                               FactoryFbReference referencer,
+                               FactoryAuthorsDb authorsDbFactory) {
         super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;

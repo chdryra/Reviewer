@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ public class RepositoryResult {
     private AuthorId mAuthorId;
     private Review mReview;
     private ReviewNode mNode;
-    private ReviewNodeComponent mTree;
     private ReviewId mId;
     private ReviewReference mReference;
     private Collection<Review> mReviews = new ArrayList<>();
@@ -76,12 +74,6 @@ public class RepositoryResult {
         mMessage = message;
     }
 
-    public RepositoryResult(ReviewNodeComponent tree, CallbackMessage message) {
-        mTree = tree;
-        mId = tree != null ? tree.getReviewId() : null;
-        mMessage = message;
-    }
-
     public RepositoryResult(ReviewNode node, CallbackMessage message) {
         mNode = node;
         mId = node != null ? node.getReviewId() : null;
@@ -99,8 +91,8 @@ public class RepositoryResult {
     }
 
     @Nullable
-    public ReviewNodeComponent getReviewTree() {
-        return mTree;
+    public ReviewNode getReviewNode() {
+        return mNode;
     }
 
     public Collection<Review> getReviews() {

@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -27,7 +28,7 @@ public class ReviewTreeSourceCallback extends ReviewTree
 
     @Override
     public void onMetaReviewCallback(RepositoryResult result) {
-        ReviewNodeComponent node = result.getReviewTree();
+        ReviewNode node = result.getReviewNode();
         if (!result.isError() && node != null) {
             setNode(node);
         }

@@ -23,13 +23,13 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
+public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
     private FbAuthorsReviews mStructure;
 
-    public FirebaseAuthorsRepository(Firebase dataBase,
-                                     FbAuthorsReviews structure,
-                                     SnapshotConverter<ReviewListEntry> entryConverter,
-                                     FactoryFbReference referencer) {
+    public FbAuthorsRefsRepo(Firebase dataBase,
+                             FbAuthorsReviews structure,
+                             SnapshotConverter<ReviewListEntry> entryConverter,
+                             FactoryFbReference referencer) {
         super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;
     }

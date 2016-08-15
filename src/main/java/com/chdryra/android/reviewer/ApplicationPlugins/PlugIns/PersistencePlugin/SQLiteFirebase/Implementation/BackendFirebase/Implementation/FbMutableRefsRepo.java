@@ -40,16 +40,16 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseMutableRepository extends FirebaseAuthorsRepository implements MutableRepository {
+public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepository {
     private BackendReviewConverter mConverter;
     private BackendValidator mValidator;
 
-    public FirebaseMutableRepository(Firebase dataBase,
-                                     FbAuthorsReviews structure,
-                                     SnapshotConverter<ReviewListEntry> entryConverter,
-                                     BackendReviewConverter converter,
-                                     BackendValidator validator,
-                                     FactoryFbReference referencer) {
+    public FbMutableRefsRepo(Firebase dataBase,
+                             FbAuthorsReviews structure,
+                             SnapshotConverter<ReviewListEntry> entryConverter,
+                             BackendReviewConverter converter,
+                             BackendValidator validator,
+                             FactoryFbReference referencer) {
         super(dataBase, structure, entryConverter, referencer);
         mConverter = converter;
         mValidator = validator;

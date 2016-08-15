@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbStructUsersLed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewsRepository;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsRepository;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseUserAccounts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
@@ -69,7 +69,7 @@ public class BackendFirebase implements Backend {
 
         ConverterEntry entryConverter = new ConverterEntry();
         FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, entryConverter, referencer);
-        return new FirebaseReviewsRepository(mDatabase, entryConverter, mStructure, referencer, authorsDbFactory);
+        return new FbReviewsRepository(mDatabase, mStructure, entryConverter, referencer, authorsDbFactory);
     }
 
     @Override

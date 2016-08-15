@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
@@ -139,7 +138,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 if(result.isError() || review == null) {
                     repoResult = result;
                 } else {
-                    ReviewNodeComponent node = mReviewFactory.createTree(review);
+                    ReviewNode node = mReviewFactory.createTree(review);
                     repoResult = new RepositoryResult(node, result.getMessage());
                 }
 

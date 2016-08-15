@@ -66,6 +66,7 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
         for(ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }
+        mRepo = null;
     }
 
     @Override

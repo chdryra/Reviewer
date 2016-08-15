@@ -41,11 +41,11 @@ public class FactoryAuthorsDb {
     }
 
     public ReferencesRepository newAuthorReviews(Firebase root, FbAuthorsReviews structure) {
-        return new FirebaseAuthorsRepository(root, structure, mEntryConverter, mReferencer);
+        return new FbAuthorsRefsRepo(root, structure, mEntryConverter, mReferencer);
     }
 
     public MutableRepository newAuthorsDb(Firebase root, FbAuthorsReviews structure) {
-        return new FirebaseMutableRepository(root, structure, mEntryConverter, mReviewConverter,
+        return new FbMutableRefsRepo(root, structure, mEntryConverter, mReviewConverter,
                 mValidator, mReferencer);
     }
 }
