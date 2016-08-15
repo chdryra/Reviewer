@@ -16,27 +16,27 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  *
  * @see AndroidAppInstance
  */
-public class GvReviewRefList extends GvDataListImpl<GvReviewRef> {
-    public GvReviewRefList() {
-        super(GvReviewRef.TYPE, null);
+public class GvNodeList extends GvDataListImpl<GvNode> {
+    public GvNodeList() {
+        super(GvNode.TYPE, null);
     }
 
-    public GvReviewRefList(GvReviewId parentId) {
-        super(GvReviewRef.TYPE, parentId);
+    public GvNodeList(GvReviewId parentId) {
+        super(GvNode.TYPE, parentId);
     }
 
-    public GvReviewRefList(GvReviewRefList data) {
+    public GvNodeList(GvNodeList data) {
         super(data);
     }
 
     public void unbind() {
-        for(GvReviewRef reference : this) {
+        for(GvNode reference : this) {
             reference.unbind();
         }
     }
 
     private boolean contains(ReviewId id) {
-        for (GvReviewRef review : this) {
+        for (GvNode review : this) {
             if (review.getReviewId().equals(id)) return true;
         }
 
@@ -44,14 +44,14 @@ public class GvReviewRefList extends GvDataListImpl<GvReviewRef> {
     }
 
     @Override
-    public boolean add(GvReviewRef overview) {
+    public boolean add(GvNode overview) {
         return !contains(overview.getReviewId()) && super.add(overview);
     }
 
     @Override
     public boolean contains(Object object) {
         try {
-            GvReviewRef item = (GvReviewRef) object;
+            GvNode item = (GvNode) object;
             return contains(item.getReviewId());
         } catch (ClassCastException e) {
             return false;

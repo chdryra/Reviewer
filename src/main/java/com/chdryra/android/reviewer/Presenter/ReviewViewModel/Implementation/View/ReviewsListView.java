@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -23,10 +23,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsListView extends ReviewViewDefault<GvReviewRef>{
+public class ReviewsListView extends ReviewViewDefault<GvNode>{
     private ReviewNode mNode;
 
-    public ReviewsListView(ReviewNode node, ReviewViewPerspective<GvReviewRef> perspective) {
+    public ReviewsListView(ReviewNode node, ReviewViewPerspective<GvNode> perspective) {
         super(perspective);
         mNode = node;
     }
@@ -40,12 +40,12 @@ public class ReviewsListView extends ReviewViewDefault<GvReviewRef>{
         launcher.launch(this);
     }
 
-    public static class Actions extends ReviewViewActions<GvReviewRef> {
-        public Actions(SubjectAction<GvReviewRef> subjectAction,
-                       RatingBarAction<GvReviewRef> ratingBarAction,
-                       BannerButtonAction<GvReviewRef> bannerButtonAction,
+    public static class Actions extends ReviewViewActions<GvNode> {
+        public Actions(SubjectAction<GvNode> subjectAction,
+                       RatingBarAction<GvNode> ratingBarAction,
+                       BannerButtonAction<GvNode> bannerButtonAction,
                        GridItemReviewsList gridItemAction,
-                       MenuAction<GvReviewRef> menuAction) {
+                       MenuAction<GvNode> menuAction) {
             super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
         }
 

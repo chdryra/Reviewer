@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 
@@ -50,7 +49,7 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
     @Override
     protected Map<GvDataType<?>, GvSize.Reference> getDataSizesMap(ReviewNode node) {
         Map<GvDataType<?>, GvSize.Reference> map = super.getDataSizesMap(node);
-        put(map, GvReviewRef.TYPE, node.getReviews().getSize());
+        put(map, GvNode.TYPE, node.getReviews().getSize());
         put(map, GvAuthorId.TYPE, node.getAuthorIds().getSize());
         put(map, GvSubject.TYPE, node.getSubjects().getSize());
         put(map, GvDate.TYPE, node.getDates().getSize());
@@ -62,7 +61,7 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
     @Override
     protected ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
         FactoryReviewViewAdapter factory = getAdapterFactory();
-        if(datum.getSizedType().equals(GvReviewRef.TYPE)) {
+        if(datum.getSizedType().equals(GvNode.TYPE)) {
             return factory.newFlattenedReviewsListAdapter(getReviewNode());
         } else{
             return factory.newTreeDataAdapter(getReviewNode(), datum.getSizedType());

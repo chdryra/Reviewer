@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -50,7 +50,7 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
         return mNode;
     }
 
-    public ReviewView<GvReviewRef> getView() {
+    public ReviewView<GvNode> getView() {
         return mReviewView;
     }
 

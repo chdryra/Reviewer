@@ -17,71 +17,77 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
 
-public class GvReviewRef extends GvDataBasic<GvReviewRef> implements DataReviewInfo {
-    public static final GvDataType<GvReviewRef> TYPE =
-            new GvDataType<>(GvReviewRef.class, "review");
+public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
+    public static final GvDataType<GvNode> TYPE =
+            new GvDataType<>(GvNode.class, "review");
 
-    private ReviewReference mReference;
+    private ReviewNode mNode;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
-    private VhReviewRef mViewHolder;
+    private VhReviewSelected mViewHolder;
 
-    public GvReviewRef() {
-        super(GvReviewRef.TYPE);
+    public GvNode() {
+        super(GvNode.TYPE);
     }
 
-    public GvReviewRef(ReviewReference reference,
-                       GvConverterComments converterComments,
-                       GvConverterLocations converterLocations) {
-        super(GvReviewRef.TYPE, new GvReviewId(reference.getReviewId()));
-        mReference = reference;
+    public GvNode(ReviewNode node,
+                  GvConverterComments converterComments,
+                  GvConverterLocations converterLocations) {
+        super(GvNode.TYPE, new GvReviewId(node.getReviewId()));
+        mNode = node;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
     }
 
-    public ReviewReference getReference() {
-        return mReference;
+    public ReviewNode getNode() {
+        return mNode;
     }
 
     public void unbind() {
-        if(mViewHolder != null && mViewHolder.isBoundTo(mReference)) {
-            mViewHolder.unbindFromReference();
+        if(mViewHolder != null && mViewHolder.isBoundTo(mNode)) {
+            mViewHolder.unbindFromReview();
         }
     }
 
-    public void setViewHolder(VhReviewRef viewHolder) {
+    public void setViewHolder(VhReviewSelected viewHolder) {
         mViewHolder = viewHolder;
     }
 
     @Override
     public DataSubject getSubject() {
-        return mReference.getSubject();
+        return mNode.getSubject();
     }
 
     @Override
     public DataRating getRating() {
-        return mReference.getRating();
+        return mNode.getRating();
     }
 
     @Override
     public DataAuthorId getAuthorId() {
-        return mReference.getAuthorId();
+        return mNode.getAuthorId();
     }
 
     @Override
     public DataDate getPublishDate() {
-        return mReference.getPublishDate();
+        return mNode.getPublishDate();
     }
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewRef(mConverterComments, mConverterLocations);
+        return new VhReviewSelected(new ReviewSelector(new SelectorMostRecent()),
+                mConverterComments, mConverterLocations);
     }
 
     @Override
@@ -91,7 +97,7 @@ public class GvReviewRef extends GvDataBasic<GvReviewRef> implements DataReviewI
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return mReference.isValidReference();
+        return isValidForDisplay();
     }
 
     @Nullable

@@ -36,8 +36,8 @@ public class ConverterGv {
         return new GvConverterReviews(mTagsManager, newConverterImages(), newConverterComments(), newConverterLocations());
     }
 
-    public GvConverterReviewReferences newConverterReviewReferences() {
-        return new GvConverterReviewReferences(newConverterComments(), newConverterLocations());
+    public GvConverterReviewNode newConverterNodes() {
+        return new GvConverterReviewNode(newConverterComments(), newConverterLocations());
     }
 
     public GvConverterComments newConverterComments() {

@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
@@ -99,9 +99,9 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(node);
     }
 
-    public ReviewViewAdapter<GvReviewRef> newChildListAdapter(ReviewNode node) {
-        GridDataWrapper<GvReviewRef> viewer
-                = new ViewerChildList(node, mConverter.newConverterReviewReferences(), this);
+    public ReviewViewAdapter<GvNode> newChildListAdapter(ReviewNode node) {
+        GridDataWrapper<GvNode> viewer
+                = new ViewerChildList(node, mConverter.newConverterNodes(), this);
         return newNodeAdapter(node, viewer);
     }
 
