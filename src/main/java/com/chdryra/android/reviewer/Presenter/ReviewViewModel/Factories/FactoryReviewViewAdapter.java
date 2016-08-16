@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
@@ -55,17 +56,20 @@ public class FactoryReviewViewAdapter {
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregator mAggregator;
     private ConverterGv mConverter;
+    private AuthorsRepository mAuthorsRepository;
     private ReviewsSource mReviewSource;
 
     public FactoryReviewViewAdapter(FactoryReviewView reviewViewFactory,
                                     FactoryReviews reviewsFactory,
                                     GvDataAggregator aggregator,
                                     ReviewsSource reviewsSource,
+                                    AuthorsRepository authorsRepository,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
         mReviewViewFactory = reviewViewFactory;
         mReviewsFactory = reviewsFactory;
         mAggregator = aggregator;
+        mAuthorsRepository = authorsRepository;
         mReviewSource = reviewsSource;
         mConverter = converter;
     }
@@ -101,7 +105,7 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter<GvNode> newChildListAdapter(ReviewNode node) {
         GridDataWrapper<GvNode> viewer
-                = new ViewerChildList(node, mConverter.newConverterNodes(), this);
+                = new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), this);
         return newNodeAdapter(node, viewer);
     }
 

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;

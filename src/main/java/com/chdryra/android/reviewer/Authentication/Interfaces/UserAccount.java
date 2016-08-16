@@ -6,10 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**

@@ -74,11 +74,9 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         return mId != null;
     }
 
-    public String toReadable(){
-        //String author = mAuthorId.getName();
-        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
+    public String toReadableDate(){
+        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
                 (new Date(mDate.getTime()));
-        return date;// + " by " + author;
     }
 
     @Override

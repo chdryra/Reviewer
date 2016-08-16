@@ -24,7 +24,7 @@ public class FactoryGridCellAdapter {
     public FactoryGridCellAdapter() {
     }
 
-    public ViewHolderAdapter newAdapter(Activity activity, GvDataList data, int cellWidth,
+    public ViewHolderAdapter newAdapter(Activity activity, GvDataList<?> data, int cellWidth,
                                                int cellHeight) {
         boolean uniqueViews = data.getGvDataType().equals(GvList.TYPE) ||
                 data.getGvDataType().equals(DataBuilderGridCell.TYPE);

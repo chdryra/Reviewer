@@ -28,11 +28,11 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewRefList<T extends HasReviewId> extends FbRefListData<T, IdableList<T>> implements ReviewListReference<T> {
+public class FbReviewListRef<T extends HasReviewId> extends FbListReference<T, IdableList<T>> implements ReviewListReference<T> {
     private ReviewId mId;
     private ReviewItemReference<DataSize> mSizeReference;
 
-    public FbReviewRefList(ReviewId id,
+    public FbReviewListRef(ReviewId id,
                            Firebase reference,
                            ReviewItemReference<DataSize> sizeReference,
                            SnapshotConverter<IdableList<T>> converter,

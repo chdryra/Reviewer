@@ -102,7 +102,7 @@ public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserv
 
         ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
         String location = getLocationString(mReview);
-        String text = stamp.toReadable() + (validateString(location) ? " @" + location : "");
+        String text = stamp.toReadableDate() + (validateString(location) ? " @" + location : "");
         mPublishDate.setText(text);
 
         ItemTagCollection tags = mTagsManager.getTags(mReview.getReviewId().toString());

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -36,8 +37,8 @@ public class ConverterGv {
         return new GvConverterReviews(mTagsManager, newConverterImages(), newConverterComments(), newConverterLocations());
     }
 
-    public GvConverterReviewNode newConverterNodes() {
-        return new GvConverterReviewNode(newConverterComments(), newConverterLocations());
+    public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
+        return new GvConverterReviewNode(repository, newConverterComments(), newConverterLocations());
     }
 
     public GvConverterComments newConverterComments() {

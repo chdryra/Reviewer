@@ -14,26 +14,46 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendDataConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FactoryAuthorsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbStructUsersLed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsRepository;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseUserAccounts;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendValidator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbDataReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ConverterEntry;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FactoryAuthorsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbAuthenticator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbAuthorsRepository;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbReviewsRepository;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbStructUsersLed;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbUserAccounts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FirebaseBackend;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FirebaseStructure;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Implementation.UsersManagerImpl;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.firebase.client.Firebase;
@@ -47,12 +67,14 @@ public class BackendFirebase implements Backend {
     private final Firebase mDatabase;
     private final FirebaseStructure mStructure;
     private UserProfileConverter mTranslator;
+    private FactoryFbDataReference mDataReferencer;
 
     public BackendFirebase(Context context, FactoryAuthorProfile profileFactory) {
         Firebase.setAndroidContext(context);
         mDatabase = new Firebase(FirebaseBackend.ROOT);
         mStructure = new FbStructUsersLed();
         mTranslator = new UserProfileConverter(profileFactory);
+        mDataReferencer = new FactoryFbDataReference();
     }
 
     @Override
@@ -65,7 +87,8 @@ public class BackendFirebase implements Backend {
                 = new BackendReviewConverter(beValidator,
                 model.getReviewsFactory(), model.getTagsManager());
 
-        FactoryFbReference referencer = new FactoryFbReference(new BackendDataConverter(), reviewConverter, cache);
+        FactoryFbReviewReference referencer
+                = new FactoryFbReviewReference(mDataReferencer, new BackendDataConverter(), reviewConverter, cache);
 
         ConverterEntry entryConverter = new ConverterEntry();
         FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, entryConverter, referencer);
@@ -74,9 +97,12 @@ public class BackendFirebase implements Backend {
 
     @Override
     public UsersManager newUsersManager() {
-        UserAccounts accounts = new FirebaseUserAccounts(mDatabase, mStructure, mTranslator, new FactoryUserAccount());
-        UserAuthenticator authenticator = new FirebaseAuthenticator(mDatabase, accounts, mTranslator);
+        AuthorsRepository authorsRepo
+                = new FbAuthorsRepository(mDatabase, mStructure, mDataReferencer);
+        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mTranslator,
+                authorsRepo, new FactoryUserAccount());
+        UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mTranslator);
 
-        return new UsersManager(authenticator, accounts);
+        return new UsersManagerImpl(authenticator, accounts, authorsRepo);
     }
 }

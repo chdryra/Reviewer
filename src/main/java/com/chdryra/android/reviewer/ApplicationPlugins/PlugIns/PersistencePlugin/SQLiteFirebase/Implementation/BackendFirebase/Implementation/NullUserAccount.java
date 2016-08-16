@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 

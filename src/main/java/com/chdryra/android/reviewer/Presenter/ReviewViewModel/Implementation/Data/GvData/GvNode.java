@@ -19,35 +19,27 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ReviewSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
     public static final GvDataType<GvNode> TYPE =
             new GvDataType<>(GvNode.class, "review");
 
     private ReviewNode mNode;
-    private GvConverterComments mConverterComments;
-    private GvConverterLocations mConverterLocations;
-    private VhReviewSelected mViewHolder;
+    private ViewHolderFactory<VhNode> mViewHolderFactory;
+    private VhNode mViewHolder;
 
     public GvNode() {
         super(GvNode.TYPE);
     }
 
     public GvNode(ReviewNode node,
-                  GvConverterComments converterComments,
-                  GvConverterLocations converterLocations) {
+                  ViewHolderFactory<VhNode> viewHolderFactory) {
         super(GvNode.TYPE, new GvReviewId(node.getReviewId()));
         mNode = node;
-        mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
+        mViewHolderFactory = viewHolderFactory;
     }
 
     public ReviewNode getNode() {
@@ -56,7 +48,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
 
     public void unbind() {
         if(mViewHolder != null && mViewHolder.isBoundTo(mNode)) {
-            mViewHolder.unbindFromReview();
+            mViewHolder.unbindFromNode();
         }
     }
 
@@ -86,8 +78,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewSelected(new ReviewSelector(new SelectorMostRecent()),
-                mConverterComments, mConverterLocations);
+        return mViewHolderFactory.newViewHolder();
     }
 
     @Override

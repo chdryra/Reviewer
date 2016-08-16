@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.ReviewAggregates;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbDataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -47,13 +46,13 @@ public class FbReviewReference extends FbReviewRefItem<Review> implements Review
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
-    private final FactoryFbReference mReferencer;
+    private final FactoryFbDataReference mReferencer;
 
     public FbReviewReference(DataReviewInfo info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<Review> converter,
-                             FactoryFbReference referencer,
+                             FactoryFbDataReference referencer,
                              ReviewsCache cache) {
         super(info.getReviewId(), reviewReference, converter);
         mInfo = info;

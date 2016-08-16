@@ -9,13 +9,12 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
+
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -23,6 +22,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -42,7 +42,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     private Firebase mDataBase;
     private SnapshotConverter<ReviewListEntry> mEntryConverter;
     private FbReviewsStructure mStructure;
-    private FactoryFbReference mReferencer;
+    private FactoryFbReviewReference mReferencer;
     private Map<String, ChildEventListener> mSubscribers;
 
     protected abstract Firebase getAggregatesDb(ReviewListEntry entry);
@@ -50,7 +50,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
     public FbReferencesRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry> entryConverter,
-                                       FbReviewsStructure structure, FactoryFbReference referencer) {
+                                       FbReviewsStructure structure, FactoryFbReviewReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;

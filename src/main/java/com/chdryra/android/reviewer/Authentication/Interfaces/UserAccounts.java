@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 
@@ -43,6 +42,4 @@ public interface UserAccounts {
     void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
-
-    AuthorReferences getAuthorReferences();
 }

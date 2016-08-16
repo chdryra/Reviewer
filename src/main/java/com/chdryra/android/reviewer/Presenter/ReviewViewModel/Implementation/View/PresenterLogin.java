@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;

@@ -12,8 +12,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNodeList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .SelectorMostRecent;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 
 /**
@@ -24,19 +35,19 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class GvConverterReviewNode
         extends GvConverterBasic<ReviewNode, GvNode, GvNodeList>
         implements DataConverter<ReviewNode, GvNode, GvNodeList> {
-    private GvConverterComments mConverterComments;
-    private GvConverterLocations mConverterLocations;
 
-    public GvConverterReviewNode(GvConverterComments converterComments,
+    private ViewHolderFactory<VhNode> mFactory;
+
+    public GvConverterReviewNode(AuthorsRepository repository,
+                                 GvConverterComments converterComments,
                                  GvConverterLocations converterLocations) {
         super(GvNodeList.class);
-        mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
+        mFactory = new VhMostRecentFactory(repository, converterComments, converterLocations);
     }
 
     @Override
     public GvNode convert(ReviewNode node, ReviewId parentId) {
-        return new GvNode(node, mConverterComments, mConverterLocations);
+        return new GvNode(node, mFactory);
     }
 
     @Override
@@ -52,5 +63,24 @@ public class GvConverterReviewNode
         }
 
         return list;
+    }
+
+    private static class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
+        private AuthorsRepository mRepository;
+        private GvConverterComments mConverterComments;
+        private GvConverterLocations mConverterLocations;
+
+        public VhMostRecentFactory(AuthorsRepository repository, GvConverterComments
+                converterComments, GvConverterLocations converterLocations) {
+            mRepository = repository;
+            mConverterComments = converterComments;
+            mConverterLocations = converterLocations;
+        }
+
+        @Override
+        public VhNode newViewHolder() {
+            return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
+                    mConverterComments, mConverterLocations);
+        }
     }
 }

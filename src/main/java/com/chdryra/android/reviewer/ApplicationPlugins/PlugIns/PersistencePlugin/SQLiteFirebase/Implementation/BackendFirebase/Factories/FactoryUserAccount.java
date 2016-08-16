@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.firebase.client.Firebase;
 
 /**
@@ -25,7 +25,7 @@ import com.firebase.client.Firebase;
  */
 public class FactoryUserAccount {
     public UserAccount newAccount(AuthenticatedUser user, Firebase dataRoot, FbUsersStructure structure, UserProfileConverter converter) {
-        return new FirebaseUserAccount(user, dataRoot, structure, converter);
+        return new FbUserAccount(user, dataRoot, structure, converter);
 
     }
 

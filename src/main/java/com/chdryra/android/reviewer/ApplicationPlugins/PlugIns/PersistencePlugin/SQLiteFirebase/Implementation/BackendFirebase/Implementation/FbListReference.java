@@ -28,12 +28,12 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> implements ListReference<T, C> {
+public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> implements ListReference<T, C> {
     private Map<ListItemBinder<T>, ChildEventListener> mChildBindings;
     private SnapshotConverter<T> mItemConverter;
 
-    public FbRefListData(Firebase reference, SnapshotConverter<C> listConverter,
-                         SnapshotConverter<T> itemConverter) {
+    public FbListReference(Firebase reference, SnapshotConverter<C> listConverter,
+                           SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
         mChildBindings = new HashMap<>();

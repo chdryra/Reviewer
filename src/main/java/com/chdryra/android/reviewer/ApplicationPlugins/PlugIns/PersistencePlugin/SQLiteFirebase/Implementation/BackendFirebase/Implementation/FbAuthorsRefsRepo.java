@@ -12,9 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.firebase.client.Firebase;
 
@@ -29,7 +28,7 @@ public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
     public FbAuthorsRefsRepo(Firebase dataBase,
                              FbAuthorsReviews structure,
                              SnapshotConverter<ReviewListEntry> entryConverter,
-                             FactoryFbReference referencer) {
+                             FactoryFbReviewReference referencer) {
         super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;
     }

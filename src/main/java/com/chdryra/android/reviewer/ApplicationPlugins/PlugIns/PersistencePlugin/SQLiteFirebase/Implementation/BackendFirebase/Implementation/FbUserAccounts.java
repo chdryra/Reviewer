@@ -27,10 +27,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorReferences;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -46,7 +47,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseUserAccounts implements UserAccounts {
+public class FbUserAccounts implements UserAccounts {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
     private static final AuthenticationError NAME_TAKEN_ERROR =
@@ -58,15 +59,18 @@ public class FirebaseUserAccounts implements UserAccounts {
     private Firebase mDataRoot;
     private FbUsersStructure mStructure;
     private UserProfileConverter mConverter;
+    private AuthorsRepository mAuthorsRepo;
     private FactoryUserAccount mAccountFactory;
 
-    public FirebaseUserAccounts(Firebase dataRoot,
-                                FbUsersStructure structure,
-                                UserProfileConverter converter,
-                                FactoryUserAccount accountFactory) {
+    public FbUserAccounts(Firebase dataRoot,
+                          FbUsersStructure structure,
+                          UserProfileConverter converter,
+                          AuthorsRepository authorsRepo,
+                          FactoryUserAccount accountFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mConverter = converter;
+        mAuthorsRepo = authorsRepo;
         mAccountFactory = accountFactory;
     }
 
@@ -83,10 +87,17 @@ public class FirebaseUserAccounts implements UserAccounts {
     }
 
     @Override
-    public void createAccount(final AuthenticatedUser authUser, final AuthorProfile profile,
+    public void createAccount(final AuthenticatedUser authUser,
+                              final AuthorProfile profile,
                               final CreateAccountCallback callback) {
-        Firebase db = mStructure.getNameAuthorMappingDb(mDataRoot, profile.getAuthor().getName());
-        doSingleEvent(db, createAccountIfNoNameConflict(authUser, profile, callback));
+        getAuthorsRepository().getAuthorId(profile.getAuthor().getName(),
+                new AuthorsRepository.GetAuthorIdCallback() {
+                    @Override
+                    public void onAuthorId(DataReference<AuthorId> authorId,
+                                           @Nullable AuthorsRepository.Error error) {
+                        createAccountIfNoNameConflict(authUser, profile, callback, error);
+                    }
+                });
     }
 
     @Override
@@ -101,8 +112,23 @@ public class FirebaseUserAccounts implements UserAccounts {
     }
 
     @Override
-    public AuthorReferences getAuthorReferences() {
-        return null;
+    public AuthorsRepository getAuthorsRepository() {
+        return mAuthorsRepo;
+    }
+
+    private void createAccountIfNoNameConflict(AuthenticatedUser authUser,
+                                               AuthorProfile profile,
+                                               CreateAccountCallback callback,
+                                               @Nullable AuthorsRepository.Error error) {
+        if (error == null) {
+            callback.onAccountCreated(getUserAccount(null), NAME_TAKEN_ERROR);
+        } else if (AuthorsRepository.Error.NAME_NOT_FOUND == error) {
+            addNewProfile(authUser, profile, callback);
+        } else {
+            callback.onAccountCreated(getUserAccount(null),
+                    new AuthenticationError(FirebaseBackend.NAME,
+                            AuthenticationError.Reason.PROVIDER_ERROR, error.toString()));
+        }
     }
 
     @NonNull
@@ -131,26 +157,6 @@ public class FirebaseUserAccounts implements UserAccounts {
     private UserAccount getUserAccount(@Nullable AuthenticatedUser user) {
         return user == null ? mAccountFactory.newNullAccount() :
                 mAccountFactory.newAccount(user, mDataRoot, mStructure, mConverter);
-    }
-
-    @NonNull
-    private ValueEventListener createAccountIfNoNameConflict(final AuthenticatedUser authUser, final
-    AuthorProfile profile, final CreateAccountCallback callback) {
-        return new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue() == null) {
-                    addNewProfile(authUser, profile, callback);
-                } else {
-                    callback.onAccountCreated(getUserAccount(null), NAME_TAKEN_ERROR);
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                callback.onAccountCreated(getUserAccount(null), newError(firebaseError));
-            }
-        };
     }
 
     private void addNewProfile(final AuthenticatedUser authUser, final AuthorProfile profile,

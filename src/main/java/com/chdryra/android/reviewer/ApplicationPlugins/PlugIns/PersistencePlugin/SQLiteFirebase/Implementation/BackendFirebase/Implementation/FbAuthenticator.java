@@ -39,7 +39,7 @@ import java.util.Map;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthStateListener {
+public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateListener {
     private static final String FACEBOOK = "facebook";
     private static final String TWITTER = "twitter";
     private static final String GOOGLE = "google";
@@ -51,9 +51,9 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     private AuthenticatedUser mLoggedIn;
     private ArrayList<UserStateObserver> mObservers;
 
-    public FirebaseAuthenticator(Firebase root,
-                                 UserAccounts accounts,
-                                 UserProfileConverter usersFactory) {
+    public FbAuthenticator(Firebase root,
+                           UserAccounts accounts,
+                           UserProfileConverter usersFactory) {
         mRoot = root;
         mUsersFactory = usersFactory;
         mAccounts = accounts;

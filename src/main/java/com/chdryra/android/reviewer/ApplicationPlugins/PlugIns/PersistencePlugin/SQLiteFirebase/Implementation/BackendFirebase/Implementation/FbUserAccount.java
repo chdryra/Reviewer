@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -32,7 +32,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseUserAccount implements UserAccount {
+public class FbUserAccount implements UserAccount {
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
@@ -47,10 +47,10 @@ public class FirebaseUserAccount implements UserAccount {
     private FbUsersStructure mStructure;
     private UserProfileConverter mConverter;
 
-    public FirebaseUserAccount(AuthenticatedUser accountHolder,
-                               Firebase dataRoot,
-                               FbUsersStructure structure,
-                               UserProfileConverter converter) {
+    public FbUserAccount(AuthenticatedUser accountHolder,
+                         Firebase dataRoot,
+                         FbUsersStructure structure,
+                         UserProfileConverter converter) {
         mAccountHolder = accountHolder;
         if(mAccountHolder.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");

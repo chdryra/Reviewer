@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
@@ -64,6 +65,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         ConverterGv gvConverter = new ConverterGv(modelContext.getTagsManager());
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
+                persistenceContext.getUsersManager().getAuthorsRepository(),
                 gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
@@ -74,6 +76,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
     private void setAdaptersFactory(ModelContext modelContext,
                                     ReviewsSource reviewsSource,
+                                    AuthorsRepository authorsRepository,
                                     ConverterGv gvConverter,
                                     DataAggregatorsApi aggregator) {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
@@ -84,6 +87,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 modelContext.getReviewsFactory(),
                 aggregater,
                 reviewsSource,
+                authorsRepository,
                 gvConverter);
 
         setFactoryReviewViewAdapter(factory);
@@ -114,6 +118,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
                 dir, dir.toLowerCase());
 
+        //TODO make type safe
         FactoryReviewBuilderAdapter<?> builderAdapterFactory
                 = new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),

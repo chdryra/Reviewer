@@ -52,11 +52,6 @@ public class FbAuthorsReviewsDb implements FbAuthorsReviews {
     }
 
     @Override
-    public Firebase getAggregatesDb(Firebase root) {
-        return mParent.getAggregatesDb(root, mAuthorId);
-    }
-
-    @Override
     public Firebase getAggregatesDb(Firebase root, ReviewId reviewId) {
         return mParent.getAggregatesDb(root, mAuthorId, reviewId);
     }

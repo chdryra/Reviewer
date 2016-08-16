@@ -21,7 +21,5 @@ import com.firebase.client.Firebase;
 public interface FbAuthorsReviews extends FbReviewsStructure{
     Firebase getReviewDb(Firebase root, ReviewId reviewId);
 
-    Firebase getAggregatesDb(Firebase root);
-
     Firebase getAggregatesDb(Firebase root, ReviewId reviewId);
 }

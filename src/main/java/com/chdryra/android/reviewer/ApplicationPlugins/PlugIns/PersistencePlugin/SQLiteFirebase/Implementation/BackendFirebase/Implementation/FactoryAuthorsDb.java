@@ -12,8 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -28,12 +27,12 @@ public class FactoryAuthorsDb {
     private BackendReviewConverter mReviewConverter;
     private BackendValidator mValidator;
     private SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private FactoryFbReference mReferencer;
+    private FactoryFbReviewReference mReferencer;
 
     public FactoryAuthorsDb(BackendReviewConverter reviewConverter,
                             BackendValidator validator,
                             SnapshotConverter<ReviewListEntry> entryConverter,
-                            FactoryFbReference referencer) {
+                            FactoryFbReviewReference referencer) {
         mReviewConverter = reviewConverter;
         mValidator = validator;
         mEntryConverter = entryConverter;

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class NullDataReference<T> implements DataReference<T> {
+public class NullDataReference<T> implements DataReference<T> {
     @Override
     public void registerListener(InvalidationListener listener) {
 

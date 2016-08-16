@@ -6,22 +6,27 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Interfaces;
+package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 28/07/2016
+ * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorReferences {
-    DataReference<NamedAuthor> getReference(AuthorId authorId);
+public interface AuthorsRepository {
+    enum Error{NAME_NOT_FOUND, NETWORK_ERROR}
 
-    DataReference<AuthorId> getReference(AuthenticatedUser user);
+    interface GetAuthorIdCallback {
+        void onAuthorId(DataReference<AuthorId> authorId, @Nullable AuthorsRepository.Error error);
+    }
 
-    DataReference<AuthorId> getReference(String name);
+    DataReference<NamedAuthor> getName(AuthorId authorId);
+
+    void getAuthorId(String name, GetAuthorIdCallback callback);
 }
