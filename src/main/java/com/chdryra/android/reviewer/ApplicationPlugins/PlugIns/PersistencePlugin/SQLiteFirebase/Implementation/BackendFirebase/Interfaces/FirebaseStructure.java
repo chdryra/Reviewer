@@ -17,9 +17,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 public interface FirebaseStructure extends FbUsersStructure, FbReviews {
     String PROVIDER_IDS_TO_AUTHOR_IDS = "ProviderIds_AuthorIds";
     String AUTHOR_IDS_TO_PROVIDER_IDS = "AuthorIds_ProviderIds";
-    String USERS = "Users";
     String AUTHOR_NAMES_TO_AUTHOR_IDS = "AuthorNames_AuthorIds";
     String AUTHOR_IDS_TO_AUTHOR_NAMES = "AuthorIds_AuthorNames";
+    String USERS = "Users";
     String PROFILE = "Profile";
     String AUTHOR_DATA = "AuthorData";
     String REVIEWS = "Reviews";

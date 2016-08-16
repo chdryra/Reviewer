@@ -14,13 +14,11 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
@@ -90,9 +88,11 @@ public class UserSessionDefault implements UserSession {
     @Override
     public void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable
     AuthenticatedUser newUser) {
+        if(oldUser != null && newUser != null && oldUser.equals(newUser)) return;
+
         mAccount = null;
         if (oldUser == null && newUser == null) {
-            notifyOnSession(null, NO_USER_ERROR);
+            notifyOnSession(mAccount, NO_USER_ERROR);
         } else {
             setUserAccount();
         }
@@ -110,6 +110,8 @@ public class UserSessionDefault implements UserSession {
                 if (error == null) {
                     mAccount = account;
                     mAccount.getAuthorProfile(setAuthorAndNotifyOnSession());
+                } else {
+                    notifyOnSession(account, error);
                 }
             }
         });
@@ -119,16 +121,14 @@ public class UserSessionDefault implements UserSession {
     private UserAccount.GetAuthorProfileCallback setAuthorAndNotifyOnSession() {
         return new UserAccount.GetAuthorProfileCallback() {
             @Override
-            public void onAuthorProfile(AuthorProfile profile, @Nullable AuthenticationError
-                    error) {
+            public void onAuthorProfile(AuthorProfile profile,
+                                        @Nullable AuthenticationError error) {
                 if (error == null) {
                     mAuthor = profile.getAuthor();
-                    mAppContext.getReviewsFactory()
-                            .setAuthorsStamp(new AuthorsStamp(mAuthor));
-                    notifyOnSession(mAccount, null);
-                } else {
-                    notifyOnSession(new NullUserAccount(), error);
+                    mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(mAuthor));
                 }
+
+                notifyOnSession(mAccount, error);
             }
         };
     }

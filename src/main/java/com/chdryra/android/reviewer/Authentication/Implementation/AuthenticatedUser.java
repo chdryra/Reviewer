@@ -85,4 +85,25 @@ public class AuthenticatedUser implements Parcelable{
         dest.writeString(mProvidersId);
         dest.writeString(mAuthorId);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AuthenticatedUser)) return false;
+
+        AuthenticatedUser that = (AuthenticatedUser) o;
+
+        if (!mProvider.equals(that.mProvider)) return false;
+        if (!mProvidersId.equals(that.mProvidersId)) return false;
+        return mAuthorId != null ? mAuthorId.equals(that.mAuthorId) : that.mAuthorId == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mProvider.hashCode();
+        result = 31 * result + mProvidersId.hashCode();
+        result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
+        return result;
+    }
 }

@@ -32,4 +32,8 @@ public class FactoryUserAccount {
     public UserAccount newNullAccount() {
         return new NullUserAccount();
     }
+
+    public UserAccount newNullAccount(AuthenticatedUser user) {
+        return new NullUserAccount(user);
+    }
 }

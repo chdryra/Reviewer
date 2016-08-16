@@ -24,13 +24,12 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -56,7 +55,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private Activity mActivity;
     private LoginListener mListener;
     private CredentialsHandler mHandler;
-    private SessionProvider<?> mProvider;
 
     private boolean mAuthenticating = false;
 
@@ -100,21 +98,21 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void logIn(FacebookLogin login) {
         if (!mAuthenticating) {
-            authenticateWithCredentials(login, mHandlerFactory.newHandler(login,
+            authenticateWithCredentials(mHandlerFactory.newHandler(login,
                     mAuthenticatorFactory.newFacebookAuthenticator(this)));
         }
     }
 
     public void logIn(GoogleLogin login) {
         if (!mAuthenticating) {
-            authenticateWithCredentials(login, mHandlerFactory.newHandler(login,
+            authenticateWithCredentials(mHandlerFactory.newHandler(login,
                     mAuthenticatorFactory.newGoogleAuthenticator(this)));
         }
     }
 
     public void logIn(TwitterLogin login) {
         if (!mAuthenticating) {
-            authenticateWithCredentials(login, mHandlerFactory.newHandler(login,
+            authenticateWithCredentials(mHandlerFactory.newHandler(login,
                     mAuthenticatorFactory.newTwitterAuthenticator(this)));
         }
     }
@@ -172,12 +170,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     @Override
-    public void onLogIn(UserAccount account,
+    public void onLogIn(@Nullable UserAccount account,
                         @Nullable AuthenticationError error) {
         if (error == null) {
             if (mListener != null) mListener.onAuthenticated();
         } else {
-            resolveError(account.getAccountHolder(), error);
+            resolveError(account != null ? account.getAccountHolder() : null, error);
         }
         authenticationFinished();
     }
@@ -212,10 +210,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         uiLauncher.launch(launchable, code, args);
     }
 
-    private void authenticateWithCredentials(SessionProvider<?> provider, CredentialsHandler
-            handler) {
+    private void authenticateWithCredentials(CredentialsHandler handler) {
         mAuthenticating = true;
-        mProvider = provider;
         mHandler = handler;
         mHandler.requestCredentials();
     }

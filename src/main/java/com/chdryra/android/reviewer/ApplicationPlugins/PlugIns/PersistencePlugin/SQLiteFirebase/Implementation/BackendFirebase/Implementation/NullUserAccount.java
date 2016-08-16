@@ -21,13 +21,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullUserAccount implements UserAccount {
-
+    private AuthenticatedUser mUser;
     public NullUserAccount() {
+        mUser = new AuthenticatedUser();
+    }
+
+    public NullUserAccount(AuthenticatedUser user) {
+        mUser = user;
     }
 
     @Override
     public AuthenticatedUser getAccountHolder() {
-        return new AuthenticatedUser();
+        return mUser;
     }
 
     @Override

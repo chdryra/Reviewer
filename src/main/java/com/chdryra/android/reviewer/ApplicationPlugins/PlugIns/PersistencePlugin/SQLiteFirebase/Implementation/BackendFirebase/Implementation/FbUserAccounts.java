@@ -90,7 +90,7 @@ public class FbUserAccounts implements UserAccounts {
     public void createAccount(final AuthenticatedUser authUser,
                               final AuthorProfile profile,
                               final CreateAccountCallback callback) {
-        getAuthorsRepository().getAuthorId(profile.getAuthor().getName(),
+        mAuthorsRepo.getAuthorId(profile.getAuthor().getName(),
                 new AuthorsRepository.GetAuthorIdCallback() {
                     @Override
                     public void onAuthorId(DataReference<AuthorId> authorId,
@@ -109,11 +109,6 @@ public class FbUserAccounts implements UserAccounts {
             Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
             doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
         }
-    }
-
-    @Override
-    public AuthorsRepository getAuthorsRepository() {
-        return mAuthorsRepo;
     }
 
     private void createAccountIfNoNameConflict(AuthenticatedUser authUser,
@@ -139,7 +134,7 @@ public class FbUserAccounts implements UserAccounts {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String authorId = (String) dataSnapshot.getValue();
                 if (authorId == null) {
-                    callback.onAccount(mAccountFactory.newNullAccount(), UNKNOWN_USER_ERROR);
+                    callback.onAccount(mAccountFactory.newNullAccount(authUser), UNKNOWN_USER_ERROR);
                 } else {
                     authUser.setAuthorId(authorId);
                     callback.onAccount(getUserAccount(authUser), null);
@@ -148,7 +143,7 @@ public class FbUserAccounts implements UserAccounts {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onAccount(mAccountFactory.newNullAccount(), newError(firebaseError));
+                callback.onAccount(mAccountFactory.newNullAccount(authUser), newError(firebaseError));
             }
         };
     }
