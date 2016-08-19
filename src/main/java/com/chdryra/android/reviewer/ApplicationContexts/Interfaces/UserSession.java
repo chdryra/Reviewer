@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
@@ -29,18 +28,19 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
                      @Nullable AuthenticationError error);
     }
 
-    @Nullable
-    AuthenticatedUser getSessionUser();
+    boolean isAuthenticated();
 
     void setSessionObserver(SessionObserver observer);
 
-    AuthorId getSessionAuthorId();
+    void unsetSessionObserver();
 
-    NamedAuthor getSessionAuthor();
+    void refreshSession();
+
+    AuthorId getAuthorId();
+
+    NamedAuthor getAuthor();
 
     UserAccount getUserAccount();
-
-    void loginComplete();
 
     void logout(SessionProvider.LogoutCallback callback, SessionProvider<?> googleHack);
 }

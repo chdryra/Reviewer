@@ -101,7 +101,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
-        if(mPresenter.userLoggedIn()) showLoggingInDialog();
+        if(mPresenter.hasAuthenticatedUser()) showLoggingInDialog();
 
         return view;
     }

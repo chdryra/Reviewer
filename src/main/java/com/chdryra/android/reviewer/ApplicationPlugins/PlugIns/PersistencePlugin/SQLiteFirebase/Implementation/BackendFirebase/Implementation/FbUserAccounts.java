@@ -104,7 +104,7 @@ public class FbUserAccounts implements UserAccounts {
     public void getAccount(final AuthenticatedUser authUser, final GetAccountCallback callback) {
         AuthorId authorId = authUser.getAuthorId();
         if (authorId != null) {
-            callback.onAccount(getUserAccount(authUser), null);
+            callback.onAccount(newUserAccount(authUser), null);
         } else {
             Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
             doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
@@ -116,11 +116,11 @@ public class FbUserAccounts implements UserAccounts {
                                                CreateAccountCallback callback,
                                                @Nullable AuthorsRepository.Error error) {
         if (error == null) {
-            callback.onAccountCreated(getUserAccount(null), NAME_TAKEN_ERROR);
+            callback.onAccountCreated(newUserAccount(null), NAME_TAKEN_ERROR);
         } else if (AuthorsRepository.Error.NAME_NOT_FOUND == error) {
             addNewProfile(authUser, profile, callback);
         } else {
-            callback.onAccountCreated(getUserAccount(null),
+            callback.onAccountCreated(newUserAccount(null),
                     new AuthenticationError(FirebaseBackend.NAME,
                             AuthenticationError.Reason.PROVIDER_ERROR, error.toString()));
         }
@@ -137,7 +137,7 @@ public class FbUserAccounts implements UserAccounts {
                     callback.onAccount(mAccountFactory.newNullAccount(authUser), UNKNOWN_USER_ERROR);
                 } else {
                     authUser.setAuthorId(authorId);
-                    callback.onAccount(getUserAccount(authUser), null);
+                    callback.onAccount(newUserAccount(authUser), null);
                 }
             }
 
@@ -149,7 +149,7 @@ public class FbUserAccounts implements UserAccounts {
     }
 
     @NonNull
-    private UserAccount getUserAccount(@Nullable AuthenticatedUser user) {
+    private UserAccount newUserAccount(@Nullable AuthenticatedUser user) {
         return user == null ? mAccountFactory.newNullAccount() :
                 mAccountFactory.newAccount(user, mDataRoot, mStructure, mConverter);
     }
@@ -163,7 +163,7 @@ public class FbUserAccounts implements UserAccounts {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 authUser.setAuthorId(profile.getAuthor().getAuthorId().toString());
-                callback.onAccountCreated(getUserAccount(authUser), newError(firebaseError));
+                callback.onAccountCreated(newUserAccount(authUser), newError(firebaseError));
             }
         });
     }

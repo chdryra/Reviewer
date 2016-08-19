@@ -117,7 +117,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @Override
-    public void authenticateUser(GoogleSignInAccount account, final AuthenticatorCallback
+    public void authenticateUser(final GoogleSignInAccount account, final AuthenticatorCallback
             callback) {
         final String email = account.getEmail();
         final String id = account.getId();
@@ -137,7 +137,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
                 public void onAuthenticationError(FirebaseError firebaseError) {
                     AuthenticationError error = FirebaseBackend.authenticationError(firebaseError);
                     if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-                        createAuthenticatedGoogleUser(email, id, callback);
+                        createGoogleUser(account, callback);
                     } else {
                         notifyNotAuthenticated(error, callback);
                     }
@@ -189,19 +189,31 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
         callback.onAuthenticated(user);
     }
 
-    private void notifyOnAuthenticated(AuthenticatedUser user, AuthenticatorCallback callback) {
-        callback.onAuthenticated(user);
-    }
+    private void createGoogleUser(final GoogleSignInAccount account,
+                                  final AuthenticatorCallback callback) {
+        final String email = account.getEmail();
+        final String password = account.getId();
 
-    private void createAuthenticatedGoogleUser(String email, String password, final
-    AuthenticatorCallback callback) {
+        AuthenticationError emailError
+                = new AuthenticationError(GOOGLE, AuthenticationError.Reason.INVALID_EMAIL);
+        AuthenticationError pwError
+                = new AuthenticationError(GOOGLE, AuthenticationError.Reason.INVALID_CREDENTIALS);
+
+        if(email == null) {
+            notifyNotAuthenticated(emailError, callback);
+            return;
+        }
+
+        if(password == null) {
+            notifyNotAuthenticated(pwError, callback);
+            return;
+        }
+
         EmailAddress emailAddress;
         try {
             emailAddress = new EmailAddress(email);
         } catch (EmailAddressException e) {
-            e.printStackTrace();
-            notifyNotAuthenticated(new AuthenticationError(GOOGLE, AuthenticationError.Reason
-                    .INVALID_EMAIL), callback);
+            notifyNotAuthenticated(emailError, callback);
             return;
         }
 
@@ -210,7 +222,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
                 if(error == null) {
-                    notifyOnAuthenticated(user, callback);
+                    authenticateUser(account, callback);
                 } else {
                     notifyNotAuthenticated(error, callback);
                 }

@@ -52,7 +52,7 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
         return mAuthorsDbFactory.newAuthorsDb(getDataBase(), mStructure.getAuthorsDb(session
-                .getSessionAuthorId()));
+                .getAuthorId()));
     }
 
     @Override

@@ -148,7 +148,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            NamedAuthor author = getApp().getUserSession().getSessionAuthor();
+            NamedAuthor author = getApp().getUserSession().getAuthor();
             return new PresenterUsersFeed(getApp(), getFeedNode(author), listener);
         }
     }

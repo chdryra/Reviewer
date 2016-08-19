@@ -84,8 +84,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         return "Looks like you're a new user?";
     }
 
-    public boolean userLoggedIn() {
-        return mApp.getUserSession().getSessionUser() != null;
+    public boolean hasAuthenticatedUser() {
+        return mApp.getUserSession().isAuthenticated();
     }
 
     public void setLoginListener(LoginListener listener) {
@@ -136,7 +136,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void onLoginComplete() {
         UserSession userSession = mApp.getUserSession();
-        userSession.loginComplete();
+        userSession.unsetSessionObserver();
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
         mActivity.finish();
     }
@@ -157,7 +157,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
                 EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
                 if (emailPassword != null) authenticateWithCredentials(emailPassword);
             } else {
-                onLogIn(mApp.getUserSession().getUserAccount(), null);
+                mApp.getUserSession().refreshSession();
             }
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
@@ -172,7 +172,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     @Override
     public void onLogIn(@Nullable UserAccount account,
                         @Nullable AuthenticationError error) {
-        if (error == null) {
+        if (error == null && account != null) {
             if (mListener != null) mListener.onAuthenticated();
         } else {
             resolveError(account != null ? account.getAccountHolder() : null, error);

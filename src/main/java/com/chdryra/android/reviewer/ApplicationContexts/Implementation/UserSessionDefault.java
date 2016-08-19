@@ -35,33 +35,33 @@ public class UserSessionDefault implements UserSession {
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
     private PresenterContext mAppContext;
-    private NamedAuthor mAuthor;
+    private AuthorProfile mProfile;
     private UserAccount mAccount;
     private SessionObserver mObserver;
 
     public UserSessionDefault(PresenterContext appContext) {
         mAppContext = appContext;
         UserAuthenticator authenticator = mAppContext.getUsersManager().getAuthenticator();
-        onUserStateChanged(null, authenticator.getAuthenticatedUser());
         authenticator.registerObserver(this);
-    }
-
-    @Override
-    @Nullable
-    public AuthenticatedUser getSessionUser() {
-        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser();
+        onUserStateChanged(null, authenticator.getAuthenticatedUser());
     }
 
 
     @Override
-    public AuthorId getSessionAuthorId() {
+    public boolean isAuthenticated() {
+        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
+    }
+
+
+    @Override
+    public AuthorId getAuthorId() {
         return mAccount.getAuthorId();
     }
 
 
     @Override
-    public NamedAuthor getSessionAuthor() {
-        return mAuthor;
+    public NamedAuthor getAuthor() {
+        return mProfile.getAuthor();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class UserSessionDefault implements UserSession {
     }
 
     @Override
-    public void loginComplete() {
+    public void unsetSessionObserver() {
         mObserver = null;
     }
 
@@ -94,7 +94,7 @@ public class UserSessionDefault implements UserSession {
         if (oldUser == null && newUser == null) {
             notifyOnSession(mAccount, NO_USER_ERROR);
         } else {
-            setUserAccount();
+            refreshSession();
         }
     }
 
@@ -103,7 +103,8 @@ public class UserSessionDefault implements UserSession {
         return mAccount;
     }
 
-    private void setUserAccount() {
+    @Override
+    public void refreshSession() {
         mAppContext.getUsersManager().getCurrentUsersAccount(new UserAccounts.GetAccountCallback() {
             @Override
             public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
@@ -124,8 +125,8 @@ public class UserSessionDefault implements UserSession {
             public void onAuthorProfile(AuthorProfile profile,
                                         @Nullable AuthenticationError error) {
                 if (error == null) {
-                    mAuthor = profile.getAuthor();
-                    mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(mAuthor));
+                    mProfile = profile;
+                    mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(getAuthor()));
                 }
 
                 notifyOnSession(mAccount, error);
