@@ -28,7 +28,9 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactorySessionProviders;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
@@ -57,8 +59,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private static final int TWITTER_BUTTON = R.id.login_button_twitter;
 
     private static final int EMAIL_LOGIN = R.id.login_email;
-    private static final String EMAIL_IS_INVALID = "Email is invalid";
-    private static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
 
     private PresenterLogin mPresenter;
     private AuthenticatedUser mUser;
@@ -96,8 +96,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-        mPresenter = new PresenterLogin.Builder(app).build(getActivity());
-        mPresenter.setLoginListener(this);
+        mPresenter = new PresenterLogin.Builder(app).build(this);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
@@ -127,13 +126,18 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     @Override
     public void onAuthenticationFailed(AuthenticationError error) {
         closeLoggingInDialog();
-        makeToast("Login unsuccessful: " + error);
     }
 
     @Override
     public void onNoCurrentUser() {
-        if (mProgress != null) mProgress.setMessage("No one logged in");
+        if (mProgress != null) mProgress.setMessage(Strings.ProgressBar.NO_ONE_LOGGED_IN);
         closeLoggingInDialog();
+    }
+
+    @Override
+    public void onLoggedIn() {
+        closeLoggingInDialog();
+        getActivity().finish();
     }
 
     @Override
@@ -151,7 +155,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private void showLoggingInDialog() {
-        mProgress = ProgressDialog.show(getActivity(), "Logging in", "Please wait...", true);
+        mProgress = ProgressDialog.show(getActivity(), Strings.ProgressBar.LOGGING_IN,
+                Strings.ProgressBar.PLEASE_WAIT, true);
     }
 
     private void closeLoggingInDialog() {
@@ -212,7 +217,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
             showLoggingInDialog();
             mPresenter.logIn(new EmailPassword(address, pw));
         } else {
-            makeToast(address == null ? EMAIL_IS_INVALID : PASSWORD_IS_INCORRECT);
+            makeToast(address == null ? Strings.Toasts.EMAIL_IS_INVALID
+                    : Strings.Toasts.PASSWORD_IS_INCORRECT);
         }
     }
 

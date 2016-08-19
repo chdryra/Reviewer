@@ -23,6 +23,7 @@ public class Strings {
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "Delete published review?";
         public static final String GOTO_REVIEW = "Go to review?";
+        public static final String NEW_USER = "Looks like you're a new user?";
     }
     
     public static class Toasts {
@@ -39,6 +40,9 @@ public class Strings {
         public static final String REVIEW_NOT_FOUND = "Review not found";
         public static final String COMPLETING_SIGNUP = "Completing sign up...";
         public static final String DELETING = "Deleting please wait...";
+        public static final String EMAIL_IS_INVALID = "Email is invalid";
+        public static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
+        public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
     }
     
     public static class Screens {
@@ -68,5 +72,10 @@ public class Strings {
         }
     }
 
+    public static class ProgressBar {
+        public static final String NO_ONE_LOGGED_IN = "No one logged in";
+        public static final String LOGGING_IN = "Logging in";
+        public static final String PLEASE_WAIT = "Please wait...";
+    }
     public static final String LOADING = "loading...";
 }

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,7 +51,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
     private ApplicationInstance mApp;
-    private Activity mActivity;
     private LoginListener mListener;
     private CredentialsHandler mHandler;
 
@@ -66,30 +64,28 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         void onAuthenticationFailed(AuthenticationError error);
 
         void onNoCurrentUser();
+
+        void onLoggedIn();
     }
 
     private PresenterLogin(ApplicationInstance app,
-                           Activity activity,
                            FactoryCredentialsHandler handlerFactory,
-                           FactoryCredentialsAuthenticator authenticatorFactory) {
+                           FactoryCredentialsAuthenticator authenticatorFactory,
+                           LoginListener listener) {
         mApp = app;
-        mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
+        mListener = listener;
         mApp.getUserSession().setSessionObserver(this);
     }
 
     @NonNull
     public String getSignUpMessage() {
-        return "Looks like you're a new user?";
+        return Strings.Alerts.NEW_USER;
     }
 
     public boolean hasAuthenticatedUser() {
         return mApp.getUserSession().isAuthenticated();
-    }
-
-    public void setLoginListener(LoginListener listener) {
-        mListener = listener;
     }
 
     public void logIn(EmailPassword emailPassword) {
@@ -138,7 +134,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         UserSession userSession = mApp.getUserSession();
         userSession.unsetSessionObserver();
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
-        mActivity.finish();
+        mListener.onLoggedIn();
     }
 
     public EmailValidation validateEmail(String email) {
@@ -175,6 +171,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         if (error == null && account != null) {
             if (mListener != null) mListener.onAuthenticated();
         } else {
+            if(error == null) {
+                error = new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError
+                        .Reason.UNKNOWN_ERROR);
+            }
             resolveError(account != null ? account.getAccountHolder() : null, error);
         }
         authenticationFinished();
@@ -200,6 +200,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             } else if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
                 mListener.onNoCurrentUser();
             } else {
+                mApp.getCurrentScreen().showToast(Strings.Toasts.LOGIN_UNSUCCESSFUL + ": " + error);
                 mListener.onAuthenticationFailed(error);
             }
         }
@@ -228,9 +229,9 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             mApp = app;
         }
 
-        public PresenterLogin build(Activity activity) {
-            return new PresenterLogin(mApp, activity, new FactoryCredentialsHandler(),
-                    new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()));
+        public PresenterLogin build(LoginListener listener) {
+            return new PresenterLogin(mApp, new FactoryCredentialsHandler(),
+                    new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()), listener);
         }
     }
 
