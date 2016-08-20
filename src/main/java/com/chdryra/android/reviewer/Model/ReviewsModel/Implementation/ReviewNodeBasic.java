@@ -66,6 +66,12 @@ public abstract class ReviewNodeBasic implements ReviewNode {
         }
     }
 
+    protected void notifyOnDescendantsChanged() {
+        for (NodeObserver observer : mObservers) {
+            observer.onDescendantsChanged();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

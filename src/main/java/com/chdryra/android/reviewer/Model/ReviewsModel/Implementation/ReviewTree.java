@@ -37,9 +37,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node.
  */
-public class ReviewTree extends ReviewNodeBasic implements
-        ReviewNode,
-        ReviewNode.NodeObserver {
+public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNode.NodeObserver {
     private ReviewNode mNode;
 
     public ReviewTree(@NotNull ReviewNode node) {
@@ -147,6 +145,11 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public void onNodeChanged() {
         notifyOnNodeChanged();
+    }
+
+    @Override
+    public void onDescendantsChanged() {
+        notifyOnDescendantsChanged();
     }
 
     @Override

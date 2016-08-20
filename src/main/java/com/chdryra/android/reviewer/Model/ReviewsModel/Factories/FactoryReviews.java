@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import android.support.annotation.Nullable;
-
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
@@ -33,7 +32,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -45,8 +43,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeAuthoredFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 
 import java.util.ArrayList;
@@ -72,11 +70,6 @@ public class FactoryReviews implements ReviewMaker {
 
     public FactoryReviewNode getNodeFactory() {
         return mNodeFactory;
-    }
-
-    @Nullable
-    public NamedAuthor getAuthor() {
-        return mAuthorsStamp != null ? mAuthorsStamp.getAuthor() : null;
     }
 
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {
@@ -106,13 +99,17 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNodeRepo createTree(ReferencesRepository repo, String title, ReviewStamp stamp) {
+    public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ApplicationInstance app) {
+        String title = "Fetching...";
+
+        ReviewStamp stamp = ReviewStamp.newStamp(authorId);
         ReviewFundamentals info = new ReviewInfo(stamp,
                 new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
                 new DatumDate(stamp, stamp.getDate().getTime()));
-        return new ReviewNodeRepo(info, repo, mReferenceFactory, getNodeFactory());
+
+        return new ReviewNodeAuthoredFeed(info, app, mReferenceFactory, getNodeFactory());
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {

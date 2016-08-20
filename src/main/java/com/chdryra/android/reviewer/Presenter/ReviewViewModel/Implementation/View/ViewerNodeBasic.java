@@ -64,6 +64,11 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
 
     @Override
     public void onNodeChanged() {
+
+    }
+
+    @Override
+    public void onDescendantsChanged() {
         nullifyCache();
     }
 

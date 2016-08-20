@@ -102,6 +102,11 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     }
 
     @Override
+    public void onDescendantsChanged() {
+        reselect();
+    }
+
+    @Override
     public void onNodeChanged() {
         reselect();
     }

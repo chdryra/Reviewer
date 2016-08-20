@@ -30,6 +30,8 @@ public interface ReviewNode extends NodeData {
         void onChildRemoved(ReviewNode child);
 
         void onNodeChanged();
+
+        void onDescendantsChanged();
     }
 
     void registerObserver(NodeObserver binder);

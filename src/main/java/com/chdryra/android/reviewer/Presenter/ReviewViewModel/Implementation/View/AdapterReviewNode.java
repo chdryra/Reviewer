@@ -64,6 +64,11 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
+    public void onDescendantsChanged() {
+        notifyDataObservers();
+    }
+
+    @Override
     public String getSubject() {
         return mNode.getSubject().getSubject();
     }

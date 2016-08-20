@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,10 +36,6 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
     void refreshSession();
 
     AuthorId getAuthorId();
-
-    NamedAuthor getAuthor();
-
-    UserAccount getUserAccount();
 
     void logout(SessionProvider.LogoutCallback callback, SessionProvider<?> googleHack);
 }

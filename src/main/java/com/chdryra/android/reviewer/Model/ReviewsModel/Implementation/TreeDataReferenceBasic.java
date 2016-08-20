@@ -111,6 +111,11 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
 
     @Override
     public void onNodeChanged() {
+
+    }
+
+    @Override
+    public void onDescendantsChanged() {
         notifyAllBinders();
     }
 

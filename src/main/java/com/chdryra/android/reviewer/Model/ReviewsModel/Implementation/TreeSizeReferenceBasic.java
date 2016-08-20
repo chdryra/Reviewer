@@ -122,6 +122,11 @@ public abstract class TreeSizeReferenceBasic<T extends HasReviewId>
 
     @Override
     public void onNodeChanged() {
+
+    }
+
+    @Override
+    public void onDescendantsChanged() {
         mCached = false;
         notifyValueBinders();
     }

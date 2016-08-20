@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,17 +17,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AuthorsStamp {
-    private final NamedAuthor mAuthor;
+    private final AuthorId mAuthorId;
 
-    public NamedAuthor getAuthor() {
-        return mAuthor;
-    }
-
-    public AuthorsStamp(NamedAuthor author) {
-        mAuthor = author;
+    public AuthorsStamp(AuthorId authorId) {
+        mAuthorId = authorId;
     }
 
     public ReviewStamp newStamp() {
-        return ReviewStamp.newStamp(mAuthor.getAuthorId());
+        return ReviewStamp.newStamp(mAuthorId);
     }
 }

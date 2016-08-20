@@ -11,10 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,16 +40,13 @@ public class PresenterFeed extends PresenterReviewsList {
             return mApp;
         }
 
-        public PresenterFeed build(NamedAuthor author) {
-            return new PresenterFeed(mApp, getFeedNode(author), false);
+        public PresenterFeed build(AuthorId authorId) {
+            return new PresenterFeed(mApp, getFeedNode(authorId), false);
         }
 
         @NonNull
-        protected ReviewNodeRepo getFeedNode(NamedAuthor author) {
-            AuthorId authorId = author.getAuthorId();
-            ReferencesRepository repo = mApp.getReviews(authorId);
-            String title = author.getName() + "'s reviews";
-            return mApp.getReviewsFactory().createTree(repo, title, ReviewStamp.newStamp(authorId));
+        protected ReviewNodeRepo getFeedNode(AuthorId authorId) {
+            return mApp.getReviewsFactory().createAuthorsTree(authorId, mApp);
         }
     }
 }

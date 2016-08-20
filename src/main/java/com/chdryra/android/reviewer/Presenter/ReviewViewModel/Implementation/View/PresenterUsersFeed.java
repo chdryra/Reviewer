@@ -11,11 +11,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .ReviewPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
@@ -148,8 +149,8 @@ public class PresenterUsersFeed extends PresenterFeed implements
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            NamedAuthor author = getApp().getUserSession().getAuthor();
-            return new PresenterUsersFeed(getApp(), getFeedNode(author), listener);
+            AuthorId authorId = getApp().getUserSession().getAuthorId();
+            return new PresenterUsersFeed(getApp(), getFeedNode(authorId), listener);
         }
     }
 }

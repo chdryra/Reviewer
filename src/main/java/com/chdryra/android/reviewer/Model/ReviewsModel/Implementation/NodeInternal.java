@@ -45,6 +45,11 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         mChildren = new IdableDataList<>(getReviewId());
     }
 
+    protected void setMeta(ReviewFundamentals meta) {
+        mMeta = meta;
+        notifyOnNodeChanged();
+    }
+
     @Override
     public ReviewListReference<ReviewReference> getReviews() {
         return mReferenceFactory.newReviewsList(this);
@@ -207,16 +212,21 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     @Override
     public void onChildAdded(ReviewNode child) {
-        notifyOnNodeChanged();
+        onDescendantsChanged();
     }
 
     @Override
     public void onChildRemoved(ReviewNode child) {
-        notifyOnNodeChanged();
+        onDescendantsChanged();
     }
 
     @Override
     public void onNodeChanged() {
-        notifyOnNodeChanged();
+        onDescendantsChanged();
+    }
+
+    @Override
+    public void onDescendantsChanged() {
+        notifyOnDescendantsChanged();
     }
 }

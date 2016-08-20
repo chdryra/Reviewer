@@ -28,7 +28,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         FactoryMdReference referenceFactory = new FactoryMdReference(new FactoryNodeTraverser(),
                 new FactoryVisitorReviewNode());
         FactoryReviews reviews = new FactoryReviews(referenceFactory, new
-                AuthorsStamp(NullAuthor.AUTHOR));
+                AuthorsStamp(NullAuthor.AUTHOR.getAuthorId()));
         setReviewsFactory(reviews);
     }
 }
