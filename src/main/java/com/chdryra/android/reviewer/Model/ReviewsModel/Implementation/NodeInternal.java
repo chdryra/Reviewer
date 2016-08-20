@@ -72,7 +72,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     @Override
     public ReviewItemReference<DataImage> getCover() {
-        return null;
+        return mReferenceFactory.newCoverReferenceForNode(this);
     }
 
     @Override
