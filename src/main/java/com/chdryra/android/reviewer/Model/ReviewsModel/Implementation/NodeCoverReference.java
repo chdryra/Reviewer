@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
@@ -29,11 +30,11 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
-        ReviewItemReference<DataImage>, ReviewNode.NodeObserver {
+        ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference.InvalidationListener {
     private Random RANDOM = new Random();
     private ReviewNode mRoot;
     private ArrayList<ReferenceBinder<DataImage>> mBinders;
-    private ReviewItemReference<ReviewReference> mCurrent;
+    private ReviewItemReference<ReviewReference> mReview;
 
     private interface ChoiceCallback {
         void onChosen(boolean changed);
@@ -51,7 +52,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
 
     @Override
     public void dereference(final DereferenceCallback<DataImage> callback) {
-        if (mCurrent == null) {
+        if (mReview == null || !mReview.isValidReference()) {
             chooseReviewForCover(new ChoiceCallback() {
                 @Override
                 public void onChosen(boolean changed) {
@@ -105,13 +106,28 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
             @Override
             public void onItemReferences(IdableList<ReviewItemReference<ReviewReference>>
                                                  references) {
-                ReviewItemReference<ReviewReference> item
+                ReviewItemReference<ReviewReference> review
                         = references.getItem(RANDOM.nextInt(references.size()));
-                boolean changed = mCurrent != item;
-                mCurrent = item;
+                boolean changed = false;
+                if(review.isValidReference()) {
+                    changed = mReview != review;
+                    if(changed) setReview(review);
+                }
                 callback.onChosen(changed);
             }
         });
+    }
+
+    private void setReview(ReviewItemReference<ReviewReference> review) {
+        if(mReview != null) mReview.unregisterListener(NodeCoverReference.this);
+        mReview = review;
+        mReview.registerListener(NodeCoverReference.this);
+    }
+
+    @Override
+    public void onReferenceInvalidated(DataReference<?> reference) {
+        mReview = null;
+        chooseAgainAndNotifyIfNecessary();
     }
 
     private void chooseAgainAndNotifyIfNecessary() {
@@ -124,8 +140,8 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     private void dereferenceCurrent(final DereferenceCallback<DataImage> callback) {
-        if(mCurrent != null) {
-            mCurrent.dereference(new DereferenceCallback<ReviewReference>() {
+        if(mReview != null && mReview.isValidReference()) {
+            mReview.dereference(new DereferenceCallback<ReviewReference>() {
                 @Override
                 public void onDereferenced(@Nullable ReviewReference data, CallbackMessage message) {
                     if (data != null && !message.isError()) data.getCover().dereference(callback);
@@ -154,6 +170,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
+        if(mReview != null) mReview.unregisterListener(this);
         for(ReferenceBinder<DataImage> binder : mBinders) {
             binder.onInvalidated(this);
         }

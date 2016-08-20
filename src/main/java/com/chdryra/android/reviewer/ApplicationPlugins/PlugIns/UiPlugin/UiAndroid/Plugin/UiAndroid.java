@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .Dialogs.Implementation.DialogShareEditReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Implementation.GvDataDialogs;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
@@ -95,7 +95,7 @@ public class UiAndroid implements UiPlugin {
             addDataClasses(new AddEditViewClasses<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
                     ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
 
-            addDataClasses(new AddEditViewClasses<>(GvAuthor.TYPE, null, null, GvDataDialogs.ViewAuthor.class));
+            addDataClasses(new AddEditViewClasses<>(GvAuthorId.TYPE, null, null, GvDataDialogs.ViewAuthor.class));
 
             addDataClasses(new AddEditViewClasses<>(GvSubject.TYPE, null, null, GvDataDialogs.ViewSubject.class));
 

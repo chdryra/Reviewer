@@ -75,7 +75,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
 
     @Override
     public boolean isBoundTo(ReviewItemReference<ValueType> reference) {
-        return mReference != null && mReference.getReviewId().equals(reference.getReviewId());
+        return reference.equals(mReference);
     }
 
     @Override

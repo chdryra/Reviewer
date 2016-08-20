@@ -14,13 +14,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
@@ -29,13 +34,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerAggregateCriteria;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerAggregateToData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerAggregateToReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerDataToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerReviewSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeSummary;
 
 /**
@@ -114,7 +124,7 @@ public class FactoryGridDataViewer {
         } else if (dataType.equals(GvFact.TYPE)) {
             viewer = new ViewerTreeData<>(node.getFacts(), converter.newConverterFacts()
                     .getReferencesConverter(), mAdapterFactory);
-        } else if (dataType.equals(GvAuthor.TYPE)) {
+        } else if (dataType.equals(GvAuthorId.TYPE)) {
         viewer = new ViewerTreeData<>(node.getAuthorIds(), converter.newConverterAuthorsIds()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvSubject.TYPE)) {

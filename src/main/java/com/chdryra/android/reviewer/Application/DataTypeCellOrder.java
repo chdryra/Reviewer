@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Application;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
@@ -48,7 +48,7 @@ public class DataTypeCellOrder {
         public static final List<GvDataType<? extends GvData>> ORDER = new ArrayList<>();
         static {
             ORDER.add(GvNode.TYPE);
-            ORDER.add(GvAuthor.TYPE);
+            ORDER.add(GvAuthorId.TYPE);
             ORDER.add(GvSubject.TYPE);
             ORDER.add(GvDate.TYPE);
             ORDER.add(GvTag.TYPE);

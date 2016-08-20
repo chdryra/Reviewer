@@ -49,7 +49,7 @@ public class TreeItemReferences<T extends HasReviewId> extends TreeDataReference
                 IdableList<ReviewItemReference<T>> references = new IdableDataList<>(getReviewId());
                 if(data != null && !message.isError()) {
                     for(T datum : data) {
-                        references.add(mReferenceFactory.newWrapper(getReviewId(), datum));
+                        references.add(mReferenceFactory.newWrapper(datum));
                     }
                 }
 

@@ -38,16 +38,6 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     }
 
     @Override
-    public void onChildAdded(ReviewNode child) {
-        nullifyCache();
-    }
-
-    @Override
-    public void onChildRemoved(ReviewNode child) {
-        nullifyCache();
-    }
-
-    @Override
     protected GvDataList<GvNode> makeGridData() {
         return  mConverter.convert(getReviewNode().getChildren());
     }

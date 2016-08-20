@@ -43,7 +43,7 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
 
     public ReviewReferenceWrapper(Review review, TagsManager tagsManager, FactoryMdReference
             referenceFactory) {
-        super(review.getReviewId(), review);
+        super(review);
         mReview = review;
         mTagsManager = tagsManager;
         mReferenceFactory = referenceFactory;
@@ -76,7 +76,7 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
 
     @Override
     public ReviewItemReference<DataImage> getCover() {
-        return new StaticItemReference<>(getReviewId(), mReview.getCover());
+        return new StaticItemReference<>(mReview.getCover());
     }
 
     @Override

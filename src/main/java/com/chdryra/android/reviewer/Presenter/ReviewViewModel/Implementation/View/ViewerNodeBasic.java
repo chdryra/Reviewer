@@ -51,20 +51,19 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         return mType;
     }
 
-
     @Override
     public void onChildAdded(ReviewNode child) {
-
+        nullifyCache();
     }
 
     @Override
     public void onChildRemoved(ReviewNode child) {
-
+        nullifyCache();
     }
 
     @Override
     public void onNodeChanged() {
-
+        nullifyCache();
     }
 
     @Override

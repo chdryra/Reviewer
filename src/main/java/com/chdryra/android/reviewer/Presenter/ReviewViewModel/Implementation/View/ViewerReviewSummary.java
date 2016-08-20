@@ -118,7 +118,8 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
 
         GvDataRefList<GvSize.Reference> data = new GvDataRefList<>(GvSize.Reference.TYPE, id);
         for (GvDataType<?> type : mCellOrder) {
-            data.add(order.get(type));
+            GvSize.Reference item = order.get(type);
+            data.add(item);
         }
 
         return data;

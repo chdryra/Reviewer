@@ -8,23 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhAuthorId extends VhText {
-    public VhAuthorId() {
-        super(new VHDataStringGetter() {
-            @Override
-            public String getString(ViewHolderData data) {
-                GvAuthorId author = (GvAuthorId) data;
-                return author.toString();
-            }
-        });
-    }
+
 }

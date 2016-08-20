@@ -21,11 +21,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReferen
 public class StaticItemReference<T extends HasReviewId> extends SimpleReference<T> implements ReviewItemReference<T> {
     private T mValue;
 
-    public StaticItemReference(final ReviewId id, final T value) {
+    public StaticItemReference(final T value) {
         super(new Dereferencer<T>() {
             @Override
             public ReviewId getReviewId() {
-                return id;
+                return value.getReviewId();
             }
 
             @Override

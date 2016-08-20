@@ -48,5 +48,4 @@ public class ViewerTreeData<ValueType extends HasReviewId, GvRef extends
     public ReviewViewAdapter<?> expandGridCell(GvRef datum) {
         return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum) : null;
     }
-
 }

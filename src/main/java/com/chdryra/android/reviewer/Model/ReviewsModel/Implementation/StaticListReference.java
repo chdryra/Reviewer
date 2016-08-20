@@ -28,7 +28,7 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     private Collection<ListItemBinder<T>> mItemBinders;
 
     public StaticListReference(IdableList<T> value) {
-        super(value.getReviewId(), value);
+        super(value);
         mItemBinders = new ArrayList<>();
     }
 
@@ -36,14 +36,14 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     public void toItemReferences(ItemReferencesCallback<T> callback) {
         IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(getReviewId());
         for (T item : getData()) {
-            refs.add(new StaticItemReference<>(getReviewId(), item));
+            refs.add(new StaticItemReference<>(item));
         }
         callback.onItemReferences(refs);
     }
 
     @Override
     public ReviewItemReference<DataSize> getSize() {
-        return new StaticItemReference<>(getReviewId(), getData().getDataSize());
+        return new StaticItemReference<>(getData().getDataSize());
     }
 
     @Override
