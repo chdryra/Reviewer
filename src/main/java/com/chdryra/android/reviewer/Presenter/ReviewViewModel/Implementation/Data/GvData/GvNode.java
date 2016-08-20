@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
-public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
+public class GvNode extends GvDataBasic<GvNode> implements ReviewFundamentals {
     public static final GvDataType<GvNode> TYPE =
             new GvDataType<>(GvNode.class, "review");
 

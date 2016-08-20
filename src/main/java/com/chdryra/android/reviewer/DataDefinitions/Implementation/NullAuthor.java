@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullAuthor {
-    public static final NamedAuthor AUTHOR = new DefaultNamedAuthor("APP", new DefaultAuthorId("APP"));
+    public static final NamedAuthor AUTHOR = new DefaultNamedAuthor("APP", new AuthorIdParcelable("APP"));
 }

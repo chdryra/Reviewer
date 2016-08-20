@@ -26,7 +26,7 @@ public class ConverterCriterion implements ListItemConverter<DataCriterion> {
     @Override
     public DataCriterion convert(ReviewId id, DataSnapshot snapshot) {
         Criterion value = snapshot.getValue(Criterion.class);
-        return value == null ? new DatumCriterion(id) :
+        return value == null ? null :
                 new DatumCriterion(id, value.getSubject(), (float) value.getRating());
     }
 }

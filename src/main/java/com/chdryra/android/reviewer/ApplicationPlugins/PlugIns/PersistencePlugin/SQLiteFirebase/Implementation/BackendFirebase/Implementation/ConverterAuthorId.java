@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.DataSnapshot;
 
@@ -26,6 +26,6 @@ public class ConverterAuthorId implements SnapshotConverter<AuthorId> {
     @Nullable
     public AuthorId convert(DataSnapshot snapshot) {
         String authorId = snapshot.getValue(String.class);
-        return authorId != null ? new DefaultAuthorId(authorId) : null;
+        return authorId != null ? new AuthorIdParcelable(authorId) : null;
     }
 }

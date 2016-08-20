@@ -110,7 +110,6 @@ public class BackendRepoService extends IntentService {
     }
 
     private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
-
         @Override
         public void onAddedToRepoCallback(RepositoryResult result) {
             Review review = result.getReview();

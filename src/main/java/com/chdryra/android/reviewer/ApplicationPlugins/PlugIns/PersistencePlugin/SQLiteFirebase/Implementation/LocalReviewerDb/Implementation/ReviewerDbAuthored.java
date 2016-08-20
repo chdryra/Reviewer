@@ -47,19 +47,19 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
     }
 
     @Override
-    public void bind(ReviewsSubscriber subscriber) {
+    public void subscribe(ReviewsSubscriber subscriber) {
         if(!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
         if(mSubscribers.size() == 1) {
-            mRepo.bind(this);
+            mRepo.subscribe(this);
         } else {
             mRepo.getReferences(subscriber, mAuthorId);
         }
     }
 
     @Override
-    public void unbind(ReviewsSubscriber subscriber) {
+    public void unsubscribe(ReviewsSubscriber subscriber) {
         if(mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
-        if(mSubscribers.size() == 0) mRepo.unbind(this);
+        if(mSubscribers.size() == 0) mRepo.unsubscribe(this);
     }
 
     @Override

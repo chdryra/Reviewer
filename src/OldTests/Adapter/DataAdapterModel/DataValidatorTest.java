@@ -13,11 +13,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;

@@ -50,6 +50,8 @@ public interface ReviewView<T extends GvData>
 
     void detachContainer(ReviewViewContainer container);
 
+    void updateContextButton();
+
     void updateCover();
 
     void updateAll();

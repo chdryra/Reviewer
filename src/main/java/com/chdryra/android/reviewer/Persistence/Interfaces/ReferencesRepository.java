@@ -16,9 +16,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReferencesRepository {
-    void bind(ReviewsSubscriber subscriber);
+    void subscribe(ReviewsSubscriber subscriber);
 
-    void unbind(ReviewsSubscriber binder);
+    void unsubscribe(ReviewsSubscriber subscriber);
 
     void getReference(ReviewId reviewId, RepositoryCallback callback);
 }

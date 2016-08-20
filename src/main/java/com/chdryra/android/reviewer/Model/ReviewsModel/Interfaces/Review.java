@@ -16,12 +16,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
-public interface Review extends DataReviewInfo {
+public interface Review extends ReviewFundamentals {
     interface ReviewObserver {
         void onReviewChanged();
     }

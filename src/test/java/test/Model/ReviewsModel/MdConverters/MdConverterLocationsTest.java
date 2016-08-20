@@ -11,7 +11,6 @@ package test.Model.ReviewsModel.MdConverters;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterLocations;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

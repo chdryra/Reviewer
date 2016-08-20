@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -55,11 +55,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbReference extends SimpleReference<Review> implements ReviewReference {
-    private DataReviewInfo mInfo;
+    private ReviewFundamentals mInfo;
     private ReviewerDbRepository mRepo;
     private FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepository repo, FactoryDbReference referenceFactory) {
+    public ReviewerDbReference(ReviewFundamentals info, ReviewerDbRepository repo, FactoryDbReference referenceFactory) {
         super(new ReviewDereferencer(info.getReviewId(), repo));
         mInfo = info;
         mRepo = repo;

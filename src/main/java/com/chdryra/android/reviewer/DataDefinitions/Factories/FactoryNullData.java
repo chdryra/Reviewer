@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryNullData {
-    private static final AuthorId NULL_USER_ID = new DefaultAuthorId(AuthorId.NULL_ID_STRING);
+    private static final AuthorId NULL_USER_ID = new AuthorIdParcelable(AuthorId.NULL_ID_STRING);
 
     public static DataAuthor nullAuthor(ReviewId id) {
         return new DatumAuthor(id, "", NULL_USER_ID);

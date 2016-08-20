@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;

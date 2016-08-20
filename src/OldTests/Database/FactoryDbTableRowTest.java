@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;

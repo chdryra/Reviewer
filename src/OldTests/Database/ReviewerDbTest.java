@@ -37,12 +37,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterio
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;

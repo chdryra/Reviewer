@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -46,6 +46,6 @@ public class BackendValidator {
     }
 
     private boolean isValid(String authorId) {
-        return authorId != null && mValidator.validate(new DefaultAuthorId(authorId));
+        return authorId != null && mValidator.validate(new AuthorIdParcelable(authorId));
     }
 }

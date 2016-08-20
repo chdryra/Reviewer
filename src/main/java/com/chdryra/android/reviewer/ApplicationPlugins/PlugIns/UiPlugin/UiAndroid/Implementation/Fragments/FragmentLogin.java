@@ -97,6 +97,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         mPresenter = new PresenterLogin.Builder(app).build(this);
+        mPresenter.startSessionObservation();
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 

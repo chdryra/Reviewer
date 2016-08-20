@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.NetworkServices.Factories;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
         .FactoryBackendUploader;

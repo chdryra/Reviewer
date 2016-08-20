@@ -10,7 +10,6 @@ package test.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 
 import org.junit.Test;
 
@@ -18,7 +17,6 @@ import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey

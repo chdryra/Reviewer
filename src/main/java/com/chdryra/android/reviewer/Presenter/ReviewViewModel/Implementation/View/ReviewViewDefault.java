@@ -143,6 +143,11 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
+    public void updateContextButton() {
+        getContainer().updateContextButton();
+    }
+
+    @Override
     public void registerObserver(DataObservable.DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }

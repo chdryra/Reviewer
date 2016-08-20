@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
@@ -38,10 +38,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -69,7 +68,7 @@ import static org.junit.Assert.fail;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestReviews {
-    private static DefaultNamedAuthor AUTHOR = new DefaultNamedAuthor("Riz", new DefaultAuthorId("123"));
+    private static DefaultNamedAuthor AUTHOR = new DefaultNamedAuthor("Riz", new AuthorIdParcelable("123"));
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;

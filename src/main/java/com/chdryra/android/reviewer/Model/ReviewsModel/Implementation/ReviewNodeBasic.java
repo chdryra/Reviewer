@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewNodeBasic implements ReviewNode {
-    protected ArrayList<NodeObserver> mObservers;
+    private ArrayList<NodeObserver> mObservers;
 
     public ReviewNodeBasic() {
         mObservers = new ArrayList<>();

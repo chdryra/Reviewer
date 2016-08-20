@@ -17,9 +17,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.UserModel.AuthorId;

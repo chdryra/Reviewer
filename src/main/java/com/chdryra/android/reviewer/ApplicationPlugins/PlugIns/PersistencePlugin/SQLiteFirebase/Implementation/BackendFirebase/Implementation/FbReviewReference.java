@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -42,13 +42,13 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReviewReference extends FbReviewRefItem<Review> implements ReviewReference {
-    private final DataReviewInfo mInfo;
+    private final ReviewFundamentals mInfo;
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
     private final FactoryFbDataReference mReferencer;
 
-    public FbReviewReference(DataReviewInfo info,
+    public FbReviewReference(ReviewFundamentals info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<Review> converter,

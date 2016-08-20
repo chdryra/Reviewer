@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.Factories;
+package com.chdryra.android.reviewer.Model.TreeMethods.Factories;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

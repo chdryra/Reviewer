@@ -68,16 +68,6 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         return new GvSize(getGvReviewId(), mType, size());
     }
 
-    @Nullable
-    @Override
-    public T getItem(ReviewId id) {
-        for (T datum : this) {
-            if(datum.getReviewId().equals(id)) return datum;
-        }
-
-        return null;
-    }
-
     @Override
     protected Comparator<? super T> getDefaultComparator() {
         return GvDataComparators.getDefaultComparator(mType);

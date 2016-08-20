@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterImages;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomString;

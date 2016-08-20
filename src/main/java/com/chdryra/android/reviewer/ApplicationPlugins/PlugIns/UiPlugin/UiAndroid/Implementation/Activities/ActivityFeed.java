@@ -14,8 +14,8 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 
@@ -27,9 +27,9 @@ public class ActivityFeed extends ActivityReviewsList {
 
     @Override
     protected PresenterReviewsList newPresenter() {
-        ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
+        ParcelablePacker<AuthorIdParcelable> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
-        GvAuthor bundledAuthor = args != null ?
+        AuthorIdParcelable bundledAuthor = args != null ?
                 packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : null;
         if(bundledAuthor == null) throw new IllegalArgumentException("No author!");
 

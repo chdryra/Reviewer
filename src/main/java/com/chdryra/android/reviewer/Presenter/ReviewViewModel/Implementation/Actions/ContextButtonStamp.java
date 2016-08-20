@@ -8,15 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-
-import java.text.DateFormat;
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,13 +26,17 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<T>
-        implements ContextualButtonAction<T> {
+        implements ContextualButtonAction<T>, DataReference.DereferenceCallback<NamedAuthor> {
     private ApplicationInstance mApp;
-    private ReviewStamp mStamp;
+    private AuthorId mAuthorId;
+    private String mDate;
+    private String mName;
 
     public ContextButtonStamp(ApplicationInstance app, ReviewStamp stamp) {
         mApp = app;
-        mStamp = stamp;
+        mAuthorId = stamp.getAuthorId();
+        mDate = stamp.toReadableDate();
+        mApp.getUsersManager().getAuthorsRepository().getName(mAuthorId).dereference(this);
     }
 
     @Override
@@ -41,12 +47,19 @@ public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<
 
     @Override
     public void onClick(View v) {
-        mApp.launchFeed(mStamp.getAuthorId());
+        mApp.launchFeed(mAuthorId);
     }
 
     @Override
     public String getButtonTitle() {
-        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
-                (new Date(mStamp.getDate().getTime()));
+        return mName != null ? mName + " " + mDate : mDate;
+    }
+
+    @Override
+    public void onDereferenced(@Nullable NamedAuthor data, CallbackMessage message) {
+        if(data != null && !message.isError()) {
+            mName = data.getName();
+            if(isAttached()) getReviewView().updateContextButton();
+        }
     }
 }

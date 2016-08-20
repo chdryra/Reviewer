@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;

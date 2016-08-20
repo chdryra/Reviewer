@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.testutils.RandomString;
@@ -70,7 +70,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
     @Test
     public void constructionWithDataAuthorWithInvalidUserIdMakesRowAuthorInvalid() {
-        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), new DefaultAuthorId(""));
+        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), new AuthorIdParcelable(""));
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }

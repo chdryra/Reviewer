@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;

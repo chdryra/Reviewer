@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.Factories;
+package com.chdryra.android.reviewer.Model.TreeMethods.Factories;
 
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
         .DepthFirstPreIterator;

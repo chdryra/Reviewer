@@ -108,11 +108,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public void addChildren(Iterable<ReviewNodeComponent> children) {
-
-    }
-
-    @Override
     public void removeChild(ReviewId reviewId) {
 
     }
@@ -129,7 +124,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @Override
     public IdableList<ReviewNode> getChildren() {
-        return new MdDataList<>(getReviewId());
+        return new IdableDataList<>(getReviewId());
     }
 
     @Override

@@ -67,14 +67,14 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     }
 
     @Override
-    public void bind(ReviewsSubscriber subscriber) {
+    public void subscribe(ReviewsSubscriber subscriber) {
         ChildEventListener listener = newChildEventListener(subscriber);
         mSubscribers.put(subscriber.getSubscriberId(), listener);
         mStructure.getListEntriesDb(mDataBase).addChildEventListener(listener);
     }
 
     @Override
-    public void unbind(ReviewsSubscriber subscriber) {
+    public void unsubscribe(ReviewsSubscriber subscriber) {
         ChildEventListener listener = mSubscribers.remove(subscriber.getSubscriberId());
         if (listener != null) mStructure.getListEntriesDb(mDataBase).removeEventListener(listener);
     }

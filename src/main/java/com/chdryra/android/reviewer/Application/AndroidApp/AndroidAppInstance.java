@@ -34,10 +34,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -273,9 +273,9 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public void launchFeed(AuthorId authorId) {
-        DefaultAuthorId id = new DefaultAuthorId(authorId.toString());
+        AuthorIdParcelable id = new AuthorIdParcelable(authorId.toString());
         LaunchableConfig feedConfig = getConfigUi().getFeed();
-        ParcelablePacker<DefaultAuthorId> packer = new ParcelablePacker<>();
+        ParcelablePacker<AuthorIdParcelable> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, id, args);
         getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);

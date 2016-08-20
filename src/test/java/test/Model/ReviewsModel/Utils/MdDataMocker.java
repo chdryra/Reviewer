@@ -14,14 +14,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDate;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;

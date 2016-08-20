@@ -51,6 +51,10 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
         onAttachReviewView();
     }
 
+    protected boolean isAttached() {
+        return mReviewView != null;
+    }
+
     @Override
     public void detachReviewView() {
         onDetachReviewView();
@@ -69,7 +73,7 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     private void throwIfNoReviewViewAttached() {
         if (mReviewView == null) {
-            throw new UnattachedReviewViewException("Can't getActivity(): No ReviewView Attached");
+            throw new UnattachedReviewViewException("   No ReviewView Attached");
         }
     }
 }

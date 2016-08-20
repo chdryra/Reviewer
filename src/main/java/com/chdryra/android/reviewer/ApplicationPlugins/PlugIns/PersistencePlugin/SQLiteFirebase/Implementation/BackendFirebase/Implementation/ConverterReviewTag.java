@@ -24,6 +24,6 @@ public class ConverterReviewTag implements ListItemConverter<DataTag> {
     @Override
     public DataTag convert(ReviewId id, DataSnapshot snapshot) {
         String value = snapshot.getValue(String.class);
-        return value == null ? new DatumTag(id) : new DatumTag(id, value);
+        return value == null ? null : new DatumTag(id, value);
     }
 }

@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -48,7 +48,7 @@ public class CanonicalAuthorTest {
     public void setUp() {
         mCanonical = new CanonicalAuthor(new ComparitorAuthor());
         mAuthorName = RandomString.nextWord();
-        mAuthorId = new DefaultAuthorId(RandomString.nextWord());
+        mAuthorId = new AuthorIdParcelable(RandomString.nextWord());
     }
 
     @Test

@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
@@ -99,7 +99,7 @@ public class BackendReviewConverter {
 
     private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
-        AuthorId authorId = new DefaultAuthorId(review.getAuthorId());
+        AuthorId authorId = new AuthorIdParcelable(review.getAuthorId());
 
         DateTime date = new DatumDate(reviewId, review.getPublishDate());
         String subject = review.getSubject();

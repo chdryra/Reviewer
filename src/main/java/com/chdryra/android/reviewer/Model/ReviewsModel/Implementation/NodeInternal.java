@@ -9,7 +9,10 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -18,10 +21,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
@@ -31,21 +34,15 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-import java.util.ArrayList;
-
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
-    private DataReviewInfo mMeta;
+    private ReviewFundamentals mMeta;
     private FactoryMdReference mReferenceFactory;
+    private IdableList<ReviewNodeComponent> mChildren;
 
-    private ArrayList<NodeObserver> mObservers;
-    private MdDataList<ReviewNodeComponent> mChildren;
-
-    public NodeInternal(DataReviewInfo meta,
-                        FactoryMdReference referenceFactory) {
+    public NodeInternal(ReviewFundamentals meta, FactoryMdReference referenceFactory) {
         mMeta = meta;
         mReferenceFactory = referenceFactory;
-        mChildren = new MdDataList<>(getReviewId());
-        mObservers = new ArrayList<>();
+        mChildren = new IdableDataList<>(getReviewId());
     }
 
     @Override
@@ -104,18 +101,8 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void unregisterObserver(NodeObserver binder) {
-        if (mObservers.contains(binder)) mObservers.remove(binder);
-    }
-
-    @Override
-    public void registerObserver(NodeObserver binder) {
-        if (!mObservers.contains(binder)) mObservers.add(binder);
-    }
-
-    @Override
     public void addChild(ReviewNodeComponent child) {
-        if (mChildren.containsId(child.getReviewId())) return;
+        if (hasChild(child.getReviewId())) return;
 
         mChildren.add(child);
         child.setParent(this);
@@ -126,48 +113,36 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void addChildren(Iterable<ReviewNodeComponent> children) {
-        for(ReviewNodeComponent child : children) {
-            if (mChildren.containsId(child.getReviewId())) continue;
-            mChildren.add(child);
-            child.setParent(this);
-        }
-
-        for(ReviewNodeComponent child : children) {
-            registerWithChild(child);
-        }
-
-        for(ReviewNodeComponent child : children) {
-            notifyOnChildAdded(child);
-        }
-    }
-
-    @Override
     public void removeChild(ReviewId reviewId) {
-        if (!hasChild(reviewId)) return;
+        ReviewNodeComponent childNode = (ReviewNodeComponent) getChild(reviewId);
+        if(childNode == null) return;
 
-        ReviewNodeComponent childNode = mChildren.getItem(reviewId);
-        mChildren.remove(reviewId);
-        if (childNode != null) childNode.setParent(null);
+        mChildren.remove(childNode);
+        childNode.setParent(null);
 
         unregisterWithChild(reviewId);
 
-        if (childNode != null) notifyOnChildRemoved(childNode);
+        notifyOnChildRemoved(childNode);
     }
 
     @Override
+    @Nullable
     public ReviewNode getChild(ReviewId reviewId) {
-        return mChildren.getItem(reviewId);
+        for(ReviewNode child : mChildren) {
+            if(child.getReviewId().equals(reviewId)) return child;
+        }
+
+        return null;
     }
 
     @Override
     public boolean hasChild(ReviewId reviewId) {
-        return mChildren.containsId(reviewId);
+        return getChild(reviewId) != null;
     }
 
     @Override
     public IdableList<ReviewNode> getChildren() {
-        MdDataList<ReviewNode> children = new MdDataList<>(mChildren.getReviewId());
+        IdableList<ReviewNode> children = new IdableDataList<>(mChildren.getReviewId());
         children.addAll(mChildren);
         return children;
     }
@@ -218,7 +193,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             weight += childRating.getRatingWeight();
         }
         if (weight > 0) rating /= weight;
-        return new MdRating(new MdReviewId(getReviewId()), rating, weight);
+        return new DatumRating(getReviewId(), rating, weight);
     }
 
     private void unregisterWithChild(ReviewId childId) {

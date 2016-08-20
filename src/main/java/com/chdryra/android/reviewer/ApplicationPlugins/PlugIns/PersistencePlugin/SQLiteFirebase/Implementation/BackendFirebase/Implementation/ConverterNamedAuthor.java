@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.firebase.client.DataSnapshot;
@@ -27,6 +27,6 @@ public class ConverterNamedAuthor implements SnapshotConverter<NamedAuthor> {
     public NamedAuthor convert(DataSnapshot snapshot) {
         String id = snapshot.getKey();
         String name = snapshot.getValue(String.class);
-        return name != null ? new DefaultNamedAuthor(name, new DefaultAuthorId(id)) : null;
+        return name != null ? new DefaultNamedAuthor(name, new AuthorIdParcelable(id)) : null;
     }
 }

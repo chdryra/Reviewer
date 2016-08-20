@@ -24,8 +24,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemReferences;
@@ -35,6 +33,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 
 /**
@@ -46,8 +46,8 @@ public class FactoryMdReference {
     private FactoryNodeTraverser mTraverserFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
 
-    public FactoryMdReference(FactoryNodeTraverser traverserFactory, FactoryVisitorReviewNode 
-            visitorFactory) {
+    public FactoryMdReference(FactoryNodeTraverser traverserFactory,
+                              FactoryVisitorReviewNode visitorFactory) {
         mTraverserFactory = traverserFactory;
         mVisitorFactory = visitorFactory;
     }

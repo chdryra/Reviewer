@@ -37,13 +37,13 @@ public class ConverterImage implements SnapshotConverter<DataImage>, ListItemCon
     @Override
     @Nullable
     public DataImage convert(DataSnapshot snapshot) {
-        return mId != null ? convert(mId, snapshot) : new DatumImage();
+        return mId != null ? convert(mId, snapshot) : null;
     }
 
     @Override
     public DataImage convert(ReviewId id, DataSnapshot snapshot) {
         ImageData value = snapshot.getValue(ImageData.class);
-        return value == null ? new DatumImage(id) : new DatumImage(id, ImageData.asBitmap(value.getBitmap()),
+        return value == null ? null : new DatumImage(id, ImageData.asBitmap(value.getBitmap()),
                 new DatumDate(id, value.getDate()), value.getCaption(), value.isCover());
     }
 }

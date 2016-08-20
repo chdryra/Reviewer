@@ -9,8 +9,17 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
@@ -25,23 +34,29 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * review data.
  */
 public class ReviewUser extends ReviewStatic {
-    private final MdReviewId mId;
-    private final MdAuthorId mAuthor;
-    private final MdDate mPublishDate;
-    private final MdSubject mSubject;
-    private final MdRating mRating;
-    private final MdDataList<MdCriterion> mCriteria;
-    private final MdDataList<MdComment> mComments;
-    private final MdDataList<MdImage> mImages;
-    private final MdDataList<MdFact> mFacts;
-    private final MdDataList<MdLocation> mLocations;
+    private final ReviewId mId;
 
-    public ReviewUser(MdReviewId id, MdAuthorId author, MdDate publishDate, MdSubject subject,
-                      MdRating rating, MdDataList<MdComment> comments,
-                      MdDataList<MdImage>  images,
-                      MdDataList<MdFact> facts,
-                      MdDataList<MdLocation> locations,
-                      MdDataList<MdCriterion> criteria) {
+    private final DataAuthorId mAuthor;
+    private final DataDate mPublishDate;
+    private final DataSubject mSubject;
+    private final DataRating mRating;
+
+    private final IdableList<? extends DataCriterion> mCriteria;
+    private final IdableList<? extends DataComment> mComments;
+    private final IdableList<? extends DataImage> mImages;
+    private final IdableList<? extends DataFact> mFacts;
+    private final IdableList<? extends DataLocation> mLocations;
+
+    public ReviewUser(ReviewId id,
+                      DataAuthorId author,
+                      DataDate publishDate,
+                      DataSubject subject,
+                      DataRating rating,
+                      IdableList<? extends DataComment> comments,
+                      IdableList<? extends DataImage>  images,
+                      IdableList<? extends DataFact> facts,
+                      IdableList<? extends DataLocation> locations,
+                      IdableList<? extends DataCriterion> criteria) {
         mId = id;
 
         checkId(author);
@@ -78,49 +93,49 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
-    public MdSubject getSubject() {
+    public DataSubject getSubject() {
         return mSubject;
     }
 
     @Override
-    public MdRating getRating() {
+    public DataRating getRating() {
         return mRating;
     }
 
     @Override
-    public MdAuthorId getAuthorId() {
+    public DataAuthorId getAuthorId() {
         return mAuthor;
     }
 
     @Override
-    public MdDate getPublishDate() {
+    public DataDate getPublishDate() {
         return mPublishDate;
     }
 
     @Override
-    public MdDataList<MdCriterion> getCriteria() {
+    public IdableList<? extends DataCriterion> getCriteria() {
         return mCriteria;
     }
 
     @Override
-    public MdDataList<MdComment> getComments() {
+    public IdableList<? extends DataComment> getComments() {
         return mComments;
     }
 
     @Override
-    public MdDataList<MdFact> getFacts() {
+    public IdableList<? extends DataFact> getFacts() {
         return mFacts;
     }
 
     @Override
-    public MdDataList<MdImage> getImages() {
+    public IdableList<? extends DataImage> getImages() {
         return mImages;
     }
 
     @Override
     public DataImage getCover() {
         DataImage cover = new DatumImage(mId);
-        for (MdImage image : getImages()) {
+        for (DataImage image : getImages()) {
             if (image.isCover()) cover = image;
         }
 
@@ -128,7 +143,7 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
-    public MdDataList<MdLocation> getLocations() {
+    public IdableList<? extends DataLocation> getLocations() {
         return mLocations;
     }
 

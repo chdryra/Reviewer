@@ -180,13 +180,13 @@ public class ReviewerDbRepository implements LocalRepository {
     }
 
     @Override
-    public void bind(ReviewsSubscriber subscriber) {
+    public void subscribe(ReviewsSubscriber subscriber) {
         if (!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
         getReferences(subscriber, null);
     }
 
     @Override
-    public void unbind(ReviewsSubscriber subscriber) {
+    public void unsubscribe(ReviewsSubscriber subscriber) {
         if (mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
     }
 

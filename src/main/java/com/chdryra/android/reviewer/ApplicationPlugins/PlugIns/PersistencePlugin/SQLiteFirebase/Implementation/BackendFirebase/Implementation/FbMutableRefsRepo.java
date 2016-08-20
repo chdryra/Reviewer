@@ -138,8 +138,14 @@ public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepos
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                RepositoryResult result;
+                if(firebaseError == null) {
+                    result = new RepositoryResult(mConverter.convert(review));
+                } else {
+                    result = new RepositoryResult(CallbackMessage.error(firebaseError.getMessage()));
+                }
 
-                callback.onAddedToRepoCallback(new RepositoryResult(mConverter.convert(review)));
+                callback.onAddedToRepoCallback(result);
             }
         };
     }

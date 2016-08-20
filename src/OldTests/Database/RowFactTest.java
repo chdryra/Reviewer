@@ -14,8 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
+
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;

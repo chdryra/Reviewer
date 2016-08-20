@@ -34,7 +34,7 @@ public class ConverterLocation implements ListItemConverter<DataLocation> {
             return new DatumLocation(id, new LatLng(latLng.getLatitude(), latLng.getLongitude()),
                             value.getName());
         } else {
-            return new DatumLocation(id);
+            return null;
         }
     }
 }

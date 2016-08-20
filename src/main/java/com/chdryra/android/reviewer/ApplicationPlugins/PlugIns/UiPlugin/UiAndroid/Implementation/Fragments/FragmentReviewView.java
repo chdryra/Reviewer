@@ -105,6 +105,11 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @Override
+    public void updateContextButton() {
+        mContextual.update();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

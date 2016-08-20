@@ -20,8 +20,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 public interface ReviewNodeComponent extends ReviewNode {
     void addChild(ReviewNodeComponent childNode);
 
-    void addChildren(Iterable<ReviewNodeComponent> children);
-
     void removeChild(ReviewId reviewId);
 
     void setParent(@Nullable ReviewNodeComponent parent);

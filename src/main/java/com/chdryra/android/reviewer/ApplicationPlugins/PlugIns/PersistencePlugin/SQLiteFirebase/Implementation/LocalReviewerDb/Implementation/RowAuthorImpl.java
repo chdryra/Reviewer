@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
@@ -48,7 +48,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
 
     @Override
     public AuthorId getAuthorId() {
-        return new DefaultAuthorId(mUserId);
+        return new AuthorIdParcelable(mUserId);
     }
 
     @Override

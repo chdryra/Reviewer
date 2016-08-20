@@ -26,25 +26,35 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ContextButtonStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ContextButtonStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuNewReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -153,7 +163,9 @@ public class FactoryReviewView {
                                                                          ApplicationInstance app,
                                                                          ReviewViewAdapter<T>
                                                                                  adapter) {
-        if (dataType.equals(GvSize.TYPE)) return newDefaultScreenActions(dataType, app, adapter);
+        if (dataType.equals(GvSize.Reference.TYPE)) {
+            return newDefaultScreenActions(dataType, app, adapter);
+        }
 
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);

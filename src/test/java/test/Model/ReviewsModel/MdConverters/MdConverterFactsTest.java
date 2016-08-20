@@ -12,8 +12,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterFacts;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterUrl;
 import com.chdryra.android.testutils.RandomString;

@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.firebase.client.DataSnapshot;
 
@@ -18,5 +20,6 @@ import com.firebase.client.DataSnapshot;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ListItemConverter<T> {
+    @Nullable
     T convert(ReviewId id, DataSnapshot snapshot);
 }

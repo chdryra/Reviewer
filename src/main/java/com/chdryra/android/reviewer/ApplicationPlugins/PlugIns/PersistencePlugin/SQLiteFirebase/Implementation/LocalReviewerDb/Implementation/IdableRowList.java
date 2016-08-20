@@ -58,15 +58,6 @@ public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T
     }
 
     @Override
-    public T getItem(ReviewId id) {
-        for (T datum : this) {
-            if(datum.getReviewId().equals(id)) return datum;
-        }
-
-        return null;
-    }
-
-    @Override
     public boolean add(T datum) {
         return mData.add(datum);
     }

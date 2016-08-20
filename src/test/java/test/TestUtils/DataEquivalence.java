@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 import static org.hamcrest.CoreMatchers.is;

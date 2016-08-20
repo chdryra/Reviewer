@@ -148,9 +148,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mImage.setImageBitmap(null);
         mHeadline.setText(null);
         mTags.setText(null);
+        mPublishDate.setText(null);
         mAuthor = null;
         mLocation = null;
-        newFooter();
     }
 
     @Override

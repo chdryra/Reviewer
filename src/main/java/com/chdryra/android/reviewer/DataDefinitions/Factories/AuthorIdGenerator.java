@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 import java.util.UUID;
@@ -30,10 +30,10 @@ public class AuthorIdGenerator {
     }
 
     public static AuthorId newId() {
-        return new DefaultAuthorId(UUID.randomUUID().toString());
+        return new AuthorIdParcelable(UUID.randomUUID().toString());
     }
 
     public static AuthorId toId(String id) {
-        return new DefaultAuthorId(id);
+        return new AuthorIdParcelable(id);
     }
 }

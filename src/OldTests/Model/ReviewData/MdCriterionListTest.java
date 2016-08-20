@@ -7,7 +7,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;

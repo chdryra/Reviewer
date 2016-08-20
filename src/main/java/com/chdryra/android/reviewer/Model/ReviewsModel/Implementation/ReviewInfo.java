@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewInfo implements DataReviewInfo{
+public class ReviewInfo implements ReviewFundamentals {
     private ReviewId mReviewId;
     private DataSubject mSubject;
     private DataRating mRating;

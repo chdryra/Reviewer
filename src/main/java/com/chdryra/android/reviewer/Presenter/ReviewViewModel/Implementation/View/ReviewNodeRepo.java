@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -26,14 +26,14 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
     private ReferencesRepository mRepo;
     private FactoryReviewNode mNodeFactory;
 
-    public ReviewNodeRepo(DataReviewInfo meta,
+    public ReviewNodeRepo(ReviewFundamentals meta,
                           ReferencesRepository repo,
                           FactoryMdReference referenceFactory,
                           FactoryReviewNode nodeFactory) {
         super(meta, referenceFactory);
         mRepo = repo;
         mNodeFactory = nodeFactory;
-        mRepo.bind(this);
+        mRepo.subscribe(this);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
     }
 
     public void detachFromRepo() {
-        mRepo.unbind(this);
+        mRepo.unsubscribe(this);
         for(ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }

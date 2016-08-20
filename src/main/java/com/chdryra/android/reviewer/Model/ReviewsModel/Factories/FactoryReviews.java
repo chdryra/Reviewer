@@ -6,39 +6,37 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.Factories;
+package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDate;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
@@ -46,7 +44,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
@@ -65,15 +62,12 @@ import java.util.ArrayList;
 public class FactoryReviews implements ReviewMaker {
     private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
-    private ConverterMd mConverter;
     private FactoryMdReference mReferenceFactory;
 
-    public FactoryReviews(ConverterMd converter,
-                          FactoryMdReference referenceFactory) {
+    public FactoryReviews(FactoryMdReference referenceFactory, AuthorsStamp authorsStamp) {
         mNodeFactory = new FactoryReviewNode(this, referenceFactory);
         mReferenceFactory = referenceFactory;
-        mConverter = converter;
-        mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
+        mAuthorsStamp = authorsStamp;
     }
 
     public FactoryReviewNode getNodeFactory() {
@@ -113,7 +107,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNodeRepo createTree(ReferencesRepository repo, String title, ReviewStamp stamp) {
-        DataReviewInfo info = new ReviewInfo(stamp,
+        ReviewFundamentals info = new ReviewInfo(stamp,
                 new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
@@ -127,7 +121,7 @@ public class FactoryReviews implements ReviewMaker {
 
     @Override
     public Review makeReview(ReviewDataHolder reviewData) {
-        return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthorId(),
+        return newReviewUser(reviewData.getReviewId(), reviewData.getAuthorId(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
                 reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
                 reviewData.getFacts(), reviewData.getLocations());
@@ -137,11 +131,11 @@ public class FactoryReviews implements ReviewMaker {
     //private methods
     private Review createUserReview(String subject, float rating) {
         return newReviewUser(subject, rating,
-                new ArrayList<MdCriterion>(),
-                new ArrayList<MdComment>(),
-                new ArrayList<MdImage>(),
-                new ArrayList<MdFact>(),
-                new ArrayList<MdLocation>(), false);
+                new ArrayList<DataCriterion>(),
+                new ArrayList<DataComment>(),
+                new ArrayList<DataImage>(),
+                new ArrayList<DataFact>(),
+                new ArrayList<DataLocation>(), false);
     }
 
     private Review newReviewUser(String subject, float rating,
@@ -157,15 +151,9 @@ public class FactoryReviews implements ReviewMaker {
         AuthorId author = stamp.getAuthorId();
         DateTime date = stamp.getDate();
 
-        MdReviewId id = new MdReviewId(stamp);
-
         if (ratingIsAverage) rating = getAverageRating(criteria);
 
-        return newReviewUser(id, author, date, subject, rating,
-                criteria,
-                comments,
-                images,
-                facts,
+        return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images, facts,
                 locations);
     }
 
@@ -185,7 +173,7 @@ public class FactoryReviews implements ReviewMaker {
         return rating;
     }
 
-    private Review newReviewUser(MdReviewId id,
+    private Review newReviewUser(ReviewId id,
                                  AuthorId authorId,
                                  DateTime publishDate,
                                  String subject,
@@ -195,17 +183,37 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations) {
-        MdAuthorId mdAuthorId = new MdAuthorId(id, authorId);
-        MdDate mdDate = new MdDate(id, publishDate.getTime());
-        MdSubject mdSubject = new MdSubject(id, subject);
-        MdRating mdRating = new MdRating(id, rating, 1);
-        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id);
-        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id);
-        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id);
-        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id);
-        MdDataList<MdCriterion> mdCriteria = mConverter.toMdCriterionList(criteria, id);
+        DataAuthorId mdAuthor = new DatumAuthorId(id, authorId.toString());
+        DataDate mdDate = new DatumDate(id, publishDate.getTime());
+        DataSubject mdSubject = new DatumSubject(id, subject);
+        DataRating mdRating = new DatumRating(id, rating, 1);
+        
+        IdableList<DataComment> mdComments = new IdableDataList<>(id);
+        for(DataComment datum : comments) {
+            mdComments.add(new DatumComment(id, datum.getComment(), datum.isHeadline()));
+        }
 
-        return new ReviewUser(id, mdAuthorId, mdDate, mdSubject, mdRating, mdComments,
+        IdableList<DataCriterion> mdCriteria = new IdableDataList<>(id);
+        for(DataCriterion datum : criteria) {
+            mdCriteria.add(new DatumCriterion(id, datum.getSubject(), datum.getRating()));
+        }
+
+        IdableList<DataImage> mdImages = new IdableDataList<>(id);
+        for(DataImage datum : images) {
+            mdImages.add(new DatumImage(id, datum.getBitmap(), datum.getDate(), datum.getCaption(), datum.isCover()));
+        }
+
+        IdableList<DataFact> mdFacts = new IdableDataList<>(id);
+        for(DataFact datum : facts) {
+            mdFacts.add(new DatumFact(id, datum.getValue(), datum.getLabel(), datum.isUrl()));
+        }
+
+        IdableList<DataLocation> mdLocations = new IdableDataList<>(id);
+        for(DataLocation datum : locations) {
+            mdLocations.add(new DatumLocation(id, datum.getLatLng(), datum.getName()));
+        }
+
+        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
                 mdImages, mdFacts, mdLocations, mdCriteria);
     }
 }

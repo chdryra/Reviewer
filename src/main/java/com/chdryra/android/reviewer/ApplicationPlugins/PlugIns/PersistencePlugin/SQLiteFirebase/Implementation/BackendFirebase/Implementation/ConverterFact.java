@@ -32,7 +32,7 @@ public class ConverterFact implements ListItemConverter<DataFact> {
     @Override
     public DataFact convert(ReviewId id, DataSnapshot snapshot) {
         Fact value = snapshot.getValue(Fact.class);
-        return value == null ? new DatumFact(id) : newUrlOrFact(id, value);
+        return value == null ? null : newUrlOrFact(id, value);
     }
 
     @NonNull

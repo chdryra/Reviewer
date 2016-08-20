@@ -8,18 +8,15 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,7 +41,7 @@ public class FactoryReviewNode {
         return new NodeLeaf(review);
     }
 
-    public ReviewNodeComponent createComponent(DataReviewInfo meta) {
+    public ReviewNodeComponent createComponent(ReviewFundamentals meta) {
         return new NodeInternal(meta, mReferenceFactory);
     }
 
@@ -52,20 +49,18 @@ public class FactoryReviewNode {
         return new ReviewTree(node);
     }
 
-    public ReviewNodeComponent createMetaTree(DataReviewInfo meta,
+    public ReviewNodeComponent createMetaTree(ReviewFundamentals meta,
                                                Iterable<ReviewReference> reviews) {
-        ArrayList<ReviewNodeComponent> leaves = new ArrayList<>();
-        for (ReviewReference review : reviews) {
-            leaves.add(createLeafNode(review));
-        }
         ReviewNodeComponent parent = createComponent(meta);
-        parent.addChildren(leaves);
+        for (ReviewReference review : reviews) {
+            parent.addChild(createLeafNode(review));
+        }
 
         return parent;
     }
 
     public ReviewNodeComponent createMetaTree(ReviewReference review) {
-        IdableCollection<ReviewReference> single = new MdDataCollection<>();
+        IdableCollection<ReviewReference> single = new IdableDataCollection<>();
         single.add(review);
 
         return createMetaTree(review, single);

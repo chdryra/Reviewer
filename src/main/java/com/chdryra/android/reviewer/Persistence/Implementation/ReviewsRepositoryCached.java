@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
@@ -59,13 +59,13 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void bind(ReviewsSubscriber subscriber) {
-        mArchive.bind(subscriber);
+    public void subscribe(ReviewsSubscriber subscriber) {
+        mArchive.subscribe(subscriber);
     }
 
     @Override
-    public void unbind(ReviewsSubscriber binder) {
-        mArchive.unbind(binder);
+    public void unsubscribe(ReviewsSubscriber subscriber) {
+        mArchive.unsubscribe(subscriber);
     }
 
     @Override

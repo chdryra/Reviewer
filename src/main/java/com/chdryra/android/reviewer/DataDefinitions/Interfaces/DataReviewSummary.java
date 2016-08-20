@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewSummary extends DataReviewInfo {
+public interface DataReviewSummary extends ReviewFundamentals {
     String getHeadline();
 
     ArrayList<String> getTags();

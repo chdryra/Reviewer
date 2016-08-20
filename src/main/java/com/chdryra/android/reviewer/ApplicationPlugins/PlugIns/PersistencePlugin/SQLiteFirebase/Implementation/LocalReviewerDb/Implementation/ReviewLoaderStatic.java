@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
@@ -87,7 +87,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         int ratingWeight = reviewRow.getRatingWeight();
         PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
 
-        AuthorId authorId = new DefaultAuthorId(reviewRow.getAuthorId());
+        AuthorId authorId = new AuthorIdParcelable(reviewRow.getAuthorId());
         return new ReviewDataHolderImpl(reviewId, authorId,
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
                 criteria);

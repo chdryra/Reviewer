@@ -96,16 +96,6 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
         return mData.getItem(position);
     }
 
-    @Nullable
-    @Override
-    public T getItem(ReviewId id) {
-        for (T datum : this) {
-            if(datum.getReviewId().equals(id)) return datum;
-        }
-
-        return null;
-    }
-
     @Override
     public GvDataList<T> toList() {
         return mData;

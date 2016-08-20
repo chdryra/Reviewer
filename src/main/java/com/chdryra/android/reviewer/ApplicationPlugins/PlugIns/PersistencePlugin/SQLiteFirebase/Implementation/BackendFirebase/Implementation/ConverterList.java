@@ -31,16 +31,13 @@ public class ConverterList<T extends HasReviewId> implements SnapshotConverter<I
         mItemConverter = itemConverter;
     }
 
-    public ListItemConverter<T> getItemConverter() {
-        return mItemConverter;
-    }
-
     @Override
     @Nullable
     public IdableList<T> convert(DataSnapshot snapshot) {
         IdableList<T> data = new IdableDataList<>(mId);
         for(DataSnapshot item : snapshot.getChildren()) {
-            data.add(mItemConverter.convert(mId, item));
+            T converted = mItemConverter.convert(mId, item);
+            if(converted != null) data.add(converted);
         }
 
         return data;

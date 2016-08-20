@@ -27,6 +27,7 @@ public class ContextualUi {
     private ReviewView<?> mReviewView;
     private LinearLayout mView;
     private Button mButton;
+    private ContextualButtonAction<?> mAction;
 
     public ContextualUi(ReviewView reviewView, LinearLayout view, int buttonId, int textColour) {
         mReviewView = reviewView;
@@ -36,21 +37,21 @@ public class ContextualUi {
     }
 
     private void initialise(int textColour) {
-        ContextualButtonAction<?> action = mReviewView.getActions().getContextualAction();
-        if (action == null) {
+        mAction = mReviewView.getActions().getContextualAction();
+        if (mAction == null) {
             mView.setVisibility(View.GONE);
             return;
         }
 
-        mButton.setText(action.getButtonTitle());
         mButton.setTextColor(textColour);
-        mButton.setOnClickListener(newClickListener(action));
-        mButton.setOnLongClickListener(newLongClickListener(action));
+        mButton.setOnClickListener(newClickListener(mAction));
+        mButton.setOnLongClickListener(newLongClickListener(mAction));
 
         update();
     }
 
     public void update() {
+        if(mAction != null) mButton.setText(mAction.getButtonTitle());
     }
 
     @NonNull

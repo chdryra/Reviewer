@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -214,8 +214,8 @@ public class FactoryReviewViewAdapter {
 
     private ReviewNodeComponent getFetchingPlaceholder() {
         Review fetching = mReviewsFactory.createUserReview("Fetching...", 0f,
-                new ArrayList<DataCriterion>(), new ArrayList
-                        <DataComment>(), new ArrayList<DataImage>(), new ArrayList<DataFact>(),
+                new ArrayList<DataCriterion>(), new ArrayList<DataComment>(),
+                new ArrayList<DataImage>(), new ArrayList<DataFact>(),
                 new ArrayList<DataLocation>(), true);
 
         return mReviewsFactory.createLeafNode(mReviewsFactory.asReference(fetching, mReviewSource.getTagsManager()));

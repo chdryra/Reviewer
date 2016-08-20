@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Authentication.Factories;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
@@ -24,7 +24,7 @@ import java.util.Date;
  */
 public class FactoryAuthorProfile {
     public AuthorProfile newProfile(String name, String authorId, long dateJoined) {
-        NamedAuthor author = new DefaultNamedAuthor(name, new DefaultAuthorId(authorId));
+        NamedAuthor author = new DefaultNamedAuthor(name, new AuthorIdParcelable(authorId));
         return new AuthorProfile(author, new DatumDateTime(dateJoined));
     }
 

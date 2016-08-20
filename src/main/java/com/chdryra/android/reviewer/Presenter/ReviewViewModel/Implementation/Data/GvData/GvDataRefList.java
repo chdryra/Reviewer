@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 
 /**
@@ -29,28 +28,5 @@ public class GvDataRefList<Reference extends GvDataRef> extends GvDataListImpl<R
         for(Reference reference : this) {
             reference.unbind();
         }
-    }
-
-    @Override
-    public boolean contains(Object object) {
-        try {
-            Reference item = (Reference) object;
-            return contains(item.getReviewId());
-        } catch (ClassCastException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean add(Reference size) {
-        return !contains(size.getReviewId()) && add(size);
-    }
-
-    private boolean contains(ReviewId id) {
-        for (Reference review : this) {
-            if (review.getReviewId().equals(id)) return true;
-        }
-
-        return false;
     }
 }

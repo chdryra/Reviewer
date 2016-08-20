@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -88,7 +88,7 @@ public class BackendDataConverter {
     }
 
     private AuthorId convertAuthorId(String authorId) {
-        return new DefaultAuthorId(authorId);
+        return new AuthorIdParcelable(authorId);
     }
 
     private DataAuthorId convertAuthorId(String reviewId, String authorId) {
@@ -193,7 +193,7 @@ public class BackendDataConverter {
         return new DatumReviewId(reviewId);
     }
 
-    public DataReviewInfo convert(ReviewListEntry entry) {
+    public ReviewFundamentals convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
         return new ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),

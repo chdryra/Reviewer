@@ -15,7 +15,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;

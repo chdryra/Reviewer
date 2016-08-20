@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
@@ -38,7 +38,7 @@ public class Author {
     }
 
     public NamedAuthor toDataAuthor() {
-        return new DefaultNamedAuthor(name, new DefaultAuthorId(authorId));
+        return new DefaultNamedAuthor(name, new AuthorIdParcelable(authorId));
     }
 
     public static int size() {

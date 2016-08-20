@@ -18,29 +18,29 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DefaultAuthorId implements AuthorId, Parcelable{
-    public static final Creator<DefaultAuthorId> CREATOR = new Creator<DefaultAuthorId>() {
+public class AuthorIdParcelable implements AuthorId, Parcelable{
+    public static final Creator<AuthorIdParcelable> CREATOR = new Creator<AuthorIdParcelable>() {
         @Override
-        public DefaultAuthorId createFromParcel(Parcel in) {
-            return new DefaultAuthorId(in);
+        public AuthorIdParcelable createFromParcel(Parcel in) {
+            return new AuthorIdParcelable(in);
         }
 
         @Override
-        public DefaultAuthorId[] newArray(int size) {
-            return new DefaultAuthorId[size];
+        public AuthorIdParcelable[] newArray(int size) {
+            return new AuthorIdParcelable[size];
         }
     };
 
     private String mId;
 
-    public DefaultAuthorId() {
+    public AuthorIdParcelable() {
     }
 
-    public DefaultAuthorId(String id) {
+    public AuthorIdParcelable(String id) {
         mId = id;
     }
 
-    public DefaultAuthorId(Parcel in) {
+    public AuthorIdParcelable(Parcel in) {
         mId = in.readString();
     }
 

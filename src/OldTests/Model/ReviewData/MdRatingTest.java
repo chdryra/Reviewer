@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;

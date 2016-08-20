@@ -33,7 +33,7 @@ public class NullReviewDataHolder implements ReviewDataHolder {
 
     @Override
     public AuthorId getAuthorId() {
-        return new DefaultAuthorId();
+        return new AuthorIdParcelable();
     }
 
     @Override
