@@ -39,16 +39,6 @@ public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType
     private DataConverter<ValueType, ? extends GvDataParcelable, ?> mConverter;
     private Class<ValueHolder> mValueHolderClass;
 
-    protected VhDataReference<ValueType> newViewHolder() {
-        try {
-            return new VhDataRef<Reference, ValueType, ValueHolder>(mValueHolderClass.newInstance(), mConverter, mFactory);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public interface PlaceHolderFactory<ValueType extends HasReviewId> {
         ValueType newPlaceHolder(String placeHolder);
     }
@@ -66,19 +56,9 @@ public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType
         mReference.registerListener(this);
     }
 
-    protected PlaceHolderFactory<ValueType> getPlaceholderFactory() {
-        return mFactory;
-    }
-
-    @Nullable
-    @Override
-    public GvDataParcelable getParcelable() {
-        ValueType value = getDataValue() != null ? getDataValue() : mFactory.newPlaceHolder("");
-        return mConverter.convert(value);
-    }
-
     @NonNull
-    protected static <T extends GvData> GvDataType<T> getType(Class<T> refClass, GvDataType<?> type) {
+    protected static <T extends GvData> GvDataType<T> getType(Class<T> refClass,
+                                                              GvDataType<?> type) {
         return new GvDataType<>(refClass, type.getDatumName(), type.getDataName());
     }
 
@@ -95,6 +75,28 @@ public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType
         if (mViewHolder != null && mViewHolder.isBoundTo(mReference)) {
             mViewHolder.unbindFromReference();
         }
+    }
+
+    protected PlaceHolderFactory<ValueType> getPlaceholderFactory() {
+        return mFactory;
+    }
+
+    protected VhDataReference<ValueType> newViewHolder() {
+        try {
+            ValueHolder valueHolder = mValueHolderClass.newInstance();
+            return new VhDataRef<Reference, ValueType, ValueHolder>(valueHolder, mConverter, mFactory);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        ValueType value = getDataValue() != null ? getDataValue() : mFactory.newPlaceHolder("");
+        return mConverter.convert(value);
     }
 
     @Override

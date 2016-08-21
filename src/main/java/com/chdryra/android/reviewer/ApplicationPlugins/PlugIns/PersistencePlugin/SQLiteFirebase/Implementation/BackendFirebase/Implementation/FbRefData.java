@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.DataReferenceBasic;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindableReferenceBasic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -21,6 +21,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefData<T> extends DataReferenceBasic<T> {
+public class FbRefData<T> extends BindableReferenceBasic<T> {
     private Firebase mReference;
     private Map<ReferenceBinder<T>, ValueEventListener> mBindings;
     private SnapshotConverter<T> mConverter;
@@ -45,26 +46,14 @@ public class FbRefData<T> extends DataReferenceBasic<T> {
         return mReference;
     }
 
-    @Override
-    public void unbindFromValue(ReferenceBinder<T> binder) {
-        if (isValidReference() && mBindings.containsKey(binder)) {
-            mReference.removeEventListener(mBindings.get(binder));
-        }
-    }
+    protected void onDereferenced(T value) {
 
-    @Override
-    public void bindToValue(final ReferenceBinder<T> binder) {
-        if (isValidReference() && !mBindings.containsKey(binder)) {
-            ValueEventListener listener = newListener(binder);
-            mBindings.put(binder, listener);
-            mReference.addValueEventListener(listener);
-        }
     }
 
     @Override
     protected void onInvalidate() {
+        super.onInvalidate();
         for (Map.Entry<ReferenceBinder<T>, ValueEventListener> binding : mBindings.entrySet()) {
-            binding.getKey().onInvalidated(this);
             mReference.removeEventListener(binding.getValue());
         }
 
@@ -74,20 +63,30 @@ public class FbRefData<T> extends DataReferenceBasic<T> {
     }
 
     @Override
-    public void registerListener(InvalidationListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+    protected void removeBinder(ReferenceBinder<T> binder) {
+        mReference.removeEventListener(mBindings.get(binder));
     }
 
     @Override
-    public void unregisterListener(InvalidationListener listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
+    protected boolean contains(ReferenceBinder<T> binder) {
+        return mBindings.containsKey(binder);
     }
 
     @Override
-    public void dereference(final DereferenceCallback<T> callback) {
-        if (isValidReference()) {
-            mReference.addListenerForSingleValueEvent(getDereferencer(callback));
-        }
+    protected void doDereferencing(DereferenceCallback<T> callback) {
+        mReference.addListenerForSingleValueEvent(getDereferencer(callback));
+    }
+
+    @Override
+    protected Collection<ReferenceBinder<T>> getBinders() {
+        return mBindings.keySet();
+    }
+
+    @Override
+    protected void bind(ReferenceBinder<T> binder) {
+        ValueEventListener listener = newListener(binder);
+        mBindings.put(binder, listener);
+        mReference.addValueEventListener(mBindings.get(binder));
     }
 
     @NonNull
@@ -100,8 +99,8 @@ public class FbRefData<T> extends DataReferenceBasic<T> {
                     onDereferenced(value);
                     callback.onDereferenced(value, CallbackMessage.ok());
                 } else {
-                    callback.onDereferenced(null, CallbackMessage.error("Couldn't dereference"));
-
+                    invalidReference(callback);
+                    invalidate();
                 }
             }
 
@@ -112,17 +111,17 @@ public class FbRefData<T> extends DataReferenceBasic<T> {
         };
     }
 
-    protected void onDereferenced(T value) {
-
-    }
-
     @NonNull
     private ValueEventListener newListener(final ReferenceBinder<T> binder) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 T convert = mConverter.convert(dataSnapshot);
-                if (convert != null) binder.onReferenceValue(convert);
+                if (convert != null) {
+                    binder.onReferenceValue(convert);
+                } else {
+                    invalidate();
+                }
             }
 
             @Override

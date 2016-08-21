@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -23,27 +23,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItemReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleListReference;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
-        extends SimpleReference<IdableList<R>>
-        implements ReviewListReference<R> {
-    private DataLoader<T> mLoader;
-    private Converter<T, R> mConverter;
+public class DbListReference<Row extends ReviewDataRow<Row>, ValueType extends HasReviewId>
+        extends SimpleListReference<ValueType> {
+    private DataLoader<Row> mLoader;
+    private Converter<Row, ValueType> mConverter;
     private FactoryDbReference mReferenceFactory;
 
     public interface Converter<T extends ReviewDataRow<T>, R extends HasReviewId> {
         IdableList<R> convert(IdableList<T> data);
     }
 
-    public DbListReference(DataLoader<T> loader, FactoryDbReference referenceFactory, Converter<T, R> converter) {
+    public DbListReference(DataLoader<Row> loader, FactoryDbReference referenceFactory,
+                           Converter<Row, ValueType> converter) {
         super(new ListDereferencer<>(loader, converter));
         mLoader = loader;
         mReferenceFactory = referenceFactory;
@@ -51,14 +50,15 @@ public class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
     }
 
     @Override
-    public void toItemReferences(final ItemReferencesCallback<R> callback) {
+    public void toItemReferences(final ItemReferencesCallback<ValueType> callback) {
         final ReviewId id = getReviewId();
-        final IdableList<ReviewItemReference<R>> refs = new IdableDataList<>(id);
-        mLoader.onLoaded(new DataLoader.LoadedListener<T>() {
+        final IdableList<ReviewItemReference<ValueType>> refs = new IdableDataList<>(id);
+        mLoader.onLoaded(new DataLoader.LoadedListener<Row>() {
             @Override
-            public void onLoaded(IdableList<T> data) {
-                for(T datum : data) {
-                    DataLoader.RowLoader<T> itemLoader = mLoader.newRowLoader(datum.getRowId());
+            public void onLoaded(IdableList<Row> data) {
+                if (data.size() == 0) invalidate();
+                for (Row datum : data) {
+                    DataLoader.RowLoader<Row> itemLoader = mLoader.newRowLoader(datum.getRowId());
                     refs.add(mReferenceFactory.newItemReference(itemLoader, newItemConverter()));
                 }
 
@@ -67,32 +67,9 @@ public class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
         }).execute();
     }
 
-    @NonNull
-    private DbItemReference.Converter<T, R> newItemConverter() {
-        return new DbItemReference.Converter<T, R>() {
-            @Override
-            public R convert(T data) {
-                IdableList<T> list = new IdableDataList<T>(getReviewId());
-                list.add(data);
-                IdableList<R> convert = mConverter.convert(list);
-                return convert.getItem(0);
-            }
-        };
-    }
-
-    @Override
-    public void bindToItems(ListItemBinder<R> binder) {
-
-    }
-
-    @Override
-    public void unbindFromItems(ListItemBinder<R> binder) {
-
-    }
-
     @Override
     public ReviewItemReference<DataSize> getSize() {
-        return mReferenceFactory.newSizeReference(new SimpleReference.Dereferencer<DataSize>() {
+        return mReferenceFactory.newSizeReference(new SimpleItemReference.Dereferencer<DataSize>() {
             @Override
             public ReviewId getReviewId() {
                 return DbListReference.this.getReviewId();
@@ -100,10 +77,12 @@ public class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
 
             @Override
             public void dereference(final DereferenceCallback<DataSize> callback) {
-                DbListReference.this.dereference(new DereferenceCallback<IdableList<R>>() {
+                DbListReference.this.dereference(new DereferenceCallback<IdableList<ValueType>>() {
                     @Override
-                    public void onDereferenced(@Nullable IdableList<R> data, CallbackMessage message) {
-                        DataSize size = data != null ? data.getDataSize() : new DatumSize(getReviewId(), 0);
+                    public void onDereferenced(@Nullable IdableList<ValueType> data,
+                                               CallbackMessage message) {
+                        DataSize size = data != null ? data.getDataSize() : new DatumSize
+                                (getReviewId(), 0);
                         callback.onDereferenced(size, message);
                     }
                 });
@@ -111,8 +90,21 @@ public class DbListReference<T extends ReviewDataRow<T>, R extends HasReviewId>
         });
     }
 
+    @NonNull
+    private DbItemDereferencer.Converter<Row, ValueType> newItemConverter() {
+        return new DbItemDereferencer.Converter<Row, ValueType>() {
+            @Override
+            public ValueType convert(Row data) {
+                IdableList<Row> list = new IdableDataList<>(getReviewId());
+                list.add(data);
+                IdableList<ValueType> convert = mConverter.convert(list);
+                return convert.getItem(0);
+            }
+        };
+    }
+
     private static class ListDereferencer<T extends ReviewDataRow<T>, R extends HasReviewId>
-            implements SimpleReference.Dereferencer<IdableList<R>> {
+            implements SimpleItemReference.Dereferencer<IdableList<R>> {
         private DataLoader<T> mLoader;
         private Converter<T, R> mConverter;
 

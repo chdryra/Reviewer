@@ -144,7 +144,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
                 = new GvDataType<>(GvAuthorId.Reference.class, GvAuthorId.TYPE);
 
         public Reference(ReviewItemReference<DataAuthorId> reference,
-                         DataConverter<DataAuthorId, GvAuthorId, ?> converter) {
+                         DataConverter<DataAuthorId, GvAuthorIdAsRef, ?> converter) {
             super(TYPE, reference, converter, VhAuthorId.class, new PlaceHolderFactory<DataAuthorId>() {
                 @Override
                 public DataAuthorId newPlaceHolder(String placeHolder) {

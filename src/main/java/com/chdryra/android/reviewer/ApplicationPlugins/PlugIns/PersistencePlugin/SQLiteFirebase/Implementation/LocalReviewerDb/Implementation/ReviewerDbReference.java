@@ -41,7 +41,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
@@ -54,7 +54,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * On: 15/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbReference extends SimpleReference<Review> implements ReviewReference {
+public class ReviewerDbReference extends SimpleItemReference<Review> implements ReviewReference {
     private ReviewFundamentals mInfo;
     private ReviewerDbRepository mRepo;
     private FactoryDbReference mReferenceFactory;
@@ -160,20 +160,6 @@ public class ReviewerDbReference extends SimpleReference<Review> implements Revi
             list.add(new DatumTag(getReviewId(), tag.getTag()));
         }
         return mReferenceFactory.newStaticReference(list);
-    }
-
-    @Override
-    public void dereference(final DereferenceCallback<Review> callback) {
-        mRepo.getReview(mInfo.getReviewId(), new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                callback.onDereferenced(result.getReview(), result.getMessage());
-            }
-        });
-    }
-
-    private ItemTagCollection getItemTags() {
-        return mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
     }
 
     private ReviewerDbReadable getDb() {

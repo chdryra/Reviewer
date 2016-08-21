@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ListReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ItemBindersDelegate;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -28,15 +29,19 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> implements ListReference<T, C> {
-    private Map<ListItemBinder<T>, ChildEventListener> mChildBindings;
+public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> implements
+        ListReference<T, C>, ItemBindersDelegate.BindableListReference<T, C> {
+    private Map<ListItemBinder<T>, ChildEventListener> mItemBinders;
     private SnapshotConverter<T> mItemConverter;
+    private ItemBindersDelegate<T> mManager;
 
-    public FbListReference(Firebase reference, SnapshotConverter<C> listConverter,
+    public FbListReference(Firebase reference,
+                           SnapshotConverter<C> listConverter,
                            SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
-        mChildBindings = new HashMap<>();
+        mItemBinders = new HashMap<>();
+        mManager = new ItemBindersDelegate<>(this);
     }
 
     protected SnapshotConverter<T> getItemConverter() {
@@ -45,28 +50,45 @@ public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> im
 
     @Override
     public void unbindFromItems(ListItemBinder<T> binder) {
-        if (isValidReference() && mChildBindings.containsKey(binder)) {
-            getReference().removeEventListener(mChildBindings.get(binder));
-        }
+        mManager.unbindFromItems(binder);
     }
 
     @Override
     public void bindToItems(final ListItemBinder<T> binder) {
-        if (isValidReference() && !mChildBindings.containsKey(binder)) {
-            ChildEventListener listener = newChildListener(binder);
-            mChildBindings.put(binder, listener);
-            getReference().addChildEventListener(listener);
-        }
+        mManager.bindToItems(binder);
+    }
+
+    @Override
+    public Iterable<? extends ListItemBinder<T>> getItemBinders() {
+        return mItemBinders.keySet();
     }
 
     @Override
     protected void onInvalidate() {
-        for (Map.Entry<ListItemBinder<T>, ChildEventListener> binding : mChildBindings.entrySet()) {
-            binding.getKey().onInvalidated(this);
+        super.onInvalidate();
+        for (Map.Entry<ListItemBinder<T>, ChildEventListener> binding : mItemBinders.entrySet()) {
             getReference().removeEventListener(binding.getValue());
         }
-        mChildBindings.clear();
+        mManager.notifyBinders();
+        mItemBinders.clear();
         mItemConverter = null;
+    }
+
+    @Override
+    public void removeItemBinder(ListItemBinder<T> binder) {
+        getReference().removeEventListener(mItemBinders.remove(binder));
+    }
+
+    @Override
+    public void bindItemBinder(ListItemBinder<T> binder) {
+        ChildEventListener listener = newChildListener(binder);
+        mItemBinders.put(binder, listener);
+        getReference().addChildEventListener(listener);
+    }
+
+    @Override
+    public boolean containsItemBinder(ListItemBinder<T> binder) {
+        return mItemBinders.containsKey(binder);
     }
 
     @NonNull
@@ -91,7 +113,7 @@ public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> im
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                invalidate();
             }
 
             @Override

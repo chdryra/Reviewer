@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReferen
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticItemReference<T extends HasReviewId> extends SimpleReference<T> implements ReviewItemReference<T> {
+public class StaticItemReference<T extends HasReviewId> extends SimpleItemReference<T> implements ReviewItemReference<T> {
     private T mValue;
 
     public StaticItemReference(final T value) {

@@ -49,11 +49,11 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
     public void invalidate() {
         if(!isDeleted()) {
             mDeleted = true;
-            onInvalidate();
             for (DataReference.InvalidationListener listener : mListeners) {
                 listener.onReferenceInvalidated(this);
             }
             mListeners.clear();
+            onInvalidate();
         }
     }
 
