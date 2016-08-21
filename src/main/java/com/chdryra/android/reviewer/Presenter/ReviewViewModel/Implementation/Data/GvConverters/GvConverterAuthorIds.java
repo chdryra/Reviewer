@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorIdList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
@@ -22,15 +23,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvConverterAuthorIds extends
         GvConverterReviewData<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId.Reference> {
+    private AuthorsRepository mRepo;
 
-    public GvConverterAuthorIds() {
+    public GvConverterAuthorIds(AuthorsRepository repo) {
         super(GvAuthorIdList.class, GvAuthorId.Reference.TYPE);
+        mRepo = repo;
     }
 
     @Override
     public GvAuthorId convert(DataAuthorId datum, ReviewId reviewId) {
         GvReviewId gvReviewId = getGvReviewId(datum, reviewId);
-        return new GvAuthorId(gvReviewId, datum.toString());
+        return new GvAuthorId(gvReviewId, datum.toString(), mRepo);
     }
 
     @Override

@@ -69,12 +69,8 @@ public class ConverterGv {
         return new GvConverterSubjects();
     }
 
-    public GvConverterAuthors newConverterAuthors() {
-        return  new GvConverterAuthors();
-    }
-
-    public GvConverterAuthorIds newConverterAuthorsIds() {
-        return new GvConverterAuthorIds();
+    public GvConverterAuthorIds newConverterAuthorsIds(AuthorsRepository repo) {
+        return new GvConverterAuthorIds(repo);
     }
 
     public GvConverterDateReviews newConverterDateReviews() {

@@ -50,7 +50,7 @@ public class DatumAuthor implements DataAuthor {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate(this);
+        return dataValidator.validate((NamedAuthor)this);
     }
 
     @Override

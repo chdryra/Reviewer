@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedA
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthor;
 
@@ -132,7 +133,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate(this);
+        return dataValidator.validate((NamedAuthor) this);
     }
 
     public static class Reference extends GvDataRef<Reference, DataAuthor, VhAuthor> {

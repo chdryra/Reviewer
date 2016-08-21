@@ -65,13 +65,13 @@ public class FactoryReviewViewAdapter {
                                     ReviewsSource reviewsSource,
                                     AuthorsRepository authorsRepository,
                                     ConverterGv converter) {
-        mViewerFactory = new FactoryGridDataViewer(this);
+        mAuthorsRepository = authorsRepository;
         mReviewViewFactory = reviewViewFactory;
         mReviewsFactory = reviewsFactory;
         mAggregator = aggregator;
-        mAuthorsRepository = authorsRepository;
         mReviewSource = reviewsSource;
         mConverter = converter;
+        mViewerFactory = new FactoryGridDataViewer(this, mAuthorsRepository);
     }
 
     public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {

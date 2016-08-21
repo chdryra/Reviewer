@@ -26,7 +26,8 @@ import java.util.Map;
  * On: 04/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends BindableListReferenceBasic<T>
+public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
+        BindableListReferenceBasic<T>
         implements
         ReviewListReference<T>,
         ReviewNode.NodeObserver {
@@ -46,18 +47,17 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends Bind
 
     public abstract VisitorReviewNode newVisitor();
 
-    public abstract void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T>
-            method);
+    public abstract void onDataTraversalComplete(VisitorReviewNode visitor,
+                                                 GetDataCallback<T> callback);
 
     public TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
         mRoot = root;
         mTraverserFactory = traverserFactory;
-
         mRoot.registerObserver(this);
     }
 
-    public void getData(GetDataCallback<T> post) {
-        getData(mRoot, post);
+    public void getData(GetDataCallback<T> callback) {
+        getData(mRoot, callback);
     }
 
     public void registerObserver(ReviewNode.NodeObserver observer) {
@@ -68,10 +68,10 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends Bind
         mRoot.unregisterObserver(observer);
     }
 
-    public void getData(ReviewId childId, final GetDataCallback<T> post) {
+    public void getData(ReviewId childId, final GetDataCallback<T> callback) {
         ReviewNode child = mRoot.getChild(childId);
         if (child == null) return;
-        getData(child, post);
+        getData(child, callback);
     }
 
     public void doTraversal(TreeTraversalCallback callback) {
@@ -144,7 +144,7 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends Bind
 
     @Override
     public boolean isValidReference() {
-        return mRoot.getChildren().size() > 0 || mRoot.getReference() != null;
+        return super.isValidReference() && mRoot.getChildren().size() > 0 || mRoot.getReference() != null;
     }
 
     @Override

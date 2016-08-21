@@ -62,9 +62,9 @@ public class TreeListReferences<T extends HasReviewId> extends TreeDataReference
     }
 
     @Override
-    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> method) {
+    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> callback) {
         VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
-        ListsDereferencer<T> dereferencer = new ListsDereferencer<>(getter.getData(), method);
+        ListsDereferencer<T> dereferencer = new ListsDereferencer<>(getter.getData(), callback);
         dereferencer.dereference();
     }
 

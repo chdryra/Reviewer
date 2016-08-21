@@ -8,14 +8,39 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhAuthorId extends VhDataRef<DataAuthorId, DataAuthor, VhAuthor> {
+public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
+    private DataReference<NamedAuthor> mReference;
 
+    @Override
+    public void updateView(ViewHolderData data) {
+        GvAuthorId datum = (GvAuthorId) data;
+        if(datum.getReference() != null) {
+            if (mReference != null) mReference.unbindFromValue(this);
+            mReference = datum.getReference();
+            mReference.bindToValue(this);
+            updateView(Strings.LOADING);
+        }
+    }
+
+    @Override
+    public void onReferenceValue(NamedAuthor value) {
+        updateView(value.getName());
+    }
+
+    @Override
+    public void onInvalidated(DataReference<NamedAuthor> reference) {
+        updateView("");
+    }
 }

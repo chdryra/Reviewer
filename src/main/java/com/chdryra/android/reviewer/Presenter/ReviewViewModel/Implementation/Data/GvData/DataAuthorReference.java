@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.DataReferenceBasic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,14 +33,23 @@ import java.util.Map;
  */
 public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implements
         ReviewItemReference<DataAuthor> {
-    private DataAuthorId mId;
+    private ReviewItemReference<DataAuthorId> mId;
+    private AuthorsRepository mRepo;
     private DataReference<NamedAuthor> mReference;
     private Map<ReferenceBinder<DataAuthor>, ReferenceBinder<NamedAuthor>> mBinders;
 
-    public DataAuthorReference(DataAuthorId id, DataReference<NamedAuthor> reference) {
+    private interface NamedReferenceCallback {
+        void onNameReferenceSet();
+    }
+
+    public DataAuthorReference(ReviewItemReference<DataAuthorId> id, AuthorsRepository repo) {
         mId = id;
-        mReference = reference;
+        mRepo = repo;
         mBinders = new HashMap<>();
+    }
+
+    public ReviewItemReference<DataAuthorId> getIdReference() {
+        return mId;
     }
 
     @Override
@@ -49,36 +59,46 @@ public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implemen
 
     @Override
     public void dereference(final DereferenceCallback<DataAuthor> callback) {
-        if (mReference.isValidReference()) {
-            mReference.dereference(new DereferenceCallback<NamedAuthor>() {
-                @Override
-                public void onDereferenced(@Nullable NamedAuthor data, CallbackMessage message) {
-                    DataAuthor value = null;
-                    if (data != null && !message.isError()) {
-                        value = newAuthor(data);
-                    } else if (data == null){
-                        invalidate();
+        if(isValidReference()) {
+            if (mReference == null) {
+                setNameReference(new NamedReferenceCallback() {
+                    @Override
+                    public void onNameReferenceSet() {
+                        dereferenceNamedAuthor(callback);
                     }
-                    callback.onDereferenced(value, message);
-                }
-            });
+                });
+            } else {
+                dereferenceNamedAuthor(callback);
+            }
+        } else {
+            callback.onDereferenced(null, CallbackMessage.error("Invalid reference"));
         }
     }
 
     @Override
     public void bindToValue(final ReferenceBinder<DataAuthor> binder) {
-        if (!mBinders.containsKey(binder)) {
-            ReferenceBinder<NamedAuthor> authorBinder = newNamedAuthorBinder(binder);
-            mReference.bindToValue(authorBinder);
-            mBinders.put(binder, authorBinder);
-        } else {
-            dereference(new DereferenceCallback<DataAuthor>() {
-                @Override
-                public void onDereferenced(@Nullable DataAuthor data, CallbackMessage message) {
-                    if (data != null && !message.isError()) binder.onReferenceValue(data);
+        if(isValidReference()) {
+            if (!mBinders.containsKey(binder)) {
+                final ReferenceBinder<NamedAuthor> authorBinder = newNamedAuthorBinder(binder);
+                mBinders.put(binder, authorBinder);
+                if (mReference != null) {
+                    bindToNamedReference(authorBinder);
+                } else {
+                    setNameReference(new NamedReferenceCallback() {
+                        @Override
+                        public void onNameReferenceSet() {
+                            bindToNamedReference(authorBinder);
+                        }
+                    });
                 }
-            });
+            }
+        } else {
+            binder.onInvalidated(this);
         }
+    }
+
+    private void bindToNamedReference(ReferenceBinder<NamedAuthor> authorBinder) {
+        mReference.bindToValue(authorBinder);
     }
 
     @Override
@@ -96,6 +116,37 @@ public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implemen
         }
         mBinders.clear();
         mReference = null;
+    }
+
+    private void setNameReference(final NamedReferenceCallback callback) {
+        mId.dereference(new DereferenceCallback<DataAuthorId>() {
+            @Override
+            public void onDereferenced(@Nullable DataAuthorId data, CallbackMessage message) {
+                if (data != null && !message.isError()) {
+                    mReference = mRepo.getName(data);
+                    callback.onNameReferenceSet();
+                } else if(data == null){
+                    invalidate();
+                }
+            }
+        });
+    }
+
+    private void dereferenceNamedAuthor(final DereferenceCallback<DataAuthor> callback) {
+        if (mReference != null && mReference.isValidReference()) {
+            mReference.dereference(new DereferenceCallback<NamedAuthor>() {
+                @Override
+                public void onDereferenced(@Nullable NamedAuthor data, CallbackMessage message) {
+                    DataAuthor value = null;
+                    if (data != null && !message.isError()) {
+                        value = newAuthor(data);
+                    } else if (data == null) {
+                        invalidate();
+                    }
+                    callback.onDereferenced(value, message);
+                }
+            });
+        }
     }
 
     @NonNull

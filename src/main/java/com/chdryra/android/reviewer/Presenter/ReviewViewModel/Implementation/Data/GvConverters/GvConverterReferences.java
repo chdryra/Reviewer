@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvConverterReferences<T1 extends HasReviewId, T2 extends GvDataRef<T2, T1, ?>>
+public abstract class GvConverterReferences<T1 extends HasReviewId, T2 extends GvDataRef<T2, ? extends T1, ?>>
         extends GvConverterBasic<ReviewItemReference<T1>, T2, GvDataRefList<T2>> {
 
     public GvConverterReferences(GvDataType<T2> dataType) {
