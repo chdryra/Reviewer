@@ -132,6 +132,7 @@ public class FbStructUsersLed implements FirebaseStructure {
         return root.child(pathToReview(authorId, reviewId));
     }
 
+    //************Private**********//
     private void initialiseReviewsDb() {
         Path<ReviewDb> pathToReviews = new Path<ReviewDb>() {
             @Override
@@ -184,7 +185,6 @@ public class FbStructUsersLed implements FirebaseStructure {
                 .add(mNamesAuthorsMap).add(mAuthorsNamesMap).build();
     }
 
-    //************Private**********//
     private AuthorId toAuthorId(ReviewDb review) {
         return new AuthorIdParcelable(review.getAuthorId());
     }

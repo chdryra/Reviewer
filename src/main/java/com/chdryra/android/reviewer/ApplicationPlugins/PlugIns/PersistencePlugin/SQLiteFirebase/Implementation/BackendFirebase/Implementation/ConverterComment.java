@@ -27,6 +27,6 @@ public class ConverterComment implements ListItemConverter<DataComment> {
     public DataComment convert(ReviewId id, DataSnapshot snapshot) {
         Comment value = snapshot.getValue(Comment.class);
         return value == null ? null :
-                new DatumComment(id, value.getComment(), value.isHeadline());
+                new DatumComment(id, value.toComment(), value.isHeadline());
     }
 }

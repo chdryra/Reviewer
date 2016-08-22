@@ -8,7 +8,12 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .CommentFormatter;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,26 +21,37 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Comment {
-    private String comment;
+    private List<String> sentences;
+    private int numSentences;
     private boolean headline;
 
     public Comment() {
     }
 
     public Comment(DataComment comment) {
-        this.comment = comment.getComment();
+        String commentString = comment.getComment();
+        sentences = CommentFormatter.split(commentString, false);
+        numSentences = sentences.size();
         headline = comment.isHeadline();
     }
 
-    public String getComment() {
-        return comment;
+    public int getNumSentences() {
+        return numSentences;
+    }
+
+    public List<String> getSentences() {
+        return sentences;
     }
 
     public boolean isHeadline() {
         return headline;
     }
 
+    public String toComment() {
+        return CommentFormatter.join(sentences);
+    }
+
     public static int size() {
-        return 2;
+        return 3;
     }
 }

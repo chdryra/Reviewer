@@ -54,8 +54,8 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         if (mNode != null) unregisterAndReset();
         mCallback = callback;
         mNode = node;
-        doSelection(mNode);
         mNode.registerObserver(this);
+        doSelection(mNode);
     }
 
     public void unregister(ReviewId nodeId) {
@@ -131,6 +131,11 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mInProgress = true;
         mNumReviews = 0;
         mCount = 0;
-        node.getReviews().toItemReferences(this);
+        if(node.isLeaf()) {
+            mNumReviews = 1;
+            onDereferenced(node.getReference(), CallbackMessage.ok());
+        } else {
+            node.getReviews().toItemReferences(this);
+        }
     }
 }

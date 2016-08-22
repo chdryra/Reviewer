@@ -115,7 +115,7 @@ public class BackendReviewConverter {
 
         ArrayList<DataComment> comments = new ArrayList<>();
         for(Comment comment : review.getComments()) {
-            comments.add(new DatumComment(reviewId, comment.getComment(), comment.isHeadline()));
+            comments.add(new DatumComment(reviewId, comment.toComment(), comment.isHeadline()));
         }
 
         ArrayList<DataFact> facts = new ArrayList<>();

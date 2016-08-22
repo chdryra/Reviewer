@@ -137,7 +137,7 @@ public class BackendDataConverter {
     }
 
     public DataComment convertComment(String reviewId, Comment item) {
-        return new DatumComment(convert(reviewId), item.getComment(),item.isHeadline());
+        return new DatumComment(convert(reviewId), item.toComment(), item.isHeadline());
     }
 
     public IdableList<DataFact> convertFacts(String reviewId, List<Fact> list) {

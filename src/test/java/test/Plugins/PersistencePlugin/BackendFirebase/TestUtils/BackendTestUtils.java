@@ -87,7 +87,7 @@ public class BackendTestUtils {
         getters.add(new DataGetter<Comment, String>("comment") {
             @Override
             public String getData(Comment item) {
-                return item.getComment();
+                return item.getSentences();
             }
         });
         getters.add(new DataGetter<Comment, Boolean>("headline") {
