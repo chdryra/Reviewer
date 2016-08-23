@@ -24,34 +24,17 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbCommentsListReference extends FbReviewListRef<DataComment> implements CommentsListReference {
-    private ListItemsReferencer<DataComment, CommentReference> mReferencer;
-
+public class FbCommentsListReference extends FbReviewListRef<DataComment, CommentReference> implements CommentsListReference {
     public FbCommentsListReference(ReviewId id, Firebase reference, ReviewItemReference<DataSize>
             sizeReference, ListConverter<DataComment> converter, ListItemsReferencer<DataComment, CommentReference> referencer) {
-        super(id, reference, sizeReference, converter, referencer.asBaseReferencer());
-        mReferencer = referencer;
-    }
-
-    @Override
-    public void toCommentReferences(final CommentReferencesCallback callback) {
-        if(isValidReference()) {
-            mReferencer.toItemReferences(getReference(), getSize(), new ListItemsReferencer.Callback<DataComment, CommentReference>() {
-                @Override
-                public void onItemReferences(IdableList<CommentReference> references) {
-                    callback.onCommentReferences(references);
-                }
-            });
-        } else {
-            callback.onCommentReferences(new IdableDataList<CommentReference>(getReviewId()));
-        }
+        super(id, reference, sizeReference, converter, referencer);
     }
 
     @Override
     public void toSentences(final CommentReference.SentencesCallback callback) {
-        toCommentReferences(new CommentReferencesCallback() {
+        toItemReferences(new ItemReferencesCallback<DataComment, CommentReference>() {
             @Override
-            public void onCommentReferences(IdableList<CommentReference> references) {
+            public void onItemReferences(IdableList<CommentReference> references) {
                 new SentencesCollection(references, callback).collect();
             }
         });

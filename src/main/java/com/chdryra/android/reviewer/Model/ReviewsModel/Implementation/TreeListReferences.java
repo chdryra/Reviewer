@@ -14,10 +14,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
@@ -26,26 +26,29 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 04/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeListReferences<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
+public class TreeListReferences<Value extends HasReviewId,
+        Reference extends ReviewItemReference<Value>,
+        List extends ReviewListReference<Value, Reference>>
+        extends TreeDataReferenceBasic<Value, Reference> {
     private FactoryMdReference mReferenceFactory;
-    private VisitorFactory.ListVisitor<T> mVisitorFactory;
+    private VisitorFactory.ListVisitor<Value, Reference, List> mVisitorFactory;
 
     public TreeListReferences(ReviewNode root,
                               FactoryMdReference referenceFactory,
                               FactoryNodeTraverser traverserFactory,
-                              VisitorFactory.ListVisitor<T> visitorFactory) {
+                              VisitorFactory.ListVisitor<Value, Reference, List> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
     }
 
     @Override
-    public void toItemReferences(final ItemReferencesCallback<T> callback) {
+    public void toItemReferences(final ItemReferencesCallback<Value, Reference> callback) {
         doTraversal(new TreeTraversalCallback() {
             @Override
             public void onTraversed(VisitorReviewNode visitor) {
-                VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
-                ListRefsToItemRefs<T> converter = new ListRefsToItemRefs<>(getter.getData(), callback);
+                VisitorDataGetter<List> getter = castVisitor(visitor);
+                ListRefsToItemRefs<Value, Reference, List> converter = new ListRefsToItemRefs<>(getter.getData(), callback);
                 converter.convert();
             }
         });
@@ -62,41 +65,42 @@ public class TreeListReferences<T extends HasReviewId> extends TreeDataReference
     }
 
     @Override
-    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> callback) {
-        VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
-        ListsDereferencer<T> dereferencer = new ListsDereferencer<>(getter.getData(), callback);
+    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<Value> callback) {
+        VisitorDataGetter<List> getter = castVisitor(visitor);
+        ListsDereferencer<Value, Reference, List> dereferencer
+                = new ListsDereferencer<>(getter.getData(), callback);
         dereferencer.dereference();
     }
 
-    private VisitorDataGetter<ReviewListReference<T>> castVisitor(VisitorReviewNode visitor) {
-        return (VisitorDataGetter<ReviewListReference<T>>) visitor;
+    private VisitorDataGetter<List> castVisitor(VisitorReviewNode visitor) {
+        return (VisitorDataGetter<List>) visitor;
     }
 
-    private static class ListRefsToItemRefs<T extends HasReviewId> {
-        private IdableList<ReviewListReference<T>> mRefs;
-        private ItemReferencesCallback<T> mCallback;
-        private IdableList<ReviewItemReference<T>> mData;
+    private static class ListRefsToItemRefs<T extends HasReviewId, R extends ReviewItemReference<T>, L extends ReviewListReference<T, R>> {
+        private IdableList<L> mRefs;
+        private ItemReferencesCallback<T, R> mCallback;
+        private IdableList<R> mData;
         private int mNumDereferences = 0;
 
-        public ListRefsToItemRefs(IdableList<ReviewListReference<T>> refs,
-                                  ItemReferencesCallback<T> callback) {
+        public ListRefsToItemRefs(IdableList<L> refs,
+                                  ItemReferencesCallback<T, R> callback) {
             mRefs = refs;
             mCallback = callback;
         }
 
         private void convert() {
             mData = new IdableDataList<>(mRefs.getReviewId());
-            for (ReviewListReference<T> ref : mRefs) {
-                ref.toItemReferences(new ItemReferencesCallback<T>() {
+            for (L ref : mRefs) {
+                ref.toItemReferences(new ItemReferencesCallback<T, R>() {
                     @Override
-                    public void onItemReferences(IdableList<ReviewItemReference<T>> references) {
+                    public void onItemReferences(IdableList<R> references) {
                         add(references);
                     }
                 });
             }
         }
 
-        private void add(IdableList<ReviewItemReference<T>> data) {
+        private void add(IdableList<R> data) {
             mData.addAll(data);
             if (++mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
         }

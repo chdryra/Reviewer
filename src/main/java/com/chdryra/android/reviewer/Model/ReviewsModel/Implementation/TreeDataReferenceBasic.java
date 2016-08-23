@@ -12,6 +12,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -26,10 +27,10 @@ import java.util.Map;
  * On: 04/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
-        BindableListReferenceBasic<T>
+public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends
+        BindableListReferenceBasic<Value>
         implements
-        ReviewListReference<T>,
+        ReviewListReference<Value, Reference>,
         ReviewNode.NodeObserver {
 
     private static final String VISITOR = "References";
@@ -48,7 +49,7 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     public abstract VisitorReviewNode newVisitor();
 
     public abstract void onDataTraversalComplete(VisitorReviewNode visitor,
-                                                 GetDataCallback<T> callback);
+                                                 GetDataCallback<Value> callback);
 
     public TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
         mRoot = root;
@@ -56,7 +57,7 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         mRoot.registerObserver(this);
     }
 
-    public void getData(GetDataCallback<T> callback) {
+    public void getData(GetDataCallback<Value> callback) {
         getData(mRoot, callback);
     }
 
@@ -68,7 +69,7 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         mRoot.unregisterObserver(observer);
     }
 
-    public void getData(ReviewId childId, final GetDataCallback<T> callback) {
+    public void getData(ReviewId childId, final GetDataCallback<Value> callback) {
         ReviewNode child = mRoot.getChild(childId);
         if (child == null) return;
         getData(child, callback);
@@ -87,9 +88,9 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     @Override
     public void onChildAdded(ReviewNode child) {
         if (hasItemBinders()) {
-            getData(child, new GetDataCallback<T>() {
+            getData(child, new GetDataCallback<Value>() {
                 @Override
-                public void onData(IdableList<T> items) {
+                public void onData(IdableList<Value> items) {
                     notifyItemBindersAdd(items);
                 }
             });
@@ -101,9 +102,9 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     @Override
     public void onChildRemoved(ReviewNode child) {
         if (hasItemBinders()) {
-            getData(child, new GetDataCallback<T>() {
+            getData(child, new GetDataCallback<Value>() {
                 @Override
-                public void onData(IdableList<T> items) {
+                public void onData(IdableList<Value> items) {
                     notifyItemBindersRemove(items);
                 }
             });
@@ -123,20 +124,20 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     }
 
     @Override
-    protected void doDereferencing(final DereferenceCallback<IdableList<T>> callback) {
-        getData(new GetDataCallback<T>() {
+    protected void doDereferencing(final DereferenceCallback<IdableList<Value>> callback) {
+        getData(new GetDataCallback<Value>() {
             @Override
-            public void onData(IdableList<T> items) {
+            public void onData(IdableList<Value> items) {
                 callback.onDereferenced(items, CallbackMessage.ok());
             }
         });
     }
 
     @Override
-    protected void fireForBinder(final ListItemBinder<T> binder) {
-        getData(new TreeDataReferenceBasic.GetDataCallback<T>() {
+    protected void fireForBinder(final ListItemBinder<Value> binder) {
+        getData(new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
-            public void onData(IdableList<T> items) {
+            public void onData(IdableList<Value> items) {
                 notifyItemBinderAdd(binder, items);
             }
         });
@@ -159,7 +160,7 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         return mRoot.getReviewId();
     }
 
-    private void getData(ReviewNode root, final GetDataCallback<T> post) {
+    private void getData(ReviewNode root, final GetDataCallback<Value> post) {
         doTraversal(root, new TreeTraversalCallback() {
             @Override
             public void onTraversed(VisitorReviewNode visitor) {

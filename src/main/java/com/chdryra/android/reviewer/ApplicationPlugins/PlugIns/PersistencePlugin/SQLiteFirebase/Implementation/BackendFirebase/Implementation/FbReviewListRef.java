@@ -23,16 +23,17 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewListRef<T extends HasReviewId> extends FbListReference<T, IdableList<T>> implements ReviewListReference<T> {
+public class FbReviewListRef<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
+        extends FbListReference<Value, IdableList<Value>> implements ReviewListReference<Value, Reference> {
     private ReviewId mId;
     private ReviewItemReference<DataSize> mSizeReference;
-    private ListItemsReferencer<T, ReviewItemReference<T>> mItemReferencer;
+    private ListItemsReferencer<Value, Reference> mItemReferencer;
 
     public FbReviewListRef(ReviewId id,
                            Firebase reference,
                            ReviewItemReference<DataSize> sizeReference,
-                           ListConverter<T> converter,
-                           ListItemsReferencer<T, ReviewItemReference<T>> itemReferencer) {
+                           ListConverter<Value> converter,
+                           ListItemsReferencer<Value, Reference> itemReferencer) {
         super(reference, converter, converter.getItemConverter());
         mId = id;
         mSizeReference = sizeReference;
@@ -50,11 +51,11 @@ public class FbReviewListRef<T extends HasReviewId> extends FbListReference<T, I
     }
 
     @Override
-    public void toItemReferences(final ItemReferencesCallback<T> callback) {
+    public void toItemReferences(final ItemReferencesCallback<Value, Reference> callback) {
         mItemReferencer.toItemReferences(getReference(), mSizeReference,
-                new ListItemsReferencer.Callback<T, ReviewItemReference<T>>() {
+                new ListItemsReferencer.Callback<Value, Reference>() {
             @Override
-            public void onItemReferences(IdableList<ReviewItemReference<T>> references) {
+            public void onItemReferences(IdableList<Reference> references) {
                 callback.onItemReferences(references);
             }
         });

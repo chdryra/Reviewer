@@ -67,13 +67,4 @@ public class ListItemsReferencer<T extends HasReviewId, Reference extends Review
     public Reference toItemReference(Firebase root, ReviewId id, int index) {
         return mFactory.newReference(id, root.child(String.valueOf(index)), index);
     }
-
-    public ListItemsReferencer<T, ReviewItemReference<T>> asBaseReferencer() {
-        return new ListItemsReferencer<>(new ItemReferenceFactory<T, ReviewItemReference<T>>() {
-            @Override
-            public ReviewItemReference<T> newReference(ReviewId id, Firebase child, int index) {
-                return mFactory.newReference(id, child, index);
-            }
-        });
-    }
 }

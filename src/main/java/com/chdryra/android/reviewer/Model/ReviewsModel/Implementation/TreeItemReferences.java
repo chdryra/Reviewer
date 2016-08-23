@@ -28,27 +28,27 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 07/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeItemReferences<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
+public class TreeItemReferences<Value extends HasReviewId> extends TreeDataReferenceBasic<Value> {
     private FactoryMdReference mReferenceFactory;
-    private VisitorFactory.ItemVisitor<T> mVisitorFactory;
+    private VisitorFactory.ItemVisitor<Value> mVisitorFactory;
 
     public TreeItemReferences(ReviewNode root,
                               FactoryMdReference referenceFactory,
                               FactoryNodeTraverser traverserFactory,
-                              VisitorFactory.ItemVisitor<T> visitorFactory) {
+                              VisitorFactory.ItemVisitor<Value> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
     }
 
     @Override
-    public void toItemReferences(final ItemReferencesCallback<T> callback) {
-        dereference(new DereferenceCallback<IdableList<T>>() {
+    public void toItemReferences(final ItemReferencesCallback<Value> callback) {
+        dereference(new DereferenceCallback<IdableList<Value>>() {
             @Override
-            public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
-                IdableList<ReviewItemReference<T>> references = new IdableDataList<>(getReviewId());
+            public void onDereferenced(@Nullable IdableList<Value> data, CallbackMessage message) {
+                IdableList<ReviewItemReference<Value>> references = new IdableDataList<>(getReviewId());
                 if(data != null && !message.isError()) {
-                    for(T datum : data) {
+                    for(Value datum : data) {
                         references.add(mReferenceFactory.newWrapper(datum));
                     }
                 }
@@ -69,8 +69,8 @@ public class TreeItemReferences<T extends HasReviewId> extends TreeDataReference
     }
 
     @Override
-    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> callback) {
-        VisitorDataGetter<T> getter = (VisitorDataGetter<T>) visitor;
+    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<Value> callback) {
+        VisitorDataGetter<Value> getter = (VisitorDataGetter<Value>) visitor;
         callback.onData(getter.getData());
     }
 }

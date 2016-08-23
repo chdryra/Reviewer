@@ -16,12 +16,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewListReference<T extends HasReviewId> extends ListReference<T, IdableList<T>>, HasReviewId{
-    interface ItemReferencesCallback<T extends HasReviewId> {
-        void onItemReferences(IdableList<ReviewItemReference<T>> references);
+public interface ReviewListReference<T extends HasReviewId, R extends ReviewItemReference<T>>
+        extends ListReference<T, IdableList<T>>, HasReviewId{
+    interface ItemReferencesCallback<T extends HasReviewId, R extends ReviewItemReference<T>> {
+        void onItemReferences(IdableList<R> references);
     }
 
-    void toItemReferences(ItemReferencesCallback<T> callback);
+    void toItemReferences(ItemReferencesCallback<T, R> callback);
 
     ReviewItemReference<DataSize> getSize();
 

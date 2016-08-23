@@ -57,7 +57,7 @@ public class FactoryMdReference {
         return new StaticItemReference<>(datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newWrapper(IdableList<T> data) {
+    public <T extends HasReviewId> ReviewListReference<T, ReviewItemReference<T>> newWrapper(IdableList<T> data) {
         return new StaticListReference<>(data);
     }
 
@@ -176,9 +176,8 @@ public class FactoryMdReference {
         return new TreeListReferences<>(root, this, mTraverserFactory, visitorFactory);
     }
 
-    private <T extends HasReviewId> ReviewListReference<T> newItemList(ReviewNode root,
-                                                                       VisitorFactory.ItemVisitor<T>
-                                                                               visitorFactory) {
-        return new TreeItemReferences<>(root, this, mTraverserFactory, visitorFactory);
+    private <T extends HasReviewId> ReviewListReference<T, ReviewItemReference<T>> newItemList(ReviewNode root,
+                                                                       VisitorFactory.ItemVisitor<T> visitorFactory) {
+        return new TreeItemReferences<T, ReviewItemReference<T>>(root, this, mTraverserFactory, visitorFactory);
     }
 }

@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 
 /**
@@ -22,33 +23,35 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * On: 07/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ListsDereferencer<T extends HasReviewId> {
-    private IdableList<ReviewListReference<T>> mRefs;
-    private TreeDataReferenceBasic.GetDataCallback<T> mPost;
-    private IdableList<T> mData;
+public class ListsDereferencer<Value extends HasReviewId,
+        Reference extends ReviewItemReference<Value>,
+        List extends ReviewListReference<Value, Reference>> {
+    private IdableList<List> mListOfListReferences;
+    private TreeDataReferenceBasic.GetDataCallback<Value> mOnDereferencing;
+    private IdableList<Value> mValues;
     private int mNumDereferences = 0;
 
-    public ListsDereferencer(IdableList<ReviewListReference<T>> refs,
-                             TreeDataReferenceBasic.GetDataCallback<T> post) {
-        mRefs = refs;
-        mPost = post;
+    public ListsDereferencer(IdableList<List> listOfListReferences,
+                             TreeDataReferenceBasic.GetDataCallback<Value> onDereferencing) {
+        mListOfListReferences = listOfListReferences;
+        mOnDereferencing = onDereferencing;
     }
 
     public void dereference() {
-        mData = new IdableDataList<>(mRefs.getReviewId());
-        for (ReviewListReference<T> ref : mRefs) {
-            ref.dereference(new DataReference.DereferenceCallback<IdableList<T>>() {
+        mValues = new IdableDataList<>(mListOfListReferences.getReviewId());
+        for (List ref : mListOfListReferences) {
+            ref.dereference(new DataReference.DereferenceCallback<IdableList<Value>>() {
                 @Override
-                public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
+                public void onDereferenced(@Nullable IdableList<Value> data, CallbackMessage message) {
                     add(data, message);
                 }
             });
         }
     }
 
-    private void add(@Nullable IdableList<T> data, CallbackMessage message) {
-        if (data != null && !message.isError()) mData.addAll(data);
+    private void add(@Nullable IdableList<Value> data, CallbackMessage message) {
+        if (data != null && !message.isError()) mValues.addAll(data);
         mNumDereferences++;
-        if (mNumDereferences == mRefs.size()) mPost.onData(mData);
+        if (mNumDereferences == mListOfListReferences.size()) mOnDereferencing.onData(mValues);
     }
 }
