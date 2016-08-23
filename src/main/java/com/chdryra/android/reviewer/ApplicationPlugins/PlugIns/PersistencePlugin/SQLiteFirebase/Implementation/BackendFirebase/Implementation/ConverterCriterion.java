@@ -21,7 +21,7 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterCriterion implements ListItemConverter<DataCriterion> {
+public class ConverterCriterion implements ReviewItemConverter<DataCriterion> {
 
     @Override
     public DataCriterion convert(ReviewId id, DataSnapshot snapshot) {

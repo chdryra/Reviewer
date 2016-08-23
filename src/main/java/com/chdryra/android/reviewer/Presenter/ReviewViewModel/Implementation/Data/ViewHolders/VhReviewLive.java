@@ -114,7 +114,7 @@ public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserv
 
         GvCommentList comments = mConverterComments.convert(mReview.getComments());
         GvCommentList headlines = comments.getHeadlines();
-        String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
+        String headline = headlines.size() > 0 ? headlines.getItem(0).getFirstSentence() : null;
         if (validateString(headline)) {
             //TODO sort this out with resource strings with placeholders
             mHeadline.setText("\"" + headline + "\"");

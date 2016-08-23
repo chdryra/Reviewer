@@ -19,7 +19,7 @@ import com.firebase.client.DataSnapshot;
  * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ListItemConverter<T> {
+public interface ReviewItemConverter<T> {
     @Nullable
     T convert(ReviewId id, DataSnapshot snapshot);
 }

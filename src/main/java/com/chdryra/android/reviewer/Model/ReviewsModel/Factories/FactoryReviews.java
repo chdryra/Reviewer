@@ -33,9 +33,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -103,7 +102,7 @@ public class FactoryReviews implements ReviewMaker {
         String title = "Fetching...";
 
         ReviewStamp stamp = ReviewStamp.newStamp(authorId);
-        ReviewFundamentals info = new ReviewInfo(stamp,
+        ReviewInfo info = new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(stamp,
                 new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),

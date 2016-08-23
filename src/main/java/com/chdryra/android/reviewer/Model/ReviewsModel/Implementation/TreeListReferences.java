@@ -45,7 +45,7 @@ public class TreeListReferences<T extends HasReviewId> extends TreeDataReference
             @Override
             public void onTraversed(VisitorReviewNode visitor) {
                 VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
-                ListRefsToItemRefs converter = new ListRefsToItemRefs(getter.getData(), callback);
+                ListRefsToItemRefs<T> converter = new ListRefsToItemRefs<>(getter.getData(), callback);
                 converter.convert();
             }
         });
@@ -72,7 +72,7 @@ public class TreeListReferences<T extends HasReviewId> extends TreeDataReference
         return (VisitorDataGetter<ReviewListReference<T>>) visitor;
     }
 
-    private class ListRefsToItemRefs {
+    private static class ListRefsToItemRefs<T extends HasReviewId> {
         private IdableList<ReviewListReference<T>> mRefs;
         private ItemReferencesCallback<T> mCallback;
         private IdableList<ReviewItemReference<T>> mData;
@@ -98,8 +98,7 @@ public class TreeListReferences<T extends HasReviewId> extends TreeDataReference
 
         private void add(IdableList<ReviewItemReference<T>> data) {
             mData.addAll(data);
-            mNumDereferences++;
-            if (mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
+            if (++mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
         }
     }
 }

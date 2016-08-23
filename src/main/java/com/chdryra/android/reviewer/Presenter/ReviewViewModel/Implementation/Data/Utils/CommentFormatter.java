@@ -25,7 +25,7 @@ public class CommentFormatter {
     public static final String SENTENCE_DELIMITERS = ".!?";
     public static final String IGNORE_DELIMITER = ".";
 
-    public static String getHeadline(String comment) {
+    public static String getFirstSentence(String comment) {
         //return getFirstSentence(comment, true);
         return split(comment).get(0);
     }

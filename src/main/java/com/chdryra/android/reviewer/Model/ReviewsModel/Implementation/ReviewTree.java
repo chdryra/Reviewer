@@ -14,8 +14,8 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -163,7 +163,7 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
-    public ReviewListReference<DataComment> getComments() {
+    public CommentsListReference getComments() {
         return mNode.getComments();
     }
 

@@ -28,7 +28,7 @@ public class ReviewDb {
     public static final String RATING = "rating";
     public static final String AUTHOR = "author";
     public static final String PUBLISH_DATE = "publishDate";
-    public static final String COVER = "cover";
+    public static final String COVER = "images/0";
     public static final String CRITERIA = "criteria";
     public static final String COMMENTS = "comments";
     public static final String FACTS = "facts";
@@ -41,7 +41,6 @@ public class ReviewDb {
     private long publishDate;
     private String subject;
     private Rating rating;
-    private ImageData cover;
     private List<Criterion> criteria;
     private List<Comment> comments;
     private List<Fact> facts;
@@ -53,7 +52,7 @@ public class ReviewDb {
     }
 
     public int size(){
-        return 2 + Rating.size() + Author.size() + 2 + 6 + 1;
+        return 4 + Rating.size() + 6;
     }
 
     public ReviewDb(Review review, List<String> reviewTags) {
@@ -82,7 +81,6 @@ public class ReviewDb {
         for(DataImage image : review.getImages()) {
             ImageData data = new ImageData(image);
             images.add(data);
-            if(cover == null && image.isCover()) cover = data;
         }
 
         locations = new ArrayList<>();
@@ -115,10 +113,6 @@ public class ReviewDb {
 
     public long getPublishDate() {
         return publishDate;
-    }
-
-    public ImageData getCover() {
-        return cover;
     }
 
     public List<String> getTags() {

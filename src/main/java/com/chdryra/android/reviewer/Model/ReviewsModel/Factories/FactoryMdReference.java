@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -125,7 +126,7 @@ public class FactoryMdReference {
         });
     }
 
-    public ReviewListReference<DataComment> newCommentsList(ReviewNode root) {
+    public CommentsListReference newCommentsList(ReviewNode root) {
         return newDataList(root, new VisitorFactory.ListVisitor<DataComment>() {
             @Override
             public VisitorDataGetter<ReviewListReference<DataComment>> newVisitor() {
@@ -170,9 +171,8 @@ public class FactoryMdReference {
         });
     }
     
-    private <T extends HasReviewId> ReviewListReference<T> newDataList(ReviewNode root,
-                                                                            VisitorFactory
-                                                                                    .ListVisitor<T> visitorFactory) {
+    private <T extends HasReviewId> ReviewListReference<T>
+    newDataList(ReviewNode root, VisitorFactory.ListVisitor<T> visitorFactory) {
         return new TreeListReferences<>(root, this, mTraverserFactory, visitorFactory);
     }
 

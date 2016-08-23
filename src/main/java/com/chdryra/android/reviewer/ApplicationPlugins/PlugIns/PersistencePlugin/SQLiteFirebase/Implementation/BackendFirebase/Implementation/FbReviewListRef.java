@@ -10,17 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 
 /**
@@ -31,15 +26,17 @@ import com.firebase.client.Firebase;
 public class FbReviewListRef<T extends HasReviewId> extends FbListReference<T, IdableList<T>> implements ReviewListReference<T> {
     private ReviewId mId;
     private ReviewItemReference<DataSize> mSizeReference;
+    private ListItemsReferencer<T, ReviewItemReference<T>> mItemReferencer;
 
     public FbReviewListRef(ReviewId id,
                            Firebase reference,
                            ReviewItemReference<DataSize> sizeReference,
-                           SnapshotConverter<IdableList<T>> converter,
-                           ListItemConverter<T> itemConverter) {
-        super(reference, converter, new ItemConverter<>(id, itemConverter));
+                           ListConverter<T> converter,
+                           ListItemsReferencer<T, ReviewItemReference<T>> itemReferencer) {
+        super(reference, converter, converter.getItemConverter());
         mId = id;
         mSizeReference = sizeReference;
+        mItemReferencer = itemReferencer;
     }
 
     @Override
@@ -54,36 +51,12 @@ public class FbReviewListRef<T extends HasReviewId> extends FbListReference<T, I
 
     @Override
     public void toItemReferences(final ItemReferencesCallback<T> callback) {
-        final ReviewId id = getReviewId();
-        final IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(id);
-        mSizeReference.dereference(new DereferenceCallback<DataSize>() {
+        mItemReferencer.toItemReferences(getReference(), mSizeReference,
+                new ListItemsReferencer.Callback<T, ReviewItemReference<T>>() {
             @Override
-            public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
-                if(data != null && !message.isError()) {
-                    for(int i = 0; i < data.getSize(); ++i) {
-                        Firebase child = getReference().child(String.valueOf(i));
-                        refs.add(new FbReviewRefItem<>(id, child, getItemConverter()));
-                    }
-                }
-
-                callback.onItemReferences(refs);
+            public void onItemReferences(IdableList<ReviewItemReference<T>> references) {
+                callback.onItemReferences(references);
             }
         });
-    }
-
-    private static class ItemConverter<T extends HasReviewId> implements SnapshotConverter<T> {
-        private ReviewId mId;
-        private ListItemConverter<T> mConverter;
-
-        public ItemConverter(ReviewId id, ListItemConverter<T> converter) {
-            mId = id;
-            mConverter = converter;
-        }
-
-        @Nullable
-        @Override
-        public T convert(DataSnapshot snapshot) {
-            return mConverter.convert(mId, snapshot);
-        }
     }
 }

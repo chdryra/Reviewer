@@ -12,8 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -78,7 +78,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public ReviewListReference<DataComment> getComments() {
+    public CommentsListReference getComments() {
         return mReview.getComments();
     }
 

@@ -22,7 +22,7 @@ public interface VisitorFactory {
         VisitorDataGetter<T> newVisitor();
     }
 
-    interface ListVisitor<T extends HasReviewId> {
-        VisitorDataGetter<ReviewListReference<T>> newVisitor();
+    interface ListVisitor<T extends HasReviewId, L extends ReviewListReference<T>> {
+        VisitorDataGetter<L> newVisitor();
     }
 }

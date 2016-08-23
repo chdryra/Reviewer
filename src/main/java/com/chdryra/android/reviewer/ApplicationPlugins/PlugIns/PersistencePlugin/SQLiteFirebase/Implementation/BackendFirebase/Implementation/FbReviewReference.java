@@ -11,24 +11,22 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewAggregates;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -41,14 +39,14 @@ import com.firebase.client.Firebase;
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewReference extends FbReviewRefItem<Review> implements ReviewReference {
-    private final ReviewFundamentals mInfo;
+public class FbReviewReference extends FbReviewItemRef<Review> implements ReviewReference {
+    private final ReviewInfo mInfo;
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
     private final FactoryFbDataReference mReferencer;
 
-    public FbReviewReference(ReviewFundamentals info,
+    public FbReviewReference(ReviewInfo info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<Review> converter,
@@ -106,7 +104,7 @@ public class FbReviewReference extends FbReviewRefItem<Review> implements Review
     }
 
     @Override
-    public ReviewListReference<DataComment> getComments() {
+    public CommentsListReference getComments() {
         return mReferencer.newComments(mReference.child(ReviewDb.COMMENTS), getReviewId(),
                 getSize(ReviewAggregates.COMMENTS));
     }

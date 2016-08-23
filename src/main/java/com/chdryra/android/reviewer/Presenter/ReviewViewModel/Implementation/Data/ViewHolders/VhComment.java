@@ -31,7 +31,7 @@ public class VhComment extends VhText {
             @Override
             public String getString(ViewHolderData data) {
                 GvComment comment = (GvComment) data;
-                return comment != null ? comment.getHeadline() : null;
+                return comment != null ? comment.getFirstSentence() : "";
             }
         });
 

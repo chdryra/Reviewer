@@ -9,24 +9,27 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 29/07/2016
+ * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterComment implements ReviewItemConverter<DataComment> {
+public class FbSentence extends FbReviewItemRef<DataComment> implements CommentReference.Sentence {
+    private CommentReference mParent;
+
+    public FbSentence(ReviewId id, Firebase reference, SnapshotConverter<DataComment> converter,
+                      CommentReference parent) {
+        super(id, reference, converter);
+        mParent = parent;
+    }
+
     @Override
-    public DataComment convert(ReviewId id, DataSnapshot snapshot) {
-        Comment value = snapshot.getValue(Comment.class);
-        return value == null ? null :
-                new DatumComment(id, value.toComment(), value.isHeadline());
+    public CommentReference getParent() {
+        return mParent;
     }
 }

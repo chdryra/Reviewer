@@ -13,8 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
@@ -35,17 +35,17 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
-    private ReviewFundamentals mMeta;
+    private ReviewInfo mMeta;
     private FactoryMdReference mReferenceFactory;
     private IdableList<ReviewNodeComponent> mChildren;
 
-    public NodeInternal(ReviewFundamentals meta, FactoryMdReference referenceFactory) {
+    public NodeInternal(ReviewInfo meta, FactoryMdReference referenceFactory) {
         mMeta = meta;
         mReferenceFactory = referenceFactory;
         mChildren = new IdableDataList<>(getReviewId());
     }
 
-    protected void setMeta(ReviewFundamentals meta) {
+    protected void setMeta(ReviewInfo meta) {
         mMeta = meta;
         notifyOnNodeChanged();
     }
@@ -81,7 +81,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public ReviewListReference<DataComment> getComments() {
+    public CommentsListReference getComments() {
         return mReferenceFactory.newCommentsList(this);
     }
 

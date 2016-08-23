@@ -9,13 +9,13 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 
@@ -24,13 +24,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewReferenceData extends ReviewFundamentals {
+public interface ReviewReferenceData extends ReviewInfo {
     //Can't do ReviewItemReference<? extends DataImage> etc. as I want to dereference to known class
     ReviewItemReference<DataImage> getCover();
 
     ReviewListReference<DataCriterion> getCriteria();
 
-    ReviewListReference<DataComment> getComments();
+    CommentsListReference getComments();
 
     ReviewListReference<DataFact> getFacts();
 

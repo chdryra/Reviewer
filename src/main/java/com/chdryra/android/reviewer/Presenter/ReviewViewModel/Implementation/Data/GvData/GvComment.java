@@ -81,8 +81,8 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     }
 
     //public methods
-    public String getHeadline() {
-        return CommentFormatter.getHeadline(mComment);
+    public String getFirstSentence() {
+        return CommentFormatter.getFirstSentence(mComment);
     }
 
     public GvComment getUnsplitComment() {
@@ -120,7 +120,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
 
     @Override
     public String getStringSummary() {
-        return getUnsplitComment().getHeadline();
+        return getUnsplitComment().getFirstSentence();
     }
 
     @Override

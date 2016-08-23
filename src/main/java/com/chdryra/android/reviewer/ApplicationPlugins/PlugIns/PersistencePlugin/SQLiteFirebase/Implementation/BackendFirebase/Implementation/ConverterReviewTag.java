@@ -20,7 +20,7 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterReviewTag implements ListItemConverter<DataTag> {
+public class ConverterReviewTag implements ReviewItemConverter<DataTag> {
     @Override
     public DataTag convert(ReviewId id, DataSnapshot snapshot) {
         String value = snapshot.getValue(String.class);

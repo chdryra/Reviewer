@@ -28,7 +28,7 @@ import java.net.URL;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterFact implements ListItemConverter<DataFact> {
+public class ConverterFact implements ReviewItemConverter<DataFact> {
     @Override
     public DataFact convert(ReviewId id, DataSnapshot snapshot) {
         Fact value = snapshot.getValue(Fact.class);

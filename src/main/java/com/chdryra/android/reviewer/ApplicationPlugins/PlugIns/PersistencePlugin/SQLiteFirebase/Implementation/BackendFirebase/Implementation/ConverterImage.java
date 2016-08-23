@@ -24,7 +24,7 @@ import com.firebase.client.DataSnapshot;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterImage implements SnapshotConverter<DataImage>, ListItemConverter<DataImage> {
+public class ConverterImage implements SnapshotConverter<DataImage>, ReviewItemConverter<DataImage> {
     private ReviewId mId;
 
     public ConverterImage() {

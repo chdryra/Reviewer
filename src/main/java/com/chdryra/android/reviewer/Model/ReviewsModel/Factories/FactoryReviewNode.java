@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
@@ -41,7 +41,7 @@ public class FactoryReviewNode {
         return new NodeLeaf(review);
     }
 
-    public ReviewNodeComponent createComponent(ReviewFundamentals meta) {
+    public ReviewNodeComponent createComponent(ReviewInfo meta) {
         return new NodeInternal(meta, mReferenceFactory);
     }
 
@@ -49,7 +49,7 @@ public class FactoryReviewNode {
         return new ReviewTree(node);
     }
 
-    public ReviewNodeComponent createMetaTree(ReviewFundamentals meta,
+    public ReviewNodeComponent createMetaTree(ReviewInfo meta,
                                                Iterable<ReviewReference> reviews) {
         ReviewNodeComponent parent = createComponent(meta);
         for (ReviewReference review : reviews) {

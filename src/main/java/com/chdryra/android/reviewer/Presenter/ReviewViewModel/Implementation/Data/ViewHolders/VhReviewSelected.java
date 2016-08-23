@@ -230,7 +230,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private void setHeadline(IdableList<DataComment> value) {
         GvCommentList comments = mConverterComments.convert(value);
         GvCommentList headlines = comments.getHeadlines();
-        String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
+        String headline = headlines.size() > 0 ? headlines.getItem(0).getFirstSentence() : null;
         if (validateString(headline)) {
             //TODO sort this out with resource strings with placeholders
             mHeadline.setText("\"" + headline + "\"");

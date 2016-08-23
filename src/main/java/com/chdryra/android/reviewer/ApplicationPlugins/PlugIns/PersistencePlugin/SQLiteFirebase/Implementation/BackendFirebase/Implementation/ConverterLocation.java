@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterLocation implements ListItemConverter<DataLocation> {
+public class ConverterLocation implements ReviewItemConverter<DataLocation> {
     @Override
     public DataLocation convert(ReviewId id, DataSnapshot snapshot) {
         Location value = snapshot.getValue(Location.class);

@@ -22,13 +22,19 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterList<T extends HasReviewId> implements SnapshotConverter<IdableList<T>> {
+public class ListConverter<T extends HasReviewId> implements SnapshotConverter<IdableList<T>> {
     protected ReviewId mId;
-    protected ListItemConverter<T> mItemConverter;
+    private ReviewItemConverter<T> mReviewItemConverter;
+    private ItemConverter<T> mItemConverter;
 
-    public ConverterList(ReviewId id, ListItemConverter<T> itemConverter) {
+    public ListConverter(ReviewId id, ReviewItemConverter<T> reviewItemConverter) {
         mId = id;
-        mItemConverter = itemConverter;
+        mReviewItemConverter = reviewItemConverter;
+        mItemConverter = new ItemConverter<>(id, reviewItemConverter);
+    }
+
+    public SnapshotConverter<T> getItemConverter() {
+        return mItemConverter;
     }
 
     @Override
@@ -36,10 +42,26 @@ public class ConverterList<T extends HasReviewId> implements SnapshotConverter<I
     public IdableList<T> convert(DataSnapshot snapshot) {
         IdableList<T> data = new IdableDataList<>(mId);
         for(DataSnapshot item : snapshot.getChildren()) {
-            T converted = mItemConverter.convert(mId, item);
+            T converted = mReviewItemConverter.convert(mId, item);
             if(converted != null) data.add(converted);
         }
 
         return data;
+    }
+
+    public static class ItemConverter<T extends HasReviewId> implements SnapshotConverter<T> {
+        private ReviewId mId;
+        private ReviewItemConverter<T> mConverter;
+
+        public ItemConverter(ReviewId id, ReviewItemConverter<T> converter) {
+            mId = id;
+            mConverter = converter;
+        }
+
+        @Nullable
+        @Override
+        public T convert(DataSnapshot snapshot) {
+            return mConverter.convert(mId, snapshot);
+        }
     }
 }

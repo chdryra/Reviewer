@@ -51,13 +51,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewFundamentals;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.net.MalformedURLException;
@@ -193,9 +192,9 @@ public class BackendDataConverter {
         return new DatumReviewId(reviewId);
     }
 
-    public ReviewFundamentals convert(ReviewListEntry entry) {
+    public ReviewInfo convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
-        return new ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
+        return new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
                 convertDate(id, entry.getPublishDate()));
     }

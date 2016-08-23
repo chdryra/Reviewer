@@ -46,6 +46,10 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
         return mReference;
     }
 
+    protected SnapshotConverter<T> getConverter() {
+        return mConverter;
+    }
+
     protected void onDereferenced(T value) {
 
     }

@@ -35,7 +35,7 @@ public class ReviewSummariser {
         ArrayList<String> headlines = new ArrayList<>();
         for(DataComment comment : review.getComments()) {
             if(comment.isHeadline()) {
-                headlines.add(CommentFormatter.getHeadline(comment.getComment()));
+                headlines.add(CommentFormatter.getFirstSentence(comment.getComment()));
             }
         }
 
