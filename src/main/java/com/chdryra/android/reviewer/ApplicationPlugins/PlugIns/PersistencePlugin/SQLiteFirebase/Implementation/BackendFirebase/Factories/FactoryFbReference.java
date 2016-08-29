@@ -21,18 +21,16 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterNamedAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterReviewTag;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterSize;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbCommentsListReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefCommentList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefDatalist;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewItemRef;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewListRef;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ListConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ListItemsReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewItemConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullDataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -43,9 +41,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.firebase.client.Firebase;
 
 /**
@@ -53,10 +53,10 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryFbDataReference {
+public class FactoryFbReference {
     private FactoryListItemsReferencer mReferencerFactory;
 
-    public FactoryFbDataReference() {
+    public FactoryFbReference() {
         mReferencerFactory = new FactoryListItemsReferencer(this);
     }
 
@@ -76,38 +76,38 @@ public class FactoryFbDataReference {
         return new FbReviewItemRef<>(id, ref, new ConverterImage(id));
     }
 
-    public ReviewListReference<DataCriterion> newCriteria(Firebase ref,
-                                                          ReviewId id,
-                                                          ReviewItemReference<DataSize> size) {
+    public RefDataList<DataCriterion> newCriteria(Firebase ref,
+                                                  ReviewId id,
+                                                  ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterCriterion());
     }
 
-    public ReviewListReference<DataTag> newTags(Firebase ref, ReviewId id, 
+    public RefDataList<DataTag> newTags(Firebase ref, ReviewId id,
                                                 ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterReviewTag());
     }
 
-    public ReviewListReference<DataImage> newImages(Firebase ref, ReviewId id, 
+    public RefDataList<DataImage> newImages(Firebase ref, ReviewId id,
                                                     ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterImage());
     }
 
-    public ReviewListReference<DataLocation> newLocations(Firebase ref, ReviewId id, 
+    public RefDataList<DataLocation> newLocations(Firebase ref, ReviewId id,
                                                           ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterLocation());
     }
 
-    public ReviewListReference<DataFact> newFacts(Firebase ref, ReviewId id, 
+    public RefDataList<DataFact> newFacts(Firebase ref, ReviewId id,
                                                   ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterFact());
     }
 
-    public CommentsListReference newComments(Firebase ref, ReviewId id,
-                                             ReviewItemReference<DataSize> size) {
+    public RefCommentList newComments(Firebase ref, ReviewId id,
+                                      ReviewItemReference<DataSize> size) {
         ListConverter<DataComment> converter = new ListConverter<>(id, new ConverterComment());
-        ListItemsReferencer<DataComment, CommentReference> referencer
+        ListItemsReferencer<DataComment, RefComment> referencer
                 = mReferencerFactory.newCommentsReferencer(converter.getItemConverter());
-        return new FbCommentsListReference(id, ref, size, converter, referencer);
+        return new FbRefCommentList(id, ref, size, converter, referencer);
     }
 
 
@@ -117,12 +117,12 @@ public class FactoryFbDataReference {
     }
 
     @NonNull
-    private <T extends HasReviewId> ReviewListReference<T> newListReference(Firebase ref, 
-                                                                            ReviewId id, 
-                                                                            ReviewItemReference<DataSize> size, ReviewItemConverter<T> itemConverter) {
-        final ListConverter<T> converter = newListConverter(id, itemConverter);
-        return new FbReviewListRef<>(id, ref, size, converter, newItemsReferencer(converter
-                .getItemConverter()));
+    private <Value extends HasReviewId> RefDataList<Value> newListReference(Firebase ref,
+                                                                            ReviewId id,
+                                                                            ReviewItemReference<DataSize> size,
+                                                                            ReviewItemConverter<Value> itemConverter) {
+        final ListConverter<Value> converter = newListConverter(id, itemConverter);
+        return new FbRefDatalist<>(id, ref, size, converter, newItemsReferencer(converter.getItemConverter()));
     }
 
     @NonNull

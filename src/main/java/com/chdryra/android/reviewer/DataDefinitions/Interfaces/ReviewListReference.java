@@ -8,45 +8,21 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewListReference<T extends HasReviewId, R extends ReviewItemReference<T>>
-        extends ListReference<T, IdableList<T>>, HasReviewId{
-    interface ItemReferencesCallback<T extends HasReviewId, R extends ReviewItemReference<T>> {
-        void onItemReferences(IdableList<R> references);
+public interface ReviewListReference<Value extends HasReviewId,
+        Reference extends ReviewItemReference<Value>>
+        extends ListReference<Value, IdableList<Value>>, HasReviewId{
+
+    interface ItemReferencesCallback<Value extends HasReviewId,
+            Reference extends ReviewItemReference<Value>> {
+        void onItemReferences(IdableList<Reference> references);
     }
 
-    void toItemReferences(ItemReferencesCallback<T, R> callback);
+    void toItemReferences(ItemReferencesCallback<Value, Reference> callback);
 
     ReviewItemReference<DataSize> getSize();
-
-    @Override
-    void bindToItems(ListItemBinder<T> binder);
-
-    @Override
-    void unbindFromItems(ListItemBinder<T> binder);
-
-    @Override
-    void dereference(DereferenceCallback<IdableList<T>> callback);
-
-    @Override
-    void bindToValue(ReferenceBinder<IdableList<T>> binder);
-
-    @Override
-    void unbindFromValue(ReferenceBinder<IdableList<T>> binder);
-
-    @Override
-    boolean isValidReference();
-
-    @Override
-    void invalidate();
-
-    @Override
-    ReviewId getReviewId();
 }

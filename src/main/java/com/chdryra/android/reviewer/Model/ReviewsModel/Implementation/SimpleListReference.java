@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 
@@ -24,29 +25,29 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SimpleListReference<T extends HasReviewId> extends SimpleItemReference<IdableList<T>> 
-        implements ReviewListReference<T>, ItemBindersDelegate.BindableListReference<T, IdableList<T>>{
-    private ItemBindersDelegate<T> mManager;
-    private Collection<ListItemBinder<T>> mItemBinders;
+public abstract class SimpleListReference<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
+        implements ReviewListReference<Value, Reference>, ItemBindersDelegate.BindableListReference<Value, IdableList<Value>>{
+    private ItemBindersDelegate<Value> mManager;
+    private Collection<ListItemBinder<Value>> mItemBinders;
 
-    public SimpleListReference(Dereferencer<IdableList<T>> dereferencer) {
+    public SimpleListReference(Dereferencer<IdableList<Value>> dereferencer) {
         super(dereferencer);
         mItemBinders = new ArrayList<>();
         mManager = new ItemBindersDelegate<>(this);
     }
 
     @Override
-    public void bindToItems(ListItemBinder<T> binder) {
+    public void bindToItems(ListItemBinder<Value> binder) {
         mManager.bindToItems(binder);
     }
 
     @Override
-    public void unbindFromItems(ListItemBinder<T> binder) {
+    public void unbindFromItems(ListItemBinder<Value> binder) {
         mManager.unbindFromItems(binder);
     }
 
     @Override
-    public void removeItemBinder(ListItemBinder<T> binder) {
+    public void removeItemBinder(ListItemBinder<Value> binder) {
         mItemBinders.remove(binder);
     }
 
@@ -58,28 +59,28 @@ public abstract class SimpleListReference<T extends HasReviewId> extends SimpleI
     }
 
     @Override
-    public Collection<ListItemBinder<T>> getItemBinders() {
+    public Collection<ListItemBinder<Value>> getItemBinders() {
         return mItemBinders;
     }
 
     @Override
-    public void bindItemBinder(ListItemBinder<T> binder) {
+    public void bindItemBinder(ListItemBinder<Value> binder) {
         mItemBinders.add(binder);
         dereferenceForBinder(binder);
     }
 
     @Override
-    public boolean containsItemBinder(ListItemBinder<T> binder) {
+    public boolean containsItemBinder(ListItemBinder<Value> binder) {
         return mItemBinders.contains(binder);
     }
 
-    private void dereferenceForBinder(final ListItemBinder<T> binder) {
-        dereference(new DereferenceCallback<IdableList<T>>() {
+    private void dereferenceForBinder(final ListItemBinder<Value> binder) {
+        dereference(new DereferenceCallback<IdableList<Value>>() {
             @Override
-            public void onDereferenced(@Nullable IdableList<T> data,
+            public void onDereferenced(@Nullable IdableList<Value> data,
                                        CallbackMessage message) {
                 if (data != null && !message.isError()) {
-                    for (T value : data) {
+                    for (Value value : data) {
                         binder.onItemAdded(value);
                     }
                 }

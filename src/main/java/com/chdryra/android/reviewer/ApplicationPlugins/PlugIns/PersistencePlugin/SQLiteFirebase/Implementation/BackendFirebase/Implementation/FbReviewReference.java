@@ -13,8 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbDataReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -25,10 +24,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
@@ -44,13 +44,13 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
-    private final FactoryFbDataReference mReferencer;
+    private final FactoryFbReference mReferencer;
 
     public FbReviewReference(ReviewInfo info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<Review> converter,
-                             FactoryFbDataReference referencer,
+                             FactoryFbReference referencer,
                              ReviewsCache cache) {
         super(info.getReviewId(), reviewReference, converter);
         mInfo = info;
@@ -92,37 +92,37 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     }
 
     @Override
-    public ReviewListReference<DataCriterion> getCriteria() {
+    public RefDataList<DataCriterion> getCriteria() {
         return mReferencer.newCriteria(mReference.child(ReviewDb.CRITERIA), getReviewId(),
                 getSize(ReviewAggregates.CRITERIA));
     }
 
     @Override
-    public ReviewListReference<DataTag> getTags() {
+    public RefDataList<DataTag> getTags() {
         return mReferencer.newTags(mReference.child(ReviewDb.TAGS), getReviewId(),
                 getSize(ReviewAggregates.TAGS));
     }
 
     @Override
-    public CommentsListReference getComments() {
+    public RefCommentList getComments() {
         return mReferencer.newComments(mReference.child(ReviewDb.COMMENTS), getReviewId(),
                 getSize(ReviewAggregates.COMMENTS));
     }
 
     @Override
-    public ReviewListReference<DataFact> getFacts() {
+    public RefDataList<DataFact> getFacts() {
         return mReferencer.newFacts(mReference.child(ReviewDb.FACTS), getReviewId(),
                 getSize(ReviewAggregates.FACTS));
     }
 
     @Override
-    public ReviewListReference<DataImage> getImages() {
+    public RefDataList<DataImage> getImages() {
         return mReferencer.newImages(mReference.child(ReviewDb.IMAGES), getReviewId(),
                 getSize(ReviewAggregates.IMAGES));
     }
 
     @Override
-    public ReviewListReference<DataLocation> getLocations() {
+    public RefDataList<DataLocation> getLocations() {
         return mReferencer.newLocations(mReference.child(ReviewDb.LOCATIONS), getReviewId(),
                 getSize(ReviewAggregates.LOCATIONS));
     }

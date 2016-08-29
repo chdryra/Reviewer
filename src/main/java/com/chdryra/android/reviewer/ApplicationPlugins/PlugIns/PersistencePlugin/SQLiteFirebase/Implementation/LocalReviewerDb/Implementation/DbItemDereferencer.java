@@ -23,15 +23,15 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItem
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbItemDereferencer<T extends ReviewDataRow<T>, R extends HasReviewId> implements SimpleItemReference.Dereferencer<R> {
-    private DataLoader<T> mLoader;
-    private Converter<T, R> mConverter;
+public class DbItemDereferencer<Row extends ReviewDataRow<Row>, Value extends HasReviewId> implements SimpleItemReference.Dereferencer<Value> {
+    private DataLoader<Row> mLoader;
+    private Converter<Row, Value> mConverter;
 
     public interface Converter<T, R extends HasReviewId> {
         R convert(T data);
     }
 
-    public DbItemDereferencer(DataLoader<T> loader, Converter<T, R> converter) {
+    public DbItemDereferencer(DataLoader<Row> loader, Converter<Row, Value> converter) {
         mLoader = loader;
         mConverter = converter;
     }
@@ -42,10 +42,10 @@ public class DbItemDereferencer<T extends ReviewDataRow<T>, R extends HasReviewI
     }
 
     @Override
-    public void dereference(final DataReference.DereferenceCallback<R> callback) {
-        mLoader.onLoaded(new DataLoader.LoadedListener<T>() {
+    public void dereference(final DataReference.DereferenceCallback<Value> callback) {
+        mLoader.onLoaded(new DataLoader.LoadedListener<Row>() {
             @Override
-            public void onLoaded(IdableList<T> data) {
+            public void onLoaded(IdableList<Row> data) {
                 if (data.size() > 0) {
                     callback.onDereferenced(mConverter.convert(data.getItem(0)), CallbackMessage.ok());
                 } else {

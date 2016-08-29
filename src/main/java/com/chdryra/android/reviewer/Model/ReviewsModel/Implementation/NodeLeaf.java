@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -25,9 +24,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -48,22 +48,22 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public ReviewListReference<ReviewReference> getReviews() {
+    public RefDataList<ReviewReference> getReviews() {
         return newEmptyReference();
     }
 
     @Override
-    public ReviewListReference<DataSubject> getSubjects() {
+    public RefDataList<DataSubject> getSubjects() {
         return newEmptyReference();
     }
 
     @Override
-    public ReviewListReference<DataAuthorId> getAuthorIds() {
+    public RefDataList<DataAuthorId> getAuthorIds() {
         return newEmptyReference();
     }
 
     @Override
-    public ReviewListReference<DataDate> getDates() {
+    public RefDataList<DataDate> getDates() {
         return newEmptyReference();
     }
 
@@ -73,32 +73,32 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public ReviewListReference<DataCriterion> getCriteria() {
+    public RefDataList<DataCriterion> getCriteria() {
         return mReview.getCriteria();
     }
 
     @Override
-    public CommentsListReference getComments() {
+    public RefCommentList getComments() {
         return mReview.getComments();
     }
 
     @Override
-    public ReviewListReference<DataFact> getFacts() {
+    public RefDataList<DataFact> getFacts() {
         return mReview.getFacts();
     }
 
     @Override
-    public ReviewListReference<DataImage> getImages() {
+    public RefDataList<DataImage> getImages() {
         return mReview.getImages();
     }
 
     @Override
-    public ReviewListReference<DataLocation> getLocations() {
+    public RefDataList<DataLocation> getLocations() {
         return mReview.getLocations();
     }
 
     @Override
-    public ReviewListReference<DataTag> getTags() {
+    public RefDataList<DataTag> getTags() {
         return mReview.getTags();
     }
 
@@ -193,7 +193,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @NonNull
-    private <T extends HasReviewId> ReviewListReference<T> newEmptyReference() {
+    private <T extends HasReviewId> RefDataList<T> newEmptyReference() {
         IdableList<T> data = new IdableDataList<>(mReview.getReviewId());
         return new StaticListReference<>(data);
     }

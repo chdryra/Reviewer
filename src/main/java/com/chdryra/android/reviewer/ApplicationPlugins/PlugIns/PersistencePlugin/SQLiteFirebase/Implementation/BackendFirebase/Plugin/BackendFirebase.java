@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbDataReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -67,14 +66,14 @@ public class BackendFirebase implements Backend {
     private final Firebase mDatabase;
     private final FirebaseStructure mStructure;
     private UserProfileConverter mTranslator;
-    private FactoryFbDataReference mDataReferencer;
+    private FactoryFbReference mDataReferencer;
 
     public BackendFirebase(Context context, FactoryAuthorProfile profileFactory) {
         Firebase.setAndroidContext(context);
         mDatabase = new Firebase(FirebaseBackend.ROOT);
         mStructure = new FbStructUsersLed();
         mTranslator = new UserProfileConverter(profileFactory);
-        mDataReferencer = new FactoryFbDataReference();
+        mDataReferencer = new FactoryFbReference();
     }
 
     @Override

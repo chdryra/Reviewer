@@ -26,8 +26,8 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ListItemsReferencer<T extends HasReviewId, Reference extends ReviewItemReference<T>> {
-    private ItemReferenceFactory<T, Reference> mFactory;
+public class ListItemsReferencer<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> {
+    private ItemReferenceFactory<Value, Reference> mFactory;
 
     public interface Callback<T extends HasReviewId, Reference extends ReviewItemReference<T>> {
         void onItemReferences(IdableList<Reference> references);
@@ -37,17 +37,17 @@ public class ListItemsReferencer<T extends HasReviewId, Reference extends Review
         Reference newReference(ReviewId id, Firebase child, int index);
     }
 
-    public ListItemsReferencer(ItemReferenceFactory<T, Reference> factory) {
+    public ListItemsReferencer(ItemReferenceFactory<Value, Reference> factory) {
         mFactory = factory;
     }
 
-    public ItemReferenceFactory<T, Reference> getFactory() {
+    public ItemReferenceFactory<Value, Reference> getFactory() {
         return mFactory;
     }
 
     public void toItemReferences(final Firebase root,
                                  final ReviewItemReference<DataSize> sizeReference,
-                                 final Callback<T, Reference> callback) {
+                                 final Callback<Value, Reference> callback) {
         final ReviewId id = sizeReference.getReviewId();
         final IdableList<Reference> refs = new IdableDataList<>(id);
         sizeReference.dereference(new DataReference.DereferenceCallback<DataSize>() {

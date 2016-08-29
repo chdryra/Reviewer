@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -21,6 +20,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -42,12 +43,12 @@ public class FactoryVisitorReviewNode {
         }
     };
 
-    private <T extends HasReviewId> VisitorDataGetter<T> newItemCollector(NodeDataGetter<T> getter) {
+    private <Value extends HasReviewId> VisitorDataGetter<Value> newItemCollector(NodeDataGetter<Value> getter) {
         return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
     }
 
-    private <T extends HasReviewId> VisitorDataGetter<ReviewListReference<T>>
-    newListCollector(NodeDataGetter<ReviewListReference<T>> getter) {
+    private <List extends ReviewListReference<?, ?>> VisitorDataGetter<List>
+    newListCollector(NodeDataGetter<List> getter) {
         return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
     }
 
@@ -91,61 +92,61 @@ public class FactoryVisitorReviewNode {
         });
     }
     
-    public VisitorDataGetter<ReviewListReference<DataCriterion>> newCriteriaCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataCriterion>>() {
+    public VisitorDataGetter<RefDataList<DataCriterion>> newCriteriaCollector() {
+        return newListCollector(new NodeDataGetter<RefDataList<DataCriterion>>() {
             @Nullable
             @Override
-            public ReviewListReference<DataCriterion> getData(@NonNull ReviewNode node) {
+            public RefDataList<DataCriterion> getData(@NonNull ReviewNode node) {
                 return node.getCriteria();
             }
         });
     }
 
-    public VisitorDataGetter<ReviewListReference<DataComment>> newCommentsCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataComment>>() {
+    public VisitorDataGetter<RefCommentList> newCommentsCollector() {
+        return newListCollector(new NodeDataGetter<RefCommentList>() {
             @Nullable
             @Override
-            public ReviewListReference<DataComment> getData(@NonNull ReviewNode node) {
+            public RefCommentList getData(@NonNull ReviewNode node) {
                 return node.getComments();
             }
         });
     }
 
-    public VisitorDataGetter<ReviewListReference<DataImage>> newImagesCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataImage>>() {
+    public VisitorDataGetter<RefDataList<DataImage>> newImagesCollector() {
+        return newListCollector(new NodeDataGetter<RefDataList<DataImage>>() {
             @Nullable
             @Override
-            public ReviewListReference<DataImage> getData(@NonNull ReviewNode node) {
+            public RefDataList<DataImage> getData(@NonNull ReviewNode node) {
                 return node.getImages();
             }
         });
     }
     
-    public VisitorDataGetter<ReviewListReference<DataLocation>> newLocationsCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataLocation>>() {
+    public VisitorDataGetter<RefDataList<DataLocation>> newLocationsCollector() {
+        return newListCollector(new NodeDataGetter<RefDataList<DataLocation>>() {
             @Nullable
             @Override
-            public ReviewListReference<DataLocation> getData(@NonNull ReviewNode node) {
+            public RefDataList<DataLocation> getData(@NonNull ReviewNode node) {
                 return node.getLocations();
             }
         });
     }
 
-    public VisitorDataGetter<ReviewListReference<DataFact>> newFactsCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataFact>>() {
+    public VisitorDataGetter<RefDataList<DataFact>> newFactsCollector() {
+        return newListCollector(new NodeDataGetter<RefDataList<DataFact>>() {
             @Nullable
             @Override
-            public ReviewListReference<DataFact> getData(@NonNull ReviewNode node) {
+            public RefDataList<DataFact> getData(@NonNull ReviewNode node) {
                 return node.getFacts();
             }
         });
     }
 
-    public VisitorDataGetter<ReviewListReference<DataTag>> newTagsCollector() {
-        return newListCollector(new NodeDataGetter<ReviewListReference<DataTag>>() {
+    public VisitorDataGetter<RefDataList<DataTag>> newTagsCollector() {
+        return newListCollector(new NodeDataGetter<RefDataList<DataTag>>() {
             @Nullable
             @Override
-            public ReviewListReference<DataTag> getData(@NonNull ReviewNode node) {
+            public RefDataList<DataTag> getData(@NonNull ReviewNode node) {
                 return node.getTags();
             }
         });

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryListItemsReferencer;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -24,17 +24,17 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewCommentRef extends FbReviewItemRef<DataComment> implements CommentReference {
+public class FbRefComment extends FbReviewItemRef<DataComment> implements RefComment {
     private ReviewItemReference<DataSize> mSizeReference;
     private boolean mIsHeadline;
     private ListItemsReferencer<DataComment, Sentence> mReferencer;
 
-    public FbReviewCommentRef(ReviewId id,
-                              Firebase reference,
-                              ReviewItemReference<DataSize> numSentences,
-                              SnapshotConverter<DataComment> converter,
-                              FactoryListItemsReferencer referencerFactory,
-                              boolean isHeadline) {
+    public FbRefComment(ReviewId id,
+                        Firebase reference,
+                        ReviewItemReference<DataSize> numSentences,
+                        SnapshotConverter<DataComment> converter,
+                        FactoryListItemsReferencer referencerFactory,
+                        boolean isHeadline) {
         super(id, reference, converter);
         mSizeReference = numSentences;
         mIsHeadline = isHeadline;

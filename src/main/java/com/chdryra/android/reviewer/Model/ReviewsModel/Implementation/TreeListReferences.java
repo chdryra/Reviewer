@@ -31,12 +31,12 @@ public class TreeListReferences<Value extends HasReviewId,
         List extends ReviewListReference<Value, Reference>>
         extends TreeDataReferenceBasic<Value, Reference> {
     private FactoryMdReference mReferenceFactory;
-    private VisitorFactory.ListVisitor<Value, Reference, List> mVisitorFactory;
+    private VisitorFactory.ListVisitor<List> mVisitorFactory;
 
     public TreeListReferences(ReviewNode root,
                               FactoryMdReference referenceFactory,
                               FactoryNodeTraverser traverserFactory,
-                              VisitorFactory.ListVisitor<Value, Reference, List> visitorFactory) {
+                              VisitorFactory.ListVisitor<List> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
@@ -48,7 +48,8 @@ public class TreeListReferences<Value extends HasReviewId,
             @Override
             public void onTraversed(VisitorReviewNode visitor) {
                 VisitorDataGetter<List> getter = castVisitor(visitor);
-                ListRefsToItemRefs<Value, Reference, List> converter = new ListRefsToItemRefs<>(getter.getData(), callback);
+                ListRefsToItemRefs<Value, Reference, List> converter
+                        = new ListRefsToItemRefs<>(getter.getData(), callback);
                 converter.convert();
             }
         });
@@ -76,14 +77,14 @@ public class TreeListReferences<Value extends HasReviewId,
         return (VisitorDataGetter<List>) visitor;
     }
 
-    private static class ListRefsToItemRefs<T extends HasReviewId, R extends ReviewItemReference<T>, L extends ReviewListReference<T, R>> {
+    private static class ListRefsToItemRefs<V extends HasReviewId, R extends ReviewItemReference<V>, L extends ReviewListReference<V, R>> {
         private IdableList<L> mRefs;
-        private ItemReferencesCallback<T, R> mCallback;
+        private ItemReferencesCallback<V, R> mCallback;
         private IdableList<R> mData;
         private int mNumDereferences = 0;
 
         public ListRefsToItemRefs(IdableList<L> refs,
-                                  ItemReferencesCallback<T, R> callback) {
+                                  ItemReferencesCallback<V, R> callback) {
             mRefs = refs;
             mCallback = callback;
         }
@@ -91,7 +92,7 @@ public class TreeListReferences<Value extends HasReviewId,
         private void convert() {
             mData = new IdableDataList<>(mRefs.getReviewId());
             for (L ref : mRefs) {
-                ref.toItemReferences(new ItemReferencesCallback<T, R>() {
+                ref.toItemReferences(new ItemReferencesCallback<V, R>() {
                     @Override
                     public void onItemReferences(IdableList<R> references) {
                         add(references);

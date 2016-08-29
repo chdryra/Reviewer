@@ -29,7 +29,7 @@ import java.util.Collection;
  * On: 07/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class TreeSizeReferenceBasic<T extends HasReviewId>
+public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         extends DataReferenceBasic<DataSize>
         implements
         ReviewItemReference<DataSize>,
@@ -39,7 +39,7 @@ public abstract class TreeSizeReferenceBasic<T extends HasReviewId>
     private static final CallbackMessage OK = CallbackMessage.ok();
     protected Collection<ReferenceBinder<DataSize>> mValueBinders;
     protected boolean mCached = false;
-    private TreeDataReferenceBasic<T> mDataReference;
+    private TreeDataReferenceBasic<Value, ?> mDataReference;
     private int mCurrentSize = 0;
 
     protected abstract void incrementForChild(ReviewNode child);
@@ -48,13 +48,13 @@ public abstract class TreeSizeReferenceBasic<T extends HasReviewId>
 
     protected abstract void doDereference(final DereferenceCallback<DataSize> callback);
 
-    public TreeSizeReferenceBasic(TreeDataReferenceBasic<T> dataReference) {
+    public TreeSizeRefBasic(TreeDataReferenceBasic<Value, ?> dataReference) {
         mDataReference = dataReference;
         mDataReference.registerListener(this);
         mValueBinders = new ArrayList<>();
     }
 
-    protected TreeDataReferenceBasic<T> getReference() {
+    protected TreeDataReferenceBasic<Value, ?> getReference() {
         return mDataReference;
     }
 

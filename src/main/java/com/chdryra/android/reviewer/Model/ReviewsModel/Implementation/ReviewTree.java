@@ -14,7 +14,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -25,9 +24,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
@@ -123,22 +123,22 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
-    public ReviewListReference<ReviewReference> getReviews() {
+    public RefDataList<ReviewReference> getReviews() {
         return mNode.getReviews();
     }
 
     @Override
-    public ReviewListReference<DataSubject> getSubjects() {
+    public RefDataList<DataSubject> getSubjects() {
         return mNode.getSubjects();
     }
 
     @Override
-    public ReviewListReference<DataAuthorId> getAuthorIds() {
+    public RefDataList<DataAuthorId> getAuthorIds() {
         return mNode.getAuthorIds();
     }
 
     @Override
-    public ReviewListReference<DataDate> getDates() {
+    public RefDataList<DataDate> getDates() {
         return mNode.getDates();
     }
 
@@ -158,32 +158,32 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
-    public ReviewListReference<DataCriterion> getCriteria() {
+    public RefDataList<DataCriterion> getCriteria() {
         return mNode.getCriteria();
     }
 
     @Override
-    public CommentsListReference getComments() {
+    public RefCommentList getComments() {
         return mNode.getComments();
     }
 
     @Override
-    public ReviewListReference<DataFact> getFacts() {
+    public RefDataList<DataFact> getFacts() {
         return mNode.getFacts();
     }
 
     @Override
-    public ReviewListReference<DataImage> getImages() {
+    public RefDataList<DataImage> getImages() {
         return mNode.getImages();
     }
 
     @Override
-    public ReviewListReference<DataLocation> getLocations() {
+    public RefDataList<DataLocation> getLocations() {
         return mNode.getLocations();
     }
 
     @Override
-    public ReviewListReference<DataTag> getTags() {
+    public RefDataList<DataTag> getTags() {
         return mNode.getTags();
     }
 }

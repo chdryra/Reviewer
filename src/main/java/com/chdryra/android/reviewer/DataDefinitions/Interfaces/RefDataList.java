@@ -13,6 +13,6 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CommentsListReference extends ReviewListReference<DataComment, CommentReference> {
-    void toSentences(CommentReference.SentencesCallback callback);
+public interface RefDataList<Value extends HasReviewId> extends ReviewListReference<Value, ReviewItemReference<Value>> {
+
 }

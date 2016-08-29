@@ -41,6 +41,10 @@ public class SimpleItemReference<T extends HasReviewId> extends BindableReferenc
         mValueBinders = new ArrayList<>();
     }
 
+    protected Dereferencer<T> getDereferencer() {
+        return mDereferencer;
+    }
+
     @Override
     protected void removeBinder(ReferenceBinder<T> binder) {
         mValueBinders.remove(binder);

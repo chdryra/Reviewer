@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbDataReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
@@ -30,9 +30,9 @@ import com.firebase.client.ValueEventListener;
 public class FbAuthorsRepository implements AuthorsRepository {
     private Firebase mDataRoot;
     private FbUsersStructure mStructure;
-    private FactoryFbDataReference mReferenceFactory;
+    private FactoryFbReference mReferenceFactory;
 
-    public FbAuthorsRepository(Firebase dataRoot, FbUsersStructure structure, FactoryFbDataReference referenceFactory) {
+    public FbAuthorsRepository(Firebase dataRoot, FbUsersStructure structure, FactoryFbReference referenceFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mReferenceFactory = referenceFactory;

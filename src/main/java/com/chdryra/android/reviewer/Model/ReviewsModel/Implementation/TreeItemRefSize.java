@@ -19,21 +19,21 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeItemReferencesSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
-    public TreeItemReferencesSize(TreeItemReferences<T> dataReference) {
+public class TreeItemRefSize<Value extends HasReviewId> extends TreeSizeRefBasic<Value> {
+    public TreeItemRefSize(TreeRefItemList<Value> dataReference) {
         super(dataReference);
     }
 
     @Override
-    protected TreeItemReferences<T> getReference() {
-        return (TreeItemReferences<T>) super.getReference();
+    protected TreeRefItemList<Value> getReference() {
+        return (TreeRefItemList<Value>) super.getReference();
     }
 
     @Override
     protected void incrementForChild(ReviewNode child) {
-        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<T>() {
+        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
-            public void onData(IdableList<T> items) {
+            public void onData(IdableList<Value> items) {
                 addSize(items.size());
                 notifyValueBinders(getSize());
             }
@@ -42,9 +42,9 @@ public class TreeItemReferencesSize<T extends HasReviewId> extends TreeSizeRefer
 
     @Override
     protected void decrementForChild(ReviewNode child) {
-        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<T>() {
+        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
-            public void onData(IdableList<T> items) {
+            public void onData(IdableList<Value> items) {
                 removeSize(items.size());
                 notifyValueBinders(getSize());
             }
@@ -53,9 +53,9 @@ public class TreeItemReferencesSize<T extends HasReviewId> extends TreeSizeRefer
 
     @Override
     protected void doDereference(final DereferenceCallback<DataSize> callback) {
-        getReference().getData(new TreeDataReferenceBasic.GetDataCallback<T>() {
+        getReference().getData(new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
-            public void onData(IdableList<T> items) {
+            public void onData(IdableList<Value> items) {
                 setSize(items.size());
                 callback.onDereferenced(getSize(), CallbackMessage.ok());
             }

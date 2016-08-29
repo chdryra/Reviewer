@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CommentReference extends ReviewItemReference<DataComment> {
+public interface RefComment extends ReviewItemReference<DataComment> {
     interface SentencesCallback {
         void onSentenceReferences(IdableList<Sentence> references);
     }
@@ -25,6 +25,6 @@ public interface CommentReference extends ReviewItemReference<DataComment> {
     boolean isHeadline();
 
     interface Sentence extends ReviewItemReference<DataComment> {
-        CommentReference getParent();
+        RefComment getParent();
     }
 }

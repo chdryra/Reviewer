@@ -23,9 +23,9 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorsRepo {
-    private FactoryFbDataReference mReferenceFactory;
+    private FactoryFbReference mReferenceFactory;
 
-    public FactoryAuthorsRepo(FactoryFbDataReference referenceFactory) {
+    public FactoryAuthorsRepo(FactoryFbReference referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 

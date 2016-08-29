@@ -26,7 +26,7 @@ import java.util.Stack;
  * On: 15/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewSelector implements ReviewListReference.ItemReferencesCallback<ReviewReference>,
+public class ReviewSelector implements ReviewListReference.ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>,
         DataReference.DereferenceCallback<ReviewReference>, ReviewNode.NodeObserver {
     private Selector mSelector;
     private ReviewSelectorCallback mCallback;

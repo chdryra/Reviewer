@@ -26,15 +26,15 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeListReferencesSize<T extends HasReviewId> extends TreeSizeReferenceBasic<T> {
+public class TreeListRefSize<Value extends HasReviewId> extends TreeSizeRefBasic<Value> {
 
-    public TreeListReferencesSize(TreeListReferences<T> dataReference) {
+    public TreeListRefSize(TreeListReferences<Value, ?, ?> dataReference) {
         super(dataReference);
     }
 
     @Override
-    protected TreeListReferences<T> getReference() {
-        return (TreeListReferences<T>) super.getReference();
+    protected TreeListReferences<Value, ?, ?> getReference() {
+        return (TreeListReferences<Value, ?, ?>) super.getReference();
     }
 
     @Override
@@ -75,10 +75,6 @@ public class TreeListReferencesSize<T extends HasReviewId> extends TreeSizeRefer
                 dereferencer.dereference();
             }
         });
-    }
-
-    private VisitorDataGetter<ReviewListReference<T>> castVisitor(VisitorReviewNode visitor) {
-        return (VisitorDataGetter<ReviewListReference<T>>) visitor;
     }
 
     @NonNull
@@ -123,10 +119,10 @@ public class TreeListReferencesSize<T extends HasReviewId> extends TreeSizeRefer
 
     @NonNull
     private IdableList<ReviewItemReference<DataSize>> getSizeReferences(VisitorReviewNode visitor) {
-        VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
-        IdableList<ReviewItemReference<DataSize>> refs
-                = new IdableDataList<>(getReviewId());
-        for (ReviewListReference<T> reference : getter.getData()) {
+        VisitorDataGetter<? extends ReviewListReference<?, ?>> getter
+                = (VisitorDataGetter<? extends ReviewListReference<?,?>>) visitor;
+        IdableList<ReviewItemReference<DataSize>> refs = new IdableDataList<>(getReviewId());
+        for (ReviewListReference<?, ?> reference : getter.getData()) {
             refs.add(reference.getSize());
         }
 

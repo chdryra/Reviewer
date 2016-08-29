@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 
@@ -23,7 +22,7 @@ public interface VisitorFactory {
         VisitorDataGetter<T> newVisitor();
     }
 
-    interface ListVisitor<T extends HasReviewId, R extends ReviewItemReference<T>, L extends ReviewListReference<T, R>> {
+    interface ListVisitor<L extends ReviewListReference<?, ?>> {
         VisitorDataGetter<L> newVisitor();
     }
 }

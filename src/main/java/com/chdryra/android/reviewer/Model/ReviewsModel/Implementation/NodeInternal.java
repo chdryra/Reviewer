@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentsListReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -24,10 +23,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -51,22 +51,22 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public ReviewListReference<ReviewReference> getReviews() {
+    public RefDataList<ReviewReference> getReviews() {
         return mReferenceFactory.newReviewsList(this);
     }
 
     @Override
-    public ReviewListReference<DataSubject> getSubjects() {
+    public RefDataList<DataSubject> getSubjects() {
         return mReferenceFactory.newSubjectsList(this);
     }
 
     @Override
-    public ReviewListReference<DataAuthorId> getAuthorIds() {
+    public RefDataList<DataAuthorId> getAuthorIds() {
         return mReferenceFactory.newAuthorsList(this);
     }
 
     @Override
-    public ReviewListReference<DataDate> getDates() {
+    public RefDataList<DataDate> getDates() {
         return mReferenceFactory.newDatesList(this);
     }
 
@@ -76,32 +76,32 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public ReviewListReference<DataCriterion> getCriteria() {
+    public RefDataList<DataCriterion> getCriteria() {
         return mReferenceFactory.newCriteriaList(this);
     }
 
     @Override
-    public CommentsListReference getComments() {
+    public RefCommentList getComments() {
         return mReferenceFactory.newCommentsList(this);
     }
 
     @Override
-    public ReviewListReference<DataFact> getFacts() {
+    public RefDataList<DataFact> getFacts() {
         return mReferenceFactory.newFactsList(this);
     }
 
     @Override
-    public ReviewListReference<DataImage> getImages() {
+    public RefDataList<DataImage> getImages() {
         return mReferenceFactory.newImagesList(this);
     }
 
     @Override
-    public ReviewListReference<DataLocation> getLocations() {
+    public RefDataList<DataLocation> getLocations() {
         return mReferenceFactory.newLocationsList(this);
     }
 
     @Override
-    public ReviewListReference<DataTag> getTags() {
+    public RefDataList<DataTag> getTags() {
         return mReferenceFactory.newTagsList(this);
     }
 

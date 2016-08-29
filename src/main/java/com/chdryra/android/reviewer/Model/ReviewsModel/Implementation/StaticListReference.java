@@ -12,8 +12,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 
 import java.util.ArrayList;
@@ -24,7 +24,8 @@ import java.util.Collection;
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticListReference<T extends HasReviewId> extends StaticItemReference<IdableList<T>> implements ReviewListReference<T> {
+public class StaticListReference<T extends HasReviewId> extends StaticItemReference<IdableList<T>>
+        implements RefDataList<T> {
     private Collection<ListItemBinder<T>> mItemBinders;
 
     public StaticListReference(IdableList<T> value) {
@@ -33,7 +34,7 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     }
 
     @Override
-    public void toItemReferences(ItemReferencesCallback<T> callback) {
+    public void toItemReferences(ItemReferencesCallback<T, ReviewItemReference<T>> callback) {
         IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(getReviewId());
         for (T item : getData()) {
             refs.add(new StaticItemReference<>(item));

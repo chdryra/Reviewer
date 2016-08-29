@@ -13,22 +13,25 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DataLoader;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Implementation.DbItemDereferencer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbListReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbItemDereferencer;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefCommentList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefDataList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
@@ -54,10 +57,26 @@ public class FactoryDbReference {
         return new ReviewerDbReference(info, repo, this);
     }
 
-    public <T extends ReviewDataRow<T>, R extends HasReviewId> ReviewListReference<R>
+    public RefComment newReference(DataLoader.RowLoader<RowComment> loader, boolean isHeadline) {
+        return new DbRefComment(isHeadline, new DbItemDereferencer<>(loader,
+                new DbItemDereferencer.Converter<RowComment, DataComment>() {
+            @Override
+            public DataComment convert(RowComment data) {
+                return data;
+            }
+        }));
+    }
+
+    public <T extends ReviewDataRow<T>, R extends HasReviewId> RefDataList<R>
     newListReference(ReviewId id, ReviewerDbReadable db, DbTable<T> table,
-                     ColumnInfo<String> idCol, DbListReference.Converter<T, R> converter) {
-        return new DbListReference<>(new DataLoader<>(id, id.toString(),db, table, idCol), this, converter);
+                     ColumnInfo<String> idCol, DbRefDataList.Converter<T, R> converter) {
+        return new DbRefDataList<>(new DataLoader<>(id, id.toString(),db, table, idCol), this, converter);
+    }
+
+    public DbRefCommentList
+    newCommentListReference(ReviewId id, ReviewerDbReadable db,
+                     ColumnInfo<String> idCol, DbRefDataList.Converter<RowComment, DataComment> converter) {
+        return new DbRefCommentList(new DataLoader<>(id, id.toString(),db, db.getCommentsTable(), idCol), this, converter);
     }
 
     public <T extends ReviewDataRow<T>, R extends HasReviewId> ReviewItemReference<R>
@@ -73,7 +92,7 @@ public class FactoryDbReference {
         return new SimpleItemReference<>(dereferencer);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newStaticReference(IdableList<T> data) {
+    public <T extends HasReviewId> RefDataList<T> newStaticReference(IdableList<T> data) {
         return new StaticListReference<>(data);
     }
 

@@ -14,8 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.FbReviewCommentRef;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbReviewItemRef;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -24,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.ListItemsReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.SnapshotConverter;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.CommentReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -38,9 +37,9 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryListItemsReferencer {
-    private FactoryFbDataReference mReferenceFactory;
+    private FactoryFbReference mReferenceFactory;
 
-    public FactoryListItemsReferencer(FactoryFbDataReference referenceFactory) {
+    public FactoryListItemsReferencer(FactoryFbReference referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 
@@ -56,17 +55,17 @@ public class FactoryListItemsReferencer {
         return newReferencer(newDefaultFactory(converter));
     }
 
-    public ListItemsReferencer<DataComment, CommentReference> newCommentsReferencer
+    public ListItemsReferencer<DataComment, RefComment> newCommentsReferencer
             (SnapshotConverter<DataComment> converter) {
         return newReferencer(newCommentReferenceFactory(converter));
     }
 
-    public ListItemsReferencer<DataComment, CommentReference.Sentence> newSentencesReferencer
-            (final SnapshotConverter<DataComment> converter, final CommentReference parent) {
+    public ListItemsReferencer<DataComment, RefComment.Sentence> newSentencesReferencer
+            (final SnapshotConverter<DataComment> converter, final RefComment parent) {
         return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment,
-                CommentReference.Sentence>() {
+                RefComment.Sentence>() {
             @Override
-            public CommentReference.Sentence newReference(ReviewId id, Firebase child, int index) {
+            public RefComment.Sentence newReference(ReviewId id, Firebase child, int index) {
                 return new FbSentence(id, child, converter, parent);
             }
         });
@@ -84,14 +83,14 @@ public class FactoryListItemsReferencer {
     }
 
     @NonNull
-    private ListItemsReferencer.ItemReferenceFactory<DataComment, CommentReference>
+    private ListItemsReferencer.ItemReferenceFactory<DataComment, RefComment>
     newCommentReferenceFactory(final SnapshotConverter<DataComment> converter) {
-        return new ListItemsReferencer.ItemReferenceFactory<DataComment, CommentReference>() {
+        return new ListItemsReferencer.ItemReferenceFactory<DataComment, RefComment>() {
             @Override
-            public CommentReference newReference(ReviewId id, Firebase child, int index) {
+            public RefComment newReference(ReviewId id, Firebase child, int index) {
                 ReviewItemReference<DataSize> numSentences = mReferenceFactory.newSize(child
                         .child(Comment.NUM_SENTENCES), id);
-                return new FbReviewCommentRef(id, child, numSentences, converter,
+                return new FbRefComment(id, child, numSentences, converter,
                         FactoryListItemsReferencer.this, index == 0);
 
             }

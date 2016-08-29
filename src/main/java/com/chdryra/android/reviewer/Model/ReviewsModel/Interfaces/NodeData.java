@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NodeData extends ReviewReferenceData {
-    ReviewListReference<ReviewReference> getReviews();
+    RefDataList<ReviewReference> getReviews();
 
-    ReviewListReference<DataSubject> getSubjects();
+    RefDataList<DataSubject> getSubjects();
 
-    ReviewListReference<DataAuthorId> getAuthorIds();
+    RefDataList<DataAuthorId> getAuthorIds();
 
-    ReviewListReference<DataDate> getDates();
+    RefDataList<DataDate> getDates();
 }
