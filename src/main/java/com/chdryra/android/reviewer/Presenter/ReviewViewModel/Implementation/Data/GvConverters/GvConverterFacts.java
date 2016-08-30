@@ -28,7 +28,7 @@ import java.net.URL;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterFacts extends GvConverterReviewData<DataFact, GvFact, GvFactList, GvFact.Reference> {
+public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact, GvFact, GvFactList, GvFact.Reference> {
     private GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {

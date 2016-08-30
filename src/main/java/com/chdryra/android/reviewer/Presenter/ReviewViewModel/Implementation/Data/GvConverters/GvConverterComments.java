@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
 
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterComments extends GvConverterReviewData<DataComment, GvComment, GvCommentList, GvComment.Reference> {
+public class GvConverterComments extends GvConverterReviewData.RefCommentList<GvComment, GvCommentList, GvComment.Reference> {
 
     public GvConverterComments() {
         super(GvCommentList.class, GvComment.Reference.TYPE);
@@ -32,7 +32,7 @@ public class GvConverterComments extends GvConverterReviewData<DataComment, GvCo
     }
 
     @Override
-    protected GvComment.Reference convertReference(ReviewItemReference<DataComment> reference) {
+    protected GvComment.Reference convertReference(RefComment reference) {
         return new GvComment.Reference(reference, this);
     }
 }

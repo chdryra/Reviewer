@@ -71,6 +71,10 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory;
     }
 
+    public FactoryMdReference getReferenceFactory() {
+        return mReferenceFactory;
+    }
+
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {
         mAuthorsStamp = authorsStamp;
     }

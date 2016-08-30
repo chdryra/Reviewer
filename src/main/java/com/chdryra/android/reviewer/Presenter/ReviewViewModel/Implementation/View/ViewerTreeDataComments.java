@@ -8,13 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 
 /**
@@ -22,14 +20,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData<Value extends HasReviewId, GvRef extends
-        GvDataRef<GvRef, Value, ?>>
-        extends ViewerReviewData.DataList<Value, GvRef> {
+public class ViewerTreeDataComments<GvRef extends
+        GvDataRef<GvRef, DataComment, ?>>
+        extends ViewerReviewData.CommentList<GvRef> {
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    public ViewerTreeData(RefDataList<Value> reference,
-                          GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
-                          FactoryReviewViewAdapter adapterFactory) {
+    public ViewerTreeDataComments(com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList reference,
+                                  GvConverterReferences<DataComment, GvRef, RefComment> converter,
+                                  FactoryReviewViewAdapter adapterFactory) {
         super(reference, converter);
         mAdapterFactory = adapterFactory;
     }

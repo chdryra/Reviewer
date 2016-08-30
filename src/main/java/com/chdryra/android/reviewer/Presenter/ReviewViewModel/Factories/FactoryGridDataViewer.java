@@ -34,9 +34,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
+
+
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerTreeDataComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeSummary;
 
 /**
@@ -72,23 +76,23 @@ public class FactoryGridDataViewer {
                                                   ConverterGv converter) {
         GridDataWrapper<?> viewer = null;
         if (dataType.equals(GvTag.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getTags(), converter.newConverterTags()
-                    .getReferencesConverter());
+            viewer = new ViewerReviewData.DataList<>(node.getTags(),
+                    converter.newConverterTags().getReferencesConverter());
         } else if (dataType.equals(GvCriterion.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getCriteria(), converter.newConverterCriteria()
-                    .getReferencesConverter());
+            viewer = new ViewerReviewData.DataList<>(node.getCriteria(),
+                    converter.newConverterCriteria().getReferencesConverter());
         } else if (dataType.equals(GvImage.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getImages(), converter.newConverterImages()
-                    .getReferencesConverter());
+            viewer = new ViewerReviewData.DataList<>(node.getImages(),
+                    converter.newConverterImages().getReferencesConverter());
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getComments(), converter.newConverterComments()
-                    .getReferencesConverter());
+            viewer = new ViewerReviewData.CommentList<>(node.getComments(),
+                    converter.newConverterComments().getReferencesConverter());
         } else if (dataType.equals(GvLocation.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getLocations(), converter.newConverterLocations
-                    ().getReferencesConverter());
+            viewer = new ViewerReviewData.DataList<>(node.getLocations(),
+                    converter.newConverterLocations().getReferencesConverter());
         } else if (dataType.equals(GvFact.TYPE)) {
-            viewer = new ViewerReviewData<>(node.getFacts(), converter.newConverterFacts()
-                    .getReferencesConverter());
+            viewer = new ViewerReviewData.DataList<>(node.getFacts(),
+                    converter.newConverterFacts().getReferencesConverter());
         }
 
         return viewer;
@@ -109,7 +113,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getImages(), converter.newConverterImages()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerTreeData<>(node.getComments(), converter.newConverterComments()
+            viewer = new ViewerTreeDataComments<>(node.getComments(), converter.newConverterComments()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerTreeData<>(node.getLocations(), converter.newConverterLocations

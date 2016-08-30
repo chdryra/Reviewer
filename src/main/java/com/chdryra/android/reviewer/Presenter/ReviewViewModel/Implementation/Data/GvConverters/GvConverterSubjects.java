@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterSubjects extends GvConverterReviewData<DataSubject, GvSubject, GvSubjectList, GvSubject.Reference> {
+public class GvConverterSubjects extends GvConverterReviewData.RefDataList<DataSubject, GvSubject, GvSubjectList, GvSubject.Reference> {
     public GvConverterSubjects() {
         super(GvSubjectList.class, GvSubject.Reference.TYPE);
     }

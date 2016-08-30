@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterLocations extends
-        GvConverterReviewData<DataLocation, GvLocation, GvLocationList, GvLocation.Reference> {
+        GvConverterReviewData.RefDataList<DataLocation, GvLocation, GvLocationList, GvLocation.Reference> {
 
     public GvConverterLocations() {
         super(GvLocationList.class, GvLocation.Reference.TYPE);

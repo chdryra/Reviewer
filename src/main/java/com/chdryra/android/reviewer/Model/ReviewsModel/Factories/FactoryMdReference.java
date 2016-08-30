@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -20,19 +21,21 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeCoverReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticRefCommentList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticCommentReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticRefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeItemRefSize;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeRefItemList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListRefSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeListReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeRefCommentList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeRefDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeRefItemList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
@@ -59,14 +62,24 @@ public class FactoryMdReference {
         return new StaticItemReference<>(datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T, ReviewItemReference<T>> newWrapper(IdableList<T> data) {
-        return new StaticListReference<>(data);
+    public RefComment newWrapper(DataComment datum) {
+        return new StaticCommentReference(datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T, ReviewItemReference<T>> newSuperClassWrapper(IdableList<? extends T> data) {
+    public <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<T> data) {
+        return new StaticRefDataList<>(data, this);
+    }
+
+    public RefCommentList newCommentsWrapper(IdableList<? extends DataComment> data) {
+        IdableList<DataComment> list = new IdableDataList<>(data.getReviewId());
+        list.addAll(data);
+        return new StaticRefCommentList(list, this);
+    }
+
+    public <T extends HasReviewId> RefDataList<T> newSuperClassWrapper(IdableList<? extends T> data) {
         IdableList<T> list = new IdableDataList<>(data.getReviewId());
         list.addAll(data);
-        return new StaticListReference<>(list);
+        return new StaticRefDataList<>(list, this);
     }
 
     public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeRefItemList<Value> treeRef) {

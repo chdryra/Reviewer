@@ -12,8 +12,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 
 import java.util.ArrayList;
@@ -24,22 +24,14 @@ import java.util.Collection;
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticListReference<T extends HasReviewId> extends StaticItemReference<IdableList<T>>
-        implements RefDataList<T> {
-    private Collection<ListItemBinder<T>> mItemBinders;
+public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
+        extends StaticItemReference<IdableList<Value>>
+        implements ReviewListReference<Value, Reference> {
+    private Collection<ListItemBinder<Value>> mItemBinders;
 
-    public StaticListReference(IdableList<T> value) {
+    public StaticListReferenceBasic(IdableList<Value> value) {
         super(value);
         mItemBinders = new ArrayList<>();
-    }
-
-    @Override
-    public void toItemReferences(ItemReferencesCallback<T, ReviewItemReference<T>> callback) {
-        IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(getReviewId());
-        for (T item : getData()) {
-            refs.add(new StaticItemReference<>(item));
-        }
-        callback.onItemReferences(refs);
     }
 
     @Override
@@ -48,23 +40,34 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     }
 
     @Override
-    public void bindToItems(ListItemBinder<T> binder) {
+    public void bindToItems(ListItemBinder<Value> binder) {
         if (isValidReference() && !mItemBinders.contains(binder)) mItemBinders.add(binder);
-        for (T item : getData()) {
+        for (Value item : getData()) {
             binder.onItemAdded(item);
         }
     }
 
     @Override
-    public void unbindFromItems(ListItemBinder<T> binder) {
+    public void unbindFromItems(ListItemBinder<Value> binder) {
         if (isValidReference() && mItemBinders.contains(binder)) mItemBinders.remove(binder);
     }
 
     @Override
     protected void onInvalidate() {
-        for (ListItemBinder<T> binder : mItemBinders) {
+        for (ListItemBinder<Value> binder : mItemBinders) {
             binder.onInvalidated(this);
         }
         mItemBinders.clear();
     }
+
+    @Override
+    public void toItemReferences(ItemReferencesCallback<Value, Reference> callback) {
+        IdableList<Reference> refs = new IdableDataList<>(getReviewId());
+        for (Value item : getData()) {
+            refs.add(newStaticReference(item));
+        }
+        callback.onItemReferences(refs);
+    }
+
+    protected abstract Reference newStaticReference(Value item);
 }

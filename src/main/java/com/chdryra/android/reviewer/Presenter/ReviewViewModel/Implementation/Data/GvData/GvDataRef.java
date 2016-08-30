@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHolder>,
+public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHolder>,
         ValueType extends HasReviewId, ValueHolder extends ViewHolder>
         extends GvDataBasic<Reference> implements DataReference.InvalidationListener {
 

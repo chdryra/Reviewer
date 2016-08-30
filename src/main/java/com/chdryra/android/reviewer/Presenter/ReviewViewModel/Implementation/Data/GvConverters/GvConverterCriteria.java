@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterCriteria extends GvConverterReviewData<DataCriterion,
+public class GvConverterCriteria extends GvConverterReviewData.RefDataList<DataCriterion,
         GvCriterion, GvCriterionList, GvCriterion.Reference> {
 
     public GvConverterCriteria() {

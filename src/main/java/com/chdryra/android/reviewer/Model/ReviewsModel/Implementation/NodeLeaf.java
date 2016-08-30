@@ -28,6 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -36,9 +37,11 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComponent,
         DataReference.InvalidationListener {
     private final ReviewReference mReview;
+    private FactoryMdReference mReferenceFactory;
 
-    public NodeLeaf(ReviewReference review) {
+    public NodeLeaf(ReviewReference review, FactoryMdReference referenceFactory) {
         mReview = review;
+        mReferenceFactory = referenceFactory;
     }
 
     @Override
@@ -194,7 +197,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @NonNull
     private <T extends HasReviewId> RefDataList<T> newEmptyReference() {
-        IdableList<T> data = new IdableDataList<>(mReview.getReviewId());
-        return new StaticListReference<>(data);
+        return mReferenceFactory.newWrapper(new IdableDataList<T>(mReview.getReviewId()));
     }
 }

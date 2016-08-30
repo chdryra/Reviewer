@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterAuthorIds extends
-        GvConverterReviewData<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId.Reference> {
+        GvConverterReviewData.RefDataList<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId.Reference> {
     private AuthorsRepository mRepo;
 
     public GvConverterAuthorIds(AuthorsRepository repo) {

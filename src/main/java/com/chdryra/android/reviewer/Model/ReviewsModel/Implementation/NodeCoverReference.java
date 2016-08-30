@@ -14,6 +14,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
@@ -101,11 +102,10 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     private void chooseReviewForCover(final ChoiceCallback callback) {
-        ReviewListReference<ReviewReference> reviews = mRoot.getReviews();
-        reviews.toItemReferences(new ReviewListReference.ItemReferencesCallback<ReviewReference>() {
+        RefDataList<ReviewReference> reviews = mRoot.getReviews();
+        reviews.toItemReferences(new ReviewListReference.ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>() {
             @Override
-            public void onItemReferences(IdableList<ReviewItemReference<ReviewReference>>
-                                                 references) {
+            public void onItemReferences(IdableList<ReviewItemReference<ReviewReference>> references) {
                 ReviewItemReference<ReviewReference> review
                         = references.getItem(RANDOM.nextInt(references.size()));
                 boolean changed = false;

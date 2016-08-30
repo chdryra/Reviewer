@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
@@ -85,8 +86,8 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
     }
 
     @Override
-    public RefDataList<DataComment> getComments() {
-        return newWrapper(mReview.getComments());
+    public RefCommentList getComments() {
+        return newCommentsWrapper(mReview.getComments());
     }
 
     @Override
@@ -115,5 +116,9 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
 
     private <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<? extends T> data) {
         return mReferenceFactory.newSuperClassWrapper(data);
+    }
+
+    private RefCommentList newCommentsWrapper(IdableList<? extends DataComment> data) {
+        return mReferenceFactory.newCommentsWrapper(data);
     }
 }

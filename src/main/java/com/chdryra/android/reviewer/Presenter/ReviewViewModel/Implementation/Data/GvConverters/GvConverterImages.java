@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterImages extends GvConverterReviewData<DataImage, GvImage, GvImageList, GvImage.Reference> {
+public class GvConverterImages extends GvConverterReviewData.RefDataList<DataImage, GvImage, GvImageList, GvImage.Reference> {
 
     private DataConverter<DateTime, GvDate, ?> mConverter;
 

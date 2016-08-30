@@ -23,15 +23,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvConverterReferences<T1 extends HasReviewId, T2 extends GvDataRef<T2, ? extends T1, ?>>
-        extends GvConverterBasic<ReviewItemReference<T1>, T2, GvDataRefList<T2>> {
+public abstract class GvConverterReferences<Value extends HasReviewId,
+        GvRef extends GvDataRef<GvRef, ? extends Value, ?>, Reference extends ReviewItemReference<Value>>
+        extends GvConverterBasic<Reference, GvRef, GvDataRefList<GvRef>> {
 
-    public GvConverterReferences(GvDataType<T2> dataType) {
+    public GvConverterReferences(GvDataType<GvRef> dataType) {
         super(dataType);
     }
 
     @Override
-    protected GvDataRefList<T2> newList(ReviewId reviewId) {
+    protected GvDataRefList<GvRef> newList(ReviewId reviewId) {
         GvReviewId id = new GvReviewId(reviewId);
         return new GvDataRefList<>(getOutputType(), id);
     }

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterDataTags extends GvConverterReviewData<DataTag, GvTag, GvTagList, GvTag.Reference> {
+public class GvConverterDataTags extends GvConverterReviewData.RefDataList<DataTag, GvTag, GvTagList, GvTag.Reference> {
     public GvConverterDataTags() {
         super(GvTagList.class, GvTag.Reference.TYPE);
     }

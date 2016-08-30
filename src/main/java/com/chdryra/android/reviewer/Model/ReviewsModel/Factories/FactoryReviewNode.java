@@ -38,7 +38,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference review) {
-        return new NodeLeaf(review);
+        return new NodeLeaf(review, mReferenceFactory);
     }
 
     public ReviewNodeComponent createComponent(ReviewInfo meta) {

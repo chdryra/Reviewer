@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterDateReviews extends GvConverterReviewData<DataDate, GvDate, GvDateList, GvDate.Reference> {
+public class GvConverterDateReviews extends GvConverterReviewData.RefDataList<DataDate, GvDate, GvDateList, GvDate.Reference> {
 
     public GvConverterDateReviews() {
         super(GvDateList.class, GvDate.Reference.TYPE);

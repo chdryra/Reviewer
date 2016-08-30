@@ -32,9 +32,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticRefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -44,6 +45,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbReference {
+    private FactoryMdReference mMdReferenceFactory;
+
+    public FactoryDbReference(FactoryMdReference mdReferenceFactory) {
+        mMdReferenceFactory = mdReferenceFactory;
+    }
 
     public ReviewReference newReference(RowReview review, ReviewerDbRepository repo) {
         ReviewId id = review.getReviewId();
@@ -93,7 +99,6 @@ public class FactoryDbReference {
     }
 
     public <T extends HasReviewId> RefDataList<T> newStaticReference(IdableList<T> data) {
-        return new StaticListReference<>(data);
+        return new StaticRefDataList<>(data, mMdReferenceFactory);
     }
-
 }
