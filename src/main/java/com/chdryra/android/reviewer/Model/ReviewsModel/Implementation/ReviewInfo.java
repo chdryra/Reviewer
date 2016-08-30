@@ -9,26 +9,24 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewInfo implements com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo {
+public class ReviewInfo implements DataReviewInfo {
     private ReviewId mReviewId;
     private DataSubject mSubject;
     private DataRating mRating;
     private DataAuthorId mAuthorId;
     private DataDate mPublishDate;
-
-    public ReviewInfo() {
-    }
 
     public ReviewInfo(ReviewId reviewId, DataSubject subject, DataRating rating, DataAuthorId
             authorId, DataDate publishDate) {

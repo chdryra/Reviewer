@@ -10,15 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SentencesCollector;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,13 +34,13 @@ public class DbRefCommentList extends DbListReferenceBasic<RowComment, DataComme
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> refComments) {
-                new SentencesCollector(refComments, callback).collect();
+                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(refComments).collect(callback);
             }
         });
     }
 
     @Override
     protected RefComment newReference(DataLoader.RowLoader<RowComment> loader, RowComment datum) {
-        return getReferenceFactory().newReference(loader, datum.isHeadline());
+        return getDbReferenceFactory().newReference(loader, datum.isHeadline());
     }
 }

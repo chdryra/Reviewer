@@ -8,10 +8,10 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.testutils.RandomDate;
 
 import java.util.Date;

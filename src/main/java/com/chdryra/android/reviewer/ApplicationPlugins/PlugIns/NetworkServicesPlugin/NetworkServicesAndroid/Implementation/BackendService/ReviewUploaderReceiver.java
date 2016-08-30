@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
         .Implementation.BackendService;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploaderListener;
 
 /**

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
  * Created by: Rizwan Choudrey

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataUrl;
 
 import java.util.Comparator;
 

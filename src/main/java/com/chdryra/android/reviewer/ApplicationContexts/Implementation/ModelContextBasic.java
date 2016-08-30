@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
@@ -18,7 +19,8 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ModelContextBasic implements ModelContext {
-    private FactoryReviews mFactoryReviews;
+    private FactoryReference mReferenceFactory;
+    private FactoryReviews mReviewsFactory;
     private TagsManager mTagsManager;
 
     public void setTagsManager(TagsManager tagsManager) {
@@ -26,16 +28,25 @@ public abstract class ModelContextBasic implements ModelContext {
     }
 
     public void setReviewsFactory(FactoryReviews factoryReviews) {
-        mFactoryReviews = factoryReviews;
+        mReviewsFactory = factoryReviews;
+    }
+
+    public void setReferenceFactory(FactoryReference referenceFactory) {
+        mReferenceFactory = referenceFactory;
     }
 
     @Override
     public FactoryReviews getReviewsFactory() {
-        return mFactoryReviews;
+        return mReviewsFactory;
     }
 
     @Override
     public TagsManager getTagsManager() {
         return mTagsManager;
+    }
+
+    @Override
+    public FactoryReference getReferenceFactory() {
+        return mReferenceFactory;
     }
 }

@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 
 /**
  * Created by: Rizwan Choudrey

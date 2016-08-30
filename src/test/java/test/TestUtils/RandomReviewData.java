@@ -8,17 +8,17 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.testutils.BitmapMocker;

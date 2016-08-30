@@ -9,19 +9,18 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
         .Implementation.AuthorAlphabetical;
@@ -85,15 +84,8 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<DataReviewSummary> getReviewComparators() {
-        ReviewMostRecentPublished<DataReviewSummary> mostRecent =
-                new ReviewMostRecentPublished<>(getDateComparators().getDefault());
-        return new ComparatorCollectionImpl<>(mostRecent);
-    }
-
-    @Override
-    public ComparatorCollection<ReviewInfo> getReviewInfoComparators() {
-        ReviewMostRecentPublished<ReviewInfo> mostRecent =
+    public ComparatorCollection<DataReviewInfo> getReviewInfoComparators() {
+        ReviewMostRecentPublished<DataReviewInfo> mostRecent =
                 new ReviewMostRecentPublished<>(getDateComparators().getDefault());
         return new ComparatorCollectionImpl<>(mostRecent);
     }

@@ -16,12 +16,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

@@ -8,25 +8,25 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullDataReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.NullDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 

@@ -8,9 +8,9 @@
 
 package test.Model.ReviewsModel.MdConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterBasic;
 
@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey

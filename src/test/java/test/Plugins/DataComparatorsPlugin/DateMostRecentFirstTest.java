@@ -9,8 +9,8 @@
 package test.Plugins.DataComparatorsPlugin;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 
 import org.junit.Test;
 

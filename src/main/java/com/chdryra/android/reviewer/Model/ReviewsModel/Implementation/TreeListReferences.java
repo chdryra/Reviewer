@@ -8,12 +8,14 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ListsDereferencer;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
@@ -40,6 +42,10 @@ public class TreeListReferences<Value extends HasReviewId,
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
+    }
+
+    protected FactoryReference getReferenceFactory() {
+        return mReferenceFactory.getReferenceFactory();
     }
 
     @Override

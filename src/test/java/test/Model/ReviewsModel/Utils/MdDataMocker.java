@@ -8,7 +8,7 @@
 
 package test.Model.ReviewsModel.Utils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;

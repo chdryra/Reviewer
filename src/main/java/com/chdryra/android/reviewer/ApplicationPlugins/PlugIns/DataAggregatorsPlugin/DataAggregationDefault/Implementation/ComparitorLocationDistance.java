@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.DifferenceComparitor;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngDistance;

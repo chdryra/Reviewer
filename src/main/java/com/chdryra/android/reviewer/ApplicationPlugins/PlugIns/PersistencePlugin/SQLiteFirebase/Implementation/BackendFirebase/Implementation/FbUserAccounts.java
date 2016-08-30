@@ -29,8 +29,8 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailPassword;

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -26,7 +26,7 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
     private ReferencesRepository mRepo;
     private FactoryReviewNode mNodeFactory;
 
-    public ReviewNodeRepo(ReviewInfo meta,
+    public ReviewNodeRepo(DataReviewInfo meta,
                           ReferencesRepository repo,
                           FactoryMdReference referenceFactory,
                           FactoryReviewNode nodeFactory) {

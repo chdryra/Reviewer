@@ -8,8 +8,8 @@
 
 package test.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TagsGetter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;

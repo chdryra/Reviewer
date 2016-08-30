@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 
 import java.util.Comparator;
 

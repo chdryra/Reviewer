@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
@@ -77,7 +77,7 @@ public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
     public LocalRepository newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
         FactoryReviews reviewsFactory = model.getReviewsFactory();
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, reviewsFactory, validator);
-        FactoryDbReference referenceFactory = new FactoryDbReference(reviewsFactory.getReferenceFactory());
+        FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferenceFactory());
         return new ReviewerDbRepository(db, model.getTagsManager(), repoFactory, referenceFactory);
     }
 

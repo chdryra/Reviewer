@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey

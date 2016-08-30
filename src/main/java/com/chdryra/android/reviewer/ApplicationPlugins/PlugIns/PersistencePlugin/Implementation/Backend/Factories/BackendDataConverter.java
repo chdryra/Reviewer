@@ -28,35 +28,35 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.net.MalformedURLException;
@@ -192,7 +192,7 @@ public class BackendDataConverter {
         return new DatumReviewId(reviewId);
     }
 
-    public ReviewInfo convert(ReviewListEntry entry) {
+    public DataReviewInfo convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
         return new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),

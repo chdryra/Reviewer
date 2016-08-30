@@ -9,8 +9,8 @@
 package test.Plugins.DataComparatorsPlugin;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CriterionSubjectThenRating;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

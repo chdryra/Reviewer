@@ -8,8 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
@@ -25,7 +26,7 @@ public class ViewerTreeDataComments<GvRef extends
         extends ViewerReviewData.CommentList<GvRef> {
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    public ViewerTreeDataComments(com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList reference,
+    public ViewerTreeDataComments(RefCommentList reference,
                                   GvConverterReferences<DataComment, GvRef, RefComment> converter,
                                   FactoryReviewViewAdapter adapterFactory) {
         super(reference, converter);

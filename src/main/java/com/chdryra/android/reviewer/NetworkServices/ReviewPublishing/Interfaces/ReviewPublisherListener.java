@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.Collection;

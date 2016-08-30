@@ -9,14 +9,15 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefCommentList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SentencesCollector;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
 /**
@@ -25,12 +26,16 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> implements RefCommentList {
+    private FactoryFbReference mReferenceFactory;
+
     public FbRefCommentList(ReviewId id,
                             Firebase reference,
                             ReviewItemReference<DataSize> sizeReference,
                             ListConverter<DataComment> converter,
-                            ListItemsReferencer<DataComment, RefComment> referencer) {
+                            ListItemsReferencer<DataComment, RefComment> referencer,
+                            FactoryFbReference referenceFactory) {
         super(id, reference, sizeReference, converter, referencer);
+        mReferenceFactory = referenceFactory;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> i
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> references) {
-                new SentencesCollector(references, callback).collect();
+                mReferenceFactory.newSentencesCollector(references).collect(callback);
             }
         });
     }

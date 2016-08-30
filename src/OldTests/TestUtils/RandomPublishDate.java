@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.testutils.RandomDate;
 
 /**

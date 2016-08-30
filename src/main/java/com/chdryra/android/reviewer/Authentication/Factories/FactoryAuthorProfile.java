@@ -9,11 +9,11 @@
 package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorIdParcelable;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 
 import java.util.Date;
 

@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey

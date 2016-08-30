@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
         .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
         .NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 

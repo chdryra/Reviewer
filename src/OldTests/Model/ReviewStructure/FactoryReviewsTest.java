@@ -10,14 +10,14 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;

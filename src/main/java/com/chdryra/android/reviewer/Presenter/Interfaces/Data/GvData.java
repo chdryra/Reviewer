@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.Data;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 

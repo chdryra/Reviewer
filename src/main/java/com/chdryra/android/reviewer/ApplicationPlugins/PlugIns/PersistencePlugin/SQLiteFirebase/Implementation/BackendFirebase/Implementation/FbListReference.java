@@ -12,9 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ItemBindersDelegate;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ItemBindersDelegate;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

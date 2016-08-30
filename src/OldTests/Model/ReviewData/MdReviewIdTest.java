@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 

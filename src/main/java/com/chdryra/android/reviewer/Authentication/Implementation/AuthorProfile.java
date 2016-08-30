@@ -10,8 +10,8 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 
 /**
  * Created by: Rizwan Choudrey

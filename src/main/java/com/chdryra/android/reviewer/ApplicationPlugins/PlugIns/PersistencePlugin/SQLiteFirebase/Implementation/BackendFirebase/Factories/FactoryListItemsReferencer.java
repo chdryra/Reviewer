@@ -23,12 +23,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.ListItemsReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.SnapshotConverter;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
 /**
@@ -60,12 +60,11 @@ public class FactoryListItemsReferencer {
         return newReferencer(newCommentReferenceFactory(converter));
     }
 
-    public ListItemsReferencer<DataComment, RefComment.Sentence> newSentencesReferencer
+    public ListItemsReferencer<DataComment, RefComment> newSentencesReferencer
             (final SnapshotConverter<DataComment> converter, final RefComment parent) {
-        return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment,
-                RefComment.Sentence>() {
+        return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment, RefComment>() {
             @Override
-            public RefComment.Sentence newReference(ReviewId id, Firebase child, int index) {
+            public RefComment newReference(ReviewId id, Firebase child, int index) {
                 return new FbSentence(id, child, converter, parent);
             }
         });

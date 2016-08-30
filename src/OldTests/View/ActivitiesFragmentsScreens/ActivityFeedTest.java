@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters
         .ConverterMd;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverters;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverters;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceAuth
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;

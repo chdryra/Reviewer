@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DataLoader;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbItemDereferencer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefCommentList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefDataList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbReference;
@@ -23,19 +22,19 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperRefDataList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.SimpleItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticRefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -45,10 +44,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbReference {
-    private FactoryMdReference mMdReferenceFactory;
+    private FactoryReference mReferenceFactory;
 
-    public FactoryDbReference(FactoryMdReference mdReferenceFactory) {
-        mMdReferenceFactory = mdReferenceFactory;
+    public FactoryDbReference(FactoryReference referenceFactory) {
+        mReferenceFactory = referenceFactory;
+    }
+
+    public FactoryReference getReferenceFactory() {
+        return mReferenceFactory;
     }
 
     public ReviewReference newReference(RowReview review, ReviewerDbRepository repo) {
@@ -64,7 +67,7 @@ public class FactoryDbReference {
     }
 
     public RefComment newReference(DataLoader.RowLoader<RowComment> loader, boolean isHeadline) {
-        return new DbRefComment(isHeadline, new DbItemDereferencer<>(loader,
+        return mReferenceFactory.newCommentReference(isHeadline, new DbItemDereferencer<>(loader,
                 new DbItemDereferencer.Converter<RowComment, DataComment>() {
             @Override
             public DataComment convert(RowComment data) {
@@ -99,6 +102,6 @@ public class FactoryDbReference {
     }
 
     public <T extends HasReviewId> RefDataList<T> newStaticReference(IdableList<T> data) {
-        return new StaticRefDataList<>(data, mMdReferenceFactory);
+        return new WrapperRefDataList<>(data, mReferenceFactory);
     }
 }

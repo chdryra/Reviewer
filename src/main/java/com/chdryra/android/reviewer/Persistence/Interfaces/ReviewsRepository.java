@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**

@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindableReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.BindableReferenceBasic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

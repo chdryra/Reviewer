@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;

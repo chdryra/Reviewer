@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**

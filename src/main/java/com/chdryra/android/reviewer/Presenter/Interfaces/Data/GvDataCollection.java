@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.Data;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseIdableList;
 
 /**
  * Created by: Rizwan Choudrey

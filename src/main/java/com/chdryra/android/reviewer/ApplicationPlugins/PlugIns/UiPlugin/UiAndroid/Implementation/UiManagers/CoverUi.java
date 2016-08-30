@@ -18,7 +18,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.widget.LinearLayout;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**

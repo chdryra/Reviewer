@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
 /**
@@ -19,10 +21,12 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbSentence extends FbReviewItemRef<DataComment> implements RefComment.Sentence {
+public class FbSentence extends FbReviewItemRef<DataComment> implements RefComment {
     private RefComment mParent;
 
-    public FbSentence(ReviewId id, Firebase reference, SnapshotConverter<DataComment> converter,
+    public FbSentence(ReviewId id,
+                      Firebase reference,
+                      SnapshotConverter<DataComment> converter,
                       RefComment parent) {
         super(id, reference, converter);
         mParent = parent;
@@ -31,5 +35,22 @@ public class FbSentence extends FbReviewItemRef<DataComment> implements RefComme
     @Override
     public RefComment getParent() {
         return mParent;
+    }
+
+    @Override
+    public RefComment getFirstSentence() {
+        return this;
+    }
+
+    @Override
+    public void toSentences(SentencesCallback callback) {
+        IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
+        sentences.add(this);
+        callback.onSentenceReferences(sentences);
+    }
+
+    @Override
+    public boolean isHeadline() {
+        return mParent.isHeadline();
     }
 }

@@ -12,7 +12,7 @@ import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryPersistentCache;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsCacheHybrid;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
