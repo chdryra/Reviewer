@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Se
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**
@@ -41,15 +40,14 @@ public class ViewerCommentsData
             reference.toSentences(new RefComment.SentencesCallback() {
                 @Override
                 public void onSentenceReferences(IdableList<RefComment> references) {
-                    SentencesCollector collector = mReferenceFactory.newSentencesCollector(references);
-                    makeGridData(collector.collectFirstSentences());
-                }
+                    ViewerCommentsData.this.onItemReferences(references);}
             });
         } else {
-            getReference().toItemReferences(new ReviewListReference.ItemReferencesCallback<DataComment, RefComment>() {
+            reference.toItemReferences(new ReviewListReference.ItemReferencesCallback<DataComment, RefComment>() {
                 @Override
                 public void onItemReferences(IdableList<RefComment> refComments) {
-                    makeGridData(refComments);
+                    SentencesCollector collector = mReferenceFactory.newSentencesCollector(refComments);
+                    ViewerCommentsData.this.onItemReferences(collector.collectFirstSentences());
                 }
             });
         }

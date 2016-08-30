@@ -190,5 +190,15 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
                 }
             });
         }
+
+        public Reference getParentReference() {
+            RefComment reference = (RefComment) super.getReference();
+            RefComment parent = reference.getParent();
+            if(parent == null) {
+                return this;
+            } else {
+                return new Reference(parent, (DataConverter<DataComment, GvComment, ?>) getConverter());
+            }
+        }
     }
 }

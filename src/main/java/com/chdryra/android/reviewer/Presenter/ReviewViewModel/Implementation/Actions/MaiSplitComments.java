@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -54,7 +54,7 @@ public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuAc
                 view.setGridViewData(data);
             }
         } else {
-            AdapterCommentsAggregate adapter = (AdapterCommentsAggregate) view.getAdapter();
+            AdapterComments adapter = (AdapterComments) view.getAdapter();
             adapter.setSplit(mCommentsAreSplit);
         }
     }

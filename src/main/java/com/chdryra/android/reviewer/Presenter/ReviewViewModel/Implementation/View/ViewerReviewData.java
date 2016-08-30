@@ -91,7 +91,7 @@ public class ViewerReviewData<Value extends HasReviewId,
                 new GvReviewId(mReference.getReviewId()));
     }
 
-    protected void makeGridData(IdableList<Reference> references) {
+    private void makeGridData(IdableList<Reference> references) {
         mCache = newDataList();
         for (Reference reference : references) {
             mCache.add(mConverter.convert(reference));

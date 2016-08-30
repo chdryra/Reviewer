@@ -66,6 +66,10 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         return mReference;
     }
 
+    protected DataConverter<ValueType, ? extends GvDataParcelable, ?> getConverter() {
+        return mConverter;
+    }
+
     @Nullable
     public ValueType getDataValue() {
         return mViewHolder != null ? mViewHolder.getDataValue() : null;

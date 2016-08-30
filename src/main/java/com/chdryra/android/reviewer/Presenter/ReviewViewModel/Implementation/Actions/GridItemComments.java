@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class GridItemComments extends GridItemConfigLauncher<GvComment> {
+public class GridItemComments extends GridItemConfigLauncher<GvComment.Reference> {
     public GridItemComments(LaunchableConfig commentsViewConfig,
                             FactoryReviewView launchableFactory,
                             ParcelablePacker<GvDataParcelable> packer) {
@@ -29,12 +29,7 @@ public class GridItemComments extends GridItemConfigLauncher<GvComment> {
     }
 
     @Override
-    public void onClickNotExpandable(GvComment item, int position, View v) {
-        try {
-            GvComment unsplit = item.getUnsplitComment();
-            super.onClickNotExpandable(unsplit, position, v);
-        } catch (ClassCastException e) {
-            super.onClickNotExpandable(item, position, v);
-        }
+    public void onClickNotExpandable(GvComment.Reference item, int position, View v) {
+        super.onClickNotExpandable(item.getParentReference(), position, v);
     }
 }
