@@ -92,11 +92,11 @@ public class FactoryReviewView {
 
     public <T extends GvData> ReviewView<T> newViewScreen(ApplicationInstance app,
                                                           ReviewViewAdapter<T> adapter) {
-        //TODO make type safe
-        GvDataType<T> dataType = (GvDataType<T>) adapter.getGvDataType();
+        GvDataType<?> dataType = adapter.getGvDataType();
 
+        //TODO make type safe
         ReviewViewParams params = mParamsFactory.getParams(dataType);
-        ReviewViewActions<T> actions = newViewScreenActions(dataType, app, adapter);
+        ReviewViewActions<T> actions = newViewScreenActions((GvDataType<T>) dataType, app, adapter);
         ReviewViewPerspective<T> perspective = new ReviewViewPerspective<>(adapter, actions,
                 params);
 
@@ -129,7 +129,7 @@ public class FactoryReviewView {
     //TODO make type safe
     private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
         LaunchableConfig viewerConfig = mConfig.getViewer(dataType.getDatumName());
-        if (dataType.equals(GvComment.TYPE)) {
+        if (dataType.equals(GvComment.Reference.TYPE)) {
             return (GridItemAction<T>) new GridItemComments(viewerConfig, this, new
                     ParcelablePacker<GvDataParcelable>());
         } else {
@@ -139,7 +139,7 @@ public class FactoryReviewView {
 
     //TODO make type safe
     private <T extends GvData> MenuAction<T> getMenu(GvDataType<T> dataType) {
-        if (dataType.equals(GvComment.TYPE)) {
+        if (dataType.equals(GvComment.Reference.TYPE)) {
             return (MenuAction<T>) new MenuComments();
         } else {
             return new MenuActionNone<>(dataType.getDataName());

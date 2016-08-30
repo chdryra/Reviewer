@@ -26,7 +26,7 @@ public class SentencesCollector {
         mReferences = references;
     }
 
-    public void collect(final RefComment.SentencesCallback callback) {
+    public void collectSentences(final RefComment.SentencesCallback callback) {
         mResults = new IdableDataList<>(mReferences.getReviewId());
         mCount = 0;
         for (RefComment reference : mReferences) {
@@ -40,5 +40,17 @@ public class SentencesCollector {
                 });
             }
         }
+    }
+
+    public IdableList<RefComment> collectFirstSentences() {
+        IdableList<RefComment> results = new IdableDataList<>(mReferences.getReviewId());
+        mCount = 0;
+        for (RefComment reference : mReferences) {
+            if (reference.isValidReference()) {
+                results.add(reference.getFirstSentence());
+            }
+        }
+
+        return results;
     }
 }

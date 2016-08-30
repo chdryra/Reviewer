@@ -34,7 +34,7 @@ public class WrapperRefCommentList extends StaticListReferenceBasic<DataComment,
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> refComments) {
-                mFactory.newSentencesCollector(refComments).collect(callback);
+                mFactory.newSentencesCollector(refComments).collectSentences(callback);
             }
         });
     }

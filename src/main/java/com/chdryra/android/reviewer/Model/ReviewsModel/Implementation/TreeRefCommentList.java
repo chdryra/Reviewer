@@ -35,7 +35,7 @@ public class TreeRefCommentList extends TreeListReferences<DataComment, RefComme
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> references) {
-                getReferenceFactory().newSentencesCollector(references).collect(callback);
+                getReferenceFactory().newSentencesCollector(references).collectSentences(callback);
             }
         });
     }

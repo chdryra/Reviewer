@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterio
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -36,6 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
@@ -61,6 +63,7 @@ public class FactoryReviewViewAdapter {
 
     public FactoryReviewViewAdapter(FactoryReviewView reviewViewFactory,
                                     FactoryReviews reviewsFactory,
+                                    FactoryReference referenceFactory,
                                     GvDataAggregator aggregator,
                                     ReviewsSource reviewsSource,
                                     AuthorsRepository authorsRepository,
@@ -71,7 +74,7 @@ public class FactoryReviewViewAdapter {
         mAggregator = aggregator;
         mReviewSource = reviewsSource;
         mConverter = converter;
-        mViewerFactory = new FactoryGridDataViewer(this, mAuthorsRepository);
+        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository);
     }
 
     public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
@@ -158,7 +161,11 @@ public class FactoryReviewViewAdapter {
     @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newDataAdapter(ReviewNode node,
                                                                   GvDataType<T> dataType) {
-        return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
+        if (dataType == GvComment.TYPE) {
+            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory.newCommentsDataViewer(node, mConverter));
+        } else {
+            return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
+        }
     }
 
     @Nullable

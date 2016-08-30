@@ -10,21 +10,16 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataRefList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -96,7 +91,7 @@ public class ViewerReviewData<Value extends HasReviewId,
                 new GvReviewId(mReference.getReviewId()));
     }
 
-    private void makeGridData(IdableList<Reference> references) {
+    protected void makeGridData(IdableList<Reference> references) {
         mCache = newDataList();
         for (Reference reference : references) {
             mCache.add(mConverter.convert(reference));
@@ -108,15 +103,6 @@ public class ViewerReviewData<Value extends HasReviewId,
 
         public DataList(RefDataList<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter) {
-            super(reference, converter);
-        }
-    }
-
-    public static class CommentList<GvRef extends GvDataRef<GvRef, DataComment, ?>>
-            extends ViewerReviewData<DataComment, GvRef, RefComment, RefCommentList> {
-
-        public CommentList(RefCommentList reference,
-                           GvConverterReferences<DataComment, GvRef, RefComment> converter) {
             super(reference, converter);
         }
     }

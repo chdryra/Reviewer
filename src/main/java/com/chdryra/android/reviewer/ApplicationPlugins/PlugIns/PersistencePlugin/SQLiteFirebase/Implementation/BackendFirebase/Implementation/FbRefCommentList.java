@@ -43,7 +43,7 @@ public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> i
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> references) {
-                mReferenceFactory.newSentencesCollector(references).collect(callback);
+                mReferenceFactory.newSentencesCollector(references).collectSentences(callback);
             }
         });
     }

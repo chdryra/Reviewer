@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -33,6 +34,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
+
+
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerCommentsData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
 
 
@@ -50,10 +56,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class FactoryGridDataViewer {
     private FactoryReviewViewAdapter mAdapterFactory;
+    private FactoryReference mReferenceFactory;
     private AuthorsRepository mAuthorsRepository;
 
-    public FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory, AuthorsRepository authorsRepository) {
+    public FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
+                                 FactoryReference referenceFactory,
+                                 AuthorsRepository authorsRepository) {
         mAdapterFactory = adapterFactory;
+        mReferenceFactory = referenceFactory;
         mAuthorsRepository = authorsRepository;
     }
 
@@ -68,6 +78,10 @@ public class FactoryGridDataViewer {
         }
 
         return viewer;
+    }
+
+    public ViewerCommentsData newCommentsDataViewer(ReviewNode node, ConverterGv converter) {
+        return new ViewerCommentsData(node.getComments(), converter.newConverterComments().getReferencesConverter(), mReferenceFactory);
     }
 
     @Nullable
@@ -85,8 +99,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerReviewData.DataList<>(node.getImages(),
                     converter.newConverterImages().getReferencesConverter());
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerReviewData.CommentList<>(node.getComments(),
-                    converter.newConverterComments().getReferencesConverter());
+            viewer = newCommentsDataViewer(node, converter);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getLocations(),
                     converter.newConverterLocations().getReferencesConverter());
@@ -113,8 +126,8 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getImages(), converter.newConverterImages()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerTreeDataComments<>(node.getComments(), converter.newConverterComments()
-                    .getReferencesConverter(), mAdapterFactory);
+            viewer = new ViewerTreeDataComments(node.getComments(), converter.newConverterComments()
+                    .getReferencesConverter(), mAdapterFactory, mReferenceFactory);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerTreeData<>(node.getLocations(), converter.newConverterLocations
                     ().getReferencesConverter(), mAdapterFactory);

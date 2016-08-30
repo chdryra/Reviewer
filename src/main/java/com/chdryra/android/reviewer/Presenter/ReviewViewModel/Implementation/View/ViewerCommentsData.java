@@ -10,23 +10,29 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SentencesCollector;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterReferences;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerCommentsData<GvRef extends GvDataRef<GvRef, DataComment, ?>>
-        extends ViewerReviewData<DataComment, GvRef, RefComment, RefCommentList> {
+public class ViewerCommentsData
+        extends ViewerReviewData<DataComment, GvComment.Reference, RefComment, RefCommentList> {
+    private FactoryReference mReferenceFactory;
 
     public ViewerCommentsData(RefCommentList reference,
-                              GvConverterReferences<DataComment, GvRef, RefComment> converter) {
+                              GvConverterReferences<DataComment, GvComment.Reference, RefComment> converter,
+                              FactoryReference referenceFactory) {
         super(reference, converter);
+        mReferenceFactory = referenceFactory;
     }
 
     public void setSplit(boolean split) {
@@ -35,7 +41,15 @@ public class ViewerCommentsData<GvRef extends GvDataRef<GvRef, DataComment, ?>>
             reference.toSentences(new RefComment.SentencesCallback() {
                 @Override
                 public void onSentenceReferences(IdableList<RefComment> references) {
-
+                    SentencesCollector collector = mReferenceFactory.newSentencesCollector(references);
+                    makeGridData(collector.collectFirstSentences());
+                }
+            });
+        } else {
+            getReference().toItemReferences(new ReviewListReference.ItemReferencesCallback<DataComment, RefComment>() {
+                @Override
+                public void onItemReferences(IdableList<RefComment> refComments) {
+                    makeGridData(refComments);
                 }
             });
         }
