@@ -11,9 +11,10 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Implementation;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,6 +27,7 @@ public class DatumImage implements DataImage {
     private String mCaption;
     private ReviewId mReviewId;
     private boolean mIsCover = false;
+    private LatLng mLatLng;
 
     public DatumImage() {
     }
@@ -38,12 +40,17 @@ public class DatumImage implements DataImage {
         mIsCover = false;
     }
 
-    public DatumImage(ReviewId reviewId, Bitmap bitmap, @Nullable DateTime date,
-                      @Nullable String caption, boolean isCover) {
+    public DatumImage(ReviewId reviewId,
+                      Bitmap bitmap,
+                      DateTime date,
+                      String caption,
+                      @Nullable LatLng latLng,
+                      boolean isCover) {
         mReviewId = reviewId;
         mBitmap = bitmap;
         mDate = date;
         mCaption = caption;
+        mLatLng = latLng;
         mIsCover = isCover;
     }
 
@@ -60,6 +67,11 @@ public class DatumImage implements DataImage {
     @Override
     public String getCaption() {
         return mCaption;
+    }
+
+    @Override
+    public LatLng getLatLng() {
+        return mLatLng;
     }
 
     @Override
@@ -87,8 +99,11 @@ public class DatumImage implements DataImage {
         if (mIsCover != that.mIsCover) return false;
         if (mBitmap != null ? !mBitmap.equals(that.mBitmap) : that.mBitmap != null) return false;
         if (mDate != null ? !mDate.equals(that.mDate) : that.mDate != null) return false;
-        if (!mCaption.equals(that.mCaption)) return false;
-        return mReviewId.equals(that.mReviewId);
+        if (mCaption != null ? !mCaption.equals(that.mCaption) : that.mCaption != null)
+            return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        return mLatLng != null ? mLatLng.equals(that.mLatLng) : that.mLatLng == null;
 
     }
 
@@ -96,9 +111,10 @@ public class DatumImage implements DataImage {
     public int hashCode() {
         int result = mBitmap != null ? mBitmap.hashCode() : 0;
         result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
-        result = 31 * result + mCaption.hashCode();
-        result = 31 * result + mReviewId.hashCode();
+        result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
         result = 31 * result + (mIsCover ? 1 : 0);
+        result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
         return result;
     }
 }

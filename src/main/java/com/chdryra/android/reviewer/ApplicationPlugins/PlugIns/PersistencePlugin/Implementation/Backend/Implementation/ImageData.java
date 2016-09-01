@@ -8,11 +8,14 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
 
@@ -25,6 +28,7 @@ public class ImageData {
     private String bitmap;
     private long date;
     private String caption;
+    private LatitudeLongitude latLng;
     private boolean cover;
 
     public ImageData() {
@@ -34,6 +38,7 @@ public class ImageData {
         bitmap = asString(image.getBitmap());
         date = image.getDate().getTime();
         caption = image.getCaption();
+        if(image.getLatLng() != null) latLng = new LatitudeLongitude(image.getLatLng());
         cover = image.isCover();
     }
 
@@ -62,11 +67,20 @@ public class ImageData {
         return caption;
     }
 
+    public LatitudeLongitude getLatLng() {
+        return latLng;
+    }
+
+    @Nullable
+    public LatLng toLatLng() {
+        return latLng != null ? new LatLng(latLng.getLatitude(), latLng.getLongitude()) : null;
+    }
+
     public boolean isCover() {
         return cover;
     }
 
     public static int size() {
-        return 4;
+        return 5;
     }
 }

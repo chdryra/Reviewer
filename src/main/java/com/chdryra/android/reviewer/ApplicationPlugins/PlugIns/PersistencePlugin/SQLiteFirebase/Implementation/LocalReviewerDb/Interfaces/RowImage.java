@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
@@ -19,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.ByteArray;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,6 +32,8 @@ public interface RowImage extends ReviewDataRow<RowImage>, DataImage {
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<ByteArray> BITMAP = new ColumnInfo<>("bitmap", DbEntryType.BYTE_ARRAY);
     ColumnInfo<Boolean> IS_COVER = new ColumnInfo<>("is_cover", DbEntryType.BOOLEAN);
+    ColumnInfo<Double> LATITUDE = new ColumnInfo<>("latitude", DbEntryType.DOUBLE);
+    ColumnInfo<Double> LONGITUDE = new ColumnInfo<>("longitude", DbEntryType.DOUBLE);
     ColumnInfo<String> CAPTION = new ColumnInfo<>("caption", DbEntryType.TEXT);
     ColumnInfo<Long> IMAGE_DATE = new ColumnInfo<>("image_date", DbEntryType.LONG);
 
@@ -40,6 +44,10 @@ public interface RowImage extends ReviewDataRow<RowImage>, DataImage {
 
     @Override
     DateTime getDate();
+
+    @Nullable
+    @Override
+    LatLng getLatLng();
 
     @Override
     String getCaption();

@@ -125,7 +125,7 @@ public class ImageChooserImpl implements ImageChooser {
                     } else {
                         gvDate = new GvDate(date.getTime());
                     }
-                    GvImage image = new GvImage(bitmap, gvDate, ll, null, false);
+                    GvImage image = new GvImage(bitmap, gvDate, ll, "", false);
                     listener.onChosenImage(image);
                 }
             };

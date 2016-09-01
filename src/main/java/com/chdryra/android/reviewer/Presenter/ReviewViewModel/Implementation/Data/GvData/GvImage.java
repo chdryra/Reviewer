@@ -52,10 +52,15 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
         mBitmap = null;
         mDate = new GvDate();
         mLatLng = null;
+        mCaption = "";
     }
 
-    public GvImage(Bitmap bitmap, GvDate date, LatLng latLng, String caption, boolean isCover) {
-        super(GvImage.TYPE);
+    public GvImage(Bitmap bitmap, GvDate date, @Nullable LatLng latLng, String caption, boolean isCover) {
+        this(null, bitmap, date, latLng, caption, isCover);
+    }
+
+    public GvImage(@Nullable GvReviewId id, Bitmap bitmap, GvDate date, @Nullable LatLng latLng, String caption, boolean isCover) {
+        super(GvImage.TYPE, id);
         mBitmap = bitmap;
         mDate = date;
         mCaption = caption;
@@ -63,18 +68,9 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
         mIsCover = isCover;
     }
 
-    public GvImage(@Nullable GvReviewId id, Bitmap bitmap, GvDate date, String caption, boolean isCover) {
-        super(GvImage.TYPE, id);
-        mBitmap = bitmap;
-        mDate = date;
-        mCaption = caption;
-        mLatLng = null;
-        mIsCover = isCover;
-    }
-
     public GvImage(GvImage image) {
-        this(image.getGvReviewId(), image.getBitmap(), image.getDate(), image.getCaption(),
-                image.isCover());
+        this(image.getGvReviewId(), image.getBitmap(), image.getDate(), image.getLatLng(),
+                image.getCaption(), image.isCover());
     }
 
     public GvImage(Parcel in) {
@@ -86,7 +82,8 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
         mDate = in.readParcelable(GvDate.class.getClassLoader());
     }
 
-    //public methods
+    @Override
+    @Nullable
     public LatLng getLatLng() {
         return mLatLng;
     }

@@ -36,8 +36,10 @@ public class TableImages extends ReviewerDbTableImpl<RowImage> {
         addNotNullableColumn(RowImage.REVIEW_ID);
         addNotNullableColumn(RowImage.BITMAP);
         addNotNullableColumn(RowImage.IS_COVER);
-        addNullableColumn(RowImage.CAPTION);
-        addNullableColumn(RowImage.IMAGE_DATE);
+        addNotNullableColumn(RowImage.CAPTION);
+        addNotNullableColumn(RowImage.IMAGE_DATE);
+        addNotNullableColumn(RowImage.LATITUDE);
+        addNotNullableColumn(RowImage.LONGITUDE);
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(RowImage.REVIEW_ID.getName()));

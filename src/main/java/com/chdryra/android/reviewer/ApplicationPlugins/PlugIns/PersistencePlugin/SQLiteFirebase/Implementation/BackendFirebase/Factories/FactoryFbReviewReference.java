@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendInfoConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewReference;
@@ -28,12 +28,12 @@ import com.firebase.client.Firebase;
  */
 public class FactoryFbReviewReference {
     private FactoryFbReference mReferencer;
-    private BackendDataConverter mDataConverter;
+    private BackendInfoConverter mDataConverter;
     private BackendReviewConverter mReviewConverter;
     private ReviewsCache mCache;
 
     public FactoryFbReviewReference(FactoryFbReference referencer,
-                                    BackendDataConverter dataConverter,
+                                    BackendInfoConverter dataConverter,
                                     BackendReviewConverter reviewConverter,
                                     ReviewsCache cache) {
         mReferencer = referencer;

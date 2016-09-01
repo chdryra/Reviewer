@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
@@ -29,11 +31,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
@@ -43,8 +45,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeAuthoredFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewNodeAuthoredFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -102,7 +106,8 @@ public class FactoryReviews implements ReviewMaker {
         String title = "Fetching...";
 
         ReviewStamp stamp = ReviewStamp.newStamp(authorId);
-        DataReviewInfo info = new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(stamp,
+        DataReviewInfo info = new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+                .ReviewInfo(stamp,
                 new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
@@ -149,7 +154,8 @@ public class FactoryReviews implements ReviewMaker {
 
         if (ratingIsAverage) rating = getAverageRating(criteria);
 
-        return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images, facts,
+        return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images,
+                facts,
                 locations);
     }
 
@@ -183,33 +189,110 @@ public class FactoryReviews implements ReviewMaker {
         DataDate mdDate = new DatumDate(id, publishDate.getTime());
         DataSubject mdSubject = new DatumSubject(id, subject);
         DataRating mdRating = new DatumRating(id, rating, 1);
-        
-        IdableList<DataComment> mdComments = new IdableDataList<>(id);
-        for(DataComment datum : comments) {
-            mdComments.add(new DatumComment(id, datum.getComment(), datum.isHeadline()));
-        }
 
-        IdableList<DataCriterion> mdCriteria = new IdableDataList<>(id);
-        for(DataCriterion datum : criteria) {
-            mdCriteria.add(new DatumCriterion(id, datum.getSubject(), datum.getRating()));
-        }
-
-        IdableList<DataImage> mdImages = new IdableDataList<>(id);
-        for(DataImage datum : images) {
-            mdImages.add(new DatumImage(id, datum.getBitmap(), datum.getDate(), datum.getCaption(), datum.isCover()));
-        }
-
-        IdableList<DataFact> mdFacts = new IdableDataList<>(id);
-        for(DataFact datum : facts) {
-            mdFacts.add(new DatumFact(id, datum.getValue(), datum.getLabel(), datum.isUrl()));
-        }
-
-        IdableList<DataLocation> mdLocations = new IdableDataList<>(id);
-        for(DataLocation datum : locations) {
-            mdLocations.add(new DatumLocation(id, datum.getLatLng(), datum.getName()));
-        }
+        IdableList<DataComment> mdComments = getComments(id, comments);
+        IdableList<DataCriterion> mdCriteria = getCriteria(id, criteria);
+        IdableList<DataLocation> mdLocations = getLocations(id, locations);
+        IdableList<DataImage> mdImages = getImages(id, images, mdDate, mdLocations);
+        IdableList<DataFact> mdFacts = getFacts(id, facts);
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
                 mdImages, mdFacts, mdLocations, mdCriteria);
+    }
+
+    @NonNull
+    private IdableList<DataFact> getFacts(ReviewId id, Iterable<? extends DataFact> facts) {
+        IdableList<DataFact> mdFacts = new IdableDataList<>(id);
+        for (DataFact datum : facts) {
+            mdFacts.add(new DatumFact(id, datum.getValue(), datum.getLabel(), datum.isUrl()));
+        }
+        return mdFacts;
+    }
+
+    @NonNull
+    private IdableList<DataImage> getImages(ReviewId id, Iterable<? extends DataImage> images,
+                                            DataDate mdDate, IdableList<DataLocation> mdLocations) {
+        DataImage cover = null;
+        int coverIndex = 0;
+        for (DataImage datum : images) {
+            cover = datum;
+            if (datum.isCover()) {
+                cover = datum;
+                break;
+            }
+            coverIndex++;
+        }
+
+        IdableList<DataImage> mdImages = new IdableDataList<>(id);
+        if (cover != null) mdImages.add(getDatumImage(id, mdDate, mdLocations, cover, true));
+        int index = 0;
+        for (DataImage datum : images) {
+            if (index == coverIndex) continue;
+            DatumImage datumImage = getDatumImage(id, mdDate, mdLocations, datum);
+            mdImages.add(datumImage);
+        }
+        return mdImages;
+    }
+
+    @NonNull
+    private DatumImage getDatumImage(ReviewId id, DataDate mdDate, IdableList<DataLocation>
+            mdLocations, DataImage datum) {
+        return getDatumImage(id, mdDate, mdLocations, datum, datum.isCover());
+    }
+
+    private DatumImage getDatumImage(ReviewId id, DataDate mdDate, IdableList<DataLocation>
+            mdLocations, DataImage datum, boolean isCover) {
+        DateTime date = datum.getDate();
+        if (date.getTime() == 0) date = mdDate;
+        LatLng latLng = datum.getLatLng();
+        if (latLng == null && mdLocations.size() > 0) latLng = mdLocations.getItem(0).getLatLng();
+
+        return new DatumImage(id, datum.getBitmap(), date, datum.getCaption(), latLng, isCover);
+    }
+
+    @NonNull
+    private IdableList<DataLocation> getLocations(ReviewId id, Iterable<? extends DataLocation>
+            locations) {
+        IdableList<DataLocation> mdLocations = new IdableDataList<>(id);
+        for (DataLocation datum : locations) {
+            DatumLocation loc = new DatumLocation(id, datum.getLatLng(), datum.getName());
+            mdLocations.add(loc);
+        }
+        return mdLocations;
+    }
+
+    @NonNull
+    private IdableList<DataCriterion> getCriteria(ReviewId id, Iterable<? extends DataCriterion>
+            criteria) {
+        IdableList<DataCriterion> mdCriteria = new IdableDataList<>(id);
+        for (DataCriterion datum : criteria) {
+            mdCriteria.add(new DatumCriterion(id, datum.getSubject(), datum.getRating()));
+        }
+        return mdCriteria;
+    }
+
+    @NonNull
+    private IdableList<DataComment> getComments(ReviewId id, Iterable<? extends DataComment>
+            comments) {
+        IdableList<DataComment> mdComments = new IdableDataList<>(id);
+        DataComment headline = null;
+        int headlineIndex = 0;
+        for (DataComment datum : comments) {
+            headline = datum;
+            if (datum.isHeadline()) {
+                headline = datum;
+                break;
+            }
+            headlineIndex++;
+        }
+
+        if (headline != null) mdComments.add(new DatumComment(id, headline.getComment(), true));
+        int index = 0;
+        for (DataComment datum : comments) {
+            if (index == headlineIndex) continue;
+            mdComments.add(new DatumComment(id, datum.getComment(), datum.isHeadline()));
+        }
+
+        return mdComments;
     }
 }

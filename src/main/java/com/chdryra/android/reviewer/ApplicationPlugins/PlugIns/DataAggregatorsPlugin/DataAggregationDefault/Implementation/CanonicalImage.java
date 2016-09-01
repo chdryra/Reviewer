@@ -43,7 +43,8 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         DateTime date = lastEquivalentBitmap.getDate();
         DateTime finalDate = new DatumDate(id, date.getTime());
 
-        return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption, true);
+        return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption,
+                lastEquivalentBitmap.getLatLng(), true);
     }
 
     private String getCaption(IdableList<? extends DataImage> data) {

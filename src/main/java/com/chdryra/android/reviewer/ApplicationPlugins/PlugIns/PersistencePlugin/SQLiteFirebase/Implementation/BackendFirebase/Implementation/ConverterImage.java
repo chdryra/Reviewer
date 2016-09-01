@@ -43,7 +43,7 @@ public class ConverterImage implements SnapshotConverter<DataImage>, ReviewItemC
     @Override
     public DataImage convert(ReviewId id, DataSnapshot snapshot) {
         ImageData value = snapshot.getValue(ImageData.class);
-        return value == null ? null : new DatumImage(id, ImageData.asBitmap(value.getBitmap()),
-                new DatumDate(id, value.getDate()), value.getCaption(), value.isCover());
+        return new DatumImage(id, ImageData.asBitmap(value.getBitmap()),
+                new DatumDate(id, value.getDate()), value.getCaption(), value.toLatLng(), value.isCover());
     }
 }

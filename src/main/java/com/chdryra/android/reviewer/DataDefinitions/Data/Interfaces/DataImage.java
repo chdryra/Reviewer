@@ -9,8 +9,10 @@
 package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +25,9 @@ public interface DataImage extends HasReviewId, Validatable{
     DateTime getDate();
 
     String getCaption();
+
+    @Nullable
+    LatLng getLatLng();
 
     boolean isCover();
 

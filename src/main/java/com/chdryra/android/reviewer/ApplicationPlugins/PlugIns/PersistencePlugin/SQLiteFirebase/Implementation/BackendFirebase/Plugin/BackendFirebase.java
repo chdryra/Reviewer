@@ -14,8 +14,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendInfoConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -87,7 +86,7 @@ public class BackendFirebase implements Backend {
                 model.getReviewsFactory(), model.getTagsManager());
 
         FactoryFbReviewReference referencer
-                = new FactoryFbReviewReference(mDataReferencer, new BackendDataConverter(), reviewConverter, cache);
+                = new FactoryFbReviewReference(mDataReferencer, new BackendInfoConverter(), reviewConverter, cache);
 
         ConverterEntry entryConverter = new ConverterEntry();
         FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, entryConverter, referencer);
