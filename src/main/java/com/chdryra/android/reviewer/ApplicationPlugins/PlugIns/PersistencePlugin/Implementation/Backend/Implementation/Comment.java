@@ -21,6 +21,7 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Comment {
+    public static String SENTENCES = "sentences";
     public static String NUM_SENTENCES = "numSentences";
 
     private List<String> sentences;

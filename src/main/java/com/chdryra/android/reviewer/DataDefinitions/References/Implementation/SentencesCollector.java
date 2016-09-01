@@ -26,7 +26,7 @@ public class SentencesCollector {
         mReferences = references;
     }
 
-    public void collectSentences(final RefComment.SentencesCallback callback) {
+    public void collectAll(final RefComment.SentencesCallback callback) {
         mResults = new IdableDataList<>(mReferences.getReviewId());
         mCount = 0;
         for (RefComment reference : mReferences) {
@@ -42,7 +42,7 @@ public class SentencesCollector {
         }
     }
 
-    public IdableList<RefComment> collectFirstSentences() {
+    public IdableList<RefComment> collectFirst() {
         IdableList<RefComment> results = new IdableDataList<>(mReferences.getReviewId());
         mCount = 0;
         for (RefComment reference : mReferences) {

@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
@@ -28,5 +30,14 @@ public class ConverterComment implements ReviewItemConverter<DataComment> {
         Comment value = snapshot.getValue(Comment.class);
         return value == null ? null :
                 new DatumComment(id, value.toComment(), value.isHeadline());
+    }
+
+    public static class ConverterSentence {
+        @Nullable
+        public DataComment convert(ReviewId id, boolean isHeadline, DataSnapshot snapshot) {
+            String value = snapshot.getValue(String.class);
+            return value == null ? null :
+                    new DatumComment(id, value, isHeadline);
+        }
     }
 }

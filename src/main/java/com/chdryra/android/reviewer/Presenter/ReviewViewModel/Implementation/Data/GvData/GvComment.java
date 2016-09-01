@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
 
@@ -181,6 +182,8 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         public static final GvDataType<GvComment.Reference> TYPE
                 = new GvDataType<>(GvComment.Reference.class, GvComment.TYPE);
 
+        private GvComment mParcelable;
+
         public Reference(RefComment reference,
                          DataConverter<DataComment, GvComment, ?> converter) {
             super(TYPE, reference, converter, VhComment.class, new PlaceHolderFactory<DataComment>() {
@@ -199,6 +202,16 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
             } else {
                 return new Reference(parent, (DataConverter<DataComment, GvComment, ?>) getConverter());
             }
+        }
+
+        public void setParcelable(GvComment parcelable) {
+            mParcelable = parcelable;
+        }
+
+        @Nullable
+        @Override
+        public GvDataParcelable getParcelable() {
+            return mParcelable != null ? mParcelable : super.getParcelable();
         }
     }
 }

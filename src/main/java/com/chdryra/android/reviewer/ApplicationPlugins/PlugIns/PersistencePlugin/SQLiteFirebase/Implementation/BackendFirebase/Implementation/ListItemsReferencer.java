@@ -55,7 +55,7 @@ public class ListItemsReferencer<Value extends HasReviewId, Reference extends Re
             public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
                 if (data != null && !message.isError()) {
                     for (int i = 0; i < data.getSize(); ++i) {
-                        refs.add(toItemReference(root, id, i));
+                        refs.add(toItemReference(id, root, i));
                     }
                 }
 
@@ -64,7 +64,7 @@ public class ListItemsReferencer<Value extends HasReviewId, Reference extends Re
         });
     }
 
-    public Reference toItemReference(Firebase root, ReviewId id, int index) {
+    public Reference toItemReference(ReviewId id, Firebase root, int index) {
         return mFactory.newReference(id, root.child(String.valueOf(index)), index);
     }
 }

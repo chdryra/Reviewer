@@ -33,6 +33,14 @@ public class ListConverter<T extends HasReviewId> implements SnapshotConverter<I
         mItemConverter = new ItemConverter<>(id, reviewItemConverter);
     }
 
+    protected ReviewId getId() {
+        return mId;
+    }
+
+    protected ReviewItemConverter<T> getReviewItemConverter() {
+        return mReviewItemConverter;
+    }
+
     public SnapshotConverter<T> getItemConverter() {
         return mItemConverter;
     }

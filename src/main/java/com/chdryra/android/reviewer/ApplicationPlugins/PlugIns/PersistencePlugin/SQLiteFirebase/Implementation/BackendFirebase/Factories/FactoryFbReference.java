@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.CommentsConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterAuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterCriterion;
@@ -107,7 +109,7 @@ public class FactoryFbReference {
 
     public RefCommentList newComments(Firebase ref, ReviewId id,
                                       ReviewItemReference<DataSize> size) {
-        ListConverter<DataComment> converter = new ListConverter<>(id, new ConverterComment());
+        CommentsConverter converter = new CommentsConverter(id, new ConverterComment());
         ListItemsReferencer<DataComment, RefComment> referencer
                 = mReferencerFactory.newCommentsReferencer(converter.getItemConverter());
         return new FbRefCommentList(id, ref, size, converter, referencer, this);

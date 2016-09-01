@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SentencesCollector;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
@@ -37,19 +36,31 @@ public class ViewerCommentsData
     public void setSplit(boolean split) {
         RefCommentList reference = getReference();
         if(split) {
-            reference.toSentences(new RefComment.SentencesCallback() {
-                @Override
-                public void onSentenceReferences(IdableList<RefComment> references) {
-                    ViewerCommentsData.this.onItemReferences(references);}
-            });
+            toAllSentences(reference);
         } else {
-            reference.toItemReferences(new ReviewListReference.ItemReferencesCallback<DataComment, RefComment>() {
-                @Override
-                public void onItemReferences(IdableList<RefComment> refComments) {
-                    SentencesCollector collector = mReferenceFactory.newSentencesCollector(refComments);
-                    ViewerCommentsData.this.onItemReferences(collector.collectFirstSentences());
-                }
-            });
+            toFirstSentences(reference);
         }
+    }
+
+    private void toFirstSentences(RefCommentList reference) {
+        reference.toItemReferences(new ReviewListReference.ItemReferencesCallback<DataComment, RefComment>() {
+            @Override
+            public void onItemReferences(IdableList<RefComment> references) {
+                setData(mReferenceFactory.newSentencesCollector(references).collectFirst());
+            }
+        });
+    }
+
+    private void toAllSentences(RefCommentList reference) {
+        reference.toSentences(new RefComment.SentencesCallback() {
+            @Override
+            public void onSentenceReferences(IdableList<RefComment> references) {
+                setData(references);
+            }
+        });
+    }
+
+    private void setData(IdableList<RefComment> references) {
+        onItemReferences(references);
     }
 }

@@ -14,7 +14,12 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.CommentsConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ConverterComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbRefComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbReviewItemRef;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -23,11 +28,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.ListItemsReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.SnapshotConverter;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -61,7 +66,10 @@ public class FactoryListItemsReferencer {
     }
 
     public ListItemsReferencer<DataComment, RefComment> newSentencesReferencer
-            (final SnapshotConverter<DataComment> converter, final RefComment parent) {
+            (final RefComment parent) {
+        final SnapshotConverter<DataComment> converter =
+                new CommentsConverter.SentenceConverter(parent.getReviewId(),
+                        new ConverterComment.ConverterSentence(), parent.isHeadline());
         return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment, RefComment>() {
             @Override
             public RefComment newReference(ReviewId id, Firebase child, int index) {
@@ -89,8 +97,9 @@ public class FactoryListItemsReferencer {
             public RefComment newReference(ReviewId id, Firebase child, int index) {
                 ReviewItemReference<DataSize> numSentences = mReferenceFactory.newSize(child
                         .child(Comment.NUM_SENTENCES), id);
+                boolean isHeadline = index == 0;
                 return new FbRefComment(id, child, numSentences, converter,
-                        FactoryListItemsReferencer.this, index == 0);
+                        FactoryListItemsReferencer.this, isHeadline);
 
             }
         };

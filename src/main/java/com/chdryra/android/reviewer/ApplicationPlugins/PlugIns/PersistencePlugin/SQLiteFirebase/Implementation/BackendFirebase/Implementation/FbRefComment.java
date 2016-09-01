@@ -12,12 +12,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryListItemsReferencer;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -27,6 +28,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefComment extends FbReviewItemRef<DataComment> implements RefComment {
+    private static final String SENTENCES = Comment.SENTENCES;
     private ReviewItemReference<DataSize> mSizeReference;
     private boolean mIsHeadline;
     private ListItemsReferencer<DataComment, RefComment> mReferencer;
@@ -34,13 +36,13 @@ public class FbRefComment extends FbReviewItemRef<DataComment> implements RefCom
     public FbRefComment(ReviewId id,
                         Firebase reference,
                         ReviewItemReference<DataSize> numSentences,
-                        SnapshotConverter<DataComment> converter,
+                        SnapshotConverter<DataComment> commentConverter,
                         FactoryListItemsReferencer referencerFactory,
                         boolean isHeadline) {
-        super(id, reference, converter);
+        super(id, reference, commentConverter);
         mSizeReference = numSentences;
         mIsHeadline = isHeadline;
-        mReferencer = referencerFactory.newSentencesReferencer(converter, this);
+        mReferencer = referencerFactory.newSentencesReferencer(this);
     }
 
     @Nullable
@@ -51,12 +53,12 @@ public class FbRefComment extends FbReviewItemRef<DataComment> implements RefCom
 
     @Override
     public RefComment getFirstSentence() {
-        return mReferencer.toItemReference(getReference(), getReviewId(), 0);
+        return mReferencer.toItemReference(getReviewId(), getReference().child(SENTENCES), 0);
     }
 
     @Override
     public void toSentences(final SentencesCallback callback) {
-        mReferencer.toItemReferences(getReference(), mSizeReference,
+        mReferencer.toItemReferences(getReference().child(SENTENCES), mSizeReference,
                 new ListItemsReferencer.Callback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> sentences) {
@@ -69,5 +71,4 @@ public class FbRefComment extends FbReviewItemRef<DataComment> implements RefCom
     public boolean isHeadline() {
         return mIsHeadline;
     }
-
 }

@@ -34,7 +34,7 @@ public class DbRefCommentList extends DbListReferenceBasic<RowComment, DataComme
         toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
             @Override
             public void onItemReferences(IdableList<RefComment> refComments) {
-                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(refComments).collectSentences(callback);
+                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(refComments).collectAll(callback);
             }
         });
     }
