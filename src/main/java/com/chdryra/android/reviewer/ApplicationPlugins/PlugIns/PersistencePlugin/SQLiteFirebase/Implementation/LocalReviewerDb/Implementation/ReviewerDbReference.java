@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
@@ -23,6 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
@@ -33,16 +33,17 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
@@ -206,7 +207,11 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
             mRepo.getReview(mId, new RepositoryCallback() {
                 @Override
                 public void onRepositoryCallback(RepositoryResult result) {
-                    callback.onDereferenced(result.getReview(), result.getMessage());
+                    Review review = result.getReview();
+                    CallbackMessage message = result.getMessage();
+                    DataValue<Review> value = review != null && !message.isError() ?
+                            new DataValue<>(review) : new DataValue<Review>(message);
+                    callback.onDereferenced(value);
                 }
             });
         }
@@ -222,17 +227,19 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
         public void dereference(final DereferenceCallback<DataImage> callback) {
             getImages().dereference(new DereferenceCallback<IdableList<DataImage>>() {
                 @Override
-                public void onDereferenced(@Nullable IdableList<DataImage> data, CallbackMessage message) {
-                    DataImage cover = null;
-                    if(data != null && !message.isError()) {
-                        for(DataImage image : data) {
+                public void onDereferenced(DataValue<IdableList<DataImage>> value) {
+                    DataValue<DataImage> cover
+                            = new DataValue<DataImage>(new DatumImage(getReviewId()));
+                    if(value.hasValue()) {
+                        for(DataImage image : value.getData()) {
                             if(image.isCover()) {
-                                cover = image;
+                                cover = new DataValue<>(image);
                                 break;
                             }
                         }
                     }
-                    callback.onDereferenced(cover, message);
+
+                    callback.onDereferenced(cover);
                 }
             });
         }

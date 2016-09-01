@@ -8,13 +8,10 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReferenceBasic;
@@ -43,15 +40,15 @@ public class ListsDereferencer<Value extends HasReviewId,
         for (List ref : mListOfListReferences) {
             ref.dereference(new DataReference.DereferenceCallback<IdableList<Value>>() {
                 @Override
-                public void onDereferenced(@Nullable IdableList<Value> data, CallbackMessage message) {
-                    add(data, message);
+                public void onDereferenced(DataValue<IdableList<Value>> value) {
+                    add(value);
                 }
             });
         }
     }
 
-    private void add(@Nullable IdableList<Value> data, CallbackMessage message) {
-        if (data != null && !message.isError()) mValues.addAll(data);
+    private void add(DataValue<IdableList<Value>> value) {
+        if (value.hasValue()) mValues.addAll(value.getData());
         mNumDereferences++;
         if (mNumDereferences == mListOfListReferences.size()) mOnDereferencing.onData(mValues);
     }

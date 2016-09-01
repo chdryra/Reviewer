@@ -8,9 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Interfaces;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 /**
@@ -20,7 +18,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  */
 public interface DataReference<T> {
     interface DereferenceCallback<T> {
-        void onDereferenced(@Nullable T data, CallbackMessage message);
+        void onDereferenced(DataValue<T> value);
     }
 
     interface InvalidationListener {

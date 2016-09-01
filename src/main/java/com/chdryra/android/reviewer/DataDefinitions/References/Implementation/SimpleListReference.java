@@ -8,9 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -77,11 +74,10 @@ public abstract class SimpleListReference<Value extends HasReviewId, Reference e
     private void dereferenceForBinder(final ListItemBinder<Value> binder) {
         dereference(new DereferenceCallback<IdableList<Value>>() {
             @Override
-            public void onDereferenced(@Nullable IdableList<Value> data,
-                                       CallbackMessage message) {
-                if (data != null && !message.isError()) {
-                    for (Value value : data) {
-                        binder.onItemAdded(value);
+            public void onDereferenced(DataValue<IdableList<Value>> value) {
+                if (value.hasValue()) {
+                    for (Value item : value.getData()) {
+                        binder.onItemAdded(item);
                     }
                 }
             }

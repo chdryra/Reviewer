@@ -13,7 +13,6 @@ package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -61,10 +60,10 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
     public void toSentences(final SentencesCallback callback) {
         dereference(new DereferenceCallback<DataComment>() {
             @Override
-            public void onDereferenced(@Nullable DataComment data, CallbackMessage message) {
+            public void onDereferenced(DataValue<DataComment> value) {
                 IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
-                if(data != null && !message.isError()) {
-                    for(String string : CommentFormatter.split(data.getComment(), true)) {
+                if(value.hasValue()) {
+                    for(String string : CommentFormatter.split(value.getData().getComment(), true)) {
                         sentences.add(newSentence(string));
                     }
                 }

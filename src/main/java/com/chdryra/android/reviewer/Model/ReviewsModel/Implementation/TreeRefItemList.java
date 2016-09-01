@@ -8,13 +8,11 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
@@ -47,11 +45,11 @@ public class TreeRefItemList<Value extends HasReviewId> extends TreeDataReferenc
                                              callback) {
         dereference(new DereferenceCallback<IdableList<Value>>() {
             @Override
-            public void onDereferenced(@Nullable IdableList<Value> data, CallbackMessage message) {
-                IdableList<ReviewItemReference<Value>> references = new IdableDataList<>
-                        (getReviewId());
-                if (data != null && !message.isError()) {
-                    for (Value datum : data) {
+            public void onDereferenced(DataValue<IdableList<Value>> value) {
+                IdableList<ReviewItemReference<Value>> references
+                        = new IdableDataList<>(getReviewId());
+                if (value.hasValue()) {
+                    for (Value datum : value.getData()) {
                         references.add(mReferenceFactory.getReferenceFactory().newWrapper(datum));
                     }
                 }

@@ -194,7 +194,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
             });
         }
 
-        public Reference getParentReference() {
+        public Reference getFullCommentReference() {
             RefComment reference = (RefComment) super.getReference();
             RefComment parent = reference.getParent();
             if(parent == null) {

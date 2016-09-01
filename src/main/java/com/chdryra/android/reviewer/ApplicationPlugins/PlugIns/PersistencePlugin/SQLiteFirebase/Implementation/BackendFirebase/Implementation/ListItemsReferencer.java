@@ -9,15 +9,13 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -52,9 +50,9 @@ public class ListItemsReferencer<Value extends HasReviewId, Reference extends Re
         final IdableList<Reference> refs = new IdableDataList<>(id);
         sizeReference.dereference(new DataReference.DereferenceCallback<DataSize>() {
             @Override
-            public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
-                if (data != null && !message.isError()) {
-                    for (int i = 0; i < data.getSize(); ++i) {
+            public void onDereferenced(DataValue<DataSize> value) {
+                if (value.hasValue()) {
+                    for (int i = 0; i < value.getData().getSize(); ++i) {
                         refs.add(toItemReference(id, root, i));
                     }
                 }

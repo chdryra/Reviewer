@@ -8,11 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -35,9 +33,9 @@ public class ReviewTreeFlat extends ReviewTree
     }
 
     @Override
-    public void onDereferenced(@Nullable IdableList<ReviewReference> data, CallbackMessage message) {
-        if(!message.isError() && data != null) {
-            setNode(mReviewsFactory.createTree(data, getSubject().getSubject()));
+    public void onDereferenced(DataValue<IdableList<ReviewReference>> value) {
+        if(value.hasValue()) {
+            setNode(mReviewsFactory.createTree(value.getData(), getSubject().getSubject()));
         }
     }
 }

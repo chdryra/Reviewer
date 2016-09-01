@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.BindableReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -101,7 +102,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
                 T value = mConverter.convert(dataSnapshot);
                 if (value != null) {
                     onDereferenced(value);
-                    callback.onDereferenced(value, CallbackMessage.ok());
+                    callback.onDereferenced(newValue(value));
                 } else {
                     invalidReference(callback);
                     invalidate();
@@ -110,9 +111,18 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onDereferenced(null, CallbackMessage.error("Call to Firebase cancelled"));
+                callback.onDereferenced(newValue(CallbackMessage.error("Call to Firebase cancelled")));
             }
         };
+    }
+
+    @NonNull
+    private DataValue<T> newValue(T value) {
+        return new DataValue<>(value);
+    }
+
+    private DataValue<T> newValue(CallbackMessage message) {
+        return new DataValue<>(message);
     }
 
     @NonNull

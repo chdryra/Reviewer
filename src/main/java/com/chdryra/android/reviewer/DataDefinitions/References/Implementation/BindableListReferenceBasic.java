@@ -8,9 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -52,8 +49,8 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         mValueBinders.add(binder);
         dereference(new DereferenceCallback<IdableList<T>>() {
             @Override
-            public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
-                if (data != null && !message.isError()) binder.onReferenceValue(data);
+            public void onDereferenced(DataValue<IdableList<T>> value) {
+                if (value.hasValue()) binder.onReferenceValue(value.getData());
             }
         });
     }
@@ -151,8 +148,8 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         if (hasValueBinders()) {
             dereference(new DereferenceCallback<IdableList<T>>() {
                 @Override
-                public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
-                    if (data != null && !message.isError()) notifyValueBinders(data);
+                public void onDereferenced(DataValue<IdableList<T>> value) {
+                    if (value.hasValue()) notifyValueBinders(value.getData());
                 }
             });
         }
@@ -162,10 +159,10 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         if (hasValueBinders() || hasItemBinders()) {
             dereference(new DereferenceCallback<IdableList<T>>() {
                 @Override
-                public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
-                    if (data != null && !message.isError()) {
-                        notifyValueBinders(data);
-                        notifyItemBinders(data);
+                public void onDereferenced(DataValue<IdableList<T>> value) {
+                    if (value.hasValue()) {
+                        notifyValueBinders(value.getData());
+                        notifyItemBinders(value.getData());
                     }
                 }
             });

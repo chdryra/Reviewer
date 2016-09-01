@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -30,7 +29,7 @@ public class WrapperItemReference<T extends HasReviewId> extends SimpleItemRefer
 
             @Override
             public void dereference(DereferenceCallback<T> callback) {
-                callback.onDereferenced(value, CallbackMessage.ok());
+                callback.onDereferenced(new DataValue<>(value));
             }
         });
 

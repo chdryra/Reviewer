@@ -9,12 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -36,20 +35,20 @@ public class GridItemComments extends GridItemConfigLauncher<GvComment.Reference
 
     @Override
     public void onClickNotExpandable(GvComment.Reference item, final int position, final View v) {
-        final GvComment.Reference parent = item.getParentReference();
-        parent.getReference().dereference(new DataReference.DereferenceCallback<DataComment>() {
+        final GvComment.Reference comment = item.getFullCommentReference();
+        comment.getReference().dereference(new DataReference.DereferenceCallback<DataComment>() {
             @Override
-            public void onDereferenced(@Nullable DataComment data, CallbackMessage message) {
-                if(data != null && !message.isError()) {
-                    parent.setParcelable(getParcelable(data));
-                    GridItemComments.super.onClickNotExpandable(parent, position, v);
+            public void onDereferenced(DataValue<DataComment> value) {
+                if(value.hasValue()) {
+                    comment.setParcelable(newParcelable(value.getData()));
+                    GridItemComments.super.onClickNotExpandable(comment, position, v);
                 }
             }
         });
     }
 
     @NonNull
-    private GvComment getParcelable(@Nullable DataComment data) {
+    private GvComment newParcelable(DataComment data) {
         return new GvComment(new GvReviewId(data.getReviewId()), data.getComment(), data.isHeadline());
     }
 }

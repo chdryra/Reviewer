@@ -8,9 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -76,12 +73,12 @@ public class SimpleItemReference<T extends HasReviewId> extends BindableReferenc
     protected void doDereferencing(final DereferenceCallback<T> callback) {
         mDereferencer.dereference(new DereferenceCallback<T>() {
             @Override
-            public void onDereferenced(@Nullable T data, CallbackMessage message) {
-                if (data == null) {
+            public void onDereferenced(DataValue<T> value) {
+                if (value.hasValue()) {
+                    callback.onDereferenced(value);
+                } else {
                     invalidate();
                     invalidReference(callback);
-                } else {
-                    callback.onDereferenced(data, message);
                 }
             }
         });
@@ -95,8 +92,8 @@ public class SimpleItemReference<T extends HasReviewId> extends BindableReferenc
     private void fireForBinder(final ReferenceBinder<T> binder) {
         dereference(new DereferenceCallback<T>() {
             @Override
-            public void onDereferenced(@Nullable T data, CallbackMessage message) {
-                if (data != null && !message.isError()) binder.onReferenceValue(data);
+            public void onDereferenced(DataValue<T> value) {
+                if (value.hasValue()) binder.onReferenceValue(value.getData());
             }
         });
     }

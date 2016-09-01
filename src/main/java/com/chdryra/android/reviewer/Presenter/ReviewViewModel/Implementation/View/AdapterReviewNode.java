@@ -14,12 +14,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -82,9 +80,9 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     public void getCover(final CoverCallback callback) {
         mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
             @Override
-            public void onDereferenced(@Nullable DataImage data, CallbackMessage message) {
-                if(data != null && !message.isError()) {
-                    callback.onAdapterCover(mCoversConverter.convert(data));
+            public void onDereferenced(DataValue<DataImage> value) {
+                if(value.hasValue()) {
+                    callback.onAdapterCover(mCoversConverter.convert(value.getData()));
                 } else {
                     callback.onAdapterCover(new GvImage());
                 }

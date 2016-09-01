@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -42,7 +41,7 @@ public class NullDataReference<T> implements DataReference<T> {
 
     @Override
     public void dereference(DereferenceCallback<T> callback) {
-        callback.onDereferenced(null, CallbackMessage.error("Null reference"));
+        callback.onDereferenced(new DataValue<T>());
     }
 
     @Override

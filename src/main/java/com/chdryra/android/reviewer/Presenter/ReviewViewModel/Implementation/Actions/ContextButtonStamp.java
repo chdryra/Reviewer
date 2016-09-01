@@ -8,15 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -56,9 +55,9 @@ public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<
     }
 
     @Override
-    public void onDereferenced(@Nullable NamedAuthor data, CallbackMessage message) {
-        if(data != null && !message.isError()) {
-            mName = data.getName();
+    public void onDereferenced(DataValue<NamedAuthor> value) {
+        if(value.hasValue()) {
+            mName = value.getData().getName();
             if(isAttached()) getReviewView().updateContextButton();
         }
     }

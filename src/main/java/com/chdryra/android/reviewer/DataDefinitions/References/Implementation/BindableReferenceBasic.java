@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.Collection;
@@ -62,6 +61,6 @@ public abstract class BindableReferenceBasic<T> extends DataReferenceBasic<T> {
     }
 
     protected void invalidReference(DereferenceCallback<T> callback) {
-        callback.onDereferenced(null, CallbackMessage.error("Invalid reference"));
+        callback.onDereferenced(new DataValue<T>());
     }
 }

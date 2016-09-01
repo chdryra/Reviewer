@@ -9,9 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation;
 
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -19,8 +16,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleRefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .CommentFormatter;
 
 import java.util.ArrayList;
 
@@ -62,14 +61,16 @@ public class SimpleRefFirstSentence extends SimpleRefComment {
         public void dereference(final DereferenceCallback<DataComment> callback) {
             mParent.dereference(new DereferenceCallback<DataComment>() {
                 @Override
-                public void onDereferenced(@Nullable DataComment data, CallbackMessage message) {
-                    DataComment sentence = null;
-                    if (data != null && !message.isError()) {
-                        String comment = data.getComment();
+                public void onDereferenced(DataValue<DataComment> value) {
+                    DataValue<DataComment> sentence = value;
+                    if (value.hasValue()) {
+                        String comment = value.getData().getComment();
                         ArrayList<String> split = CommentFormatter.split(comment, true);
-                        sentence = new DatumComment(getReviewId(), split.get(0), mParent.isHeadline());
+                        sentence = new DataValue<DataComment>(new DatumComment(getReviewId(),
+                                split.get(0), mParent.isHeadline()));
                     }
-                    callback.onDereferenced(sentence, message);
+
+                    callback.onDereferenced(sentence);
                 }
             });
         }

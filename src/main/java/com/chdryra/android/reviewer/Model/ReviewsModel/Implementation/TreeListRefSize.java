@@ -10,12 +10,12 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ItemsDereferencer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ItemsDereferencer;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -85,7 +85,7 @@ public class TreeListRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
             @Override
             public void onData(IdableList<DataSize> items) {
                 setSize(getTotal(items));
-                callback.onDereferenced(getSize(), CallbackMessage.ok());
+                callback.onDereferenced(new DataValue<>(getSize()));
             }
         };
     }

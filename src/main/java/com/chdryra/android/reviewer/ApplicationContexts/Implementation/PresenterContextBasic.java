@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
@@ -19,8 +18,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -167,8 +167,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
                 if(result.isReference() && reference != null) {
                     reference.dereference(new DataReference.DereferenceCallback<Review>() {
                         @Override
-                        public void onDereferenced(@Nullable Review review, CallbackMessage message) {
-                            callback.onRepositoryCallback(new RepositoryResult(review, message));
+                        public void onDereferenced(DataValue<Review> review) {
+                            callback.onRepositoryCallback(new RepositoryResult(review.getData(), review.getMessage()));
                         }
                     });
                 }

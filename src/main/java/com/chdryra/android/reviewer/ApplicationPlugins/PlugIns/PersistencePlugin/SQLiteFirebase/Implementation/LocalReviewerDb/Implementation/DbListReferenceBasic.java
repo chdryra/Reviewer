@@ -9,9 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation;
 
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSize;
@@ -20,8 +17,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleListReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -67,11 +65,10 @@ public abstract class DbListReferenceBasic<Row extends ReviewDataRow<Row>, Value
             public void dereference(final DereferenceCallback<DataSize> callback) {
                 DbListReferenceBasic.this.dereference(new DereferenceCallback<IdableList<Value>>() {
                     @Override
-                    public void onDereferenced(@Nullable IdableList<Value> data,
-                                               CallbackMessage message) {
-                        DataSize size = data != null ? data.getDataSize() : new DatumSize
-                                (getReviewId(), 0);
-                        callback.onDereferenced(size, message);
+                    public void onDereferenced(DataValue<IdableList<Value>> value) {
+                        DataSize size = value.hasValue() ?
+                                value.getData().getDataSize() : new DatumSize(getReviewId(), 0);
+                        callback.onDereferenced(new DataValue<>(size));
                     }
                 });
             }
@@ -98,7 +95,7 @@ public abstract class DbListReferenceBasic<Row extends ReviewDataRow<Row>, Value
             mLoader.onLoaded(new DataLoader.LoadedListener<T>() {
                 @Override
                 public void onLoaded(IdableList<T> data) {
-                    callback.onDereferenced(mConverter.convert(data), CallbackMessage.ok());
+                    callback.onDereferenced(new DataValue<>(mConverter.convert(data)));
                 }
             }).execute();
         }

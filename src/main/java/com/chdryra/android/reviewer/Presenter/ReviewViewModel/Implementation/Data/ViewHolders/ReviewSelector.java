@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -63,9 +63,9 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     }
 
     @Override
-    public void onDereferenced(@Nullable ReviewReference data, CallbackMessage message) {
+    public void onDereferenced(DataValue<ReviewReference> value) {
         if (mInProgress) {
-            if (data != null && !message.isError()) mReview = mSelector.select(data, mReview);
+            if (value.hasValue()) mReview = mSelector.select(value.getData(), mReview);
             if (++mCount == mNumReviews) {
                 if (mPending.size() > 0) {
                     doSelection(mPending.pop());
@@ -133,7 +133,9 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mCount = 0;
         if(node.isLeaf()) {
             mNumReviews = 1;
-            onDereferenced(node.getReference(), CallbackMessage.ok());
+            ReviewReference reference = node.getReference();
+            onDereferenced(reference != null ? new DataValue<>(reference) : new DataValue
+                    <ReviewReference>());
         } else {
             node.getReviews().toItemReferences(this);
         }

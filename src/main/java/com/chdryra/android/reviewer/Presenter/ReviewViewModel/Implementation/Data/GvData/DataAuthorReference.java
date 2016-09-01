@@ -9,17 +9,16 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 
@@ -71,7 +70,7 @@ public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implemen
                 dereferenceNamedAuthor(callback);
             }
         } else {
-            callback.onDereferenced(null, CallbackMessage.error("Invalid reference"));
+            callback.onDereferenced(new DataValue<DataAuthor>());
         }
     }
 
@@ -121,11 +120,11 @@ public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implemen
     private void setNameReference(final NamedReferenceCallback callback) {
         mId.dereference(new DereferenceCallback<DataAuthorId>() {
             @Override
-            public void onDereferenced(@Nullable DataAuthorId data, CallbackMessage message) {
-                if (data != null && !message.isError()) {
-                    mReference = mRepo.getName(data);
+            public void onDereferenced(DataValue<DataAuthorId> value) {
+                if (value.hasValue()) {
+                    mReference = mRepo.getName(value.getData());
                     callback.onNameReferenceSet();
-                } else if(data == null){
+                } else {
                     invalidate();
                 }
             }
@@ -136,21 +135,21 @@ public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implemen
         if (mReference != null && mReference.isValidReference()) {
             mReference.dereference(new DereferenceCallback<NamedAuthor>() {
                 @Override
-                public void onDereferenced(@Nullable NamedAuthor data, CallbackMessage message) {
-                    DataAuthor value = null;
-                    if (data != null && !message.isError()) {
-                        value = newAuthor(data);
-                    } else if (data == null) {
-                        invalidate();
+                public void onDereferenced(DataValue<NamedAuthor> value) {
+                    DataValue<DataAuthor> author;
+                    if (value.hasValue()) {
+                        author = new DataValue<>(newAuthor(value.getData()));
+                    } else {
+                        author = new DataValue<>(value.getMessage());
                     }
-                    callback.onDereferenced(value, message);
+                    callback.onDereferenced(author);
                 }
             });
         }
     }
 
     @NonNull
-    private DatumAuthor newAuthor(NamedAuthor data) {
+    private DataAuthor newAuthor(NamedAuthor data) {
         return new DatumAuthor(getReviewId(), data);
     }
 

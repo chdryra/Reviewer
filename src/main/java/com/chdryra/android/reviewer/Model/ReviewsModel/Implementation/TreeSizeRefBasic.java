@@ -9,15 +9,15 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSize;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -60,7 +60,7 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
     }
 
     @NonNull
-    protected DatumSize getSize() {
+    protected DataSize getSize() {
         return new DatumSize(getReviewId(), mCurrentSize);
     }
 
@@ -83,8 +83,8 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         if (mValueBinders.size() > 0) {
             dereference(new DereferenceCallback<DataSize>() {
                 @Override
-                public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
-                    if (data != null && !message.isError()) notifyValueBinders(data);
+                public void onDereferenced(DataValue<DataSize> value) {
+                    if (value.hasValue()) notifyValueBinders(value.getData());
                 }
             });
         }
@@ -97,7 +97,7 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
     }
 
     protected void notifyCachedSize(DereferenceCallback<DataSize> callback) {
-        callback.onDereferenced(getSize(), OK);
+        callback.onDereferenced(new DataValue<>(getSize()));
     }
 
     @Override
@@ -142,8 +142,8 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         if (!mValueBinders.contains(binder)) mValueBinders.add(binder);
         dereference(new DereferenceCallback<DataSize>() {
             @Override
-            public void onDereferenced(@Nullable DataSize data, CallbackMessage message) {
-                if (data != null && !message.isError()) binder.onReferenceValue(data);
+            public void onDereferenced(DataValue<DataSize> value) {
+                if (value.hasValue()) binder.onReferenceValue(value.getData());
             }
         });
     }

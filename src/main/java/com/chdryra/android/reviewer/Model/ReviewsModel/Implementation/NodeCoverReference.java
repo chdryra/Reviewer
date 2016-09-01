@@ -8,15 +8,14 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
@@ -71,8 +70,8 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
         if (!mBinders.contains(binder)) mBinders.add(binder);
         dereferenceCurrent(new DereferenceCallback<DataImage>() {
             @Override
-            public void onDereferenced(@Nullable DataImage data, CallbackMessage message) {
-                if(data != null && !message.isError()) binder.onReferenceValue(data);
+            public void onDereferenced(DataValue<DataImage> value) {
+                if(value.hasValue()) binder.onReferenceValue(value.getData());
             }
         });
     }
@@ -144,20 +143,20 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
         if(mReview != null && mReview.isValidReference()) {
             mReview.dereference(new DereferenceCallback<ReviewReference>() {
                 @Override
-                public void onDereferenced(@Nullable ReviewReference data, CallbackMessage message) {
-                    if (data != null && !message.isError()) data.getCover().dereference(callback);
+                public void onDereferenced(DataValue<ReviewReference> value) {
+                    if (value.hasValue()) value.getData().getCover().dereference(callback);
                 }
             });
         } else {
-            callback.onDereferenced(null, CallbackMessage.ok());
+            callback.onDereferenced(new DataValue<DataImage>(CallbackMessage.error("No cover")));
         }
     }
 
     private void notifyBinders() {
         dereferenceCurrent(new DereferenceCallback<DataImage>() {
             @Override
-            public void onDereferenced(@Nullable DataImage data, CallbackMessage message) {
-                if (data != null && !message.isError()) notifyBinders(data);
+            public void onDereferenced(DataValue<DataImage> value) {
+                if (value.hasValue()) notifyBinders(value.getData());
             }
         });
     }

@@ -10,11 +10,10 @@ package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReferenceBasic;
 
@@ -40,15 +39,15 @@ public class ItemsDereferencer<T extends HasReviewId> {
         for (ReviewItemReference<T> ref : mRefs) {
             ref.dereference(new DataReference.DereferenceCallback<T>() {
                 @Override
-                public void onDereferenced(@Nullable T data, CallbackMessage message) {
-                    add(data, message);
+                public void onDereferenced(DataValue<T> value) {
+                    add(value);
                 }
             });
         }
     }
 
-    private void add(@Nullable T data, CallbackMessage message) {
-        if (data != null && !message.isError()) addToDereferencedData(data);
+    private void add(DataValue<T> value) {
+        if (value.hasValue()) addToDereferencedData(value.getData());
         mNumDereferences++;
         if (mNumDereferences == mRefs.size()) mPost.onData(mData);
     }

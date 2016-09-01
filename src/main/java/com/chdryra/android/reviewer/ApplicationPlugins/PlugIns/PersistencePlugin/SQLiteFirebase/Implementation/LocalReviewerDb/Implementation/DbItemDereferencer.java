@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 
 /**
  * Created by: Rizwan Choudrey
@@ -47,9 +48,9 @@ public class DbItemDereferencer<Row extends ReviewDataRow<Row>, Value extends Ha
             @Override
             public void onLoaded(IdableList<Row> data) {
                 if (data.size() > 0) {
-                    callback.onDereferenced(mConverter.convert(data.getItem(0)), CallbackMessage.ok());
+                    callback.onDereferenced(new DataValue<>(mConverter.convert(data.getItem(0))));
                 } else {
-                    callback.onDereferenced(null, CallbackMessage.error("No item in database for this reference"));
+                    callback.onDereferenced(new DataValue<Value>(CallbackMessage.error("No item in database for this reference")));
                 }
             }
         }).execute();
