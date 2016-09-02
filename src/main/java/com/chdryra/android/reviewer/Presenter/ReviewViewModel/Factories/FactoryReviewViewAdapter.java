@@ -162,7 +162,7 @@ public class FactoryReviewViewAdapter {
     public <T extends GvData> ReviewViewAdapter<?> newDataAdapter(ReviewNode node,
                                                                   GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {
-            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory.newCommentsDataViewer(node, mConverter));
+            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory.newReviewCommentsViewer(node, mConverter));
         } else {
             return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
         }
@@ -171,7 +171,12 @@ public class FactoryReviewViewAdapter {
     @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node,
                                                                       GvDataType<T> dataType) {
-        return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType, mConverter));
+
+        if (dataType == GvComment.TYPE) {
+            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory.newTreeCommentsViewer(node, mConverter));
+        } else {
+            return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType, mConverter));
+        }
     }
 
     //Private

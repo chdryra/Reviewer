@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -32,8 +33,7 @@ public class GridItemEditComment extends GridItemEdit<GvComment> {
 
     @Override
     public void onGridItemClick(GvComment item, int position, View v) {
-        GvComment unsplit = item.getUnsplitComment();
-        super.onGridItemClick(unsplit, position, v);
+        super.onGridItemClick(item.getUnsplitComment(), position, v);
     }
 
     @Override
@@ -51,6 +51,15 @@ public class GridItemEditComment extends GridItemEdit<GvComment> {
         for (GvComment comment : getGridData()) {
             comment.setIsHeadline(comment == headline);
         }
-        getReviewView().notifyDataObservers();
+
+        updateEditor();
+    }
+
+    @Override
+    protected void onDataDeleted(GvComment datum) {
+        if(datum.isHeadline()) {
+            GvDataList<GvComment> comments = getGridData();
+            if(comments.size() > 0) comments.getItem(0).setIsHeadline(true);
+        }
     }
 }

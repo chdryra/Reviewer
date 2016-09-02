@@ -153,7 +153,7 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
 
     @Override
     protected int size() {
-        return 6;
+        return 8;
     }
 
     @Override

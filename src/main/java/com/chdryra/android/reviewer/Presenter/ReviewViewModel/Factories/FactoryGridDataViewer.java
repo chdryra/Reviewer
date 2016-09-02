@@ -37,16 +37,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 
 
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerCommentsData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
 
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerTreeDataComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeSummary;
 
 /**
@@ -80,9 +76,15 @@ public class FactoryGridDataViewer {
         return viewer;
     }
 
-    public ViewerCommentsData newCommentsDataViewer(ReviewNode node, ConverterGv converter) {
-        return new ViewerCommentsData(node.getComments(), converter.newConverterComments().getReferencesConverter(), mReferenceFactory);
+    public ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node, ConverterGv converter) {
+        return new ViewerReviewData.CommentList(node.getComments(), converter.newConverterComments().getReferencesConverter(), mReferenceFactory);
     }
+
+    public ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node, ConverterGv converter) {
+        return new ViewerTreeData.TreeCommentList(node.getComments(),
+                converter.newConverterComments().getReferencesConverter(), mAdapterFactory, mReferenceFactory);
+    }
+
 
     @Nullable
     public GridDataWrapper<?> newReviewDataViewer(ReviewNode node,
@@ -99,7 +101,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerReviewData.DataList<>(node.getImages(),
                     converter.newConverterImages().getReferencesConverter());
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = newCommentsDataViewer(node, converter);
+            viewer = newReviewCommentsViewer(node, converter);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getLocations(),
                     converter.newConverterLocations().getReferencesConverter());
@@ -126,7 +128,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getImages(), converter.newConverterImages()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerTreeDataComments(node.getComments(), converter.newConverterComments()
+            viewer = new ViewerTreeData.TreeCommentList(node.getComments(), converter.newConverterComments()
                     .getReferencesConverter(), mAdapterFactory, mReferenceFactory);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerTreeData<>(node.getLocations(), converter.newConverterLocations

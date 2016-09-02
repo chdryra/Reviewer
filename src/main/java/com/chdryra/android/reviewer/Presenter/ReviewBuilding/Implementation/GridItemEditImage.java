@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -42,11 +43,26 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
     @Override
     protected void doAlertPositive(Bundle args) {
         GvImage newCover = unpackItem(args);
+
         ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {
             editor.getCover().setIsCover(false);
             newCover.setIsCover(true);
         }
-        editor.notifyDataObservers();
+
+        updateEditor();
+    }
+
+    @Override
+    protected void onDataDeleted(GvImage datum) {
+        if(datum.isCover()) {
+            GvDataList<GvImage> images = getGridData();
+            if(images.size() > 0) images.getItem(0).setIsCover(true);
+        }
+    }
+
+    @Override
+    protected void onUpdateEditor() {
+        getEditor().updateCover();
     }
 }

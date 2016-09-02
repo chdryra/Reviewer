@@ -39,10 +39,27 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     protected void editData(T oldDatum, T newDatum) {
         getEditor().replace(oldDatum, newDatum);
+        updateEditor();
     }
 
     protected void deleteData(T datum) {
         getEditor().delete(datum);
+        onDataDeleted(datum);
+        updateEditor();
+    }
+
+    protected void onDataDeleted(T datum) {
+
+    }
+
+    protected void updateEditor() {
+        getGridData().setUnsorted();
+        onUpdateEditor();
+        getEditor().notifyDataObservers();
+    }
+
+    protected void onUpdateEditor() {
+
     }
 
     protected T unpackItem(Bundle args) {
@@ -76,15 +93,15 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
         if (requestCode == getLaunchableRequestCode()) editData(oldDatum, newDatum);
     }
 
-    //For launchable activities
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == getLaunchableRequestCode() && data != null) {
             T oldDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                 T newDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-                editData(oldDatum, newDatum);
-            } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
+                if(oldDatum != null && newDatum != null) editData(oldDatum, newDatum);
+            } else if (oldDatum != null &&
+                    ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
                 deleteData(oldDatum);
             }
         }

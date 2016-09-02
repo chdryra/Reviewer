@@ -33,7 +33,6 @@ public class GvImageList extends GvDataListParcelable<GvImage> {
     };
     private static final Random RANDOM = new Random();
 
-    //Constructors
     public GvImageList() {
         super(GvImage.TYPE, null);
     }
@@ -50,7 +49,6 @@ public class GvImageList extends GvDataListParcelable<GvImage> {
         super(data);
     }
 
-    //public methods
     public GvImage getRandomCover() {
         GvImageList covers = getCovers();
         if (covers.size() == 0) return new GvImage();

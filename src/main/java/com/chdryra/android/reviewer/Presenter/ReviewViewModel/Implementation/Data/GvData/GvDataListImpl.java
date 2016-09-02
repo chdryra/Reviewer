@@ -73,7 +73,6 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         return GvDataComparators.getDefaultComparator(mType);
     }
 
-    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

@@ -10,16 +10,23 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataRefList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -31,13 +38,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerReviewData<Value extends HasReviewId,
         GvRef extends GvDataRef<GvRef, Value, ?>, Reference extends ReviewItemReference<Value>,
         List extends ReviewListReference<Value, Reference>>
-        extends GridDataWrapperBasic<GvRef> implements ReviewListReference.ItemReferencesCallback<Value, Reference> {
+        extends GridDataWrapperBasic<GvRef> {
 
     private List mReference;
     private GvConverterReferences<Value, GvRef, Reference> mConverter;
     private GvDataRefList<GvRef> mCache;
 
-    public ViewerReviewData(List reference, GvConverterReferences<Value, GvRef, Reference> converter) {
+    public ViewerReviewData(List reference, GvConverterReferences<Value, GvRef, Reference>
+            converter) {
         mReference = reference;
         mConverter = converter;
         mCache = newDataList();
@@ -45,6 +53,14 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     protected List getReference() {
         return mReference;
+    }
+
+    protected void makeGridData(IdableList<Reference> references) {
+        mCache = newDataList();
+        for (Reference reference : references) {
+            mCache.add(mConverter.convert(reference));
+        }
+        notifyDataObservers();
     }
 
     @Override
@@ -75,15 +91,17 @@ public class ViewerReviewData<Value extends HasReviewId,
     @Override
     protected void onAttach() {
         super.onAttach();
-        mReference.toItemReferences(this);
+        makeGridData();
     }
 
-    @Override
-    public void onItemReferences(IdableList<Reference> references) {
-        makeGridData(references);
-        notifyDataObservers();
+    protected void makeGridData() {
+        mReference.toItemReferences(new ReviewListReference.ItemReferencesCallback<Value, Reference>() {
+            @Override
+            public void onItemReferences(IdableList<Reference> references) {
+                makeGridData(references);
+            }
+        });
     }
-
 
     @NonNull
     private GvDataRefList<GvRef> newDataList() {
@@ -91,19 +109,60 @@ public class ViewerReviewData<Value extends HasReviewId,
                 new GvReviewId(mReference.getReviewId()));
     }
 
-    private void makeGridData(IdableList<Reference> references) {
-        mCache = newDataList();
-        for (Reference reference : references) {
-            mCache.add(mConverter.convert(reference));
-        }
-    }
-
-    public static class DataList<Value extends HasReviewId, GvRef extends GvDataRef<GvRef, Value, ?>>
+    public static class DataList<Value extends HasReviewId, GvRef extends GvDataRef<GvRef, Value,
+            ?>>
             extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, RefDataList<Value>> {
 
         public DataList(RefDataList<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter) {
             super(reference, converter);
+        }
+    }
+
+    public static class CommentList
+            extends ViewerReviewData<DataComment, GvComment.Reference, RefComment, RefCommentList> {
+        private FactoryReference mReferenceFactory;
+        private boolean mIsSplit = false;
+
+        public CommentList(RefCommentList reference,
+                           GvConverterReferences<DataComment, GvComment.Reference, RefComment>
+                                   converter,
+                           FactoryReference referenceFactory) {
+            super(reference, converter);
+            mReferenceFactory = referenceFactory;
+        }
+
+        public void setSplit(boolean split) {
+            mIsSplit = split;
+            makeGridData();
+        }
+
+        @Override
+        protected void makeGridData() {
+            if (mIsSplit) {
+                toAllSentences();
+            } else {
+                toFirstSentences();
+            }
+        }
+
+        private void toFirstSentences() {
+            getReference().toItemReferences(new ReviewListReference
+                    .ItemReferencesCallback<DataComment, RefComment>() {
+                @Override
+                public void onItemReferences(IdableList<RefComment> references) {
+                    makeGridData(mReferenceFactory.newSentencesCollector(references).collectFirst());
+                }
+            });
+        }
+
+        private void toAllSentences() {
+            getReference().toSentences(new RefComment.SentencesCallback() {
+                @Override
+                public void onSentenceReferences(IdableList<RefComment> references) {
+                    makeGridData(references);
+                }
+            });
         }
     }
 }

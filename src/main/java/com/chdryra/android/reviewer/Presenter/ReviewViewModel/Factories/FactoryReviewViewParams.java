@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class FactoryReviewViewParams {
     public <T extends GvData> ReviewViewParams getParams(GvDataType<T> dataType) {
         ReviewViewParams params = new ReviewViewParams();
-        if (dataType.equals(GvImage.TYPE)) {
+        if (dataType.equals(GvImage.TYPE) || dataType.equals(GvImage.Reference.TYPE)) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
             params.setCellHeight(half).setCellWidth(half);
         }

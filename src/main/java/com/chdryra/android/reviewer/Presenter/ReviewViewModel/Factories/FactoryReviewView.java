@@ -87,7 +87,7 @@ public class FactoryReviewView {
                                                 boolean withMenu) {
         return new ReviewsListView(node,
                 new ReviewViewPerspective<>(factory.newChildListAdapter(node),
-                        newReviewsListActions(withMenu), getReviewViewParams()));
+                        newReviewsListActions(withMenu), getParamsForReviewsList()));
     }
 
     public <T extends GvData> ReviewView<T> newViewScreen(ApplicationInstance app,
@@ -106,7 +106,7 @@ public class FactoryReviewView {
 
     //private
     @NonNull
-    private ReviewViewParams getReviewViewParams() {
+    private ReviewViewParams getParamsForReviewsList() {
         ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;

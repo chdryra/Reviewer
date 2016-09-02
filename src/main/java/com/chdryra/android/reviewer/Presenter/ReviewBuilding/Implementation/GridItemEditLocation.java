@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -21,6 +22,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemEditLocation extends GridItemEdit<GvLocation> {
+    private static final int LAUNCH_MAP
+            = RequestCodeGenerator.getCode("LaunchMap");
+
     private LaunchableConfig mMapEditorConfig;
 
     public GridItemEditLocation(LaunchableConfig editorConfig,
@@ -32,7 +36,7 @@ public class GridItemEditLocation extends GridItemEdit<GvLocation> {
 
     @Override
     public void onGridItemLongClick(GvLocation item, int position, View v) {
-        showAlert(Strings.Alerts.EDIT_ON_MAP, mMapEditorConfig.getRequestCode(), packItem(item));
+        showAlert(Strings.Alerts.EDIT_ON_MAP, LAUNCH_MAP, packItem(item));
     }
 
     @Override
