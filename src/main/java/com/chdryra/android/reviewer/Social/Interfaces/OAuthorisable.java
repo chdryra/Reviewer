@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Social.Interfaces;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface OAuthorisable<Token> {
+interface OAuthorisable<Token> {
     boolean isAuthorised();
 
     void setAccessToken(Token token);

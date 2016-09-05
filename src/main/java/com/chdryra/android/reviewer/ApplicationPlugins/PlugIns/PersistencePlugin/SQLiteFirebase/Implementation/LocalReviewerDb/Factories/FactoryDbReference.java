@@ -44,7 +44,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbReference {
-    private FactoryReference mReferenceFactory;
+    private final FactoryReference mReferenceFactory;
 
     public FactoryDbReference(FactoryReference referenceFactory) {
         mReferenceFactory = referenceFactory;

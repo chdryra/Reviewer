@@ -54,13 +54,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
-    private FactoryContractor mContractorFactory;
-    private String mExt;
-    private FactoryReviewerDb mDbFactory;
-    private FactoryReviewTransactor mReviewTransactor;
-    private String mPersistenceName;
-    private int mPersistenceVer;
-    private Context mContext;
+    private final FactoryContractor mContractorFactory;
+    private final String mExt;
+    private final FactoryReviewerDb mDbFactory;
+    private final FactoryReviewTransactor mReviewTransactor;
+    private final String mPersistenceName;
+    private final int mPersistenceVer;
+    private final Context mContext;
 
     public FactoryLocalReviewerDb(Context context, RelationalDbPlugin dbPlugin, String name, int version) {
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();

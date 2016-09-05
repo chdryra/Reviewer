@@ -53,13 +53,13 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewViewAdapter {
-    private FactoryReviewView mReviewViewFactory;
-    private FactoryReviews mReviewsFactory;
-    private FactoryGridDataViewer mViewerFactory;
-    private GvDataAggregator mAggregator;
-    private ConverterGv mConverter;
-    private AuthorsRepository mAuthorsRepository;
-    private ReviewsSource mReviewSource;
+    private final FactoryReviewView mReviewViewFactory;
+    private final FactoryReviews mReviewsFactory;
+    private final FactoryGridDataViewer mViewerFactory;
+    private final GvDataAggregator mAggregator;
+    private final ConverterGv mConverter;
+    private final AuthorsRepository mAuthorsRepository;
+    private final ReviewsSource mReviewSource;
 
     public FactoryReviewViewAdapter(FactoryReviewView reviewViewFactory,
                                     FactoryReviews reviewsFactory,
@@ -77,7 +77,7 @@ public class FactoryReviewViewAdapter {
         mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository);
     }
 
-    public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
+    private ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
         //adapter shows children nodes
         return mReviewViewFactory.newReviewsListAdapter(node, this);
     }
@@ -205,6 +205,7 @@ public class FactoryReviewViewAdapter {
             (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> gvDataType = data.getGvDataType();
         GvDataListImpl<T> allData = new GvDataListImpl<>(gvDataType, data.getGvReviewId());
+        //TODO make type safe
         for (GvCanonical<T> canonical : data) {
             allData.addAll(canonical.toList());
         }

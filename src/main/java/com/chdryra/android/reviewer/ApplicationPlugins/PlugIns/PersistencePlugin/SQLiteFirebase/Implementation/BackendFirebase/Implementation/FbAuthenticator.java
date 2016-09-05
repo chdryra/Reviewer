@@ -45,11 +45,11 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     private static final String GOOGLE = "google";
     private static final String EMAIL = "email";
 
-    private Firebase mRoot;
-    private UserProfileConverter mUsersFactory;
-    private UserAccounts mAccounts;
+    private final Firebase mRoot;
+    private final UserProfileConverter mUsersFactory;
+    private final UserAccounts mAccounts;
     private AuthenticatedUser mLoggedIn;
-    private ArrayList<UserStateObserver> mObservers;
+    private final ArrayList<UserStateObserver> mObservers;
 
     public FbAuthenticator(Firebase root,
                            UserAccounts accounts,

@@ -40,9 +40,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SQLiteFirebase implements PersistencePlugin {
-    private FactoryPersistentCache mCacheFactory;
-    private FactoryLocalReviewerDb mLocalFactory;
-    private Backend mBackend;
+    private final FactoryPersistentCache mCacheFactory;
+    private final FactoryLocalReviewerDb mLocalFactory;
+    private final Backend mBackend;
 
     public SQLiteFirebase(Context context, String localName, int localVersion) {
         AndroidSqlLiteDb relationalDb = new AndroidSqlLiteDb();

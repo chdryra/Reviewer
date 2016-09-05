@@ -26,7 +26,7 @@ public class EmailValidation {
         OK("Ok"),
         INVALID_EMAIL("Email is invalid");
 
-        private String mMessage;
+        private final String mMessage;
 
         EmailError(String message) {
             mMessage = message;

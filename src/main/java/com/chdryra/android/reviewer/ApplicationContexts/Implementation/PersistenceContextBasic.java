@@ -27,23 +27,23 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewsSource mReviewsSource;
     private FactoryReviewsRepository mRepoFactory;
 
-    public void setLocalRepository(LocalRepository localRepo) {
+    protected void setLocalRepository(LocalRepository localRepo) {
         mLocalRepo = localRepo;
     }
 
-    public void setBackendRepository(ReviewsRepository backendRepo) {
+    protected void setBackendRepository(ReviewsRepository backendRepo) {
         mBackendRepo = backendRepo;
     }
 
-    public void setUsersManager(UsersManager usersManager) {
+    protected void setUsersManager(UsersManager usersManager) {
         mUsersManager = usersManager;
     }
 
-    public void setReviewsSource(ReviewsSource reviewsSource) {
+    protected void setReviewsSource(ReviewsSource reviewsSource) {
         mReviewsSource = reviewsSource;
     }
 
-    public void setReposFactory(FactoryReviewsRepository repoFactory) {
+    protected void setReposFactory(FactoryReviewsRepository repoFactory) {
         mRepoFactory = repoFactory;
     }
 

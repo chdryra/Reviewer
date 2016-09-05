@@ -13,7 +13,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.QueueConsumer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
@@ -28,10 +27,10 @@ import java.util.Map;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialConsumer extends QueueConsumer<Review> implements SocialPublisherListener {
+public class SocialConsumer extends QueueConsumer<Review> implements SocialPublisher.Listener {
     private final FactorySocialPublisher mPublisherFactory;
     private final Map<ReviewId, ArrayList<String>> mPlatformsMap;
-    private ArrayList<SocialPublisherListener> mListeners;
+    private final ArrayList<SocialPublisher.Listener> mListeners;
 
     public SocialConsumer(FactorySocialPublisher publisherFactory) {
         mPublisherFactory = publisherFactory;
@@ -47,11 +46,11 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialPubli
         mPlatformsMap.remove(reviewId);
     }
 
-    public void registerListener(SocialPublisherListener listener) {
+    public void registerListener(SocialPublisher.Listener listener) {
         if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
-    public void unregisterListener(SocialPublisherListener listener) {
+    public void unregisterListener(SocialPublisher.Listener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
@@ -71,7 +70,7 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialPubli
 
     @Override
     public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
-        for (SocialPublisherListener listener : mListeners) {
+        for (SocialPublisher.Listener listener : mListeners) {
             listener.onPublishingStatus(reviewId, percentage, justUploaded);
         }
     }
@@ -91,19 +90,19 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialPubli
     private void notifyOnSuccess(ReviewId reviewId, Collection<PublishResults> publishedOk,
                                  Collection<PublishResults> publishedNotOk, CallbackMessage
                                          result) {
-        for (SocialPublisherListener listener : mListeners) {
+        for (SocialPublisher.Listener listener : mListeners) {
             listener.onPublishingCompleted(reviewId, publishedOk, publishedNotOk, result);
         }
     }
 
     private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
-        for (SocialPublisherListener listener : mListeners) {
+        for (SocialPublisher.Listener listener : mListeners) {
             listener.onPublishingFailed(reviewId, mPlatformsMap.remove(reviewId), result);
         }
     }
 
     private static class PublisherWorker implements ItemWorker<Review> {
-        private SocialPublisher mPublisher;
+        private final SocialPublisher mPublisher;
 
         public PublisherWorker(SocialPublisher publisher) {
             mPublisher = publisher;

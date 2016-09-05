@@ -26,9 +26,9 @@ public class FactoryReviewsCache {
     private static final int MAX_REVIEWS_FAST = 10;
     private static final int MAX_REVIEWS_SLOW = 40;
 
-    private ModelContext mModelContext;
-    private DataValidator mValidator;
-    private FactoryPersistentCache mCacheFactory;
+    private final ModelContext mModelContext;
+    private final DataValidator mValidator;
+    private final FactoryPersistentCache mCacheFactory;
 
     public FactoryReviewsCache(ModelContext modelContext,
                                DataValidator validator,

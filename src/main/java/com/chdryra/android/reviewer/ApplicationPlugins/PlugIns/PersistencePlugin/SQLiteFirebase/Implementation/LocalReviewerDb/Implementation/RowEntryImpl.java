@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowEntryImpl<DbRow extends DbTableRow, Type> implements RowEntry<DbRow, Type> {
-    private Class<DbRow> mRowClass;
-    private ColumnInfo<Type> mInfo;
-    private Type mValue;
+    private final Class<DbRow> mRowClass;
+    private final ColumnInfo<Type> mInfo;
+    private final Type mValue;
 
     public RowEntryImpl(Class<DbRow> rowClass, ColumnInfo<Type> info, @Nullable Type value) {
         mRowClass = rowClass;

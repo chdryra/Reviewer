@@ -29,9 +29,9 @@ public class CommentsConverter extends ListConverter<DataComment> implements Sna
     }
 
     public static class SentenceConverter implements SnapshotConverter<DataComment> {
-        private ReviewId mId;
-        private ConverterComment.ConverterSentence mConverter;
-        private boolean mIsHeadline;
+        private final ReviewId mId;
+        private final ConverterComment.ConverterSentence mConverter;
+        private final boolean mIsHeadline;
 
         public SentenceConverter(ReviewId id, ConverterComment.ConverterSentence converter, boolean isHeadline) {
             mId = id;

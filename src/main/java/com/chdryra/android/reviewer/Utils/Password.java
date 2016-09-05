@@ -29,7 +29,7 @@ public class Password implements Parcelable{
         }
     };
 
-    private String mPassword;
+    private final String mPassword;
 
     public Password(String password) {
         mPassword = password;

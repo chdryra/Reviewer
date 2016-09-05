@@ -49,7 +49,7 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         ReviewViewActions.ReviewViewAttachedObserver,
         GridItemClickObserved.ClickObserver<GC> {
     private final ApplicationInstance mApp;
-    private ReviewEditor<GC> mEditor;
+    private final ReviewEditor<GC> mEditor;
     private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
@@ -176,8 +176,8 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
     }
 
     public static class Builder {
-        private FactoryReviewEditor mEditorFactory;
-        private ApplicationInstance mApp;
+        private final FactoryReviewEditor mEditorFactory;
+        private final ApplicationInstance mApp;
         private Review mReview;
 
         public Builder(ApplicationInstance app, FactoryReviewEditor editorFactory) {
@@ -185,9 +185,8 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
             mEditorFactory = editorFactory;
         }
 
-        public Builder setTemplateReview(Review review) {
+        public void setTemplateReview(Review review) {
             mReview = review;
-            return this;
         }
 
         public PresenterReviewBuild<?> build() {

@@ -14,8 +14,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AccessTokenDefault {
-    private String mToken;
-    private String mSecret;
+    private final String mToken;
+    private final String mSecret;
 
     public AccessTokenDefault(String token, String secret) {
         mToken = token;

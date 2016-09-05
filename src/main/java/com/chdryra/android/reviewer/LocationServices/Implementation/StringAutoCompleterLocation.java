@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StringAutoCompleterLocation implements StringFilterAdapter.StringFilter {
-    private AutoCompleter<VhdLocatedPlace> mAutoCompleter;
+    private final AutoCompleter<VhdLocatedPlace> mAutoCompleter;
 
     public StringAutoCompleterLocation(AutoCompleter<VhdLocatedPlace> autoCompleter) {
         mAutoCompleter = autoCompleter;
@@ -43,7 +43,7 @@ public class StringAutoCompleterLocation implements StringFilterAdapter.StringFi
     public ArrayList<String> filter(String query) {
         ViewHolderDataList<VhdLocatedPlace> places = mAutoCompleter.filter(query);
 
-        ArrayList<String> shortened = new ArrayList<String>();
+        ArrayList<String> shortened = new ArrayList<>();
         for (VhdLocatedPlace place : places) {
             shortened.add(formatAddress(place.getPlace().getDescription()));
         }

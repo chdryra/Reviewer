@@ -26,7 +26,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> implements RefCommentList {
-    private FactoryFbReference mReferenceFactory;
+    private final FactoryFbReference mReferenceFactory;
 
     public FbRefCommentList(ReviewId id,
                             Firebase reference,

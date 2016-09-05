@@ -22,8 +22,8 @@ import com.firebase.client.Firebase;
  * On: 16/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryAuthorsRepo {
-    private FactoryFbReference mReferenceFactory;
+class FactoryAuthorsRepo {
+    private final FactoryFbReference mReferenceFactory;
 
     public FactoryAuthorsRepo(FactoryFbReference referenceFactory) {
         mReferenceFactory = referenceFactory;

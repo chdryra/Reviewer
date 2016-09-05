@@ -27,7 +27,7 @@ public class LocationDetailsGoogle implements LocationDetails{
     private static final Place NULL_PLACE = new NullPlace();
     private static final LocationProvider GOOGLE = GoogleLocationProvider.GOOGLE;
 
-    private Place mPlace;
+    private final Place mPlace;
 
     public LocationDetailsGoogle() {
         mPlace = NULL_PLACE;

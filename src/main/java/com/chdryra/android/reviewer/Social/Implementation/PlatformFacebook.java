@@ -35,8 +35,6 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     public static final String NAME = "facebook";
     public static final String REQUIRED_PERMISSION = "publish_actions";
 
-    private AccessTokenTracker mTracker;
-
     public PlatformFacebook(Context context, PublisherFacebook publisher) {
         super(publisher);
 
@@ -73,7 +71,7 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     }
 
     private void setAccessTracker() {
-        mTracker = new AccessTokenTracker() {
+        AccessTokenTracker tracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken
                     currentAccessToken) {

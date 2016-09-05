@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -22,14 +21,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerDataToData<T extends GvData> extends GridDataWrapperBasic<T> {
-    private ReviewNode mNode;
-    private GvDataCollection<T> mData;
-    private FactoryReviewViewAdapter mAdapterFactory;
+    private final GvDataCollection<T> mData;
+    private final FactoryReviewViewAdapter mAdapterFactory;
 
-    public ViewerDataToData(ReviewNode node,
-                            GvDataCollection<T> data,
+    public ViewerDataToData(GvDataCollection<T> data,
                             FactoryReviewViewAdapter adapterFactory) {
-        mNode = node;
         mData = data;
         mAdapterFactory = adapterFactory;
     }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -21,8 +19,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsCacheHybrid implements ReviewsCache {
-    private QueueCache<Review> mFastCache;
-    private QueueCache<Review> mSlowCache;
+    private final QueueCache<Review> mFastCache;
+    private final QueueCache<Review> mSlowCache;
 
     public ReviewsCacheHybrid(QueueCache<Review> fastCache, QueueCache<Review> slowCache) {
         mFastCache = fastCache;
@@ -30,16 +28,11 @@ public class ReviewsCacheHybrid implements ReviewsCache {
     }
 
     @Override
-    @Nullable
-    public Review add(Review review) {
-        if(!review.isCacheable()) return review;
+    public void add(Review review) {
+        if(!review.isCacheable()) return;
 
         Review overflow = mFastCache.add(review.getReviewId().toString(), review);
-        if(overflow != null) {
-            overflow = mSlowCache.add(overflow.getReviewId().toString(), overflow);
-        }
-
-        return overflow;
+        if(overflow != null) mSlowCache.add(overflow.getReviewId().toString(), overflow);
     }
 
     @Override

@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewInfo implements DataReviewInfo {
-    private ReviewId mReviewId;
-    private DataSubject mSubject;
-    private DataRating mRating;
-    private DataAuthorId mAuthorId;
-    private DataDate mPublishDate;
+    private final ReviewId mReviewId;
+    private final DataSubject mSubject;
+    private final DataRating mRating;
+    private final DataAuthorId mAuthorId;
+    private final DataDate mPublishDate;
 
     public ReviewInfo(ReviewId reviewId, DataSubject subject, DataRating rating, DataAuthorId
             authorId, DataDate publishDate) {

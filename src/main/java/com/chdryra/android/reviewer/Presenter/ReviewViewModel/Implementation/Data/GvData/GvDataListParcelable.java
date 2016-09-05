@@ -35,7 +35,7 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
     };
 
     //Constructors
-    public GvDataListParcelable(GvReviewId reviewId, GvDataList<T> data) {
+    private GvDataListParcelable(GvReviewId reviewId, GvDataList<T> data) {
         super(reviewId, data);
     }
 
@@ -45,17 +45,17 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
         return this;
     }
 
-    public GvDataListParcelable(@NotNull GvDataType<T> type, GvReviewId reviewId) {
+    GvDataListParcelable(@NotNull GvDataType<T> type, GvReviewId reviewId) {
         super(type, reviewId);
     }
 
     //Copy constructor
-    public GvDataListParcelable(GvDataList<T> data) {
+    GvDataListParcelable(GvDataList<T> data) {
         this(data.getGvReviewId(), data);
     }
 
     //TODO make type safe
-    public GvDataListParcelable(Parcel in) {
+    GvDataListParcelable(Parcel in) {
         super((GvDataType<T>)in.readParcelable(GvDataType.class.getClassLoader()),
                 (GvReviewId)in.readParcelable(GvReviewId.class.getClassLoader()));
         T[] data = (T[]) in.readParcelableArray(getGvDataType().getDataClass().getClassLoader());

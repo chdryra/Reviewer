@@ -24,16 +24,16 @@ import java.util.Collection;
 public abstract class BindableListReferenceBasic<T extends HasReviewId> extends 
         BindableReferenceBasic<IdableList<T>>
         implements ItemBindersDelegate.BindableListReference<T, IdableList<T>> {
-    private Collection<ListItemBinder<T>> mItemBinders;
-    private Collection<ReferenceBinder<IdableList<T>>> mValueBinders;
-    private ItemBindersDelegate<T> mDelegate;
+    private final Collection<ListItemBinder<T>> mItemBinders;
+    private final Collection<ReferenceBinder<IdableList<T>>> mValueBinders;
+    private final ItemBindersDelegate<T> mDelegate;
 
     protected abstract void fireForBinder(ListItemBinder<T> binder);
 
     @Override
     protected abstract void doDereferencing(DereferenceCallback<IdableList<T>> callback);
 
-    public BindableListReferenceBasic() {
+    protected BindableListReferenceBasic() {
         mValueBinders = new ArrayList<>();
         mItemBinders = new ArrayList<>();
         mDelegate = new ItemBindersDelegate<>(this);
@@ -67,7 +67,7 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         return mItemBinders.size() > 0;
     }
 
-    protected boolean hasValueBinders() {
+    private boolean hasValueBinders() {
         return mValueBinders.size() > 0;
     }
 
@@ -112,7 +112,7 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         return mItemBinders.contains(binder);
     }
 
-    protected void notifyItemBinders(IdableList<T> items) {
+    private void notifyItemBinders(IdableList<T> items) {
         for (ListItemBinder<T> binder : mItemBinders) {
             binder.onListChanged(items);
         }
@@ -138,7 +138,7 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         }
     }
 
-    protected void notifyValueBinders(IdableList<T> data) {
+    private void notifyValueBinders(IdableList<T> data) {
         for (ReferenceBinder<IdableList<T>> binder : mValueBinders) {
             binder.onReferenceValue(data);
         }

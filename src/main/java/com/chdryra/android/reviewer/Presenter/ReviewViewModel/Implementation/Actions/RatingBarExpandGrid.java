@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
-    FactoryReviewView mLaunchableFactory;
+    private final FactoryReviewView mLaunchableFactory;
 
     public RatingBarExpandGrid(FactoryReviewView launchableFactory) {
         mLaunchableFactory = launchableFactory;

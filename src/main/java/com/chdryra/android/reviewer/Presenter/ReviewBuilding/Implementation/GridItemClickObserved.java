@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class GridItemClickObserved<T extends GvData> extends GridItemActionNone<T>
         implements GridItemAction<T> {
-    private ArrayList<ClickObserver<T>> mObservers;
+    private final ArrayList<ClickObserver<T>> mObservers;
 
     public interface ClickObserver<T extends GvData> {
         void onGridItemClick(T item, int position, View v);

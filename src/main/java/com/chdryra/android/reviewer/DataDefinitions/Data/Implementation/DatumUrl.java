@@ -19,7 +19,7 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumUrl extends DatumFact implements DataUrl{
-    private URL mUrl;
+    private final URL mUrl;
 
     public DatumUrl(ReviewId reviewId, String label, URL url) {
         super(reviewId, label, url.toExternalForm());

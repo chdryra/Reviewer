@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 
@@ -37,7 +38,7 @@ public interface AddEditLayout<T extends GvData> extends DialogLayout<T> {
     void onActivityAttached(Activity activity, Bundle args);
 
     @Override
-    View createLayoutUi(Context context, T data);
+    View createLayoutUi(Context context, @Nullable T data);
 
     @Override
     void initialise(T data);

@@ -29,8 +29,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class SimpleRefComment extends SimpleItemReference<DataComment> implements RefComment {
     private RefComment mParent;
-    private boolean mIsHeadline;
-    private FactoryReference mReferenceFactory;
+    private final boolean mIsHeadline;
+    private final FactoryReference mReferenceFactory;
 
     public SimpleRefComment(boolean isHeadline, FactoryReference referenceFactory, Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
@@ -38,7 +38,8 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
         mReferenceFactory = referenceFactory;
     }
 
-    public SimpleRefComment(RefComment parent, FactoryReference referenceFactory, Dereferencer<DataComment> dereferencer) {
+    protected SimpleRefComment(RefComment parent, FactoryReference referenceFactory,
+                               Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mParent = parent;
         mIsHeadline = mParent.isHeadline();

@@ -8,18 +8,25 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+
+import java.util.Collection;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPublisher extends NetworkPublisher<SocialPublisherListener>{
-    @Override
-    void registerListener(SocialPublisherListener socialPublisherListener);
+public interface SocialPublisher extends NetworkPublisher<SocialPublisher.Listener>{
+    interface Listener {
+        void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
+                result);
 
-    @Override
-    void unregisterListener(SocialPublisherListener socialPublisherListener);
+        void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
+                                   Collection<PublishResults> publishedNotOk, CallbackMessage result);
 
-    @Override
-    void publishReview();
+        void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
+    }
 }

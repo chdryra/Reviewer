@@ -32,10 +32,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
-    private GvCanonicalCollection<GvComment> mComments;
+    private final GvCanonicalCollection<GvComment> mComments;
     private GvCanonicalCollection<GvComment> mCommentsSplit;
-    private FactoryGridDataViewer mViewerFactory;
-    private GvDataAggregator mAggregater;
+    private final FactoryGridDataViewer mViewerFactory;
+    private final GvDataAggregator mAggregater;
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
@@ -55,7 +55,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
 //        return GvComment.TYPE;
 //    }
 
-    public void setSplit(boolean split) {
+    private void setSplit(boolean split) {
         GvCanonicalCollection<GvComment> current;
 
         if (split) {

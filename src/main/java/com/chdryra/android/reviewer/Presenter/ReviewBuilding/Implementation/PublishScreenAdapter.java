@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
-    private GvSocialPlatformList mSocialPlatforms;
-    private ReviewViewAdapter<?> mReviewViewAdapter;
+    private final GvSocialPlatformList mSocialPlatforms;
+    private final ReviewViewAdapter<?> mReviewViewAdapter;
 
     public PublishScreenAdapter(GvSocialPlatformList socialPlatforms,
                                 ReviewViewAdapter<?> reviewViewAdapter) {

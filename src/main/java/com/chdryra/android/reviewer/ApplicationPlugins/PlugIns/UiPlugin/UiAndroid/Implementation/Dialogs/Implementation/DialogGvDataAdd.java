@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -52,12 +51,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         return mDataType;
     }
 
-    @Override
-    protected Intent getReturnData() {
-        return null;
-    }
-
-    boolean isQuickSet() {
+    private boolean isQuickSet() {
         return mQuickSet && mBuilder != null;
     }
 
@@ -127,7 +121,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     private void setLayout() {
         LocationServicesApi provider = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), provider);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }

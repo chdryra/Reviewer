@@ -21,7 +21,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
-    private ArrayList<Comparator<T>> mComparators;
+    private final ArrayList<Comparator<T>> mComparators;
     private int mIndex = 0;
 
     public ComparatorCollectionImpl(@NotNull Comparator<T> defaultComparator) {

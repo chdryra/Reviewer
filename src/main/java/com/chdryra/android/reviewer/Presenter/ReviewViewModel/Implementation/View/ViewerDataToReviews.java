@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerDataToReviews<T extends GvData> extends GridDataWrapperBasic<T> {
-    private GvDataCollection<T> mData;
-    private FactoryReviewViewAdapter mAdapterFactory;
+    private final GvDataCollection<T> mData;
+    private final FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerDataToReviews(GvDataCollection<T> data, FactoryReviewViewAdapter adapterFactory) {
         mData = data;

@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditCriterion extends AddEditLayoutBasic<GvCriterion> {
-    public static final int LAYOUT = R.layout.dialog_criterion_add_edit;
-    public static final int SUBJECT = R.id.child_name_edit_text;
-    public static final int RATING = R.id.child_rating_bar;
+    private static final int LAYOUT = R.layout.dialog_criterion_add_edit;
+    private static final int SUBJECT = R.id.child_name_edit_text;
+    private static final int RATING = R.id.child_rating_bar;
 
     //Constructors
     public AddEditCriterion(GvDataAdder adder) {

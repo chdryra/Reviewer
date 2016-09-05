@@ -50,7 +50,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         AuthenticationError error);
     }
 
-    public PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
+    private PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
         mApp = app;
         mListener = listener;
     }
@@ -144,7 +144,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     }
 
     public static class Builder {
-        private ApplicationInstance mApp;
+        private final ApplicationInstance mApp;
 
         public Builder(ApplicationInstance app) {
             mApp = app;

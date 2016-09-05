@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class FragmentOAuthUrlBrowser extends Fragment {
 
     private OAuthRequest mRequest;
 
-    public static FragmentOAuthUrlBrowser newInstance(OAuthRequest request) {
+    public static FragmentOAuthUrlBrowser newInstance(@Nullable OAuthRequest request) {
         return FactoryFragment.newFragment(FragmentOAuthUrlBrowser.class, REQUEST, request);
     }
 
@@ -57,9 +58,9 @@ public class FragmentOAuthUrlBrowser extends Fragment {
         View v = inflater.inflate(LAYOUT, container, false);
 
         WebView webView = (WebView) v.findViewById(WEB_VIEW);
-        webView.getSettings().setJavaScriptEnabled(true);
+        //webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new OAuthWebViewClient());
-        webView.loadUrl(mRequest.getAuthorisationUrl());
+        if(mRequest != null) webView.loadUrl(mRequest.getAuthorisationUrl());
 
         return v;
     }
@@ -67,7 +68,7 @@ public class FragmentOAuthUrlBrowser extends Fragment {
     private class OAuthWebViewClient extends WebViewClient {
         @Override
         public void onPageFinished(WebView view, String url) {
-            mRequest.setCallbackResult(view.getUrl());
+            if(mRequest != null) mRequest.setCallbackResult(view.getUrl());
             super.onPageFinished(view, url);
         }
     }

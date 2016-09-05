@@ -47,11 +47,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
-    private FactoryCredentialsHandler mHandlerFactory;
-    private FactoryCredentialsAuthenticator mAuthenticatorFactory;
+    private final FactoryCredentialsHandler mHandlerFactory;
+    private final FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
-    private ApplicationInstance mApp;
-    private LoginListener mListener;
+    private final ApplicationInstance mApp;
+    private final LoginListener mListener;
     private CredentialsHandler mHandler;
 
     private boolean mAuthenticating = false;
@@ -117,7 +117,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         }
     }
 
-    public void authenticationFinished() {
+    private void authenticationFinished() {
         mAuthenticating = false;
         mHandler = null;
     }
@@ -227,7 +227,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public static class Builder {
-        private ApplicationInstance mApp;
+        private final ApplicationInstance mApp;
 
         public Builder(ApplicationInstance app) {
             mApp = app;

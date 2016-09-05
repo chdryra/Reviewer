@@ -32,10 +32,10 @@ import java.util.Map;
  */
 public class DataAuthorReference extends DataReferenceBasic<DataAuthor> implements
         ReviewItemReference<DataAuthor> {
-    private ReviewItemReference<DataAuthorId> mId;
-    private AuthorsRepository mRepo;
+    private final ReviewItemReference<DataAuthorId> mId;
+    private final AuthorsRepository mRepo;
     private DataReference<NamedAuthor> mReference;
-    private Map<ReferenceBinder<DataAuthor>, ReferenceBinder<NamedAuthor>> mBinders;
+    private final Map<ReferenceBinder<DataAuthor>, ReferenceBinder<NamedAuthor>> mBinders;
 
     private interface NamedReferenceCallback {
         void onNameReferenceSet();

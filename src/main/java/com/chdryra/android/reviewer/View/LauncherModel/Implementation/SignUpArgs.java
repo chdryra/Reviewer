@@ -50,7 +50,7 @@ public class SignUpArgs implements Parcelable {
         mUser = null;
     }
 
-    public SignUpArgs(Parcel in) {
+    private SignUpArgs(Parcel in) {
         mEmail = in.readParcelable(EmailAddress.class.getClassLoader());
         mUser = in.readParcelable(AuthenticatedUser.class.getClassLoader());
     }

@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  */
 public class DbRefDataList<Row extends ReviewDataRow<Row>, Value extends HasReviewId>
         extends DbListReferenceBasic<Row, Value, ReviewItemReference<Value>> implements RefDataList<Value>{
-    private FactoryDbReference mReferenceFactory;
+    private final FactoryDbReference mReferenceFactory;
 
     public DbRefDataList(DataLoader<Row> loader,
                          FactoryDbReference referenceFactory,

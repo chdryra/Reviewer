@@ -21,8 +21,8 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Comment {
-    public static String SENTENCES = "sentences";
-    public static String NUM_SENTENCES = "numSentences";
+    public static final String SENTENCES = "sentences";
+    public static final String NUM_SENTENCES = "numSentences";
 
     private List<String> sentences;
     private int numSentences;

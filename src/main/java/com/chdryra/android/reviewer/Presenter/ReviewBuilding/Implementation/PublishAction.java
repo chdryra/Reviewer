@@ -24,8 +24,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishAction implements ReviewPublisher.QueueCallback {
-    private ApplicationInstance mApp;
-    private PublishCallback mResponse;
+    private final ApplicationInstance mApp;
+    private final PublishCallback mResponse;
 
     public interface PublishCallback {
         void onQueuedToPublish(ReviewId id, CallbackMessage message);

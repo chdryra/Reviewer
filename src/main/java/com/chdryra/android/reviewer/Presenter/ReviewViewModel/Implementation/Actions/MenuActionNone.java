@@ -38,7 +38,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         this(-1, null, true);
     }
 
-    public MenuActionNone(int menuId, @Nullable String title, boolean displayHomeAsUp) {
+    protected MenuActionNone(int menuId, @Nullable String title, boolean displayHomeAsUp) {
         mMenuId = menuId;
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;

@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditFact extends AddEditLayoutBasic<GvFact> {
-    public static final int LAYOUT = R.layout.dialog_fact_add_edit;
-    public static final int LABEL = R.id.fact_label_edit_text;
-    public static final int VALUE = R.id.fact_value_edit_text;
+    private static final int LAYOUT = R.layout.dialog_fact_add_edit;
+    private static final int LABEL = R.id.fact_label_edit_text;
+    private static final int VALUE = R.id.fact_value_edit_text;
 
     //Constructors
     public AddEditFact(GvDataAdder adder) {

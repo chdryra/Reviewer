@@ -22,7 +22,7 @@ import java.util.Stack;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DepthFirstPreIterator implements Iterator<ReviewNode> {
-    private Stack<ReviewNode> mStack;
+    private final Stack<ReviewNode> mStack;
 
     public DepthFirstPreIterator(@NonNull ReviewNode root) {
         mStack = new Stack<>();
@@ -48,7 +48,7 @@ public class DepthFirstPreIterator implements Iterator<ReviewNode> {
         }
     }
 
-    protected void push(ReviewNode node) {
+    private void push(ReviewNode node) {
         mStack.push(node);
     }
 

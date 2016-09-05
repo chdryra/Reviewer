@@ -25,8 +25,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ItemCounter<T, D> {
-    private ItemGetter<T, D> mGetter;
-    private Map<D, Integer> mCountMap;
+    private final ItemGetter<T, D> mGetter;
+    private final Map<D, Integer> mCountMap;
     private D mModeItem;
 
     public ItemCounter(ItemGetter<T, D> getter) {

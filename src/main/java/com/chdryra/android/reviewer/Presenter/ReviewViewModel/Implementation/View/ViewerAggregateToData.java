@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasic<GvCanonical> {
-    private GvCanonicalCollection<T> mData;
-    private FactoryReviewViewAdapter mAdapterFactory;
-    private GridDataViewer<GvCanonical> mViewer;
+    private final GvCanonicalCollection<T> mData;
+    private final FactoryReviewViewAdapter mAdapterFactory;
+    private final GridDataViewer<GvCanonical> mViewer;
 
     public ViewerAggregateToData(GvCanonicalCollection<T> aggregateData,
                                  FactoryGridDataViewer viewerfactory,
@@ -36,11 +36,11 @@ public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasi
         mViewer = viewerfactory.newAggregateToReviewsViewer(mData);
     }
 
-    public FactoryReviewViewAdapter getAdapterFactory() {
+    FactoryReviewViewAdapter getAdapterFactory() {
         return mAdapterFactory;
     }
 
-    protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
+    ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
                 datum.getCanonical().getStringSummary());
     }

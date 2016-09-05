@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryTransactorSqLite {
-    private RowToValuesConverter mRowConverter;
-    private EntryToStringConverter mEntryConverter;
+    private final RowToValuesConverter mRowConverter;
+    private final EntryToStringConverter mEntryConverter;
 
     public FactoryTransactorSqLite(RowToValuesConverter rowConverter,
                                    EntryToStringConverter entryConverter) {

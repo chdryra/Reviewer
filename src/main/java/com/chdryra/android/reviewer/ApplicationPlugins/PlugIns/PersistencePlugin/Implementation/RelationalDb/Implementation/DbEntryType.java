@@ -24,7 +24,7 @@ public class DbEntryType<T> {
     public static final DbEntryType<Long> LONG = new DbEntryType<>(Long.class);
     public static final DbEntryType<ByteArray> BYTE_ARRAY = new DbEntryType<>(ByteArray.class);
 
-    private Class<T> mTypeClass;
+    private final Class<T> mTypeClass;
     private DbEntryType(Class<T> typeClass) {
         mTypeClass = typeClass;
     }

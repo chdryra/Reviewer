@@ -52,7 +52,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     }
 
     @Nullable
-    protected GvUrl getBundledUrl() {
+    private GvUrl getBundledUrl() {
         ParcelablePacker<GvUrl> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(URL);
         return args != null? packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvUrl();

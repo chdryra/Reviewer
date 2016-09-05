@@ -28,7 +28,7 @@ public class VhDataCollection implements ViewHolder {
     private Context mContext;
     private ViewGroup mParent;
 
-    private ViewHolder mDataView;
+    private final ViewHolder mDataView;
     private ViewHolder mCurrentView;
 
     public VhDataCollection() {
@@ -36,7 +36,7 @@ public class VhDataCollection implements ViewHolder {
         mCurrentView = mDataView;
     }
 
-    protected String getUpperString(int number) {
+    String getUpperString(int number) {
         return String.valueOf(number);
     }
 

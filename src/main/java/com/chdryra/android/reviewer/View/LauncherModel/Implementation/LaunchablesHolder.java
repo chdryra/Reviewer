@@ -35,8 +35,8 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUiAlertable> mShareEdit;
 
     //TODO make this independent of Android
-    private Class<? extends Activity> mDefaultReviewViewActivity;
-    private Class<? extends Activity> mReviewsListActivity;
+    private final Class<? extends Activity> mDefaultReviewViewActivity;
+    private final Class<? extends Activity> mReviewsListActivity;
 
     public LaunchablesHolder(Class<? extends LaunchableUi> login,
                              Class<? extends LaunchableUi> signUp,

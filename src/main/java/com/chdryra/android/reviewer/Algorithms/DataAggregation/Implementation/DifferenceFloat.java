@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DifferenceFloat implements DifferenceLevel<DifferenceFloat> {
-    private float mValue;
+    private final float mValue;
 
     public DifferenceFloat(float value) {
         mValue = value;

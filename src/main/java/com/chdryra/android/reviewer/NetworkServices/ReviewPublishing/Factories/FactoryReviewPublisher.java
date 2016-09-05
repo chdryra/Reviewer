@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewPublisher {
-    FactoryBackendUploader mUploaderFactory;
-    FactorySocialPublisher mPublisherFactory;
+    private final FactoryBackendUploader mUploaderFactory;
+    private final FactorySocialPublisher mPublisherFactory;
 
     public FactoryReviewPublisher(FactoryBackendUploader uploaderFactory,
                                   FactorySocialPublisher publisherFactory) {

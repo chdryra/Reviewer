@@ -30,7 +30,7 @@ public class GvCriterionList extends GvDataListParcelable<GvCriterion> {
     
     //Constructors
     public GvCriterionList() {
-        super(GvCriterion.TYPE, null);
+        super(GvCriterion.TYPE, new GvReviewId());
     }
 
     public GvCriterionList(Parcel in) {

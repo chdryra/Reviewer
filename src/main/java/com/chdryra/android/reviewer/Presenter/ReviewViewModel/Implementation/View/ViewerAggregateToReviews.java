@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateToReviews<T extends GvData> extends ViewerDataToReviews<GvCanonical> {
-    private GvCanonicalCollection<T> mData;
-    private FactoryReviewViewAdapter mAdapterFactory;
+    private final GvCanonicalCollection<T> mData;
+    private final FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerAggregateToReviews(GvCanonicalCollection<T> data,
                                     FactoryReviewViewAdapter adapterFactory) {

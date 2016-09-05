@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC> {
-    private ReviewBuilderAdapter<?> mBuilder;
+    private final ReviewBuilderAdapter<?> mBuilder;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
                                ReviewViewActions<GC> actions,

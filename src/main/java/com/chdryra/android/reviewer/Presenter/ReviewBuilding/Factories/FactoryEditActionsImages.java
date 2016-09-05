@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  */
 public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage> {
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
-    private ImageChooser mImageChooser;
+    private final ImageChooser mImageChooser;
 
     public FactoryEditActionsImages(Context context, ConfigUi config,
                                     FactoryGvData dataFactory,

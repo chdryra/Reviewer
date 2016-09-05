@@ -17,7 +17,7 @@ public enum ValueNullable {
     TRUE(true),
     FALSE(false);
 
-    private boolean mNullable;
+    private final boolean mNullable;
     ValueNullable(boolean nullable) {
         mNullable = nullable;
     }

@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryFragment {
+class FactoryFragment {
     private static final String TAG = TagKeyGenerator.getTag(FactoryFragment.class);
 
     public static <T extends Fragment, P extends Parcelable> T newFragment(Class<T> fragmentClass,

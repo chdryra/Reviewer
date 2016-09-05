@@ -30,12 +30,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class PresenterReviewsList implements AlertListener, NewReviewListener,
         ReviewNode.NodeObserver {
 
-    private ApplicationInstance mApp;
-    private ReviewsListView mReviewView;
-    private ReviewNode mNode;
-    private GridItemReviewsList mGridItem;
+    private final ApplicationInstance mApp;
+    private final ReviewsListView mReviewView;
+    private final ReviewNode mNode;
+    private final GridItemReviewsList mGridItem;
 
-    protected PresenterReviewsList(ApplicationInstance app, ReviewsListView reviewView) {
+    PresenterReviewsList(ApplicationInstance app, ReviewsListView reviewView) {
         mApp = app;
         mReviewView = reviewView;
 
@@ -45,11 +45,11 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
         mGridItem = (GridItemReviewsList) mReviewView.getActions().getGridItemAction();
     }
 
-    protected ApplicationInstance getApp() {
+    ApplicationInstance getApp() {
         return mApp;
     }
 
-    protected ReviewNode getNode() {
+    ReviewNode getNode() {
         return mNode;
     }
 

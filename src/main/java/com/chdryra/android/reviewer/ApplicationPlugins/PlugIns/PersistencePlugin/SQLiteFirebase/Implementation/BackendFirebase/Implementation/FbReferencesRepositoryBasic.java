@@ -39,18 +39,19 @@ import java.util.Map;
  */
 public abstract class FbReferencesRepositoryBasic implements ReferencesRepository{
 
-    private Firebase mDataBase;
-    private SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private FbReviewsStructure mStructure;
-    private FactoryFbReviewReference mReferencer;
-    private Map<String, ChildEventListener> mSubscribers;
+    private final Firebase mDataBase;
+    private final SnapshotConverter<ReviewListEntry> mEntryConverter;
+    private final FbReviewsStructure mStructure;
+    private final FactoryFbReviewReference mReferencer;
+    private final Map<String, ChildEventListener> mSubscribers;
 
     protected abstract Firebase getAggregatesDb(ReviewListEntry entry);
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    public FbReferencesRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry> entryConverter,
-                                       FbReviewsStructure structure, FactoryFbReviewReference referencer) {
+    FbReferencesRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry>
+            entryConverter,
+                                FbReviewsStructure structure, FactoryFbReviewReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
@@ -58,7 +59,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         mReferencer = referencer;
     }
 
-    protected Firebase getDataBase() {
+    Firebase getDataBase() {
         return mDataBase;
     }
 

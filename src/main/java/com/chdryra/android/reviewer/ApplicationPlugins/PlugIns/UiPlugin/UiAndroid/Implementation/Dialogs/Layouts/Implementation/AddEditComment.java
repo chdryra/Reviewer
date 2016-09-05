@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddEditComment extends AddEditLayoutBasic<GvComment> {
-    public static final int LAYOUT = R.layout.dialog_comment_add_edit;
-    public static final int COMMENT = R.id.comment_edit_text;
+    private static final int LAYOUT = R.layout.dialog_comment_add_edit;
+    private static final int COMMENT = R.id.comment_edit_text;
 
     private GvComment mCurrent;
 

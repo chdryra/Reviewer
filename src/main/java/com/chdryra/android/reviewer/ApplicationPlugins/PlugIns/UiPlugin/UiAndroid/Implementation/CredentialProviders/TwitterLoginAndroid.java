@@ -30,15 +30,15 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 public class TwitterLoginAndroid extends Callback<TwitterSession> implements
         ActivityResultListener, TwitterLogin {
     private TwitterLoginCallback mListener;
-    private TwitterAuthClient mTwitterAuthClient;
-    private Activity mActivity;
+    private final TwitterAuthClient mTwitterAuthClient;
+    private final Activity mActivity;
 
     public TwitterLoginAndroid(Activity activity) {
         mActivity = activity;
         mTwitterAuthClient = new TwitterAuthClient();
     }
 
-    public void setListener(TwitterLoginCallback listener) {
+    private void setListener(TwitterLoginCallback listener) {
         mListener = listener;
     }
 

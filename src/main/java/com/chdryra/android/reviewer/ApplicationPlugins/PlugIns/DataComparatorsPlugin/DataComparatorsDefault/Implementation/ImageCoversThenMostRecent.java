@@ -19,7 +19,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageCoversThenMostRecent implements Comparator<DataImage> {
-    private Comparator<DateTime> mDateComparator;
+    private final Comparator<DateTime> mDateComparator;
 
     public ImageCoversThenMostRecent(Comparator<DateTime> dateComparator) {
         mDateComparator = dateComparator;

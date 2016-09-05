@@ -70,7 +70,7 @@ public class GvDataComparators {
 
     //To help with type safety
     private class ComparatorMappings {
-        private Map<GvDataType<? extends GvData>, ComparatorCollection<?>> mMap =
+        private final Map<GvDataType<? extends GvData>, ComparatorCollection<?>> mMap =
                 new HashMap<>();
 
         private <T extends GvData> void put(GvDataType<T> dataType, ComparatorCollection<? super T>

@@ -31,7 +31,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     public static final int KEY = R.string.consumer_key_twitter;
     public static final int SECRET = R.string.consumer_secret_twitter;
 
-    public PlatformTwitter(Context context, SocialPlatformsPublisher publisher) {
+    PlatformTwitter(Context context, SocialPlatformsPublisher publisher) {
         super(publisher);
         TwitterAuthConfig authConfig
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));

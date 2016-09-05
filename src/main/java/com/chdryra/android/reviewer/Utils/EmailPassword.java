@@ -37,7 +37,7 @@ public class EmailPassword implements Parcelable{
         mPassword = password;
     }
 
-    public EmailPassword(Parcel in) {
+    private EmailPassword(Parcel in) {
         mEmail = in.readParcelable(EmailAddress.class.getClassLoader());
         mPassword = in.readParcelable(Password.class.getClassLoader());
     }

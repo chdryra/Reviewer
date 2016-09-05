@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  */
 public class DataValue<T> {
     private T mData;
-    private CallbackMessage mMessage;
+    private final CallbackMessage mMessage;
 
     public DataValue(T data) {
         mData = data;

@@ -30,10 +30,10 @@ import twitter4j.auth.AccessToken;
  * On: 22/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryAuthorisationRequester {
+class FactoryAuthorisationRequester {
     private static final int CALLBACK = R.string.callback;
 
-    private String mCallback;
+    private final String mCallback;
 
     public FactoryAuthorisationRequester(Context context) {
         mCallback = context.getString(CALLBACK);

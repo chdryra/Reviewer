@@ -31,7 +31,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
     private ViewHolderFactory<VhNode> mViewHolderFactory;
     private VhNode mViewHolder;
 
-    public GvNode() {
+    private GvNode() {
         super(GvNode.TYPE);
     }
 

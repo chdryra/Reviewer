@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  */
 public abstract class SocialPublisherBasic implements SocialPlatformsPublisher,
         AsyncSocialPublisher.SyncSocialPublisher {
-    private String mName;
-    private ReviewSummariser mSummariser;
-    private ReviewFormatter mFormatter;
+    private final String mName;
+    private final ReviewSummariser mSummariser;
+    private final ReviewFormatter mFormatter;
 
     protected abstract PublishResults publish(FormattedReview review);
 
-    public SocialPublisherBasic(String name, ReviewSummariser summariser, ReviewFormatter formatter) {
+    SocialPublisherBasic(String name, ReviewSummariser summariser, ReviewFormatter formatter) {
         mName = name;
         mSummariser = summariser;
         mFormatter = formatter;

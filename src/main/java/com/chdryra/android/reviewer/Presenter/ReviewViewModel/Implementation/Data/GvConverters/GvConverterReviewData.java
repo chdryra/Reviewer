@@ -30,11 +30,11 @@ public abstract class GvConverterReviewData<T1 extends HasReviewId,
         T4 extends GvDataRef<T4, T1, ?>, Reference extends ReviewItemReference<T1>>
         extends GvConverterBasic<T1, T2, T3> {
 
-    private GvDataType<T4> mReferenceType;
+    private final GvDataType<T4> mReferenceType;
 
     protected abstract T4 convertReference(Reference reference);
 
-    public GvConverterReviewData(Class<T3> listClass, GvDataType<T4> referenceType) {
+    GvConverterReviewData(Class<T3> listClass, GvDataType<T4> referenceType) {
         super(listClass);
         mReferenceType = referenceType;
     }
@@ -56,23 +56,23 @@ public abstract class GvConverterReviewData<T1 extends HasReviewId,
         return convert(datum, datum.getReviewId());
     }
 
-    public abstract static class RefDataList<T1 extends HasReviewId,
+    abstract static class RefDataList<T1 extends HasReviewId,
             T2 extends GvDataParcelable,
             T3 extends GvDataListParcelable<T2>,
             T4 extends GvDataRef<T4, T1, ?>>
             extends GvConverterReviewData<T1, T2, T3, T4, ReviewItemReference<T1>> {
 
-        public RefDataList(Class<T3> listClass, GvDataType<T4> referenceType) {
+        RefDataList(Class<T3> listClass, GvDataType<T4> referenceType) {
             super(listClass, referenceType);
         }
     }
 
-    public abstract static class RefCommentList<T2 extends GvDataParcelable,
+    abstract static class RefCommentList<T2 extends GvDataParcelable,
             T3 extends GvDataListParcelable<T2>,
             T4 extends GvDataRef<T4, DataComment, ?>>
             extends GvConverterReviewData<DataComment, T2, T3, T4, RefComment> {
 
-        public RefCommentList(Class<T3> listClass, GvDataType<T4> referenceType) {
+        RefCommentList(Class<T3> listClass, GvDataType<T4> referenceType) {
             super(listClass, referenceType);
         }
     }

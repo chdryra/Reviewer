@@ -16,10 +16,10 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataAggregatorParamsImpl implements DataAggregatorParams{
-    private DifferenceBoolean mBoolean;
-    private DifferencePercentage mPercentage;
-    private DifferenceDate mDate;
-    private DifferenceLocation mLocation;
+    private final DifferenceBoolean mBoolean;
+    private final DifferencePercentage mPercentage;
+    private final DifferenceDate mDate;
+    private final DifferenceLocation mLocation;
 
     public DataAggregatorParamsImpl(DifferenceBoolean bool, DifferencePercentage percentage,
                                     DifferenceDate date, DifferenceLocation location) {

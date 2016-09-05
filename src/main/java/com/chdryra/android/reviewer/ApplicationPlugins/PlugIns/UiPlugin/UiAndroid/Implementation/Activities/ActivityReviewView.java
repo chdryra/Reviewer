@@ -49,7 +49,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         super.onSaveInstanceState(outState);
     }
 
-    protected ReviewView<?> createReviewView() {
+    ReviewView<?> createReviewView() {
         return ReviewViewPacker.unpackView(this, getIntent());
     }
 
@@ -78,10 +78,5 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     protected void onResume() {
         super.onResume();
         AndroidAppInstance.setActivity(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 }

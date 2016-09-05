@@ -91,7 +91,7 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
     }
 
     private class DetailsCallback implements ResultCallback<PlaceBuffer> {
-        private ArrayList<LocationDetails> mDetails;
+        private final ArrayList<LocationDetails> mDetails;
         private int mNumDetailsToExpect = 0;
 
         public DetailsCallback(int numDetailsToExpect) {

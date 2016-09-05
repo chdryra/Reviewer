@@ -35,12 +35,12 @@ import java.util.ArrayList;
  */
 public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void,
         IdableRowList<T>> {
-    private ReviewId mReviewId;
-    private String mClauseId;
-    private ReviewerDbReadable mDb;
+    private final ReviewId mReviewId;
+    private final String mClauseId;
+    private final ReviewerDbReadable mDb;
     private LoadedListener<T> mListener;
-    private DbTable<T> mTable;
-    private ColumnInfo<String> mIdCol;
+    private final DbTable<T> mTable;
+    private final ColumnInfo<String> mIdCol;
 
     public interface LoadedListener<T extends ReviewDataRow> {
         void onLoaded(IdableList<T> data);
@@ -62,11 +62,11 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
         return mReviewId;
     }
 
-    public ReviewerDbReadable getDb() {
+    ReviewerDbReadable getDb() {
         return mDb;
     }
 
-    public DbTable<T> getTable() {
+    DbTable<T> getTable() {
         return mTable;
     }
 
@@ -89,7 +89,7 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
     }
 
     @NonNull
-    protected ArrayList<T> loadData(RowEntry<T, String> clause) {
+    ArrayList<T> loadData(RowEntry<T, String> clause) {
         ArrayList<T> data = new ArrayList<>();
         TableTransactor transactor = mDb.beginReadTransaction();
         data.addAll(mDb.getRowsWhere(mTable, clause, transactor));

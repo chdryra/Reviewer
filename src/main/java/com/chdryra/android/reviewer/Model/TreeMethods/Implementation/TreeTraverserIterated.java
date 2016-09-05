@@ -24,8 +24,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeTraverserIterated implements TreeTraverser {
-    private Iterator<ReviewNode> mIterator;
-    private Map<String, VisitorReviewNode> mVisitors;
+    private final Iterator<ReviewNode> mIterator;
+    private final Map<String, VisitorReviewNode> mVisitors;
 
     public TreeTraverserIterated(Iterator<ReviewNode> iterator) {
         mIterator = iterator;
@@ -43,7 +43,7 @@ public class TreeTraverserIterated implements TreeTraverser {
     }
 
     private class TraversalTask extends AsyncTask<Void, Void, Void> {
-        private TraversalCallback mCallback;
+        private final TraversalCallback mCallback;
 
         public TraversalTask(TraversalCallback callback) {
             mCallback = callback;

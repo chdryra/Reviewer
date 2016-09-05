@@ -19,15 +19,15 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbTableImpl<T extends DbTableRow> extends DbTableImpl<T> {
-    private FactoryDbColumnDef mColumnFactory;
+class ReviewerDbTableImpl<T extends DbTableRow> extends DbTableImpl<T> {
+    private final FactoryDbColumnDef mColumnFactory;
 
-    public ReviewerDbTableImpl(String tableName, Class<T> rowClass, FactoryDbColumnDef columnFactory) {
+    ReviewerDbTableImpl(String tableName, Class<T> rowClass, FactoryDbColumnDef columnFactory) {
         super(tableName, rowClass);
         mColumnFactory = columnFactory;
     }
 
-    protected <Type> void addPkColumn(ColumnInfo<Type> info) {
+    <Type> void addPkColumn(ColumnInfo<Type> info) {
         addPrimaryKeyColumn(mColumnFactory.newPkColumn(info.getName(), info.getType()));
     }
 
@@ -35,7 +35,7 @@ public class ReviewerDbTableImpl<T extends DbTableRow> extends DbTableImpl<T> {
         addColumn(mColumnFactory.newNullableColumn(info.getName(), info.getType()));
     }
 
-    protected <Type> void addNotNullableColumn(ColumnInfo<Type> info) {
+    <Type> void addNotNullableColumn(ColumnInfo<Type> info) {
         addColumn(mColumnFactory.newNotNullableColumn(info.getName(), info.getType()));
     }
 }

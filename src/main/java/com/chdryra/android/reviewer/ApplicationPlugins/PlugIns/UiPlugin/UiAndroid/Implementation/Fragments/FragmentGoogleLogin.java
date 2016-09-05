@@ -53,7 +53,6 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private GoogleSignInOptions mOptions;
     private ActivitySocialAuthUi mListener;
     private GoogleApiClient mGoogleApiClient;
-    private PlatformGoogle mGoogle;
 
     public void onDialogDismissed() {
         mResolvingError = false;
@@ -65,10 +64,10 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
 
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         SocialPlatformList platforms = app.getSocialPlatformList();
-        mGoogle = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
-        if(mGoogle == null) throw new RuntimeException("Google not found!");
-        mOptions = mGoogle.getSignInOptions();
-        mGoogleApiClient = mGoogle.getGoogleApiClient();
+        PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
+        if(google == null) throw new RuntimeException("Google not found!");
+        mOptions = google.getSignInOptions();
+        mGoogleApiClient = google.getGoogleApiClient();
 
         try {
             mListener = (ActivitySocialAuthUi) getActivity();

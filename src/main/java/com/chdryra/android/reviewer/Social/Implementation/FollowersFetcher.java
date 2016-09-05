@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FollowersFetcher {
-    private FollowersGetter mGetter;
+class FollowersFetcher {
+    private final FollowersGetter mGetter;
 
     public interface FollowersGetter {
         String getPlatformName();
@@ -39,7 +39,7 @@ public class FollowersFetcher {
     }
 
     private class FollowersTask extends AsyncTask<Void, Void, Integer> {
-        private FollowersListener mListener;
+        private final FollowersListener mListener;
 
         public FollowersTask(FollowersListener listener) {
             mListener = listener;

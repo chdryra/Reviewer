@@ -29,9 +29,9 @@ import com.twitter.sdk.android.core.services.StatusesService;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherTwitterFabric implements SocialPlatformsPublisher {
-    private String mPlatformName;
-    private ReviewSummariser mSummariser;
-    private ReviewFormatter mFormatter;
+    private final String mPlatformName;
+    private final ReviewSummariser mSummariser;
+    private final ReviewFormatter mFormatter;
 
     public PublisherTwitterFabric(String platformName,
                                   ReviewSummariser summariser,

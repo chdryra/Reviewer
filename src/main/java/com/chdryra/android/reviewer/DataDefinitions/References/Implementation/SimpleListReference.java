@@ -24,10 +24,10 @@ import java.util.Collection;
  */
 public abstract class SimpleListReference<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
         implements ReviewListReference<Value, Reference>, ItemBindersDelegate.BindableListReference<Value, IdableList<Value>> {
-    private ItemBindersDelegate<Value> mManager;
-    private Collection<ListItemBinder<Value>> mItemBinders;
+    private final ItemBindersDelegate<Value> mManager;
+    private final Collection<ListItemBinder<Value>> mItemBinders;
 
-    public SimpleListReference(Dereferencer<IdableList<Value>> dereferencer) {
+    protected SimpleListReference(Dereferencer<IdableList<Value>> dereferencer) {
         super(dereferencer);
         mItemBinders = new ArrayList<>();
         mManager = new ItemBindersDelegate<>(this);

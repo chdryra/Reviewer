@@ -32,7 +32,7 @@ public class ActivityReviewsList extends ActivityReviewView implements NewReview
         return mPresenter.getView();
     }
 
-    protected PresenterReviewsList newPresenter() {
+    PresenterReviewsList newPresenter() {
         ReviewsListView view = (ReviewsListView) super.createReviewView();
         return new PresenterReviewsList.Builder().build(AndroidAppInstance.getInstance(this), view);
     }

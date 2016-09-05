@@ -29,8 +29,8 @@ import java.util.Iterator;
  */
 public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T>
         implements IdableList<T> {
-    ReviewId mReviewId;
-    private ArrayList<T> mData;
+    private final ReviewId mReviewId;
+    private final ArrayList<T> mData;
 
     public IdableRowList(ReviewId reviewId, ArrayList<T> data) {
         mReviewId = reviewId;

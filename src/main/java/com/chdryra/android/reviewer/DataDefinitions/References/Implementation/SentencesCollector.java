@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCom
  * Email: rizwan.choudrey@gmail.com
  */
 public class SentencesCollector {
-    private IdableList<RefComment> mReferences;
+    private final IdableList<RefComment> mReferences;
     private int mCount = 0;
     private IdableList<RefComment> mResults;
 

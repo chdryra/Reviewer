@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewDeleter {
-    private FactoryBackendDeleter mBackendDeleter;
+    private final FactoryBackendDeleter mBackendDeleter;
 
     public FactoryReviewDeleter(FactoryBackendDeleter backendDeleter) {
         mBackendDeleter = backendDeleter;

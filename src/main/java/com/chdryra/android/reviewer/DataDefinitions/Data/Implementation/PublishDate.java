@@ -36,10 +36,11 @@ public class PublishDate implements DateTime {
     }
 
     //public methods
-    public Date getDate() {
+    private Date getDate() {
         return new Date(mTime);
     }
 
+    @Override
     public long getTime() {
         return mTime;
     }

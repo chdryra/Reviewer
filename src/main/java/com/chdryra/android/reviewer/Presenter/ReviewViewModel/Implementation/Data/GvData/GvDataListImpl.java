@@ -33,10 +33,10 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private final GvDataType<T> mType;
-    private GvReviewId mReviewId;
+    private final GvReviewId mReviewId;
 
     //Constructors
-    public GvDataListImpl(GvReviewId reviewId, GvDataList<T> data) {
+    GvDataListImpl(GvReviewId reviewId, GvDataList<T> data) {
         this(data.getGvDataType(), reviewId);
         for (T datum : data) {
             add(copy(datum));
@@ -54,7 +54,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         mType = type;
     }
 
-    public GvDataListImpl(GvDataList<T> data) {
+    GvDataListImpl(GvDataList<T> data) {
         this(data.getGvReviewId(), data);
     }
 

@@ -50,12 +50,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLaunch
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PresenterContextBasic implements PresenterContext {
-    private ModelContext mModelContext;
-    private ViewContext mViewContext;
-    private SocialContext mSocialContext;
-    private NetworkContext mNetworkContext;
-    private PersistenceContext mPersistenceContext;
-    private ReviewPublisher mPublisher;
+    private final ModelContext mModelContext;
+    private final ViewContext mViewContext;
+    private final SocialContext mSocialContext;
+    private final NetworkContext mNetworkContext;
+    private final PersistenceContext mPersistenceContext;
+    private final ReviewPublisher mPublisher;
 
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
@@ -77,21 +77,21 @@ public abstract class PresenterContextBasic implements PresenterContext {
                 .getLocalRepository());
     }
 
-    public void setFactoryReviewView(FactoryReviewView
-                                             factoryReviewView) {
+    protected void setFactoryReviewView(FactoryReviewView
+                                                factoryReviewView) {
         mFactoryReviewView = factoryReviewView;
     }
 
-    public void setFactoryGvData(FactoryGvData factoryGvData) {
+    protected void setFactoryGvData(FactoryGvData factoryGvData) {
         mFactoryGvData = factoryGvData;
     }
 
 
-    public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
+    protected void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
     }
 
-    public void setFactoryReviewViewAdapter(FactoryReviewViewAdapter factoryReviewViewAdapter) {
+    protected void setFactoryReviewViewAdapter(FactoryReviewViewAdapter factoryReviewViewAdapter) {
         mFactoryReviewViewAdapter = factoryReviewViewAdapter;
     }
 
@@ -187,8 +187,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReferencesRepository getReviewReferences(AuthorId authorId) {
-        return mPersistenceContext.getReviewsSource().getRepository(authorId);
+    public ReferencesRepository getReviews(AuthorId authorId) {
+        return mPersistenceContext.getReviewsSource().getRepositoryForAuthor(authorId);
     }
 
     @Override

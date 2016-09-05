@@ -26,7 +26,7 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     private static final String AUTHORISATION_RECEIVED = "authorisation received";
     private static final String AUTHORISATION_NOT_RECEIVED = "authorisation not received";
 
-    private PlatformAuthoriser mAuthoriser;
+    private final PlatformAuthoriser mAuthoriser;
     private GvSocialPlatform mPlatformSeekingAuthorisation;
     private View mViewForAuthorisation;
 

@@ -14,6 +14,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryV
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 
 
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+
+
 /**
  * Created by: Rizwan Choudrey
  * On: 11/11/2015
@@ -21,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class DataBuilderGridCellList extends GvDataListImpl<DataBuilderGridCell> {
     DataBuilderGridCellList() {
-        super(DataBuilderGridCell.TYPE, null);
+        super(DataBuilderGridCell.TYPE, new GvReviewId());
     }
 
     <T extends GvDataParcelable> void addNewGridCell(DataBuilderAdapter<T> dataAdapter,

@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationProvider {
-    private String mProviderName;
+    private final String mProviderName;
 
     public LocationProvider(String providerName) {
         mProviderName = providerName;

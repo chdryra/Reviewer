@@ -20,7 +20,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CompositeStructure<T> extends DbStructureBasic<T> {
-    private Iterable<DbStructure<T>> mStructures;
+    private final Iterable<DbStructure<T>> mStructures;
 
     public CompositeStructure(Iterable<DbStructure<T>> structures) {
         mStructures = structures;

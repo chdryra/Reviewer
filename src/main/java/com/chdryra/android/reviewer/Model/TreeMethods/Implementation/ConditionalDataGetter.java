@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConditionalDataGetter<T extends HasReviewId> implements NodeDataGetter<T> {
-    private Condition mCondition;
-    private NodeDataGetter<T> mMethod;
+    private final Condition mCondition;
+    private final NodeDataGetter<T> mMethod;
 
     public interface Condition {
         boolean isTrue(ReviewNode node);

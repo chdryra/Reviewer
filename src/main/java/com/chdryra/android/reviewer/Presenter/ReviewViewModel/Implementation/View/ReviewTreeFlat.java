@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 public class ReviewTreeFlat extends ReviewTree
         implements DataReference.DereferenceCallback<IdableList<ReviewReference>> {
 
-    private FactoryReviews mReviewsFactory;
+    private final FactoryReviews mReviewsFactory;
 
     public ReviewTreeFlat(ReviewNode toFlatten, FactoryReviews reviewsFactory) {
         super(toFlatten);

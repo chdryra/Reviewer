@@ -32,7 +32,7 @@ public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuAc
     private static final int SPLIT_ICON = R.drawable.ic_action_full_screen;
 
     private boolean mCommentsAreSplit = false;
-    private MenuAction<T> mParent;
+    private final MenuAction<T> mParent;
 
     //Constructors
     public MaiSplitComments(MenuAction<T> parent) {
@@ -49,6 +49,7 @@ public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuAc
         if (dataType.equals(GvComment.TYPE)) {
             GvCommentList comments = (GvCommentList) data;
             if (mCommentsAreSplit) {
+                //TODO make type safe
                 view.setGridViewData((GvDataList<T>) comments.getSplitComments());
             } else {
                 view.setGridViewData(data);

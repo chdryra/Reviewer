@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final String TAG = "GridItemLauncher:";
 
-    private FactoryReviewView mLaunchableFactory;
+    private final FactoryReviewView mLaunchableFactory;
 
     public GridItemLauncher(FactoryReviewView launchableFactory) {
         mLaunchableFactory = launchableFactory;
     }
 
-    protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
+    void launch(LaunchableUi ui, int requestCode, Bundle args) {
         getApp().getUiLauncher().launch(ui, requestCode, args);
     }
 

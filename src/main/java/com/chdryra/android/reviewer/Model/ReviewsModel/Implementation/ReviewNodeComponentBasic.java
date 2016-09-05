@@ -28,7 +28,7 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
         return getParentAsComponent();
     }
 
-    protected ReviewNodeComponent getParentAsComponent() {
+    ReviewNodeComponent getParentAsComponent() {
         return mParent;
     }
 

@@ -39,9 +39,9 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     private static final String PLACEHOLDER = "--";
     private SocialPlatform<?> mPlatform;
     private boolean mIsChosen = false;
-    private int mFollowers = 0;
+    private final int mFollowers = 0;
 
-    public GvSocialPlatform() {
+    private GvSocialPlatform() {
     }
 
     public GvSocialPlatform(SocialPlatform<?> platform) {
@@ -49,7 +49,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
         mPlatform = platform;
     }
 
-    public GvSocialPlatform(Parcel in) {
+    private GvSocialPlatform(Parcel in) {
         throw new UnsupportedOperationException("Parcelable not supported!");
     }
 

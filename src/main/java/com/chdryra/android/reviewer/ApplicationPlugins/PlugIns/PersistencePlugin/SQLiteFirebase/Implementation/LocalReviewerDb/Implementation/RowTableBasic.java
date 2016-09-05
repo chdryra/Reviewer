@@ -27,7 +27,7 @@ public abstract class RowTableBasic<DbRow extends DbTableRow>
 
     protected abstract RowEntry<DbRow, ?> getEntry(int position);
 
-    protected NoSuchElementException noElement() {
+    NoSuchElementException noElement() {
         throw new NoSuchElementException("No more elements left");
     }
 

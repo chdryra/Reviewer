@@ -18,7 +18,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureBuilder<T> {
-    private ArrayList<DbStructure<T>> mStructures;
+    private final ArrayList<DbStructure<T>> mStructures;
     private Path<T> mPath;
 
     public StructureBuilder() {

@@ -34,7 +34,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     
     private GvDataList<T> mResetData;
     private GvDataList<T> mData;
-    private FactoryGvData mCopier;
+    private final FactoryGvData mCopier;
 
     public DataBuilderImpl(GvDataList<T> data, FactoryGvData copier) {
         this(data, copier, new AddConstraintDefault<T>());

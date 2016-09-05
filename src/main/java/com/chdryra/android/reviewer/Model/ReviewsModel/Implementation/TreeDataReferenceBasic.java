@@ -47,12 +47,12 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
         void onTraversed(VisitorReviewNode visitor);
     }
 
-    public abstract VisitorReviewNode newVisitor();
+    protected abstract VisitorReviewNode newVisitor();
 
-    public abstract void onDataTraversalComplete(VisitorReviewNode visitor,
-                                                 GetDataCallback<Value> callback);
+    protected abstract void onDataTraversalComplete(VisitorReviewNode visitor,
+                                                    GetDataCallback<Value> callback);
 
-    public TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
+    TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
         mRoot = root;
         mTraverserFactory = traverserFactory;
         mRoot.registerObserver(this);

@@ -40,22 +40,22 @@ public class ViewerReviewData<Value extends HasReviewId,
         List extends ReviewListReference<Value, Reference>>
         extends GridDataWrapperBasic<GvRef> {
 
-    private List mReference;
-    private GvConverterReferences<Value, GvRef, Reference> mConverter;
+    private final List mReference;
+    private final GvConverterReferences<Value, GvRef, Reference> mConverter;
     private GvDataRefList<GvRef> mCache;
 
-    public ViewerReviewData(List reference, GvConverterReferences<Value, GvRef, Reference>
+    ViewerReviewData(List reference, GvConverterReferences<Value, GvRef, Reference>
             converter) {
         mReference = reference;
         mConverter = converter;
         mCache = newDataList();
     }
 
-    protected List getReference() {
+    List getReference() {
         return mReference;
     }
 
-    protected void makeGridData(IdableList<Reference> references) {
+    void makeGridData(IdableList<Reference> references) {
         mCache = newDataList();
         for (Reference reference : references) {
             mCache.add(mConverter.convert(reference));
@@ -94,7 +94,13 @@ public class ViewerReviewData<Value extends HasReviewId,
         makeGridData();
     }
 
-    protected void makeGridData() {
+    @Override
+    protected void onDetach() {
+        mCache.unbind();
+        super.onDetach();
+    }
+
+    void makeGridData() {
         mReference.toItemReferences(new ReviewListReference.ItemReferencesCallback<Value, Reference>() {
             @Override
             public void onItemReferences(IdableList<Reference> references) {
@@ -121,7 +127,7 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     public static class CommentList
             extends ViewerReviewData<DataComment, GvComment.Reference, RefComment, RefCommentList> {
-        private FactoryReference mReferenceFactory;
+        private final FactoryReference mReferenceFactory;
         private boolean mIsSplit = false;
 
         public CommentList(RefCommentList reference,

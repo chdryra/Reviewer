@@ -23,7 +23,7 @@ public class BackendError {
         WRITE_CANCELED("Write cancelled"),
         UNKNOWN_ERROR("Unknown error");
 
-        private String mMessage;
+        private final String mMessage;
 
         Reason(String message) {
             mMessage = message;
@@ -34,9 +34,9 @@ public class BackendError {
         }
     }
 
-    private String mProvider;
-    private Reason mReason;
-    private String mDetail;
+    private final String mProvider;
+    private final Reason mReason;
+    private final String mDetail;
 
     public BackendError(String provider, Reason reason) {
         this(provider, reason, "");

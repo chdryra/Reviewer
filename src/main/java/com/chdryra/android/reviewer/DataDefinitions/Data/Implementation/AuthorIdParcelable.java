@@ -40,7 +40,7 @@ public class AuthorIdParcelable implements AuthorId, Parcelable{
         mId = id;
     }
 
-    public AuthorIdParcelable(Parcel in) {
+    private AuthorIdParcelable(Parcel in) {
         mId = in.readString();
     }
 

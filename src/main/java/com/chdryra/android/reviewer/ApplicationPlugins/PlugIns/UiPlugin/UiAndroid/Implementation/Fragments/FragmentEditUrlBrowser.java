@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -190,9 +191,11 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     protected void onDoneSelected() {
         Intent i = getNewReturnData();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, createGvDataFromBrowser(), i);
+        GvUrl newDatum = createGvDataFromBrowser();
+        if(newDatum != null) mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newDatum, i);
     }
 
+    @Nullable
     private GvUrl createGvDataFromBrowser() {
         String urlString = mWebView.getUrl();
         GvUrl url = null;

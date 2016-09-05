@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryLoginResultHandler {
-    private SocialPlatformList mPlatforms;
+    private final SocialPlatformList mPlatforms;
 
     public FactoryLoginResultHandler(SocialPlatformList platforms) {
         mPlatforms = platforms;

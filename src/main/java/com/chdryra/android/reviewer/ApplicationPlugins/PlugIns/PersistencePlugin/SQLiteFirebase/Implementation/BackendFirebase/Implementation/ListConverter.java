@@ -23,9 +23,9 @@ import com.firebase.client.DataSnapshot;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ListConverter<T extends HasReviewId> implements SnapshotConverter<IdableList<T>> {
-    protected ReviewId mId;
-    private ReviewItemConverter<T> mReviewItemConverter;
-    private ItemConverter<T> mItemConverter;
+    private final ReviewId mId;
+    private final ReviewItemConverter<T> mReviewItemConverter;
+    private final ItemConverter<T> mItemConverter;
 
     public ListConverter(ReviewId id, ReviewItemConverter<T> reviewItemConverter) {
         mId = id;
@@ -58,8 +58,8 @@ public class ListConverter<T extends HasReviewId> implements SnapshotConverter<I
     }
 
     public static class ItemConverter<T extends HasReviewId> implements SnapshotConverter<T> {
-        private ReviewId mId;
-        private ReviewItemConverter<T> mConverter;
+        private final ReviewId mId;
+        private final ReviewItemConverter<T> mConverter;
 
         public ItemConverter(ReviewId id, ReviewItemConverter<T> converter) {
             mId = id;

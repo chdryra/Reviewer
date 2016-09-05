@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  * Email: rizwan.choudrey@gmail.com
  */
 public class WrapperItemReference<T extends HasReviewId> extends SimpleItemReference<T> implements ReviewItemReference<T> {
-    private T mValue;
+    private final T mValue;
 
     public WrapperItemReference(final T value) {
         super(new Dereferencer<T>() {
@@ -36,7 +36,7 @@ public class WrapperItemReference<T extends HasReviewId> extends SimpleItemRefer
         mValue = value;
     }
 
-    protected T getData() {
+    T getData() {
         return mValue;
     }
 }

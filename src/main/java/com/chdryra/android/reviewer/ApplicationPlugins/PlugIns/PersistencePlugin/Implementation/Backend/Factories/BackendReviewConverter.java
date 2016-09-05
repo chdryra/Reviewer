@@ -53,7 +53,7 @@ import java.util.ArrayList;
  */
 public class BackendReviewConverter {
     private static final ReviewDataHolder NULL_REVIEW = new NullReviewDataHolder();
-    private BackendValidator mValidator;
+    private final BackendValidator mValidator;
     private final ReviewMaker mMaker;
     private final TagsManager mTagsManager;
 
@@ -81,7 +81,7 @@ public class BackendReviewConverter {
         return mMaker.makeReview(NULL_REVIEW);
     }
 
-    public ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
+    private ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
         if(!mValidator.isValid(reviewDb)) return NULL_REVIEW;
 
         ReviewDataHolder reviewDataHolder = toReviewDataHolder(reviewDb);

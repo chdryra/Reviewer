@@ -32,19 +32,19 @@ public class GvTextList<T extends GvText> extends GvDataListParcelable<T> {
         }
     };
 
-    public GvTextList(Parcel in)  {
+    GvTextList(Parcel in)  {
         super(in);
     }
 
-    public GvTextList(GvDataType<T> type) {
+    GvTextList(GvDataType<T> type) {
         this(type, null);
     }
 
-    public GvTextList(GvDataType<T> type, GvReviewId id) {
+    GvTextList(GvDataType<T> type, GvReviewId id) {
         super(type, id);
     }
 
-    public <T2 extends GvTextList<T>> GvTextList(T2 data) {
+    <T2 extends GvTextList<T>> GvTextList(T2 data) {
         super(data);
     }
 

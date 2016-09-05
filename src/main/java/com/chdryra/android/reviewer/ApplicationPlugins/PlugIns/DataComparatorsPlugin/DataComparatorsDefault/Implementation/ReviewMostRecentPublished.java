@@ -19,7 +19,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewMostRecentPublished<T extends DataReviewInfo> implements Comparator<T> {
-    private Comparator<DateTime> mDateComparator;
+    private final Comparator<DateTime> mDateComparator;
 
     public ReviewMostRecentPublished(Comparator<DateTime> dateComparator) {
         mDateComparator = dateComparator;

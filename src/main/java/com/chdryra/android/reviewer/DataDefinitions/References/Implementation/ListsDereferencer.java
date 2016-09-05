@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataRe
 public class ListsDereferencer<Value extends HasReviewId,
         Reference extends ReviewItemReference<Value>,
         List extends ReviewListReference<Value, Reference>> {
-    private IdableList<List> mListOfListReferences;
-    private TreeDataReferenceBasic.GetDataCallback<Value> mOnDereferencing;
+    private final IdableList<List> mListOfListReferences;
+    private final TreeDataReferenceBasic.GetDataCallback<Value> mOnDereferencing;
     private IdableList<Value> mValues;
     private int mNumDereferences = 0;
 

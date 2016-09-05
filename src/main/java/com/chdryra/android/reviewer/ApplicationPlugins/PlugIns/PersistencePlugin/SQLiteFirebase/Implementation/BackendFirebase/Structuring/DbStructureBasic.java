@@ -74,7 +74,7 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
     protected class Updates {
         private Map<String, Object> mUpdatesMap;
         private List<Update<T>> mUpdates;
-        private boolean mDelete;
+        private final boolean mDelete;
 
         public Updates(UpdateType type) {
             mDelete = type == UpdateType.DELETE;

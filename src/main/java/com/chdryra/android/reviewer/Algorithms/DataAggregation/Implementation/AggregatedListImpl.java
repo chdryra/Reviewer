@@ -26,8 +26,8 @@ import java.util.Iterator;
  */
 public class AggregatedListImpl<T extends HasReviewId>
         extends AbstractCollection<AggregatedData<T>> implements AggregatedList<T> {
-    private ReviewId mReviewId;
-    private ArrayList<AggregatedData<T>> mData;
+    private final ReviewId mReviewId;
+    private final ArrayList<AggregatedData<T>> mData;
 
     public AggregatedListImpl(ReviewId reviewId) {
         mReviewId = reviewId;

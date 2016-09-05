@@ -25,20 +25,20 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
  * On: 13/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendReviewAndroid<R extends BroadcastingServiceReceiver<L> & HasReviewId, L> extends
+class BackendReviewAndroid<R extends BroadcastingServiceReceiver<L> & HasReviewId, L> extends
         BroadcastingService<BackendRepoService, R, L> {
 
-    private ReviewId mId;
-    private BackendRepoService.Service mService;
+    private final ReviewId mId;
+    private final BackendRepoService.Service mService;
 
-    public BackendReviewAndroid(Context context, R receiver, BackendRepoService.Service service) {
+    BackendReviewAndroid(Context context, R receiver, BackendRepoService.Service service) {
         super(context, BackendRepoService.class, receiver);
         mId = receiver.getReviewId();
         mService = service;
         registerReceiverAction(mService.completed());
     }
 
-    public void startService() {
+    void startService() {
         Intent service = newService();
         service.putExtra(BackendRepoService.REVIEW_ID, mId.toString());
         service.putExtra(BackendRepoService.REQUEST_SERVICE, mService);

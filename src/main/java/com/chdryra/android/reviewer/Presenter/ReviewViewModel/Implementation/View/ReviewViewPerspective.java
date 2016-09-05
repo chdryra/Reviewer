@@ -20,9 +20,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewPerspective<T extends GvData> {
-    private ReviewViewAdapter<T> mAdapter;
-    private ReviewViewParams mParams;
-    private ReviewViewActions<T> mActions;
+    private final ReviewViewAdapter<T> mAdapter;
+    private final ReviewViewParams mParams;
+    private final ReviewViewActions<T> mActions;
 
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
                                  ReviewViewActions<T> actions,

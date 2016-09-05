@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewParams {
-    private GridViewParams mGridViewParams = new GridViewParams();
+    private final GridViewParams mGridViewParams = new GridViewParams();
     private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
@@ -38,7 +38,7 @@ public class ReviewViewParams {
         HALF(2),
         QUARTER(4);
 
-        private int mDivider;
+        private final int mDivider;
         CellDimension(int divider) {
             mDivider = divider;
         }

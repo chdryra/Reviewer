@@ -23,13 +23,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 
 public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T>
         implements ReviewNode.NodeObserver {
-    private ReviewNode mNode;
+    private final ReviewNode mNode;
     private GvDataList<T> mCache;
-    private GvDataType<?> mType;
+    private final GvDataType<?> mType;
 
     protected abstract GvDataList<T> makeGridData();
 
-    public ViewerNodeBasic(ReviewNode node, GvDataType<?> type) {
+    ViewerNodeBasic(ReviewNode node, GvDataType<?> type) {
         mNode = node;
         mType = type;
     }
@@ -71,7 +71,7 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         nullifyCache();
     }
 
-    protected void nullifyCache() {
+    private void nullifyCache() {
         mCache = null;
         notifyDataObservers();
     }
@@ -83,12 +83,12 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         return mCache;
     }
 
-    protected ReviewNode getReviewNode() {
+    ReviewNode getReviewNode() {
         return mNode;
     }
 
     @Nullable
-    protected GvDataList<T> getCache() {
+    GvDataList<T> getCache() {
         return mCache;
     }
 }

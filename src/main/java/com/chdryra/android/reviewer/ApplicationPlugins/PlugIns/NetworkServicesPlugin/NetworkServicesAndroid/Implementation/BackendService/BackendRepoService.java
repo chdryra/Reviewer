@@ -55,7 +55,7 @@ public class BackendRepoService extends IntentService {
         UPLOAD(UPLOAD_COMPLETED),
         DELETE(DELETE_COMPLETED);
 
-        private String mCompletionAction;
+        private final String mCompletionAction;
 
         Service(String completionAction) {
             mCompletionAction = completionAction;

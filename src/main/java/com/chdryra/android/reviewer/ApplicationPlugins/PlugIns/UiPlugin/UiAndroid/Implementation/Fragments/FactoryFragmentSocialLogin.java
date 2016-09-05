@@ -23,14 +23,15 @@ import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
 public class FactoryFragmentSocialLogin {
     @Nullable
     public Fragment newFragment(String platform) {
-        if (platform.equals(PlatformFacebook.NAME)) {
-            return new FragmentFacebookLogin();
-        } else if (platform.equals(PlatformGoogle.NAME)) {
-            return new FragmentGoogleLogin();
-        } else if (platform.equals(PlatformTwitter.NAME)) {
-            return new FragmentTwitterLogin();
-        } else {
-            return null;
+        switch (platform) {
+            case PlatformFacebook.NAME:
+                return new FragmentFacebookLogin();
+            case PlatformGoogle.NAME:
+                return new FragmentGoogleLogin();
+            case PlatformTwitter.NAME:
+                return new FragmentTwitterLogin();
+            default:
+                return null;
         }
     }
 }

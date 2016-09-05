@@ -44,28 +44,28 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
         }
     };
 
-    private String mName;
-    private GvAuthorId mUserId;
+    private final String mName;
+    private final GvAuthorId mUserId;
 
-    public GvAuthor() {
-        this(null, null, null);
+    private GvAuthor() {
+        this(null, "", new GvAuthorId(""));
     }
 
-    public GvAuthor(String name, GvAuthorId userId) {
+    private GvAuthor(String name, GvAuthorId userId) {
         this(null, name, userId);
     }
 
-    public GvAuthor(@Nullable GvReviewId id, String name, GvAuthorId userId) {
+    private GvAuthor(@Nullable GvReviewId id, String name, GvAuthorId userId) {
         super(GvAuthor.TYPE, id);
         mName = name;
         mUserId = userId;
     }
 
-    public GvAuthor(GvAuthor author) {
+    private GvAuthor(GvAuthor author) {
         this(author.getGvReviewId(), author.getName(), (GvAuthorId) author.getAuthorId());
     }
 
-    GvAuthor(Parcel in) {
+    private GvAuthor(Parcel in) {
         super(in);
         mName = in.readString();
         mUserId = in.readParcelable(GvAuthorId.class.getClassLoader());

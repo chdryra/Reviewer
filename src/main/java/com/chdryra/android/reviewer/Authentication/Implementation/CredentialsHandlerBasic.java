@@ -23,25 +23,25 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  */
 public abstract class CredentialsHandlerBasic<C, T extends BinaryResultCallback>
         implements CredentialsHandler {
-    private SessionProvider<T> mProvider;
-    private CredentialsCallback<C> mCallback;
+    private final SessionProvider<T> mProvider;
+    private final CredentialsCallback<C> mCallback;
 
-    public CredentialsHandlerBasic(SessionProvider<T> provider, CredentialsCallback<C> callback) {
+    CredentialsHandlerBasic(SessionProvider<T> provider, CredentialsCallback<C> callback) {
         mProvider = provider;
         mCallback = callback;
     }
 
     protected abstract T getProviderCallback();
 
-    protected String getProviderName() {
+    String getProviderName() {
         return mProvider.getName();
     }
 
-    protected void notifyOnSuccess(String provider, C credentials) {
+    void notifyOnSuccess(String provider, C credentials) {
         mCallback.onCredentialsObtained(provider, credentials);
     }
 
-    protected void notifyOnFailure(String provider, AuthenticationError error) {
+    void notifyOnFailure(String provider, AuthenticationError error) {
         mCallback.onCredentialsFailure(provider, error);
     }
 

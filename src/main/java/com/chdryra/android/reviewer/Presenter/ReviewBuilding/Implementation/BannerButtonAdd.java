@@ -32,7 +32,7 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     private final String mTitle;
     private final ParcelablePacker<T> mDataPacker;
 
-    private GvDataList<T> mAdded;
+    private final GvDataList<T> mAdded;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
                            String title,
@@ -45,7 +45,7 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
         initDataList();
     }
 
-    protected boolean addData(T data) {
+    boolean addData(T data) {
         return getEditor().add(data);
     }
 
@@ -67,6 +67,8 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
 
     @Override
     public boolean onAdd(T data, int requestCode) {
+        if(data == null) return false;
+
         boolean success = false;
         if (requestCode == getLaunchableRequestCode()) {
             success = addData(data);
@@ -93,10 +95,10 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     //For launchable activities
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getLaunchableRequestCode() && data != null
+        if (requestCode == getLaunchableRequestCode()
                 && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
             T datum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-            onAdd(datum, requestCode);
+            if(datum != null) onAdd(datum, requestCode);
         }
     }
 

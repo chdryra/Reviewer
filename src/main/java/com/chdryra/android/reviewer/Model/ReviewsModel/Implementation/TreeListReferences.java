@@ -32,19 +32,19 @@ public class TreeListReferences<Value extends HasReviewId,
         Reference extends ReviewItemReference<Value>,
         List extends ReviewListReference<Value, Reference>>
         extends TreeDataReferenceBasic<Value, Reference> {
-    private FactoryMdReference mReferenceFactory;
-    private VisitorFactory.ListVisitor<List> mVisitorFactory;
+    private final FactoryMdReference mReferenceFactory;
+    private final VisitorFactory.ListVisitor<List> mVisitorFactory;
 
-    public TreeListReferences(ReviewNode root,
-                              FactoryMdReference referenceFactory,
-                              FactoryNodeTraverser traverserFactory,
-                              VisitorFactory.ListVisitor<List> visitorFactory) {
+    TreeListReferences(ReviewNode root,
+                       FactoryMdReference referenceFactory,
+                       FactoryNodeTraverser traverserFactory,
+                       VisitorFactory.ListVisitor<List> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
     }
 
-    protected FactoryReference getReferenceFactory() {
+    FactoryReference getReferenceFactory() {
         return mReferenceFactory.getReferenceFactory();
     }
 
@@ -80,12 +80,13 @@ public class TreeListReferences<Value extends HasReviewId,
     }
 
     private VisitorDataGetter<List> castVisitor(VisitorReviewNode visitor) {
+        //TODO make type safe
         return (VisitorDataGetter<List>) visitor;
     }
 
     private static class ListRefsToItemRefs<V extends HasReviewId, R extends ReviewItemReference<V>, L extends ReviewListReference<V, R>> {
-        private IdableList<L> mRefs;
-        private ItemReferencesCallback<V, R> mCallback;
+        private final IdableList<L> mRefs;
+        private final ItemReferencesCallback<V, R> mCallback;
         private IdableList<R> mData;
         private int mNumDereferences = 0;
 

@@ -22,7 +22,7 @@ public class PublisherAndroid extends SocialPublisherBasic {
     private static final String NAME = "Android";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
-    private Context mContext;
+    private final Context mContext;
 
     public PublisherAndroid(Context context, ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);

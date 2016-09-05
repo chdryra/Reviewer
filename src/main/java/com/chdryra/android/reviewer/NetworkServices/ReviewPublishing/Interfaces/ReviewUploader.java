@@ -8,18 +8,16 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewUploader extends NetworkPublisher<ReviewUploaderListener>{
-    @Override
-    void registerListener(ReviewUploaderListener reviewUploaderListener);
-
-    @Override
-    void unregisterListener(ReviewUploaderListener reviewUploaderListener);
-
-    @Override
-    void publishReview();
+public interface ReviewUploader extends NetworkPublisher<ReviewUploader.Listener>{
+    interface Listener {
+        void onUploadedToBackend(ReviewId reviewId, CallbackMessage result);
+    }
 }

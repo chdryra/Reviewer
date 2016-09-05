@@ -26,9 +26,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<T>
         implements ContextualButtonAction<T>, DataReference.DereferenceCallback<NamedAuthor> {
-    private ApplicationInstance mApp;
-    private AuthorId mAuthorId;
-    private String mDate;
+    private final ApplicationInstance mApp;
+    private final AuthorId mAuthorId;
+    private final String mDate;
     private String mName;
 
     public ContextButtonStamp(ApplicationInstance app, ReviewStamp stamp) {

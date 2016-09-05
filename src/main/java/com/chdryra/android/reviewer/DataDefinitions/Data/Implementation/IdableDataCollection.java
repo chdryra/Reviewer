@@ -22,7 +22,7 @@ import java.util.Iterator;
  */
 public class IdableDataCollection<T extends HasReviewId> extends AbstractCollection<T>
         implements IdableCollection<T> {
-    private ArrayList<T> mData;
+    private final ArrayList<T> mData;
 
     public IdableDataCollection() {
         mData = new ArrayList<>();

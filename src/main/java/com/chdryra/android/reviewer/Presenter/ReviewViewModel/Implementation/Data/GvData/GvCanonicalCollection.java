@@ -31,9 +31,9 @@ import java.util.Iterator;
  */
 public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<GvCanonical>
         implements GvDataCollection<GvCanonical>{
-    private GvReviewId mReviewId;
-    private GvDataList<GvCanonical> mData;
-    private GvDataType<T> mType;
+    private final GvReviewId mReviewId;
+    private final GvDataList<GvCanonical> mData;
+    private final GvDataType<T> mType;
     private Comparator<GvCanonical> mComparator;
 
     //Constructors
@@ -42,7 +42,7 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
         mType = type;
         GvDataType<GvCanonical> listType =
                 new GvDataType<>(GvCanonical.class, type.getDatumName(), type.getDataName());
-        mData = new GvDataListImpl<>(listType, null);
+        mData = new GvDataListImpl<>(listType, new GvReviewId());
         setComparator();
     }
 

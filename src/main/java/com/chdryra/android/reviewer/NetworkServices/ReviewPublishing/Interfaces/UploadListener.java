@@ -6,18 +6,18 @@
  *
  */
 
-package com.chdryra.android.reviewer.Persistence.Interfaces;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 30/09/2015
+ * On: 04/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepositoryObserver {
-    void onReviewAdded(ReviewReference review);
+public interface UploadListener {
+    void onUploadCompleted(ReviewId id, CallbackMessage result);
 
-    void onReviewRemoved(ReviewId reviewId);
+    void onUploadFailed(ReviewId id, CallbackMessage result);
 }

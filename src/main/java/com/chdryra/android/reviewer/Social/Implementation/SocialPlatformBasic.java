@@ -26,11 +26,11 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     private OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    public SocialPlatformBasic(SocialPlatformsPublisher publisher) {
+    SocialPlatformBasic(SocialPlatformsPublisher publisher) {
         mPublisher = publisher;
     }
 
-    public SocialPlatformBasic(SocialPlatformsPublisher publisher, OAuthRequester<T> requester) {
+    SocialPlatformBasic(SocialPlatformsPublisher publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
         mRequester = requester;
     }
@@ -66,7 +66,7 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     }
 
     @Nullable
-    protected T getAccessToken() {
+    T getAccessToken() {
         return mAccessToken;
     }
 }

@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewLayoutComment extends DialogLayoutBasic<GvComment> {
-    public static final int LAYOUT = R.layout.dialog_text_view;
-    public static final int COMMENT = R.id.medium_text_view;
+    private static final int LAYOUT = R.layout.dialog_text_view;
+    private static final int COMMENT = R.id.medium_text_view;
 
     public ViewLayoutComment() {
         super(new LayoutHolder(LAYOUT, COMMENT));

@@ -86,6 +86,8 @@ public interface ApplicationInstance {
 
     ReferencesRepository getReviews(AuthorId authorId);
 
+    ReferencesRepository getUsersFeed();
+
     ReviewDeleter newReviewDeleter(ReviewId id);
 
     void packReview(Review review, Bundle args);

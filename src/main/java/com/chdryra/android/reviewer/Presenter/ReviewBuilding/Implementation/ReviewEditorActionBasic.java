@@ -22,7 +22,7 @@ public abstract class ReviewEditorActionBasic<T extends GvData>
         extends ReviewViewActionBasic<T> {
     private ReviewEditor<T> mEditor;
 
-    public ReviewEditor<T> getEditor() {
+    ReviewEditor<T> getEditor() {
         return mEditor;
     }
 

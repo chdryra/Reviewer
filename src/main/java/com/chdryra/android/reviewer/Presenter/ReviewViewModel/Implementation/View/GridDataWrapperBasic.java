@@ -22,11 +22,11 @@ public abstract class GridDataWrapperBasic<T extends GvData> implements GridData
     private ReviewViewAdapterBasic<T> mAdapter;
     private final ArrayList<DataObserver> mObservers = new ArrayList<>();
 
-    protected void onAttach() {
+    void onAttach() {
 
     }
 
-    protected void onDetach() {
+    void onDetach() {
 
     }
 

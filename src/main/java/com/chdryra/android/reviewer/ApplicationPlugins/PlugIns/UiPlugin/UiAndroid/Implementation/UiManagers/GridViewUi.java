@@ -32,9 +32,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridViewUi {
-    private ReviewView<?> mReviewView;
-    private GridView mView;
-    private FactoryGridCellAdapter mFactory;
+    private final ReviewView<?> mReviewView;
+    private final GridView mView;
+    private final FactoryGridCellAdapter mFactory;
 
     public GridViewUi(ReviewView<?> reviewView, GridView view, FactoryGridCellAdapter factory, Activity activity) {
         mReviewView = reviewView;

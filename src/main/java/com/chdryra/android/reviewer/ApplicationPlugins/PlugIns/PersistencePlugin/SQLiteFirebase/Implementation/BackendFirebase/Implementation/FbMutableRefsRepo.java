@@ -46,8 +46,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepository {
-    private BackendReviewConverter mConverter;
-    private BackendValidator mValidator;
+    private final BackendReviewConverter mConverter;
+    private final BackendValidator mValidator;
 
     public FbMutableRefsRepo(Firebase dataBase,
                              FbAuthorsReviews structure,

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorId
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendValidator {
-    private DataValidator mValidator;
+    private final DataValidator mValidator;
 
     public BackendValidator(DataValidator validator) {
         mValidator = validator;
@@ -39,7 +39,7 @@ public class BackendValidator {
                 && mValidator.validate(rating) && isValid(review.getAuthorId()) && review.getTags().size() > 0;
     }
 
-    public boolean isIdValid(ReviewDb review) {
+    private boolean isIdValid(ReviewDb review) {
         DatumReviewId reviewId = new DatumReviewId(review.getReviewId());
 
         return mValidator.validate(reviewId);

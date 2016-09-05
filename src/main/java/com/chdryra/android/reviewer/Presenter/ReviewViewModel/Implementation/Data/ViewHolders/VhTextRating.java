@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.R;
  * purposes.
  * </p>
  */
-public class VhTextRating extends ViewHolderBasic {
+class VhTextRating extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_text_rating;
     private static final int STRING_VIEW = R.id.string_text_view;
     private static final int RATING_VIEW = R.id.rating_text_view;
@@ -36,7 +36,7 @@ public class VhTextRating extends ViewHolderBasic {
     private TextView mTextView;
     private TextView mRatingView;
 
-    public VhTextRating() {
+    private VhTextRating() {
         super(LAYOUT, new int[]{STRING_VIEW, RATING_VIEW});
     }
 

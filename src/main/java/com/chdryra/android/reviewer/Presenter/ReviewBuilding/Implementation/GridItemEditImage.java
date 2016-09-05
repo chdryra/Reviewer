@@ -43,6 +43,7 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
     @Override
     protected void doAlertPositive(Bundle args) {
         GvImage newCover = unpackItem(args);
+        if(newCover == null) return;
 
         ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {

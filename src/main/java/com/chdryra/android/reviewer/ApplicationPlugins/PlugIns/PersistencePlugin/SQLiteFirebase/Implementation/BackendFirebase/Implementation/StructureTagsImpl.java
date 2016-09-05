@@ -24,8 +24,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureTagsImpl extends DbStructureBasic<ReviewDb> implements StructureTags {
-    private String mReviewsPath;
-    private String mUsersPath;
+    private final String mReviewsPath;
+    private final String mUsersPath;
 
     public StructureTagsImpl(String reviewsPath, String usersPath) {
         mReviewsPath = reviewsPath;

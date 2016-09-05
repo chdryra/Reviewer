@@ -47,11 +47,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDb extends ReviewStatic {
-    public static final RowEntry<RowImage, Boolean> COVER_CLAUSE
+    private static final RowEntry<RowImage, Boolean> COVER_CLAUSE
             = new RowEntryImpl<>(RowImage.class, RowImage.IS_COVER, true);
 
-    private RowReview mRow;
-    private ReviewerDbReadable mDb;
+    private final RowReview mRow;
+    private final ReviewerDbReadable mDb;
 
     public ReviewDb(RowReview row, ReviewerDbReadable db) {
         mRow = row;

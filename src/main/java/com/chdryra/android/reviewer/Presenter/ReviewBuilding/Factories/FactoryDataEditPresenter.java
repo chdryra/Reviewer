@@ -11,9 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -24,9 +23,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDataEditPresenter {
-    private Context mContext;
-    private ReviewBuilderAdapter<?> mBuilder;
-    private FactoryReviewDataEditor mEditorFactory;
+    private final Context mContext;
+    private final ReviewBuilderAdapter<?> mBuilder;
+    private final FactoryReviewDataEditor mEditorFactory;
 
     public FactoryDataEditPresenter(Context context, ReviewBuilderAdapter<?> builder,
                                     FactoryReviewDataEditor editorFactory) {
@@ -38,6 +37,6 @@ public class FactoryDataEditPresenter {
     public <T extends GvDataParcelable> PresenterReviewDataEdit<T> newPresenter(GvDataType<T> dataType) {
         DataBuilderAdapter<T> adapter = mBuilder.getDataBuilderAdapter(dataType);
         ReviewDataEditor<T> editor = mEditorFactory.newEditor(adapter);
-        return new PresenterReviewDataEditImpl<>(mContext, editor);
+        return new PresenterReviewDataEdit<>(mContext, editor);
     }
 }

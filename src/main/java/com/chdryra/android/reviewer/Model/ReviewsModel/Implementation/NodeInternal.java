@@ -36,8 +36,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
     private DataReviewInfo mMeta;
-    private FactoryMdReference mReferenceFactory;
-    private IdableList<ReviewNodeComponent> mChildren;
+    private final FactoryMdReference mReferenceFactory;
+    private final IdableList<ReviewNodeComponent> mChildren;
 
     public NodeInternal(DataReviewInfo meta, FactoryMdReference referenceFactory) {
         mMeta = meta;

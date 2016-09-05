@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuUi {
-    private MenuAction<?> mAction;
+    private final MenuAction<?> mAction;
 
     public MenuUi(ReviewView<?> reviewView) {
         mAction = reviewView.getActions().getMenuAction();

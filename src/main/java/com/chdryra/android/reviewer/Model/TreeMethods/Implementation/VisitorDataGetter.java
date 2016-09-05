@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * Email: rizwan.choudrey@gmail.com
  */
 public class VisitorDataGetter<T extends HasReviewId> implements VisitorReviewNode {
-    private NodeDataGetter<T> mGetter;
+    private final NodeDataGetter<T> mGetter;
     private IdableList<T> mData;
 
     public VisitorDataGetter(NodeDataGetter<T> getter) {
@@ -40,7 +40,7 @@ public class VisitorDataGetter<T extends HasReviewId> implements VisitorReviewNo
         return mData == null ? new IdableDataList<T>(null) : mData;
     }
 
-    protected IdableList<T> getDataList(@NonNull ReviewNode node) {
+    private IdableList<T> getDataList(@NonNull ReviewNode node) {
         if (mData == null) mData = new IdableDataList<>(node.getReviewId());
         return mData;
     }

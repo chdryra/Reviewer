@@ -21,9 +21,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutEditImage extends AddEditLayoutBasic<GvImage> {
-    public static final int LAYOUT = R.layout.dialog_image_edit;
-    public static final int IMAGE = R.id.photo_image_view;
-    public static final int CAPTION = R.id.caption_edit_text;
+    private static final int LAYOUT = R.layout.dialog_image_edit;
+    private static final int IMAGE = R.id.photo_image_view;
+    private static final int CAPTION = R.id.caption_edit_text;
 
     private GvImage mCurrent;
 

@@ -16,10 +16,10 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendUploaderListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.UploadListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.ArrayList;
@@ -32,25 +32,23 @@ import java.util.Map;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewPublisherImpl implements ReviewPublisher, BackendUploaderListener,
-        SocialPublisherListener, WorkStoreCallback<Review> {
-    private ReviewQueue mQueue;
-    private BackendConsumer mBackend;
-    private SocialConsumer mSocial;
+public class ReviewPublisherImpl implements ReviewPublisher, UploadListener,
+        SocialPublisher.Listener, WorkStoreCallback<Review> {
+    private final ReviewQueue mQueue;
+    private final SocialConsumer mSocial;
 
-    private ArrayList<ReviewPublisherListener> mListeners;
-    private ArrayList<ReviewId> mUploadComplete;
-    private ArrayList<ReviewId> mSocialComplete;
+    private final ArrayList<ReviewPublisherListener> mListeners;
+    private final ArrayList<ReviewId> mUploadComplete;
+    private final ArrayList<ReviewId> mSocialComplete;
 
-    private Map<Review, QueueCallback> mAddCallbacks;
-    private Map<ReviewId, QueueCallback> mGetCallbacks;
+    private final Map<Review, QueueCallback> mAddCallbacks;
+    private final Map<ReviewId, QueueCallback> mGetCallbacks;
 
     public ReviewPublisherImpl(ReviewQueue queue, BackendConsumer backend, SocialConsumer social) {
         mQueue = queue;
 
-        mBackend = backend;
-        mBackend.setQueue(mQueue);
-        mBackend.registerListener(this);
+        backend.setQueue(mQueue);
+        backend.registerListener(this);
 
         mSocial = social;
         mSocial.setQueue(mQueue);

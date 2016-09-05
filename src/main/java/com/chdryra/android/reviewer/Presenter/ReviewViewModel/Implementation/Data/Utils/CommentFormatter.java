@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class CommentFormatter {
     public static final String SENTENCE_DELIMITERS = ".!?";
-    public static final String IGNORE_DELIMITER = ".";
+    private static final String IGNORE_DELIMITER = ".";
 
     public static String getFirstSentence(String comment) {
         //return getFirstSentence(comment, true);

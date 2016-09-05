@@ -57,9 +57,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbReference extends SimpleItemReference<Review> implements ReviewReference {
-    private DataReviewInfo mInfo;
-    private ReviewerDbRepository mRepo;
-    private FactoryDbReference mReferenceFactory;
+    private final DataReviewInfo mInfo;
+    private final ReviewerDbRepository mRepo;
+    private final FactoryDbReference mReferenceFactory;
 
     public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepository repo, FactoryDbReference referenceFactory) {
         super(new ReviewDereferencer(info.getReviewId(), repo));
@@ -189,8 +189,8 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     private static class ReviewDereferencer implements Dereferencer<Review> {
-        private ReviewId mId;
-        private ReviewerDbRepository mRepo;
+        private final ReviewId mId;
+        private final ReviewerDbRepository mRepo;
 
         public ReviewDereferencer(ReviewId id, ReviewerDbRepository repo) {
             mId = id;

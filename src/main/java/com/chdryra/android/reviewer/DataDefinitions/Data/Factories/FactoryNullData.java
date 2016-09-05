@@ -51,7 +51,7 @@ public class FactoryNullData {
     }
 
     public static DataDate nulDate(ReviewId id) {
-        return new DatumDate(id, 0l);
+        return new DatumDate(id, 0L);
     }
 
     public static DataFact nullFact(ReviewId id) {

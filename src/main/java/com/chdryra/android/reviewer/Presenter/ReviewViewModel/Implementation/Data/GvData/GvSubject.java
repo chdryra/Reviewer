@@ -36,11 +36,11 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
         }
     };
 
-    public GvSubject() {
+    private GvSubject() {
         super(TYPE);
     }
 
-    public GvSubject(String subject) {
+    private GvSubject(String subject) {
         super(TYPE, subject);
     }
 
@@ -48,11 +48,11 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
         super(TYPE, id, subject);
     }
 
-    public GvSubject(GvSubject subject) {
+    private GvSubject(GvSubject subject) {
         this(new GvReviewId(subject.getReviewId()), subject.getString());
     }
 
-    GvSubject(Parcel in) {
+    private GvSubject(Parcel in) {
         super(in);
     }
 

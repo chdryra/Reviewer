@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> {
-    GvDataAggregator mAggregator;
+    private final GvDataAggregator mAggregator;
 
     public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterion> data,
                                    FactoryGridDataViewer viewerFactory,

@@ -28,11 +28,11 @@ import com.chdryra.android.reviewer.R;
  */
 public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements AlertListener {
     private static final int MENU = R.menu.menu_delete_done;
-    public static final int MENU_DELETE_ID = R.id.menu_item_delete;
-    public static final int MENU_DONE_ID = R.id.menu_item_done;
+    private static final int MENU_DELETE_ID = R.id.menu_item_delete;
+    private static final int MENU_DONE_ID = R.id.menu_item_done;
 
-    public static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
-    public static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
+    private static final ActivityResultCode RESULT_DELETE = ActivityResultCode.DELETE;
+    private static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
 
     private static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
 
@@ -49,16 +49,16 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
         this(dataType.getDataName(), dataType.getDataName());
     }
 
-    public MenuEdit(String title, String deleteWhat) {
+    private MenuEdit(String title, String deleteWhat) {
         this(title, deleteWhat, false);
     }
 
-    public MenuEdit(String title, String deleteWhat, boolean dismissOnDelete) {
+    private MenuEdit(String title, String deleteWhat, boolean dismissOnDelete) {
         this(title, deleteWhat, dismissOnDelete, true, MENU);
     }
 
-    public MenuEdit(String title, String deleteWhat,
-                    boolean dismissOnDelete, boolean dismissOnDone, int menuId) {
+    MenuEdit(String title, String deleteWhat,
+             boolean dismissOnDelete, boolean dismissOnDone, int menuId) {
         super(menuId, title, true);
 
         mDeleteWhat = deleteWhat;
@@ -100,31 +100,31 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
     }
 
     //protected methods
-    protected MenuActionItem getDeleteAction() {
+    private MenuActionItem getDeleteAction() {
         return mDeleteAction;
     }
 
-    protected MenuActionItem getDoneAction() {
+    private MenuActionItem getDoneAction() {
         return mDoneAction;
     }
 
-    protected DataBuilderAdapter<?> getBuilder() {
+    private DataBuilderAdapter<?> getBuilder() {
         return (DataBuilderAdapter<?>) getAdapter();
     }
 
-    protected ReviewDataEditor<T> getEditor() {
+    ReviewDataEditor<T> getEditor() {
         return mEditor;
     }
 
-    protected void bindDefaultDeleteActionItem(int deleteId) {
+    void bindDefaultDeleteActionItem(int deleteId) {
         bindMenuActionItem(getDeleteAction(), deleteId, false);
     }
 
-    protected void bindDefaultDoneActionItem(int doneId) {
+    void bindDefaultDoneActionItem(int doneId) {
         bindMenuActionItem(getDoneAction(), doneId, mDismissOnDone);
     }
 
-    protected void doDeleteSelected() {
+    private void doDeleteSelected() {
         if (hasDataToDelete()) {
             getBuilder().deleteAll();
             if (mDismissOnDelete) {
@@ -134,7 +134,7 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
         }
     }
 
-    protected void doDoneSelected() {
+    private void doDoneSelected() {
         mEditor.commitEdits();
     }
 

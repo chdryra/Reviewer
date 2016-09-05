@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AggregatedDataImpl<D extends HasReviewId> implements AggregatedData<D> {
-    private D mCanonical;
-    private IdableList<D> mAggregated;
+    private final D mCanonical;
+    private final IdableList<D> mAggregated;
 
     public AggregatedDataImpl(D canonical, IdableList<D> aggregated) {
         mCanonical = canonical;

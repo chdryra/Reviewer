@@ -21,8 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LayoutEditLocation extends AddEditLayoutBasic<GvLocation> {
-    public static final int LAYOUT = R.layout.dialog_location_edit;
-    public static final int LOCATION = R.id.location_edit_edit_text;
+    private static final int LAYOUT = R.layout.dialog_location_edit;
+    private static final int LOCATION = R.id.location_edit_edit_text;
 
     private LatLng mLatLng;
 

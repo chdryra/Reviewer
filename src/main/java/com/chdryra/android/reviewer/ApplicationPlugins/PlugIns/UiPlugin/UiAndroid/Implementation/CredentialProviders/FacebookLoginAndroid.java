@@ -39,9 +39,9 @@ public class FacebookLoginAndroid
         PERMISSIONS.add(PERMISSION);
     }
 
-    private Fragment mFragment;
+    private final Fragment mFragment;
     private FacebookLoginCallback mListener;
-    private CallbackManager mCallbackManager;
+    private final CallbackManager mCallbackManager;
 
     public FacebookLoginAndroid(Fragment fragment) {
         mFragment = fragment;

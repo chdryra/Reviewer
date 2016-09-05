@@ -19,8 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GoogleAutoCompletePlace implements LocatedPlace {
-    private AutocompletePrediction mPrediction;
-    private LatLng mLatLng;
+    private final AutocompletePrediction mPrediction;
+    private final LatLng mLatLng;
 
     public GoogleAutoCompletePlace(AutocompletePrediction prediction, LatLng latLng) {
         mPrediction = prediction.freeze();

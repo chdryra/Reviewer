@@ -499,7 +499,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         LocationServicesApi api = app.getLocationServices();
         mAutoCompleter = new StringAutoCompleterLocation(api.newAutoCompleter(new UserLocatedPlace(mNewLatLng)));
-        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
+        mSearchAdapter = new StringFilterAdapter(getActivity(), new ArrayList<String>(), mAutoCompleter);
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 

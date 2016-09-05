@@ -19,7 +19,7 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class BroadcastingServiceReceiver<L> extends BroadcastReceiver implements Iterable<L>{
-    private ArrayList<L> mListeners;
+    private final ArrayList<L> mListeners;
 
     public BroadcastingServiceReceiver() {
         mListeners = new ArrayList<>();

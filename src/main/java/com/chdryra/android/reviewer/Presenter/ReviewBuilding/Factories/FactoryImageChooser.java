@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryImageChooser {
-    private Context mContext;
+    private final Context mContext;
 
     public FactoryImageChooser(Context context) {
         mContext = context;

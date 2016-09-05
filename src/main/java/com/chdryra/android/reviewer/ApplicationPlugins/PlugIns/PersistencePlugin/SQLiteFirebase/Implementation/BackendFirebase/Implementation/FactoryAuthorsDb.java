@@ -24,10 +24,10 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorsDb {
-    private BackendReviewConverter mReviewConverter;
-    private BackendValidator mValidator;
-    private SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private FactoryFbReviewReference mReferencer;
+    private final BackendReviewConverter mReviewConverter;
+    private final BackendValidator mValidator;
+    private final SnapshotConverter<ReviewListEntry> mEntryConverter;
+    private final FactoryFbReviewReference mReferencer;
 
     public FactoryAuthorsDb(BackendReviewConverter reviewConverter,
                             BackendValidator validator,

@@ -28,11 +28,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
-    private String mTableName;
-    private Class<T> mRowClass;
-    private ArrayList<DbColumnDefinition> mPrimaryKeys;
-    private ArrayList<DbColumnDefinition> mOtherColumns;
-    private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
+    private final String mTableName;
+    private final Class<T> mRowClass;
+    private final ArrayList<DbColumnDefinition> mPrimaryKeys;
+    private final ArrayList<DbColumnDefinition> mOtherColumns;
+    private final ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
     public DbTableImpl(String tableName, Class<T> rowClass) {
         mTableName = tableName;

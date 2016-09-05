@@ -28,9 +28,9 @@ import com.firebase.client.ValueEventListener;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbAuthorsRepository implements AuthorsRepository {
-    private Firebase mDataRoot;
-    private FbUsersStructure mStructure;
-    private FactoryFbReference mReferenceFactory;
+    private final Firebase mDataRoot;
+    private final FbUsersStructure mStructure;
+    private final FactoryFbReference mReferenceFactory;
 
     public FbAuthorsRepository(Firebase dataRoot, FbUsersStructure structure, FactoryFbReference referenceFactory) {
         mDataRoot = dataRoot;

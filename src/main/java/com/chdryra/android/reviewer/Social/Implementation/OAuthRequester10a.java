@@ -27,15 +27,15 @@ import org.apache.commons.lang3.StringUtils;
 public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
     private static final String OAUTH_VERIFIER = "oauth_verifier=";
 
-    private String mPlatformName;
-    private String mCallBack;
-    private OAuth10aService mService;
+    private final String mPlatformName;
+    private final String mCallBack;
+    private final OAuth10aService mService;
     private Token mCurrentRequest;
 
     protected abstract T newAccessToken(Token token);
 
-    public OAuthRequester10a(String consumerKey, String consumerSecret, String callBack,
-                             DefaultApi10a api, String platformName) {
+    OAuthRequester10a(String consumerKey, String consumerSecret, String callBack,
+                      DefaultApi10a api, String platformName) {
         mCallBack= callBack;
         mService = new ServiceBuilder()
                 .apiKey(consumerKey)
@@ -59,7 +59,7 @@ public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
     }
 
     private class OAuthRequestTask extends AsyncTask<Void, Void, OAuthRequest> {
-        private RequestListener<T> mListener;
+        private final RequestListener<T> mListener;
 
         public OAuthRequestTask(RequestListener<T> listener ) {
             mListener = listener;
@@ -80,8 +80,8 @@ public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
     }
 
     private class OAuthResponseTask extends AsyncTask<Void, Void, T> {
-        private Verifier mVerifier;
-        private RequestListener<T> mListener;
+        private final Verifier mVerifier;
+        private final RequestListener<T> mListener;
 
         public OAuthResponseTask (Verifier verifier, RequestListener<T> listener ) {
             mVerifier = verifier;

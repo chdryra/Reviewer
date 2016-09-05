@@ -32,11 +32,9 @@ import java.util.Collection;
  */
 public class PresenterUsersFeed extends PresenterFeed implements
         ReviewPublisherListener,
-        ReviewDeleter.ReviewDeleterCallback,
         ReviewNode.NodeObserver {
 
-    private PresenterListener mListener;
-    private ReviewDeleter mDeleter;
+    private final PresenterListener mListener;
 
     public interface PresenterListener {
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
@@ -51,14 +49,20 @@ public class PresenterUsersFeed extends PresenterFeed implements
     }
 
     public void deleteReview(final ReviewId id) {
-        mDeleter = getApp().newReviewDeleter(id);
-        mDeleter.deleteReview(this);
         makeToast(Strings.Toasts.DELETING);
+        ReviewDeleter deleter = getApp().newReviewDeleter(id);
+        deleter.deleteReview(new ReviewDeleter.ReviewDeleterCallback() {
+            @Override
+            public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
+                getApp().getTagsManager().clearTags(reviewId.toString());
+                makeToast(result.getMessage());
+            }
+        });
     }
 
-    public String getPublishedMessage(Collection<PublishResults> platformsOk,
-                                      Collection<PublishResults> platformsNotOk,
-                                      CallbackMessage callbackMessage) {
+    private String getPublishedMessage(Collection<PublishResults> platformsOk,
+                                       Collection<PublishResults> platformsNotOk,
+                                       CallbackMessage callbackMessage) {
         int numFollowers = 0;
         ArrayList<String> ok = new ArrayList<>();
         for (PublishResults result : platformsOk) {
@@ -131,12 +135,6 @@ public class PresenterUsersFeed extends PresenterFeed implements
                                       Collection<PublishResults> platformsNotOk, CallbackMessage
                                               result) {
         makeToast(getPublishedMessage(platformsOk, platformsNotOk, result));
-    }
-
-    @Override
-    public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
-        getApp().getTagsManager().clearTags(reviewId.toString());
-        makeToast(result.getMessage());
     }
 
     private void makeToast(String message) {

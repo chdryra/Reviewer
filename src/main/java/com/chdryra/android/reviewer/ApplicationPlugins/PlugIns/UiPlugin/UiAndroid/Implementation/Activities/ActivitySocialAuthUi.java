@@ -104,7 +104,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
         return platform;
     }
 
-    private String throwError() {
+    private void throwError() {
         throw new RuntimeException("No platform specified!");
     }
 

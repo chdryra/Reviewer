@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumCriterion implements DataCriterion {
-    private ReviewId mReviewId;
+    private final ReviewId mReviewId;
     private String mSubject;
     private float mRating;
 

@@ -28,14 +28,14 @@ public abstract class OAuthRequester20<T> implements OAuthRequester<T>{
     private static final String CODE_START = "code=";
     private static final String CODE_END = "#";
 
-    private String mPlatformName;
-    private String mCallBack;
-    private OAuth20Service mService;
+    private final String mPlatformName;
+    private final String mCallBack;
+    private final OAuth20Service mService;
 
     protected abstract T newAccessToken(Token token);
 
-    public OAuthRequester20(String consumerKey, String consumerSecret, String callBack,
-                            DefaultApi20 api, String platformName) {
+    OAuthRequester20(String consumerKey, String consumerSecret, String callBack,
+                     DefaultApi20 api, String platformName) {
         mCallBack= callBack;
         mService = new ServiceBuilder()
                 .apiKey(consumerKey)
@@ -60,7 +60,7 @@ public abstract class OAuthRequester20<T> implements OAuthRequester<T>{
     }
 
     private class OAuthRequestTask extends AsyncTask<Void, Void, OAuthRequest> {
-        private RequestListener<T> mListener;
+        private final RequestListener<T> mListener;
 
         public OAuthRequestTask(RequestListener<T> listener ) {
             mListener = listener;
@@ -80,8 +80,8 @@ public abstract class OAuthRequester20<T> implements OAuthRequester<T>{
     }
 
     private class OAuthResponseTask extends AsyncTask<Void, Void, T> {
-        private Verifier mVerifier;
-        private RequestListener<T> mListener;
+        private final Verifier mVerifier;
+        private final RequestListener<T> mListener;
 
         public OAuthResponseTask (Verifier verifier, RequestListener<T> listener ) {
             mVerifier = verifier;

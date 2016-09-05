@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  */
 public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
     private ReferencesRepository mRepo;
-    private FactoryReviewNode mNodeFactory;
+    private final FactoryReviewNode mNodeFactory;
 
-    public ReviewNodeRepo(DataReviewInfo meta,
-                          ReferencesRepository repo,
-                          FactoryMdReference referenceFactory,
-                          FactoryReviewNode nodeFactory) {
+    ReviewNodeRepo(DataReviewInfo meta,
+                   ReferencesRepository repo,
+                   FactoryMdReference referenceFactory,
+                   FactoryReviewNode nodeFactory) {
         super(meta, referenceFactory);
         mRepo = repo;
         mNodeFactory = nodeFactory;

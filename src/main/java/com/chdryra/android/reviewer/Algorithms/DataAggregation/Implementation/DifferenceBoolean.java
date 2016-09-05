@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DifferenceBoolean implements DifferenceLevel<DifferenceBoolean> {
-    private boolean mValue;
+    private final boolean mValue;
 
     public DifferenceBoolean(boolean value) {
         mValue = value;

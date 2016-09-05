@@ -28,7 +28,7 @@ public class BuildScreenShareButton<T extends GvData> extends ReviewEditorAction
         implements ContextualButtonAction<T>{
     private static final int SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
 
-    private LaunchableConfig mConfig;
+    private final LaunchableConfig mConfig;
 
     public BuildScreenShareButton(LaunchableConfig config) {
         mConfig = config;

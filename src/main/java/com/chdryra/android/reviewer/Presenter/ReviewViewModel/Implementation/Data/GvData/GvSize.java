@@ -42,7 +42,7 @@ public class GvSize extends GvDualText implements DataSize{
     private int mSize;
     private GvDataType<?> mType;
 
-    public GvSize() {
+    private GvSize() {
     }
 
     public GvSize(GvReviewId id, GvDataType<?> type, int size) {
@@ -51,13 +51,13 @@ public class GvSize extends GvDualText implements DataSize{
         mSize = size;
     }
 
-    public GvSize(GvReviewId id, GvDataType<?> type) {
+    private GvSize(GvReviewId id, GvDataType<?> type) {
         super(id, PLACEHOLDER, type.getDataName());
         mType = type;
         mSize = 0;
     }
 
-    public GvSize(Parcel in) {
+    private GvSize(Parcel in) {
         super(in);
     }
 
@@ -84,11 +84,6 @@ public class GvSize extends GvDualText implements DataSize{
     }
 
     @Override
-    public int describeContents() {
-        return super.describeContents();
-    }
-
-    @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(mSize);
         parcel.writeParcelable(mType, i);
@@ -102,8 +97,7 @@ public class GvSize extends GvDualText implements DataSize{
 
         GvSize that = (GvSize) o;
 
-        if (mSize != that.mSize) return false;
-        return mType.equals(that.mType);
+        return mSize == that.mSize && mType.equals(that.mType);
 
     }
 
@@ -119,7 +113,7 @@ public class GvSize extends GvDualText implements DataSize{
         public static final GvDataType<Reference> TYPE
                 = new GvDataType<>(Reference.class, GvSize.TYPE);
 
-        private GvDataType<?> mSizedType;
+        private final GvDataType<?> mSizedType;
 
         public Reference(ReviewItemReference<DataSize> reference, GvConverterSizes converter) {
             super(TYPE, reference, converter, VhSize.class, new Factory());

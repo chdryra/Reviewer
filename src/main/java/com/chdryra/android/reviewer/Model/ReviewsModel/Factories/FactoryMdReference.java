@@ -42,9 +42,9 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorData
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryMdReference {
-    private FactoryReference mReferenceFactory;
-    private FactoryNodeTraverser mTraverserFactory;
-    private FactoryVisitorReviewNode mVisitorFactory;
+    private final FactoryReference mReferenceFactory;
+    private final FactoryNodeTraverser mTraverserFactory;
+    private final FactoryVisitorReviewNode mVisitorFactory;
 
     public FactoryMdReference(FactoryReference referenceFactory,
                               FactoryNodeTraverser traverserFactory,

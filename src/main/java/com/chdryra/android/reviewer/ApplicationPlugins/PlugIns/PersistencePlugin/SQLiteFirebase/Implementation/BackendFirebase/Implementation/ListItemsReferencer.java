@@ -25,7 +25,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ListItemsReferencer<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> {
-    private ItemReferenceFactory<Value, Reference> mFactory;
+    private final ItemReferenceFactory<Value, Reference> mFactory;
 
     public interface Callback<T extends HasReviewId, Reference extends ReviewItemReference<T>> {
         void onItemReferences(IdableList<Reference> references);

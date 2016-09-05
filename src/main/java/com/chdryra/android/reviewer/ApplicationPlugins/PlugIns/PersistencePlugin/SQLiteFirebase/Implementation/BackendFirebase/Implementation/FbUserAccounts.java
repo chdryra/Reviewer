@@ -56,11 +56,11 @@ public class FbUserAccounts implements UserAccounts {
     private static final AuthenticationError UNKNOWN_USER_ERROR = new AuthenticationError
             (FirebaseBackend.NAME, AuthenticationError.Reason.UNKNOWN_USER);
 
-    private Firebase mDataRoot;
-    private FbUsersStructure mStructure;
-    private UserProfileConverter mConverter;
-    private AuthorsRepository mAuthorsRepo;
-    private FactoryUserAccount mAccountFactory;
+    private final Firebase mDataRoot;
+    private final FbUsersStructure mStructure;
+    private final UserProfileConverter mConverter;
+    private final AuthorsRepository mAuthorsRepo;
+    private final FactoryUserAccount mAccountFactory;
 
     public FbUserAccounts(Firebase dataRoot,
                           FbUsersStructure structure,

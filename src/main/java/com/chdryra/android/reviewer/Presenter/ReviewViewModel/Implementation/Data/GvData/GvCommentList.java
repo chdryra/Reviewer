@@ -29,7 +29,7 @@ public class GvCommentList extends GvDataListParcelable<GvComment> {
     };
 
     public GvCommentList() {
-        super(GvComment.TYPE, null);
+        super(GvComment.TYPE, new GvReviewId());
     }
 
     public GvCommentList(GvReviewId id) {

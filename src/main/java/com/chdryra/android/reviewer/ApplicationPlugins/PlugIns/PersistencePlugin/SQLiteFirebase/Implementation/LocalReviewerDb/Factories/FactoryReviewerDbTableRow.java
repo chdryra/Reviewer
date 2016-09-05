@@ -48,7 +48,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
-    private Map<Class<?>, Class<?>> mConstructorMap;
+    private final Map<Class<?>, Class<?>> mConstructorMap;
 
     public FactoryReviewerDbTableRow() {
         mConstructorMap = new HashMap<>();

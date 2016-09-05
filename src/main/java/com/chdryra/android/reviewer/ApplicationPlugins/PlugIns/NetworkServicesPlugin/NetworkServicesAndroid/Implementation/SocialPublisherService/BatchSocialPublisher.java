@@ -23,8 +23,8 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BatchSocialPublisher implements SocialPublisherListener {
-    private BatchSocialPublisherListener mListener;
-    private Collection<SocialPlatform<?>> mPlatforms;
+    private final BatchSocialPublisherListener mListener;
+    private final Collection<SocialPlatform<?>> mPlatforms;
     private ArrayList<PublishResults> mResults;
 
     public interface BatchSocialPublisherListener {

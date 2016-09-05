@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsRepository {
-    private FactoryReviewsCache mCacheFactory;
+    private final FactoryReviewsCache mCacheFactory;
 
     public FactoryReviewsRepository(FactoryReviewsCache cacheFactory) {
         mCacheFactory = cacheFactory;

@@ -19,7 +19,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ItemBindersDelegate<T> {
-    private BindableListReference<T, ?> mReference;
+    private final BindableListReference<T, ?> mReference;
 
     public interface BindableListReference<T, C extends Collection<T>> extends ListReference<T, C> {
         boolean containsItemBinder(ListItemBinder<T> binder);

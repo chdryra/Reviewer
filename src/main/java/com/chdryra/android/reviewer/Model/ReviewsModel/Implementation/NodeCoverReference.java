@@ -32,9 +32,9 @@ import java.util.Random;
  */
 public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
         ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference.InvalidationListener {
-    private Random RANDOM = new Random();
-    private ReviewNode mRoot;
-    private ArrayList<ReferenceBinder<DataImage>> mBinders;
+    private final Random RANDOM = new Random();
+    private final ReviewNode mRoot;
+    private final ArrayList<ReferenceBinder<DataImage>> mBinders;
     private ReviewItemReference<ReviewReference> mReview;
 
     private interface ChoiceCallback {

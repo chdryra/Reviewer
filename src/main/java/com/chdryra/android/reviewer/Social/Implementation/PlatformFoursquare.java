@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
-
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;

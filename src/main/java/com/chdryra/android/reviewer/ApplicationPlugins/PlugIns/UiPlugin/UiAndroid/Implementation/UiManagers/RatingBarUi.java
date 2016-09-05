@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarUi {
-    private ReviewView<?> mReviewView;
-    private RatingBar mView;
+    private final ReviewView<?> mReviewView;
+    private final RatingBar mView;
 
     public RatingBarUi(ReviewView<?> reviewView, RatingBar view) {
         mReviewView = reviewView;

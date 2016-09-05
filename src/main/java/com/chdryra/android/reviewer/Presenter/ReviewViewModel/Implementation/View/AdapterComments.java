@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdapterComments extends AdapterReviewNode<GvComment.Reference> {
-    private ViewerReviewData.CommentList mViewer;
+    private final ViewerReviewData.CommentList mViewer;
 
     public AdapterComments(ReviewNode node,
                            DataConverter<DataImage, GvImage, GvImageList> converter,

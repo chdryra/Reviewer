@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NetworkPublisher<Listener> {
+interface NetworkPublisher<Listener> {
     void registerListener(Listener listener);
 
     void unregisterListener(Listener listener);

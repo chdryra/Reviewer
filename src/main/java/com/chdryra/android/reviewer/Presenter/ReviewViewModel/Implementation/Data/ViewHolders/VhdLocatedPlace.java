@@ -46,9 +46,8 @@ public class VhdLocatedPlace implements ViewHolderData {
 
         VhdLocatedPlace that = (VhdLocatedPlace) o;
 
-        if (mPlace != null ? !mPlace.equals(that.mPlace) : that.mPlace != null) return false;
+        return mPlace != null ? mPlace.equals(that.mPlace) : that.mPlace == null;
 
-        return true;
     }
 
     @Override

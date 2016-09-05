@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDeleterImpl implements ReviewDeleterDb {
-    private FactoryDbTableRow mRowFactory;
+    private final FactoryDbTableRow mRowFactory;
 
     public ReviewDeleterImpl(FactoryDbTableRow rowFactory) {
         mRowFactory = rowFactory;

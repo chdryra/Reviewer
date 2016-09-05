@@ -29,8 +29,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryContractorSqLite implements FactoryContractor{
-    private FactoryTransactorSqLite mTransactorFactory;
-    private TablesSql mTableMaker;
+    private final FactoryTransactorSqLite mTransactorFactory;
+    private final TablesSql mTableMaker;
 
     public FactoryContractorSqLite() {
         mTransactorFactory = new FactoryTransactorSqLite(new RowToValuesConverter(), new EntryToStringConverter());

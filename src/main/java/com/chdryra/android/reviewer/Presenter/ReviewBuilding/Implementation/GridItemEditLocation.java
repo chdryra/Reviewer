@@ -25,7 +25,7 @@ public class GridItemEditLocation extends GridItemEdit<GvLocation> {
     private static final int LAUNCH_MAP
             = RequestCodeGenerator.getCode("LaunchMap");
 
-    private LaunchableConfig mMapEditorConfig;
+    private final LaunchableConfig mMapEditorConfig;
 
     public GridItemEditLocation(LaunchableConfig editorConfig,
                                 LaunchableConfig mapEditorConfig,

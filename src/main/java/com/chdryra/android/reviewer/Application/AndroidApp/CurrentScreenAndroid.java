@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Application.CurrentScreen;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CurrentScreenAndroid implements CurrentScreen {
-    private Activity mActivity;
+    private final Activity mActivity;
 
     public CurrentScreenAndroid(Activity activity) {
         mActivity = activity;

@@ -28,10 +28,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
  */
 public class ReviewsRepositoryCached<T extends ReviewsRepository>
         implements ReviewsRepository {
-    private ReviewsCache mCache;
-    private T mArchive;
-    private FactoryReviews mReviewsFactory;
-    private TagsManager mTagsManager;
+    private final ReviewsCache mCache;
+    private final T mArchive;
+    private final FactoryReviews mReviewsFactory;
+    private final TagsManager mTagsManager;
 
     public ReviewsRepositoryCached(ReviewsCache cache,
                                    T archive,
@@ -49,8 +49,8 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public ReferencesRepository getRepository(AuthorId authorId) {
-        return mArchive.getRepository(authorId);
+    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
+        return mArchive.getRepositoryForAuthor(authorId);
     }
 
     @Override

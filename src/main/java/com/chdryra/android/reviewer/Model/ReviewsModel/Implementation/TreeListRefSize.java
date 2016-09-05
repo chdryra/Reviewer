@@ -35,6 +35,7 @@ public class TreeListRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
 
     @Override
     protected TreeListReferences<Value, ?, ?> getReference() {
+        //TODO make type safe
         return (TreeListReferences<Value, ?, ?>) super.getReference();
     }
 
@@ -120,6 +121,7 @@ public class TreeListRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
 
     @NonNull
     private IdableList<ReviewItemReference<DataSize>> getSizeReferences(VisitorReviewNode visitor) {
+        //TODO make type safe
         VisitorDataGetter<? extends ReviewListReference<?, ?>> getter
                 = (VisitorDataGetter<? extends ReviewListReference<?,?>>) visitor;
         IdableList<ReviewItemReference<DataSize>> refs = new IdableDataList<>(getReviewId());

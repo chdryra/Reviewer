@@ -26,7 +26,7 @@ public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
     private static final int LAUNCH_BROWSER
             = RequestCodeGenerator.getCode("LaunchUrlBrowser");
 
-    private LaunchableConfig mUrlAdder;
+    private final LaunchableConfig mUrlAdder;
 
     public BannerButtonAddFacts(String title, LaunchableConfig factAdder,
                                 LaunchableConfig urlAdder,

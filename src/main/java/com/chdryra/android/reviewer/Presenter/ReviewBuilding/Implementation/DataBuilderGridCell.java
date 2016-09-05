@@ -29,8 +29,8 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
     public static final GvDataType<DataBuilderGridCell> TYPE =
             new GvDataType<>(DataBuilderGridCell.class, "create", "create");
 
-    private ReviewViewAdapter<T> mDataAdapter;
-    private FactoryVhDataCollection mViewHolderFactory;
+    private final ReviewViewAdapter<T> mDataAdapter;
+    private final FactoryVhDataCollection mViewHolderFactory;
 
     public DataBuilderGridCell(DataBuilderAdapter<T> dataAdapter,
                                FactoryVhDataCollection viewHolderFactory) {
@@ -54,10 +54,5 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
     @Override
     public void onDataChanged() {
         mData = mDataAdapter.getGridData().toArrayList();
-    }
-
-    @Override
-    public GvDataType<T> getGvDataType() {
-        return super.getGvDataType();
     }
 }

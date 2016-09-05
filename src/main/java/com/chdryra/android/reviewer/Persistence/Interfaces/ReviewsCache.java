@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsCache {
-    Review add(Review review);
+    void add(Review review);
 
     Review get(ReviewId id);
 

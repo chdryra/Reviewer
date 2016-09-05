@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewTransactor {
-    private FactoryDbTableRow mRowFactory;
+    private final FactoryDbTableRow mRowFactory;
 
     public FactoryReviewTransactor(FactoryDbTableRow rowFactory) {
         mRowFactory = rowFactory;

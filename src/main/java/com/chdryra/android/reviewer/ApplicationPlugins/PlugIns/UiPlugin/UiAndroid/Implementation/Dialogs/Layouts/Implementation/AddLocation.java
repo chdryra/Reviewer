@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
@@ -53,13 +54,14 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientConnector.Locatable,
         NearestPlacesSuggester.NearestPlacesListener,
         LocationDetailsFetcher.LocationDetailsListener {
-    public static final int LAYOUT = R.layout.dialog_location_add;
-    public static final int NAME = R.id.location_add_edit_text;
-    public static final int LIST = R.id.suggestions_list_view;
+    private static final int LAYOUT = R.layout.dialog_location_add;
+    private static final int NAME = R.id.location_add_edit_text;
+    private static final int LIST = R.id.suggestions_list_view;
 
     public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
     public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
 
+    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode("RequestPermissions");
     private static final String NO_LOCATIONS = Strings.EditTexts.NO_SUGGESTIONS;
     private static final String SEARCHING_HERE = Strings.EditTexts.SEARCHING_NEAR_HERE;
     private static final String SEARCHING_PHOTO = Strings.EditTexts.SEARCHING_NEAR_PHOTO;
@@ -78,8 +80,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private LocationServicesApi mLocationServices;
-    private LocationDetailsFetcher mFetcher;
+    private final LocationServicesApi mLocationServices;
+    private final LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
     private AutoCompleter<VhdLocatedPlace> mAutoCompleter;
 
@@ -87,7 +89,6 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newLocationDetailsFetcher();
-        mSuggester = mLocationServices.newNearestPlacesSuggester();
     }
 
     private void fetchPlaceDetails(LocatedPlace place) {
@@ -187,6 +188,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onActivityAttached(Activity activity, Bundle args) {
+        mSuggester = mLocationServices.newNearestPlacesSuggester();
         mCurrentLatLng = args.getParcelable(LATLNG);
         if (mCurrentLatLng != null && args.getBoolean(FROM_IMAGE)) {
             mSearching = SEARCHING_PHOTO;

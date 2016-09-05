@@ -26,6 +26,7 @@ public class TreeItemRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
 
     @Override
     protected TreeRefItemList<Value> getReference() {
+        //TODO make type safe
         return (TreeRefItemList<Value>) super.getReference();
     }
 

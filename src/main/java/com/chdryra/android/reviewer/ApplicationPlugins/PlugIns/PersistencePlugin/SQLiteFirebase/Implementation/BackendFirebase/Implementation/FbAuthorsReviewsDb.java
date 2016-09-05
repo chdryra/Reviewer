@@ -28,8 +28,8 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbAuthorsReviewsDb implements FbAuthorsReviews {
-    private AuthorId mAuthorId;
-    private FbReviews mParent;
+    private final AuthorId mAuthorId;
+    private final FbReviews mParent;
 
     public FbAuthorsReviewsDb(AuthorId authorId, FbReviews parent) {
         mAuthorId = authorId;

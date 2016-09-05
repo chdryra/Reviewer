@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewLayoutFact extends DialogLayoutBasic<GvFact> {
-    public static final int LAYOUT = R.layout.dialog_fact_view;
-    public static final int LABEL = R.id.fact_label_text_view;
-    public static final int VALUE = R.id.fact_value_text_view;
+    private static final int LAYOUT = R.layout.dialog_fact_view;
+    private static final int LABEL = R.id.fact_label_text_view;
+    private static final int VALUE = R.id.fact_value_text_view;
 
     public ViewLayoutFact() {
         super(new LayoutHolder(LAYOUT, LABEL, VALUE));

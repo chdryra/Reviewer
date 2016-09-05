@@ -38,9 +38,9 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         ReviewNode.NodeObserver {
 
     private static final CallbackMessage OK = CallbackMessage.ok();
-    protected Collection<ReferenceBinder<DataSize>> mValueBinders;
-    protected boolean mCached = false;
-    private TreeDataReferenceBasic<Value, ?> mDataReference;
+    private final Collection<ReferenceBinder<DataSize>> mValueBinders;
+    private boolean mCached = false;
+    private final TreeDataReferenceBasic<Value, ?> mDataReference;
     private int mCurrentSize = 0;
 
     protected abstract void incrementForChild(ReviewNode child);
@@ -49,37 +49,37 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
 
     protected abstract void doDereference(final DereferenceCallback<DataSize> callback);
 
-    public TreeSizeRefBasic(TreeDataReferenceBasic<Value, ?> dataReference) {
+    TreeSizeRefBasic(TreeDataReferenceBasic<Value, ?> dataReference) {
         mDataReference = dataReference;
         mDataReference.registerListener(this);
         mValueBinders = new ArrayList<>();
     }
 
-    protected TreeDataReferenceBasic<Value, ?> getReference() {
+    TreeDataReferenceBasic<Value, ?> getReference() {
         return mDataReference;
     }
 
     @NonNull
-    protected DataSize getSize() {
+    DataSize getSize() {
         return new DatumSize(getReviewId(), mCurrentSize);
     }
 
-    protected void setSize(int size) {
+    void setSize(int size) {
         mCached = true;
         mCurrentSize = size;
     }
 
-    protected void addSize(int size) {
+    void addSize(int size) {
         mCached = true;
         mCurrentSize += size;
     }
 
-    protected void removeSize(int size) {
+    void removeSize(int size) {
         mCached = true;
         mCurrentSize -= size;
     }
 
-    protected void notifyValueBinders() {
+    private void notifyValueBinders() {
         if (mValueBinders.size() > 0) {
             dereference(new DereferenceCallback<DataSize>() {
                 @Override
@@ -90,13 +90,13 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         }
     }
 
-    protected void notifyValueBinders(DataSize size) {
+    void notifyValueBinders(DataSize size) {
         for (ReferenceBinder<DataSize> binder : mValueBinders) {
             binder.onReferenceValue(size);
         }
     }
 
-    protected void notifyCachedSize(DereferenceCallback<DataSize> callback) {
+    private void notifyCachedSize(DereferenceCallback<DataSize> callback) {
         callback.onDereferenced(new DataValue<>(getSize()));
     }
 

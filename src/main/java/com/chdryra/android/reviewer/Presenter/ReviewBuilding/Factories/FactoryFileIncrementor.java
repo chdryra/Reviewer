@@ -18,9 +18,9 @@ import java.io.File;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryFileIncrementor {
-    private File mSystemDir;
-    private String mDir;
-    private String mDefaultStem;
+    private final File mSystemDir;
+    private final String mDir;
+    private final String mDefaultStem;
 
     public FactoryFileIncrementor(File systemDir, String dir, String defaultStem) {
         mSystemDir = systemDir;

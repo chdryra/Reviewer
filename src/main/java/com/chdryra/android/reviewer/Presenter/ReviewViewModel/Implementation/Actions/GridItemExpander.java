@@ -20,17 +20,17 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridItemExpander<T extends GvData> extends GridItemActionNone<T> {
-    public void onClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?> expanded) {
+    void onClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?> expanded) {
     }
 
-    public void onLongClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?>
+    void onLongClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?>
             expanded) {
     }
 
-    public void onClickNotExpandable(T item, int position, View v) {
+    void onClickNotExpandable(T item, int position, View v) {
     }
 
-    public void onLongClickNotExpandable(T item, int position, View v) {
+    void onLongClickNotExpandable(T item, int position, View v) {
     }
 
     @Override

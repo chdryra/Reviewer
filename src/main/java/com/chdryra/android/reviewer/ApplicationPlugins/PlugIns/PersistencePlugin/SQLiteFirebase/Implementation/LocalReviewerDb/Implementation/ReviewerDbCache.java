@@ -30,7 +30,7 @@ import java.util.Iterator;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbCache implements QueueCache.Cache<Review> {
+class ReviewerDbCache implements QueueCache.Cache<Review> {
     private final ReviewerDb mDatabase;
     private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;

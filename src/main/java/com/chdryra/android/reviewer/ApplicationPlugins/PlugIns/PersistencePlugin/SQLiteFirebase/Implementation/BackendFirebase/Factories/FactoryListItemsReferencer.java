@@ -42,13 +42,13 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryListItemsReferencer {
-    private FactoryFbReference mReferenceFactory;
+    private final FactoryFbReference mReferenceFactory;
 
     public FactoryListItemsReferencer(FactoryFbReference referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 
-    public <T extends HasReviewId, R extends ReviewItemReference<T>>
+    private <T extends HasReviewId, R extends ReviewItemReference<T>>
     ListItemsReferencer<T, R> newReferencer(ListItemsReferencer.ItemReferenceFactory<T, R>
                                                     factory) {
         return new ListItemsReferencer<>(factory);

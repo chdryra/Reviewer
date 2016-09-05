@@ -27,10 +27,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CoverUi {
-    private ReviewView mReviewView;
-    private LinearLayout mView;
-    private GridViewUi mGridView;
-    private Activity mActivity;
+    private final ReviewView mReviewView;
+    private final LinearLayout mView;
+    private final GridViewUi mGridView;
+    private final Activity mActivity;
 
     public CoverUi(ReviewView reviewView, LinearLayout view, GridViewUi gridView, Activity
             activity) {

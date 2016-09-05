@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCom
 public class WrapperRefCommentList extends StaticListReferenceBasic<DataComment, RefComment>
         implements RefCommentList {
 
-    private FactoryReference mFactory;
+    private final FactoryReference mFactory;
 
     public WrapperRefCommentList(IdableList<DataComment> value, FactoryReference factory) {
         super(value);

@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewLayoutImage extends DialogLayoutBasic<GvImage> {
-    public static final int LAYOUT = R.layout.dialog_image_view;
-    public static final int IMAGE = R.id.photo_image_view;
-    public static final int CAPTION = R.id.caption_text_view;
+    private static final int LAYOUT = R.layout.dialog_image_view;
+    private static final int IMAGE = R.id.photo_image_view;
+    private static final int CAPTION = R.id.caption_text_view;
 
     public ViewLayoutImage() {
         super(new LayoutHolder(LAYOUT, IMAGE, CAPTION));

@@ -27,10 +27,10 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryFbReviewReference {
-    private FactoryFbReference mReferencer;
-    private BackendInfoConverter mDataConverter;
-    private BackendReviewConverter mReviewConverter;
-    private ReviewsCache mCache;
+    private final FactoryFbReference mReferencer;
+    private final BackendInfoConverter mDataConverter;
+    private final BackendReviewConverter mReviewConverter;
+    private final ReviewsCache mCache;
 
     public FactoryFbReviewReference(FactoryFbReference referencer,
                                     BackendInfoConverter dataConverter,

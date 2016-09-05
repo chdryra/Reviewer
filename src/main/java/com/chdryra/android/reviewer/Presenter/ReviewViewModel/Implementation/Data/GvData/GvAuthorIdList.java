@@ -30,7 +30,7 @@ public class GvAuthorIdList extends GvDataListParcelable<GvAuthorId> {
 
     //Constructors
     public GvAuthorIdList() {
-        super(GvAuthorId.TYPE, null);
+        super(GvAuthorId.TYPE, new GvReviewId());
     }
 
     public GvAuthorIdList(Parcel in) {

@@ -17,16 +17,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  */
 public abstract class ReviewStatic implements Review {
     @Override
-    public final void registerObserver(ReviewObserver observer) {
-        //Does nothing
-    }
-
-    @Override
-    public final void unregisterObserver(ReviewObserver observer) {
-        //Does nothing
-    }
-
-    @Override
     public boolean isCacheable() {
         return true;
     }

@@ -29,9 +29,9 @@ import com.firebase.client.Firebase;
  */
 public class FbRefComment extends FbReviewItemRef<DataComment> implements RefComment {
     private static final String SENTENCES = Comment.SENTENCES;
-    private ReviewItemReference<DataSize> mSizeReference;
-    private boolean mIsHeadline;
-    private ListItemsReferencer<DataComment, RefComment> mReferencer;
+    private final ReviewItemReference<DataSize> mSizeReference;
+    private final boolean mIsHeadline;
+    private final ListItemsReferencer<DataComment, RefComment> mReferencer;
 
     public FbRefComment(ReviewId id,
                         Firebase reference,

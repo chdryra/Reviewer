@@ -22,17 +22,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonUi {
-    private ReviewView<?> mReviewView;
-    private Button mView;
+    private final ReviewView<?> mReviewView;
+    private final Button mView;
 
     public BannerButtonUi(ReviewView<?> reviewView, Button view, int textColour) {
         mReviewView = reviewView;
         mView = view;
         initialise(textColour);
-    }
-
-    public void setAsDisplay() {
-        mView.setClickable(false);
     }
 
     public void update() {

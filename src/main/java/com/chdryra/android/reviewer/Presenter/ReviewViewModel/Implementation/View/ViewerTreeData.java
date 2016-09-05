@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         GvDataRef<GvRef, Value, ?>>
         extends ViewerReviewData.DataList<Value, GvRef> {
-    private FactoryReviewViewAdapter mAdapterFactory;
+    private final FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerTreeData(RefDataList<Value> reference,
                           GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
@@ -55,7 +55,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
     }
 
     public static class TreeCommentList extends ViewerReviewData.CommentList {
-        private FactoryReviewViewAdapter mAdapterFactory;
+        private final FactoryReviewViewAdapter mAdapterFactory;
 
         public TreeCommentList(RefCommentList reference,
                                GvConverterReferences<DataComment, GvComment.Reference, RefComment> converter,

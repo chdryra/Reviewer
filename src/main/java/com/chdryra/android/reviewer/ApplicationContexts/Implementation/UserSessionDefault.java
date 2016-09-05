@@ -31,7 +31,7 @@ public class UserSessionDefault implements UserSession {
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
-    private PresenterContext mAppContext;
+    private final PresenterContext mAppContext;
     private UserAccount mAccount;
     private SessionObserver mObserver;
 

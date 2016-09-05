@@ -14,12 +14,6 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
-
-/**
- * For UIs that can be launched by a {@link UiLauncherAndroid.LauncherUiImpl}.
- * Usually by calling "launcher.launch(this)".
- */
 public interface LaunchableUi {
     String getLaunchTag();
 

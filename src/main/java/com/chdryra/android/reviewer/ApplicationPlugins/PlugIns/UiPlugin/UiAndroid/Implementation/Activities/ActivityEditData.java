@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataEditPresenter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
@@ -120,8 +120,8 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
         ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
 
         FactoryEditActions actionsFactory
-                = new FactoryEditActions(this, app.getConfigUi(), app.getUiLauncher(),
-                app.getGvDataFactory(), parentBuilder.getImageChooser());
+                = new FactoryEditActions(this, app.getConfigUi(), app.getGvDataFactory(),
+                parentBuilder.getImageChooser());
 
         FactoryReviewDataEditor editorFactory
                 = new FactoryReviewDataEditor(app.getViewParamsFactory(), actionsFactory);

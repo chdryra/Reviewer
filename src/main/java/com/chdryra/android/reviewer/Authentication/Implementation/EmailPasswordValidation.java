@@ -54,8 +54,8 @@ public class EmailPasswordValidation {
     }
 
     public static class Error {
-        private Reason mReason;
-        private String mMessage;
+        private final Reason mReason;
+        private final String mMessage;
 
         public Error(Reason reason, String message) {
             mReason = reason;

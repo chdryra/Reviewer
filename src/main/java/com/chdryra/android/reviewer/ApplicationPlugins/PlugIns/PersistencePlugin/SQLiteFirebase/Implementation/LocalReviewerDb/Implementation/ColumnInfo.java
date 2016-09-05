@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ColumnInfo<T> {
-    private String mName;
-    private DbEntryType<T> mType;
+    private final String mName;
+    private final DbEntryType<T> mType;
 
     public ColumnInfo(String name, DbEntryType<T> type) {
         mName = name;

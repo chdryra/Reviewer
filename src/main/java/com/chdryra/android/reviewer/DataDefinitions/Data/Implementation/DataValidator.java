@@ -80,7 +80,7 @@ public class DataValidator {
         return date.getTime() > 0;
     }
 
-    public boolean validateUrl(DataUrl url) {
+    private boolean validateUrl(DataUrl url) {
         return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel()) && validate(url.getReviewId());
     }
 
@@ -96,7 +96,7 @@ public class DataValidator {
         return !authorId.toString().equals(AuthorId.NULL_ID_STRING) && validateString(authorId.toString());
     }
 
-    public boolean NotNull(Object obj) {
+    private boolean NotNull(Object obj) {
         return obj != null;
     }
 }

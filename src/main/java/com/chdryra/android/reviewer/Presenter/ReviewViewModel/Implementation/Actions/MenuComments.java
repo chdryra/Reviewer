@@ -16,11 +16,11 @@ import com.chdryra.android.reviewer.R;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuComments extends MenuActionNone<GvComment> {
-    public static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
+public class MenuComments extends MenuActionNone<GvComment.Reference> {
+    private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
     private static final int MENU = R.menu.menu_view_comments;
 
-    private final MaiSplitComments<GvComment> mSplitter;
+    private final MaiSplitComments<GvComment.Reference> mSplitter;
 
     public MenuComments() {
         super(MENU, GvComment.TYPE.getDataName(), true);

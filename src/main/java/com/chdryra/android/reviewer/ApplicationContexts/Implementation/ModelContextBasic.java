@@ -23,15 +23,15 @@ public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mReviewsFactory;
     private TagsManager mTagsManager;
 
-    public void setTagsManager(TagsManager tagsManager) {
+    protected void setTagsManager(TagsManager tagsManager) {
         mTagsManager = tagsManager;
     }
 
-    public void setReviewsFactory(FactoryReviews factoryReviews) {
+    protected void setReviewsFactory(FactoryReviews factoryReviews) {
         mReviewsFactory = factoryReviews;
     }
 
-    public void setReferenceFactory(FactoryReference referenceFactory) {
+    protected void setReferenceFactory(FactoryReference referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 

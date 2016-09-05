@@ -35,8 +35,8 @@ import java.util.ArrayList;
 public class LocationPredicterGp implements AutoCompleterLocation.LocationPredicter, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private CallBackSignaler mSignaler;
-    private GoogleApiClient mClient;
+    private final CallBackSignaler mSignaler;
+    private final GoogleApiClient mClient;
 
     public LocationPredicterGp(GoogleApiClient client) {
         mClient = client;

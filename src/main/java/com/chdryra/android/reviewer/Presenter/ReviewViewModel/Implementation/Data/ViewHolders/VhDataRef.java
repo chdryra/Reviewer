@@ -30,11 +30,11 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
         ValueType extends HasReviewId,
         ValueHolder extends ViewHolder>
         implements VhDataReference<ValueType> {
-    public static final String PLACEHOLDER = "--";
+    private static final String PLACEHOLDER = "--";
 
-    private ValueHolder mValueHolder;
-    private DataConverter<ValueType, ? extends GvData, ?> mConverter;
-    private GvDataRef.PlaceHolderFactory<ValueType> mPlaceHolderFactory;
+    private final ValueHolder mValueHolder;
+    private final DataConverter<ValueType, ? extends GvData, ?> mConverter;
+    private final GvDataRef.PlaceHolderFactory<ValueType> mPlaceHolderFactory;
     private ReviewItemReference<ValueType> mReference;
     private ValueType mDataValue;
 
@@ -46,7 +46,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
         mPlaceHolderFactory = placeHolderFactory;
     }
 
-    protected void onReference(GvReference gvReference) {
+    void onReference(GvReference gvReference) {
 
     }
 
@@ -54,7 +54,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
         return mPlaceHolderFactory;
     }
 
-    protected DataConverter<ValueType, ? extends GvData, ?> getConverter() {
+    DataConverter<ValueType, ? extends GvData, ?> getConverter() {
         return mConverter;
     }
 
@@ -88,6 +88,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
     public void updateView(ViewHolderData data) {
         GvReference gvReference;
         try {
+            //TODO make type safe
             gvReference = (GvReference) data;
         } catch (ClassCastException e) {
             e.printStackTrace();

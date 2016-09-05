@@ -23,7 +23,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
-    private FbAuthorsReviews mStructure;
+    private final FbAuthorsReviews mStructure;
 
     public FbAuthorsRefsRepo(Firebase dataBase,
                              FbAuthorsReviews structure,
@@ -33,7 +33,7 @@ public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
         mStructure = structure;
     }
 
-    protected FbAuthorsReviews getStructure() {
+    FbAuthorsReviews getStructure() {
         return mStructure;
     }
 

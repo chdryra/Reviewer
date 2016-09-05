@@ -26,8 +26,8 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
         FollowersFetcher.FollowersGetter,
         AsyncSocialPublisher.SyncSocialPublisher {
 
-    private Twitter mTwitter;
-    private String mPlatformName;
+    private final Twitter mTwitter;
+    private final String mPlatformName;
 
     public PublisherTwitter4j(String platformName, Twitter twitter,
                               ReviewSummariser summariser,

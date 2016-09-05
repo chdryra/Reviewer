@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
 import android.content.Context;
 
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploader;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploaderListener;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +19,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUploaderAndroid
-        extends BackendReviewAndroid<ReviewUploaderReceiver, ReviewUploaderListener>
+        extends BackendReviewAndroid<ReviewUploaderReceiver, ReviewUploader.Listener>
         implements ReviewUploader {
 
     public ReviewUploaderAndroid(Context context, ReviewUploaderReceiver receiver) {

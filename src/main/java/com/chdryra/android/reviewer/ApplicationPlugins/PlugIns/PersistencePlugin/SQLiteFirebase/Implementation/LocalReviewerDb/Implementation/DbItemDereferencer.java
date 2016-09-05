@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbItemDereferencer<Row extends ReviewDataRow<Row>, Value extends HasReviewId> implements SimpleItemReference.Dereferencer<Value> {
-    private DataLoader<Row> mLoader;
-    private Converter<Row, Value> mConverter;
+    private final DataLoader<Row> mLoader;
+    private final Converter<Row, Value> mConverter;
 
     public interface Converter<T, R extends HasReviewId> {
         R convert(T data);

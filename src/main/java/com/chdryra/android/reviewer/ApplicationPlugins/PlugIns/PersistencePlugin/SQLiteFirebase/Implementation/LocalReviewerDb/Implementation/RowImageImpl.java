@@ -94,7 +94,7 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
         mCaption = values.getValue(CAPTION.getName(), CAPTION.getType());
 
         Long time = values.getValue(IMAGE_DATE.getName(), IMAGE_DATE.getType());
-        mDate = time != null ? time : 0l;
+        mDate = time != null ? time : 0L;
     }
 
     @Override

@@ -65,8 +65,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewView {
-    private FactoryReviewViewParams mParamsFactory;
-    private ConfigUi mConfig;
+    private final FactoryReviewViewParams mParamsFactory;
+    private final ConfigUi mConfig;
 
     public FactoryReviewView(ConfigUi config, FactoryReviewViewParams paramsFactory) {
         mConfig = config;
@@ -161,8 +161,7 @@ public class FactoryReviewView {
 
     private <T extends GvData> ReviewViewActions<T> newViewScreenActions(GvDataType<T> dataType,
                                                                          ApplicationInstance app,
-                                                                         ReviewViewAdapter<T>
-                                                                                 adapter) {
+                                                                         ReviewViewAdapter<T> adapter) {
         if (dataType.equals(GvSize.Reference.TYPE)) {
             return newDefaultScreenActions(dataType, app, adapter);
         }

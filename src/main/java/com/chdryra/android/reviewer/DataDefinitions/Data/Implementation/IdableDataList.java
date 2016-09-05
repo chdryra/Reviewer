@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  */
 public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<T>
         implements IdableList<T>{
-    private ReviewId mReviewId;
+    private final ReviewId mReviewId;
 
     public IdableDataList(ReviewId reviewId) {
         mReviewId = reviewId;

@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    private FactoryReviews mReviewsFactory;
-    private FactoryMdReference mReferenceFactory;
+    private final FactoryReviews mReviewsFactory;
+    private final FactoryMdReference mReferenceFactory;
 
     public FactoryReviewNode(FactoryReviews reviewFactory,
                              FactoryMdReference referenceFactory) {

@@ -48,26 +48,26 @@ public class GvText<T extends GvText> extends VHDString implements GvDataParcela
         }
     };
 
-    private GvDataType<T> mType;
+    private final GvDataType<T> mType;
     private GvReviewId mId;
 
-    public GvText(@NotNull GvDataType<T> type) {
+    GvText(@NotNull GvDataType<T> type) {
         super();
         mType = type;
     }
 
-    public GvText(@NotNull GvDataType<T> type, String text) {
+    GvText(@NotNull GvDataType<T> type, String text) {
         super(text);
         mType = type;
     }
 
-    public GvText(GvDataType<T> type, @Nullable GvReviewId id, String text) {
+    GvText(GvDataType<T> type, @Nullable GvReviewId id, String text) {
         super(text);
         mId = id;
         mType = type;
     }
 
-    public GvText(Parcel in) {
+    GvText(Parcel in) {
         super(in.readString());
         mType = in.readParcelable(GvDataType.class.getClassLoader());
         mId = in.readParcelable(GvReviewId.class.getClassLoader());

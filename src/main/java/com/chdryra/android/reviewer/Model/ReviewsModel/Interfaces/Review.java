@@ -22,14 +22,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 public interface Review extends DataReviewInfo {
-    interface ReviewObserver {
-        void onReviewChanged();
-    }
-
-    void registerObserver(ReviewObserver observer);
-
-    void unregisterObserver(ReviewObserver observer);
-
     @Override
     DataSubject getSubject();
 

@@ -50,7 +50,7 @@ public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
     }
 
     @Nullable
-    protected OAuthRequest getBundledRequest() {
+    private OAuthRequest getBundledRequest() {
         ParcelablePacker<OAuthRequest> packer = new ParcelablePacker<>();
         return packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, getIntent());
     }

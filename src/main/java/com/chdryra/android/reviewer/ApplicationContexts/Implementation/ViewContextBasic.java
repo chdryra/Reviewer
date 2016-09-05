@@ -21,11 +21,11 @@ public abstract class ViewContextBasic implements ViewContext {
     private ConfigUi mConfigUi;
     private FactoryUiLauncher mLauncherFactory;
 
-    public void setConfigUi(ConfigUi configUi) {
+    protected void setConfigUi(ConfigUi configUi) {
         mConfigUi = configUi;
     }
 
-    public void setLauncherFactory(FactoryUiLauncher launcherFactory) {
+    protected void setLauncherFactory(FactoryUiLauncher launcherFactory) {
         mLauncherFactory = launcherFactory;
     }
 

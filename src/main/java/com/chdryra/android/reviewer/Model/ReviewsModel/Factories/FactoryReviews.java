@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
@@ -37,6 +38,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -62,8 +64,8 @@ import java.util.ArrayList;
  */
 public class FactoryReviews implements ReviewMaker {
     private AuthorsStamp mAuthorsStamp;
-    private FactoryReviewNode mNodeFactory;
-    private FactoryMdReference mReferenceFactory;
+    private final FactoryReviewNode mNodeFactory;
+    private final FactoryMdReference mReferenceFactory;
 
     public FactoryReviews(FactoryMdReference referenceFactory, AuthorsStamp authorsStamp) {
         mNodeFactory = new FactoryReviewNode(this, referenceFactory);
@@ -71,7 +73,7 @@ public class FactoryReviews implements ReviewMaker {
         mAuthorsStamp = authorsStamp;
     }
 
-    public FactoryReviewNode getNodeFactory() {
+    private FactoryReviewNode getNodeFactory() {
         return mNodeFactory;
     }
 
@@ -103,12 +105,9 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ApplicationInstance app) {
-        String title = "Fetching...";
-
         ReviewStamp stamp = ReviewStamp.newStamp(authorId);
-        DataReviewInfo info = new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-                .ReviewInfo(stamp,
-                new DatumSubject(stamp, title),
+        DataReviewInfo info = new ReviewInfo(stamp,
+                new DatumSubject(stamp, Strings.FETCHING),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
                 new DatumDate(stamp, stamp.getDate().getTime()));

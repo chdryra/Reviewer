@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     private static final GvDataType<GvNode> TYPE = GvNode.TYPE;
 
-    private DataConverter<ReviewNode, GvNode, GvNodeList> mConverter;
-    private FactoryReviewViewAdapter mAdapterFactory;
+    private final DataConverter<ReviewNode, GvNode, GvNodeList> mConverter;
+    private final FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerChildList(ReviewNode node,
                            DataConverter<ReviewNode, GvNode, GvNodeList> converter,

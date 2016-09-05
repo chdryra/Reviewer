@@ -31,9 +31,9 @@ import java.util.ArrayList;
  */
 public class ContractorSqLite<T extends DbContract> extends SQLiteOpenHelper
         implements ContractorDb<T> {
-    private T mContract;
-    private TablesSql mSql;
-    private FactoryTransactorSqLite mFactory;
+    private final T mContract;
+    private final TablesSql mSql;
+    private final FactoryTransactorSqLite mFactory;
 
     public ContractorSqLite(Context context,
                             DbSpecification<T> spec,

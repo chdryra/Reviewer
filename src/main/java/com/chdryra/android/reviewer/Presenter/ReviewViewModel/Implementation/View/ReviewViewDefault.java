@@ -30,8 +30,8 @@ import java.util.ArrayList;
  */
 public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     private static final String TAG = TagKeyGenerator.getTag(ReviewViewDefault.class);
-    private ReviewViewPerspective<T> mPerspective;
-    private ArrayList<DataObservable.DataObserver> mObservers;
+    private final ReviewViewPerspective<T> mPerspective;
+    private final ArrayList<DataObservable.DataObserver> mObservers;
     private ReviewViewContainer mContainer;
     private GvDataList<T> mGridViewData;
     private boolean mIsAttached = false;

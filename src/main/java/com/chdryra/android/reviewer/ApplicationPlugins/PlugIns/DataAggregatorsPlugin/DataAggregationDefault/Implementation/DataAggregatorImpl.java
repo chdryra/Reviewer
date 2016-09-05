@@ -33,9 +33,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  */
 public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel<D>>
         implements DataAggregator<T> {
-    private DifferenceComparitor<? super T, D> mComparitor;
-    private D mSimilarityThreshold;
-    private CanonicalDatumMaker<T> mCanonical;
+    private final DifferenceComparitor<? super T, D> mComparitor;
+    private final D mSimilarityThreshold;
+    private final CanonicalDatumMaker<T> mCanonical;
 
     public DataAggregatorImpl(DifferenceComparitor<? super T, D> comparitor,
                               D similarityThreshold,

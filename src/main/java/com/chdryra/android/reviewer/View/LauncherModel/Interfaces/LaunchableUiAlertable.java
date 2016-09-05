@@ -15,12 +15,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
  */
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
 
-/**
- * For UIs that can be launched by a {@link UiLauncherAndroid.LauncherUiImpl}.
- * Usually by calling "launcher.launch(this)".
- */
 public interface LaunchableUiAlertable extends
         LaunchableUi, AlertListener {
 

@@ -32,10 +32,10 @@ public class DefaultOAuthUi<T> implements
         LoginUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
-    private LaunchableUi mAuthorisationUi;
-    private SocialPlatform<T> mPlatform;
-    private AuthorisationListener mListener;
-    private ParcelablePacker<OAuthRequest>mPacker;
+    private final LaunchableUi mAuthorisationUi;
+    private final SocialPlatform<T> mPlatform;
+    private final AuthorisationListener mListener;
+    private final ParcelablePacker<OAuthRequest>mPacker;
 
     private UiLauncher mLauncher;
 

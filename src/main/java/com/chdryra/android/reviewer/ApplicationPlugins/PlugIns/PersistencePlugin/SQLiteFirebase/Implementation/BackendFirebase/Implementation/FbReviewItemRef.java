@@ -21,7 +21,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReviewItemRef<T extends HasReviewId> extends FbRefData<T> implements ReviewItemReference<T> {
-    private ReviewId mId;
+    private final ReviewId mId;
 
     public FbReviewItemRef(ReviewId id, Firebase reference, SnapshotConverter<T> converter) {
         super(reference, converter);

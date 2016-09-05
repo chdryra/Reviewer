@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
  */
 public class LocationServicesGoogle implements LocationServicesPlugin {
     private static LocationServicesApi sServices;
-    private Context mContext;
+    private final Context mContext;
 
     public LocationServicesGoogle(Context context) {
         mContext = context;

@@ -28,28 +28,28 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  */
 public abstract class DbListReferenceBasic<Row extends ReviewDataRow<Row>, Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
         extends SimpleListReference<Value, Reference> {
-    private Converter<Row, Value> mConverter;
-    private FactoryDbReference mReferenceFactory;
-    private DataLoader<Row> mLoader;
+    private final Converter<Row, Value> mConverter;
+    private final FactoryDbReference mReferenceFactory;
+    private final DataLoader<Row> mLoader;
 
     public interface Converter<T extends ReviewDataRow<T>, R extends HasReviewId> {
         IdableList<R> convert(IdableList<T> data);
     }
 
-    public DbListReferenceBasic(DataLoader<Row> loader,
-                                FactoryDbReference referenceFactory,
-                                Converter<Row, Value> converter) {
+    DbListReferenceBasic(DataLoader<Row> loader,
+                         FactoryDbReference referenceFactory,
+                         Converter<Row, Value> converter) {
         super(new ListDereferencer<>(loader, converter));
         mReferenceFactory = referenceFactory;
         mConverter = converter;
         mLoader = loader;
     }
 
-    protected Converter<Row, Value> getConverter() {
+    Converter<Row, Value> getConverter() {
         return mConverter;
     }
 
-    protected FactoryDbReference getDbReferenceFactory() {
+    FactoryDbReference getDbReferenceFactory() {
         return mReferenceFactory;
     }
 
@@ -77,8 +77,8 @@ public abstract class DbListReferenceBasic<Row extends ReviewDataRow<Row>, Value
 
     private static class ListDereferencer<T extends ReviewDataRow<T>, R extends HasReviewId>
             implements Dereferencer<IdableList<R>> {
-        private DataLoader<T> mLoader;
-        private Converter<T, R> mConverter;
+        private final DataLoader<T> mLoader;
+        private final Converter<T, R> mConverter;
 
         public ListDereferencer(DataLoader<T> loader, Converter<T, R> converter) {
             mLoader = loader;

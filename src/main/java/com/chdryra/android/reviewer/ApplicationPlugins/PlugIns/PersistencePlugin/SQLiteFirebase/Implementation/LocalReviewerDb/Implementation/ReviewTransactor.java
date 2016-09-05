@@ -26,9 +26,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewTransactor implements ReviewInserter, ReviewDeleterDb, ReviewLoader{
-    private ReviewLoader mLoader;
-    private ReviewInserter mInserter;
-    private ReviewDeleterDb mDeleter;
+    private final ReviewLoader mLoader;
+    private final ReviewInserter mInserter;
+    private final ReviewDeleterDb mDeleter;
 
     public ReviewTransactor(ReviewLoader loader, ReviewInserter inserter, ReviewDeleterDb deleter) {
         mLoader = loader;

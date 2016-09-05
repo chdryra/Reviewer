@@ -31,8 +31,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDbContract {
-    private FactoryDbColumnDef mColumnFactory;
-    private FactoryForeignKeyConstraint mFkFactory;
+    private final FactoryDbColumnDef mColumnFactory;
+    private final FactoryForeignKeyConstraint mFkFactory;
 
     public FactoryReviewerDbContract() {
         mColumnFactory = new FactoryDbColumnDef();

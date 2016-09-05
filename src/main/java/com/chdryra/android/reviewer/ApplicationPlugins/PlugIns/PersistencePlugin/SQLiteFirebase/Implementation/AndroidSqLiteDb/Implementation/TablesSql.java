@@ -33,7 +33,7 @@ public class TablesSql {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
 
-    private SqLiteTypeDefinitions mDefs;
+    private final SqLiteTypeDefinitions mDefs;
 
     public TablesSql(SqLiteTypeDefinitions defs) {
         mDefs = defs;
@@ -160,8 +160,8 @@ public class TablesSql {
     }
 
     public class Query {
-        private String mQuery;
-        private String mArgs[];
+        private final String mQuery;
+        private final String[] mArgs;
 
         public Query(String query, @Nullable String[] args) {
             mQuery = query.trim();

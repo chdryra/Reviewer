@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingService;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisherListener;
 
 import java.util.ArrayList;
 
@@ -25,11 +24,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublisherAndroid extends
-        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialPublisherListener>
+        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialPublisher.Listener>
         implements SocialPublisher {
 
-    private ArrayList<String> mPlatformNames;
-    private ReviewId mId;
+    private final ArrayList<String> mPlatformNames;
+    private final ReviewId mId;
 
     public SocialPublisherAndroid(Context context,
                                   ArrayList<String> platformNames,

@@ -29,7 +29,7 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact, GvFact, GvFactList, GvFact.Reference> {
-    private GvConverterUrls mUrlConverter;
+    private final GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {
         super(GvFactList.class, GvFact.Reference.TYPE);

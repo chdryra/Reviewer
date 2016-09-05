@@ -28,8 +28,8 @@ public class GridItemReviewsList extends GridItemLauncher<GvNode>
         implements AlertListener, NewReviewListener {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
 
-    private LaunchableUiAlertable mShareEditUi;
-    private BuildScreenLauncher mLauncher;
+    private final LaunchableUiAlertable mShareEditUi;
+    private final BuildScreenLauncher mLauncher;
 
     public GridItemReviewsList(FactoryReviewView launchableFactory,
                                LaunchableUiAlertable shareEditUi,

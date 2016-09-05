@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
@@ -37,37 +38,38 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
         mDataPacker = dataPacker;
     }
 
-    protected void editData(T oldDatum, T newDatum) {
+    private void editData(T oldDatum, T newDatum) {
         getEditor().replace(oldDatum, newDatum);
         updateEditor();
     }
 
-    protected void deleteData(T datum) {
+    private void deleteData(T datum) {
         getEditor().delete(datum);
         onDataDeleted(datum);
         updateEditor();
     }
 
-    protected void onDataDeleted(T datum) {
+    void onDataDeleted(T datum) {
 
     }
 
-    protected void updateEditor() {
+    void updateEditor() {
         getGridData().setUnsorted();
         onUpdateEditor();
         getEditor().notifyDataObservers();
     }
 
-    protected void onUpdateEditor() {
+    void onUpdateEditor() {
 
     }
 
-    protected T unpackItem(Bundle args) {
+    @Nullable
+    T unpackItem(Bundle args) {
         return mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
     }
 
     @NonNull
-    protected Bundle packItem(T item) {
+    Bundle packItem(T item) {
         Bundle args = new Bundle();
         if (item != null) mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
         return args;
@@ -95,7 +97,7 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getLaunchableRequestCode() && data != null) {
+        if (requestCode == getLaunchableRequestCode()) {
             T oldDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                 T newDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);

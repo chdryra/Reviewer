@@ -22,7 +22,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
     protected Collection<DataReference.InvalidationListener> mListeners;
     private boolean mDeleted = false;
 
-    public DataReferenceBasic() {
+    protected DataReferenceBasic() {
         mListeners = new ArrayList<>();
     }
 
@@ -57,7 +57,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
         }
     }
 
-    protected boolean isDeleted() {
+    private boolean isDeleted() {
         return mDeleted;
     }
 

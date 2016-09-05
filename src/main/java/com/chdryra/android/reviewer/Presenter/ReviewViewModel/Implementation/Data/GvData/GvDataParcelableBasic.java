@@ -19,16 +19,17 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends GvDataBasic<T> implements GvDataParcelable{
-    public GvDataParcelableBasic(Parcel in) {
+    GvDataParcelableBasic(Parcel in) {
+        //TODO make type safe
         super((GvDataType<T>) in.readParcelable(GvDataType.class.getClassLoader()),
                 (GvReviewId) in.readParcelable(GvReviewId.class.getClassLoader()));
     }
 
-    protected GvDataParcelableBasic(GvDataType<T> type) {
+    GvDataParcelableBasic(GvDataType<T> type) {
         this(type, null);
     }
 
-    protected GvDataParcelableBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
+    GvDataParcelableBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
         super(type, reviewId);
     }
 

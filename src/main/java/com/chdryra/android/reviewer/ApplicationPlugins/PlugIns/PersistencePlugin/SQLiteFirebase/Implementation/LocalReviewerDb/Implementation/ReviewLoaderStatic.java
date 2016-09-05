@@ -42,8 +42,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLoaderStatic implements ReviewLoader {
-    private DataValidator mValidator;
-    private ReviewMaker mRecreater;
+    private final DataValidator mValidator;
+    private final ReviewMaker mRecreater;
 
     public ReviewLoaderStatic(ReviewMaker recreater, DataValidator validator) {
         mRecreater = recreater;

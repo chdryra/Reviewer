@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -34,17 +33,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public abstract class DialogGvDataView<T extends GvDataParcelable> extends DialogOneButtonFragment
         implements LaunchableUi {
-    private GvDataType<T> mDataType;
+    private final GvDataType<T> mDataType;
     private DialogLayout<T> mLayout;
     private T mDatum;
 
-    protected DialogGvDataView(GvDataType<T> dataType) {
+    DialogGvDataView(GvDataType<T> dataType) {
         mDataType = dataType;
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
     }
 
     @Override
@@ -72,7 +66,7 @@ public abstract class DialogGvDataView<T extends GvDataParcelable> extends Dialo
     }
 
     private void setDialogTitle() {
-        GvDataType dataType = mDatum.getGvDataType();
+        GvDataType<?> dataType = mDatum.getGvDataType();
         String title = dataType.equals(GvImage.TYPE) ? null : dataType.getDatumName();
         setDialogTitle(title);
     }
@@ -80,7 +74,7 @@ public abstract class DialogGvDataView<T extends GvDataParcelable> extends Dialo
     private void setLayout() {
         LocationServicesApi services
                 = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), services);
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), services);
         //TODO make type safe
         mLayout = (DialogLayout<T>) layoutFactory.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), getArguments());

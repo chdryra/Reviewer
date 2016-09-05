@@ -31,13 +31,13 @@ import java.util.Map;
  */
 public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> implements
         ListReference<T, C>, ItemBindersDelegate.BindableListReference<T, C> {
-    private Map<ListItemBinder<T>, ChildEventListener> mItemBinders;
+    private final Map<ListItemBinder<T>, ChildEventListener> mItemBinders;
     private SnapshotConverter<T> mItemConverter;
-    private ItemBindersDelegate<T> mManager;
+    private final ItemBindersDelegate<T> mManager;
 
-    public FbListReference(Firebase reference,
-                           SnapshotConverter<C> listConverter,
-                           SnapshotConverter<T> itemConverter) {
+    FbListReference(Firebase reference,
+                    SnapshotConverter<C> listConverter,
+                    SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
         mItemBinders = new HashMap<>();

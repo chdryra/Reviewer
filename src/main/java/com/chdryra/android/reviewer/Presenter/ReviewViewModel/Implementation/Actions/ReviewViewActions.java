@@ -27,13 +27,13 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewActions<T extends GvData> {
-    private SubjectAction<T> mSubjectAction;
-    private RatingBarAction<T> mRatingBarAction;
-    private BannerButtonAction<T> mBannerButtonAction;
-    private GridItemAction<T> mGridItemAction;
-    private MenuAction<T> mMenuAction;
-    private ContextualButtonAction<T> mContextualAction;
-    private ArrayList<ReviewViewAttachedObserver> mObservers;
+    private final SubjectAction<T> mSubjectAction;
+    private final RatingBarAction<T> mRatingBarAction;
+    private final BannerButtonAction<T> mBannerButtonAction;
+    private final GridItemAction<T> mGridItemAction;
+    private final MenuAction<T> mMenuAction;
+    private final ContextualButtonAction<T> mContextualAction;
+    private final ArrayList<ReviewViewAttachedObserver> mObservers;
 
     public interface ReviewViewAttachedObserver {
         <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView);

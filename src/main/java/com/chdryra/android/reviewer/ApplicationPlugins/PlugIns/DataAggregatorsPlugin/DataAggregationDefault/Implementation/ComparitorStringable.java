@@ -28,7 +28,7 @@ public class ComparitorStringable<T> implements DifferenceComparitor<T, Differen
     private final ComparitorString mComparitor;
     private final ItemGetter<T, String> mGetter;
 
-    public ComparitorStringable(ComparitorString comparitor, ItemGetter<T, String> getter) {
+    ComparitorStringable(ComparitorString comparitor, ItemGetter<T, String> getter) {
         mComparitor = comparitor;
         mGetter = getter;
     }

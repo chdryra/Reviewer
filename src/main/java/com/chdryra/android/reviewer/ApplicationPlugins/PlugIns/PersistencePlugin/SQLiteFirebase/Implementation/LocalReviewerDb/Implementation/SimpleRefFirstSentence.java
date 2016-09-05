@@ -46,7 +46,7 @@ public class SimpleRefFirstSentence extends SimpleRefComment {
     }
 
     private static class FirstSentenceDereferencer implements Dereferencer<DataComment> {
-        private RefComment mParent;
+        private final RefComment mParent;
 
         public FirstSentenceDereferencer(RefComment parent) {
             mParent = parent;

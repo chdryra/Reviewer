@@ -16,8 +16,8 @@ import android.app.Activity;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryUiLauncher {
-    private Class<? extends Activity> mDefaultActivity;
-    private Class<? extends Activity> mReviewsListActivity;
+    private final Class<? extends Activity> mDefaultActivity;
+    private final Class<? extends Activity> mReviewsListActivity;
 
     public FactoryUiLauncher(Class<? extends Activity> defaultActivity, Class<? extends Activity>
             reviewsListActivity) {

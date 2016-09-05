@@ -10,7 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
         .GooglePlacesApi;
 
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 public class NearestPlacesSuggesterGp extends GoogleLocationServiceBasic implements
         NearestPlacesSuggester,
         ResultCallback<PlaceLikelihoodBuffer> {
+
     private NearestPlacesListener mListener;
 
     public NearestPlacesSuggesterGp(GoogleApiClient client) {
@@ -69,6 +74,12 @@ public class NearestPlacesSuggesterGp extends GoogleLocationServiceBasic impleme
 
     @Override
     protected void doRequestOnConnected() {
+        Context context = getClient().getContext();
+        if ( ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission( context, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            onNotPermissioned();
+        }
+
         Places.PlaceDetectionApi.getCurrentPlace(getClient(), null).setResultCallback(this);
     }
 }

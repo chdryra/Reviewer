@@ -29,10 +29,10 @@ public class PublishResults implements Parcelable{
         }
     };
 
-    private String mPublisherName;
-    private int mFollowers;
-    private String mErrorIfFail;
-    private boolean mSuccess;
+    private final String mPublisherName;
+    private final int mFollowers;
+    private final String mErrorIfFail;
+    private final boolean mSuccess;
 
     public PublishResults(String publisherName, int followers) {
         mPublisherName = publisherName;
@@ -48,7 +48,7 @@ public class PublishResults implements Parcelable{
         mSuccess = false;
     }
 
-    public PublishResults(Parcel in) {
+    private PublishResults(Parcel in) {
         mPublisherName = in.readString();
         mFollowers = in.readInt();
         mErrorIfFail = in.readString();

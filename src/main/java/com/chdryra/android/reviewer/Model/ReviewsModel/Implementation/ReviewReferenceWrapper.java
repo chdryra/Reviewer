@@ -39,9 +39,9 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewReferenceWrapper extends WrapperItemReference<Review> implements ReviewReference {
-    private Review mReview;
-    private TagsManager mTagsManager;
-    private FactoryReference mReferenceFactory;
+    private final Review mReview;
+    private final TagsManager mTagsManager;
+    private final FactoryReference mReferenceFactory;
 
     public ReviewReferenceWrapper(Review review, TagsManager tagsManager, FactoryReference
             referenceFactory) {

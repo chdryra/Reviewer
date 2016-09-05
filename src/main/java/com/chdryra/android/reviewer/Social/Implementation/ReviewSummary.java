@@ -16,11 +16,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewSummary {
-    private String mSubject;
-    private float mRating;
-    private ArrayList<String> mHeadlines;
-    private ArrayList<String> mTags;
-    private ArrayList<String> mLocations;
+    private final String mSubject;
+    private final float mRating;
+    private final ArrayList<String> mHeadlines;
+    private final ArrayList<String> mTags;
+    private final ArrayList<String> mLocations;
 
     public ReviewSummary(String subject, float rating, ArrayList<String>
             headlines, ArrayList<String> tags, ArrayList<String> locations) {

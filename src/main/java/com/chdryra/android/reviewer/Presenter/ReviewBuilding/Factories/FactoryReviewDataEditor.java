@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewDataEditor {
-    private FactoryReviewViewParams mParamsFactory;
-    private FactoryEditActions mActionsFactory;
+    private final FactoryReviewViewParams mParamsFactory;
+    private final FactoryEditActions mActionsFactory;
 
     public FactoryReviewDataEditor(FactoryReviewViewParams paramsFactory,
                                    FactoryEditActions actionsFactory) {

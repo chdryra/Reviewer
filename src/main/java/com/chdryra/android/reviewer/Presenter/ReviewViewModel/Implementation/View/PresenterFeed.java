@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterFeed extends PresenterReviewsList {
-    protected PresenterFeed(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
+    PresenterFeed(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
         super(app, app.newReviewsListView(feedNode, withMenu));
     }
 
@@ -30,13 +30,13 @@ public class PresenterFeed extends PresenterReviewsList {
     }
 
     public static class Builder {
-        private ApplicationInstance mApp;
+        private final ApplicationInstance mApp;
 
         public Builder(ApplicationInstance app) {
             mApp = app;
         }
 
-        protected ApplicationInstance getApp() {
+        ApplicationInstance getApp() {
             return mApp;
         }
 
@@ -45,7 +45,7 @@ public class PresenterFeed extends PresenterReviewsList {
         }
 
         @NonNull
-        protected ReviewNodeRepo getFeedNode(AuthorId authorId) {
+        ReviewNodeRepo getFeedNode(AuthorId authorId) {
             return mApp.getReviewsFactory().createAuthorsTree(authorId, mApp);
         }
     }

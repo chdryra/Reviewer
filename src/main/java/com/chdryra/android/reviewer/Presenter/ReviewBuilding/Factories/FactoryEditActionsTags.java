@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  */
 public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
-    private TagAdjuster mTagAdjuster;
+    private final TagAdjuster mTagAdjuster;
 
     public FactoryEditActionsTags(Context context, ConfigUi config,
                                   FactoryGvData dataFactory,

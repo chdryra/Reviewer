@@ -13,13 +13,11 @@
     <string name="search_hint">Search</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>
-    <string name="view">View</string>
 
     <!-- Line -->
     <string name="line_or">or</string>
 
     <!-- Dialogs -->
-    <string name="dialog_url_title">Link</string>
     <string name="dialog_image_content_description">Review image</string>
     <string name="dialog_location_no_suggestions">No suggestions found&#8230;</string>
 
@@ -27,8 +25,6 @@
     <string name="activity_title_location">location</string>
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
-    <string name="activity_title_build_review">create</string>
-    <string name="activity_title_share">share</string>
     <string name="activity_title_login">login</string>
     <string name="activity_title_sign_up">sign up</string>
 
@@ -43,7 +39,6 @@
     <string name="edit_text_fact_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
     <string name="edit_text_fact_value_hint">value&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>
-    <string name="edit_text_url_text">http://</string>
     <string name="edit_text_tag_hint">tag&#8230;</string>
     <string name="edit_text_email">email</string>
     <string name="edit_text_password">password</string>
@@ -55,17 +50,9 @@
 
     <!-- ProgressDialogs -->
     <string name="progress_bar_search_location_title">searching&#8230;</string>
-    <string name="progress_bar_search_location_message">please wait&#8230;</string>
-    <string name="progress_bar_fetching_location_title">fetching location&#8230;</string>
-    <string name="progress_bar_fetching_location_message">please wait&#8230;</string>
 
     <!-- Buttons -->
-    <string name="button_browse">WWW</string>
-    <string name="button_map">Map</string>
-    <string name="button_add_review_data">Details</string>
     <string name="button_share">Share</string>
-    <string name="button_publish">Publish</string>
-    <string name="button_social">Social</string>
     <string name="button_add">Add</string>
     <string name="button_done">Done</string>
     <string name="button_goto_review">Review</string>
@@ -92,12 +79,6 @@
     <string name="menu_logout">log out</string>
 
     <!-- Social -->
-    <string name="facebook">facebook</string>
-    <string name="twitter">twitter</string>
-    <string name="email">email</string>
-    <string name="tumblr">tumblr</string>
-    <string name="foursquare">foursquare</string>
-    <string name="whatsapp">whatsapp</string>
 
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
@@ -111,7 +92,6 @@
     <string name="publishing_error">publishing error</string>
 
     <!-- Keys -->
-    <string name="key_google_maps">AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg</string>
     <string name="key_google_api">AIzaSyAijd_EYrICD78hz3NlE03sWlyG26cjvEc</string>
     <string name="google_client_id">333308281121-einfbtdarlq1053len5ssu8si28911k0.apps.googleusercontent.com</string>
     <string name="consumer_key_twitter">S1cZ1sRDt4pbUP49MCduMt0IQ</string>
@@ -121,8 +101,6 @@
     <string name="consumer_key_4square">PKIX2W00YPV0F02QBTEV0V3MUDTKUDFV1RTVW3LKRFHIHS2V</string>
     <string name="consumer_secret_4square">AUIB1SGHZMCNHWGLI1JCL3XTZJ0U5J0UYWJLMM1VLVBFWDUE</string>
     <string name="facebook_app_id">1671165596505199</string>
-    <string name="consumer_key_facebook">e19654d535b42693fbcb6fa45628c653</string>
-    <string name="consumer_secret_facebook">3c4f4f17a09bcc16cf49674facc56fb0</string>
     <string name="callback">http://oauth.callback.url</string>
 
 </resources>

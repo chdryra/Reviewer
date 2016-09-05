@@ -114,7 +114,7 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
 
     private void setLayout() {
         LocationServicesApi services = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), services);
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), services);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }

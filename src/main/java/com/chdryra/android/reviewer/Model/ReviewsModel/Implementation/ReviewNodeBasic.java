@@ -21,9 +21,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewNodeBasic implements ReviewNode {
-    private ArrayList<NodeObserver> mObservers;
+    private final ArrayList<NodeObserver> mObservers;
 
-    public ReviewNodeBasic() {
+    ReviewNodeBasic() {
         mObservers = new ArrayList<>();
     }
 
@@ -48,25 +48,25 @@ public abstract class ReviewNodeBasic implements ReviewNode {
         if (!mObservers.contains(binder)) mObservers.add(binder);
     }
 
-    protected void notifyOnChildAdded(ReviewNode child) {
+    void notifyOnChildAdded(ReviewNode child) {
         for (NodeObserver observer : mObservers) {
             observer.onChildAdded(child);
         }
     }
 
-    protected void notifyOnChildRemoved(ReviewNode child) {
+    void notifyOnChildRemoved(ReviewNode child) {
         for (NodeObserver observer : mObservers) {
             observer.onChildRemoved(child);
         }
     }
 
-    protected void notifyOnNodeChanged() {
+    void notifyOnNodeChanged() {
         for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
     }
 
-    protected void notifyOnDescendantsChanged() {
+    void notifyOnDescendantsChanged() {
         for (NodeObserver observer : mObservers) {
             observer.onDescendantsChanged();
         }

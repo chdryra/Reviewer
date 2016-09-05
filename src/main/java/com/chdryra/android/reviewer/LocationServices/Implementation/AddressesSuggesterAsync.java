@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddressesSuggesterAsync implements AddressesSuggester {
-    private AddressesProvider mProvider;
+    private final AddressesProvider mProvider;
 
     public interface AddressesProvider {
         ArrayList<LocatedPlace> fetchAddresses(LatLng latLng, int num);

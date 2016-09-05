@@ -113,7 +113,7 @@ public class GvDataAggregator {
 //        return newCollection(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
 //    }
     
-    public <T1 extends HasReviewId, T2 extends GvData> GvCanonicalCollection<T2>
+    private <T1 extends HasReviewId, T2 extends GvData> GvCanonicalCollection<T2>
     newCollection(DataConverter<? super T1, T2, ? extends GvDataList<T2>> converter,
                   AggregatedList<T1> aggregated, GvDataType<T2> type) {
         GvReviewId id = new GvReviewId(aggregated.getReviewId());

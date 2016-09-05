@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthor> {
-    private DifferenceComparitor<? super DataAuthor, DifferenceBoolean> mComparitor;
+    private final DifferenceComparitor<? super DataAuthor, DifferenceBoolean> mComparitor;
 
     public CanonicalAuthor(DifferenceComparitor<? super DataAuthor, DifferenceBoolean> comparitor) {
         mComparitor = comparitor;

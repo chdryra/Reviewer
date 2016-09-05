@@ -20,13 +20,13 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UserProfileConverter {
-    private FactoryAuthorProfile mProfileFactory;
+    private final FactoryAuthorProfile mProfileFactory;
 
     public UserProfileConverter(FactoryAuthorProfile profileFactory) {
         mProfileFactory = profileFactory;
     }
 
-    public User newUser(String providerName, String providerUserId) {
+    private User newUser(String providerName, String providerUserId) {
         return new User(providerName, providerUserId);
     }
 

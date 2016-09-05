@@ -28,7 +28,7 @@ public abstract class CanonicalStringMaker<T extends HasReviewId> implements
     @NonNull
     protected abstract ItemGetter<T, String> getStringGetter();
 
-    protected String getModeString(Iterable<? extends T> data) {
+    String getModeString(Iterable<? extends T> data) {
         ItemCounter<T, String> counter = countItems(data);
         String modeString = counter.getModeItem();
         int nonMode = counter.getNonModeCount();
@@ -37,7 +37,7 @@ public abstract class CanonicalStringMaker<T extends HasReviewId> implements
     }
 
     @NonNull
-    protected String formatModeString(String modeString, int nonMode) {
+    String formatModeString(String modeString, int nonMode) {
         modeString += " + " + String.valueOf(nonMode);
         return modeString;
     }

@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class CursorRowValues implements RowValues {
-    Cursor mCursor;
+    private final Cursor mCursor;
 
     public CursorRowValues(Cursor cursor) {
         mCursor = cursor;

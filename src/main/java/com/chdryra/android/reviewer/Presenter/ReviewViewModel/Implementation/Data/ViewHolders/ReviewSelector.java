@@ -28,13 +28,13 @@ import java.util.Stack;
  */
 public class ReviewSelector implements ReviewListReference.ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>,
         DataReference.DereferenceCallback<ReviewReference>, ReviewNode.NodeObserver {
-    private Selector mSelector;
+    private final Selector mSelector;
     private ReviewSelectorCallback mCallback;
     private ReviewNode mNode;
     private ReviewReference mReview;
     private int mNumReviews;
     private int mCount;
-    private Stack<ReviewNode> mPending;
+    private final Stack<ReviewNode> mPending;
     private boolean mInProgress = false;
 
     public interface Selector {

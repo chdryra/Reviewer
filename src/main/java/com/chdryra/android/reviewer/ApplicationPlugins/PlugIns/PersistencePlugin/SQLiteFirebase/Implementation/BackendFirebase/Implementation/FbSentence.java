@@ -22,7 +22,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbSentence extends FbReviewItemRef<DataComment> implements RefComment {
-    private RefComment mParent;
+    private final RefComment mParent;
 
     public FbSentence(ReviewId id,
                       Firebase reference,

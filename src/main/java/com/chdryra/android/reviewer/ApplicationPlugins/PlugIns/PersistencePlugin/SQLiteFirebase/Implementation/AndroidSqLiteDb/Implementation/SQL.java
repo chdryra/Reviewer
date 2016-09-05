@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 30/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SQL {
+class SQL {
     public static final String CREATE_TABLE = "CREATE TABLE ";
     public static final String PRIMARY_KEY = "PRIMARY KEY";
     public static final String FOREIGN_KEY = "FOREIGN KEY";

@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectUi {
-    private ReviewView<?> mReviewView;
-    private TextView mView;
+    private final ReviewView<?> mReviewView;
+    private final TextView mView;
 
     public SubjectUi(ReviewView<?> reviewView, TextView view) {
         mReviewView = reviewView;

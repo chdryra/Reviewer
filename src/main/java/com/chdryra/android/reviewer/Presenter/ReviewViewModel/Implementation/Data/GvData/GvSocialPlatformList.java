@@ -38,7 +38,7 @@ public class GvSocialPlatformList extends GvDataListParcelable<GvSocialPlatform>
         super(GvSocialPlatform.TYPE, null);
     }
 
-    public GvSocialPlatformList(Parcel in) {
+    private GvSocialPlatformList(Parcel in) {
         super(in);
         throw new UnsupportedOperationException("Parcelable not supported!");
     }

@@ -24,7 +24,7 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
         NoSubject(Strings.Toasts.ENTER_SUBJECT),
         NoTags(Strings.Toasts.ENTER_TAG);
 
-        private String mMessage;
+        private final String mMessage;
 
         ReadyToBuildResult(String message) {
             mMessage = message;

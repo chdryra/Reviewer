@@ -26,7 +26,7 @@ public class PasswordValidation {
         OK("Ok"),
         INVALID_PASSWORD("Password should have at least " + MIN_PASSWORD + " characters");
 
-        private String mMessage;
+        private final String mMessage;
 
         PasswordError(String message) {
             mMessage = message;

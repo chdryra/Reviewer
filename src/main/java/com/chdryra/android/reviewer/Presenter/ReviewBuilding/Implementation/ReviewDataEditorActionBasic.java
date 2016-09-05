@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 public abstract class ReviewDataEditorActionBasic<T extends GvData> extends ReviewViewActionBasic<T> {
     private ReviewDataEditor<T> mEditor;
 
-    public ReviewDataEditor<T> getEditor() {
+    ReviewDataEditor<T> getEditor() {
         return mEditor;
     }
 

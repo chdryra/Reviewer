@@ -39,12 +39,12 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     private GvDataType<T2> mDataType;
     private Class<T3> mListClass;
 
-    public GvConverterBasic(Class<T3> listClass) {
+    GvConverterBasic(Class<T3> listClass) {
         mListClass = listClass;
         setDataType();
     }
 
-    public GvConverterBasic(GvDataType<T2> dataType) {
+    GvConverterBasic(GvDataType<T2> dataType) {
         mDataType = dataType;
     }
 
@@ -53,12 +53,12 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     }
 
     @Nullable
-    protected GvReviewId getGvReviewId(HasReviewId datum, ReviewId reviewId) {
+    GvReviewId getGvReviewId(HasReviewId datum, ReviewId reviewId) {
         ReviewId id = datum.getReviewId();
         return id != null ? newId(id) : newId(reviewId);
     }
 
-    protected GvReviewId newId(@Nullable ReviewId reviewId) {
+    GvReviewId newId(@Nullable ReviewId reviewId) {
         return reviewId != null ? new GvReviewId(reviewId) : new GvReviewId();
     }
 
@@ -100,7 +100,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         }
     }
 
-    protected T3 newList(ReviewId reviewId) {
+    T3 newList(ReviewId reviewId) {
         GvReviewId id = new GvReviewId(reviewId);
         if(mListClass != null) {
             try {

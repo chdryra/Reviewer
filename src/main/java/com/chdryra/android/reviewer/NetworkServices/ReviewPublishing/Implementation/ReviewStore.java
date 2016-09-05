@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewStore implements MutableRepoCallback, RepositoryCallback, WorkStore<Review> {
-    private LocalRepository mRepo;
+    private final LocalRepository mRepo;
     private WorkStoreCallback<Review> mWorkStoreCallback;
     private String mFetching;
 

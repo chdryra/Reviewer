@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
@@ -19,22 +18,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConverterGv {
-    private TagsManager mTagsManager;
-
-    public ConverterGv(TagsManager tagsManager) {
-        mTagsManager = tagsManager;
-    }
-
     public GvConverterSizes newConverterSizes(GvDataType<?> type) {
         return new GvConverterSizes(type);
     }
 
     public GvConverterImages newConverterImages() {
         return new GvConverterImages(newConverterDates());
-    }
-
-    public GvConverterReviews newConverterReviews() {
-        return new GvConverterReviews(mTagsManager, newConverterImages(), newConverterComments(), newConverterLocations());
     }
 
     public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
@@ -53,7 +42,7 @@ public class ConverterGv {
         return new GvConverterLocations();
     }
 
-    public GvConverterUrls newConverterUrls() {
+    private GvConverterUrls newConverterUrls() {
         return new GvConverterUrls();
     }
 

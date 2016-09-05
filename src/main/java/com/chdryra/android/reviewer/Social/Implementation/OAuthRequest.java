@@ -29,9 +29,9 @@ public class OAuthRequest implements Parcelable{
         }
     };
 
-    private String mName;
-    private String mAuthorisationUrl;
-    private String mCallbackUrl;
+    private final String mName;
+    private final String mAuthorisationUrl;
+    private final String mCallbackUrl;
     private String mCallbackResult;
 
     public OAuthRequest(String name, String authorisationUrl, String callbackUrl) {
@@ -41,7 +41,7 @@ public class OAuthRequest implements Parcelable{
         mCallbackResult = "";
     }
 
-    public OAuthRequest(Parcel in) {
+    private OAuthRequest(Parcel in) {
         mName = (String) in.readSerializable();
         mAuthorisationUrl = (String) in.readSerializable();
         mCallbackUrl = (String) in.readSerializable();

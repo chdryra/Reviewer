@@ -28,7 +28,7 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     private float mRating;
     private boolean mRatingIsAverage;
 
-    private DataBuilderAdapter<T> mBuilder;
+    private final DataBuilderAdapter<T> mBuilder;
 
     public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
                                 ReviewViewActions<T> actions, ReviewViewParams params) {

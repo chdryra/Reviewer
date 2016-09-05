@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
  */
 public class ReleaseSocialContext implements SocialContext {
 
-    private SocialPlatformList mPlatforms;
+    private final SocialPlatformList mPlatforms;
 
     public ReleaseSocialContext(Context context) {
         mPlatforms = new FactorySocialPlatformList(context).getPlatforms();

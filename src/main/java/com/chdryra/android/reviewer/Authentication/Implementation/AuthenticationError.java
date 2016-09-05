@@ -29,7 +29,7 @@ public class AuthenticationError {
         UNKNOWN_ERROR("Beats me...");
 
 
-        private String mMessage;
+        private final String mMessage;
 
         Reason(String message) {
             mMessage = message;
@@ -40,9 +40,9 @@ public class AuthenticationError {
         }
     }
 
-    private String mProvider;
-    private Reason mReason;
-    private String mDetail;
+    private final String mProvider;
+    private final Reason mReason;
+    private final String mDetail;
 
     public AuthenticationError(String provider, Reason reason) {
         this(provider, reason, "");

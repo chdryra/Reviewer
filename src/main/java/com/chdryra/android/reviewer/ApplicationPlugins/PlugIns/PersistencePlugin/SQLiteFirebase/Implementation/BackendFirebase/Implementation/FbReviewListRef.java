@@ -25,15 +25,15 @@ import com.firebase.client.Firebase;
  */
 public class FbReviewListRef<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
         extends FbListReference<Value, IdableList<Value>> implements ReviewListReference<Value, Reference> {
-    private ReviewId mId;
-    private ReviewItemReference<DataSize> mSizeReference;
-    private ListItemsReferencer<Value, Reference> mItemReferencer;
+    private final ReviewId mId;
+    private final ReviewItemReference<DataSize> mSizeReference;
+    private final ListItemsReferencer<Value, Reference> mItemReferencer;
 
-    public FbReviewListRef(ReviewId id,
-                           Firebase reference,
-                           ReviewItemReference<DataSize> sizeReference,
-                           ListConverter<Value> converter,
-                           ListItemsReferencer<Value, Reference> itemReferencer) {
+    FbReviewListRef(ReviewId id,
+                    Firebase reference,
+                    ReviewItemReference<DataSize> sizeReference,
+                    ListConverter<Value> converter,
+                    ListItemsReferencer<Value, Reference> itemReferencer) {
         super(reference, converter, converter.getItemConverter());
         mId = id;
         mSizeReference = sizeReference;

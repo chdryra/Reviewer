@@ -28,8 +28,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeRefItemList<Value extends HasReviewId> extends TreeDataReferenceBasic<Value, ReviewItemReference<Value>> implements RefDataList<Value>{
-    private FactoryMdReference mReferenceFactory;
-    private VisitorFactory.ItemVisitor<Value> mVisitorFactory;
+    private final FactoryMdReference mReferenceFactory;
+    private final VisitorFactory.ItemVisitor<Value> mVisitorFactory;
 
     public TreeRefItemList(ReviewNode root,
                            FactoryMdReference referenceFactory,
@@ -72,6 +72,7 @@ public class TreeRefItemList<Value extends HasReviewId> extends TreeDataReferenc
     @Override
     public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<Value>
             callback) {
+        //TODO make type safe
         VisitorDataGetter<Value> getter = (VisitorDataGetter<Value>) visitor;
         callback.onData(getter.getData());
     }

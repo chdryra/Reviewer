@@ -28,9 +28,9 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscriber {
-    private AuthorId mAuthorId;
-    private ReviewerDbRepository mRepo;
-    protected List<ReviewsSubscriber> mSubscribers;
+    private final AuthorId mAuthorId;
+    private final ReviewerDbRepository mRepo;
+    private final List<ReviewsSubscriber> mSubscribers;
 
     public ReviewerDbAuthored(AuthorId authorId, ReviewerDbRepository repo) {
         mAuthorId = authorId;
@@ -38,11 +38,11 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
         mSubscribers = new ArrayList<>();
     }
 
-    public ReviewerDbRepository getRepo() {
+    ReviewerDbRepository getRepo() {
         return mRepo;
     }
 
-    protected AuthorId getAuthorId() {
+    AuthorId getAuthorId() {
         return mAuthorId;
     }
 

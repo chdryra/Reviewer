@@ -64,8 +64,8 @@ import com.firebase.client.Firebase;
 public class BackendFirebase implements Backend {
     private final Firebase mDatabase;
     private final FirebaseStructure mStructure;
-    private UserProfileConverter mTranslator;
-    private FactoryFbReference mDataReferencer;
+    private final UserProfileConverter mTranslator;
+    private final FactoryFbReference mDataReferencer;
 
     public BackendFirebase(Context context, FactoryAuthorProfile profileFactory) {
         Firebase.setAndroidContext(context);

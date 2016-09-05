@@ -40,9 +40,9 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
     private static final int GOOGLE_SIGN_IN = RequestCodeGenerator.getCode("GoogleSignIn");
     private static final int GOOGLE_CLIENT_ID = R.string.google_client_id;
 
-    private GoogleApiClient mGoogleApiClient;
+    private final GoogleApiClient mGoogleApiClient;
     private GoogleLoginCallback mListener;
-    private Activity mActivity;
+    private final Activity mActivity;
 
     private LogoutCallback mLogoutCallback;
 
@@ -63,7 +63,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
                 .build();
     }
 
-    public void setListener(GoogleLoginCallback listener) {
+    private void setListener(GoogleLoginCallback listener) {
         mListener = listener;
     }
 

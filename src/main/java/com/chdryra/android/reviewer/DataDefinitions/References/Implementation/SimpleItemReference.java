@@ -23,8 +23,8 @@ import java.util.Collection;
  */
 public class SimpleItemReference<T extends HasReviewId> extends BindableReferenceBasic<T> implements
         ReviewItemReference<T> {
-    private Collection<ReferenceBinder<T>> mValueBinders;
-    private Dereferencer<T> mDereferencer;
+    private final Collection<ReferenceBinder<T>> mValueBinders;
+    private final Dereferencer<T> mDereferencer;
 
     public interface Dereferencer<T extends HasReviewId> {
         ReviewId getReviewId();

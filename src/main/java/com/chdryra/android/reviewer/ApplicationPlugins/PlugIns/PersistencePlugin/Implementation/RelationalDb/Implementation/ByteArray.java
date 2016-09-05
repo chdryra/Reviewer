@@ -17,7 +17,7 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ByteArray {
-    private byte[] mData;
+    private final byte[] mData;
 
     public ByteArray(byte[] data) {
         mData = data;

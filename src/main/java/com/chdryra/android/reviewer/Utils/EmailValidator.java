@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailValidator {
+class EmailValidator {
     private static final String EMAIL_REGEX =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

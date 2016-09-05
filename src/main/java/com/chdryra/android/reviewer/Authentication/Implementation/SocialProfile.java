@@ -18,8 +18,8 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialProfile {
-    private List<NamedAuthor> mFollowing;
-    private List<NamedAuthor> mFollowers;
+    private final List<NamedAuthor> mFollowing;
+    private final List<NamedAuthor> mFollowers;
 
     public SocialProfile(List<NamedAuthor> following, List<NamedAuthor> followers) {
         mFollowing = following;

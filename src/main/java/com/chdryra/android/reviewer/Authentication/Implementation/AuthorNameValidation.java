@@ -28,7 +28,7 @@ public class AuthorNameValidation {
         INVALID_LENGTH("Name should have at least " + MIN_LETTERS + " characters"),
         INVALID_CHARACTERS("Name should only contain letters, numbers, underscore");
 
-        private String mMessage;
+        private final String mMessage;
 
         Reason(String message) {
             mMessage = message;
@@ -59,7 +59,7 @@ public class AuthorNameValidation {
     }
 
     private boolean isNotValid(String toExamine) {
-        Pattern pattern = Pattern.compile("[^abcdefghijklmnopqrestuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]");
+        Pattern pattern = Pattern.compile("[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]");
         Matcher matcher = pattern.matcher(toExamine);
         return matcher.find();
     }

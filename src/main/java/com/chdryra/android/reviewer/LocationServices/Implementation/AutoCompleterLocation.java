@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class AutoCompleterLocation implements AutoCompleter<VhdLocatedPlace> {
     private final LatLng mLatLng;
-    private LocationPredicter mProvider;
+    private final LocationPredicter mProvider;
 
     public interface LocationPredicter {
         ArrayList<LocatedPlace> fetchPredictions(String query, LatLng latLng);

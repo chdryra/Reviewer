@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public abstract class GvDataTypes {
     public static final ArrayList<GvDataType<? extends GvDataParcelable>> BUILD_TYPES = new ArrayList<>();
-    public static final ArrayList<GvDataType<? extends GvDataParcelable>> ALL_TYPES = new ArrayList<>();
+    private static final ArrayList<GvDataType<? extends GvDataParcelable>> ALL_TYPES = new ArrayList<>();
     static {
         BUILD_TYPES.add(GvComment.TYPE);
         BUILD_TYPES.add(GvFact.TYPE);

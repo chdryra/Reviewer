@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DifferenceDate implements DifferenceLevel<DifferenceDate> {
-    private DateBucket mDateLevel;
+    private final DateBucket mDateLevel;
 
     public enum DateBucket {DAY, MONTH, YEAR, MORE_THAN_YEAR}
 

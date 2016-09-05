@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 03/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionBasic<T>
+class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionBasic<T>
         implements AlertListener {
     private final String mLaunchTag;
     private final LaunchableConfig mConfig;
@@ -28,7 +28,7 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
     private int mLaunchableRequestCode = -1;
     private int mAlertDialogRequestCode;
 
-    public LaunchAndAlertableAction(String launchTag, LaunchableConfig config) {
+    LaunchAndAlertableAction(String launchTag, LaunchableConfig config) {
         mLaunchTag = launchTag;
         mConfig = config;
     }
@@ -37,15 +37,15 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
         return mLaunchableRequestCode;
     }
 
-    protected void setLaunchableRequestCode(String tag) {
+    void setLaunchableRequestCode(String tag) {
         mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + tag);
     }
 
-    protected void launchDefaultConfig(Bundle args){
+    void launchDefaultConfig(Bundle args){
         launch(mConfig, args);
     }
 
-    protected void launch(LaunchableConfig config, Bundle args) {
+    void launch(LaunchableConfig config, Bundle args) {
         setLaunchableRequestCode(config.getTag());
         getApp().getUiLauncher().launch(config, getLaunchableRequestCode(), args);
     }
@@ -54,11 +54,7 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
         return mAlertDialogRequestCode;
     }
 
-    protected void doAlertNegative(Bundle args) {
-
-    }
-
-    protected void doAlertPositive(Bundle args) {
+    void doAlertPositive(Bundle args) {
 
     }
 
@@ -69,10 +65,10 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
 
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
-        if (requestCode == mAlertDialogRequestCode) doAlertNegative(args);
+
     }
 
-    protected void showAlert(String alert, int requestCode, Bundle args) {
+    void showAlert(String alert, int requestCode, Bundle args) {
         mAlertDialogRequestCode = requestCode;
         getApp().getCurrentScreen().showAlert(alert, requestCode, args);
     }

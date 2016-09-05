@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbSpecificationImpl<T extends DbContract> implements DbSpecification<T> {
-    private T mContract;
-    private String mDatabaseName;
-    private int mVersionNumber;
+    private final T mContract;
+    private final String mDatabaseName;
+    private final int mVersionNumber;
 
     public DbSpecificationImpl(T contract, String databaseName, int versionNumber) {
         mContract = contract;

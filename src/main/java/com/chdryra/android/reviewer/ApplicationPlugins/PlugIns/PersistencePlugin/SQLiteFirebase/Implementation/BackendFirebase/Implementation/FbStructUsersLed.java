@@ -35,15 +35,12 @@ import com.firebase.client.Firebase;
  */
 public class FbStructUsersLed implements FirebaseStructure {
     private StructureUserProfile mUserProfile;
-    private StructureAuthorsUsersMap mAuthorsUsersMap;
     private StructureUsersAuthorsMap mUsersAuthorsMap;
     private StructureNamesAuthorsMap mNamesAuthorsMap;
     private StructureAuthorsNamesMap mAuthorsNamesMap;
     private StructureReview mReviews;
-    private StructureReview mList;
     private StructureReview mAggregates;
     private StructureReview mAllReviewsList;
-    private StructureReview mAllReviewsAggregates;
 
     private DbUpdater<User> mUserUpdater;
     private DbUpdater<ReviewDb> mReviewUploadUpdater;
@@ -153,15 +150,16 @@ public class FbStructUsersLed implements FirebaseStructure {
             }
         };
         mReviews = new StructureReviewData.Reviews(pathToReviews);
-        mList = new StructureReviewData.List(pathToList);
+        StructureReview list = new StructureReviewData.List(pathToList);
         mAggregates = new StructureReviewData.Aggregates(pathToAggregates);
 
         mAllReviewsList = new StructureReviewData.List(pathToReviewsList());
-        mAllReviewsAggregates = new StructureReviewData.Aggregates(pathToAggregates());
+        StructureReview allReviewsAggregates = new StructureReviewData.Aggregates
+                (pathToAggregates());
 
         StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
-        mReviewUploadUpdater = builderReview.add(mReviews).add(mList).add(mAggregates).
-                add(mAllReviewsList).add(mAllReviewsAggregates).build();
+        mReviewUploadUpdater = builderReview.add(mReviews).add(list).add(mAggregates).
+                add(mAllReviewsList).add(allReviewsAggregates).build();
     }
 
     private void initialiseUserDb() {
@@ -176,12 +174,13 @@ public class FbStructUsersLed implements FirebaseStructure {
 
         mUserProfile = new StructureUserProfileImpl(pathToProfile);
         mUsersAuthorsMap = new StructureUsersAuthorsMapImpl(pathToUserAuthorMap());
-        mAuthorsUsersMap = new StructureAuthorsUsersMapImpl(pathToAuthorUserMap());
+        StructureAuthorsUsersMap authorsUsersMap = new StructureAuthorsUsersMapImpl
+                (pathToAuthorUserMap());
         mNamesAuthorsMap = new StructureNamesAuthorsMapImpl(pathToNamesAuthorMap());
         mAuthorsNamesMap = new StructureAuthorsNamesMapImpl(pathToAuthorNamesMap());
 
         StructureBuilder<User> builderUser = new StructureBuilder<>();
-        mUserUpdater = builderUser.add(mUserProfile).add(mUsersAuthorsMap).add(mAuthorsUsersMap)
+        mUserUpdater = builderUser.add(mUserProfile).add(mUsersAuthorsMap).add(authorsUsersMap)
                 .add(mNamesAuthorsMap).add(mAuthorsNamesMap).build();
     }
 

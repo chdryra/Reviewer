@@ -31,7 +31,7 @@ import java.util.Locale;
  */
 public class AddressesProviderGp implements AddressesSuggesterAsync.AddressesProvider {
     private final static String TAG = "AddressesProviderGoogle";
-    private Context mContext;
+    private final Context mContext;
 
     public AddressesProviderGp(Context context) {
         mContext = context;

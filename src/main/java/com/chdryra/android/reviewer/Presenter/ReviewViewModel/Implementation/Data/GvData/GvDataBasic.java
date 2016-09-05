@@ -19,14 +19,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataBasic<T extends GvData> implements GvData {
-    protected GvDataType<T> mType;
-    protected GvReviewId mReviewId;
+    final GvDataType<T> mType;
+    GvReviewId mReviewId;
 
-    protected GvDataBasic(GvDataType<T> type) {
+    GvDataBasic(GvDataType<T> type) {
         mType = type;
     }
 
-    protected GvDataBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
+    GvDataBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
         mType = type;
         mReviewId = reviewId;
     }

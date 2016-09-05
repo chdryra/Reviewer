@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumSize implements DataSize {
-    private ReviewId mId;
+    private final ReviewId mId;
     private int mSize = 0;
 
     public DatumSize(ReviewId id, int size) {

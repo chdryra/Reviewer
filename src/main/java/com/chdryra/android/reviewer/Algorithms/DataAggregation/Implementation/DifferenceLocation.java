@@ -18,8 +18,8 @@ import org.jetbrains.annotations.NotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DifferenceLocation implements DifferenceLevel<DifferenceLocation> {
-    private DifferenceFloat mDistanceDifference;
-    private DifferencePercentage mNameDifference;
+    private final DifferenceFloat mDistanceDifference;
+    private final DifferencePercentage mNameDifference;
 
     public DifferenceLocation(DifferenceFloat distanceDifference, DifferencePercentage
             nameDifference) {

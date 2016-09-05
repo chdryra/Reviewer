@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBackendUploaderService implements FactoryBackendUploader {
-    private Context mContext;
+    private final Context mContext;
 
     public FactoryBackendUploaderService(Context context) {
         mContext = context;

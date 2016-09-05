@@ -23,7 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * On: 11/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionCallbacks,
+abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     private final GoogleApiClient mClient;
 
@@ -33,17 +33,17 @@ public abstract class GoogleLocationServiceBasic implements GoogleApiClient.Conn
 
     protected abstract void onNotConnected();
 
-    public GoogleLocationServiceBasic(GoogleApiClient client) {
+    GoogleLocationServiceBasic(GoogleApiClient client) {
         mClient = client;
         mClient.registerConnectionCallbacks(this);
         mClient.registerConnectionFailedListener(this);
     }
 
-    protected GoogleApiClient getClient() {
+    GoogleApiClient getClient() {
         return mClient;
     }
 
-    protected void connectAndDoRequest() {
+    void connectAndDoRequest() {
         if (!mClient.isConnected()) {
             mClient.connect();
         } else {
@@ -51,11 +51,11 @@ public abstract class GoogleLocationServiceBasic implements GoogleApiClient.Conn
         }
     }
 
-    protected void disconnect() {
+    void disconnect() {
         mClient.disconnect();
     }
 
-    protected boolean hasPermission() {
+    private boolean hasPermission() {
         return ContextCompat.checkSelfPermission(mClient.getContext(), android
                 .Manifest.permission
                 .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&

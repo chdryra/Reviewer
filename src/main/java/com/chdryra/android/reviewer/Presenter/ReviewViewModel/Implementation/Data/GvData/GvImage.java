@@ -43,7 +43,7 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
     private final Bitmap mBitmap;
     private final GvDate mDate;
     private final LatLng mLatLng;
-    private String mCaption;
+    private final String mCaption;
     private boolean mIsCover = false;
 
     //Constructors

@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBackendDeleterService implements FactoryBackendDeleter {
-    private Context mContext;
+    private final Context mContext;
 
     public FactoryBackendDeleterService(Context context) {
         mContext = context;

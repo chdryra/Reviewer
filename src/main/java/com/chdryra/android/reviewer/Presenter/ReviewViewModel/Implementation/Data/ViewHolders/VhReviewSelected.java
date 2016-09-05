@@ -56,10 +56,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private static final int TAGS = R.id.review_tags;
     private static final int PUBLISH = R.id.review_publish_data;
 
-    private AuthorsRepository mAuthorsRepo;
-    private ReviewSelector mSelector;
-    private GvConverterComments mConverterComments;
-    private GvConverterLocations mConverterLocations;
+    private final AuthorsRepository mAuthorsRepo;
+    private final ReviewSelector mSelector;
+    private final GvConverterComments mConverterComments;
+    private final GvConverterLocations mConverterLocations;
 
     private TextView mSubject;
     private RatingBar mRating;
@@ -70,11 +70,11 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private ReviewId mNodeId;
     private ReviewReference mReview;
-    private CoverBinder mCoverBinder;
-    private TagsBinder mTagsBinder;
-    private CommentsBinder mCommentsBinder;
-    private LocationsBinder mLocationsBinder;
-    private NameBinder mNameBinder;
+    private final CoverBinder mCoverBinder;
+    private final TagsBinder mTagsBinder;
+    private final CommentsBinder mCommentsBinder;
+    private final LocationsBinder mLocationsBinder;
+    private final NameBinder mNameBinder;
 
     private NamedAuthor mAuthor;
     private String mLocation;
@@ -162,7 +162,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         }
     }
 
-    protected void bindToReview(ReviewReference review) {
+    private void bindToReview(ReviewReference review) {
         mReview = review;
         mReview.getCover().bindToValue(mCoverBinder);
         mReview.getComments().bindToValue(mCommentsBinder);
@@ -232,8 +232,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         GvCommentList headlines = comments.getHeadlines();
         String headline = headlines.size() > 0 ? headlines.getItem(0).getFirstSentence() : null;
         if (validateString(headline)) {
-            //TODO sort this out with resource strings with placeholders
-            mHeadline.setText("\"" + headline + "\"");
+            String text = "\"" + headline + "\"";
+            mHeadline.setText(text);
         } else {
             mHeadline.setText("");
         }

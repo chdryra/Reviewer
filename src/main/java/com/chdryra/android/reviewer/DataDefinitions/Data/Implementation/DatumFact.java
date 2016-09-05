@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumFact implements DataFact {
-    private ReviewId mReviewId;
+    private final ReviewId mReviewId;
     private String mLabel;
     private String mValue;
     private boolean mIsUrl;

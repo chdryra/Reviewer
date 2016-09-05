@@ -8,19 +8,32 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories;
 
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Configs.ConfigDialogLayouts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddEditLayoutNull;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.ConfigDialogLayouts;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -32,22 +45,29 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class FactoryDialogLayout {
     private static final String TAG = TagKeyGenerator.getTag(FactoryDialogLayout.class);
-    private ConfigDialogLayouts mConfig;
-    private LocationServicesApi mServices;
+    private final Context mContext;
+    private final ConfigDialogLayouts mConfig;
+    private final LocationServicesApi mServices;
 
-    public FactoryDialogLayout(ConfigDialogLayouts config, LocationServicesApi services) {
+    public FactoryDialogLayout(Context context, ConfigDialogLayouts config, LocationServicesApi services) {
+        mContext = context;
         mConfig = config;
         mServices = services;
     }
 
+    @Nullable
     public <T extends GvData> AddEditLayout<T> newLayout
     (GvDataType<T> dataType, GvDataAdder adder) {
         if(dataType == GvLocation.TYPE) {
+            //TODO make type safe
             return (AddEditLayout<T>) new AddLocation(adder, mServices);
         }
 
         try {
             Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+
+            if(addEditLayout == null) return newNullLayout(dataType);
+
             Constructor<? extends AddEditLayout<T>> ctor
                     = addEditLayout.getDeclaredConstructor(GvDataAdder.class);
             try {
@@ -69,10 +89,27 @@ public class FactoryDialogLayout {
                 .getDatumName());
     }
 
+    @NonNull
+    private <T extends GvData> AddEditLayout<T> newNullLayout(GvDataType<T> dataType) {
+        try {
+            return new AddEditLayoutNull<>(mContext, dataType.getDataClass().newInstance());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Nullable
     public <T extends GvData> AddEditLayout<T> newLayout
             (GvDataType<T> dataType, GvDataEditor editor) {
         try {
             Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+
+            if(addEditLayout == null) return newNullLayout(dataType);
+
             Constructor<? extends AddEditLayout<T>> ctor =
                     addEditLayout.getDeclaredConstructor(GvDataEditor.class);
             try {
@@ -94,11 +131,12 @@ public class FactoryDialogLayout {
                 ());
     }
 
+    @Nullable
     public <T extends GvData> DialogLayout<T> newLayout
             (GvDataType<T> dataType) {
         try {
             Class<? extends DialogLayout<T>> viewClass = mConfig.getViewLayoutClass(dataType);
-            return viewClass.newInstance();
+            return viewClass != null ? viewClass.newInstance() : newNullLayout(dataType);
         } catch (InstantiationException e) {
             Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);
         } catch (IllegalAccessException e) {

@@ -37,7 +37,7 @@ public class GvFact extends GvDualText implements DataFact {
             return new GvFact[size];
         }
     };
-    public static GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
+    public static final GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
 
     public GvFact() {
         super();

@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
         implements ImageChooser.ImageChooserListener {
     private static final String LAUNCH_TAG = "ImageChooser";
-    private ImageChooser mImageChooser;
+    private final ImageChooser mImageChooser;
 
     public BannerButtonAddImage(LaunchableConfig adderConfig,
                                 String title,

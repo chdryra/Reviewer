@@ -13,14 +13,12 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFoursquare;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter4j;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter4j;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitterFabric;
@@ -47,8 +45,8 @@ import twitter4j.conf.ConfigurationBuilder;
 public class FactorySocialPlatformList {
     private static SocialPlatformList sPlatforms;
 
-    private Context mContext;
-    private FactoryAuthorisationRequester mRequesterFactory;
+    private final Context mContext;
+    private final FactoryAuthorisationRequester mRequesterFactory;
 
     public FactorySocialPlatformList(Context context) {
         mContext = context;
@@ -68,7 +66,7 @@ public class FactorySocialPlatformList {
         return list;
     }
 
-    public SocialPlatform<AccessToken> newTwitter4j() {
+    private SocialPlatform<AccessToken> newTwitter4j() {
         String key = string(PlatformTwitter.KEY);
         String secret = string(PlatformTwitter.SECRET);
         String name = PlatformTwitter.NAME;
@@ -95,7 +93,7 @@ public class FactorySocialPlatformList {
         return new PlatformTwitterFabric(mContext, publisher);
     }
     
-    public SocialPlatform<com.facebook.AccessToken> newFacebook() {
+    private SocialPlatform<com.facebook.AccessToken> newFacebook() {
         ReviewSummariser summariser = new ReviewSummariser();
         ReviewFormatter formatter = new ReviewFormatterFacebook();
         PublisherFacebook publisher
@@ -132,15 +130,6 @@ public class FactorySocialPlatformList {
                 .newFoursquareAuthorisationRequester(key, secret, name);
 
         return new PlatformFoursquare(publisher, authRequester);
-    }
-
-    public SocialPlatform<String> newGooglePlus() {
-        ReviewSummariser summariser = new ReviewSummariser();
-        ReviewFormatter formatter = new ReviewFormatterFacebook();
-
-        PublisherGoogle publisher = new PublisherGoogle(PlatformGoogle.NAME, summariser, formatter);
-
-        return new PlatformGoogle(mContext, publisher);
     }
 
     private String string(int id) {

@@ -61,7 +61,7 @@ public class FactoryGvData {
         return newDataList(mMap.get(dataType), id);
     }
 
-    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> listClass) {
+    private <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> listClass) {
         try {
             return listClass.newInstance();
         } catch (InstantiationException e) {
@@ -71,7 +71,7 @@ public class FactoryGvData {
         }
     }
 
-    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(
+    private <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(
             Class<T2> listClass, GvReviewId id) {
         if (id == null) return newDataList(listClass);
 
@@ -90,6 +90,7 @@ public class FactoryGvData {
     }
 
     public <T1 extends GvData, T2 extends GvDataList<T1>> T2 copy(T2 data) {
+        //TODO make type safe
         Class<T2> listClass = (Class<T2>) data.getClass();
         try {
             Constructor<T2> ctor = listClass.getConstructor(listClass);
@@ -105,19 +106,9 @@ public class FactoryGvData {
         }
     }
 
-    public <T extends GvData> T newNull(Class<T> dataClass) {
-        try {
-            return dataClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
-        }
-    }
-
     //To aid type safety
     private class ListsMap {
-        private Map<GvDataType<?>, Class<? extends GvDataList<?>>> mClasses = new HashMap<>();
+        private final Map<GvDataType<?>, Class<? extends GvDataList<?>>> mClasses = new HashMap<>();
 
         //Constructors
         public ListsMap() {

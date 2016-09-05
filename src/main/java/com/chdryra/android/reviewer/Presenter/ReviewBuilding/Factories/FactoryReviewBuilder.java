@@ -34,11 +34,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewBuilder {
-    private ConverterGv mConverterGv;
-    private TagsManager mTagsManager;
-    private FactoryReviews mFactoryReviews;
-    private DataValidator mDataValidator;
-    private FactoryDataBuilder mDataBuilderFactory;
+    private final ConverterGv mConverterGv;
+    private final TagsManager mTagsManager;
+    private final FactoryReviews mFactoryReviews;
+    private final DataValidator mDataValidator;
+    private final FactoryDataBuilder mDataBuilderFactory;
 
     public FactoryReviewBuilder(ConverterGv converterGv,
                                 DataValidator dataValidator, TagsManager tagsManager,

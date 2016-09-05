@@ -33,17 +33,17 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContractImpl implements ReviewerDbContract {
-    private DbTable<RowAuthor> mAuthorsTable;
-    private DbTable<RowTag> mTagsTable;
-    private DbTable<RowReview> mReviewsTable;
-    private DbTable<RowCriterion> mCriteriaTable;
-    private DbTable<RowComment> mCommentsTable;
-    private DbTable<RowFact> mFactsTable;
-    private DbTable<RowImage> mImagesTable;
-    private DbTable<RowLocation> mLocationsTable;
+    private final DbTable<RowAuthor> mAuthorsTable;
+    private final DbTable<RowTag> mTagsTable;
+    private final DbTable<RowReview> mReviewsTable;
+    private final DbTable<RowCriterion> mCriteriaTable;
+    private final DbTable<RowComment> mCommentsTable;
+    private final DbTable<RowFact> mFactsTable;
+    private final DbTable<RowImage> mImagesTable;
+    private final DbTable<RowLocation> mLocationsTable;
 
-    ArrayList<DbTable<? extends DbTableRow>> mTablesList;
-    ArrayList<String> mTableNames;
+    private final ArrayList<DbTable<? extends DbTableRow>> mTablesList;
+    private final ArrayList<String> mTableNames;
 
     public ReviewerDbContractImpl(DbTable<RowAuthor> authorsTable, DbTable<RowTag> tagsTable,
                                   DbTable<RowReview> reviewsTable, DbTable<RowCriterion>

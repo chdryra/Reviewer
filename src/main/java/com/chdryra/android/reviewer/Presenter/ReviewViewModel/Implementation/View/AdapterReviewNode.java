@@ -29,8 +29,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements ReviewNode.NodeObserver {
-    private ReviewNode mNode;
-    private DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
+    private final ReviewNode mNode;
+    private final DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
 
     public AdapterReviewNode(ReviewNode node,
                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
@@ -39,8 +39,8 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         setWrapper(viewer);
     }
 
-    public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImage, GvImageList> coversConverter) {
+    AdapterReviewNode(ReviewNode node,
+                      DataConverter<DataImage, GvImage, GvImageList> coversConverter) {
         mNode = node;
         mCoversConverter = coversConverter;
         node.registerObserver(this);

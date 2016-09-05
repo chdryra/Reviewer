@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class FbRefData<T> extends BindableReferenceBasic<T> {
     private Firebase mReference;
-    private Map<ReferenceBinder<T>, ValueEventListener> mBindings;
+    private final Map<ReferenceBinder<T>, ValueEventListener> mBindings;
     private SnapshotConverter<T> mConverter;
 
     public FbRefData(Firebase reference, SnapshotConverter<T> converter) {
@@ -43,7 +43,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
         mListeners = new ArrayList<>();
     }
 
-    protected Firebase getReference() {
+    Firebase getReference() {
         return mReference;
     }
 
@@ -51,7 +51,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
         return mConverter;
     }
 
-    protected void onDereferenced(T value) {
+    void onDereferenced(T value) {
 
     }
 

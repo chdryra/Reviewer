@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Encapsulates add, edit, view configs for a given
  * {@link GvDataType}.
  */
-public class LaunchableConfigsHolder<T extends GvData> {
+class LaunchableConfigsHolder<T extends GvData> {
     private static final int DATA_ADD = RequestCodeGenerator.getCode("DataAdd");
     private static final int DATA_EDIT = RequestCodeGenerator.getCode("DataEdit");
     private static final int DATA_VIEW = RequestCodeGenerator.getCode("DataView");

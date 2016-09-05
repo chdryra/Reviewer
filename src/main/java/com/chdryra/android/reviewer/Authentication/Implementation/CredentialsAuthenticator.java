@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallbac
  */
 public class CredentialsAuthenticator<T> implements CredentialsCallback<T> {
     private final AuthenticatorCallback mCallback;
-    private AuthenticationCall<T> mCall;
+    private final AuthenticationCall<T> mCall;
 
     public interface AuthenticationCall<T> {
         void authenticate(T credentials, AuthenticatorCallback callback);

@@ -21,25 +21,25 @@ import android.support.v4.content.LocalBroadcastManager;
  */
 public class BroadcastingService<S extends IntentService,
         R extends BroadcastingServiceReceiver<Listener>, Listener> {
-    private Context mContext;
-    private Class<S> mServiceClass;
-    private R mReceiver;
+    private final Context mContext;
+    private final Class<S> mServiceClass;
+    private final R mReceiver;
 
-    public BroadcastingService(Context context, Class<S> serviceClass, R receiver) {
+    protected BroadcastingService(Context context, Class<S> serviceClass, R receiver) {
         mContext = context;
         mServiceClass = serviceClass;
         mReceiver = receiver;
     }
 
-    public Intent newService() {
+    protected Intent newService() {
         return new Intent(mContext, mServiceClass);
     }
 
-    public void startService(Intent mService) {
+    protected void startService(Intent mService) {
         mContext.startService(mService);
     }
 
-    public void registerReceiverAction(String action) {
+    protected void registerReceiverAction(String action) {
         IntentFilter actionFilter = new IntentFilter(action);
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mReceiver, actionFilter);
     }

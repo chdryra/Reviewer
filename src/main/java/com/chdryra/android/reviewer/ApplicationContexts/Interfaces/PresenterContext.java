@@ -61,7 +61,7 @@ public interface PresenterContext {
 
     Review executeReviewBuilder();
 
-    ReferencesRepository getReviewReferences(AuthorId authorId);
+    ReferencesRepository getReviews(AuthorId authorId);
 
     void getReview(ReviewId id, RepositoryCallback callback);
 

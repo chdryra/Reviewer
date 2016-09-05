@@ -44,14 +44,14 @@ import java.util.Map;
 public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     private static final GvDataType<GvSize.Reference> TYPE = GvSize.Reference.TYPE;
 
-    private FactoryReviewViewAdapter mAdapterFactory;
-    private ConverterGv mConverter;
+    private final FactoryReviewViewAdapter mAdapterFactory;
+    private final ConverterGv mConverter;
     private List<GvDataType<?>> mCellOrder;
 
-    public ViewerReviewSummary(ReviewNode node,
-                               FactoryReviewViewAdapter adapterFactory,
-                               ConverterGv converter,
-                               List<GvDataType<?>> cellOrder) {
+    ViewerReviewSummary(ReviewNode node,
+                        FactoryReviewViewAdapter adapterFactory,
+                        ConverterGv converter,
+                        List<GvDataType<?>> cellOrder) {
         this(node, adapterFactory, converter);
         mCellOrder = cellOrder;
     }
@@ -66,7 +66,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
         mCellOrder.addAll(DataTypeCellOrder.ReviewOrder.ORDER);
     }
 
-    protected FactoryReviewViewAdapter getAdapterFactory() {
+    FactoryReviewViewAdapter getAdapterFactory() {
         return mAdapterFactory;
     }
 
@@ -75,12 +75,12 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     }
 
     @Nullable
-    protected ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
+    ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
         return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getSizedType());
     }
 
     @NonNull
-    protected Map<GvDataType<?>, GvSize.Reference> getDataSizesMap(ReviewNode node) {
+    Map<GvDataType<?>, GvSize.Reference> getDataSizesMap(ReviewNode node) {
         Map<GvDataType<?>, GvSize.Reference> map = new HashMap<>();
         put(map, GvTag.TYPE, node.getTags().getSize());
         put(map, GvCriterion.TYPE, node.getCriteria().getSize());
@@ -92,8 +92,8 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
         return map;
     }
 
-    protected void put(Map<GvDataType<?>, GvSize.Reference> map, GvDataType<?> type,
-                       ReviewItemReference<DataSize> size) {
+    void put(Map<GvDataType<?>, GvSize.Reference> map, GvDataType<?> type,
+             ReviewItemReference<DataSize> size) {
         map.put(type, new GvSize.Reference(size, mConverter.newConverterSizes(type)));
     }
 

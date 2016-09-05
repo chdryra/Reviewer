@@ -39,12 +39,6 @@ public class GvDataType<T extends GvData> implements Parcelable {
     private final String mDataName;
 
     //Constructors
-    private GvDataType() {
-        mDataClass = null;
-        mDatumName = "";
-        mDataName = "";
-    }
-
     public GvDataType(@NotNull Class<T> dataClass, String datum) {
         this(dataClass, datum, datum + "s");
     }
@@ -79,10 +73,6 @@ public class GvDataType<T extends GvData> implements Parcelable {
 
     public Class<T> getDataClass() {
         return mDataClass;
-    }
-
-    public T cast(GvData datum) {
-        return mDataClass.cast(datum);
     }
 
     @Override

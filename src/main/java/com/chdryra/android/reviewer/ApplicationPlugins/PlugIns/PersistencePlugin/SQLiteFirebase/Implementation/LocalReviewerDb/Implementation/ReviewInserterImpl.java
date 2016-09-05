@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewInserterImpl implements ReviewInserter {
-    private FactoryDbTableRow mRowFactory;
+    private final FactoryDbTableRow mRowFactory;
 
     public ReviewInserterImpl(FactoryDbTableRow rowFactory) {
         mRowFactory = rowFactory;

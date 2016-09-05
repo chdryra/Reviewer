@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  */
 public class AndroidSqlLiteDb implements RelationalDbPlugin {
     private static final String EXT = "db";
-    public static final FactoryContractorSqLite FACTORY = new FactoryContractorSqLite();
+    private static final FactoryContractorSqLite FACTORY = new FactoryContractorSqLite();
 
     @Override
     public FactoryContractor getContractorFactory() {

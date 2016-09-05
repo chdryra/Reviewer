@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AndroidSqLiteDb implements SqLiteDb {
-    private SQLiteDatabase mDb;
+    private final SQLiteDatabase mDb;
 
     public AndroidSqLiteDb(SQLiteDatabase db) {
         mDb = db;

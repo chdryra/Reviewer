@@ -51,9 +51,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGridDataViewer {
-    private FactoryReviewViewAdapter mAdapterFactory;
-    private FactoryReference mReferenceFactory;
-    private AuthorsRepository mAuthorsRepository;
+    private final FactoryReviewViewAdapter mAdapterFactory;
+    private final FactoryReference mReferenceFactory;
+    private final AuthorsRepository mAuthorsRepository;
 
     public FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
                                  FactoryReference referenceFactory,
@@ -160,6 +160,7 @@ public class FactoryGridDataViewer {
                                                                                     GvDataAggregator aggregateFactory) {
         GridDataWrapper<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterion.TYPE)) {
+            //TODO make type safe
             viewer = new ViewerAggregateCriteria((GvCanonicalCollection<GvCriterion>) data,
                     this, mAdapterFactory, aggregateFactory);
         } else {

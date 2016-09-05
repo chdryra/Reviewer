@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvConverterImages extends GvConverterReviewData.RefDataList<DataImage, GvImage, GvImageList, GvImage.Reference> {
 
-    private DataConverter<DateTime, GvDate, ?> mConverter;
+    private final DataConverter<DateTime, GvDate, ?> mConverter;
 
     public GvConverterImages(DataConverter<DateTime, GvDate, ?> converter) {
         super(GvImageList.class, GvImage.Reference.TYPE);

@@ -27,10 +27,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class LoginUiDefault<T> implements LoginUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
-    private LaunchableUi mAuthorisationUi;
-    private SocialPlatform<T> mPlatform;
-    private AuthorisationTokenGetter<T> mGetter;
-    private AuthorisationListener mListener;
+    private final LaunchableUi mAuthorisationUi;
+    private final SocialPlatform<T> mPlatform;
+    private final AuthorisationTokenGetter<T> mGetter;
+    private final AuthorisationListener mListener;
 
     public LoginUiDefault(LaunchableUi authorisationUi,
                           SocialPlatform<T> platform,

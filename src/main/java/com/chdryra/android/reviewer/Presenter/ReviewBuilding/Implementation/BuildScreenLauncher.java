@@ -36,7 +36,7 @@ public class BuildScreenLauncher implements RepositoryCallback {
         launch(app);
     }
 
-    public void launch(ApplicationInstance app) {
+    private void launch(ApplicationInstance app) {
         mApp = app;
         mApp.discardReviewBuilderAdapter();
         if (mTemplate != null) {

@@ -28,7 +28,6 @@
             android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/star_text_view"
             style="@style/TextViewGridCell"
             android:drawableStart="@android:drawable/btn_star_big_on"
             android:drawableLeft="@android:drawable/btn_star_big_on"

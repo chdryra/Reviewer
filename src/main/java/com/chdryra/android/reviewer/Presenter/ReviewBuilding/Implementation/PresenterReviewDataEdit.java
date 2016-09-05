@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 
@@ -22,15 +21,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements PresenterReviewDataEdit<T> {
-    private Context mContext;
-    private ReviewDataEditor<T> mEditor;
-    private MenuEdit<T> mMenu;
-    private BannerButtonAdd<T> mBannerButton;
-    private GridItemEdit<T> mGridItem;
+public class PresenterReviewDataEdit<T extends GvDataParcelable> {
+    private final Context mContext;
+    private final ReviewDataEditor<T> mEditor;
+    private final MenuEdit<T> mMenu;
+    private final BannerButtonAdd<T> mBannerButton;
+    private final GridItemEdit<T> mGridItem;
 
-    public PresenterReviewDataEditImpl(Context context,
-                                       ReviewDataEditor<T> editor) {
+    public PresenterReviewDataEdit(Context context,
+                                   ReviewDataEditor<T> editor) {
         mContext = context;
         mEditor = editor;
 
@@ -44,7 +43,6 @@ public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements 
         return mContext;
     }
 
-    @Override
     public void onAlertNegative(int requestCode, Bundle args) {
         if (requestCode == mMenu.getAlertRequestCode()) {
             mMenu.onAlertNegative(requestCode, args);
@@ -55,7 +53,6 @@ public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements 
         }
     }
 
-    @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == mMenu.getAlertRequestCode()) {
             mMenu.onAlertPositive(requestCode, args);
@@ -66,7 +63,6 @@ public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements 
         }
     }
 
-    @Override
     public boolean onAdd(T data, int requestCode) {
         boolean success = false;
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
@@ -76,35 +72,30 @@ public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements 
         return success;
     }
 
-    @Override
     public void onCancel(int requestCode) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
             mBannerButton.onCancel(requestCode);
         }
     }
 
-    @Override
     public void onDone(int requestCode) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
             mBannerButton.onDone(requestCode);
         }
     }
 
-    @Override
     public void onDelete(T data, int requestCode) {
         if(requestCode == mGridItem.getLaunchableRequestCode()) {
             mGridItem.onDelete(data, requestCode);
         }
     }
 
-    @Override
     public void onEdit(T oldDatum, T newDatum, int requestCode) {
         if(requestCode == mGridItem.getLaunchableRequestCode()) {
             mGridItem.onEdit(oldDatum, newDatum, requestCode);
         }
     }
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
             mBannerButton.onActivityResult(requestCode, resultCode, data);
@@ -113,7 +104,6 @@ public class PresenterReviewDataEditImpl<T extends GvDataParcelable> implements 
         }
     }
 
-    @Override
     public ReviewDataEditor<T> getEditor() {
         return mEditor;
     }

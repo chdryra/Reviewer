@@ -28,7 +28,7 @@ public class FactoryReviewerDbCache implements FactoryPersistentCache {
     private static final int CACHE_VER = 1;
 
     private int mIndex = 0;
-    private FactoryLocalReviewerDb mDbFactory;
+    private final FactoryLocalReviewerDb mDbFactory;
 
     public FactoryReviewerDbCache(FactoryLocalReviewerDb dbFactory) {
         mDbFactory = dbFactory;

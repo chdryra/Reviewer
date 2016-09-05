@@ -23,12 +23,12 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuNewReview<T extends GvData> extends MenuActionNone<T> {
-    public static final int LOGOUT = R.id.menu_item_settings_logout;
-    public static final int NEW_REVIEW = R.id.menu_item_new_review;
+    private static final int LOGOUT = R.id.menu_item_settings_logout;
+    private static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
-    private ReviewId mTemplate;
-    private BuildScreenLauncher mLauncher;
+    private final ReviewId mTemplate;
+    private final BuildScreenLauncher mLauncher;
 
     public MenuNewReview(BuildScreenLauncher launcher) {
         this(launcher, null);

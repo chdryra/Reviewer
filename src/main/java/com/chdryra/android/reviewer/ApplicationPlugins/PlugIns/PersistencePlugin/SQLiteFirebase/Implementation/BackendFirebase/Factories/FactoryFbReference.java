@@ -59,7 +59,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryFbReference {
-    private FactoryListItemsReferencer mReferencerFactory;
+    private final FactoryListItemsReferencer mReferencerFactory;
 
     public FactoryFbReference() {
         mReferencerFactory = new FactoryListItemsReferencer(this);

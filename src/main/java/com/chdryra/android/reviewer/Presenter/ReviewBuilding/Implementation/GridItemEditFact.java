@@ -25,7 +25,7 @@ public class GridItemEditFact extends GridItemEdit<GvFact> {
     private static final int LAUNCH_BROWSER
             = RequestCodeGenerator.getCode("LaunchUrlBrowser");
 
-    private LaunchableConfig mUrlConfig;
+    private final LaunchableConfig mUrlConfig;
 
     public GridItemEditFact(LaunchableConfig factConfig,
                             LaunchableConfig urlConfig,

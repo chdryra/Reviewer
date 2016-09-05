@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationContextImpl implements ApplicationContext {
-    private PresenterContext mPresenterContext;
-    private LocationServicesApi mLocationServices;
+    private final PresenterContext mPresenterContext;
+    private final LocationServicesApi mLocationServices;
 
     public ApplicationContextImpl(PresenterContext presenterContext, LocationServicesApi locationServices) {
         mPresenterContext = presenterContext;

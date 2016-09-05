@@ -29,9 +29,9 @@ import com.facebook.share.model.ShareLinkContent;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherFacebook implements SocialPlatformsPublisher {
-    private String mPlatformName;
-    private ReviewSummariser mSummariser;
-    private ReviewFormatter mFormatter;
+    private final String mPlatformName;
+    private final ReviewSummariser mSummariser;
+    private final ReviewFormatter mFormatter;
 
     public PublisherFacebook(String platformName, ReviewSummariser summariser,
                              ReviewFormatter formatter) {

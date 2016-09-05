@@ -28,14 +28,14 @@ import java.util.Map;
  */
 public final class ConfigUiImpl implements ConfigUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
-    private LaunchableConfig mLoginConfig;
-    private LaunchableConfig mSignUpConfig;
-    private LaunchableConfig mFeedConfig;
-    private LaunchableConfig mUsersFeedConfig;
-    private LaunchableConfig mBuildReviewConfig;
-    private LaunchableConfig mEditOnMapConfig;
-    private LaunchableConfig mShareReviewConfig;
-    private LaunchableConfigAlertable mShareEditConfig;
+    private final LaunchableConfig mLoginConfig;
+    private final LaunchableConfig mSignUpConfig;
+    private final LaunchableConfig mFeedConfig;
+    private final LaunchableConfig mUsersFeedConfig;
+    private final LaunchableConfig mBuildReviewConfig;
+    private final LaunchableConfig mEditOnMapConfig;
+    private final LaunchableConfig mShareReviewConfig;
+    private final LaunchableConfigAlertable mShareEditConfig;
 
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
                         LaunchableConfig loginConfig,

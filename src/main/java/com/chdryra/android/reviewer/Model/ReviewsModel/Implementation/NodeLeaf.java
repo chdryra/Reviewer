@@ -37,7 +37,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComponent,
         DataReference.InvalidationListener {
     private final ReviewReference mReview;
-    private FactoryReference mReferenceFactory;
+    private final FactoryReference mReferenceFactory;
 
     public NodeLeaf(ReviewReference review, FactoryReference referenceFactory) {
         mReview = review;

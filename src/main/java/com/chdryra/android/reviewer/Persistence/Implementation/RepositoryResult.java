@@ -31,9 +31,9 @@ public class RepositoryResult {
     private ReviewNode mNode;
     private ReviewId mId;
     private ReviewReference mReference;
-    private Collection<Review> mReviews = new ArrayList<>();
-    private Collection<ReviewReference> mReferences = new ArrayList<>();
-    private CallbackMessage mMessage;
+    private final Collection<Review> mReviews = new ArrayList<>();
+    private final Collection<ReviewReference> mReferences = new ArrayList<>();
+    private final CallbackMessage mMessage;
 
     public RepositoryResult(CallbackMessage message) {
         mMessage = message;
@@ -68,7 +68,7 @@ public class RepositoryResult {
         this(reference, CallbackMessage.ok());
     }
 
-    public RepositoryResult(@Nullable ReviewReference reference, CallbackMessage message) {
+    private RepositoryResult(@Nullable ReviewReference reference, CallbackMessage message) {
         mReference = reference;
         mId = reference != null ? mReference.getReviewId() : null;
         mMessage = message;

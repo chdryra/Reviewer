@@ -42,7 +42,7 @@ public class FbUserAccount implements UserAccount {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
 
-    private AuthenticatedUser mAccountHolder;
+    private final AuthenticatedUser mAccountHolder;
     private Firebase mDataRoot;
     private FbUsersStructure mStructure;
     private UserProfileConverter mConverter;

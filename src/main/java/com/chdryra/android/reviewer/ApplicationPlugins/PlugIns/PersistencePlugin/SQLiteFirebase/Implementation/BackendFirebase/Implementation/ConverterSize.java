@@ -23,7 +23,7 @@ import com.firebase.client.DataSnapshot;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConverterSize implements SnapshotConverter<DataSize> {
-    private ReviewId mId;
+    private final ReviewId mId;
 
     public ConverterSize(ReviewId id) {
         mId = id;

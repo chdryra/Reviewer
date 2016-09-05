@@ -39,7 +39,7 @@ public class GvList extends GvDataListParcelable<GvDataParcelable> {
         super(TYPE, null);
     }
 
-    public GvList(Parcel in) {
+    private GvList(Parcel in) {
         super(in);
     }
 

@@ -17,8 +17,8 @@ import android.support.annotation.Nullable;
  */
 public class LocationId {
     private static final String NULL_ID = "NULL_LOCATION_ID";
-    private LocationProvider mProvider;
-    private String mId;
+    private final LocationProvider mProvider;
+    private final String mId;
 
     public LocationId(LocationProvider provider, @Nullable String providerId) {
         mProvider = provider;
@@ -37,9 +37,7 @@ public class LocationId {
         LocationId that = (LocationId) o;
 
         if (!mId.equals(that.mId)) return false;
-        if (mProvider != that.mProvider) return false;
-
-        return true;
+        return mProvider == that.mProvider;
     }
 
     @Override

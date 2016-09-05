@@ -46,7 +46,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
     private DataReference<NamedAuthor> mReference;
     private GvReviewId mReviewId;
-    private String mUserId;
+    private final String mUserId;
 
     public GvAuthorId(String userId) {
         mUserId = userId;

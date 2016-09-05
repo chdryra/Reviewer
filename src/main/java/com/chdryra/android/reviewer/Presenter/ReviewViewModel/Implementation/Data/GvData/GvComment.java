@@ -49,7 +49,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     private boolean mIsHeadline = false;
 
     public GvComment() {
-        this(null, null, false);
+        this(null, "", false);
     }
 
     public GvComment(String comment, boolean isHeadline) {
@@ -200,6 +200,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
             if(parent == null) {
                 return this;
             } else {
+                //TODO make type safe
                 return new Reference(parent, (DataConverter<DataComment, GvComment, ?>) getConverter());
             }
         }

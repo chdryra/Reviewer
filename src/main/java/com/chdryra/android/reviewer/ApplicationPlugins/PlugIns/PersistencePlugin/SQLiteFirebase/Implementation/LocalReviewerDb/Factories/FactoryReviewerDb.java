@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDb {
-    private FactoryDbTableRow mRowFactory;
+    private final FactoryDbTableRow mRowFactory;
 
     public FactoryReviewerDb(FactoryDbTableRow rowFactory) {
         mRowFactory = rowFactory;

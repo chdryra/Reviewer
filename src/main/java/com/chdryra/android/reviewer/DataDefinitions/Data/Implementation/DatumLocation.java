@@ -24,7 +24,7 @@ public class DatumLocation implements DataLocation {
 
     public DatumLocation(ReviewId reviewId) {
         mReviewId = reviewId;
-        mLatLng = null;
+        mLatLng = new LatLng(0,0);
         mName = "";
     }
 

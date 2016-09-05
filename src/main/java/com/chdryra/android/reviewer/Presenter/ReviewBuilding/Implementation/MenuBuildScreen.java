@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
-    public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
+    private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<T> mEditor;

@@ -33,11 +33,11 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         ValueType extends HasReviewId, ValueHolder extends ViewHolder>
         extends GvDataBasic<Reference> implements DataReference.InvalidationListener {
 
-    private ReviewItemReference<ValueType> mReference;
+    private final ReviewItemReference<ValueType> mReference;
     private VhDataReference<ValueType> mViewHolder;
-    private PlaceHolderFactory<ValueType> mFactory;
-    private DataConverter<ValueType, ? extends GvDataParcelable, ?> mConverter;
-    private Class<ValueHolder> mValueHolderClass;
+    private final PlaceHolderFactory<ValueType> mFactory;
+    private final DataConverter<ValueType, ? extends GvDataParcelable, ?> mConverter;
+    private final Class<ValueHolder> mValueHolderClass;
 
     public interface PlaceHolderFactory<ValueType extends HasReviewId> {
         ValueType newPlaceHolder(String placeHolder);
@@ -66,7 +66,7 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         return mReference;
     }
 
-    protected DataConverter<ValueType, ? extends GvDataParcelable, ?> getConverter() {
+    DataConverter<ValueType, ? extends GvDataParcelable, ?> getConverter() {
         return mConverter;
     }
 
@@ -81,11 +81,11 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         }
     }
 
-    protected PlaceHolderFactory<ValueType> getPlaceholderFactory() {
+    PlaceHolderFactory<ValueType> getPlaceholderFactory() {
         return mFactory;
     }
 
-    protected VhDataReference<ValueType> newViewHolder() {
+    VhDataReference<ValueType> newViewHolder() {
         try {
             ValueHolder valueHolder = mValueHolderClass.newInstance();
             return new VhDataRef<Reference, ValueType, ValueHolder>(valueHolder, mConverter, mFactory);

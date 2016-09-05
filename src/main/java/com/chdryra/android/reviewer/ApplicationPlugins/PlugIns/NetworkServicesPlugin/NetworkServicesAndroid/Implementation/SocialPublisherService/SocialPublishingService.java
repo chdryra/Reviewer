@@ -38,7 +38,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService {
-    public static final String REVIEW_ID = "SocialPublishingService.ReviewId";
+    private static final String REVIEW_ID = "SocialPublishingService.ReviewId";
 
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";

@@ -14,8 +14,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FormattedReview {
-    private String mTitle;
-    private String mBody;
+    private final String mTitle;
+    private final String mBody;
 
     public FormattedReview(String title, String body) {
         mTitle = title;

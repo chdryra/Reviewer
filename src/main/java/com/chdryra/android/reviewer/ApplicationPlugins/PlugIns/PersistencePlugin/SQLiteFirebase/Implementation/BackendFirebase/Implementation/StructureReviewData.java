@@ -32,14 +32,14 @@ public class StructureReviewData<T> extends DbStructureBasic<ReviewDb> implement
         T getDataObject(ReviewDb review);
     }
 
-    private DataGetter<T> mGetter;
+    private final DataGetter<T> mGetter;
 
-    public StructureReviewData(String path, DataGetter<T> getter) {
+    StructureReviewData(String path, DataGetter<T> getter) {
         setPathToStructure(path);
         mGetter = getter;
     }
 
-    public StructureReviewData(Path<ReviewDb> path, DataGetter<T> getter) {
+    StructureReviewData(Path<ReviewDb> path, DataGetter<T> getter) {
         setPathToStructure(path);
         mGetter = getter;
     }

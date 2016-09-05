@@ -15,6 +15,6 @@ import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProv
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GoogleLocationProvider {
+abstract class GoogleLocationProvider {
     public static final LocationProvider GOOGLE = new LocationProvider("Google");
 }

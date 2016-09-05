@@ -31,9 +31,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 
 public class UiLauncherAndroid implements UiLauncher {
-    private Activity mCommissioner;
-    private Class<? extends Activity> mDefaultActivity;
-    private Class<? extends Activity> mReviewsListActivity;
+    private final Activity mCommissioner;
+    private final Class<? extends Activity> mDefaultActivity;
+    private final Class<? extends Activity> mReviewsListActivity;
 
     public UiLauncherAndroid(Activity commissioner,
                              Class<? extends Activity> defaultActivity,
@@ -74,7 +74,7 @@ public class UiLauncherAndroid implements UiLauncher {
         private final int mRequestCode;
         private final String mTag;
         private final Bundle mArgs;
-        private boolean mClearBsckStack;
+        private final boolean mClearBsckStack;
 
         public AndroidLauncher(Activity commissioner, int requestCode, String tag, Bundle args, boolean clearBackStack) {
             mCommissioner = commissioner;

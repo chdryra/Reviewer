@@ -38,8 +38,8 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsSourceImpl implements ReviewsSource {
-    private ReviewsRepository mRepository;
-    private FactoryReviews mReviewFactory;
+    private final ReviewsRepository mRepository;
+    private final FactoryReviews mReviewFactory;
 
     public ReviewsSourceImpl(ReviewsRepository repository, FactoryReviews reviewFactory) {
         mRepository = repository;
@@ -106,8 +106,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReferencesRepository getRepository(AuthorId authorId) {
-        return mRepository.getRepository(authorId);
+    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
+        return mRepository.getRepositoryForAuthor(authorId);
     }
 
     @Nullable

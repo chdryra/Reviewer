@@ -22,7 +22,7 @@ import com.twitter.sdk.android.core.TwitterSession;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsAuthenticator {
-    private UserAuthenticator mAuthenticator;
+    private final UserAuthenticator mAuthenticator;
 
     public FactoryCredentialsAuthenticator(UserAuthenticator authenticator) {
         mAuthenticator = authenticator;

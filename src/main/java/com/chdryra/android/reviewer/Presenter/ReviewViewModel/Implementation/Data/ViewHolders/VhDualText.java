@@ -36,7 +36,7 @@ class VhDualText extends VHDualString {
         super(LAYOUT, UPPER, LOWER);
     }
 
-    protected void updateView(String upper, String lower) {
+    void updateView(String upper, String lower) {
         super.updateView(new VHDDualString(upper, lower));
     }
 

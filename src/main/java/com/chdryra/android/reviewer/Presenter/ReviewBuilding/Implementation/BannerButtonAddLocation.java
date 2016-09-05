@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
     private static final int LAUNCH_MAP = RequestCodeGenerator.getCode("LaunchMapAlert");
-    private LaunchableConfig mMapScreenConfig;
+    private final LaunchableConfig mMapScreenConfig;
 
     public BannerButtonAddLocation(LaunchableConfig adderConfig,
                                    LaunchableConfig mapScreenConfig,

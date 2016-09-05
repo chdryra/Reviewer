@@ -63,7 +63,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = new ConverterGv(modelContext.getTagsManager());
+        ConverterGv gvConverter = new ConverterGv();
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
                 persistenceContext.getUsersManager().getAuthorsRepository(),
                 gvConverter, aggregatorsPlugin.getAggregatorsApi());

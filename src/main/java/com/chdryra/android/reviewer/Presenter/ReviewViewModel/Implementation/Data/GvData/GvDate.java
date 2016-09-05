@@ -44,7 +44,7 @@ public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
         }
     };
 
-    private long mTime;
+    private final long mTime;
 
     //Constructors
     public GvDate() {

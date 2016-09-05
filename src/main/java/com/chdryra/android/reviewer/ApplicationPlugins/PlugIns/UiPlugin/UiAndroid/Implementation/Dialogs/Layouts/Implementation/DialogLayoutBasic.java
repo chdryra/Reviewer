@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -24,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 public abstract class DialogLayoutBasic<T extends GvData> implements DialogLayout<T> {
     private final LayoutHolder mHolder;
 
-    public DialogLayoutBasic(LayoutHolder holder) {
+    DialogLayoutBasic(LayoutHolder holder) {
         mHolder = holder;
     }
 
@@ -34,9 +35,9 @@ public abstract class DialogLayoutBasic<T extends GvData> implements DialogLayou
     }
 
     @Override
-    public View createLayoutUi(Context context, T data) {
+    public View createLayoutUi(Context context, @Nullable T data) {
         mHolder.inflate(context);
-        initialise(data);
+        if(data != null) initialise(data);
         return mHolder.getView();
     }
 

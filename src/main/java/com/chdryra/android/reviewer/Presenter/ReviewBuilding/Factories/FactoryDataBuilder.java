@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDataBuilder {
-    private FactoryGvData mDataFactory;
+    private final FactoryGvData mDataFactory;
 
     public FactoryDataBuilder(FactoryGvData dataFactory) {
         mDataFactory = dataFactory;

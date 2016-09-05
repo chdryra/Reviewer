@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AsyncSocialPublisher {
-    private SyncSocialPublisher mPublisher;
+class AsyncSocialPublisher {
+    private final SyncSocialPublisher mPublisher;
 
     public interface SyncSocialPublisher {
         String getPlatformName();
@@ -43,7 +43,7 @@ public class AsyncSocialPublisher {
     private class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
         private final Review mReview;
         private final TagsManager mTagsManager;
-        private SocialPublisherListener mListener;
+        private final SocialPublisherListener mListener;
 
         public PublisherTask(Review review, TagsManager tagsManager,
                              SocialPublisherListener listener) {

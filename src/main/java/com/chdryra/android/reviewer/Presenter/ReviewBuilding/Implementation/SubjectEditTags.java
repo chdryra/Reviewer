@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectEditTags extends SubjectEdit<GvTag> {
-    private TagAdjuster mTagAdjuster;
+    private final TagAdjuster mTagAdjuster;
 
     public SubjectEditTags(TagAdjuster tagAdjuster) {
         mTagAdjuster = tagAdjuster;

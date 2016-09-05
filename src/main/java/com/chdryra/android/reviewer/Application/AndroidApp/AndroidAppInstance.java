@@ -180,7 +180,12 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
-        return mAppContext.getReviewReferences(authorId);
+        return mAppContext.getReviews(authorId);
+    }
+
+    @Override
+    public ReferencesRepository getUsersFeed() {
+        return null;
     }
 
     @Override

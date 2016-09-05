@@ -20,9 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GoogleAddress implements LocatedPlace {
-    private LatLng mLatLng;
-    private Address mAddress;
-    private String mFormatted;
+    private final LatLng mLatLng;
+    private final Address mAddress;
+    private final String mFormatted;
 
     public GoogleAddress(LatLng latLng, Address address) {
         mLatLng = latLng;

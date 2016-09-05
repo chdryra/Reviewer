@@ -27,9 +27,9 @@ import java.util.Collection;
 public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
         extends WrapperItemReference<IdableList<Value>>
         implements ReviewListReference<Value, Reference> {
-    private Collection<ListItemBinder<Value>> mItemBinders;
+    private final Collection<ListItemBinder<Value>> mItemBinders;
 
-    public StaticListReferenceBasic(IdableList<Value> value) {
+    StaticListReferenceBasic(IdableList<Value> value) {
         super(value);
         mItemBinders = new ArrayList<>();
     }

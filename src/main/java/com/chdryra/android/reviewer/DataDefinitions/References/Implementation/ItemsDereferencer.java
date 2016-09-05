@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataRe
  * Email: rizwan.choudrey@gmail.com
  */
 public class ItemsDereferencer<T extends HasReviewId> {
-    private IdableList<ReviewItemReference<T>> mRefs;
-    private TreeDataReferenceBasic.GetDataCallback<T> mPost;
+    private final IdableList<ReviewItemReference<T>> mRefs;
+    private final TreeDataReferenceBasic.GetDataCallback<T> mPost;
     private IdableList<T> mData;
     private int mNumDereferences = 0;
 
@@ -52,7 +52,7 @@ public class ItemsDereferencer<T extends HasReviewId> {
         if (mNumDereferences == mRefs.size()) mPost.onData(mData);
     }
 
-    protected void addToDereferencedData(@Nullable T data) {
+    private void addToDereferencedData(@Nullable T data) {
         mData.add(data);
     }
 }

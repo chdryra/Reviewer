@@ -31,7 +31,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
     private float mRating;
     private int mRatingWeight;
 
-    private boolean mValidIsAverage = true;
+    private final boolean mValidIsAverage = true;
 
     public RowReviewImpl(Review review) {
         mReviewId = review.getReviewId().toString();
@@ -51,7 +51,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         mAuthorId = values.getValue(AUTHOR_ID.getName(), AUTHOR_ID.getType());
 
         Long time = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
-        mPublishDate = time != null ? time : 0l;
+        mPublishDate = time != null ? time : 0L;
 
         mSubject = values.getValue(SUBJECT.getName(), SUBJECT.getType());
 
@@ -109,9 +109,9 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return mPublishDate > 0 && mRating != -1f && mRatingWeight > 0 && mValidIsAverage
-                && validator.validate(getReviewId()) &&
-                validator.validateString(getSubject())  &&
+        return mPublishDate > 0 && mRating != -1f && mRatingWeight > 0 && validator.validate
+                (getReviewId()) &&
+                validator.validateString(getSubject()) &&
                 validator.validateString(getAuthorId());
     }
 

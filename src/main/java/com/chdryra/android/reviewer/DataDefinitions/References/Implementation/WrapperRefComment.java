@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class WrapperRefComment extends WrapperItemReference<DataComment> implements RefComment {
-    private RefComment mParent;
+    private final RefComment mParent;
 
     public WrapperRefComment(DataComment value, @Nullable RefComment parent) {
         super(value);

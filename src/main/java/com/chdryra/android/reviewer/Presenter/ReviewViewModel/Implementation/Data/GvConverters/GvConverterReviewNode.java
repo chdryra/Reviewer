@@ -36,7 +36,7 @@ public class GvConverterReviewNode
         extends GvConverterBasic<ReviewNode, GvNode, GvNodeList>
         implements DataConverter<ReviewNode, GvNode, GvNodeList> {
 
-    private ViewHolderFactory<VhNode> mFactory;
+    private final ViewHolderFactory<VhNode> mFactory;
 
     public GvConverterReviewNode(AuthorsRepository repository,
                                  GvConverterComments converterComments,
@@ -66,9 +66,9 @@ public class GvConverterReviewNode
     }
 
     private static class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
-        private AuthorsRepository mRepository;
-        private GvConverterComments mConverterComments;
-        private GvConverterLocations mConverterLocations;
+        private final AuthorsRepository mRepository;
+        private final GvConverterComments mConverterComments;
+        private final GvConverterLocations mConverterLocations;
 
         public VhMostRecentFactory(AuthorsRepository repository, GvConverterComments
                 converterComments, GvConverterLocations converterLocations) {

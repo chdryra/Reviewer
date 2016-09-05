@@ -41,7 +41,7 @@ import com.google.android.gms.location.places.Places;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GoogleLocationServicesApi implements LocationServicesApi {
-    private Context mContext;
+    private final Context mContext;
 
     public GoogleLocationServicesApi(Context context) {
         mContext = context;

@@ -31,8 +31,8 @@ import com.firebase.client.Firebase;
  */
 public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
         ReviewsRepository {
-    private FactoryAuthorsDb mAuthorsDbFactory;
-    private FbReviews mStructure;
+    private final FactoryAuthorsDb mAuthorsDbFactory;
+    private final FbReviews mStructure;
 
     public FbReviewsRepository(Firebase dataBase,
                                FbReviews structure,
@@ -45,7 +45,7 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
     }
 
     @Override
-    public ReferencesRepository getRepository(AuthorId authorId) {
+    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorReviews(getDataBase(), mStructure.getAuthorsDb(authorId));
     }
 

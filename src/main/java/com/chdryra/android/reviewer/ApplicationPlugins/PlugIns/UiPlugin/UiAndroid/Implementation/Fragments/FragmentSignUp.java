@@ -58,7 +58,6 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
     private EditText mEmail;
     private EditText mPassword;
     private EditText mPasswordConfirm;
-    private boolean mEmailSignup = false;
 
     public static FragmentSignUp newInstance(@Nullable SignUpArgs args) {
         FragmentSignUp fragment = new FragmentSignUp();
@@ -137,7 +136,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
             }
 
             String email = mEmail.getText().toString();
-            mEmailSignup = true;
+            boolean emailSignup = true;
             mPresenter.signUpNewAuthor(email, password, name);
         }
     }

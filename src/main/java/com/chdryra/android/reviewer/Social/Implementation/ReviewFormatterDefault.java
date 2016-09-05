@@ -41,7 +41,7 @@ public class ReviewFormatterDefault implements ReviewFormatter {
         return new FormattedReview(title, body);
     }
 
-    public String getLocationString(ArrayList<String> locationNames) {
+    private String getLocationString(ArrayList<String> locationNames) {
         String location = "";
         int locs = locationNames.size();
         if (locs > 0) {

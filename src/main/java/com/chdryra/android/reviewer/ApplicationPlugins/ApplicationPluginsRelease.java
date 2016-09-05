@@ -32,7 +32,7 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
     private static final String PERSISTENCE_NAME = "Reviewer";
     private static final int PERSISTENCE_VER = 1;
 
-    private Context mContext;
+    private final Context mContext;
 
     public ApplicationPluginsRelease(Context context) {
         mContext = context;

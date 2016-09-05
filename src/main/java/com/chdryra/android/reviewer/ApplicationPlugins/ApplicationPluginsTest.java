@@ -32,7 +32,7 @@ public class ApplicationPluginsTest implements ApplicationPlugins {
     private static final String PERSISTENCE_NAME = "TestReviewer";
     private static final int PERSISTENCE_VER = 1;
 
-    private Context mContext;
+    private final Context mContext;
 
     public ApplicationPluginsTest(Context context) {
         mContext = context;

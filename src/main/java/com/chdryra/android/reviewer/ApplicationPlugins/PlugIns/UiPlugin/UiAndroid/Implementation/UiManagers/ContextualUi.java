@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextualUi {
-    private ReviewView<?> mReviewView;
-    private LinearLayout mView;
-    private Button mButton;
+    private final ReviewView<?> mReviewView;
+    private final LinearLayout mView;
+    private final Button mButton;
     private ContextualButtonAction<?> mAction;
 
     public ContextualUi(ReviewView reviewView, LinearLayout view, int buttonId, int textColour) {

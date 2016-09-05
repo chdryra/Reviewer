@@ -78,5 +78,7 @@ public class Strings {
         public static final String LOGGING_IN = "Logging in";
         public static final String PLEASE_WAIT = "Please wait...";
     }
+
     public static final String LOADING = "loading...";
+    public static final String FETCHING = "fetching...";
 }

@@ -49,8 +49,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class PresenterReviewPublish implements ActivityResultListener{
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
-    private ApplicationInstance mApp;
-    private ReviewView<GvSocialPlatform> mView;
+    private final ApplicationInstance mApp;
+    private final ReviewView<GvSocialPlatform> mView;
     private LoginUi mAuthUi;
 
     private PresenterReviewPublish(ApplicationInstance app,
@@ -89,7 +89,7 @@ public class PresenterReviewPublish implements ActivityResultListener{
     }
 
     public static class Builder {
-        private ApplicationInstance mApp;
+        private final ApplicationInstance mApp;
 
         public Builder(ApplicationInstance app) {
             mApp = app;

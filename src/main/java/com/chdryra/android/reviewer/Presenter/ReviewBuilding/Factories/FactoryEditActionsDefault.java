@@ -34,12 +34,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsDefault<T extends GvDataParcelable> {
-    private Context mContext;
-    private GvDataType<T> mDataType;
-    private ConfigUi mConfig;
-    private FactoryGvData mDataFactory;
-    private ParcelablePacker<T> mPacker;
+class FactoryEditActionsDefault<T extends GvDataParcelable> {
+    private final Context mContext;
+    private final GvDataType<T> mDataType;
+    private final ConfigUi mConfig;
+    private final FactoryGvData mDataFactory;
+    private final ParcelablePacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
@@ -66,48 +66,48 @@ public class FactoryEditActionsDefault<T extends GvDataParcelable> {
         return mDataType;
     }
 
-    protected LaunchableConfig getAdderConfig() {
+    LaunchableConfig getAdderConfig() {
         return mConfig.getAdder(mDataType.getDatumName());
     }
 
-    public ConfigUi getConfig() {
+    ConfigUi getConfig() {
         return mConfig;
     }
 
-    protected LaunchableConfig getEditorConfig() {
+    LaunchableConfig getEditorConfig() {
         return mConfig.getEditor(mDataType.getDatumName());
     }
 
-    protected FactoryGvData getDataFactory() {
+    FactoryGvData getDataFactory() {
         return mDataFactory;
     }
 
-    protected ParcelablePacker<T> getPacker() {
+    ParcelablePacker<T> getPacker() {
         return mPacker;
     }
 
-    protected SubjectAction<T> newSubjectEdit() {
+    SubjectAction<T> newSubjectEdit() {
         return new SubjectEdit<>();
     }
 
-    protected RatingBarAction<T> newRatingBarEdit() {
+    private RatingBarAction<T> newRatingBarEdit() {
         return new RatingEdit<>();
     }
 
-    protected BannerButtonAction<T> newBannerButtonAdd() {
+    BannerButtonAction<T> newBannerButtonAdd() {
         return new BannerButtonAdd<>(getAdderConfig(), getBannerButtonTitle(),
                 mDataFactory.newDataList(mDataType), mPacker);
     }
 
-    protected GridItemAction<T> newGridItemEdit() {
+    GridItemAction<T> newGridItemEdit() {
         return new GridItemEdit<>(getEditorConfig(), mPacker);
     }
 
-    protected MenuAction<T> newMenuEdit() {
+    MenuAction<T> newMenuEdit() {
         return new MenuEdit<>(mDataType);
     }
 
-    protected String getBannerButtonTitle() {
+    String getBannerButtonTitle() {
         String title = mContext.getResources().getString(R.string.button_add);
         title += " " + mDataType.getDataName();
         return title;

@@ -55,11 +55,11 @@ public class FragmentViewLocation extends Fragment implements
     private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
     private static final float DEFAULT_ZOOM = 15;
 
-    public static final int LAYOUT = R.layout.fragment_review_location_map_view;
-    public static final int MAP_VIEW = R.id.mapView;
-    public static final int REVIEW_BUTTON = R.id.button_left;
-    public static final int GMAPS_BUTTON = R.id.button_middle;
-    public static final int DONE_BUTTON = R.id.button_right;
+    private static final int LAYOUT = R.layout.fragment_review_location_map_view;
+    private static final int MAP_VIEW = R.id.mapView;
+    private static final int REVIEW_BUTTON = R.id.button_left;
+    private static final int GMAPS_BUTTON = R.id.button_middle;
+    private static final int DONE_BUTTON = R.id.button_right;
 
     private GvLocation mCurrent;
     private GoogleMap mGoogleMap;

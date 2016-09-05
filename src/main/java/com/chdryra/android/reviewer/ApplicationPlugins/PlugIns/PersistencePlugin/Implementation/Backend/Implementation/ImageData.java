@@ -42,7 +42,7 @@ public class ImageData {
         cover = image.isCover();
     }
 
-    public static String asString(Bitmap bitmap) {
+    private static String asString(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         bitmap.recycle();

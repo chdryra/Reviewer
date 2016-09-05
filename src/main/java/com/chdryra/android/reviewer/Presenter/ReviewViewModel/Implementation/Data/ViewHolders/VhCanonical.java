@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhCanonical implements ViewHolder {
-    ViewHolder mViewHolder;
+    private final ViewHolder mViewHolder;
 
     public VhCanonical(ViewHolder viewHolder) {
         mViewHolder = viewHolder;
