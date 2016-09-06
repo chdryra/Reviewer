@@ -32,8 +32,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -65,7 +67,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 /**
  * Singleton that controls app-wide duties.
  */
-public class AndroidAppInstance extends ApplicationSingleton implements ApplicationInstance {
+public class AndroidAppInstance extends ApplicationSingleton implements ApplicationInstance, UserSession.SessionObserver {
     private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     private static final String NAME = "ApplicationInstance";
 
@@ -99,6 +101,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
         mAppContext = appContext.getContext();
         mLocationServices = appContext.getLocationServices();
         mUserSession = new UserSessionDefault(mAppContext);
+        mUserSession.registerSessionObserver(this);
         mReviewPacker = new ReviewPacker();
     }
 
@@ -185,7 +188,15 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public ReferencesRepository getUsersFeed() {
-        return null;
+        if(mUserSession.isInSession()) {
+            UserAccount account = mUserSession.getAccount();
+            account.getSocialProfile(new UserAccount.GetSocialProfileCallback() {
+                @Override
+                public void onSocialProfile(SocialProfile profile, @Nullable AuthenticationError error) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -243,16 +254,21 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     @Override
     public void logout() {
         mScreen.showToast("Logging out...");
-        mUserSession.logout(new SessionProvider.LogoutCallback() {
-            @Override
-            public void onLoggedOut(CallbackMessage message) {
-                if(!message.isError()) {
-                    returnToLogin();
-                } else {
-                    mScreen.showToast("Problem logging out: " + message.getMessage());
-                }
-            }
-        }, new GoogleLoginAndroid(mActivity));
+        mUserSession.logout(new GoogleLoginAndroid(mActivity));
+    }
+
+    @Override
+    public void onLogIn(@Nullable UserAccount account, @Nullable AuthenticationError error) {
+
+    }
+
+    @Override
+    public void onLogOut(UserAccount account, CallbackMessage message) {
+        if(!message.isError()) {
+            returnToLogin();
+        } else {
+            mScreen.showToast("Problem logging out: " + message.getMessage());
+        }
     }
 
     private void returnToLogin() {

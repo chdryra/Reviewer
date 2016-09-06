@@ -32,7 +32,7 @@ public class FbReviewListRef<Value extends HasReviewId, Reference extends Review
     FbReviewListRef(ReviewId id,
                     Firebase reference,
                     ReviewItemReference<DataSize> sizeReference,
-                    ListConverter<Value> converter,
+                    IdableListConverter<Value> converter,
                     ListItemsReferencer<Value, Reference> itemReferencer) {
         super(reference, converter, converter.getItemConverter());
         mId = id;

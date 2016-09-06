@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 
 import java.util.List;
 
@@ -18,19 +18,19 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialProfile {
-    private final List<NamedAuthor> mFollowing;
-    private final List<NamedAuthor> mFollowers;
+    private final List<AuthorId> mFollowing;
+    private final List<AuthorId> mFollowers;
 
-    public SocialProfile(List<NamedAuthor> following, List<NamedAuthor> followers) {
+    public SocialProfile(List<AuthorId> following, List<AuthorId> followers) {
         mFollowing = following;
         mFollowers = followers;
     }
 
-    public List<NamedAuthor> getFollowing() {
+    public List<AuthorId> getFollowing() {
         return mFollowing;
     }
 
-    public List<NamedAuthor> getFollowers() {
+    public List<AuthorId> getFollowers() {
         return mFollowers;
     }
 }

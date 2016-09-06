@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ItemBindersDelegate;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -35,17 +37,13 @@ public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> im
     private SnapshotConverter<T> mItemConverter;
     private final ItemBindersDelegate<T> mManager;
 
-    FbListReference(Firebase reference,
+    public FbListReference(Firebase reference,
                     SnapshotConverter<C> listConverter,
                     SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
         mItemBinders = new HashMap<>();
         mManager = new ItemBindersDelegate<>(this);
-    }
-
-    protected SnapshotConverter<T> getItemConverter() {
-        return mItemConverter;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> i
     public FbRefCommentList(ReviewId id,
                             Firebase reference,
                             ReviewItemReference<DataSize> sizeReference,
-                            ListConverter<DataComment> converter,
+                            IdableListConverter<DataComment> converter,
                             ListItemsReferencer<DataComment, RefComment> referencer,
                             FactoryFbReference referenceFactory) {
         super(id, reference, sizeReference, converter, referencer);

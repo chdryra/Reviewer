@@ -23,7 +23,7 @@ import com.firebase.client.Firebase;
  */
 public class FbRefDatalist<Value extends HasReviewId> extends FbReviewListRef<Value, ReviewItemReference<Value>> implements RefDataList<Value> {
     public FbRefDatalist(ReviewId id, Firebase reference, ReviewItemReference<DataSize>
-            sizeReference, ListConverter<Value> converter, ListItemsReferencer<Value,
+            sizeReference, IdableListConverter<Value> converter, ListItemsReferencer<Value,
             ReviewItemReference<Value>> itemReferencer) {
         super(id, reference, sizeReference, converter, itemReferencer);
     }

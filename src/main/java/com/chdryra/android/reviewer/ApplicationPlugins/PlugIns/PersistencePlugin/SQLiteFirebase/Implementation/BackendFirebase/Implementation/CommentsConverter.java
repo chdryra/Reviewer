@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -21,7 +23,7 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentsConverter extends ListConverter<DataComment> implements SnapshotConverter<IdableList<DataComment>> {
+public class CommentsConverter extends IdableListConverter<DataComment> implements SnapshotConverter<IdableList<DataComment>> {
     protected ReviewId mId;
 
     public CommentsConverter(ReviewId id, ConverterComment commentConverter) {

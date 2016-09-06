@@ -6,11 +6,12 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.DataSnapshot;
 
 /**
@@ -18,7 +19,7 @@ import com.firebase.client.DataSnapshot;
  * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SnapshotConverter<T> {
+public interface ReviewItemConverter<T> {
     @Nullable
-    T convert(DataSnapshot snapshot);
+    T convert(ReviewId id, DataSnapshot snapshot);
 }

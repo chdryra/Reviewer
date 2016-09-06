@@ -18,24 +18,24 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ItemBindersDelegate<T> {
-    private final BindableListReference<T, ?> mReference;
+public class ItemBindersDelegate<Value> {
+    private final BindableListReference<Value, ?> mReference;
 
-    public interface BindableListReference<T, C extends Collection<T>> extends ListReference<T, C> {
-        boolean containsItemBinder(ListItemBinder<T> binder);
+    public interface BindableListReference<Value, C extends Collection<Value>> extends ListReference<Value, C> {
+        boolean containsItemBinder(ListItemBinder<Value> binder);
 
-        void bindItemBinder(ListItemBinder<T> binder);
+        void bindItemBinder(ListItemBinder<Value> binder);
 
-        void removeItemBinder(ListItemBinder<T> binder);
+        void removeItemBinder(ListItemBinder<Value> binder);
 
-        Iterable<? extends ListItemBinder<T>> getItemBinders();
+        Iterable<? extends ListItemBinder<Value>> getItemBinders();
     }
 
-    public ItemBindersDelegate(BindableListReference<T, ?> reference) {
+    public ItemBindersDelegate(BindableListReference<Value, ?> reference) {
         mReference = reference;
     }
 
-    public void bindToItems(final ListItemBinder<T> binder) {
+    public void bindToItems(final ListItemBinder<Value> binder) {
         if (!mReference.isValidReference()) {
             binder.onInvalidated(mReference);
         } else if (!mReference.containsItemBinder(binder)) {
@@ -43,12 +43,12 @@ public class ItemBindersDelegate<T> {
         }
     }
 
-    public void unbindFromItems(ListItemBinder<T> binder) {
+    public void unbindFromItems(ListItemBinder<Value> binder) {
         if (mReference.containsItemBinder(binder)) mReference.removeItemBinder(binder);
     }
 
     public void notifyBinders() {
-        for (ListItemBinder<T> binder : mReference.getItemBinders()) {
+        for (ListItemBinder<Value> binder : mReference.getItemBinders()) {
             binder.onInvalidated(mReference);
         }
     }

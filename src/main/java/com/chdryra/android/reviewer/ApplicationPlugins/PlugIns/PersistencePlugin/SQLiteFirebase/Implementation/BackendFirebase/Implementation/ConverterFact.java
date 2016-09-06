@@ -14,6 +14,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Fact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.ReviewItemConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;

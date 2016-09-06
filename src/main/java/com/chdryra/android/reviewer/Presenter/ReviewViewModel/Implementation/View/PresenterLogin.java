@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
@@ -80,7 +81,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public void startSessionObservation() {
-        mApp.getUserSession().setSessionObserver(this);
+        mApp.getUserSession().registerSessionObserver(this);
     }
 
     @NonNull
@@ -136,7 +137,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void onLoginComplete() {
         UserSession userSession = mApp.getUserSession();
-        userSession.unsetSessionObserver();
+        userSession.unregisterSessionObserver(this);
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
         mListener.onLoggedIn();
     }
@@ -182,6 +183,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             resolveError(account != null ? account.getAccountHolder() : null, error);
         }
         authenticationFinished();
+    }
+
+    @Override
+    public void onLogOut(UserAccount account, CallbackMessage message) {
+
     }
 
     @Override
