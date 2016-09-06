@@ -10,10 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
@@ -22,8 +20,13 @@ import com.firebase.client.Firebase;
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbUsersStructure {
-    DbUpdater<User> getProfileUpdater();
+public interface FbUsersStructure extends FbProfilesStructure, FbSocialStructure{
+    String PROVIDER_IDS_TO_AUTHOR_IDS = "ProviderIds_AuthorIds";
+    String AUTHOR_IDS_TO_PROVIDER_IDS = "AuthorIds_ProviderIds";
+    String AUTHOR_NAMES_TO_AUTHOR_IDS = "AuthorNames_AuthorIds";
+    String AUTHOR_IDS_TO_AUTHOR_NAMES = "AuthorIds_AuthorNames";
+    String USERS = "Users";
+    String AUTHOR_DATA = "AuthorData";
 
     DbUpdater<User> getUsersUpdater();
 
@@ -32,6 +35,4 @@ public interface FbUsersStructure {
     Firebase getAuthorNameMappingDb(Firebase root, AuthorId id);
 
     Firebase getNameAuthorMappingDb(Firebase root, String name);
-
-    Firebase getProfileDb(Firebase root, AuthorId authorId);
 }

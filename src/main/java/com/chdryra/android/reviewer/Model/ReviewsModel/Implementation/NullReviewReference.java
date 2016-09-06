@@ -44,7 +44,7 @@ public class NullReviewReference extends NullDataReference<Review> implements Re
 
     @Override
     public RefDataList<DataCriterion> getCriteria() {
-        return new NullDataReference.List<>();
+        return new NullIdableList<>();
     }
 
     @Override
@@ -54,22 +54,22 @@ public class NullReviewReference extends NullDataReference<Review> implements Re
 
     @Override
     public RefDataList<DataFact> getFacts() {
-        return new NullDataReference.List<>();
+        return new NullIdableList<>();
     }
 
     @Override
     public RefDataList<DataImage> getImages() {
-        return new NullDataReference.List<>();
+        return new NullIdableList<>();
     }
 
     @Override
     public RefDataList<DataLocation> getLocations() {
-        return new NullDataReference.List<>();
+        return new NullIdableList<>();
     }
 
     @Override
     public RefDataList<DataTag> getTags() {
-        return new NullDataReference.List<>();
+        return new NullIdableList<>();
     }
 
     

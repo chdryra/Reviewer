@@ -8,18 +8,18 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/07/2016
+ * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface UserAccount {
-    AuthenticatedUser getAccountHolder();
-
+public interface SocialProfile {
     AuthorId getAuthorId();
 
-    SocialProfile getSocialProfile();
+    RefAuthorList getFollowing();
+
+    RefAuthorList getFollowers();
 }

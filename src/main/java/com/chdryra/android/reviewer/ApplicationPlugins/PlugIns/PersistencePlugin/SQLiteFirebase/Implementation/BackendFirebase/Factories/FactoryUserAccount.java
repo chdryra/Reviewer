@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbSocialStructure;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.firebase.client.Firebase;
@@ -24,9 +23,19 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryUserAccount {
-    public UserAccount newAccount(AuthenticatedUser user, Firebase dataRoot, FbUsersStructure structure, UserProfileConverter converter) {
-        return new FbUserAccount(user, dataRoot, structure, converter);
+    private FactoryFbReference mReferencer;
 
+    public FactoryUserAccount(FactoryFbReference referencer) {
+        mReferencer = referencer;
+    }
+
+    public UserAccount newAccount(AuthenticatedUser user,
+                                  Firebase dataRoot,
+                                  FbSocialStructure social) {
+        if(user.getAuthorId() == null) {
+            throw new IllegalArgumentException("User should be an author!");
+        }
+        return new FbUserAccount(user, mReferencer.newSocialProfile(user.getAuthorId(), dataRoot, social));
     }
 
     public UserAccount newNullAccount() {

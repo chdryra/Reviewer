@@ -10,10 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
@@ -22,10 +19,18 @@ import com.firebase.client.Firebase;
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbReviewsStructure {
-    Firebase getListEntriesDb(Firebase root);
+public interface FbReviewsStructure extends FbReviews {
+    String AGGREGATES = "Aggregates";
 
-    Firebase getListEntryDb(Firebase root, ReviewId reviewId);
+    FbAuthorsReviews getAuthorsDb(AuthorId authorId);
 
-    DbUpdater<ReviewDb> getReviewUploadUpdater();
+    Firebase getListEntriesDb(Firebase root, AuthorId authorId);
+
+    Firebase getListEntryDb(Firebase root, AuthorId authorId, ReviewId ReviewId);
+
+    Firebase getAggregatesDb(Firebase root, AuthorId authorId);
+
+    Firebase getAggregatesDb(Firebase root, AuthorId authorId, ReviewId ReviewId);
+
+    Firebase getReviewDb(Firebase root, AuthorId authorId, ReviewId ReviewId);
 }

@@ -6,13 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
+package com.chdryra.android.reviewer.DataDefinitions.References.Interfaces;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 08/06/2016
+ * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FirebaseStructure extends FbUsersStructure, FbReviewsStructure{
+public interface RefAuthorList extends ListReference<AuthorId, List<AuthorId>> {
+
 }

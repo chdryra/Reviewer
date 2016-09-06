@@ -10,19 +10,37 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureAuthorsNamesMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureAuthorsUsersMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersAuthorsMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.StructureBuilder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Follow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureAuthorsNamesMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureAuthorsUsersMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureUserProfile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructureUsersAuthorsMap;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.Path;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.StructureBuilder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -34,7 +52,6 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbStructUsersLed implements FirebaseStructure {
-    private StructureUserProfile mUserProfile;
     private StructureUsersAuthorsMap mUsersAuthorsMap;
     private StructureNamesAuthorsMap mNamesAuthorsMap;
     private StructureAuthorsNamesMap mAuthorsNamesMap;
@@ -42,12 +59,15 @@ public class FbStructUsersLed implements FirebaseStructure {
     private StructureReview mAggregates;
     private StructureReview mAllReviewsList;
 
+    private StructureUserProfile mUserProfile;
     private DbUpdater<User> mUserUpdater;
-    private DbUpdater<ReviewDb> mReviewUploadUpdater;
+    private DbUpdater<ReviewDb> mReviewUpdater;
+    private DbStructure<Follow> mSocialUpdater;
 
     public FbStructUsersLed() {
         initialiseUserDb();
         initialiseReviewsDb();
+        initialiseSocialDb();
     }
 
     private static String path(String root, String... elements) {
@@ -70,8 +90,13 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public DbUpdater<ReviewDb> getReviewUploadUpdater() {
-        return mReviewUploadUpdater;
+    public DbUpdater<Follow> getSocialUpdater() {
+        return mSocialUpdater;
+    }
+
+    @Override
+    public DbUpdater<ReviewDb> getReviewUpdater() {
+        return mReviewUpdater;
     }
 
     @Override
@@ -115,6 +140,16 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
+    public Firebase getFollowingDb(Firebase root, AuthorId authorId) {
+        return getSocialDb(root, authorId).child(FOLLOWING);
+    }
+
+    @Override
+    public Firebase getFollowersDb(Firebase root, AuthorId authorId) {
+        return getSocialDb(root, authorId).child(FOLLOWERS);
+    }
+
+    @Override
     public Firebase getAuthorNameMappingDb(Firebase root, AuthorId id) {
         return root.child(pathToAuthorNameMapping(id.toString()));
     }
@@ -127,6 +162,10 @@ public class FbStructUsersLed implements FirebaseStructure {
     @Override
     public Firebase getReviewDb(Firebase root, AuthorId authorId, ReviewId reviewId) {
         return root.child(pathToReview(authorId, reviewId));
+    }
+
+    private Firebase getSocialDb(Firebase root, AuthorId authorId) {
+        return root.child(pathToSocial(authorId.toString()));
     }
 
     //************Private**********//
@@ -158,7 +197,7 @@ public class FbStructUsersLed implements FirebaseStructure {
                 (pathToAggregates());
 
         StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
-        mReviewUploadUpdater = builderReview.add(mReviews).add(list).add(mAggregates).
+        mReviewUpdater = builderReview.add(mReviews).add(list).add(mAggregates).
                 add(mAllReviewsList).add(allReviewsAggregates).build();
     }
 
@@ -182,6 +221,28 @@ public class FbStructUsersLed implements FirebaseStructure {
         StructureBuilder<User> builderUser = new StructureBuilder<>();
         mUserUpdater = builderUser.add(mUserProfile).add(mUsersAuthorsMap).add(authorsUsersMap)
                 .add(mNamesAuthorsMap).add(mAuthorsNamesMap).build();
+    }
+
+    private void initialiseSocialDb() {
+        Path<Follow> pathToFollowing = new Path<Follow>() {
+            @Override
+            public String getPath(Follow follow) {
+                return pathToFollowing(follow.getFollower().toString());
+            }
+        };
+
+        Path<Follow> pathToFollowers = new Path<Follow>() {
+            @Override
+            public String getPath(Follow follow) {
+                return pathToFollowers(follow.getFollowing().toString());
+            }
+        };
+
+        StructureFollowing following = new StructureFollowing(pathToFollowing);
+        StructureFollowers followers = new StructureFollowers(pathToFollowers);
+
+        StructureBuilder<Follow> builderUser = new StructureBuilder<>();
+        mSocialUpdater = builderUser.add(following).add(followers).build();
     }
 
     private AuthorId toAuthorId(ReviewDb review) {
@@ -218,6 +279,18 @@ public class FbStructUsersLed implements FirebaseStructure {
 
     private String pathToProfile(String authorId) {
         return path(pathToAuthor(authorId), PROFILE);
+    }
+
+    private String pathToSocial(String authorId) {
+        return path(pathToAuthor(authorId), SOCIAL);
+    }
+
+    private String pathToFollowing(String authorId) {
+        return path(pathToSocial(authorId), FOLLOWING);
+    }
+
+    private String pathToFollowers(String authorId) {
+        return path(pathToSocial(authorId), FOLLOWERS);
     }
 
     private String pathToUserAuthorMap() {

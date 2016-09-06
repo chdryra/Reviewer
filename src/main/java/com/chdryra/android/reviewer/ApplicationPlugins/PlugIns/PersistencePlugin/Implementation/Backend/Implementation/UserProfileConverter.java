@@ -38,14 +38,6 @@ public class UserProfileConverter {
         return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
     }
 
-    public User toUser(AuthenticatedUser user, String authorId) {
-        return new User(user.getProvider(), user.getProvidersId(), authorId);
-    }
-
-    public AuthenticatedUser toAuthenticatedUser(User user) {
-        return new AuthenticatedUser(user.getProviderName(), user.getProviderUserId());
-    }
-
     public AuthenticatedUser newAuthenticatedUser(String providerName, String providerUserId) {
         return new AuthenticatedUser(providerName, providerUserId);
     }

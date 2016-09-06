@@ -14,9 +14,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ItemBindersDelegate;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,6 +26,7 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -119,5 +122,13 @@ public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> im
 
             }
         };
+    }
+
+    public static class AuthorList extends FbListReference<AuthorId, List<AuthorId>> implements RefAuthorList{
+        public AuthorList(Firebase reference,
+                          SnapshotConverter<List<AuthorId>> listConverter,
+                          SnapshotConverter<AuthorId> itemConverter) {
+            super(reference, listConverter, itemConverter);
+        }
     }
 }

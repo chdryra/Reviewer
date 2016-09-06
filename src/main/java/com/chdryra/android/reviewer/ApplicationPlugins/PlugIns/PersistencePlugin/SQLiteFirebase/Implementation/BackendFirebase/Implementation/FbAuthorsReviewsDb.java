@@ -14,8 +14,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -29,9 +28,9 @@ import com.firebase.client.Firebase;
  */
 public class FbAuthorsReviewsDb implements FbAuthorsReviews {
     private final AuthorId mAuthorId;
-    private final FbReviews mParent;
+    private final FbReviewsStructure mParent;
 
-    public FbAuthorsReviewsDb(AuthorId authorId, FbReviews parent) {
+    public FbAuthorsReviewsDb(AuthorId authorId, FbReviewsStructure parent) {
         mAuthorId = authorId;
         mParent = parent;
     }
@@ -57,7 +56,7 @@ public class FbAuthorsReviewsDb implements FbAuthorsReviews {
     }
 
     @Override
-    public DbUpdater<ReviewDb> getReviewUploadUpdater() {
-        return mParent.getReviewUploadUpdater();
+    public DbUpdater<ReviewDb> getReviewUpdater() {
+        return mParent.getReviewUpdater();
     }
 }

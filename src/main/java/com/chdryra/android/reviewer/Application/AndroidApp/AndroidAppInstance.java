@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
@@ -190,12 +190,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     public ReferencesRepository getUsersFeed() {
         if(mUserSession.isInSession()) {
             UserAccount account = mUserSession.getAccount();
-            account.getSocialProfile(new UserAccount.GetSocialProfileCallback() {
-                @Override
-                public void onSocialProfile(SocialProfile profile, @Nullable AuthenticationError error) {
+            SocialProfile socialProfile = account.getSocialProfile();
 
-                }
-            });
         }
     }
 

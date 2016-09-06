@@ -9,26 +9,15 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
-import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Follow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
-
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
-
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructureUserData extends DbStructure<ReviewDb> {
-    @Override
-    void setPathToStructure(Path<ReviewDb> path);
-
-    @NonNull
-    @Override
-    Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType);
+public interface StructureFollow extends DbStructure<Follow> {
+    String relativePathToEntry(Follow follow);
 }

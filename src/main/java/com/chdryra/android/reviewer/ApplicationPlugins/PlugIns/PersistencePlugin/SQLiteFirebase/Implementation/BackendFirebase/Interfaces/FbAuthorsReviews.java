@@ -18,7 +18,7 @@ import com.firebase.client.Firebase;
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbAuthorsReviews extends FbReviewsStructure{
+public interface FbAuthorsReviews extends FbReviews {
     Firebase getReviewDb(Firebase root, ReviewId reviewId);
 
     Firebase getAggregatesDb(Firebase root, ReviewId reviewId);

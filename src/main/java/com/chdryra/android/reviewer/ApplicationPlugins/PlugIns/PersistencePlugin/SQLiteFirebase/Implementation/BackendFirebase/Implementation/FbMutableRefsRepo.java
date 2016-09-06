@@ -97,7 +97,7 @@ public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepos
 
     @NonNull
     private Map<String, Object> getUpdatesMap(ReviewDb review, DbUpdater.UpdateType type) {
-        return getStructure().getReviewUploadUpdater().getUpdatesMap(review, type);
+        return getStructure().getReviewUpdater().getUpdatesMap(review, type);
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

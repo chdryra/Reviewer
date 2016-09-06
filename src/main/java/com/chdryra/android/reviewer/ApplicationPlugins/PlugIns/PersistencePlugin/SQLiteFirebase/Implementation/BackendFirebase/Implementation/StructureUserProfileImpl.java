@@ -28,9 +28,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUserProfileImpl extends DbStructureBasic<User> implements StructureUserProfile {
-    public StructureUserProfileImpl() {
-    }
-
     public StructureUserProfileImpl(Path<User> path) {
         setPathToStructure(path);
     }

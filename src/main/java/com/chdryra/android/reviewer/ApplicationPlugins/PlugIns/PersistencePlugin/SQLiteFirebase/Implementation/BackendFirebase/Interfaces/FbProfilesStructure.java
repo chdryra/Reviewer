@@ -9,26 +9,22 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
-
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
+        .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 10/06/2016
+ * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbReviews {
-    String REVIEWS = "Reviews";
-    String REVIEWS_LIST = "ReviewsList";
+public interface FbProfilesStructure {
+    String PROFILE = "Profile";
 
-    Firebase getListEntriesDb(Firebase root);
+    DbUpdater<User> getProfileUpdater();
 
-    Firebase getListEntryDb(Firebase root, ReviewId reviewId);
-
-    DbUpdater<ReviewDb> getReviewUpdater();
+    Firebase getProfileDb(Firebase root, AuthorId authorId);
 }

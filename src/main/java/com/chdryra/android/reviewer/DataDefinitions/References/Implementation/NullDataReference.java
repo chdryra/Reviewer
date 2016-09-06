@@ -17,11 +17,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
+
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -105,17 +108,7 @@ public class NullDataReference<T> implements DataReference<T> {
         }
     }
 
-    public static class List<T extends HasReviewId> extends NullDataReference<IdableList<T>>
-            implements RefDataList<T> {
-        @Override
-        public void toItemReferences(ItemReferencesCallback<T, ReviewItemReference<T>> callback) {
-            callback.onItemReferences(new IdableDataList<ReviewItemReference<T>>(getReviewId()));
-        }
-
-        @Override
-        public ReviewItemReference<DataSize> getSize() {
-            return new Item<>();
-        }
+    public static class NullList<T, C extends Collection<T>> extends NullDataReference<C> implements ListReference<T, C> {
 
         @Override
         public void bindToItems(ListItemBinder<T> binder) {
@@ -125,6 +118,19 @@ public class NullDataReference<T> implements DataReference<T> {
         @Override
         public void unbindFromItems(ListItemBinder<T> binder) {
 
+        }
+    }
+
+    public static class NullIdableList<T extends HasReviewId> extends NullList<T, IdableList<T>>
+            implements RefDataList<T> {
+        @Override
+        public void toItemReferences(ItemReferencesCallback<T, ReviewItemReference<T>> callback) {
+            callback.onItemReferences(new IdableDataList<ReviewItemReference<T>>(getReviewId()));
+        }
+
+        @Override
+        public ReviewItemReference<DataSize> getSize() {
+            return new Item<>();
         }
 
         @Override

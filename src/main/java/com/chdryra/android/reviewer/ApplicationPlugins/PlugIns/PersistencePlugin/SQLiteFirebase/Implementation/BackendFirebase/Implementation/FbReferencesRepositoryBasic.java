@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviews;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
@@ -44,7 +44,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
     private final Firebase mDataBase;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private final FbReviewsStructure mStructure;
+    private final FbReviews mStructure;
     private final FactoryFbReviewReference mReferencer;
     private final Map<String, ChildEventListener> mSubscribers;
 
@@ -52,9 +52,9 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    FbReferencesRepositoryBasic(Firebase dataBase, SnapshotConverter<ReviewListEntry>
-            entryConverter,
-                                FbReviewsStructure structure, FactoryFbReviewReference referencer) {
+    FbReferencesRepositoryBasic(Firebase dataBase,
+                                SnapshotConverter<ReviewListEntry> entryConverter,
+                                FbReviews structure, FactoryFbReviewReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;

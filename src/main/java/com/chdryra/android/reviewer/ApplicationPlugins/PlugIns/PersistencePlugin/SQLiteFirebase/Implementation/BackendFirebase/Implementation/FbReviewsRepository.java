@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -33,10 +33,10 @@ import com.firebase.client.Firebase;
 public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
         ReviewsRepository {
     private final FactoryAuthorsRepo mAuthorsDbFactory;
-    private final FbReviews mStructure;
+    private final FbReviewsStructure mStructure;
 
     public FbReviewsRepository(Firebase dataBase,
-                               FbReviews structure,
+                               FbReviewsStructure structure,
                                ConverterEntry entryConverter,
                                FactoryFbReviewReference referencer,
                                FactoryAuthorsRepo authorsDbFactory) {

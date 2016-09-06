@@ -198,11 +198,11 @@ public class FirebaseStructureTest {
     }
 
     private void testReviewInsert(StructureTester.Testable<ReviewDb> testable) {
-        testInsert(testable, mStructure.getReviewUploadUpdater(), getRandomReview());
+        testInsert(testable, mStructure.getReviewUpdater(), getRandomReview());
     }
 
     private void testReviewDelete(StructureTester.Testable<ReviewDb> testable) {
-        testDelete(testable, mStructure.getReviewUploadUpdater(), getRandomReview());
+        testDelete(testable, mStructure.getReviewUpdater(), getRandomReview());
     }
 
     private <T> void testInsert(StructureTester.Testable<T> testable, DbUpdater<T> updater, T data) {
