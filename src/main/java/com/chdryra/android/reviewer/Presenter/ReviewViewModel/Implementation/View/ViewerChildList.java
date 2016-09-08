@@ -37,6 +37,10 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
         mAdapterFactory = adapterFactory;
     }
 
+    FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
     @Override
     protected GvDataList<GvNode> makeGridData() {
         return  mConverter.convert(getReviewNode().getChildren());
@@ -57,15 +61,27 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvNode datum) {
         ReviewNode child = getReviewNode().getChild(datum.getReviewId());
-        return child != null ? newNodeDataAdapter(child) : null;
+        return child != null ? newNodeAdapter(child) : null;
     }
 
     @Override
     public ReviewViewAdapter<?> expandGridData() {
-        return newNodeDataAdapter(getReviewNode());
+        return newNodeAdapter(getReviewNode());
     }
 
-    private ReviewViewAdapter<?> newNodeDataAdapter(ReviewNode node) {
+    protected ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
         return mAdapterFactory.newNodeDataAdapter(node);
+    }
+
+    public static class Feed extends ViewerChildList {
+        public Feed(ReviewNode node, DataConverter<ReviewNode, GvNode, GvNodeList> converter,
+                    FactoryReviewViewAdapter adapterFactory) {
+            super(node, converter, adapterFactory);
+        }
+
+        @Override
+        protected ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
+            return getAdapterFactory().newAuthorsReviewsAdapter(node.getAuthorId());
+        }
     }
 }

@@ -30,7 +30,7 @@ public final class ConfigUiImpl implements ConfigUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
     private final LaunchableConfig mLoginConfig;
     private final LaunchableConfig mSignUpConfig;
-    private final LaunchableConfig mFeedConfig;
+    private final LaunchableConfig mAuthorsReviewsConfig;
     private final LaunchableConfig mUsersFeedConfig;
     private final LaunchableConfig mBuildReviewConfig;
     private final LaunchableConfig mEditOnMapConfig;
@@ -41,7 +41,7 @@ public final class ConfigUiImpl implements ConfigUi {
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
                         LaunchableConfig usersFeedConfig,
-                        LaunchableConfig feedConfig,
+                        LaunchableConfig authorsReviewsConfig,
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
                         LaunchableConfig shareReviewConfig,
@@ -53,7 +53,7 @@ public final class ConfigUiImpl implements ConfigUi {
         mLoginConfig = loginConfig;
         mSignUpConfig = signUpConfig;
         mUsersFeedConfig = usersFeedConfig;
-        mFeedConfig = feedConfig;
+        mAuthorsReviewsConfig = authorsReviewsConfig;
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
         mShareReviewConfig = shareReviewConfig;
@@ -91,8 +91,8 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getFeed() {
-        return mFeedConfig;
+    public LaunchableConfig getAuthorsReviews() {
+        return mAuthorsReviewsConfig;
     }
 
     @Override

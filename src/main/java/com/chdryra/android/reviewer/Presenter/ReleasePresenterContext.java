@@ -59,14 +59,12 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    DataValidator validator) {
         super(modelContext, viewContext, socialContext, networkContext, persistenceContext);
 
-        setLaunchablesFactory(viewContext);
+        ConverterGv gvConverter = new ConverterGv();
+        setFactoryReviewView(modelContext, viewContext, persistenceContext, aggregatorsPlugin,
+                gvConverter);
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = new ConverterGv();
-        setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
-                persistenceContext.getUsersManager().getAuthorsRepository(),
-                gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
@@ -74,7 +72,20 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
     }
 
-    private void setAdaptersFactory(ModelContext modelContext,
+    private void setFactoryReviewView(ModelContext modelContext, ViewContext viewContext,
+                                      PersistenceContext persistenceContext, DataAggregatorsPlugin aggregatorsPlugin, ConverterGv gvConverter) {
+        FactoryReviewView factoryReviewView = new FactoryReviewView(viewContext.getUiConfig(),
+                new FactoryReviewViewParams());
+        FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
+                persistenceContext.getReviewsSource(),
+                persistenceContext.getUsersManager().getAuthorsRepository(),
+                gvConverter,
+                aggregatorsPlugin.getAggregatorsApi());
+        factoryReviewView.setAdapterFactory(factoryReviewViewAdapter);
+        setFactoryReviewView(factoryReviewView);
+    }
+
+    private FactoryReviewViewAdapter newAdaptersFactory(ModelContext modelContext,
                                     ReviewsSource reviewsSource,
                                     AuthorsRepository authorsRepository,
                                     ConverterGv gvConverter,
@@ -82,23 +93,12 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams params = paramsFactory.getDefaultParams();
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
-        FactoryReviewViewAdapter factory
-                = new FactoryReviewViewAdapter(getFactoryReviewView(),
-                modelContext.getReviewsFactory(),
+        return new FactoryReviewViewAdapter(modelContext.getReviewsFactory(),
                 modelContext.getReferenceFactory(),
                 aggregater,
                 reviewsSource,
                 authorsRepository,
                 gvConverter);
-
-        setFactoryReviewViewAdapter(factory);
-    }
-
-    private void setLaunchablesFactory(ViewContext viewContext) {
-        FactoryReviewView launchableFactory
-                = new FactoryReviewView(viewContext.getUiConfig(),
-                new FactoryReviewViewParams());
-        setFactoryReviewView(launchableFactory);
     }
 
     private void setReviewBuilderAdapterFactory(Context context,

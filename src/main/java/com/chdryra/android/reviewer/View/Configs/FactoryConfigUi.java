@@ -28,8 +28,8 @@ public class FactoryConfigUi {
     private static final int SIGN_UP = RequestCodeGenerator.getCode(SIGN_UP_TAG);
     private static final String USER_FEED_SCREEN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "UserFeedScreen");
     private static final int USER_FEED_SCREEN = RequestCodeGenerator.getCode(USER_FEED_SCREEN_TAG);
-    private static final String FEED_SCREEN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "FeedScreen");
-    private static final int FEED_SCREEN = RequestCodeGenerator.getCode(FEED_SCREEN_TAG);
+    private static final String AUTHORS_REVIEWS_SCREEN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "FeedScreen");
+    private static final int AUTHORS_REVIEWS_SCREEN = RequestCodeGenerator.getCode(AUTHORS_REVIEWS_SCREEN_TAG);
     private static final String REVIEW_BUILD_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "ReviewBuilderScreen");
     private static final int REVIEW_BUILD = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
     private static final String EDIT_ON_MAP_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "EditOnMap");
@@ -49,13 +49,13 @@ public class FactoryConfigUi {
         LaunchableConfig login = getLoginConfig(launchables);
         LaunchableConfig signUp = getSignUpConfig(launchables);
         LaunchableConfig usersFeed = getUserFeedScreenConfig(launchables);
-        LaunchableConfig feed = getFeedScreenConfig(launchables);
+        LaunchableConfig authorsReviews = getAuthorsReviewsScreenConfig(launchables);
         LaunchableConfig builder = getReviewBuilderConfig(launchables);
         LaunchableConfig mapper = getEditOnMapConfig(launchables);
         LaunchableConfig sharer = getShareReviewConfig(launchables);
         LaunchableConfigAlertable shareEditer = getShareEditReviewConfig(launchables);
 
-        return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, feed, builder, mapper, sharer, shareEditer);
+        return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, authorsReviews, builder, mapper, sharer, shareEditer);
     }
 
     private LaunchableConfig getLoginConfig(LaunchablesList classes) {
@@ -70,8 +70,8 @@ public class FactoryConfigUi {
         return new LaunchableConfigImpl(classes.getUsersFeedUi(), USER_FEED_SCREEN, USER_FEED_SCREEN_TAG);
     }
 
-    private LaunchableConfig getFeedScreenConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getFeedUi(), FEED_SCREEN, FEED_SCREEN_TAG);
+    private LaunchableConfig getAuthorsReviewsScreenConfig(LaunchablesList classes) {
+        return new LaunchableConfigImpl(classes.getAuthorsReviewsUi(), AUTHORS_REVIEWS_SCREEN, AUTHORS_REVIEWS_SCREEN_TAG);
     }
 
     private LaunchableConfig getReviewBuilderConfig(LaunchablesList classes) {

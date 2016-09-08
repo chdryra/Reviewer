@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -50,7 +49,7 @@ public interface PresenterContext {
 
     FactoryUiLauncher getLauncherFactory();
 
-    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu);
+    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu, boolean feedScreen);
 
     void asMetaReview(ReviewId reviewId, ReviewsSource.ReviewsSourceCallback callback);
 
@@ -62,7 +61,7 @@ public interface PresenterContext {
 
     Review executeReviewBuilder();
 
-    ReferencesRepository getReviews(AuthorId authorId);
+    ReviewsSource getReviewsSource();
 
     ReferencesRepository getFeed(RefAuthorList following);
 

@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -39,7 +38,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -61,7 +59,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
-    private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private FactoryReviewView mFactoryReviewView;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
@@ -91,10 +88,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     protected void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
-    }
-
-    protected void setFactoryReviewViewAdapter(FactoryReviewViewAdapter factoryReviewViewAdapter) {
-        mFactoryReviewViewAdapter = factoryReviewViewAdapter;
     }
 
     protected FactoryReviewView getFactoryReviewView() {
@@ -189,8 +182,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReferencesRepository getReviews(AuthorId authorId) {
-        return mPersistenceContext.getReviewsSource().getRepositoryForAuthor(authorId);
+    public ReviewsSource getReviewsSource() {
+        return mPersistenceContext.getReviewsSource();
     }
 
     @Override
@@ -214,8 +207,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewsListView newReviewsListView(ReviewNode reviewNode, boolean withMenu) {
-        return mFactoryReviewView.newReviewsListScreen(reviewNode,
-                mFactoryReviewViewAdapter, withMenu);
+    public ReviewsListView newReviewsListView(ReviewNode reviewNode, boolean withMenu, boolean feedScreen) {
+        return feedScreen ? mFactoryReviewView.newFeedScreen(reviewNode) :
+                mFactoryReviewView.newReviewsListScreen(reviewNode, withMenu);
     }
 }

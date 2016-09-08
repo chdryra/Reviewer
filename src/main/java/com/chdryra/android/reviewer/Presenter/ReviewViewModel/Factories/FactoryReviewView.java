@@ -67,27 +67,36 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class FactoryReviewView {
     private final FactoryReviewViewParams mParamsFactory;
     private final ConfigUi mConfig;
+    private FactoryReviewViewAdapter mAdapterFactory;
 
     public FactoryReviewView(ConfigUi config, FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mParamsFactory = paramsFactory;
     }
 
+    public void setAdapterFactory(FactoryReviewViewAdapter adapterFactory) {
+        mAdapterFactory = adapterFactory;
+        mAdapterFactory.setReviewViewFactory(this);
+    }
+
     public FactoryReviewViewParams getParamsFactory() {
         return mParamsFactory;
     }
 
-    public ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node,
-                                                           FactoryReviewViewAdapter adapterFactory) {
-        return newReviewsListScreen(node, adapterFactory, false).getAdapter();
+    public ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node) {
+        return newReviewsListScreen(node, false).getAdapter();
     }
 
-    public ReviewsListView newReviewsListScreen(ReviewNode node,
-                                                FactoryReviewViewAdapter factory,
-                                                boolean withMenu) {
+    public ReviewsListView newFeedScreen(ReviewNode node) {
         return new ReviewsListView(node,
-                new ReviewViewPerspective<>(factory.newChildListAdapter(node),
-                        newReviewsListActions(withMenu), getParamsForReviewsList()));
+                new ReviewViewPerspective<>(mAdapterFactory.newFeedAdapter(node),
+                        newReviewsListActions(true, true), getParamsForReviewsList()));
+    }
+
+    public ReviewsListView newReviewsListScreen(ReviewNode node, boolean withMenu) {
+        return new ReviewsListView(node,
+                new ReviewViewPerspective<>(mAdapterFactory.newChildListAdapter(node),
+                        newReviewsListActions(withMenu, false), getParamsForReviewsList()));
     }
 
     public <T extends GvData> ReviewView<T> newViewScreen(ApplicationInstance app,
@@ -146,7 +155,7 @@ public class FactoryReviewView {
         }
     }
 
-    private ReviewViewActions<GvNode> newReviewsListActions(boolean withMenu) {
+    private ReviewViewActions<GvNode> newReviewsListActions(boolean withMenu, boolean isFeed) {
         BuildScreenLauncher buildUiLauncher = new BuildScreenLauncher();
         GridItemReviewsList gi = new GridItemReviewsList(this,
                 mConfig.getShareEdit().getLaunchable(), buildUiLauncher);

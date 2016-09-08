@@ -16,14 +16,14 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterAuthorsReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityFeed extends ActivityReviewsList {
-    private static final String TAG = TagKeyGenerator.getTag(ActivityFeed.class);
+public class ActivityAuthorsReviews extends ActivityReviewsList {
+    private static final String TAG = TagKeyGenerator.getTag(ActivityAuthorsReviews.class);
 
     @Override
     protected PresenterReviewsList newPresenter() {
@@ -33,7 +33,7 @@ public class ActivityFeed extends ActivityReviewsList {
                 packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : null;
         if(bundledAuthor == null) throw new IllegalArgumentException("No author!");
 
-        return new PresenterFeed.Builder(AndroidAppInstance.getInstance(this)).build(bundledAuthor);
+        return new PresenterAuthorsReviews.Builder(AndroidAppInstance.getInstance(this)).build(bundledAuthor);
     }
 
     @Override

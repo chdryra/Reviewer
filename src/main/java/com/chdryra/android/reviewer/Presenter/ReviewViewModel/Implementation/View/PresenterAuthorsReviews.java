@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 
@@ -18,9 +16,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterFeed extends PresenterReviewsList {
-    PresenterFeed(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
-        super(app, app.newReviewsListView(feedNode, withMenu));
+public class PresenterAuthorsReviews extends PresenterReviewsList {
+    PresenterAuthorsReviews(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
+        super(app, app.newReviewsListView(feedNode, withMenu, false));
     }
 
     @Override
@@ -36,17 +34,10 @@ public class PresenterFeed extends PresenterReviewsList {
             mApp = app;
         }
 
-        ApplicationInstance getApp() {
-            return mApp;
-        }
-
-        public PresenterFeed build(AuthorId authorId) {
-            return new PresenterFeed(mApp, getFeedNode(authorId), false);
-        }
-
-        @NonNull
-        ReviewNodeRepo getFeedNode(AuthorId authorId) {
-            return mApp.getReviewsFactory().createAuthorsTree(authorId, mApp);
+        public PresenterAuthorsReviews build(AuthorId authorId) {
+            ReviewNodeRepo node = mApp.getReviewsFactory().createAuthorsTree(authorId,
+                    mApp.getReviews(authorId), mApp.getUsersManager().getAuthorsRepository());
+            return new PresenterAuthorsReviews(mApp, node, false);
         }
     }
 }

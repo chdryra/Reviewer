@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
@@ -38,6 +37,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
@@ -46,10 +46,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewNodeAuthoredFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepoTitler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -63,18 +64,14 @@ import java.util.ArrayList;
  * </p>
  */
 public class FactoryReviews implements ReviewMaker {
-    private AuthorsStamp mAuthorsStamp;
     private final FactoryReviewNode mNodeFactory;
     private final FactoryMdReference mReferenceFactory;
+    private AuthorsStamp mAuthorsStamp;
 
     public FactoryReviews(FactoryMdReference referenceFactory, AuthorsStamp authorsStamp) {
         mNodeFactory = new FactoryReviewNode(this, referenceFactory);
         mReferenceFactory = referenceFactory;
         mAuthorsStamp = authorsStamp;
-    }
-
-    private FactoryReviewNode getNodeFactory() {
-        return mNodeFactory;
     }
 
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {
@@ -104,15 +101,16 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ApplicationInstance app) {
-        ReviewStamp stamp = ReviewStamp.newStamp(authorId);
-        DataReviewInfo info = new ReviewInfo(stamp,
-                new DatumSubject(stamp, Strings.FETCHING),
-                new DatumRating(stamp, 0f, 1),
-                new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
-                new DatumDate(stamp, stamp.getDate().getTime()));
+    public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ReferencesRepository repo, AuthorsRepository authorsRepo) {
+        DataReviewInfo info = getMetaForAuthor(authorId);
+        return newReviewNodeAuthored(info, repo, new NodeTitler
+                .AuthorsTree(authorsRepo.getName(authorId)));
+    }
 
-        return new ReviewNodeAuthoredFeed(info, app, mReferenceFactory, getNodeFactory());
+    public ReviewNodeRepo createUsersFeed(AuthorId authorId, ReferencesRepository feed, AuthorsRepository authorsRepo) {
+        DataReviewInfo info = getMetaForAuthor(authorId);
+        return newReviewNodeAuthored(info, feed,
+                new NodeTitler.UsersFeed(authorsRepo.getName(authorId)));
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {
@@ -125,6 +123,27 @@ public class FactoryReviews implements ReviewMaker {
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
                 reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
                 reviewData.getFacts(), reviewData.getLocations());
+    }
+
+    private FactoryReviewNode getNodeFactory() {
+        return mNodeFactory;
+    }
+
+    @NonNull
+    private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
+                                                 ReferencesRepository reviews, NodeTitler titler) {
+        return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
+                getNodeFactory(), titler);
+    }
+
+    @NonNull
+    private DataReviewInfo getMetaForAuthor(AuthorId authorId) {
+        ReviewStamp stamp = ReviewStamp.newStamp(authorId);
+        return new ReviewInfo(stamp,
+                new DatumSubject(stamp, Strings.FETCHING),
+                new DatumRating(stamp, 0f, 1),
+                new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
+                new DatumDate(stamp, stamp.getDate().getTime()));
     }
 
     /********************************************************/

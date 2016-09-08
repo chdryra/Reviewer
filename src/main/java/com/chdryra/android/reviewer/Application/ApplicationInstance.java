@@ -99,12 +99,12 @@ public interface ApplicationInstance {
 
     void launchImageChooser(ImageChooser chooser, int requestCode);
 
-    void launchFeed(AuthorId authorId);
+    void launchReviews(AuthorId authorId);
 
     void launchEditScreen(GvDataType<? extends GvDataParcelable> type);
 
     void setReturnResult(ActivityResultCode result);
 
-    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu);
+    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu, boolean feedScreen);
 }
 

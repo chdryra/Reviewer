@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .Activities.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityFeed;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -68,7 +67,7 @@ public class UiAndroid implements UiPlugin {
 
         private AndroidLaunchables() {
             super(ActivityLogin.class, ActivitySignUp.class, ActivityUsersFeed.class,
-                    ActivityFeed.class, ActivityBuildReview.class, ActivityEditLocationMap.class,
+                    ActivityAuthorsReviews.class, ActivityBuildReview.class, ActivityEditLocationMap.class,
                     ActivityPublishReview.class, DialogShareEditReview.class,
                     ActivityReviewView.class, ActivityReviewsList.class);
 

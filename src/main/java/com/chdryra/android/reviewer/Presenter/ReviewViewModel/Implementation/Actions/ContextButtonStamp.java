@@ -46,7 +46,7 @@ public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<
 
     @Override
     public void onClick(View v) {
-        mApp.launchFeed(mAuthorId);
+        mApp.launchReviews(mAuthorId);
     }
 
     @Override

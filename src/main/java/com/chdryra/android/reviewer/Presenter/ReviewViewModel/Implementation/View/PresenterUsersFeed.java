@@ -11,12 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
@@ -30,7 +28,7 @@ import java.util.Collection;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterUsersFeed extends PresenterFeed implements
+public class PresenterUsersFeed extends PresenterReviewsList implements
         ReviewPublisherListener,
         ReviewNode.NodeObserver {
 
@@ -43,9 +41,16 @@ public class PresenterUsersFeed extends PresenterFeed implements
     private PresenterUsersFeed(ApplicationInstance app,
                                ReviewNodeRepo feedNode,
                                PresenterListener listener) {
-        super(app, feedNode, true);
+        super(app, app.newReviewsListView(feedNode, true, true));
         getApp().getPublisher().registerListener(this);
         mListener = listener;
+    }
+
+    @Override
+    public void detach() {
+        super.detach();
+        ((ReviewNodeRepo)getNode()).detachFromRepo();
+        getApp().getPublisher().unregisterListener(this);
     }
 
     public void deleteReview(final ReviewId id) {
@@ -103,12 +108,6 @@ public class PresenterUsersFeed extends PresenterFeed implements
     }
 
     @Override
-    public void detach() {
-        super.detach();
-        getApp().getPublisher().unregisterListener(this);
-    }
-
-    @Override
     public void onUploadFailed(ReviewId id, CallbackMessage result) {
         makeToast(result.getMessage());
     }
@@ -141,14 +140,17 @@ public class PresenterUsersFeed extends PresenterFeed implements
         getApp().getCurrentScreen().showToast(message);
     }
 
-    public static class Builder extends PresenterFeed.Builder {
+    public static class Builder {
+        private final ApplicationInstance mApp;
+
         public Builder(ApplicationInstance app) {
-            super(app);
+            mApp = app;
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            AuthorId authorId = getApp().getUserSession().getAuthorId();
-            return new PresenterUsersFeed(getApp(), getFeedNode(authorId), listener);
+            ReviewNodeRepo node = mApp.getReviewsFactory().createUsersFeed(mApp.getUserSession().getAuthorId(),
+                    mApp.getUsersFeed(), mApp.getUsersManager().getAuthorsRepository());
+            return new PresenterUsersFeed(mApp, node, listener);
         }
     }
 }

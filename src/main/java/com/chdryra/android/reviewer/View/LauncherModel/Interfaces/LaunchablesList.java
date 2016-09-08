@@ -29,7 +29,7 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getUsersFeedUi();
 
-    Class<? extends LaunchableUi> getFeedUi();
+    Class<? extends LaunchableUi> getAuthorsReviewsUi();
 
     Class<? extends LaunchableUi> getReviewBuilderUi();
 

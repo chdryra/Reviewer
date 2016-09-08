@@ -29,7 +29,7 @@ public interface ConfigUi {
 
     LaunchableConfig getUsersFeed();
 
-    LaunchableConfig getFeed();
+    LaunchableConfig getAuthorsReviews();
 
     LaunchableConfig getBuildReview();
 

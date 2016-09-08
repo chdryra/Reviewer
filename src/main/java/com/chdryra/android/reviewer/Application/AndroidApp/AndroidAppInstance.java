@@ -184,7 +184,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
-        return mAppContext.getReviews(authorId);
+        return mAppContext.getReviewsSource().getRepositoryForAuthor(authorId);
     }
 
     @Override
@@ -286,18 +286,18 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu) {
-        return mAppContext.newReviewsListView(node, withMenu);
+    public ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu, boolean feedScreen) {
+        return mAppContext.newReviewsListView(node, withMenu, feedScreen);
     }
 
     @Override
-    public void launchFeed(AuthorId authorId) {
+    public void launchReviews(AuthorId authorId) {
         AuthorIdParcelable id = new AuthorIdParcelable(authorId.toString());
-        LaunchableConfig feedConfig = getConfigUi().getFeed();
+        LaunchableConfig config = getConfigUi().getAuthorsReviews();
         ParcelablePacker<AuthorIdParcelable> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, id, args);
-        getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
+        getUiLauncher().launch(config, config.getRequestCode(), args);
     }
 
     @Override
@@ -318,6 +318,6 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     private void launchReview(ReviewNode reviewNode) {
         String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(newReviewsListView(reviewNode, false), RequestCodeGenerator.getCode(tag));
+        getUiLauncher().launch(newReviewsListView(reviewNode, false, false), RequestCodeGenerator.getCode(tag));
     }
 }

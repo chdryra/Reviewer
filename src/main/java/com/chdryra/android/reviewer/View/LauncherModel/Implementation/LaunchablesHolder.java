@@ -28,7 +28,7 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
     private final Class<? extends LaunchableUi> mUsersFeed;
-    private final Class<? extends LaunchableUi> mFeed;
+    private final Class<? extends LaunchableUi> mAuthorsReviews;
     private final Class<? extends LaunchableUi> mReviewBuilder;
     private final Class<? extends LaunchableUi> mMapEditor;
     private final Class<? extends LaunchableUi> mShare;
@@ -41,7 +41,7 @@ public class LaunchablesHolder implements LaunchablesList {
     public LaunchablesHolder(Class<? extends LaunchableUi> login,
                              Class<? extends LaunchableUi> signUp,
                              Class<? extends LaunchableUi> usersFeed,
-                             Class<? extends LaunchableUi> feed,
+                             Class<? extends LaunchableUi> authorsReviews,
                              Class<? extends LaunchableUi> reviewBuilder,
                              Class<? extends LaunchableUi> mapEditor,
                              Class<? extends LaunchableUi> share,
@@ -51,7 +51,7 @@ public class LaunchablesHolder implements LaunchablesList {
         mLogin = login;
         mSignUp = signUp;
         mUsersFeed = usersFeed;
-        mFeed = feed;
+        mAuthorsReviews = authorsReviews;
         mReviewBuilder = reviewBuilder;
         mMapEditor = mapEditor;
         mShare = share;
@@ -81,8 +81,8 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUi> getFeedUi() {
-        return mFeed;
+    public Class<? extends LaunchableUi> getAuthorsReviewsUi() {
+        return mAuthorsReviews;
     }
 
     @Override
