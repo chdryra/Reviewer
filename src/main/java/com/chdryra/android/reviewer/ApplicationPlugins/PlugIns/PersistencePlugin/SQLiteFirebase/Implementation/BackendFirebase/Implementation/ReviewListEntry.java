@@ -19,6 +19,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewListEntry {
+    public static String SUBJECT = "subject";
+    public static String RATING = "subject";
+    public static String DATE = "publishDate";
+
     private String reviewId;
     private String subject;
     private Rating rating;
@@ -53,7 +57,8 @@ public class ReviewListEntry {
         return authorId;
     }
 
+    //For ordering
     public long getPublishDate() {
-        return publishDate;
+        return -publishDate;
     }
 }

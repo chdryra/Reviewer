@@ -12,8 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorsRefsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbMutableRefsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorReviewsReadable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorReviewsMutable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
@@ -42,12 +42,16 @@ public class FactoryAuthorsRepo {
         mReferencer = referencer;
     }
 
-    public ReferencesRepository newAuthorReviews(Firebase root, FbAuthorsReviews structure) {
-        return new FbAuthorsRefsRepo(root, structure, mEntryConverter, mReferencer);
+    public ReferencesRepository newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
+        return new FbAuthorReviewsReadable(root, authorsDb, mEntryConverter, mReferencer);
     }
 
-    public MutableRepository newAuthorsDb(Firebase root, FbAuthorsReviews structure) {
-        return new FbMutableRefsRepo(root, structure, mEntryConverter, mReviewConverter,
+    public MutableRepository newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
+        return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
                 mValidator, mReferencer);
+    }
+
+    public ReferencesRepository newAuthorsDbLatest(Firebase root, FbAuthorsReviews authorsDb) {
+        return new FbAuthorReviewsReadable.MostRecent(root, authorsDb, mEntryConverter, mReferencer);
     }
 }

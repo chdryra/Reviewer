@@ -45,6 +45,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -189,9 +190,10 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     @Override
     public ReferencesRepository getUsersFeed() {
         if(mUserSession.isInSession()) {
-            UserAccount account = mUserSession.getAccount();
-            SocialProfile socialProfile = account.getSocialProfile();
-
+            SocialProfile socialProfile = mUserSession.getAccount().getSocialProfile();
+            return mAppContext.getFeed(socialProfile.getFollowing());
+        } else {
+            return new NullRepository();
         }
     }
 

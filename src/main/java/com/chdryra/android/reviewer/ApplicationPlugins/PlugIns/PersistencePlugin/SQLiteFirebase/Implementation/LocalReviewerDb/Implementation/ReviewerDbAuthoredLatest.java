@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -27,23 +26,14 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscriber {
-    private final AuthorId mAuthorId;
-    private final ReviewerDbRepository mRepo;
+public class ReviewerDbAuthoredLatest implements ReferencesRepository, ReviewsSubscriber {
+    private ReviewReference mLatest;
+    private final ReviewerDbAuthored mRepo;
     private final List<ReviewsSubscriber> mSubscribers;
 
-    public ReviewerDbAuthored(AuthorId authorId, ReviewerDbRepository repo) {
-        mAuthorId = authorId;
+    public ReviewerDbAuthoredLatest(ReviewerDbAuthored repo) {
         mRepo = repo;
         mSubscribers = new ArrayList<>();
-    }
-
-    ReviewerDbRepository getRepo() {
-        return mRepo;
-    }
-
-    AuthorId getAuthorId() {
-        return mAuthorId;
     }
 
     @Override
@@ -53,7 +43,7 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
             if(mSubscribers.size() == 1) {
                 mRepo.subscribe(this);
             } else {
-                mRepo.getReferences(subscriber, mAuthorId);
+                subscriber.onReviewAdded(mLatest);
             }
         }
     }
@@ -71,15 +61,11 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
 
     @Override
     public void onReviewAdded(ReviewReference reference) {
-        if (isCorrectAuthor(reference)) {
-            for (ReviewsSubscriber subscriber : mSubscribers) {
-                subscriber.onReviewAdded(reference);
-            }
+        if(mLatest != null) onReviewRemoved(mLatest);
+        mLatest = reference;
+        for (ReviewsSubscriber subscriber : mSubscribers) {
+            subscriber.onReviewAdded(mLatest);
         }
-    }
-
-    private boolean isCorrectAuthor(ReviewReference reference) {
-        return reference.getAuthorId().toString().equals(mAuthorId.toString());
     }
 
     @Override
@@ -89,24 +75,23 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
 
     @Override
     public void onReviewRemoved(ReviewReference reference) {
-        if (isCorrectAuthor(reference)) {
+        if(reference == mLatest) {
             for (ReviewsSubscriber subscriber : mSubscribers) {
-                subscriber.onReviewRemoved(reference);
+                subscriber.onReviewRemoved(mLatest);
             }
+            mLatest = null;
         }
     }
 
     @Override
     public void getReference(ReviewId reviewId, final RepositoryCallback callback) {
-        mRepo.getReference(reviewId, new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                RepositoryResult repoResult = result;
-                if (!result.isReference() || result.getReference() == null) {
-                    repoResult = new RepositoryResult(CallbackMessage.error("Error retrieving reference"));
-                }
-                callback.onRepositoryCallback(repoResult);
-            }
-        });
+        RepositoryResult repoResult;
+        if(reviewId.equals(mLatest.getReviewId())) {
+            repoResult = new RepositoryResult(mLatest);
+        } else {
+            repoResult = new RepositoryResult(CallbackMessage.error("Reference not found"));
+        }
+
+        callback.onRepositoryCallback(repoResult);
     }
 }

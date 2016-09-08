@@ -9,6 +9,9 @@
 package com.chdryra.android.reviewer.Persistence.Factories;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthored;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthoredLatest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbMutable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -48,6 +51,10 @@ public class FactoryReviewsRepository {
 
     public ReviewsCache newCache() {
         return mCacheFactory.newCache();
+    }
+
+    public ReferencesRepository newAuthorsLatestRepo(AuthorId authorId, ReviewerDbRepository repo) {
+        return new ReviewerDbAuthoredLatest(new ReviewerDbAuthored(authorId, repo));
     }
 
     public ReferencesRepository newAuthorsRepo(AuthorId authorId, ReviewerDbRepository repo) {

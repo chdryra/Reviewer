@@ -19,8 +19,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -28,6 +29,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
@@ -189,6 +191,11 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
         return mPersistenceContext.getReviewsSource().getRepositoryForAuthor(authorId);
+    }
+
+    @Override
+    public ReferencesRepository getFeed(RefAuthorList following) {
+        return new FeedRepository(following, mPersistenceContext.getReviewsSource());
     }
 
     @Override

@@ -20,6 +20,8 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 public interface ReviewsRepository extends ReferencesRepository {
     TagsManager getTagsManager();
 
+    ReferencesRepository getLatestForAuthor(AuthorId authorId);
+
     ReferencesRepository getRepositoryForAuthor(AuthorId authorId);
 
     MutableRepository getMutableRepository(UserSession session);

@@ -19,20 +19,21 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
+public class FbAuthorReviewsReadable extends FbReferencesRepositoryBasic {
     private final FbAuthorsReviews mStructure;
 
-    public FbAuthorsRefsRepo(Firebase dataBase,
-                             FbAuthorsReviews structure,
-                             SnapshotConverter<ReviewListEntry> entryConverter,
-                             FactoryFbReviewReference referencer) {
-        super(dataBase, entryConverter, structure, referencer);
+    public FbAuthorReviewsReadable(Firebase dataBase,
+                                   FbAuthorsReviews structure,
+                                   SnapshotConverter<ReviewListEntry> entryConverter,
+                                   FactoryFbReviewReference referencer) {
+        super(dataBase, structure, entryConverter, referencer);
         mStructure = structure;
     }
 
@@ -53,5 +54,19 @@ public class FbAuthorsRefsRepo extends FbReferencesRepositoryBasic {
     @NonNull
     private DatumReviewId getReviewId(ReviewListEntry entry) {
         return new DatumReviewId(entry.getReviewId());
+    }
+
+    public static class MostRecent extends FbAuthorReviewsReadable {
+        public MostRecent(Firebase dataBase,
+                          FbAuthorsReviews structure,
+                          SnapshotConverter<ReviewListEntry> entryConverter,
+                          FactoryFbReviewReference referencer) {
+            super(dataBase, structure, entryConverter, referencer);
+        }
+
+        @Override
+        protected Query getQuery(Firebase entriesDb) {
+            return entriesDb.orderByChild(ReviewListEntry.DATE).limitToFirst(1);
+        }
     }
 }

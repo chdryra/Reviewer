@@ -106,6 +106,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
+    public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
+        return mRepository.getLatestForAuthor(authorId);
+    }
+
+    @Override
     public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
         return mRepository.getRepositoryForAuthor(authorId);
     }

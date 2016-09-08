@@ -47,16 +47,16 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepository {
+public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements MutableRepository {
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
 
-    public FbMutableRefsRepo(Firebase dataBase,
-                             FbAuthorsReviews structure,
-                             SnapshotConverter<ReviewListEntry> entryConverter,
-                             BackendReviewConverter converter,
-                             BackendValidator validator,
-                             FactoryFbReviewReference referencer) {
+    public FbAuthorReviewsMutable(Firebase dataBase,
+                                  FbAuthorsReviews structure,
+                                  SnapshotConverter<ReviewListEntry> entryConverter,
+                                  BackendReviewConverter converter,
+                                  BackendValidator validator,
+                                  FactoryFbReviewReference referencer) {
         super(dataBase, structure, entryConverter, referencer);
         mConverter = converter;
         mValidator = validator;
@@ -64,7 +64,7 @@ public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepos
 
     @Override
     public void addReview(Review review, MutableRepoCallback callback) {
-        ReviewDb reviewDb= mConverter.convert(review);
+        ReviewDb reviewDb = mConverter.convert(review);
         Map<String, Object> map = getUpdatesMap(reviewDb, DbUpdater.UpdateType.INSERT_OR_UPDATE);
         getDataBase().updateChildren(map, newAddListener(reviewDb, callback));
     }
@@ -74,7 +74,7 @@ public class FbMutableRefsRepo extends FbAuthorsRefsRepo implements MutableRepos
         getReviewEntry(reviewId, newGetAndDeleteListener(reviewId, callback));
     }
 
-    private void getReviewEntry(ReviewId id, final ValueEventListener onReviewFound) {
+    private void getReviewEntry(ReviewId id, ValueEventListener onReviewFound) {
         Firebase listEntryDb = getStructure().getListEntryDb(getDataBase(), id);
         doSingleEvent(listEntryDb, newOnEntryFoundListener(onReviewFound));
     }

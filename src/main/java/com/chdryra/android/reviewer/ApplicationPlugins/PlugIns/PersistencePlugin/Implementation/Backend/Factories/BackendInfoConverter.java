@@ -55,6 +55,6 @@ public class BackendInfoConverter {
         String id = entry.getReviewId();
         return new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
-                convertDate(id, entry.getPublishDate()));
+                convertDate(id, -entry.getPublishDate()));
     }
 }

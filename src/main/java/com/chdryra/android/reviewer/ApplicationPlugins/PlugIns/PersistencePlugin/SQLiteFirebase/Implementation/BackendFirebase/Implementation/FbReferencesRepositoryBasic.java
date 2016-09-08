@@ -6,17 +6,20 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviews;
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -30,6 +33,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.HashMap;
@@ -40,8 +44,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReferencesRepositoryBasic implements ReferencesRepository{
-
+public abstract class FbReferencesRepositoryBasic implements ReferencesRepository {
     private final Firebase mDataBase;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FbReviews mStructure;
@@ -53,8 +56,9 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
     FbReferencesRepositoryBasic(Firebase dataBase,
+                                FbReviews structure,
                                 SnapshotConverter<ReviewListEntry> entryConverter,
-                                FbReviews structure, FactoryFbReviewReference referencer) {
+                                FactoryFbReviewReference referencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
@@ -62,25 +66,25 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         mReferencer = referencer;
     }
 
-    Firebase getDataBase() {
-        return mDataBase;
-    }
-
     public TagsManager getTagsManager() {
         return mReferencer.getTagsManager();
+    }
+
+    protected Query getQuery(Firebase entriesDb) {
+        return entriesDb.orderByChild(ReviewListEntry.DATE);
     }
 
     @Override
     public void subscribe(ReviewsSubscriber subscriber) {
         ChildEventListener listener = newChildEventListener(subscriber);
         mSubscribers.put(subscriber.getSubscriberId(), listener);
-        mStructure.getListEntriesDb(mDataBase).addChildEventListener(listener);
+        getQuery().addChildEventListener(listener);
     }
 
     @Override
     public void unsubscribe(ReviewsSubscriber subscriber) {
         ChildEventListener listener = mSubscribers.remove(subscriber.getSubscriberId());
-        if (listener != null) mStructure.getListEntriesDb(mDataBase).removeEventListener(listener);
+        if (listener != null) getQuery().removeEventListener(listener);
     }
 
     @Override
@@ -89,12 +93,21 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         doSingleEvent(entry, newGetReferenceListener(callback));
     }
 
+    Firebase getDataBase() {
+        return mDataBase;
+    }
+
+    private Query getQuery() {
+        return getQuery(mStructure.getListEntriesDb(mDataBase));
+    }
+
     @NonNull
     private ChildEventListener newChildEventListener(final ReviewsSubscriber subscriber) {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                subscriber.onReviewAdded(newReference(dataSnapshot));
+                ReviewReference reference = newReference(dataSnapshot);
+                if(reference != null) subscriber.onReviewAdded(reference);
             }
 
             @Override
@@ -104,7 +117,8 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                subscriber.onReviewRemoved(newReference(dataSnapshot));
+                ReviewReference reference = newReference(dataSnapshot);
+                if(reference != null) subscriber.onReviewRemoved(reference);
             }
 
             @Override
@@ -124,7 +138,14 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.onRepositoryCallback(new RepositoryResult(newReference(dataSnapshot)));
+                ReviewReference reference = newReference(dataSnapshot);
+                RepositoryResult result;
+                if(reference != null) {
+                    result= new RepositoryResult(reference);
+                } else {
+                    result = new RepositoryResult(CallbackMessage.error("Reference not found"));
+                }
+                callback.onRepositoryCallback(result);
             }
 
             @Override
@@ -136,17 +157,11 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         };
     }
 
-    @NonNull
+    @Nullable
     private ReviewReference newReference(DataSnapshot dataSnapshot) {
         ReviewListEntry entry = mEntryConverter.convert(dataSnapshot);
-        ReviewReference ref;
-        if(entry != null) {
-            ref = mReferencer.newReview(entry, getReviewDb(entry), getAggregatesDb(entry));
-        } else {
-            ref = mReferencer.newNullReview();
-        }
-
-        return ref;
+        return entry != null ?
+                mReferencer.newReview(entry, getReviewDb(entry), getAggregatesDb(entry)) : null;
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

@@ -49,6 +49,11 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
+    public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
+        return mArchive.getLatestForAuthor(authorId);
+    }
+
+    @Override
     public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
         return mArchive.getRepositoryForAuthor(authorId);
     }

@@ -13,9 +13,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -40,39 +46,48 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
                                ConverterEntry entryConverter,
                                FactoryFbReviewReference referencer,
                                FactoryAuthorsRepo authorsDbFactory) {
-        super(dataBase, entryConverter, structure, referencer);
+        super(dataBase, structure, entryConverter, referencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }
 
     @Override
+    public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
+        return mAuthorsDbFactory.newAuthorsDbLatest(getDataBase(), getAuthorsDb(authorId));
+    }
+
+    @Override
     public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
-        return mAuthorsDbFactory.newAuthorReviews(getDataBase(), mStructure.getAuthorsDb(authorId));
+        return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
-        return mAuthorsDbFactory.newAuthorsDb(getDataBase(), mStructure.getAuthorsDb(session
+        return mAuthorsDbFactory.newAuthorsDbMutable(getDataBase(), getAuthorsDb(session
                 .getAuthorId()));
     }
 
     @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(getDataBase(), toAuthorId(entry), toReviewId(entry));
+        return mStructure.getAggregatesDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
     }
 
     @Override
     protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(getDataBase(), toAuthorId(entry), toReviewId(entry));
+        return mStructure.getReviewDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
+    }
+
+    private FbAuthorsReviews getAuthorsDb(AuthorId authorId) {
+        return mStructure.getAuthorsDb(authorId);
     }
 
     @NonNull
-    private AuthorId toAuthorId(ReviewListEntry entry) {
+    private AuthorId getAuthorId(ReviewListEntry entry) {
         return new AuthorIdParcelable(entry.getAuthorId());
     }
 
     @NonNull
-    private ReviewId toReviewId(ReviewListEntry entry) {
+    private ReviewId getReviewId(ReviewListEntry entry) {
         return new DatumReviewId(entry.getReviewId());
     }
 }

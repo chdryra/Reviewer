@@ -125,6 +125,11 @@ public class ReviewerDbRepository implements LocalRepository {
     }
 
     @Override
+    public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
+        return mRepoFactory.newAuthorsLatestRepo(authorId, this);
+    }
+
+    @Override
     public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
         return mRepoFactory.newAuthorsRepo(authorId, this);
     }
