@@ -67,13 +67,21 @@ public class FactoryGridDataViewer {
         GridDataWrapper<?> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
-            viewer = new ViewerTreeSummary(node, mAdapterFactory, converter);
+            viewer = newTreeSummaryViewer(node, converter);
         } else {
             node = children.size() == 0 ? node : children.getItem(0);
-            viewer = new ViewerReviewSummary(node, mAdapterFactory, converter);
+            viewer = newReviewSummaryViewer(node, converter);
         }
 
         return viewer;
+    }
+
+    public GridDataWrapper<?> newTreeSummaryViewer(ReviewNode node, ConverterGv converter) {
+        return new ViewerTreeSummary(node, mAdapterFactory, converter);
+    }
+
+    public GridDataWrapper<?> newReviewSummaryViewer(ReviewNode node, ConverterGv converter) {
+        return new ViewerReviewSummary(node, mAdapterFactory, converter);
     }
 
     public ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node, ConverterGv converter) {

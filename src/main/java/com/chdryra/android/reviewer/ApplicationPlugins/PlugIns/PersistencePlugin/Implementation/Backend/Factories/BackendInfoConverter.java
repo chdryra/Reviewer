@@ -10,8 +10,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRating;
@@ -23,6 +25,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,8 +56,8 @@ public class BackendInfoConverter {
 
     public DataReviewInfo convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
-        return new com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
+        return new ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
-                convertDate(id, -entry.getPublishDate()));
+                convertDate(id, entry.getPublishDate()));
     }
 }

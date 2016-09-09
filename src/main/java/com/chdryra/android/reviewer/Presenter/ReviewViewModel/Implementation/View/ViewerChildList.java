@@ -69,19 +69,8 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
         return newNodeAdapter(getReviewNode());
     }
 
-    protected ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
-        return mAdapterFactory.newNodeDataAdapter(node);
+    private ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
+        return mAdapterFactory.newTreeSummaryAdapter(node);
     }
 
-    public static class Feed extends ViewerChildList {
-        public Feed(ReviewNode node, DataConverter<ReviewNode, GvNode, GvNodeList> converter,
-                    FactoryReviewViewAdapter adapterFactory) {
-            super(node, converter, adapterFactory);
-        }
-
-        @Override
-        protected ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
-            return getAdapterFactory().newAuthorsReviewsAdapter(node.getAuthorId());
-        }
-    }
 }

@@ -37,10 +37,11 @@ public class FeedRepository implements ReferencesRepository {
     private boolean mInitialised = false;
     private Binder mBinder;
 
-    public FeedRepository(RefAuthorList authorsList, ReviewsRepository masterRepo) {
+    public FeedRepository(AuthorId usersId, RefAuthorList authorsList, ReviewsRepository masterRepo) {
         mAuthorsList = authorsList;
         mMasterRepo = masterRepo;
         mRepos = new RepositoryCollection<>();
+        mRepos.add(usersId, mMasterRepo.getLatestForAuthor(usersId));
         mSubscribers = new ArrayList<>();
     }
 

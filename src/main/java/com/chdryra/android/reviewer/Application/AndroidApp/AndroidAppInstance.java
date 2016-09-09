@@ -190,7 +190,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     public ReferencesRepository getUsersFeed() {
         if(mUserSession.isInSession()) {
             SocialProfile socialProfile = mUserSession.getAccount().getSocialProfile();
-            return mAppContext.newFeed(socialProfile.getFollowing());
+            return mAppContext.newFeed(mUserSession.getAuthorId(), socialProfile.getFollowing());
         } else {
             return new NullRepository();
         }

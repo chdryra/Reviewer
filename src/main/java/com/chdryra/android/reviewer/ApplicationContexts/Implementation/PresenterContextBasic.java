@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -181,8 +182,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReferencesRepository newFeed(RefAuthorList following) {
-        return mPersistenceContext.getRepoFactory().newFeed(following, getMasterRepository());
+    public ReferencesRepository newFeed(AuthorId usersId, RefAuthorList following) {
+        return mPersistenceContext.getRepoFactory().newFeed(usersId, following, getMasterRepository());
     }
 
     @Override

@@ -89,7 +89,7 @@ public class StructureReviewData<T> extends DbStructureBasic<ReviewDb> implement
         private static class ListGetter implements DataGetter<ReviewListEntry> {
             @Override
             public ReviewListEntry getDataObject(ReviewDb review) {
-                return new ReviewListEntry(review);
+                return new ReviewListEntry(review).toInverseDate();
             }
         }
     }

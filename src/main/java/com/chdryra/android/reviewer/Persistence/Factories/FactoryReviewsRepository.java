@@ -59,7 +59,7 @@ public class FactoryReviewsRepository {
         return new ReviewerDbAuthored(authorId, repo);
     }
 
-    public ReferencesRepository newFeed(RefAuthorList following, ReviewsRepository masterRepo) {
-        return new FeedRepository(following, masterRepo);
+    public ReferencesRepository newFeed(AuthorId usersId, RefAuthorList following, ReviewsRepository masterRepo) {
+        return new FeedRepository(usersId, following, masterRepo);
     }
 }

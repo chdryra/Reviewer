@@ -41,6 +41,15 @@ public class ReviewListEntry {
         this.publishDate = review.getPublishDate();
     }
 
+    public ReviewListEntry(String reviewId, String subject, Rating rating, String authorId, long
+            publishDate) {
+        this.reviewId = reviewId;
+        this.subject = subject;
+        this.rating = rating;
+        this.authorId = authorId;
+        this.publishDate = publishDate;
+    }
+
     public String getReviewId() {
         return reviewId;
     }
@@ -57,8 +66,11 @@ public class ReviewListEntry {
         return authorId;
     }
 
-    //For ordering
     public long getPublishDate() {
-        return -publishDate;
+        return publishDate;
+    }
+
+    public ReviewListEntry toInverseDate() {
+        return new ReviewListEntry(getReviewId(), getSubject(), getRating(), getAuthorId(), -getPublishDate());
     }
 }

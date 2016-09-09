@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -62,7 +63,7 @@ public interface PresenterContext {
 
     ReviewsSource getMasterRepository();
 
-    ReferencesRepository newFeed(RefAuthorList following);
+    ReferencesRepository newFeed(AuthorId usersId, RefAuthorList following);
 
     void getReview(ReviewId id, RepositoryCallback callback);
 

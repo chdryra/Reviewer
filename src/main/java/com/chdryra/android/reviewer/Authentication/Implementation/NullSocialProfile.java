@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class NullSocialProfile extends SocialProfileImpl {
     public NullSocialProfile() {
-        super(new DatumAuthorId(), new NullRefAuthorList());
+        super(new DatumAuthorId(), new NullRefAuthorList(), new NullRefAuthorList());
     }
 
     private static class NullRefAuthorList extends

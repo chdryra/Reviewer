@@ -20,10 +20,12 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAut
 public class SocialProfileImpl implements SocialProfile {
     private AuthorId mAuthorId;
     private final RefAuthorList mFollowing;
+    private final RefAuthorList mFollowers;
 
-    public SocialProfileImpl(AuthorId authorId, RefAuthorList following) {
+    public SocialProfileImpl(AuthorId authorId, RefAuthorList following, RefAuthorList followers) {
         mAuthorId = authorId;
         mFollowing = following;
+        mFollowers = followers;
     }
 
     @Override
@@ -34,5 +36,10 @@ public class SocialProfileImpl implements SocialProfile {
     @Override
     public RefAuthorList getFollowing() {
         return mFollowing;
+    }
+
+    @Override
+    public RefAuthorList getFollowers() {
+        return mFollowers;
     }
 }

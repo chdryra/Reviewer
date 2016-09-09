@@ -56,7 +56,7 @@ public class ViewerDataToData<T extends GvData> extends GridDataWrapperBasic<T> 
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return mAdapterFactory.newNodeDataAdapter(mData);
+        return mAdapterFactory.newTreeSummaryAdapter(mData);
     }
 }
 

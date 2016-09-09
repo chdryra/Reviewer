@@ -114,7 +114,7 @@ public class UserSessionDefault implements UserSession {
             @Override
             public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
                 if (error == null) {
-                    if(!mAccount.getAuthorId().equals(account.getAuthorId())) {
+                    if(mAccount != null && !mAccount.getAuthorId().equals(account.getAuthorId())) {
                         notifySessionEnded(CallbackMessage.ok());
                     }
                     mAccount = account;

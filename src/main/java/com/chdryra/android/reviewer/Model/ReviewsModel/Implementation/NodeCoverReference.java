@@ -106,12 +106,14 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
         reviews.toItemReferences(new ReviewListReference.ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>() {
             @Override
             public void onItemReferences(IdableList<ReviewItemReference<ReviewReference>> references) {
-                ReviewItemReference<ReviewReference> review
-                        = references.getItem(RANDOM.nextInt(references.size()));
+                int size = references.size();
                 boolean changed = false;
-                if(review.isValidReference()) {
-                    changed = mReview != review;
-                    if(changed) setReview(review);
+                if(size > 0) {
+                    ReviewItemReference<ReviewReference> review = references.getItem(RANDOM.nextInt(size));
+                    if (review.isValidReference()) {
+                        changed = mReview != review;
+                        if (changed) setReview(review);
+                    }
                 }
                 callback.onChosen(changed);
             }

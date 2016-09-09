@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
@@ -50,9 +49,5 @@ public class FactoryFbReviewReference {
     public ReviewReference newReview(ReviewListEntry entry, Firebase reviewDb, Firebase aggregatesDb) {
         return new FbReviewReference(mDataConverter.convert(entry), reviewDb, aggregatesDb,
                 new ConverterReview(mReviewConverter), mReferencer, mCache);
-    }
-
-    public ReviewReference newNullReview() {
-        return new NullReviewReference();
     }
 }

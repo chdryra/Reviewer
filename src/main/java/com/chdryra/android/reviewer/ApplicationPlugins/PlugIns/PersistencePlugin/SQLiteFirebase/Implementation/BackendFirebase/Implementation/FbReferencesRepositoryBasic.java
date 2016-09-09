@@ -161,7 +161,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     private ReviewReference newReference(DataSnapshot dataSnapshot) {
         ReviewListEntry entry = mEntryConverter.convert(dataSnapshot);
         return entry != null ?
-                mReferencer.newReview(entry, getReviewDb(entry), getAggregatesDb(entry)) : null;
+                mReferencer.newReview(entry.toInverseDate(), getReviewDb(entry), getAggregatesDb(entry)) : null;
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

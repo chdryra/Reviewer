@@ -76,7 +76,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
 
     @Nullable
     ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
-        return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getSizedType());
+        return mAdapterFactory.newReviewDataAdapter(getReviewNode(), datum.getSizedType());
     }
 
     @NonNull

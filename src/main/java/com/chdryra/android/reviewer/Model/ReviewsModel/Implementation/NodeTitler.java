@@ -51,16 +51,14 @@ public abstract class NodeTitler<T> {
         private String mStem;
 
         public AuthorsTree(DataReference<NamedAuthor> reference) {
-            super(reference);
-            mStem = STEM;
-            mTitle = mStem;
-            bindToReference(this);
+            this(reference, STEM);
         }
 
         protected AuthorsTree(DataReference<NamedAuthor> reference, String stem) {
             super(reference);
             mStem = stem;
             mTitle = mStem;
+            bindToReference(this);
         }
 
         @Override
