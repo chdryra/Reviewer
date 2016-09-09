@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -47,9 +48,9 @@ public class BackendRepoService extends IntentService {
     private static final String REVIEW_ID_IS_NULL = "Review Id is Null";
 
     private String mReviewId;
-    private AndroidAppInstance mApp;
     private ReviewPublisher mPublisher;
     private WorkerToken mToken;
+    private MutableRepository mRepo;
 
     public enum Service {
         UPLOAD(UPLOAD_COMPLETED),
@@ -70,21 +71,28 @@ public class BackendRepoService extends IntentService {
         super(SERVICE);
     }
 
+    public void setRepository(MutableRepository repo) {
+        mRepo = repo;
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        mApp = AndroidAppInstance.getInstance(getApplicationContext());
+        AndroidAppInstance app = AndroidAppInstance.getInstance(getApplicationContext());
+        app.setBackendRepository(this);
+        mPublisher = app.getPublisher();
+
         mReviewId = intent.getStringExtra(REVIEW_ID);
         Service service = (Service) intent.getSerializableExtra(REQUEST_SERVICE);
 
         if (mReviewId != null && service != null) {
-            requestBackendService(mReviewId, service);
+            requestBackendService(service);
         } else {
             broadcastUploadComplete(CallbackMessage.error(REVIEW_ID_IS_NULL));
         }
     }
 
     private void broadcastUploadComplete(CallbackMessage message) {
-        mPublisher.workComplete(mToken);
+        if(mToken != null) mPublisher.workComplete(mToken);
         broadcastServiceComplete(new Intent(Service.UPLOAD.completed()), message);
     }
 
@@ -99,13 +107,12 @@ public class BackendRepoService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
-    private void requestBackendService(String reviewId, Service service) {
-        DatumReviewId id = new DatumReviewId(reviewId);
+    private void requestBackendService(Service service) {
+        ReviewId id = new DatumReviewId(mReviewId);
         if (service == Service.UPLOAD) {
-            mPublisher = mApp.getPublisher();
             mToken = mPublisher.getFromQueue(id, new Callbacks(), this);
         } else if (service == Service.DELETE) {
-            mApp.getBackendRepository(this).removeReview(id, new Callbacks());
+            mRepo.removeReview(id, new Callbacks());
         }
     }
 
@@ -144,7 +151,7 @@ public class BackendRepoService extends IntentService {
 
         @Override
         public void onRetrievedFromQueue(Review review, CallbackMessage message) {
-            mApp.getBackendRepository(BackendRepoService.this).addReview(review, this);
+            mRepo.addReview(review, this);
         }
 
         @Override

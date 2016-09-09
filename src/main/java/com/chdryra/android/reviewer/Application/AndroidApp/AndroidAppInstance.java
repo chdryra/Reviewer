@@ -47,7 +47,6 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -244,9 +243,9 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
         return mAppContext.newReviewDeleter(id);
     }
 
-    public MutableRepository getBackendRepository(BackendRepoService service) {
+    public void setBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
-        return mAppContext.getMasterRepository().getMutableRepository(mUserSession);
+        service.setRepository(mAppContext.getMasterRepository().getMutableRepository(mUserSession));
     }
 
     @Override

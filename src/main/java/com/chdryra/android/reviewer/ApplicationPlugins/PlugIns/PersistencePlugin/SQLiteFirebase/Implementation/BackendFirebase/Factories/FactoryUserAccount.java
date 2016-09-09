@@ -10,10 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbUserAccount;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccountImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbSocialStructure;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.firebase.client.Firebase;
 
@@ -35,7 +36,8 @@ public class FactoryUserAccount {
         if(user.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }
-        return new FbUserAccount(user, mReferencer.newSocialProfile(user.getAuthorId(), dataRoot, social));
+        SocialProfile profile = mReferencer.newSocialProfile(user.getAuthorId(), dataRoot, social);
+        return new UserAccountImpl(user, profile);
     }
 
     public UserAccount newNullAccount() {
