@@ -28,11 +28,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -88,10 +86,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     protected void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
-    }
-
-    protected FactoryReviewView getFactoryReviewView() {
-        return mFactoryReviewView;
     }
 
     @Override
@@ -155,7 +149,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mPersistenceContext.getReviewsSource().getReference(id, new RepositoryCallback() {
+        getMasterRepository().getReference(id, new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 ReviewReference reference = result.getReference();
@@ -182,18 +176,13 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewsSource getReviewsSource() {
+    public ReviewsSource getMasterRepository() {
         return mPersistenceContext.getReviewsSource();
     }
 
     @Override
-    public ReferencesRepository getFeed(RefAuthorList following) {
-        return new FeedRepository(following, mPersistenceContext.getReviewsSource());
-    }
-
-    @Override
-    public ReviewsRepository getBackendRepository() {
-        return mPersistenceContext.getBackendRepository();
+    public ReferencesRepository newFeed(RefAuthorList following) {
+        return mPersistenceContext.getRepoFactory().newFeed(following, getMasterRepository());
     }
 
     @Override

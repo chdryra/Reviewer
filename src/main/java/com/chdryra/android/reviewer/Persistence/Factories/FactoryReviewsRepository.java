@@ -9,17 +9,15 @@
 package com.chdryra.android.reviewer.Persistence.Factories;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthored;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthoredLatest;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbMutable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthoredLatest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
@@ -61,7 +59,7 @@ public class FactoryReviewsRepository {
         return new ReviewerDbAuthored(authorId, repo);
     }
 
-    public MutableRepository newMutableRepo(AuthorId authorId, ReviewerDbRepository repo) {
-        return new ReviewerDbMutable(authorId, repo);
+    public ReferencesRepository newFeed(RefAuthorList following, ReviewsRepository masterRepo) {
+        return new FeedRepository(following, masterRepo);
     }
 }

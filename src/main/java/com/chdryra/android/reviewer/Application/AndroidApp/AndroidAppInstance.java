@@ -184,14 +184,14 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
-        return mAppContext.getReviewsSource().getRepositoryForAuthor(authorId);
+        return mAppContext.getMasterRepository().getRepositoryForAuthor(authorId);
     }
 
     @Override
     public ReferencesRepository getUsersFeed() {
         if(mUserSession.isInSession()) {
             SocialProfile socialProfile = mUserSession.getAccount().getSocialProfile();
-            return mAppContext.getFeed(socialProfile.getFollowing());
+            return mAppContext.newFeed(socialProfile.getFollowing());
         } else {
             return new NullRepository();
         }
@@ -246,7 +246,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     public MutableRepository getBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
-        return mAppContext.getBackendRepository().getMutableRepository(mUserSession);
+        return mAppContext.getMasterRepository().getMutableRepository(mUserSession);
     }
 
     @Override

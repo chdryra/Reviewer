@@ -136,7 +136,7 @@ public class ReviewerDbRepository implements LocalRepository {
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
-        return mRepoFactory.newMutableRepo(session.getAuthorId(), this);
+        return new ReviewerDbMutable(session.getAuthorId(), this);
     }
 
     @Override
