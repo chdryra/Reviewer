@@ -10,14 +10,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
-
-
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
@@ -56,18 +52,6 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
         super.detach();
         ((ReviewNodeRepo)getNode()).detachFromRepo();
         getApp().getPublisher().unregisterListener(this);
-    }
-
-    public void deleteReview(final ReviewId id) {
-        makeToast(Strings.Toasts.DELETING);
-        ReviewDeleter deleter = getApp().newReviewDeleter(id);
-        deleter.deleteReview(new ReviewDeleter.ReviewDeleterCallback() {
-            @Override
-            public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
-                getApp().getTagsManager().clearTags(reviewId.toString());
-                makeToast(result.getMessage());
-            }
-        });
     }
 
     private String getPublishedMessage(Collection<PublishResults> platformsOk,
@@ -156,7 +140,8 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
             AuthorId feedOwner = mApp.getUserSession().getAuthorId();
             ReferencesRepository feed = mApp.getUsersFeed();
             AuthorsRepository authorsRepo = mApp.getUsersManager().getAuthorsRepository();
-            ReviewNodeRepo node = mApp.getReviewsFactory().createFeed(feedOwner, feed, authorsRepo);
+            ReviewNodeRepo node = mApp.getReviewsFactory().createFeed(feedOwner,
+                    feed, authorsRepo);
             return new PresenterUsersFeed(mApp, node, listener);
         }
     }

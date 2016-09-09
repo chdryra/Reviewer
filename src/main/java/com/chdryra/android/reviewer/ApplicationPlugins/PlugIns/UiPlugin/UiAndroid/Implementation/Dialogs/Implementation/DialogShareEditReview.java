@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -54,7 +54,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private DeleteRequestListener mDeleteRequestListener;
     private NewReviewListener mNewReviewListener;
-    private ReviewId mReviewId;
+    private DatumAuthorId mAuthorId;
     private PublisherAndroid mSharer;
     private ApplicationInstance mApp;
     private boolean mShowDelete = false;
@@ -95,7 +95,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         setOptionalDeleteListener();
         mNewReviewListener = getTargetListenerOrThrow(NewReviewListener.class);
-        setReviewIdFromArgs();
+        setAuthorIdFromArgs();
 
         mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new
                 ReviewFormatterTwitter());
@@ -111,7 +111,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == DIALOG_ALERT) {
-            mDeleteRequestListener.onDeleteRequested(mReviewId);
+            mDeleteRequestListener.onDeleteRequested(mAuthorId.getReviewId());
             closeDialog();
         }
     }
@@ -122,7 +122,10 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         if (target != null) {
             try {
                 mDeleteRequestListener = listenerClass.cast(target);
-                mShowDelete = true;
+                AndroidAppInstance app = AndroidAppInstance.getInstance(getActivity());
+                if(mAuthorId.toString().equals(app.getUserSession().getAuthorId().toString())) {
+                    mShowDelete = true;
+                }
             } catch (ClassCastException e) {
                 mShowDelete = false;
             }
@@ -140,7 +143,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mNewReviewListener.onNewReviewUsingTemplate(mReviewId);
+                mNewReviewListener.onNewReviewUsingTemplate(mAuthorId.getReviewId());
                 closeDialog();
             }
         };
@@ -169,12 +172,12 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         };
     }
 
-    private void setReviewIdFromArgs() {
+    private void setAuthorIdFromArgs() {
         Bundle args = getArguments();
         if (args != null) {
-            mReviewId = args.getParcelable(getLaunchTag());
+            mAuthorId = args.getParcelable(getLaunchTag());
         } else {
-            throw new IllegalArgumentException("Must pass review id in args!");
+            throw new IllegalArgumentException("Must pass DatumAuthorId in args!");
         }
     }
 
@@ -192,7 +195,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mApp.getReview(mReviewId, fetchReviewCallback(mApp.getTagsManager()));
+                mApp.getReview(mAuthorId.getReviewId(), fetchReviewCallback(mApp.getTagsManager()));
             }
         };
     }

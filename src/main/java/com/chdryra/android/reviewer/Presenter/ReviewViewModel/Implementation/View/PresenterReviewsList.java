@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .GridItemReviewsList;
@@ -95,6 +97,22 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
     public void onNewReviewUsingTemplate(ReviewId template) {
         mApp.getCurrentScreen().showToast(Strings.Toasts.COPYING);
         mGridItem.onNewReviewUsingTemplate(template);
+    }
+
+    public void deleteReview(final ReviewId id) {
+        makeToast(Strings.Toasts.DELETING);
+        ReviewDeleter deleter = getApp().newReviewDeleter(id);
+        deleter.deleteReview(new ReviewDeleter.ReviewDeleterCallback() {
+            @Override
+            public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
+                getApp().getTagsManager().clearTags(reviewId.toString());
+                makeToast(result.getMessage());
+            }
+        });
+    }
+
+    private void makeToast(String message) {
+        getApp().getCurrentScreen().showToast(message);
     }
 
     private void notifyTreeChanged() {

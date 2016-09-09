@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Data.Implementation;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -16,7 +19,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumAuthorId implements DataAuthorId {
+public class DatumAuthorId implements DataAuthorId, Parcelable {
+    public static final Creator<DatumAuthorId> CREATOR = new Creator<DatumAuthorId>() {
+        @Override
+        public DatumAuthorId createFromParcel(Parcel in) {
+            return new DatumAuthorId(in);
+        }
+
+        @Override
+        public DatumAuthorId[] newArray(int size) {
+            return new DatumAuthorId[size];
+        }
+    };
+
     private ReviewId mReviewId;
     private String mAuthorId;
 
@@ -26,6 +41,11 @@ public class DatumAuthorId implements DataAuthorId {
     public DatumAuthorId(ReviewId reviewId, String authorId) {
         mReviewId = reviewId;
         mAuthorId = authorId;
+    }
+
+    public DatumAuthorId(Parcel in) {
+        mReviewId = new DatumReviewId(in.readString());
+        mAuthorId = in.readString();
     }
 
     @Override
@@ -41,6 +61,17 @@ public class DatumAuthorId implements DataAuthorId {
     @Override
     public ReviewId getReviewId() {
         return mReviewId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mReviewId.toString());
+        dest.writeString(mAuthorId);
     }
 
     @Override

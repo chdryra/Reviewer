@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -46,7 +47,8 @@ public class GridItemReviewsList extends GridItemLauncher<GvNode>
 
     private void launchShareEdit(GvNode item) {
         Bundle args = new Bundle();
-        args.putParcelable(mShareEditUi.getLaunchTag(), item.getGvReviewId());
+        DatumAuthorId data = new DatumAuthorId(item.getReviewId(), item.getAuthorId().toString());
+        args.putParcelable(mShareEditUi.getLaunchTag(), data);
         launch(mShareEditUi, SHARE_EDIT, args);
     }
 

@@ -77,7 +77,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
-        startSessionObservation();
     }
 
     public void startSessionObservation() {

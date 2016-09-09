@@ -46,24 +46,24 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
     private DataReference<NamedAuthor> mReference;
     private GvReviewId mReviewId;
-    private final String mUserId;
+    private final String mAuthorId;
 
-    public GvAuthorId(String userId) {
-        mUserId = userId;
+    public GvAuthorId(String authorId) {
+        mAuthorId = authorId;
     }
 
-    public GvAuthorId(String userId, AuthorsRepository repo) {
-        this(null, userId, repo);
+    public GvAuthorId(String authorId, AuthorsRepository repo) {
+        this(null, authorId, repo);
     }
 
-    public GvAuthorId(@Nullable GvReviewId reviewId, String userId, AuthorsRepository repo) {
+    public GvAuthorId(@Nullable GvReviewId reviewId, String authorId, AuthorsRepository repo) {
         mReviewId = reviewId;
-        mUserId = userId;
+        mAuthorId = authorId;
         mReference = repo.getName(this);
     }
 
     public GvAuthorId(Parcel in) {
-        mUserId = in.readString();
+        mAuthorId = in.readString();
         mReviewId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
@@ -74,7 +74,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
     @Override
     public String toString() {
-        return mUserId;
+        return mAuthorId;
     }
 
     @Override
@@ -114,12 +114,12 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
     @Override
     public boolean isValidForDisplay() {
-        return mUserId != null;
+        return mAuthorId != null;
     }
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validateString(mUserId) && isValidForDisplay();
+        return dataValidator.validateString(mAuthorId) && isValidForDisplay();
     }
 
     @Override
@@ -138,7 +138,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
             return false;
         if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
             return false;
-        return mUserId.equals(that.mUserId);
+        return mAuthorId.equals(that.mAuthorId);
 
     }
 
@@ -146,7 +146,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     public int hashCode() {
         int result = mReference != null ? mReference.hashCode() : 0;
         result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
-        result = 31 * result + mUserId.hashCode();
+        result = 31 * result + mAuthorId.hashCode();
         return result;
     }
 
@@ -157,7 +157,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mUserId);
+        parcel.writeString(mAuthorId);
         parcel.writeParcelable(mReviewId, i);
     }
 
