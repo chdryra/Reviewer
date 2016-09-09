@@ -96,8 +96,8 @@ public class BackendFirebase implements Backend {
     public UsersManager newUsersManager() {
         AuthorsRepository authorsRepo
                 = new FbAuthorsRepository(mDatabase, mStructure, mDataReferencer);
-        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mConverter,
-                authorsRepo, new FactoryUserAccount(mDataReferencer));
+        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
+                authorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);
 
         return new UsersManagerImpl(authenticator, accounts, authorsRepo);

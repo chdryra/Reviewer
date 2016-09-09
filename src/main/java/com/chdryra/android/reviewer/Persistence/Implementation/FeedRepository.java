@@ -33,8 +33,8 @@ public class FeedRepository implements ReferencesRepository {
     private RefAuthorList mAuthorsList;
     private ReviewsRepository mMasterRepo;
     private RepositoryCollection<AuthorId> mRepos;
-    private boolean mInitialised = false;
     private List<ReviewsSubscriber> mSubscribers;
+    private boolean mInitialised = false;
     private Binder mBinder;
 
     public FeedRepository(RefAuthorList authorsList, ReviewsRepository masterRepo) {

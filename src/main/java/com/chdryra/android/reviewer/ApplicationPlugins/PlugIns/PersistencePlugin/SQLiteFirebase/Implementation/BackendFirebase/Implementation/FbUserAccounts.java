@@ -16,12 +16,16 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -53,17 +57,20 @@ public class FbUserAccounts implements UserAccounts {
 
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
+    private FactoryFbReference mReferencer;
     private final UserProfileConverter mConverter;
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryUserAccount mAccountFactory;
 
     public FbUserAccounts(Firebase dataRoot,
                           FbUsersStructure structure,
+                          FactoryFbReference referencer,
                           UserProfileConverter converter,
                           AuthorsRepository authorsRepo,
                           FactoryUserAccount accountFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
+        mReferencer = referencer;
         mConverter = converter;
         mAuthorsRepo = authorsRepo;
         mAccountFactory = accountFactory;
@@ -145,8 +152,13 @@ public class FbUserAccounts implements UserAccounts {
 
     @NonNull
     private UserAccount newUserAccount(@Nullable AuthenticatedUser user) {
-        return user == null ? mAccountFactory.newNullAccount() :
-                mAccountFactory.newAccount(user, mDataRoot, mStructure);
+        if(user == null) {
+            return mAccountFactory.newNullAccount();
+        } else {
+            SocialProfile profile
+                    = mReferencer.newSocialProfile(user.getAuthorId(), mDataRoot, mStructure);
+            return mAccountFactory.newAccount(user, profile);
+        }
     }
 
     private void addNewProfile(final AuthenticatedUser authUser, final AuthorProfile profile,
