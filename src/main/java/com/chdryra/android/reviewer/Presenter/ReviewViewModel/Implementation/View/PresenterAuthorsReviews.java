@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterAuthorsReviews extends PresenterReviewsList {
-    PresenterAuthorsReviews(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
-        super(app, app.newReviewsListView(feedNode, withMenu, false));
+    PresenterAuthorsReviews(ApplicationInstance app, ReviewNodeRepo feedNode) {
+        super(app, app.newReviewsListView(feedNode, false));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PresenterAuthorsReviews extends PresenterReviewsList {
         public PresenterAuthorsReviews build(AuthorId authorId) {
             ReviewNodeRepo node = mApp.getReviewsFactory().createAuthorsTree(authorId,
                     mApp.getReviews(authorId), mApp.getUsersManager().getAuthorsRepository());
-            return new PresenterAuthorsReviews(mApp, node, false);
+            return new PresenterAuthorsReviews(mApp, node);
         }
     }
 }

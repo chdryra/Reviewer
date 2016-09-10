@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -31,23 +33,20 @@ public class MenuEditCriteria extends MenuEdit<GvCriterion>
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_edit_criteria;
 
-    private final MenuItemCriteriaRatingAverage mActionItem;
-
     public MenuEditCriteria() {
         super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
-        mActionItem = new MenuItemCriteriaRatingAverage();
     }
 
     @Override
     public void onDataChanged() {
-        if (getEditor().isRatingAverage()) mActionItem.setAverageRating();
+        if (getEditor().isRatingAverage()) setAverageRating();
     }
 
     @Override
     protected void addMenuItems() {
         bindDefaultDeleteActionItem(MENU_DELETE_ID);
         bindDefaultDoneActionItem(MENU_DONE_ID);
-        bindMenuActionItem(mActionItem, MENU_AVERAGE_ID, false);
+        bindMenuActionItem(new RatingAverage(), MENU_AVERAGE_ID, false);
     }
 
     @Override
@@ -62,17 +61,17 @@ public class MenuEditCriteria extends MenuEdit<GvCriterion>
         super.onDetachReviewView();
     }
 
-    public class MenuItemCriteriaRatingAverage implements MenuActionItem {
-        public void setAverageRating() {
-            float rating = 0;
-            GvCriterionList children = (GvCriterionList) getGridData();
-            for (GvCriterion child : children) {
-                rating += child.getRating() / children.size();
-            }
-
-            getEditor().setRating(rating, false);
+    private void setAverageRating() {
+        float rating = 0;
+        GvCriterionList children = (GvCriterionList) getGridData();
+        for (GvCriterion child : children) {
+            rating += child.getRating() / children.size();
         }
 
+        getEditor().setRating(rating, false);
+    }
+
+    public class RatingAverage extends MenuActionItemBasic<GvCriterion>{
         @Override
         public void doAction(MenuItem item) {
             getEditor().setRatingIsAverage(true);

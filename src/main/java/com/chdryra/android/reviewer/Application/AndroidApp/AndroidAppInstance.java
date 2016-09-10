@@ -285,8 +285,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu, boolean feedScreen) {
-        return mAppContext.newReviewsListView(node, withMenu, feedScreen);
+    public ReviewsListView newReviewsListView(ReviewNode node, boolean feedScreen) {
+        return mAppContext.newReviewsListView(node, feedScreen);
     }
 
     @Override
@@ -317,6 +317,6 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     private void launchReview(ReviewNode reviewNode) {
         String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(newReviewsListView(reviewNode, false, false), RequestCodeGenerator.getCode(tag));
+        getUiLauncher().launch(newReviewsListView(reviewNode, false), RequestCodeGenerator.getCode(tag));
     }
 }

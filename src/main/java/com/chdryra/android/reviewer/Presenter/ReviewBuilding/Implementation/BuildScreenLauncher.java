@@ -26,40 +26,41 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 05/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenLauncher implements RepositoryCallback {
-    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenNewReview");
-    private ApplicationInstance mApp;
-    private ReviewId mTemplate;
+public class BuildScreenLauncher {
+    private static final int LAUNCH_BUILD_SCREEN
+            = RequestCodeGenerator.getCode("BuildScreenNewReview");
 
     public void launch(ApplicationInstance app, @Nullable ReviewId template) {
-        mTemplate = template;
-        launch(app);
-    }
-
-    private void launch(ApplicationInstance app) {
-        mApp = app;
-        mApp.discardReviewBuilderAdapter();
-        if (mTemplate != null) {
-            mApp.getReview(mTemplate, this);
+        app.discardReviewBuilderAdapter();
+        if (template != null) {
+            app.getReview(template, new Callback(app));
         } else {
-            launchBuildUi(new Bundle());
+            launchBuildUi(app, new Bundle());
         }
     }
 
-    private void launchBuildUi(Bundle args) {
-        LaunchableUi ui = mApp.getConfigUi().getBuildReview().getLaunchable();
-        mApp.getUiLauncher().launch(ui, LAUNCH_BUILD_SCREEN, args);
+    private void launchBuildUi(ApplicationInstance app, Bundle args) {
+        LaunchableUi ui = app.getConfigUi().getBuildReview().getLaunchable();
+        app.getUiLauncher().launch(ui, LAUNCH_BUILD_SCREEN, args);
     }
 
-    @Override
-    public void onRepositoryCallback(RepositoryResult result) {
-        Bundle args = new Bundle();
-        Review review = result.getReview();
-        if (!result.isError() && review != null) {
-            args.putString(NewReviewListener.TEMPLATE_ID, mTemplate.toString());
-            mApp.packReview(review, args);
+    private class Callback implements RepositoryCallback {
+        private ApplicationInstance mApp;
+
+        public Callback(ApplicationInstance app) {
+            mApp = app;
         }
 
-        launchBuildUi(args);
+        @Override
+        public void onRepositoryCallback(RepositoryResult result) {
+            Bundle args = new Bundle();
+            Review review = result.getReview();
+            if (!result.isError() && review != null) {
+                args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
+                mApp.packReview(review, args);
+            }
+
+            launchBuildUi(mApp, args);
+        }
     }
 }

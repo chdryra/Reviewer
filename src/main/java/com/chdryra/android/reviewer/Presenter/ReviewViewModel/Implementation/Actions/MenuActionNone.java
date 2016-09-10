@@ -43,7 +43,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;
         mActionItems = new SparseArray<>();
-        if (mDisplayHomeAsUp) bindMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
+        if (mDisplayHomeAsUp) bindMenuActionItem(new MaiUp(), MENU_UP_ID, true);
     }
 
     public MenuActionNone(String title) {
@@ -99,14 +99,12 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         }
     }
 
-    private MenuActionItem getUpActionItem() {
-        return new MenuActionItem() {
-            @Override
-            public void doAction(MenuItem item) {
-                doUpSelected();
-                sendResult(RESULT_UP);
-            }
-        };
+    private class MaiUp extends MenuActionItemBasic<T> {
+        @Override
+        public void doAction(MenuItem item) {
+            doUpSelected();
+            sendResult(RESULT_UP);
+        }
     }
 
     private void returnToPreviousActivity() {

@@ -20,11 +20,12 @@ public class MenuComments extends MenuActionNone<GvComment.Reference> {
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
     private static final int MENU = R.menu.menu_view_comments;
 
-    private final MaiSplitComments<GvComment.Reference> mSplitter;
+    private final MenuActionItem<GvComment.Reference> mSplitter;
 
-    public MenuComments() {
+    public MenuComments(MenuActionItem<GvComment.Reference> splitter) {
         super(MENU, GvComment.TYPE.getDataName(), true);
-        mSplitter = new MaiSplitComments<>(this);
+        mSplitter = splitter;
+        mSplitter.setParent(this);
     }
 
     @Override

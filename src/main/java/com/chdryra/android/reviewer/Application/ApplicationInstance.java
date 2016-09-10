@@ -105,6 +105,6 @@ public interface ApplicationInstance {
 
     void setReturnResult(ActivityResultCode result);
 
-    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu, boolean feedScreen);
+    ReviewsListView newReviewsListView(ReviewNode node, boolean feedScreen);
 }
 

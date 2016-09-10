@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.R;
 
@@ -33,24 +34,14 @@ public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(setAverageRating(), MENU_AVERAGE_ID, false);
-    }
-
-    @NonNull
-    private MenuActionItem setAverageRating() {
-        return new MenuActionItem() {
-            @Override
-            public void doAction(MenuItem item) {
-                mEditor.setRatingIsAverage(true);
-            }
-        };
+        bindMenuActionItem(new DoAverageRating(), MENU_AVERAGE_ID, false);
     }
 
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
         try {
-            mEditor = (ReviewEditor<T>)getReviewView();
+            mEditor = (ReviewEditor<T>) getReviewView();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
@@ -60,5 +51,12 @@ public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
     protected void doUpSelected() {
         getApp().discardReviewBuilderAdapter();
         super.doUpSelected();
+    }
+
+    private class DoAverageRating extends MenuActionItemBasic<T> {
+        @Override
+        public void doAction(MenuItem item) {
+            mEditor.setRatingIsAverage(true);
+        }
     }
 }

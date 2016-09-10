@@ -9,8 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .MaiSplitComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSplitCommentVals;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
@@ -28,17 +27,17 @@ public class MenuEditComments extends MenuEdit<GvComment>
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
     private static final int MENU = R.menu.menu_edit_comments;
 
-    private final MaiSplitComments<GvComment> mSplitter;
+    private final MaiSplitCommentVals mSplitter;
 
-    //Constructors
-    public MenuEditComments() {
+    public MenuEditComments(MaiSplitCommentVals splitter) {
         super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
-        mSplitter = new MaiSplitComments<>(this);
+        mSplitter = splitter;
+        mSplitter.setParent(this);
     }
 
     @Override
     public void onDataChanged() {
-        mSplitter.updateGridDataUi();
+        mSplitter.updateGridData();
     }
 
     @Override

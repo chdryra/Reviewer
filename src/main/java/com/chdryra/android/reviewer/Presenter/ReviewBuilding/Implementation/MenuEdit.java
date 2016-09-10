@@ -17,6 +17,8 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
@@ -36,8 +38,8 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
 
     private static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
 
-    private final MenuActionItem mDeleteAction;
-    private final MenuActionItem mDoneAction;
+    private final MenuActionItem<T> mDeleteAction;
+    private final MenuActionItem<T> mDoneAction;
 
     private final String mDeleteWhat;
     private final boolean mDismissOnDelete;
@@ -65,22 +67,8 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
         mDismissOnDelete = dismissOnDelete;
         mDismissOnDone = dismissOnDone;
 
-        mDeleteAction = new MenuActionItem() {
-            //Overridden
-            @Override
-            public void doAction(MenuItem item) {
-                if (hasDataToDelete()) showDeleteConfirmDialog();
-            }
-        };
-
-        mDoneAction = new MenuActionItem() {
-            //Overridden
-            @Override
-            public void doAction(MenuItem item) {
-                doDoneSelected();
-                sendResult(RESULT_DONE);
-            }
-        };
+        mDeleteAction = new DeleteAction();
+        mDoneAction = new DoneAction();
 
         addMenuItems();
     }
@@ -147,7 +135,6 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
         return getGridData() != null && getGridData().size() > 0;
     }
 
-    //Overridden
     @Override
     protected void addMenuItems() {
         bindDefaultDeleteActionItem(MENU_DELETE_ID);
@@ -164,5 +151,20 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
     public void onAttachReviewView() {
         super.onAttachReviewView();
         mEditor = (ReviewDataEditor<T>) getReviewView();
+    }
+
+    private class DeleteAction extends MenuActionItemBasic<T> {
+        @Override
+        public void doAction(MenuItem item) {
+            if (hasDataToDelete()) showDeleteConfirmDialog();
+        }
+    }
+
+    private class DoneAction extends MenuActionItemBasic<T> {
+        @Override
+        public void doAction(MenuItem item) {
+            doDoneSelected();
+            sendResult(RESULT_DONE);
+        }
     }
 }
