@@ -17,23 +17,24 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuFeed<T extends GvData> extends MenuActionNone<T> {
-    private static final int LOGOUT = R.id.menu_item_settings_logout;
-    private static final int NEW_REVIEW = R.id.menu_item_feed_new_review;
+    private static final int SETTINGS = R.id.menu_item_settings;
+    private static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
     private final MenuActionItem<T> mNewReview;
-    private final MenuActionItem<T> mLogout;
+    private final MenuActionItem<T> mSettings;
 
-    public MenuFeed(MenuActionItem<T> newReview, MenuActionItem<T> logout) {
+    public MenuFeed(MenuActionItem<T> newReview, MenuActionItem<T> settings) {
         super(MENU, null, false);
         mNewReview = newReview;
+        mSettings = settings;
         mNewReview.setParent(this);
-        mLogout = logout;
+        mSettings.setParent(this);
     }
 
     @Override
     protected void addMenuItems() {
         bindMenuActionItem(mNewReview, NEW_REVIEW, false);
-        bindMenuActionItem(mLogout, LOGOUT, false);
+        bindMenuActionItem(mSettings, SETTINGS, false);
     }
 }

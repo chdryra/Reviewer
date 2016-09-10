@@ -14,13 +14,13 @@
         android:title="@string/menu_settings">
         <menu>
             <item
-                android:id="@+id/menu_item_settings_logout"
+                android:id="@+id/menu_item_settings"
                 android:title="@string/menu_logout"/>
         </menu>
     </item>
 
     <item
-        android:id="@+id/menu_item_feed_new_review"
+        android:id="@+id/menu_item_new_review"
         android:icon="@drawable/ic_action_new"
         android:showAsAction="always|withText"
         android:title="@string/menu_new_review"/>

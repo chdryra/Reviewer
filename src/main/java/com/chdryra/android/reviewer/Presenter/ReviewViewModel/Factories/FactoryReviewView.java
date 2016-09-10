@@ -12,8 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
@@ -22,48 +20,19 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ContextButtonStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemReviewsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .MaiSplitCommentRefs;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuNewReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,15 +40,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewView {
-    private final FactoryReviewViewParams mParamsFactory;
     private final ConfigUi mConfig;
+    private final FactoryReviewViewParams mParamsFactory;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private BuildScreenLauncher mBuildScreenLauncher;
+    private BuildScreenLauncher mLauncher;
 
     public FactoryReviewView(ConfigUi config, FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mParamsFactory = paramsFactory;
-        mBuildScreenLauncher = new BuildScreenLauncher();
+        mLauncher = new BuildScreenLauncher();
     }
 
     public FactoryReviewViewParams getParamsFactory() {
@@ -97,12 +66,14 @@ public class FactoryReviewView {
 
     public ReviewsListView newFeedScreen(ReviewNode node) {
         ReviewViewAdapter<GvNode> adapter = mAdapterFactory.newFeedAdapter(node);
-        return newReviewsListView(node, adapter, newMenuNewReview(GvNode.TYPE, true, null));
+        FactoryReviewViewActions.ReviewsList actionsFactory = new FactoryReviewViewActions.ReviewsList(mLauncher);
+        return newReviewsListView(node, adapter, actionsFactory, actionsFactory.newMenuFeed());
     }
 
     public ReviewsListView newReviewsListScreen(ReviewNode node) {
         ReviewViewAdapter<GvNode> adapter = mAdapterFactory.newChildListAdapter(node);
-        return newReviewsListView(node, adapter, new MenuActionNone<GvNode>());
+        FactoryReviewViewActions.ReviewsList actionsFactory = new FactoryReviewViewActions.ReviewsList(mLauncher);
+        return newReviewsListView(node, adapter, actionsFactory, actionsFactory.newMenuNoAction());
     }
 
     public <T extends GvData> ReviewView<T> newViewScreen(ApplicationInstance app,
@@ -131,52 +102,26 @@ public class FactoryReviewView {
     @NonNull
     private ReviewsListView newReviewsListView(ReviewNode node,
                                                ReviewViewAdapter<GvNode> adapter,
+                                               FactoryReviewViewActions.ReviewsList factory,
                                                MenuAction<GvNode> ma) {
         ReviewViewPerspective<GvNode> perspective
-                = new ReviewViewPerspective<>(adapter, newReviewsListActions(ma), getParamsForReviewsList());
+                = new ReviewViewPerspective<>(adapter, newReviewsListActions(factory, ma),
+                getParamsForReviewsList());
         return new ReviewsListView(node, perspective);
     }
 
     @Nullable
     private <T extends GvData> ContextualButtonAction<T>
-    getContextualButton(@Nullable ApplicationInstance app, @Nullable ReviewViewAdapter<T> adapter) {
-        if (app == null || adapter == null) return null;
-        ReviewStamp stamp = adapter.getStamp();
-        if (stamp.isValid()) {
-            return new ContextButtonStamp<>(app, stamp);
-        } else {
-            return null;
-        }
+    getContextualButton(FactoryReviewViewActions<T> factory, @Nullable ApplicationInstance app, @Nullable ReviewViewAdapter<T> adapter) {
+        if (app == null || adapter == null || !adapter.getStamp().isValid()) return null;
+        return factory.newContextButtonStamp(app, adapter.getStamp());
     }
 
-    //TODO make type safe
-    private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
-        LaunchableConfig viewerConfig = mConfig.getViewer(dataType.getDatumName());
-        if (dataType.equals(GvComment.Reference.TYPE)) {
-            return (GridItemAction<T>) new GridItemComments(viewerConfig, this, new
-                    ParcelablePacker<GvDataParcelable>());
-        } else {
-            return new GridItemConfigLauncher<>(viewerConfig, this, new
-                    ParcelablePacker<GvDataParcelable>());
-        }
-    }
-
-    //TODO make type safe
-    private <T extends GvData> MenuAction<T> getMenu(GvDataType<T> dataType) {
-        if (dataType.equals(GvComment.Reference.TYPE)) {
-            return (MenuAction<T>) new MenuComments(new MaiSplitCommentRefs());
-        } else {
-            return new MenuActionNone<>(dataType.getDataName());
-        }
-    }
-
-    private ReviewViewActions<GvNode> newReviewsListActions(MenuAction<GvNode> ma) {
-        BuildScreenLauncher buildUiLauncher = new BuildScreenLauncher();
-        GridItemReviewsList gi = new GridItemReviewsList(this,
-                mConfig.getShareEdit().getLaunchable(), buildUiLauncher);
-        SubjectAction<GvNode> sa = new SubjectActionNone<>();
-        RatingBarAction<GvNode> rb = new RatingBarExpandGrid<>(this);
-        BannerButtonAction<GvNode> bba = new BannerButtonActionNone<>();
+    private ReviewViewActions<GvNode> newReviewsListActions(FactoryReviewViewActions.ReviewsList factory, MenuAction<GvNode> ma) {
+        GridItemReviewsList gi = factory.newGridItemLauncher(this, mConfig.getShareEdit().getLaunchable());
+        SubjectAction<GvNode> sa = factory.newSubjectNoAction();
+        RatingBarAction<GvNode> rb = factory.newRatingBarExpandGrid(this);
+        BannerButtonAction<GvNode> bba = factory.newBannerButtonNoAction();
 
         return new ReviewsListView.Actions(sa, rb, bba, gi, ma);
     }
@@ -185,58 +130,36 @@ public class FactoryReviewView {
                                                                          GvDataType<T> dataType,
                                                                          ReviewViewAdapter<T>
                                                                                  adapter) {
-        if (dataType.equals(GvSize.Reference.TYPE)) {
-            return newSummaryScreenActions(dataType, app, adapter);
-        }
+        FactoryReviewViewActions<T> factory = getActionsFactory(dataType);
 
-        SubjectAction<T> subject = new SubjectActionNone<>();
-        RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);
-        BannerButtonAction<T> banner = new BannerButtonActionNone<>();
-        GridItemAction<T> gridItem = getGridItem(dataType);
-        MenuAction<T> menu = getMenu(dataType);
-        ContextualButtonAction<T> context = getContextualButton(app, adapter);
+        boolean isSummaryScreen = dataType.equals(GvSize.Reference.TYPE);
 
-        return new ReviewViewActions<>(subject, ratingBar, banner, gridItem, menu, context);
+        SubjectAction<T> subject = factory.newSubjectNoAction();
+        RatingBarAction<T> rb = factory.newRatingBarExpandGrid(this);
+        BannerButtonAction<T> bb = factory.newBannerButtonNoAction();
+        GridItemAction<T> gridItem = isSummaryScreen ? factory.newGridItemLauncher(this) :
+                factory.newGridItemLauncher(this, mConfig.getViewer(dataType.getDatumName()));
+        MenuAction<T> menu = getMenuAction(factory, isSummaryScreen, adapter);
+        ContextualButtonAction<T> context = getContextualButton(factory, app, adapter);
+
+        return new ReviewViewActions<>(subject, rb, bb, gridItem, menu, context);
     }
 
-    @NonNull
-    private <T extends GvData> ReviewViewActions<T> newSummaryScreenActions(GvDataType<T> type,
-                                                                            @Nullable
-                                                                            ApplicationInstance app,
-                                                                            @Nullable
-                                                                            ReviewViewAdapter<T>
-                                                                                    adapter) {
-        SubjectAction<T> subject = new SubjectActionNone<>();
-        RatingBarAction<T> rb = new RatingBarExpandGrid<>(this);
-        BannerButtonAction<T> bb = new BannerButtonActionNone<>();
-        GridItemAction<T> giAction = new GridItemLauncher<>(this);
-        MenuAction<T> menuAction = getMenuAction(type, app, adapter);
-        ContextualButtonAction<T> context = getContextualButton(app, adapter);
-
-        return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction, context);
-    }
-
-    @NonNull
-    private <T extends GvData> MenuAction<T> getMenuAction(GvDataType<T> dataType,
-                                                           @Nullable ApplicationInstance app,
+    private <T extends GvData> MenuAction<T> getMenuAction(FactoryReviewViewActions<T> factory,
+                                                           boolean isSummaryScreen,
                                                            @Nullable ReviewViewAdapter<T> adapter) {
-        if (app == null || adapter == null) {
-            return new MenuActionNone<>();
-        }
-
-        ReviewStamp stamp = adapter.getStamp();
-        if (!stamp.isValid()) {
-            return new MenuActionNone<>();
+        MenuAction<T> menu;
+        if(!isSummaryScreen) {
+            menu = factory.newMenuViewData();
+        } else if (adapter == null || !adapter.getStamp().isValid()) {
+            menu = factory.newMenuNoAction();
         } else {
-            return newMenuNewReview(dataType, false, stamp.getReviewId());
+            menu = factory.newMenuCopyReview(adapter.getStamp().getReviewId());
         }
+        return menu;
     }
 
-    @NonNull
-    private <T extends GvData> MenuAction<T> newMenuNewReview(GvDataType<T> type,
-                                                              boolean isFeed,
-                                                              @Nullable ReviewId template) {
-        MaiNewReview<T> mai = new MaiNewReview<>(mBuildScreenLauncher, template);
-        return isFeed ? new MenuFeed<>(mai, new MaiSettings<T>()) : new MenuNewReview<>(mai);
+    private <T extends GvData> FactoryReviewViewActions<T> getActionsFactory(GvDataType<T> dataType) {
+        return FactoryReviewViewActions.newTypedFactory(dataType, mLauncher);
     }
 }

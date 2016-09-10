@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class BuildScreenLauncher {
     private static final int LAUNCH_BUILD_SCREEN
-            = RequestCodeGenerator.getCode("BuildScreenNewReview");
+            = RequestCodeGenerator.getCode("BuildScreenLauncher");
 
     public void launch(ApplicationInstance app, @Nullable ReviewId template) {
         app.discardReviewBuilderAdapter();
