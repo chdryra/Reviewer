@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -28,9 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSplitCommentRefs;
@@ -43,6 +41,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
@@ -56,6 +55,7 @@ public class FactoryReviewViewActions<T extends GvData> {
     private BuildScreenLauncher mLauncher;
 
     public static <T extends GvData> FactoryReviewViewActions<T> newTypedFactory(GvDataType<T> dataType, BuildScreenLauncher launcher) {
+        //TODO make type safe
         if(dataType.equals(GvComment.Reference.TYPE)) {
             return (FactoryReviewViewActions<T>) new FactoryReviewViewActions.Comments(launcher);
         } else {
@@ -108,8 +108,10 @@ public class FactoryReviewViewActions<T extends GvData> {
         return new GridItemConfigLauncher<>(viewerConfig, factory, new ParcelablePacker<GvDataParcelable>());
     }
 
-    public ContextualButtonAction<T> newContextButtonStamp(ApplicationInstance app, ReviewStamp stamp) {
-        return new ContextButtonStamp<>(app, stamp);
+    public ContextualButtonAction<T> newContextButtonStamp(ReviewLauncher launcher,
+                                                           ReviewStamp stamp,
+                                                           AuthorsRepository repo) {
+        return new ContextButtonStamp<>(launcher, stamp, repo);
     }
 
     private MenuAction.MenuActionItem<T> newNewReviewItem(@Nullable ReviewId template) {

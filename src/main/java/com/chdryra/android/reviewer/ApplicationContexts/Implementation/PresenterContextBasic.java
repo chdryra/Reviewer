@@ -36,12 +36,16 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,6 +63,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
     private FactoryReviewView mFactoryReviewView;
+    private FactoryReviewLauncher mFactoryReviewLauncher;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
     protected PresenterContextBasic(ModelContext modelContext,
@@ -71,6 +76,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
         mSocialContext = socialContext;
         mPersistenceContext = persistenceContext;
         mNetworkContext = networkContext;
+
         mPublisher = mNetworkContext.getPublisherFactory().newPublisher(mPersistenceContext
                 .getLocalRepository());
     }
@@ -87,6 +93,10 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     protected void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
+    }
+
+    protected void setFactoryReviewLauncher(FactoryReviewLauncher factoryReviewLauncher) {
+        mFactoryReviewLauncher = factoryReviewLauncher;
     }
 
     @Override
@@ -198,7 +208,12 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     @Override
     public ReviewsListView newReviewsListView(ReviewNode reviewNode, boolean feedScreen) {
-        return feedScreen ? mFactoryReviewView.newFeedScreen(reviewNode) :
-                mFactoryReviewView.newReviewsListScreen(reviewNode);
+        return feedScreen ? mFactoryReviewView.newFeedView(reviewNode) :
+                mFactoryReviewView.newReviewsListView(reviewNode);
+    }
+
+    @Override
+    public ReviewLauncher newReviewLauncher(UiLauncher launcher) {
+        return mFactoryReviewLauncher.newReviewLauncher(getMasterRepository(), launcher);
     }
 }

@@ -33,6 +33,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -95,11 +96,9 @@ public interface ApplicationInstance {
     @Nullable
     Review unpackReview(Bundle args);
 
-    void launchReview(ReviewId reviewId);
+    ReviewLauncher newReviewLauncher();
 
     void launchImageChooser(ImageChooser chooser, int requestCode);
-
-    void launchReviews(AuthorId authorId);
 
     void launchEditScreen(GvDataType<? extends GvDataParcelable> type);
 

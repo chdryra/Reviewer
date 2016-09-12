@@ -10,14 +10,15 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,16 +27,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<T>
         implements ContextualButtonAction<T>, DataReference.DereferenceCallback<NamedAuthor> {
-    private final ApplicationInstance mApp;
+    private final ReviewLauncher mLauncher;
     private final AuthorId mAuthorId;
     private final String mDate;
     private String mName;
 
-    public ContextButtonStamp(ApplicationInstance app, ReviewStamp stamp) {
-        mApp = app;
+    public ContextButtonStamp(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepository repo) {
+        mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();
         mDate = stamp.toReadableDate();
-        mApp.getUsersManager().getAuthorsRepository().getName(mAuthorId).dereference(this);
+        repo.getName(mAuthorId).dereference(this);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<
 
     @Override
     public void onClick(View v) {
-        mApp.launchReviews(mAuthorId);
+        mLauncher.launchReviews(mAuthorId);
     }
 
     @Override

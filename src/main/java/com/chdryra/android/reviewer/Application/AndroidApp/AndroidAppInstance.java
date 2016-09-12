@@ -36,7 +36,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -46,18 +45,16 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -223,17 +220,6 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public void launchReview(ReviewId reviewId) {
-        mAppContext.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
-            @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
-                ReviewNode node = result.getReviewNode();
-                if (!result.isError() && node != null) launchReview(node);
-            }
-        });
-    }
-
-    @Override
     public void getReview(ReviewId id, RepositoryCallback callback) {
         mAppContext.getReview(id, callback);
     }
@@ -290,13 +276,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public void launchReviews(AuthorId authorId) {
-        AuthorIdParcelable id = new AuthorIdParcelable(authorId.toString());
-        LaunchableConfig config = getConfigUi().getAuthorsReviews();
-        ParcelablePacker<AuthorIdParcelable> packer = new ParcelablePacker<>();
-        Bundle args = new Bundle();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, id, args);
-        getUiLauncher().launch(config, config.getRequestCode(), args);
+    public ReviewLauncher newReviewLauncher() {
+        return mAppContext.newReviewLauncher(getUiLauncher());
     }
 
     @Override
@@ -313,10 +294,5 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     private void setCurrentActivity(Activity activity) {
         mActivity = activity;
         mScreen = new CurrentScreenAndroid(activity);
-    }
-
-    private void launchReview(ReviewNode reviewNode) {
-        String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(newReviewsListView(reviewNode, false), RequestCodeGenerator.getCode(tag));
     }
 }

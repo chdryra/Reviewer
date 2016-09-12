@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -43,8 +44,14 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     }
 
     private <T2 extends GvData> ReviewView<T2> getReviewView(ReviewViewAdapter<T2> expanded) {
-        ReviewView<T2> screen = expanded.getReviewView();
-        if (screen == null) screen = mLaunchableFactory.newViewScreen(getApp(), expanded);
-        return screen;
+        ReviewView<T2> ui = expanded.getReviewView();
+
+        if (ui == null) {
+            ApplicationInstance app = getApp();
+            ui = mLaunchableFactory.newDefaultView(expanded, app.newReviewLauncher(),
+                    app.getUsersManager().getAuthorsRepository());
+        }
+
+        return ui;
     }
 }
