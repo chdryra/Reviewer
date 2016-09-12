@@ -7,10 +7,21 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_new_review"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always|withText"
+        android:title="@string/menu_new_review"/>
+
+    <item
+        android:id="@+id/menu_item_follow"
+        android:icon="@drawable/ic_menu_invite"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/menu_follow"/>
 
     <item
         android:icon="@drawable/perm_group_app_info"
-        android:showAsAction="always|withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/menu_settings">
         <menu>
             <item
@@ -18,11 +29,5 @@
                 android:title="@string/menu_logout"/>
         </menu>
     </item>
-
-    <item
-        android:id="@+id/menu_item_new_review"
-        android:icon="@drawable/ic_action_new"
-        android:showAsAction="always|withText"
-        android:title="@string/menu_new_review"/>
 
 </menu>

@@ -22,7 +22,6 @@ import android.widget.ListView;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
@@ -61,7 +60,6 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
     public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
 
-    private static final int LOCATION_PERMISSIONS = RequestCodeGenerator.getCode("RequestPermissions");
     private static final String NO_LOCATIONS = Strings.EditTexts.NO_SUGGESTIONS;
     private static final String SEARCHING_HERE = Strings.EditTexts.SEARCHING_NEAR_HERE;
     private static final String SEARCHING_PHOTO = Strings.EditTexts.SEARCHING_NEAR_PHOTO;

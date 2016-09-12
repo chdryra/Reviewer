@@ -32,6 +32,7 @@ public class ViewerFeed extends ViewerChildList {
 
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvNode datum) {
+        //Isn't really called as GridItemFeed just launches using ReviwLauncher directly
         ReviewNode child = getReviewNode().getChild(datum.getReviewId());
         return child != null ? getAdapterFactory().newReviewsListAdapter(child.getAuthorId()) : null;
     }

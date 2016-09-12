@@ -25,7 +25,11 @@ public class Strings {
         public static final String GOTO_REVIEW = "Go to review?";
         public static final String NEW_USER = "Looks like you're a new user?";
     }
-    
+
+    public static class Dialogs {
+        public static final String FIND_AUTHOR = "Find author";
+    }
+
     public static class Toasts {
         public static final String ENTER_SUBJECT = "Please enter a subject";
         public static final String HAS_DATA = "You\'ve already added this";
@@ -70,6 +74,7 @@ public class Strings {
         public static class Hints {
             public static final String ADD_LOCATION = "name current or select another";
             public static final String NAME_IMAGE_LOCATION = "name image location";
+            public static final String AUTHOR_NAME = "author name";
         }
     }
 

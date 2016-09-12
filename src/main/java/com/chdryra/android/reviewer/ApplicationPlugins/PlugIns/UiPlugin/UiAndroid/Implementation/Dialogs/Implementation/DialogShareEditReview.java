@@ -44,13 +44,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public class DialogShareEditReview extends DialogOneButtonFragment implements
         LaunchableUiAlertable {
+    private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
     private static final String TAG = TagKeyGenerator.getTag(DialogShareEditReview.class);
 
     private static final int LAYOUT = R.layout.dialog_share_edit_review;
     private static final int SHARE = R.id.button_share_review;
     private static final int ANOTHER = R.id.button_another_review;
     private static final int DELETE = R.id.button_delete_review;
-    private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
 
     private DeleteRequestListener mDeleteRequestListener;
     private NewReviewListener mNewReviewListener;

@@ -35,6 +35,8 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getMapEditorUi();
 
+    Class<? extends LaunchableUi> getAuthorSearchUi();
+
     Class<? extends LaunchableUi> getShareReviewUi();
 
     Class<? extends LaunchableUiAlertable> getShareEditReviewUi();

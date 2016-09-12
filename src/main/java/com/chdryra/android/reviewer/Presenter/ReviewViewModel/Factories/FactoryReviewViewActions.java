@@ -23,25 +23,37 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ContextButtonStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ContextButtonStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSplitCommentRefs;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuCopyReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
@@ -70,10 +82,6 @@ public class FactoryReviewViewActions<T extends GvData> {
     public FactoryReviewViewActions(GvDataType<T> dataType, BuildScreenLauncher launcher) {
         mDataType = dataType;
         mLauncher = launcher;
-    }
-
-    public MenuAction<T> newMenuFeed() {
-        return new MenuFeed<>(newNewReviewItem(null), new MaiSettings<T>());
     }
 
     public MenuAction<T> newMenuCopyReview(ReviewId template) {
@@ -114,7 +122,7 @@ public class FactoryReviewViewActions<T extends GvData> {
         return new ContextButtonStamp<>(launcher, stamp, repo);
     }
 
-    private MenuAction.MenuActionItem<T> newNewReviewItem(@Nullable ReviewId template) {
+    protected MenuAction.MenuActionItem<T> newNewReviewItem(@Nullable ReviewId template) {
         return new MaiNewReview<>(mLauncher, template);
     }
 
@@ -141,6 +149,26 @@ public class FactoryReviewViewActions<T extends GvData> {
 
         public GridItemReviewsList newGridItemLauncher(FactoryReviewView factory, LaunchableUiAlertable launchable) {
             return new GridItemReviewsList(factory, launchable, getLauncher());
+        }
+
+        public MenuAction<GvNode> newMenu() {
+            return newMenuNoAction();
+        }
+    }
+
+    public static class Feed extends ReviewsList {
+        public Feed(BuildScreenLauncher launcher) {
+            super(launcher);
+        }
+
+        @Override
+        public GridItemReviewsList newGridItemLauncher(FactoryReviewView factory, LaunchableUiAlertable launchable) {
+            return new GridItemFeed(factory, launchable, getLauncher());
+        }
+
+        @Override
+        public MenuAction<GvNode> newMenu() {
+            return new MenuFeed<>(newNewReviewItem(null), new MaiFollow<GvNode>(), new MaiSettings<GvNode>());
         }
     }
 }

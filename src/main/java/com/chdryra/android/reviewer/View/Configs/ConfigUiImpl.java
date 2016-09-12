@@ -35,20 +35,22 @@ public final class ConfigUiImpl implements ConfigUi {
     private final LaunchableConfig mBuildReviewConfig;
     private final LaunchableConfig mEditOnMapConfig;
     private final LaunchableConfig mShareReviewConfig;
+    private final LaunchableConfig mAuthorSearchConfig;
     private final LaunchableConfigAlertable mShareEditConfig;
 
-    public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
+    public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
                         LaunchableConfig usersFeedConfig,
                         LaunchableConfig authorsReviewsConfig,
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
+                        LaunchableConfig authorSearchConfig,
                         LaunchableConfig shareReviewConfig,
                         LaunchableConfigAlertable shareEditConfig) {
         mConfigsMap = new HashMap<>();
-        for (LaunchableConfigsHolder<?> config : configs) {
-            mConfigsMap.put(config.getGvDataType().getDatumName(), config);
+        for (LaunchableConfigsHolder<?> dataConfig : dataConfigs) {
+            mConfigsMap.put(dataConfig.getGvDataType().getDatumName(), dataConfig);
         }
         mLoginConfig = loginConfig;
         mSignUpConfig = signUpConfig;
@@ -56,6 +58,7 @@ public final class ConfigUiImpl implements ConfigUi {
         mAuthorsReviewsConfig = authorsReviewsConfig;
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
+        mAuthorSearchConfig = authorSearchConfig;
         mShareReviewConfig = shareReviewConfig;
         mShareEditConfig = shareEditConfig;
     }
@@ -113,6 +116,11 @@ public final class ConfigUiImpl implements ConfigUi {
     @Override
     public LaunchableConfigAlertable getShareEdit() {
         return mShareEditConfig;
+    }
+
+    @Override
+    public LaunchableConfig getAuthorSearch() {
+        return mAuthorSearchConfig;
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

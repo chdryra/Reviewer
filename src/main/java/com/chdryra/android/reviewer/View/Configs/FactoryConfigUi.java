@@ -34,6 +34,8 @@ public class FactoryConfigUi {
     private static final int REVIEW_BUILD = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
     private static final String EDIT_ON_MAP_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "EditOnMap");
     private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode(EDIT_ON_MAP_TAG);
+    private static final String AUTHOR_SEARCH_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "AuthorSearch");
+    private static final int AUTHOR_SEARCH = RequestCodeGenerator.getCode(AUTHOR_SEARCH_TAG);
     private static final String SHARE_REVIEW_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "ShareReview");
     private static final int SHARE_REVIEW = RequestCodeGenerator.getCode(SHARE_REVIEW_TAG);
     private static final String SHARE_EDIT_REVIEW_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "ShareEditReview");
@@ -52,10 +54,12 @@ public class FactoryConfigUi {
         LaunchableConfig authorsReviews = getAuthorsReviewsScreenConfig(launchables);
         LaunchableConfig builder = getReviewBuilderConfig(launchables);
         LaunchableConfig mapper = getEditOnMapConfig(launchables);
+        LaunchableConfig authorsSearch = getShareReviewConfig(launchables);
         LaunchableConfig sharer = getShareReviewConfig(launchables);
         LaunchableConfigAlertable shareEditer = getShareEditReviewConfig(launchables);
 
-        return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, authorsReviews, builder, mapper, sharer, shareEditer);
+        return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, authorsReviews, builder,
+                mapper, authorsSearch, sharer, shareEditer);
     }
 
     private LaunchableConfig getLoginConfig(LaunchablesList classes) {
@@ -80,6 +84,10 @@ public class FactoryConfigUi {
 
     private LaunchableConfig getEditOnMapConfig(LaunchablesList classes) {
         return new LaunchableConfigImpl(classes.getMapEditorUi(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
+    }
+
+    private LaunchableConfig getAuthorSearchConfig(LaunchablesList classes) {
+        return new LaunchableConfigImpl(classes.getAuthorSearchUi(), AUTHOR_SEARCH, AUTHOR_SEARCH_TAG);
     }
 
     private LaunchableConfig getShareReviewConfig(LaunchablesList classes) {

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText
+        android:id="@+id/author_edit_text"
+        style="@style/EditTextBasic"
+        android:cursorVisible="false"
+        android:inputType="textCapWords"/>
+
+    <ListView
+        android:id="@+id/author_suggestions_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:ignore="InefficientWeight"/>
+
+</LinearLayout>

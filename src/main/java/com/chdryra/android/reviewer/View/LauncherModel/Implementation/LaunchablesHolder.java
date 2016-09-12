@@ -31,6 +31,7 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mAuthorsReviews;
     private final Class<? extends LaunchableUi> mReviewBuilder;
     private final Class<? extends LaunchableUi> mMapEditor;
+    private final Class<? extends LaunchableUi> mAuthorSearch;
     private final Class<? extends LaunchableUi> mShare;
     private final Class<? extends LaunchableUiAlertable> mShareEdit;
 
@@ -44,6 +45,7 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> authorsReviews,
                              Class<? extends LaunchableUi> reviewBuilder,
                              Class<? extends LaunchableUi> mapEditor,
+                             Class<? extends LaunchableUi> authorSearch,
                              Class<? extends LaunchableUi> share,
                              Class<? extends LaunchableUiAlertable> shareEdit,
                              Class<? extends Activity> defaultReviewViewActivity,
@@ -54,6 +56,7 @@ public class LaunchablesHolder implements LaunchablesList {
         mAuthorsReviews = authorsReviews;
         mReviewBuilder = reviewBuilder;
         mMapEditor = mapEditor;
+        mAuthorSearch = authorSearch;
         mShare = share;
         mShareEdit = shareEdit;
         mDefaultReviewViewActivity = defaultReviewViewActivity;
@@ -93,6 +96,11 @@ public class LaunchablesHolder implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getMapEditorUi() {
         return mMapEditor;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getAuthorSearchUi() {
+        return mAuthorSearch;
     }
 
     @Override

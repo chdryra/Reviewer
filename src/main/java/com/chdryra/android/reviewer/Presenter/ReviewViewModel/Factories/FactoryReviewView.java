@@ -45,7 +45,6 @@ public class FactoryReviewView {
     private final FactoryReviewViewParams mParamsFactory;
     private final BuildScreenLauncher mLauncher;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private FactoryReviewViewActions.ReviewsList mActionsFactory;
 
     public FactoryReviewView(ConfigUi config,
                              FactoryReviewViewParams paramsFactory,
@@ -53,7 +52,7 @@ public class FactoryReviewView {
         mConfig = config;
         mParamsFactory = paramsFactory;
         mLauncher = launcher;
-        mActionsFactory = new FactoryReviewViewActions.ReviewsList(mLauncher);}
+    }
 
     public FactoryReviewViewParams getParamsFactory() {
         return mParamsFactory;
@@ -69,11 +68,15 @@ public class FactoryReviewView {
     }
 
     public ReviewsListView newFeedView(ReviewNode node) {
-        return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), mActionsFactory.newMenuFeed());
+        return newReviewsListView(node,
+                mAdapterFactory.newFeedAdapter(node),
+                new FactoryReviewViewActions.Feed(mLauncher));
     }
 
     public ReviewsListView newReviewsListView(ReviewNode node) {
-        return newReviewsListView(node, mAdapterFactory.newChildListAdapter(node), mActionsFactory.newMenuNoAction());
+        return newReviewsListView(node,
+                mAdapterFactory.newChildListAdapter(node),
+                new FactoryReviewViewActions.ReviewsList(mLauncher));
     }
 
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter,
@@ -92,11 +95,13 @@ public class FactoryReviewView {
     @NonNull
     private ReviewsListView newReviewsListView(ReviewNode node,
                                                ReviewViewAdapter<GvNode> adapter,
-                                               MenuAction<GvNode> ma) {
-        GridItemReviewsList gi = mActionsFactory.newGridItemLauncher(this, mConfig.getShareEdit().getLaunchable());
-        SubjectAction<GvNode> sa = mActionsFactory.newSubjectNoAction();
-        RatingBarAction<GvNode> rb = mActionsFactory.newRatingBarExpandGrid(this);
-        BannerButtonAction<GvNode> bba = mActionsFactory.newBannerButtonNoAction();
+                                               FactoryReviewViewActions.ReviewsList actionsFactory) {
+        GridItemReviewsList gi = actionsFactory.newGridItemLauncher(this, mConfig.getShareEdit().getLaunchable());
+        SubjectAction<GvNode> sa = actionsFactory.newSubjectNoAction();
+        RatingBarAction<GvNode> rb = actionsFactory.newRatingBarExpandGrid(this);
+        BannerButtonAction<GvNode> bba = actionsFactory.newBannerButtonNoAction();
+        MenuAction<GvNode> ma = actionsFactory.newMenu();
+
         ReviewViewActions<GvNode> actions = new ReviewsListView.Actions(sa, rb, bba, gi, ma);
 
         ReviewViewParams params = new ReviewViewParams();
