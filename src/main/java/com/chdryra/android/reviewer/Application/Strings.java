@@ -58,12 +58,14 @@ public class Strings {
         public static final String SHARE = "share";
         public static final String LOGIN = "login";
         public static final String SIGN_UP = "sign up";
+        public static final String SUMMARY = "summary";
     }
 
     public static class Buttons {
+        public static final String SEARCH = "search";
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
-        public static final String BUILD_SCREEN_BANNER = "Details";
+        public static final String BUILD_SCREEN_BANNER = "details";
     }
 
     public static class EditTexts {
@@ -86,4 +88,5 @@ public class Strings {
 
     public static final String LOADING = "loading...";
     public static final String FETCHING = "fetching...";
+    public static final String SEARCHING = "searching...";
 }

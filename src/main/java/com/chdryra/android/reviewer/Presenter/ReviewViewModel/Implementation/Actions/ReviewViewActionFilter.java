@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewActionFilter<T extends GvData> extends ReviewViewActionBasic<T> {
+public class ReviewViewActionFilter<T extends GvData> extends ReviewViewActionBasic<T> implements ReviewViewAdapter.Filterable.Callback{
     @Nullable
     protected ReviewViewAdapter.Filterable<T> getFilterAdapter() {
         try {
@@ -30,6 +30,11 @@ public class ReviewViewActionFilter<T extends GvData> extends ReviewViewActionBa
 
     protected void doFiltering(CharSequence s) {
         ReviewViewAdapter.Filterable<T> adapter = getFilterAdapter();
-        if (adapter != null) adapter.filterGrid(s.toString());
+        if (adapter != null) adapter.filterGrid(s.toString(), this);
+    }
+
+    @Override
+    public void onFiltered() {
+
     }
 }

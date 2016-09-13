@@ -24,10 +24,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
-    private final FactoryReviewView mLaunchableFactory;
+    private final FactoryReviewView mFactory;
 
-    public RatingBarExpandGrid(FactoryReviewView launchableFactory) {
-        mLaunchableFactory = launchableFactory;
+    public RatingBarExpandGrid(FactoryReviewView factory) {
+        mFactory = factory;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
 
         if (ui == null) {
             ApplicationInstance app = getApp();
-            ui = mLaunchableFactory.newDefaultView(expanded, app.newReviewLauncher(),
+            ui = mFactory.newDefaultView(expanded, app.newReviewLauncher(),
                     app.getUsersManager().getAuthorsRepository());
         }
 

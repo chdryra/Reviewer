@@ -26,7 +26,7 @@ import java.util.List;
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorSearchAdapter extends ReviewViewAdapterBasic<GvAuthor> implements ReviewViewAdapter.Filterable<GvAuthor>{
+public class AuthorSearchAdapter extends ReviewViewAdapterBasic<GvAuthor> implements ReviewViewAdapter.Filterable<GvAuthor> {
     private AuthorsRepository mRepo;
     private DataConverter<NamedAuthor, GvAuthor, GvAuthorList> mConverter;
 

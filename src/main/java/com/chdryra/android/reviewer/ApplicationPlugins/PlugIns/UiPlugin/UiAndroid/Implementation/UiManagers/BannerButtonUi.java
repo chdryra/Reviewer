@@ -36,7 +36,7 @@ public class BannerButtonUi {
 
     private void initialise(int textColour) {
         BannerButtonAction action = mReviewView.getActions().getBannerButtonAction();
-        mView.setText(action.getButtonTitle());
+        action.setButton(new ButtonWrapper());
         mView.setTextColor(textColour);
         mView.setOnClickListener(newClickListener(action));
         mView.setOnLongClickListener(newLongClickListener(action));
@@ -62,5 +62,12 @@ public class BannerButtonUi {
                 action.onClick(v);
             }
         };
+    }
+
+    private class ButtonWrapper implements BannerButtonAction.BannerButton {
+        @Override
+        public void setTitle(String title) {
+            mView.setText(title);
+        }
     }
 }

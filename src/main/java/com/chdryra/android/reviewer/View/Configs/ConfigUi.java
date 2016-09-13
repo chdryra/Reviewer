@@ -37,7 +37,7 @@ public interface ConfigUi {
 
     LaunchableConfig getShareReview();
 
-    LaunchableConfig getAuthorSearch();
+    LaunchableConfig getSearch();
 
     LaunchableConfigAlertable getShareEdit();
 }

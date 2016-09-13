@@ -22,8 +22,8 @@ public class MenuCopyReview<T extends GvData> extends MenuActionNone<T> {
 
     private final MenuActionItem<T> mCopyReview;
 
-    public MenuCopyReview(MenuActionItem<T> copyReview) {
-        super(MENU, null, false);
+    public MenuCopyReview(MenuActionItem<T> copyReview, String title) {
+        super(MENU, title, false);
         mCopyReview = copyReview;
         mCopyReview.setParent(this);
     }

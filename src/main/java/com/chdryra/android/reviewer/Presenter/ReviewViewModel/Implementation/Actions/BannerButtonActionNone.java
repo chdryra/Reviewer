@@ -30,8 +30,8 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
     }
 
     @Override
-    public String getButtonTitle() {
-        return mTitle;
+    public void setButton(BannerButton button) {
+        button.setTitle(mTitle);
     }
 
     @Override

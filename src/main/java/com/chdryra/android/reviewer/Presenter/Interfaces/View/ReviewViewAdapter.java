@@ -40,6 +40,10 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
     void getCover(CoverCallback callback);
 
     interface Filterable<T extends GvData> extends ReviewViewAdapter<T> {
-        void filterGrid(String query);
+        interface Callback {
+            void onFiltered();
+        }
+
+        void filterGrid(String query, Callback callback);
     }
 }

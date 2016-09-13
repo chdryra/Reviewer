@@ -18,9 +18,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BannerButtonAction<T extends GvData> extends ReviewViewAction<T> {
+    interface BannerButton {
+        void setTitle(String title);
+    }
+
     boolean onLongClick(View v);
 
     void onClick(View v);
 
-    String getButtonTitle();
+    void setButton(BannerButton button);
 }

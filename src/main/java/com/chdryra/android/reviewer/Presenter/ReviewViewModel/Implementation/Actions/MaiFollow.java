@@ -24,7 +24,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T>{
     public void doAction(MenuItem item) {
         if(getParent() != null) {
             ApplicationInstance app = getParent().getApp();
-            LaunchableConfig authorSearch = app.getConfigUi().getAuthorSearch();
+            LaunchableConfig authorSearch = app.getConfigUi().getSearch();
             app.getUiLauncher().launch(authorSearch, authorSearch.getRequestCode());
         }
     }

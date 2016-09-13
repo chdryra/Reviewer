@@ -119,7 +119,7 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getAuthorSearch() {
+    public LaunchableConfig getSearch() {
         return mAuthorSearchConfig;
     }
 
