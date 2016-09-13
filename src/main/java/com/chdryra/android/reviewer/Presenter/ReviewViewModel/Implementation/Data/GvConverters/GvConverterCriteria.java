@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -27,7 +29,7 @@ public class GvConverterCriteria extends GvConverterReviewData.RefDataList<DataC
     }
 
     @Override
-    public GvCriterion convert(DataCriterion datum, ReviewId reviewId) {
+    public GvCriterion convert(DataCriterion datum, @Nullable ReviewId reviewId) {
         return new GvCriterion(newId(reviewId), datum.getSubject(), datum.getRating());
     }
 
@@ -38,7 +40,7 @@ public class GvConverterCriteria extends GvConverterReviewData.RefDataList<DataC
 
     public static class SubjectOnly extends GvConverterCriteria {
         @Override
-        public GvCriterion convert(DataCriterion datum, ReviewId reviewId) {
+        public GvCriterion convert(DataCriterion datum, @Nullable ReviewId reviewId) {
             return new GvCriterion(newId(reviewId), datum.getSubject(), 0f);
         }
     }

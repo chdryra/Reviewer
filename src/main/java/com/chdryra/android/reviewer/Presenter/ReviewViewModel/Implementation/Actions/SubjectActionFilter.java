@@ -6,30 +6,30 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/01/2015
+ * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
- */
-public class SubjectEditBuildScreen<T extends GvData> extends ReviewEditorActionBasic<T>
+ */ //Classes
+public class SubjectActionFilter<T extends GvData> extends ReviewViewActionFilter<T>
         implements SubjectAction<T>{
     @Override
     public String getSubject() {
-        return getEditor().getSubject();
+        return getAdapter().getSubject();
     }
 
     @Override
     public void onKeyboardDone(CharSequence s) {
-        getEditor().setSubject();
+        doFiltering(s);
     }
 
     @Override
     public void onTextChanged(CharSequence s) {
-
+        doFiltering(s);
     }
 }

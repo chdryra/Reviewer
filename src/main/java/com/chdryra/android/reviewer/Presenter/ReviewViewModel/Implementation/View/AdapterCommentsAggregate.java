@@ -43,13 +43,12 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
                                     GvCanonicalCollection<GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     GvDataAggregator aggregater) {
-        super(node, converter);
+        super(node, converter, viewerFactory.newAggregateToReviewsViewer(comments));
         mComments = comments;
         mViewerFactory = viewerFactory;
         mAggregater = aggregater;
-        setSplit(false);
     }
-//
+
 //    @Override
 //    public GvDataType<? extends GvData> getGvDataType() {
 //        return GvComment.TYPE;

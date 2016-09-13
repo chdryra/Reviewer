@@ -38,6 +38,8 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .NullLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -108,7 +110,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
         LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
         mAutoCompleter = mLocationServices.newAutoCompleter(place);
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mContext, names, mAutoCompleter);
+        mFilteredAdapter = new ViewHolderAdapterFiltered<>(mContext, names,
+                new VhdLocatedPlace(new NullLocatedPlace()), mAutoCompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 

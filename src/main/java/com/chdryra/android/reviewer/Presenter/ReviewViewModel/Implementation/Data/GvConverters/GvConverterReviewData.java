@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvDataListParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.firebase.client.annotations.Nullable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -42,7 +43,7 @@ public abstract class GvConverterReviewData<T1 extends HasReviewId,
     public GvConverterReferences<T1, T4, Reference> getReferencesConverter() {
         return new GvConverterReferences<T1, T4, Reference>(mReferenceType) {
             @Override
-            public T4 convert(Reference datum, ReviewId reviewId) {
+            public T4 convert(Reference datum, @Nullable ReviewId reviewId) {
                 return convertReference(datum);
             }
         };

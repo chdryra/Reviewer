@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -26,7 +28,7 @@ public class GvConverterComments extends GvConverterReviewData.RefCommentList<Gv
     }
 
     @Override
-    public GvComment convert(DataComment datum, ReviewId reviewId) {
+    public GvComment convert(DataComment datum, @Nullable ReviewId reviewId) {
         return new GvComment(getGvReviewId(datum, reviewId),
                 datum.getComment(), datum.isHeadline());
     }

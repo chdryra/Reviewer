@@ -37,7 +37,7 @@ public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact
     }
 
     @Override
-    public GvFact convert(DataFact datum, ReviewId reviewId) {
+    public GvFact convert(DataFact datum, @Nullable ReviewId reviewId) {
         GvReviewId id = getGvReviewId(datum, reviewId);
         GvFact fact = null;
         if (datum.isUrl()) fact = getGvUrl(datum, id);

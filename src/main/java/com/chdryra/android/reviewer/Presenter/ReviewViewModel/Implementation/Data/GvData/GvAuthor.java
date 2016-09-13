@@ -45,20 +45,20 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
     };
 
     private final String mName;
-    private final GvAuthorId mUserId;
+    private final GvAuthorId mAuthorId;
 
     private GvAuthor() {
         this(null, "", new GvAuthorId(""));
     }
 
-    private GvAuthor(String name, GvAuthorId userId) {
-        this(null, name, userId);
+    public GvAuthor(String name, GvAuthorId authorId) {
+        this(null, name, authorId);
     }
 
-    private GvAuthor(@Nullable GvReviewId id, String name, GvAuthorId userId) {
+    public GvAuthor(@Nullable GvReviewId id, String name, GvAuthorId authorId) {
         super(GvAuthor.TYPE, id);
         mName = name;
-        mUserId = userId;
+        mAuthorId = authorId;
     }
 
     private GvAuthor(GvAuthor author) {
@@ -68,7 +68,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
     private GvAuthor(Parcel in) {
         super(in);
         mName = in.readString();
-        mUserId = in.readParcelable(GvAuthorId.class.getClassLoader());
+        mAuthorId = in.readParcelable(GvAuthorId.class.getClassLoader());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
 
     @Override
     public AuthorId getAuthorId() {
-        return mUserId;
+        return mAuthorId;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(mName);
-        parcel.writeParcelable(mUserId, i);
+        parcel.writeParcelable(mAuthorId, i);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
 
         if (mName != null ? !mName.equals(gvAuthor.mName) : gvAuthor.mName != null)
             return false;
-        return !(mUserId != null ? !mUserId.equals(gvAuthor.mUserId) : gvAuthor.mUserId !=
+        return !(mAuthorId != null ? !mAuthorId.equals(gvAuthor.mAuthorId) : gvAuthor.mAuthorId !=
                 null);
 
     }
@@ -112,7 +112,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (mName != null ? mName.hashCode() : 0);
-        result = 31 * result + (mUserId != null ? mUserId.hashCode() : 0);
+        result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
         return result;
     }
 

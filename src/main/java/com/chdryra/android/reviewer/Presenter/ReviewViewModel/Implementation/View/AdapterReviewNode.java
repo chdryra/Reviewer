@@ -35,12 +35,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     public AdapterReviewNode(ReviewNode node,
                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
                              GridDataWrapper<T> viewer) {
-        this(node, coversConverter);
-        setWrapper(viewer);
-    }
-
-    AdapterReviewNode(ReviewNode node,
-                      DataConverter<DataImage, GvImage, GvImageList> coversConverter) {
+        super(viewer);
         mNode = node;
         mCoversConverter = coversConverter;
         node.registerObserver(this);

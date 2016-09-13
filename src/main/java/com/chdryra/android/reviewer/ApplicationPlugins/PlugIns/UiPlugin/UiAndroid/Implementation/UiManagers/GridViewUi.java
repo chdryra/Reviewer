@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
@@ -54,10 +53,6 @@ public class GridViewUi {
 
     public void setTransparent() {
         mView.getBackground().setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
-    }
-
-    public void wrap() {
-        mView.getLayoutParams().height = ActionBar.LayoutParams.WRAP_CONTENT;
     }
 
     private void inititialise(Activity activity) {

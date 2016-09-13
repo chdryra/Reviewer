@@ -9,9 +9,13 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
@@ -25,9 +29,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 public class SubjectUi {
     private final ReviewView<?> mReviewView;
-    private final TextView mView;
+    private final EditText mView;
 
-    public SubjectUi(ReviewView<?> reviewView, TextView view) {
+    public SubjectUi(ReviewView<?> reviewView, EditText view) {
         mReviewView = reviewView;
         mView = view;
         initialise();
@@ -50,11 +54,32 @@ public class SubjectUi {
         mView.setFocusable(isEditable);
         ((ClearableEditText) mView).makeClearable(isEditable);
         if (isEditable) {
-            SubjectAction<?> action = mReviewView.getActions().getSubjectAction();
+            final SubjectAction<?> action = mReviewView.getActions().getSubjectAction();
             mView.setOnEditorActionListener(newSubjectActionListener(action));
+            mView.addTextChangedListener(newSubjectChangeListener(action));
         }
 
         update();
+    }
+
+    @NonNull
+    private TextWatcher newSubjectChangeListener(final SubjectAction<?> action) {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                action.onTextChanged(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
     }
 
     @NonNull

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
+import com.chdryra.android.mygenerallibrary.Viewholder.QueryFilter;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 
@@ -17,7 +17,8 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AutoCompleter<T extends ViewHolderData> extends ViewHolderAdapterFiltered.QueryFilter {
+public interface AutoCompleter<T extends ViewHolderData>
+        extends QueryFilter<T> {
     void disconnectFromProvider();
 
     @Override

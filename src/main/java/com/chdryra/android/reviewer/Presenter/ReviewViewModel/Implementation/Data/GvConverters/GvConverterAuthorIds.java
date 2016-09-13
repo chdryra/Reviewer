@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -31,7 +33,7 @@ public class GvConverterAuthorIds extends
     }
 
     @Override
-    public GvAuthorId convert(DataAuthorId datum, ReviewId reviewId) {
+    public GvAuthorId convert(DataAuthorId datum, @Nullable ReviewId reviewId) {
         GvReviewId gvReviewId = getGvReviewId(datum, reviewId);
         return new GvAuthorId(gvReviewId, datum.toString(), mRepo);
     }

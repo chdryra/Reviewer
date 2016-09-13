@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -27,7 +29,7 @@ public class GvConverterLocations extends
     }
 
     @Override
-    public GvLocation convert(DataLocation datum, ReviewId reviewId) {
+    public GvLocation convert(DataLocation datum, @Nullable ReviewId reviewId) {
         return new GvLocation(getGvReviewId(datum, reviewId), datum.getLatLng(), datum.getName());
     }
 

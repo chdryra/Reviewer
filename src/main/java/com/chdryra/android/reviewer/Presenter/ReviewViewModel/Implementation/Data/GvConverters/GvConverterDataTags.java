@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -26,7 +28,7 @@ public class GvConverterDataTags extends GvConverterReviewData.RefDataList<DataT
     }
 
     @Override
-    public GvTag convert(DataTag datum, ReviewId reviewId) {
+    public GvTag convert(DataTag datum, @Nullable ReviewId reviewId) {
         return new GvTag(getGvReviewId(datum, reviewId), datum.getTag());
     }
 

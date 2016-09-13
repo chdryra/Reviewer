@@ -160,6 +160,11 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
+    public Firebase getNameAuthorMapDb(Firebase root) {
+        return root.child(pathToNamesAuthorMap());
+    }
+
+    @Override
     public Firebase getReviewDb(Firebase root, AuthorId authorId, ReviewId reviewId) {
         return root.child(pathToReview(authorId, reviewId));
     }

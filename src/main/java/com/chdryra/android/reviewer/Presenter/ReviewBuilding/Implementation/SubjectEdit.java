@@ -27,4 +27,9 @@ public class SubjectEdit<T extends GvData> extends ReviewDataEditorActionBasic<T
     public void onKeyboardDone(CharSequence s) {
         getEditor().setSubject();
     }
+
+    @Override
+    public void onTextChanged(CharSequence s) {
+
+    }
 }

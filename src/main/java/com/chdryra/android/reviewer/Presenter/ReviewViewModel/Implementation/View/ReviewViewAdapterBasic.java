@@ -35,10 +35,22 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
 
+    public ReviewViewAdapterBasic() {
+        mWrapper = null;
+    }
+
+    public ReviewViewAdapterBasic(GridDataWrapper<T> wrapper) {
+        mWrapper = wrapper;
+    }
+
     protected void setWrapper(GridDataWrapper<T> wrapper) {
         if (mWrapper != null) mWrapper.detachAdapter();
         attachToViewer(wrapper);
         notifyDataObservers();
+    }
+
+    protected GridDataWrapper<T> getWrapper() {
+        return mWrapper;
     }
 
     @Override

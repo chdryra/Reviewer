@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -36,7 +38,7 @@ public class GvConverterSizes extends GvConverterBasic<DataSize, GvSize, GvSizeL
     }
 
     @Override
-    public GvSize convert(DataSize datum, ReviewId reviewId) {
+    public GvSize convert(DataSize datum, @Nullable ReviewId reviewId) {
         return new GvSize(newId(datum.getReviewId()), mType, datum.getSize());
     }
 }

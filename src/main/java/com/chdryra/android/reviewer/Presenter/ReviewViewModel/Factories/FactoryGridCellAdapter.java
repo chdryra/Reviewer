@@ -13,7 +13,7 @@ import android.app.Activity;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderGridCell;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +26,7 @@ public class FactoryGridCellAdapter {
 
     public ViewHolderAdapter newAdapter(Activity activity, GvDataList<?> data, int cellWidth,
                                                int cellHeight) {
-        boolean uniqueViews = data.getGvDataType().equals(GvList.TYPE) ||
+        boolean uniqueViews = data.getGvDataType().equals(GvSize.Reference.TYPE) ||
                 data.getGvDataType().equals(DataBuilderGridCell.TYPE);
         return new ViewHolderAdapter(activity, data, cellWidth, cellHeight, uniqueViews);
     }

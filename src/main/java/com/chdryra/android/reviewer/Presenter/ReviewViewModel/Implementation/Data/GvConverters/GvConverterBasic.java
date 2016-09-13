@@ -53,7 +53,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     }
 
     @Nullable
-    GvReviewId getGvReviewId(HasReviewId datum, ReviewId reviewId) {
+    GvReviewId getGvReviewId(HasReviewId datum, @Nullable ReviewId reviewId) {
         ReviewId id = datum.getReviewId();
         return id != null ? newId(id) : newId(reviewId);
     }
@@ -63,7 +63,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     }
 
     @Override
-    public abstract T2 convert(T1 datum, ReviewId reviewId);
+    public abstract T2 convert(T1 datum, @Nullable ReviewId reviewId);
 
     @Override
     public T2 convert(T1 datum) {
@@ -71,7 +71,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     }
 
     @Override
-    public T3 convert(Iterable<? extends T1> data, ReviewId reviewId) {
+    public T3 convert(Iterable<? extends T1> data, @Nullable ReviewId reviewId) {
         T3 list = newList(reviewId);
         for(T1 datum : data) {
             list.add(convert(datum, reviewId));
@@ -100,8 +100,8 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         }
     }
 
-    T3 newList(ReviewId reviewId) {
-        GvReviewId id = new GvReviewId(reviewId);
+    T3 newList(@Nullable ReviewId reviewId) {
+        GvReviewId id = reviewId != null ? new GvReviewId(reviewId) : new GvReviewId();
         if(mListClass != null) {
             try {
                 Constructor<T3> ctor = mListClass.getConstructor(GvReviewId.class);

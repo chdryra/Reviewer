@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -46,7 +48,7 @@ public class GvConverterReviewNode
     }
 
     @Override
-    public GvNode convert(ReviewNode node, ReviewId parentId) {
+    public GvNode convert(ReviewNode node, @Nullable ReviewId parentId) {
         return new GvNode(node, mFactory);
     }
 

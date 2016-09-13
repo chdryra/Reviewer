@@ -23,14 +23,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
-    private final GvSocialPlatformList mSocialPlatforms;
     private final ReviewViewAdapter<?> mReviewViewAdapter;
 
     public PublishScreenAdapter(GvSocialPlatformList socialPlatforms,
                                 ReviewViewAdapter<?> reviewViewAdapter) {
-        mSocialPlatforms = socialPlatforms;
+        super(new ShareScreenViewer(socialPlatforms));
         mReviewViewAdapter = reviewViewAdapter;
-        setWrapper(new ShareScreenViewer());
     }
 
     @Override
@@ -53,7 +51,12 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         mReviewViewAdapter.getCover(callback);
     }
 
-    private class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {
+    private static class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {
+        private GvDataListParcelable<GvSocialPlatform> mSocialPlatforms;
+
+        public ShareScreenViewer(GvDataListParcelable<GvSocialPlatform> socialPlatforms) {
+            mSocialPlatforms = socialPlatforms;
+        }
 
         @Override
         public GvDataType<GvSocialPlatform> getGvDataType() {

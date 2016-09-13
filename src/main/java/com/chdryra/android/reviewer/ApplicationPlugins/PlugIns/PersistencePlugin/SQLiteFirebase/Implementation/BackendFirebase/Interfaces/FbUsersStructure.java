@@ -35,4 +35,6 @@ public interface FbUsersStructure extends FbProfilesStructure, FbSocialStructure
     Firebase getAuthorNameMappingDb(Firebase root, AuthorId id);
 
     Firebase getNameAuthorMappingDb(Firebase root, String name);
+
+    Firebase getNameAuthorMapDb(Firebase root);
 }

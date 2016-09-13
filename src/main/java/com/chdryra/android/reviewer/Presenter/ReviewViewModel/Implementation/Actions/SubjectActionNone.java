@@ -28,4 +28,9 @@ public class SubjectActionNone<T extends GvData> extends ReviewViewActionBasic<T
     public void onKeyboardDone(CharSequence s) {
 
     }
+
+    @Override
+    public void onTextChanged(CharSequence s) {
+
+    }
 }

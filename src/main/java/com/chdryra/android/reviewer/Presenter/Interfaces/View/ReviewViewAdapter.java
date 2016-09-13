@@ -38,4 +38,8 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
     float getRating();
 
     void getCover(CoverCallback callback);
+
+    interface Filterable<T extends GvData> extends ReviewViewAdapter<T> {
+        void filterGrid(String query);
+    }
 }
