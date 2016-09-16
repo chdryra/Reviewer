@@ -29,6 +29,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ConverterNamedAuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -95,7 +98,7 @@ public class BackendFirebase implements Backend {
     @Override
     public UsersManager newUsersManager() {
         AuthorsRepository authorsRepo
-                = new FbAuthorsRepository(mDatabase, mStructure, mDataReferencer);
+                = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
         UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
                 authorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);

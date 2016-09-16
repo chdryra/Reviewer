@@ -24,6 +24,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectBannerFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -66,6 +68,10 @@ public class FactoryReviewView {
         mAdapterFactory.setReviewViewFactory(this);
     }
 
+    public FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
     public ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node) {
         return newReviewsListView(node).getAdapter();
     }
@@ -88,40 +94,43 @@ public class FactoryReviewView {
                                                            AuthorsRepository repo) {
         FactoryReviewViewActions<T> factory
                 = newActionsFactory(adapter, launcher, repo, getDataType(adapter));
-        return newReviewView(adapter, factory);
-    }
 
-    public <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter) {
-        FactoryActions.Search<T> factory = newSearchActionsFactory(getDataType(adapter));
-        return newReviewView(adapter, factory);
-    }
-
-    @NonNull
-    private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
-                                                           FactoryReviewViewActions<T> factory) {
-        ReviewViewParams params = mParamsFactory.getParams(getDataType(adapter));
-        ReviewViewActions<T> actions = newActions(factory);
-
-        return new ReviewViewDefault<>(new ReviewViewPerspective<>(adapter, actions, params));
-    }
-
-    @NonNull
-    private <T extends GvData> ReviewViewActions<T> newActions(FactoryReviewViewActions<T>
-                                                                       factory) {
-        return new ReviewViewActions<>(factory.newSubject(),
+        ReviewViewActions<T> actions = new ReviewViewActions<>(factory.newSubject(),
                 factory.newRatingBar(), factory.newBannerButton(), factory.newGridItem(),
                 factory.newMenu(), factory.newContextButton());
+
+        return newReviewView(adapter, actions, mParamsFactory.getParams(getDataType(adapter)));
+    }
+
+    public <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter, String hint) {
+        FactoryActions.Search<T> factory = newSearchActionsFactory(getDataType(adapter));
+
+        SubjectBannerFilter<T> subjectBanner = factory.newSubjectBannerFilter();
+        ReviewViewActions<T> actions = new ReviewViewActions<>(subjectBanner,
+                factory.newRatingBar(), subjectBanner, factory.newGridItem(),
+                factory.newMenu(), factory.newContextButton());
+
+        return newReviewView(adapter, actions, mParamsFactory.getSearchParams(hint));
+    }
+
+    //private
+    private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
+                                                           ReviewViewActions<T> actions,
+                                                           ReviewViewParams params) {
+        return new ReviewViewDefault<>(new ReviewViewPerspective<>(adapter, actions, params));
     }
 
     @NonNull
     private <T extends GvData> FactoryActions.Search<T> newSearchActionsFactory(GvDataType<T>
                                                                                         dataType) {
-        FactoryActions.Search<T> factory;
+        FactoryActions.Search factory;
         if (dataType.equals(GvAuthor.TYPE)) {
-            factory = (FactoryActions.Search<T>) new FactoryActions.SearchAuthor(this);
+            factory = new FactoryActions.SearchAuthor(this);
         } else {
             factory = new FactoryActions.Search<>(dataType, this);
         }
+
+        //TODO make type safe
         return factory;
     }
 
@@ -133,7 +142,7 @@ public class FactoryReviewView {
         if (dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActions.Summary(this, launcher,
                     adapter.getStamp(), repo, mLauncher);
-        } else if(dataType.equals(GvComment.Reference.TYPE)) {
+        } else if (dataType.equals(GvComment.Reference.TYPE)) {
             factory = new FactoryActions.Comments(this, launcher, adapter.getStamp(),
                     repo, mConfig.getViewer(dataType.getDatumName()));
         } else {
@@ -141,7 +150,7 @@ public class FactoryReviewView {
                     repo, mConfig.getViewer(dataType.getDatumName()));
         }
         //TODO make type safe
-        return (FactoryReviewViewActions<T>) factory;
+        return factory;
     }
 
     private <T extends GvData> GvDataType<T> getDataType(ReviewViewAdapter<T> adapter) {
@@ -149,7 +158,6 @@ public class FactoryReviewView {
         return (GvDataType<T>) adapter.getGvDataType();
     }
 
-    //private
     @NonNull
     private ReviewsListView newReviewsListView(ReviewNode node,
                                                ReviewViewAdapter<GvNode> adapter,
@@ -165,7 +173,9 @@ public class FactoryReviewView {
         ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        params.setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+
+        params.setCoverManager(false);
+        params.getGridViewParams().setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
 
         return new ReviewsListView(node, new ReviewViewPerspective<>(adapter, actions, params));
     }

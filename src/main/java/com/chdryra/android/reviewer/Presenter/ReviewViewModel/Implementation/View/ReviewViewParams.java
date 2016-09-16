@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.Application.Strings;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
@@ -15,6 +17,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  */
 public class ReviewViewParams {
     private final GridViewParams mGridViewParams = new GridViewParams();
+    private final SubjectParams mSubjectParams = new SubjectParams();
     private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
@@ -52,28 +55,56 @@ public class ReviewViewParams {
         return mGridViewParams;
     }
 
+    public SubjectParams getSubjectParams() {
+        return mSubjectParams;
+    }
+
     public boolean manageCover() {
         return mCoverManager;
-    }
-
-    public ReviewViewParams setCellWidth(CellDimension cellWidth) {
-        getGridViewParams().setCellWidth(cellWidth);
-        return this;
-    }
-
-    public ReviewViewParams setCellHeight(CellDimension cellHeight) {
-        getGridViewParams().setCellHeight(cellHeight);
-        return this;
-    }
-
-    public ReviewViewParams setGridAlpha(GridViewAlpha alpha) {
-        getGridViewParams().setGridAlpha(alpha);
-        return this;
     }
 
     public ReviewViewParams setCoverManager(boolean coverManager) {
         mCoverManager = coverManager;
         return this;
+    }
+
+    public static class SubjectParams {
+        private boolean mIsEditable;
+        private boolean mUpdateOnRefresh;
+        private String mHint;
+
+        public SubjectParams() {
+            mIsEditable = false;
+            mUpdateOnRefresh = true;
+            mHint = Strings.EditTexts.Hints.SUBJECT;
+        }
+
+        public SubjectParams setEditable(boolean editable) {
+            mIsEditable = editable;
+            return this;
+        }
+
+        public SubjectParams setUpdateOnRefresh(boolean updateOnRefresh) {
+            mUpdateOnRefresh = updateOnRefresh;
+            return this;
+        }
+
+        public SubjectParams setHint(String hint) {
+            mHint = hint;
+            return this;
+        }
+
+        public boolean isEditable() {
+            return mIsEditable;
+        }
+
+        public boolean isUpdateOnRefresh() {
+            return mUpdateOnRefresh;
+        }
+
+        public String getHint() {
+            return mHint;
+        }
     }
 
     public static class GridViewParams {

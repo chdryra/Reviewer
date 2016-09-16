@@ -114,7 +114,7 @@ public class PresenterReviewPublish implements ActivityResultListener{
         @NonNull
         private ReviewViewParams getParams() {
             ReviewViewParams params = new ReviewViewParams();
-            params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+            params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
             return params;
         }

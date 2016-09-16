@@ -56,7 +56,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     @Override
     public void setButton(BannerButton button) {
         mButton = button;
-        button.setTitle(mButtonTitle);
+        mButton.setTitle(mButtonTitle);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     }
 
     public void performFiltering(String query) {
-        if(!mFiltering) {
+        if(mButton != null && !mFiltering) {
             mFiltering = true;
             mButton.setTitle(mWorkingMessage);
             doFiltering(query);

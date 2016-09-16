@@ -23,9 +23,15 @@ public class FactoryReviewViewParams {
         ReviewViewParams params = new ReviewViewParams();
         if (dataType.equals(GvImage.TYPE) || dataType.equals(GvImage.Reference.TYPE)) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
-            params.setCellHeight(half).setCellWidth(half);
+            params.getGridViewParams().setCellHeight(half).setCellWidth(half);
         }
 
+        return params;
+    }
+
+    public ReviewViewParams getSearchParams(String hint) {
+        ReviewViewParams params = new ReviewViewParams();
+        params.getSubjectParams().setEditable(true).setUpdateOnRefresh(false).setHint(hint);
         return params;
     }
 }

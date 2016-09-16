@@ -12,10 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -37,10 +36,12 @@ public class FbAuthorsRepository implements AuthorsRepository {
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
     private final FactoryFbReference mReferenceFactory;
-    private final ConverterNamedAuthorId mConverter;
+    private final SnapshotConverter<NamedAuthor> mConverter;
 
-    public FbAuthorsRepository(Firebase dataRoot, FbUsersStructure structure,
-                               ConverterNamedAuthorId converter, FactoryFbReference referenceFactory) {
+    public FbAuthorsRepository(Firebase dataRoot,
+                               FbUsersStructure structure,
+                               SnapshotConverter<NamedAuthor> converter,
+                               FactoryFbReference referenceFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mReferenceFactory = referenceFactory;
@@ -88,8 +89,13 @@ public class FbAuthorsRepository implements AuthorsRepository {
 
     @Override
     public void search(String nameQuery, final SearchAuthorsCallback callback) {
+        if(nameQuery.length() == 0) {
+            callback.onAuthors(new ArrayList<NamedAuthor>(), null);
+            return;
+        }
+
         Firebase db = mStructure.getNameAuthorMapDb(mDataRoot);
-        Query query = db.startAt(nameQuery).endAt(nameQuery + "\uf8ff").limitToFirst(SEARCH_LIMIT);
+        Query query = db.orderByKey().startAt(nameQuery).endAt(nameQuery + "\uf8ff").limitToFirst(SEARCH_LIMIT);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -204,13 +204,10 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
             return new PresenterReviewBuild<>(mApp, editor);
         }
 
-        private <GC extends GvDataList<? extends GvDataParcelable>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC>
-                                                                              builder,
-                                                                      LaunchableConfig
-                                                                              shareScreenUi,
-                                                                      FactoryReviewEditor factory) {
+        private <GC extends GvDataList<? extends GvDataParcelable>> ReviewEditor<GC>
+        newEditor(ReviewBuilderAdapter<GC> builder, LaunchableConfig shareScreenUi,  FactoryReviewEditor factory) {
             ReviewViewParams params = new ReviewViewParams();
-            params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+            params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
             ReviewViewActions<GC> actions = new ReviewViewActions<>(new
                     SubjectEditBuildScreen<GC>(),

@@ -297,7 +297,8 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         @Override
         public MenuAction<GvNode> newMenu() {
             return new MenuFeed<>(newNewReviewItem(getLauncher(), null),
-                    new MaiFollow<GvNode>(), new MaiSettings<GvNode>());
+                    new MaiFollow<GvNode>(getFactoryReviewView()),
+                    new MaiSettings<GvNode>());
         }
     }
 
@@ -318,7 +319,7 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
             return newSubjectBannerFilter();
         }
 
-        private SubjectBannerFilter<T> newSubjectBannerFilter() {
+        public SubjectBannerFilter<T> newSubjectBannerFilter() {
             return new SubjectBannerFilter<>(Strings.Buttons.SEARCH, Strings.SEARCHING);
         }
 

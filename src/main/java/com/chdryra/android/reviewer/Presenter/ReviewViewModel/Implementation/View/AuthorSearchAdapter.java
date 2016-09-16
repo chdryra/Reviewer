@@ -30,7 +30,8 @@ public class AuthorSearchAdapter extends ReviewViewAdapterBasic<GvAuthor> implem
     private AuthorsRepository mRepo;
     private DataConverter<NamedAuthor, GvAuthor, GvAuthorList> mConverter;
 
-    public AuthorSearchAdapter(AuthorDataWrapper wrapper, AuthorsRepository repo,
+    public AuthorSearchAdapter(AuthorDataWrapper wrapper,
+                               AuthorsRepository repo,
                                DataConverter<NamedAuthor, GvAuthor, GvAuthorList> converter) {
         super(wrapper);
         mRepo = repo;
@@ -38,7 +39,7 @@ public class AuthorSearchAdapter extends ReviewViewAdapterBasic<GvAuthor> implem
     }
 
     @Override
-    public void filterGrid(String query) {
+    public void filterGrid(String query, final Filterable.Callback callback) {
         mRepo.search(query, new AuthorsRepository.SearchAuthorsCallback() {
             @Override
             public void onAuthors(List<NamedAuthor> authors, @Nullable AuthorsRepository.Error error) {
@@ -50,6 +51,7 @@ public class AuthorSearchAdapter extends ReviewViewAdapterBasic<GvAuthor> implem
                     data.add(new GvAuthor("No authors found", new GvAuthorId("")));
                 }
                 ((AuthorDataWrapper)getWrapper()).setData(data);
+                callback.onFiltered();
             }
         });
     }

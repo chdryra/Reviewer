@@ -26,16 +26,16 @@ import java.util.Set;
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class AuthorDataWrapper extends GridDataWrapperBasic<GvAuthor> {
+public class AuthorDataWrapper extends GridDataWrapperBasic<GvAuthor> {
     private static final GvDataType<GvAuthor> TYPE = GvAuthor.TYPE;
-    private AuthorId mUserId;
+    private AuthorId mSessionUser;
     private GvDataList<GvAuthor> mData;
     private FactoryReviewViewAdapter mFactory;
 
-    public AuthorDataWrapper(AuthorId userId,
+    public AuthorDataWrapper(AuthorId sessionUser,
                              GvDataList<GvAuthor> data,
                              FactoryReviewViewAdapter factory) {
-        mUserId = userId;
+        mSessionUser = sessionUser;
         mData = data;
         mFactory = factory;
     }
@@ -73,6 +73,6 @@ class AuthorDataWrapper extends GridDataWrapperBasic<GvAuthor> {
         for(AuthorId author : mData) {
             authors.add(author);
         }
-        return mFactory.newTreeSummaryAdapter(mUserId, authors);
+        return mFactory.newTreeSummaryAdapter(mSessionUser, authors);
     }
 }
