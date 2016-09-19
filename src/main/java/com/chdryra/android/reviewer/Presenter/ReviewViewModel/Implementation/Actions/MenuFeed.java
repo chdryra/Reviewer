@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.R;
  */
 public class MenuFeed<T extends GvData> extends MenuActionNone<T> {
     private static final int SETTINGS = R.id.menu_item_settings;
-    private static final int FOLLOW = R.id.menu_item_follow;
+    private static final int FOLLOW = R.id.menu_item_search_authors;
     private static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 

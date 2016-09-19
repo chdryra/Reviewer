@@ -27,10 +27,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final String TAG = "GridItemLauncher:";
 
-    private final FactoryReviewView mLaunchableFactory;
+    private final FactoryReviewView mReviewViewFactory;
 
-    public GridItemLauncher(FactoryReviewView launchableFactory) {
-        mLaunchableFactory = launchableFactory;
+    public GridItemLauncher(FactoryReviewView reviewViewFactory) {
+        mReviewViewFactory = reviewViewFactory;
     }
 
     void launch(LaunchableUi ui, int requestCode, Bundle args) {
@@ -48,7 +48,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
 
         if (ui == null) {
             ApplicationInstance app = getApp();
-            ui = mLaunchableFactory.newDefaultView(expanded, app.newReviewLauncher(),
+            ui = mReviewViewFactory.newDefaultView(expanded, app.newReviewLauncher(),
                     app.getUsersManager().getAuthorsRepository());
         }
 

@@ -72,21 +72,17 @@ public class FactoryReviewView {
         return mAdapterFactory;
     }
 
-    public ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node) {
-        return newReviewsListView(node).getAdapter();
-    }
-
     public ReviewsListView newFeedView(ReviewNode node) {
         return newReviewsListView(node,
                 mAdapterFactory.newFeedAdapter(node),
                 new FactoryActions.Feed(this, mConfig.getShareEdit().getLaunchable(), mLauncher));
     }
 
-    public ReviewsListView newReviewsListView(ReviewNode node) {
+    public ReviewsListView newReviewsListView(ReviewNode node, boolean withFollowMenu) {
         return newReviewsListView(node,
                 mAdapterFactory.newChildListAdapter(node),
                 new FactoryActions.ReviewsList(this, mConfig.getShareEdit().getLaunchable(),
-                        mLauncher));
+                        mLauncher, withFollowMenu));
     }
 
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter,
@@ -99,7 +95,7 @@ public class FactoryReviewView {
                 factory.newRatingBar(), factory.newBannerButton(), factory.newGridItem(),
                 factory.newMenu(), factory.newContextButton());
 
-        return newReviewView(adapter, actions, mParamsFactory.getParams(getDataType(adapter)));
+        return newReviewView(adapter, actions, mParamsFactory.newViewParams(getDataType(adapter)));
     }
 
     public <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter, String hint) {
@@ -110,7 +106,8 @@ public class FactoryReviewView {
                 factory.newRatingBar(), subjectBanner, factory.newGridItem(),
                 factory.newMenu(), factory.newContextButton());
 
-        return newReviewView(adapter, actions, mParamsFactory.getSearchParams(hint));
+        return newReviewView(adapter, actions,
+                mParamsFactory.newSearchParams(adapter.getGvDataType(), hint));
     }
 
     //private
@@ -132,6 +129,8 @@ public class FactoryReviewView {
 
         //TODO make type safe
         return factory;
+
+        //return new FactoryActions.Search<>(dataType, this);
     }
 
     @NonNull
@@ -167,15 +166,9 @@ public class FactoryReviewView {
         RatingBarAction<GvNode> rb = actionsFactory.newRatingBar();
         BannerButtonAction<GvNode> bba = actionsFactory.newBannerButton();
         MenuAction<GvNode> ma = actionsFactory.newMenu();
-
         ReviewViewActions<GvNode> actions = new ReviewsListView.Actions(sa, rb, bba, gi, ma);
 
-        ReviewViewParams params = new ReviewViewParams();
-        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
-        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-
-        params.setCoverManager(false);
-        params.getGridViewParams().setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        ReviewViewParams params = mParamsFactory.newReviewsListParams();
 
         return new ReviewsListView(node, new ReviewViewPerspective<>(adapter, actions, params));
     }

@@ -86,10 +86,6 @@ public class FactoryConfigUi {
         return new LaunchableConfigImpl(classes.getMapEditorUi(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
     }
 
-    private LaunchableConfig getAuthorSearchConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getAuthorSearchUi(), AUTHOR_SEARCH, AUTHOR_SEARCH_TAG);
-    }
-
     private LaunchableConfig getShareReviewConfig(LaunchablesList classes) {
         return new LaunchableConfigImpl(classes.getShareReviewUi(), SHARE_REVIEW, SHARE_REVIEW_TAG);
     }

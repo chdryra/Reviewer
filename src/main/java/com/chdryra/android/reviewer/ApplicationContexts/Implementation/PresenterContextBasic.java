@@ -208,7 +208,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public ReviewsListView newReviewsListView(ReviewNode reviewNode, boolean feedScreen) {
         return feedScreen ? mFactoryReviewView.newFeedView(reviewNode) :
-                mFactoryReviewView.newReviewsListView(reviewNode);
+                mFactoryReviewView.newReviewsListView(reviewNode, false);
     }
 
     @Override

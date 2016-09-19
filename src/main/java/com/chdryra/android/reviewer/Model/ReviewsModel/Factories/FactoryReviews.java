@@ -103,8 +103,8 @@ public class FactoryReviews implements ReviewMaker {
 
     public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ReferencesRepository repo, AuthorsRepository authorsRepo) {
         DataReviewInfo info = getMetaForAuthor(authorId);
-        return newReviewNodeAuthored(info, repo, new NodeTitler
-                .AuthorsTree(authorsRepo.getName(authorId)));
+        return newReviewNodeAuthored(info, repo,
+                new NodeTitler.AuthorsTree(authorsRepo.getName(authorId)));
     }
 
     public ReviewNodeRepo createFeed(AuthorId feedOwner, ReferencesRepository feed, AuthorsRepository authorsRepo) {

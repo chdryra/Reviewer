@@ -10,15 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,22 +18,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T>{
-    private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FollowSearch");
-    private FactoryReviewView mFactory;
 
-    public MaiFollow(FactoryReviewView factory) {
-        mFactory = factory;
+    public MaiFollow() {
     }
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() != null) {
-            ApplicationInstance app = getParent().getApp();
-            FactoryReviewViewAdapter adapterFactory = mFactory.getAdapterFactory();
-            ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
-                    .newFollowSearchAdapter(app.getUserSession().getAuthorId());
-            LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
-            app.getUiLauncher().launch(authorSearch, REQUEST_CODE);
-        }
+
     }
 }

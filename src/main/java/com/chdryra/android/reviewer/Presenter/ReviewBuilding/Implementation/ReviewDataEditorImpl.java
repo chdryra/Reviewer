@@ -110,9 +110,4 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     public float getRating() {
         return mRating;
     }
-
-    @Override
-    public boolean isEditable() {
-        return true;
-    }
 }

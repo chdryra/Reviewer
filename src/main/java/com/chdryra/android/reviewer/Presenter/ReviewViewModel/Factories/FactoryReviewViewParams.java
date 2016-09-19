@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewViewParams {
-    public <T extends GvData> ReviewViewParams getParams(GvDataType<T> dataType) {
+    public <T extends GvData> ReviewViewParams newViewParams(GvDataType<T> dataType) {
         ReviewViewParams params = new ReviewViewParams();
         if (dataType.equals(GvImage.TYPE) || dataType.equals(GvImage.Reference.TYPE)) {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
@@ -29,9 +29,28 @@ public class FactoryReviewViewParams {
         return params;
     }
 
-    public ReviewViewParams getSearchParams(String hint) {
-        ReviewViewParams params = new ReviewViewParams();
+    public ReviewViewParams newEditorParams(GvDataType<?> dataType) {
+        ReviewViewParams params = newViewParams(dataType);
+        params.getRatingBarParams().setEditable(true);
+        params.getSubjectParams().setEditable(true);
+
+        return params;
+    }
+
+    public ReviewViewParams newSearchParams(GvDataType<?> dataType, String hint) {
+        ReviewViewParams params = newViewParams(dataType);
         params.getSubjectParams().setEditable(true).setUpdateOnRefresh(false).setHint(hint);
+        params.getRatingBarParams().setVisible(false);
+        return params;
+    }
+
+    public ReviewViewParams newReviewsListParams() {
+        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
+        params.setCoverManager(false);
+        params.getGridViewParams().setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+
         return params;
     }
 }

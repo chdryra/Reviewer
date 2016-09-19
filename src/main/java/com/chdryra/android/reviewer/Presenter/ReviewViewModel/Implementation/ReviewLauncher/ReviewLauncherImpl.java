@@ -8,16 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher;
 
-import android.os.Bundle;
-
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -55,15 +51,11 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchReviews(AuthorId authorId) {
-        AuthorIdParcelable id = new AuthorIdParcelable(authorId.toString());
-        ParcelablePacker<AuthorIdParcelable> packer = new ParcelablePacker<>();
-        Bundle args = new Bundle();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, id, args);
-        mLauncher.launch(mAuthorsConfig, mAuthorsConfig.getRequestCode(), args);
+        launchReview(mReviewsSource.asMetaReview(authorId));
     }
 
     private void launchReview(ReviewNode reviewNode) {
         int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
-        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode), requestCode);
+        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, true), requestCode);
     }
 }

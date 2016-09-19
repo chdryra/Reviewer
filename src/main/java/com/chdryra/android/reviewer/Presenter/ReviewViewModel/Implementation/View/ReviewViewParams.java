@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Application.Strings;
 public class ReviewViewParams {
     private final GridViewParams mGridViewParams = new GridViewParams();
     private final SubjectParams mSubjectParams = new SubjectParams();
+    private final RatingBarParams mRatingBarParams = new RatingBarParams();
     private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
@@ -57,6 +58,10 @@ public class ReviewViewParams {
 
     public SubjectParams getSubjectParams() {
         return mSubjectParams;
+    }
+
+    public RatingBarParams getRatingBarParams() {
+        return mRatingBarParams;
     }
 
     public boolean manageCover() {
@@ -104,6 +109,34 @@ public class ReviewViewParams {
 
         public String getHint() {
             return mHint;
+        }
+    }
+
+    public static class RatingBarParams {
+        private boolean mIsEditable;
+        private boolean mIsVisible;
+
+        public RatingBarParams() {
+            mIsEditable = false;
+            mIsVisible = true;
+        }
+
+        public RatingBarParams setEditable(boolean editable) {
+            mIsEditable = editable;
+            return this;
+        }
+
+        public RatingBarParams setVisible(boolean visible) {
+            mIsVisible = visible;
+            return this;
+        }
+
+        public boolean isEditable() {
+            return mIsEditable;
+        }
+
+        public boolean isVisible() {
+            return mIsVisible;
         }
     }
 

@@ -40,8 +40,6 @@ public interface ReviewView<T extends GvData>
 
     ReviewViewActions<T> getActions();
 
-    boolean isEditable();
-
     String getContainerSubject();
 
     float getContainerRating();

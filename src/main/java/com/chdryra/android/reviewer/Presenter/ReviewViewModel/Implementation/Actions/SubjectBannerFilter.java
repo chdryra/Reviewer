@@ -34,7 +34,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
 
     @Override
     public String getSubject() {
-        return getAdapter().getSubject();
+        return getReviewView().getContainerSubject();
     }
 
     @Override

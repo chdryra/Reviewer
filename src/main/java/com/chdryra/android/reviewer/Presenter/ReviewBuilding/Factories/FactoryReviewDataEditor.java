@@ -13,9 +13,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Revi
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,8 +32,7 @@ public class FactoryReviewDataEditor {
 
     public <T extends GvDataParcelable> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter) {
         GvDataType<T> type = adapter.getGvDataType();
-        ReviewViewParams params = mParamsFactory.getParams(type);
-        ReviewViewActions<T> actions = mActionsFactory.newActions(type);
-        return new ReviewDataEditorImpl<>(adapter, actions, params);
+        return new ReviewDataEditorImpl<>(adapter,
+                mActionsFactory.newActions(type), mParamsFactory.newEditorParams(type));
     }
 }

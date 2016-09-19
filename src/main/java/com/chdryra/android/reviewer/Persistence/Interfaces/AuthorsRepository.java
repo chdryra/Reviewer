@@ -22,11 +22,11 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthorsRepository {
-    int SEARCH_LIMIT = 5;
+    int SEARCH_LIMIT = 8;
     enum Error{NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
 
     interface SearchAuthorsCallback {
-        void onAuthors(List<NamedAuthor> authors, @Nullable AuthorsRepository.Error error);
+        void onAuthors(List<NamedAuthor> suggestions, @Nullable AuthorsRepository.Error error);
     }
 
     interface GetAuthorIdCallback {

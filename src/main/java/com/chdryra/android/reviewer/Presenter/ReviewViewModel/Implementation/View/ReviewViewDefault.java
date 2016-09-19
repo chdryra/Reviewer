@@ -98,11 +98,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public boolean isEditable() {
-        return false;
-    }
-
-    @Override
     public String getContainerSubject() {
         return mContainer.getSubject();
     }

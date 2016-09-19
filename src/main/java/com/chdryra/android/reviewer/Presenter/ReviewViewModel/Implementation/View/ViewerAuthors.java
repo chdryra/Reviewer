@@ -18,23 +18,20 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorDataWrapper extends GridDataWrapperBasic<GvAuthor> {
+public class ViewerAuthors extends GridDataWrapperBasic<GvAuthor> {
     private static final GvDataType<GvAuthor> TYPE = GvAuthor.TYPE;
     private AuthorId mSessionUser;
     private GvDataList<GvAuthor> mData;
     private FactoryReviewViewAdapter mFactory;
 
-    public AuthorDataWrapper(AuthorId sessionUser,
-                             GvDataList<GvAuthor> data,
-                             FactoryReviewViewAdapter factory) {
+    public ViewerAuthors(AuthorId sessionUser,
+                         GvDataList<GvAuthor> data,
+                         FactoryReviewViewAdapter factory) {
         mSessionUser = sessionUser;
         mData = data;
         mFactory = factory;
@@ -63,16 +60,17 @@ public class AuthorDataWrapper extends GridDataWrapperBasic<GvAuthor> {
     @Nullable
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvAuthor datum) {
-        return isExpandable(datum) ? mFactory.newReviewsListAdapter(datum.getAuthorId()) : null;
+        return null;//isExpandable(datum) ? mFactory.newReviewsListAdapter(datum.getAuthorId()) : null;
     }
 
     @Nullable
     @Override
     public ReviewViewAdapter<?> expandGridData() {
-        Set<AuthorId> authors = new HashSet<>();
-        for(AuthorId author : mData) {
-            authors.add(author);
-        }
-        return mFactory.newTreeSummaryAdapter(mSessionUser, authors);
+        return null;
+//        Set<AuthorId> authors = new HashSet<>();
+//        for(AuthorId author : mData) {
+//            authors.add(author);
+//        }
+//        return mFactory.newTreeSummaryAdapter(mSessionUser, authors);
     }
 }

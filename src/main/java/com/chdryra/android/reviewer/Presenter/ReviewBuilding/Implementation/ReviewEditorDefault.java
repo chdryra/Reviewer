@@ -83,11 +83,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public boolean isEditable() {
-        return true;
-    }
-
-    @Override
     public ReadyToBuildResult isReviewBuildable() {
         if(mBuilder.getSubject() == null || mBuilder.getSubject().length() == 0) {
             return ReadyToBuildResult.NoSubject;

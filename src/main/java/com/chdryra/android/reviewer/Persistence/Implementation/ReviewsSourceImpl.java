@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
@@ -38,32 +39,40 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsSourceImpl implements ReviewsSource {
-    private final ReviewsRepository mRepository;
-    private final FactoryReviews mReviewFactory;
+    private final ReviewsRepository mReviewsRepo;
+    private final AuthorsRepository mAuthorsRepo;
+    private final FactoryReviews mReviewsFactory;
 
-    public ReviewsSourceImpl(ReviewsRepository repository, FactoryReviews reviewFactory) {
-        mRepository = repository;
-        mReviewFactory = reviewFactory;
+    public ReviewsSourceImpl(ReviewsRepository reviewsRepo, AuthorsRepository authorsRepo, FactoryReviews reviewsFactory) {
+        mReviewsRepo = reviewsRepo;
+        mAuthorsRepo = authorsRepo;
+        mReviewsFactory = reviewsFactory;
     }
 
     @Override
     public TagsManager getTagsManager() {
-        return mRepository.getTagsManager();
+        return mReviewsRepo.getTagsManager();
     }
 
     @Override
     public void subscribe(ReviewsSubscriber subscriber) {
-        mRepository.subscribe(subscriber);
+        mReviewsRepo.subscribe(subscriber);
     }
 
     @Override
     public void unsubscribe(ReviewsSubscriber subscriber) {
-        mRepository.unsubscribe(subscriber);
+        mReviewsRepo.unsubscribe(subscriber);
     }
 
     @Override
     public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
         asMetaReviewNullable(id, callback);
+    }
+
+    @Override
+    public ReviewNode asMetaReview(AuthorId id) {
+        ReferencesRepository repo = getRepositoryForAuthor(id);
+        return mReviewsFactory.createAuthorsTree(id, repo, mAuthorsRepo);
     }
 
     @Override
@@ -86,7 +95,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
             public void onRepositoryCallback(RepositoryResult result) {
                 if (!result.isError()) {
                     Collection<ReviewReference> reviews = result.getReferences();
-                    ReviewNode meta = mReviewFactory.createTree(reviews, subject);
+                    ReviewNode meta = mReviewsFactory.createTree(reviews, subject);
                     result = new RepositoryResult(meta, result.getMessage());
                 }
 
@@ -97,22 +106,22 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
-        return mRepository.getMutableRepository(session);
+        return mReviewsRepo.getMutableRepository(session);
     }
 
     @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
-        mRepository.getReference(reviewId, callback);
+        mReviewsRepo.getReference(reviewId, callback);
     }
 
     @Override
     public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
-        return mRepository.getLatestForAuthor(authorId);
+        return mReviewsRepo.getLatestForAuthor(authorId);
     }
 
     @Override
     public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
-        return mRepository.getRepositoryForAuthor(authorId);
+        return mReviewsRepo.getRepositoryForAuthor(authorId);
     }
 
     @Nullable
@@ -134,7 +143,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
-        mRepository.getReference(id, new RepositoryCallback() {
+        mReviewsRepo.getReference(id, new RepositoryCallback() {
 
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
@@ -143,7 +152,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 if(result.isError() || review == null) {
                     repoResult = result;
                 } else {
-                    ReviewNode node = mReviewFactory.createTree(review);
+                    ReviewNode node = mReviewsFactory.createTree(review);
                     repoResult = new RepositoryResult(node, result.getMessage());
                 }
 
