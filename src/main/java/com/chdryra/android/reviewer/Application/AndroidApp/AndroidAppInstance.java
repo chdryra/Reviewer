@@ -186,11 +186,16 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     @Override
     public ReferencesRepository getUsersFeed() {
         if(mUserSession.isInSession()) {
-            SocialProfile socialProfile = mUserSession.getAccount().getSocialProfile();
+            SocialProfile socialProfile = getSocialProfile();
             return mAppContext.newFeed(mUserSession.getAuthorId(), socialProfile.getFollowing());
         } else {
             return new NullRepository();
         }
+    }
+
+    @Override
+    public SocialProfile getSocialProfile() {
+        return mUserSession.getAccount().getSocialProfile();
     }
 
     @Override

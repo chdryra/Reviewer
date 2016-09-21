@@ -29,15 +29,11 @@ public interface ConfigUi {
 
     LaunchableConfig getUsersFeed();
 
-    LaunchableConfig getAuthorsReviews();
-
     LaunchableConfig getBuildReview();
 
     LaunchableConfig getMapEditor();
 
     LaunchableConfig getShareReview();
-
-    LaunchableConfig getSearch();
 
     LaunchableConfigAlertable getShareEdit();
 }

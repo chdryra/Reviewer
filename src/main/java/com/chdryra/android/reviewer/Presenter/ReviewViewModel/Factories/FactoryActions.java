@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -42,8 +43,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .MaiSplitCommentRefs;
@@ -248,19 +250,19 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         }
     }
 
-    public static class ReviewsList extends FactoryActions<GvNode> {
+    static class ReviewsList extends FactoryActions<GvNode> {
         private FactoryReviewView mFactoryReviewView;
         private LaunchableUiAlertable mShareEdit;
         private BuildScreenLauncher mLauncher;
-        private boolean mWithFollowMenu;
+        private AuthorId mAuthorId;
 
-        public ReviewsList(FactoryReviewView factoryReviewView, LaunchableUiAlertable shareEdit,
-                           BuildScreenLauncher launcher, boolean withFollowMenu) {
+        ReviewsList(FactoryReviewView factoryReviewView, LaunchableUiAlertable shareEdit,
+                           BuildScreenLauncher launcher, @Nullable AuthorId authorId) {
             super(GvNode.TYPE);
             mFactoryReviewView = factoryReviewView;
             mShareEdit = shareEdit;
             mLauncher = launcher;
-            mWithFollowMenu = withFollowMenu;
+            mAuthorId = authorId;
         }
 
         protected FactoryReviewView getFactoryReviewView() {
@@ -277,7 +279,8 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
 
         @Override
         public MenuAction<GvNode> newMenu() {
-            return mWithFollowMenu ? new MenuFollow<>(new MaiFollow<GvNode>()) : super.newMenu();
+            return mAuthorId != null ?
+                    new MenuFollow<>(new MaiFollow<GvNode>(mAuthorId)) : super.newMenu();
         }
 
         @Override
@@ -294,7 +297,7 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
     public static class Feed extends ReviewsList {
         public Feed(FactoryReviewView factoryReviewView, LaunchableUiAlertable shareEdit,
                     BuildScreenLauncher launcher) {
-            super(factoryReviewView, shareEdit, launcher, false);
+            super(factoryReviewView, shareEdit, launcher, null);
         }
 
         @Override

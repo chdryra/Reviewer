@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import android.support.annotation.Nullable;
-
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -26,11 +25,11 @@ public interface AuthorsRepository {
     enum Error{NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
 
     interface SearchAuthorsCallback {
-        void onAuthors(List<NamedAuthor> suggestions, @Nullable AuthorsRepository.Error error);
+        void onAuthors(List<NamedAuthor> suggestions, CallbackMessage message);
     }
 
     interface GetAuthorIdCallback {
-        void onAuthorId(DataReference<AuthorId> authorId, @Nullable AuthorsRepository.Error error);
+        void onAuthorId(DataReference<AuthorId> authorId, CallbackMessage message);
     }
 
     DataReference<NamedAuthor> getName(AuthorId authorId);

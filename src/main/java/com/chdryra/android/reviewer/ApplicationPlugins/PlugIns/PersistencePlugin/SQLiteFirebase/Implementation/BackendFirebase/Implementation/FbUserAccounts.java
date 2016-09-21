@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
@@ -96,8 +97,8 @@ public class FbUserAccounts implements UserAccounts {
                 new AuthorsRepository.GetAuthorIdCallback() {
                     @Override
                     public void onAuthorId(DataReference<AuthorId> authorId,
-                                           @Nullable AuthorsRepository.Error error) {
-                        createAccountIfNoNameConflict(authUser, profile, callback, error);
+                                           CallbackMessage message) {
+                        createAccountIfNoNameConflict(authUser, profile, callback, message);
                     }
                 });
     }
@@ -116,15 +117,15 @@ public class FbUserAccounts implements UserAccounts {
     private void createAccountIfNoNameConflict(AuthenticatedUser authUser,
                                                AuthorProfile profile,
                                                CreateAccountCallback callback,
-                                               @Nullable AuthorsRepository.Error error) {
-        if (error == null) {
+                                               CallbackMessage message) {
+        if (!message.isError()) {
             callback.onAccountCreated(newUserAccount(null), NAME_TAKEN_ERROR);
-        } else if (AuthorsRepository.Error.NAME_NOT_FOUND == error) {
+        } else if (AuthorsRepository.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
             addNewProfile(authUser, profile, callback);
         } else {
             callback.onAccountCreated(newUserAccount(null),
                     new AuthenticationError(FirebaseBackend.NAME,
-                            AuthenticationError.Reason.PROVIDER_ERROR, error.toString()));
+                            AuthenticationError.Reason.PROVIDER_ERROR, message.getMessage()));
         }
     }
 

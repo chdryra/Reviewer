@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,15 +26,13 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     private ReviewsSource mReviewsSource;
     private FactoryReviewView mFactoryReviewView;
     private UiLauncher mLauncher;
-    private LaunchableConfig mAuthorsConfig;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              UiLauncher launcher, FactoryReviewView factoryReviewView,
-                              LaunchableConfig authorsConfig) {
+                              UiLauncher launcher,
+                              FactoryReviewView factoryReviewView) {
         mReviewsSource = reviewsSource;
         mFactoryReviewView = factoryReviewView;
         mLauncher = launcher;
-        mAuthorsConfig = authorsConfig;
     }
 
     @Override

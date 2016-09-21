@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
@@ -73,16 +74,16 @@ public class FbAuthorsRepository implements AuthorsRepository {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() == null) {
                     callback.onAuthorId(mReferenceFactory.newNullReference(AuthorId.class),
-                            Error.NAME_NOT_FOUND);
+                            CallbackMessage.error(Error.NAME_NOT_FOUND.name()));
                 } else {
-                    callback.onAuthorId(mReferenceFactory.newAuthorId(db), null);
+                    callback.onAuthorId(mReferenceFactory.newAuthorId(db), CallbackMessage.ok());
                 }
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 callback.onAuthorId(mReferenceFactory.newNullReference(AuthorId.class),
-                        Error.NETWORK_ERROR);
+                        CallbackMessage.error(Error.NETWORK_ERROR.name()));
             }
         };
     }
@@ -90,7 +91,7 @@ public class FbAuthorsRepository implements AuthorsRepository {
     @Override
     public void search(String nameQuery, final SearchAuthorsCallback callback) {
         if(nameQuery.length() == 0) {
-            callback.onAuthors(new ArrayList<NamedAuthor>(), null);
+            callback.onAuthors(new ArrayList<NamedAuthor>(), CallbackMessage.ok());
             return;
         }
 
@@ -103,12 +104,12 @@ public class FbAuthorsRepository implements AuthorsRepository {
                 for(DataSnapshot child : dataSnapshot.getChildren()) {
                     authors.add(mConverter.convert(child));
                 }
-                callback.onAuthors(authors, null);
+                callback.onAuthors(authors, CallbackMessage.ok());
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onAuthors(new ArrayList<NamedAuthor>(), Error.CANCELLED);
+                callback.onAuthors(new ArrayList<NamedAuthor>(), CallbackMessage.error(Error.CANCELLED.name()));
             }
         });
     }

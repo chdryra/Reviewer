@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
 import android.support.annotation.Nullable;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,9 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,9 +32,10 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
 
     private final String mTitle;
-    private final SparseArray<MenuActionItemInfo> mActionItems;
+    private final Map<Integer, MenuActionItemInfo> mActionItems;
     private int mMenuId = -1;
     private boolean mDisplayHomeAsUp = true;
+    private Menu mMenu;
 
     public MenuActionNone() {
         this(-1, null, true);
@@ -42,7 +45,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         mMenuId = menuId;
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;
-        mActionItems = new SparseArray<>();
+        mActionItems = new HashMap<>();
         if (mDisplayHomeAsUp) bindMenuActionItem(new MaiUp(), MENU_UP_ID, true);
     }
 
@@ -68,11 +71,24 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void inflateMenu(Menu menu, MenuInflater inflater) {
+        mMenu = menu;
         if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
+        onInflateMenu();
+    }
+
+    private void onInflateMenu() {
+        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+            entry.getValue().mItem.onInflateMenu();
+        }
     }
 
     @Override
-    public void bindMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity) {
+    public Menu getMenu() {
+        return mMenu;
+    }
+
+    @Override
+    public void bindMenuActionItem(MenuActionItem<T> item, int itemId, boolean finishActivity) {
         mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivity));
     }
 
@@ -97,6 +113,33 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
             screen.setTitle(mTitle);
             addMenuItems();
         }
+
+        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+            entry.getValue().mItem.onAttachReviewView();
+        }
+    }
+
+    @Override
+    public void onDetachReviewView() {
+        super.onDetachReviewView();
+        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+            entry.getValue().mItem.onDetachReviewView();
+        }
+    }
+
+    @Override
+    @Nullable
+    public MenuItem getItem(MenuActionItem<T> item) {
+        MenuItem mi = null;
+        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+            MenuActionItemInfo info = entry.getValue();
+            if(info.mItem.equals(item)) {
+                mi = mMenu != null ? mMenu.findItem(entry.getKey()) : null;
+                break;
+            }
+        }
+
+        return mi;
     }
 
     private class MaiUp extends MenuActionItemBasic<T> {
@@ -111,11 +154,11 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         getApp().getCurrentScreen().returnToPrevious();
     }
 
-    private class MenuActionItemInfo {
+    private static class MenuActionItemInfo {
         private final boolean mCloseScreen;
-        private final MenuActionItem mItem;
+        private final MenuActionItem<?> mItem;
 
-        private MenuActionItemInfo(MenuActionItem item, boolean closeScreen) {
+        private MenuActionItemInfo(MenuActionItem<?> item, boolean closeScreen) {
             mItem = item;
             mCloseScreen = closeScreen;
         }

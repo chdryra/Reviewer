@@ -29,13 +29,9 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getUsersFeedUi();
 
-    Class<? extends LaunchableUi> getAuthorsReviewsUi();
-
     Class<? extends LaunchableUi> getReviewBuilderUi();
 
     Class<? extends LaunchableUi> getMapEditorUi();
-
-    Class<? extends LaunchableUi> getAuthorSearchUi();
 
     Class<? extends LaunchableUi> getShareReviewUi();
 

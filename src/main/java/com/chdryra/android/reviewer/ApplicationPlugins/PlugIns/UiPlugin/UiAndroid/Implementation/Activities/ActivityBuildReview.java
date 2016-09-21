@@ -40,7 +40,8 @@ public class ActivityBuildReview extends ActivityReviewView {
         AndroidAppInstance app = AndroidAppInstance.getInstance(this);
 
         PresenterReviewBuild.Builder builder
-                = new PresenterReviewBuild.Builder(app, new FactoryReviewEditor());
+                = new PresenterReviewBuild.Builder(app,
+                new FactoryReviewEditor(), app.getViewParamsFactory());
 
         setTemplateReviewIfRequested(app, builder);
 

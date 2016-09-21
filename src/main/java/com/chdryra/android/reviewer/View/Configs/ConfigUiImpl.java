@@ -30,22 +30,18 @@ public final class ConfigUiImpl implements ConfigUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
     private final LaunchableConfig mLoginConfig;
     private final LaunchableConfig mSignUpConfig;
-    private final LaunchableConfig mAuthorsReviewsConfig;
     private final LaunchableConfig mUsersFeedConfig;
     private final LaunchableConfig mBuildReviewConfig;
     private final LaunchableConfig mEditOnMapConfig;
     private final LaunchableConfig mShareReviewConfig;
-    private final LaunchableConfig mAuthorSearchConfig;
     private final LaunchableConfigAlertable mShareEditConfig;
 
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
                         LaunchableConfig usersFeedConfig,
-                        LaunchableConfig authorsReviewsConfig,
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
-                        LaunchableConfig authorSearchConfig,
                         LaunchableConfig shareReviewConfig,
                         LaunchableConfigAlertable shareEditConfig) {
         mConfigsMap = new HashMap<>();
@@ -55,10 +51,8 @@ public final class ConfigUiImpl implements ConfigUi {
         mLoginConfig = loginConfig;
         mSignUpConfig = signUpConfig;
         mUsersFeedConfig = usersFeedConfig;
-        mAuthorsReviewsConfig = authorsReviewsConfig;
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
-        mAuthorSearchConfig = authorSearchConfig;
         mShareReviewConfig = shareReviewConfig;
         mShareEditConfig = shareEditConfig;
     }
@@ -94,11 +88,6 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getAuthorsReviews() {
-        return mAuthorsReviewsConfig;
-    }
-
-    @Override
     public LaunchableConfig getBuildReview() {
         return mBuildReviewConfig;
     }
@@ -116,11 +105,6 @@ public final class ConfigUiImpl implements ConfigUi {
     @Override
     public LaunchableConfigAlertable getShareEdit() {
         return mShareEditConfig;
-    }
-
-    @Override
-    public LaunchableConfig getSearch() {
-        return mAuthorSearchConfig;
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

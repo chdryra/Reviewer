@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.NullDataReference;
@@ -20,9 +21,29 @@ import java.util.List;
  * On: 25/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NullSocialProfile extends SocialProfileImpl {
-    public NullSocialProfile() {
-        super(new DatumAuthorId(), new NullRefAuthorList(), new NullRefAuthorList());
+public class NullSocialProfile implements SocialProfile{
+    private final static AuthorId AUTHOR_ID = new DatumAuthorId();
+    private final RefAuthorList FOLLOWING = new NullRefAuthorList();
+    private final RefAuthorList FOLLOWERS = new NullRefAuthorList();
+
+    @Override
+    public AuthorId getAuthorId() {
+        return AUTHOR_ID;
+    }
+
+    @Override
+    public RefAuthorList getFollowing() {
+        return FOLLOWING;
+    }
+
+    @Override
+    public RefAuthorList getFollowers() {
+        return FOLLOWERS;
+    }
+
+    @Override
+    public void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback) {
+
     }
 
     private static class NullRefAuthorList extends

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 
@@ -17,9 +18,17 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAut
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialProfile {
+    enum FollowUnfollow {FOLLOW, UNFOLLOW}
+
+    interface FollowCallback {
+        void onFollowingCallback(AuthorId authorId, FollowUnfollow type, CallbackMessage message);
+    }
+
     AuthorId getAuthorId();
 
     RefAuthorList getFollowing();
 
     RefAuthorList getFollowers();
+
+    void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback);
 }

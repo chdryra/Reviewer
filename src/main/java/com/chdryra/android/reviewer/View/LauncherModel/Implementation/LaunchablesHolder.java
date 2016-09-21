@@ -28,10 +28,8 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
     private final Class<? extends LaunchableUi> mUsersFeed;
-    private final Class<? extends LaunchableUi> mAuthorsReviews;
     private final Class<? extends LaunchableUi> mReviewBuilder;
     private final Class<? extends LaunchableUi> mMapEditor;
-    private final Class<? extends LaunchableUi> mAuthorSearch;
     private final Class<? extends LaunchableUi> mShare;
     private final Class<? extends LaunchableUiAlertable> mShareEdit;
 
@@ -42,10 +40,8 @@ public class LaunchablesHolder implements LaunchablesList {
     public LaunchablesHolder(Class<? extends LaunchableUi> login,
                              Class<? extends LaunchableUi> signUp,
                              Class<? extends LaunchableUi> usersFeed,
-                             Class<? extends LaunchableUi> authorsReviews,
                              Class<? extends LaunchableUi> reviewBuilder,
                              Class<? extends LaunchableUi> mapEditor,
-                             Class<? extends LaunchableUi> authorSearch,
                              Class<? extends LaunchableUi> share,
                              Class<? extends LaunchableUiAlertable> shareEdit,
                              Class<? extends Activity> defaultReviewViewActivity,
@@ -53,10 +49,8 @@ public class LaunchablesHolder implements LaunchablesList {
         mLogin = login;
         mSignUp = signUp;
         mUsersFeed = usersFeed;
-        mAuthorsReviews = authorsReviews;
         mReviewBuilder = reviewBuilder;
         mMapEditor = mapEditor;
-        mAuthorSearch = authorSearch;
         mShare = share;
         mShareEdit = shareEdit;
         mDefaultReviewViewActivity = defaultReviewViewActivity;
@@ -84,11 +78,6 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUi> getAuthorsReviewsUi() {
-        return mAuthorsReviews;
-    }
-
-    @Override
     public Class<? extends LaunchableUi> getReviewBuilderUi() {
         return mReviewBuilder;
     }
@@ -96,11 +85,6 @@ public class LaunchablesHolder implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getMapEditorUi() {
         return mMapEditor;
-    }
-
-    @Override
-    public Class<? extends LaunchableUi> getAuthorSearchUi() {
-        return mAuthorSearch;
     }
 
     @Override

@@ -10,14 +10,26 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Follow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbSocialStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,5 +63,31 @@ public class FbSocialProfile implements SocialProfile {
     @Override
     public RefAuthorList getFollowers() {
         return mReferencer.newAuthorList(mStructure.getFollowersDb(mRoot, mId));
+    }
+
+    @Override
+    public void followUnfollow(final AuthorId authorId, final FollowUnfollow type, final FollowCallback callback) {
+        DbUpdater.UpdateType updateType = type.equals(FollowUnfollow.FOLLOW) ?
+                DbUpdater.UpdateType.INSERT_OR_UPDATE : DbUpdater.UpdateType.DELETE;
+
+        DbUpdater<Follow> updater = mStructure.getSocialUpdater();
+        Map<String, Object> map = updater.getUpdatesMap(new Follow(mId, authorId), updateType);
+
+        mRoot.updateChildren(map, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.onFollowingCallback(authorId, type, getCallbackMessage(firebaseError));
+            }
+        });
+    }
+
+    @NonNull
+    private CallbackMessage getCallbackMessage(FirebaseError firebaseError) {
+        CallbackMessage message = CallbackMessage.ok();
+        if(firebaseError != null) {
+            BackendError backendError = FirebaseBackend.backendError(firebaseError);
+            message = CallbackMessage.error(backendError.getMessage());
+        }
+        return message;
     }
 }

@@ -140,8 +140,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
             AuthorId feedOwner = mApp.getUserSession().getAuthorId();
             ReferencesRepository feed = mApp.getUsersFeed();
             AuthorsRepository authorsRepo = mApp.getUsersManager().getAuthorsRepository();
-            ReviewNodeRepo node = mApp.getReviewsFactory().createFeed(feedOwner,
-                    feed, authorsRepo);
+            ReviewNodeRepo node = mApp.getReviewsFactory().createFeed(feedOwner, feed, authorsRepo);
             return new PresenterUsersFeed(mApp, node, listener);
         }
     }

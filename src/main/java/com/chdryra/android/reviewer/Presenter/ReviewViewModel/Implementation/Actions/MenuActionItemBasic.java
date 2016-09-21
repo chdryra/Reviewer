@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
+import android.view.MenuItem;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -22,6 +24,26 @@ public abstract class MenuActionItemBasic<T extends GvData> implements MenuActio
     @Override
     public void setParent(MenuAction<T> parent) {
         mParent = parent;
+    }
+
+    @Override
+    public void doAction(MenuItem item) {
+
+    }
+
+    @Override
+    public void onAttachReviewView() {
+
+    }
+
+    @Override
+    public void onDetachReviewView() {
+
+    }
+
+    @Override
+    public void onInflateMenu() {
+
     }
 
     protected MenuAction<T> getParent() {

@@ -48,6 +48,9 @@ public class Strings {
         public static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
         public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
         public static final String COPYING = "Copying...";
+        public static final String FOLLOWING = "Following...";
+        public static final String UNFOLLOWING = "Unfollowing...";
+        public static final String Done = "Done";
     }
     
     public static class Screens {

@@ -73,7 +73,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
                 getGvDataFactory(), validator);
 
-        setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView, getConfigUi().getAuthorsReviews()));
+        setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView));
     }
 
     private FactoryReviewView setFactoryReviewView(ModelContext modelContext, ViewContext viewContext,

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.Actions;
 
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,13 +25,24 @@ public interface MenuAction<T extends GvData> extends ReviewViewAction<T> {
         void setParent(MenuAction<T> parent);
 
         void doAction(MenuItem item);
+
+        void onAttachReviewView();
+
+        void onDetachReviewView();
+
+        void onInflateMenu();
     }
 
     boolean hasOptionsMenu();
 
     void inflateMenu(Menu menu, MenuInflater inflater);
 
-    void bindMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity);
+    Menu getMenu();
+
+    void bindMenuActionItem(MenuActionItem<T> item, int itemId, boolean finishActivity);
 
     boolean onItemSelected(MenuItem item);
+
+    @Nullable
+    MenuItem getItem(MenuActionItem<T> item);
 }

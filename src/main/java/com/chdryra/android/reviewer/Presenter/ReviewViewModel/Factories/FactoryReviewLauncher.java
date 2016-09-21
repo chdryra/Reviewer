@@ -9,12 +9,9 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncherImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,16 +20,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class FactoryReviewLauncher {
     private FactoryReviewView mFactoryReviewView;
-    private LaunchableConfig mAuthorsConfig;
 
-    public FactoryReviewLauncher(FactoryReviewView factoryReviewView, LaunchableConfig
-            authorsConfig) {
+    public FactoryReviewLauncher(FactoryReviewView factoryReviewView) {
         mFactoryReviewView = factoryReviewView;
-        mAuthorsConfig = authorsConfig;
     }
 
     public ReviewLauncher newReviewLauncher(ReviewsSource masterRepo, UiLauncher launcher) {
-        return new ReviewLauncherImpl(masterRepo, launcher, mFactoryReviewView, mAuthorsConfig);
+        return new ReviewLauncherImpl(masterRepo, launcher, mFactoryReviewView);
     }
 
 }
