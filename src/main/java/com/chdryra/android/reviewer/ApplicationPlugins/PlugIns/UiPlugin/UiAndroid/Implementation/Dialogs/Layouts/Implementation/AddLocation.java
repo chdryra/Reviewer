@@ -180,7 +180,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (mCurrentLatLng != null) {
             onLatLngFound(mCurrentLatLng);
         } else {
-            LocationClient locationClient = AndroidAppInstance.getInstance(context).getLocationClient(this);
+            LocationClient locationClient = AndroidAppInstance.getInstance(mContext).getLocationClient(this);
             locationClient.connect();
         }
 

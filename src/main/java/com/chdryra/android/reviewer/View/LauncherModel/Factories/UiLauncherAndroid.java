@@ -118,7 +118,7 @@ public class UiLauncherAndroid implements UiLauncher {
 
         private void launchReviewView(ReviewView<?> view, Class<? extends Activity> activity) {
             Intent i = new Intent(mCommissioner, activity);
-            ReviewViewPacker.packView(mCommissioner, view, i);
+            ReviewViewPacker.packView(view, i);
             mCommissioner.startActivityForResult(i, mRequestCode);
         }
     }

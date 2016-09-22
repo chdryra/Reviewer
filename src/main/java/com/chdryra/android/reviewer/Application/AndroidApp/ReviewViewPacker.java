@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Application.AndroidApp;
 
-import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ObjectHolder;
@@ -22,38 +21,37 @@ import java.util.UUID;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewPacker extends ApplicationSingleton {
-    private static final String NAME = "ReviewViewPacker";
+public class ReviewViewPacker {
     private static final String REVIEWVIEW_ID = TagKeyGenerator.getKey(ReviewViewPacker.class, "ReviewId");
     private final ObjectHolder mViews;
 
     private static ReviewViewPacker sSingleton;
 
-    private ReviewViewPacker(Context context) {
-        super(context, NAME);
+    private ReviewViewPacker() {
+        super();
         mViews = new ObjectHolder();
     }
 
-    private static ReviewViewPacker get(Context c) {
-        sSingleton = getSingleton(sSingleton, ReviewViewPacker.class, c);
+    private static ReviewViewPacker get() {
+        if(sSingleton == null) sSingleton = new ReviewViewPacker();
         return sSingleton;
     }
 
-    private static ObjectHolder getViews(Context context) {
-        return get(context).mViews;
+    private static ObjectHolder getViews() {
+        return get().mViews;
     }
 
-    public static void packView(Context context, ReviewView view, Intent i) {
+    public static void packView(ReviewView view, Intent i) {
         String id = i.getStringExtra(REVIEWVIEW_ID);
         if(id == null) id = UUID.randomUUID().toString();
-        getViews(context).addObject(id, view);
+        getViews().addObject(id, view);
         i.putExtra(REVIEWVIEW_ID, id);
     }
 
-    public static ReviewView unpackView(Context context, Intent i) {
+    public static ReviewView unpackView(Intent i) {
         String id = i.getStringExtra(REVIEWVIEW_ID);
-        ReviewView view = (ReviewView) getViews(context).getObject(id);
-        getViews(context).removeObject(id);
+        ReviewView view = (ReviewView) getViews().getObject(id);
+        getViews().removeObject(id);
 
         return view;
     }

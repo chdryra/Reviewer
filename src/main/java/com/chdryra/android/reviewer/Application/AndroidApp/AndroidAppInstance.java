@@ -66,10 +66,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 /**
  * Singleton that controls app-wide duties.
  */
-public class AndroidAppInstance extends ApplicationSingleton implements ApplicationInstance, UserSession.SessionObserver {
+public class AndroidAppInstance implements ApplicationInstance, UserSession.SessionObserver {
     private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode("GoogleApiCheck");
-    private static final String NAME = "ApplicationInstance";
 
     private static AndroidAppInstance sSingleton;
 
@@ -84,7 +83,6 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     private enum LaunchState {RELEASE, TEST}
 
     private AndroidAppInstance(Context context) {
-        super(context, NAME);
         instantiate(context, LaunchState.TEST);
     }
 
@@ -108,12 +106,12 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     //Static methods
     public static AndroidAppInstance getInstance(Context context) {
-        sSingleton = getSingleton(sSingleton, AndroidAppInstance.class, context);
+        if(sSingleton == null) sSingleton = new AndroidAppInstance(context.getApplicationContext());
         return sSingleton;
     }
 
     public static void setActivity(Activity activity) {
-        getInstance(activity.getApplicationContext()).setCurrentActivity(activity);
+        getInstance(activity).setCurrentActivity(activity);
     }
 
     //API
@@ -309,7 +307,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     private void checkGoogleApi(Activity activity) {
         GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
-        int status = instance.isGooglePlayServicesAvailable(getContext());
+        int status = instance.isGooglePlayServicesAvailable(activity);
         if(status != ConnectionResult.SUCCESS) {
             if(instance.isUserResolvableError(status)) {
                 instance.getErrorDialog(activity, status, GOOGLE_API_CHECK).show();

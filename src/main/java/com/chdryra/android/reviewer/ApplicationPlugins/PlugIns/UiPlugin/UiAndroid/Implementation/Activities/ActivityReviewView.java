@@ -50,7 +50,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     ReviewView<?> createReviewView() {
-        return ReviewViewPacker.unpackView(this, getIntent());
+        return ReviewViewPacker.unpackView(getIntent());
     }
 
     public ReviewView getReviewView() {
