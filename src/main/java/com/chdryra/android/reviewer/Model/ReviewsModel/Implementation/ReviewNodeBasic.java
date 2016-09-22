@@ -39,13 +39,13 @@ public abstract class ReviewNodeBasic implements ReviewNode {
     }
 
     @Override
-    public void unregisterObserver(NodeObserver binder) {
-        if (mObservers.contains(binder)) mObservers.remove(binder);
+    public void unregisterObserver(NodeObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     @Override
-    public void registerObserver(NodeObserver binder) {
-        if (!mObservers.contains(binder)) mObservers.add(binder);
+    public void registerObserver(NodeObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     void notifyOnChildAdded(ReviewNode child) {

@@ -30,4 +30,13 @@ public class ConverterAuthorId implements SnapshotConverter<AuthorId> {
         String authorId = snapshot.getValue(String.class);
         return authorId != null ? new AuthorIdParcelable(authorId) : null;
     }
+
+    public static class AsIndex extends ConverterAuthorId {
+        @Nullable
+        @Override
+        public AuthorId convert(DataSnapshot snapshot) {
+            String authorId = snapshot.getKey();
+            return authorId != null ? new AuthorIdParcelable(authorId) : null;
+        }
+    }
 }

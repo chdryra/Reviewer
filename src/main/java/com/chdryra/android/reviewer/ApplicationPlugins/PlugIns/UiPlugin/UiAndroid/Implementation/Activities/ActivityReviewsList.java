@@ -36,6 +36,7 @@ public class ActivityReviewsList extends ActivityReviewView implements NewReview
     @Override
     protected ReviewView createReviewView() {
         mPresenter = newPresenter();
+        mPresenter.attach();
         return mPresenter.getView();
     }
 

@@ -42,7 +42,6 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
         mReviewView = reviewView;
 
         mNode = mReviewView.getNode();
-        mNode.registerObserver(this);
 
         mGridItem = (GridItemReviewsList) mReviewView.getActions().getGridItemAction();
     }
@@ -57,6 +56,10 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
 
     public ReviewView<GvNode> getView() {
         return mReviewView;
+    }
+
+    public void attach() {
+        mNode.registerObserver(this);
     }
 
     public void detach() {

@@ -34,9 +34,9 @@ public interface ReviewNode extends NodeData {
         void onDescendantsChanged();
     }
 
-    void registerObserver(NodeObserver binder);
+    void registerObserver(NodeObserver observer);
 
-    void unregisterObserver(NodeObserver binder);
+    void unregisterObserver(NodeObserver observer);
 
     @Nullable
     ReviewNode getParent();

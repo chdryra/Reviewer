@@ -82,7 +82,7 @@ public class FactoryFbReference {
     }
 
     public RefAuthorList newAuthorList(Firebase ref) {
-        ConverterAuthorId converter = new ConverterAuthorId();
+        ConverterAuthorId converter = new ConverterAuthorId.AsIndex();
         return new FbListReference.AuthorList(ref, new ListConverter<>(converter), converter);
     }
 

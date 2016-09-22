@@ -58,6 +58,11 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         mView = view;
         registerObserver(view);
         if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
+        onAttach();
+    }
+
+    protected void onAttach() {
+
     }
 
     @Override
@@ -65,6 +70,11 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         unregisterObserver(mView);
         mView = null;
         if (mWrapper != null && mIsAttached) detachFromViewer();
+        onDetach();
+    }
+
+    protected void onDetach() {
+
     }
 
     @Override

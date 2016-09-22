@@ -37,12 +37,14 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     @Override
     protected void onAttach() {
         super.onAttach();
+        mCache = null;
         mNode.registerObserver(this);
     }
 
     @Override
     protected void onDetach() {
         mNode.unregisterObserver(this);
+        mCache = null;
         super.onDetach();
     }
 

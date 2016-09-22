@@ -29,45 +29,42 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RepositoryCollection<Key> implements ReferencesRepository {
-    private Map<Key, ReferencesRepository> mRepos;
+    private Map<Key, RepoHandler> mRepoHandlers;
     private List<ReviewsSubscriber> mSubscribers;
 
     public RepositoryCollection() {
-        mRepos = new HashMap<>();
+        mRepoHandlers = new HashMap<>();
         mSubscribers = new ArrayList<>();
     }
 
     public void add(Key id, ReferencesRepository repo) {
-        if(!mRepos.containsKey(id)) {
-            mRepos.put(id, repo);
-            for(ReviewsSubscriber subscriber : mSubscribers) {
-                repo.subscribe(subscriber);
-            }
-        } else {
-            remove(id);
-            add(id, repo);
+        if(!mRepoHandlers.containsKey(id)) {
+            RepoHandler handler = new RepoHandler(id, repo);
+            mRepoHandlers.put(id, handler);
+            if(mSubscribers.size() > 0) handler.subscribe();
         }
     }
 
     public void remove(Key id) {
-        if(mRepos.containsKey(id)) {
-            ReferencesRepository removed = mRepos.remove(id);
-            for(ReviewsSubscriber subscriber : mSubscribers) {
-                removed.unsubscribe(subscriber);
-            }
+        if (mRepoHandlers.containsKey(id)) {
+            mRepoHandlers.remove(id).unsubscribeAndDelete();
         }
     }
 
-    public Set<Key> getKeys() {
-        return mRepos.keySet();
+    Set<Key> getKeys() {
+        return mRepoHandlers.keySet();
     }
 
     @Override
     public void subscribe(ReviewsSubscriber subscriber) {
         if(!mSubscribers.contains(subscriber)) {
             mSubscribers.add(subscriber);
-            for(ReferencesRepository repo : mRepos.values()) {
-                repo.subscribe(subscriber);
+            for(RepoHandler sub : mRepoHandlers.values()) {
+                if(mSubscribers.size() == 1 && !sub.isSubscribed()) {
+                    sub.subscribe();
+                } else {
+                    sub.notifyNewSubscriber(subscriber);
+                }
             }
         }
     }
@@ -76,9 +73,6 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
     public void unsubscribe(ReviewsSubscriber subscriber) {
         if(mSubscribers.contains(subscriber)) {
             mSubscribers.remove(subscriber);
-            for(ReferencesRepository repo : mRepos.values()) {
-                repo.unsubscribe(subscriber);
-            }
         }
     }
 
@@ -87,39 +81,69 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
         new ReferenceFinder(reviewId, callback).execute();
     }
 
+    private void notifyOnAdd(ReviewReference reference) {
+        for (ReviewsSubscriber subscriber: mSubscribers) {
+            subscriber.onReviewAdded(reference);
+        }
+    }
+
+    private void notifyOnRemove(ReviewReference reference) {
+        for (ReviewsSubscriber subscriber: mSubscribers) {
+            subscriber.onReviewRemoved(reference);
+        }
+    }
+
+    private void notifyOnEdit(ReviewReference reference) {
+        for (ReviewsSubscriber subscriber: mSubscribers) {
+            subscriber.onReviewEdited(reference);
+        }
+    }
+
     private class ReferenceFinder {
         private ReviewId mId;
         private RepositoryCallback mCallback;
-        private int mNumRepos;
         private int mNumReturned;
         private boolean mDone;
 
-        public ReferenceFinder(ReviewId id, RepositoryCallback callback) {
+        private ReferenceFinder(ReviewId id, RepositoryCallback callback) {
             mId = id;
             mCallback = callback;
         }
 
         private void execute() {
-            mNumRepos = mRepos.size();
             mNumReturned = 0;
             mDone = false;
-            for(ReferencesRepository repo : mRepos.values()) {
+            boolean idFound = false;
+            for(RepoHandler sub : mRepoHandlers.values()) {
                 if(mDone) break;
-                repo.getReference(mId, new RepositoryCallback() {
-                    @Override
-                    public void onRepositoryCallback(RepositoryResult result) {
-                        parseResult(result);
-                    }
-                });
+                if(sub.hasReviewId(mId)) {
+                    idFound = true;
+                    getReferenceFromSub(sub, true);
+                    break;
+                }
+            }
+
+            if(!idFound) {
+                for(RepoHandler sub : mRepoHandlers.values()) {
+                        getReferenceFromSub(sub, false);
+                }
             }
         }
 
-        private void parseResult(RepositoryResult result) {
-            mNumReturned++;
+        private void getReferenceFromSub(RepoHandler sub, final boolean doneOnResult) {
+            sub.getRepo().getReference(mId, new RepositoryCallback() {
+                @Override
+                public void onRepositoryCallback(RepositoryResult result) {
+                    parseResult(result, doneOnResult);
+                }
+            });
+        }
+
+        private void parseResult(RepositoryResult result, boolean doneOnResult) {
             ReviewReference reference = result.getReference();
-            if(result.isReference() && reference != null) {
+            if(result.isReference()) {
                 doCallback(reference);
-            } else if(mNumReturned >= mNumRepos) {
+            } else if(doneOnResult || ++mNumReturned >= mRepoHandlers.size()) {
                 doCallback(null);
             }
         }
@@ -133,6 +157,107 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
                 result = new RepositoryResult(CallbackMessage.error("Reference not found"));
             }
             mCallback.onRepositoryCallback(result);
+        }
+    }
+
+    private class RepoHandler implements ReviewsSubscriber {
+        private Key mRepoId;
+        private ReferencesRepository mRepo;
+        private List<ReviewId> mReviews;
+        private boolean mSubscribed = false;
+
+        private boolean mLocked = false;
+        private int mUnsubscribeIndex = 0;
+
+        private RepoHandler(Key repoId, ReferencesRepository repo) {
+            mRepoId = repoId;
+            mRepo = repo;
+            mReviews = new ArrayList<>();
+        }
+
+        private void subscribe() {
+            if(!mSubscribed) {
+                mSubscribed = true;
+                mRepo.subscribe(this);
+            }
+        }
+
+        private boolean isSubscribed() {
+            return mSubscribed;
+        }
+
+        private ReferencesRepository getRepo() {
+            return mRepo;
+        }
+
+        private boolean hasReviewId(ReviewId id) {
+            return mReviews.contains(id);
+        }
+
+        @Override
+        public String getSubscriberId() {
+            return mRepoId.toString();
+        }
+
+        @Override
+        public void onReviewAdded(ReviewReference reference) {
+            if(!mLocked) {
+                mReviews.add(reference.getReviewId());
+                notifyOnAdd(reference);
+            }
+        }
+
+        @Override
+        public void onReviewEdited(ReviewReference reference) {
+            if(!mLocked) {
+                notifyOnEdit(reference);
+            }
+        }
+
+        @Override
+        public void onReviewRemoved(ReviewReference reference) {
+            if(!mLocked) {
+                mReviews.remove(reference.getReviewId());
+                notifyOnRemove(reference);
+            }
+        }
+
+        private void notifyNewSubscriber(final ReviewsSubscriber subscriber) {
+            for(ReviewId id : mReviews) {
+                mRepo.getReference(id, new RepositoryCallback() {
+                    @Override
+                    public void onRepositoryCallback(RepositoryResult result) {
+                        ReviewReference reference = result.getReference();
+                        if (!result.isError() && reference != null) {
+                            subscriber.onReviewAdded(reference);
+                        }
+                    }
+                });
+            }
+        }
+
+        private void unsubscribeAndDelete() {
+            if(!mLocked) {
+                mLocked = true;
+                mUnsubscribeIndex = 0;
+                for (ReviewId id : mReviews) {
+                    mRepo.getReference(id, new RepositoryCallback() {
+                        @Override
+                        public void onRepositoryCallback(RepositoryResult result) {
+                            ReviewReference reference = result.getReference();
+                            if (!result.isError() && reference != null) notifyOnRemove(reference);
+                            if (++mUnsubscribeIndex == mReviews.size()) delete();
+                        }
+                    });
+                }
+            }
+        }
+
+        private void delete() {
+            mRepo.unsubscribe(this);
+            mLocked = false;
+            mReviews.clear();
+            mRepo = null;
         }
     }
 }
