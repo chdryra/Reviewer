@@ -23,13 +23,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLauncherImpl implements ReviewLauncher {
+    private AuthorId mSessionAuthor;
     private ReviewsSource mReviewsSource;
     private FactoryReviewView mFactoryReviewView;
     private UiLauncher mLauncher;
 
-    public ReviewLauncherImpl(ReviewsSource reviewsSource,
+    public ReviewLauncherImpl(AuthorId sessionAuthor,
+                              ReviewsSource reviewsSource,
                               UiLauncher launcher,
                               FactoryReviewView factoryReviewView) {
+        mSessionAuthor = sessionAuthor;
         mReviewsSource = reviewsSource;
         mFactoryReviewView = factoryReviewView;
         mLauncher = launcher;
@@ -53,6 +56,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     private void launchReview(ReviewNode reviewNode) {
         int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
-        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, true), requestCode);
+        boolean menu = !reviewNode.getAuthorId().toString().equals(mSessionAuthor.toString());
+        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu), requestCode);
     }
 }

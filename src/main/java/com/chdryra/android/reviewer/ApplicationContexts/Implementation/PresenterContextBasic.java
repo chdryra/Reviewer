@@ -212,7 +212,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewLauncher newReviewLauncher(UiLauncher launcher) {
-        return mFactoryReviewLauncher.newReviewLauncher(getMasterRepository(), launcher);
+    public ReviewLauncher newReviewLauncher(AuthorId sessionAuthor, UiLauncher launcher) {
+        return mFactoryReviewLauncher.newReviewLauncher(getMasterRepository(), launcher, sessionAuthor);
     }
 }

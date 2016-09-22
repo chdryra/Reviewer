@@ -8,9 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncherImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
@@ -25,8 +28,8 @@ public class FactoryReviewLauncher {
         mFactoryReviewView = factoryReviewView;
     }
 
-    public ReviewLauncher newReviewLauncher(ReviewsSource masterRepo, UiLauncher launcher) {
-        return new ReviewLauncherImpl(masterRepo, launcher, mFactoryReviewView);
+    public ReviewLauncher newReviewLauncher(ReviewsSource masterRepo, UiLauncher launcher, AuthorId sessionAuthor) {
+        return new ReviewLauncherImpl(sessionAuthor, masterRepo, launcher, mFactoryReviewView);
     }
 
 }

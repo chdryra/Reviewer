@@ -77,5 +77,5 @@ public interface PresenterContext {
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 
-    ReviewLauncher newReviewLauncher(UiLauncher launcher);
+    ReviewLauncher newReviewLauncher(AuthorId sessionAuthor, UiLauncher launcher);
 }

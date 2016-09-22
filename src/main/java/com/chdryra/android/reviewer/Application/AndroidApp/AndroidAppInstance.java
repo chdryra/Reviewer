@@ -60,12 +60,15 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
  * Singleton that controls app-wide duties.
  */
 public class AndroidAppInstance extends ApplicationSingleton implements ApplicationInstance, UserSession.SessionObserver {
     private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
+    private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode("GoogleApiCheck");
     private static final String NAME = "ApplicationInstance";
 
     private static AndroidAppInstance sSingleton;
@@ -76,8 +79,9 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     private UserSession mUserSession;
     private CurrentScreen mScreen;
     private Activity mActivity;
+    private boolean mGoogleApiOk = false;
 
-    public enum LaunchState {RELEASE, TEST}
+    private enum LaunchState {RELEASE, TEST}
 
     private AndroidAppInstance(Context context) {
         super(context, NAME);
@@ -282,7 +286,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public ReviewLauncher newReviewLauncher() {
-        return mAppContext.newReviewLauncher(getUiLauncher());
+        return mAppContext.newReviewLauncher(mUserSession.getAuthorId(), getUiLauncher());
     }
 
     @Override
@@ -297,7 +301,22 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     private void setCurrentActivity(Activity activity) {
+        if(!mGoogleApiOk) checkGoogleApi(activity);
+
         mActivity = activity;
         mScreen = new CurrentScreenAndroid(activity);
+    }
+
+    private void checkGoogleApi(Activity activity) {
+        GoogleApiAvailability instance = GoogleApiAvailability.getInstance();
+        int status = instance.isGooglePlayServicesAvailable(getContext());
+        if(status != ConnectionResult.SUCCESS) {
+            if(instance.isUserResolvableError(status)) {
+                instance.getErrorDialog(activity, status, GOOGLE_API_CHECK).show();
+            }
+            mGoogleApiOk = false;
+        }
+
+        mGoogleApiOk = true;
     }
 }
