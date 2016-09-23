@@ -31,7 +31,7 @@ public interface ReviewNode extends NodeData {
 
         void onNodeChanged();
 
-        void onDescendantsChanged();
+        void onTreeChanged();
     }
 
     void registerObserver(NodeObserver observer);

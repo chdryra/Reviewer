@@ -47,6 +47,50 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     }
 
     @Override
+    public void onChildAdded(ReviewNode child) {
+        GvDataList<GvNode> cache = getCache();
+        if(cache == null) cache = makeGridData();
+        cache.add(mConverter.convert(child));
+        setCache(cache);
+    }
+
+    @Override
+    public void onChildRemoved(ReviewNode child) {
+        GvDataList<GvNode> cache = getCache();
+        if(cache == null) {
+            cache = makeGridData();
+        } else {
+            GvNode toRemove = null;
+            for (GvNode item : cache) {
+                if(item.getNode().equals(child)) {
+                    toRemove = item;
+                    break;
+                }
+            }
+            if(toRemove != null) {
+                toRemove.unbind();
+                cache.remove(toRemove);
+            }
+        }
+        setCache(cache);
+    }
+
+    @Override
+    public void onNodeChanged() {
+        notifyDataObservers();
+    }
+
+    @Override
+    protected void onNullifyCache() {
+        GvDataList<GvNode> cache = getCache();
+        if(cache != null) {
+            for (GvNode gvNode : cache) {
+                gvNode.unbind();
+            }
+        }
+    }
+
+    @Override
     protected void onDetach() {
         GvNodeList cache = (GvNodeList) getCache();
         if(cache != null) cache.unbind();

@@ -80,10 +80,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
 public class FactoryActions<T extends GvData> implements FactoryReviewViewActions<T> {
     private GvDataType<T> mDataType;
 
-    public static <T extends GvData> FactoryReviewViewActions<T> newTypedFactory(GvDataType<T> dataType) {
-        return new FactoryActions<>(dataType);
-    }
-
     public FactoryActions(GvDataType<T> dataType) {
         mDataType = dataType;
     }

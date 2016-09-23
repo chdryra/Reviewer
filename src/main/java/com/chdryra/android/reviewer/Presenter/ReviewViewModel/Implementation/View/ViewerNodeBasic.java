@@ -44,7 +44,7 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     @Override
     protected void onDetach() {
         mNode.unregisterObserver(this);
-        mCache = null;
+        nullifyCache();
         super.onDetach();
     }
 
@@ -55,27 +55,36 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
 
     @Override
     public void onChildAdded(ReviewNode child) {
-        nullifyCache();
+        nullifyCacheAndNotify();
     }
 
     @Override
     public void onChildRemoved(ReviewNode child) {
-        nullifyCache();
+        nullifyCacheAndNotify();
     }
 
     @Override
     public void onNodeChanged() {
-        nullifyCache();
+        nullifyCacheAndNotify();
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
+        nullifyCacheAndNotify();
+    }
+
+    protected void nullifyCacheAndNotify() {
         nullifyCache();
+        notifyDataObservers();
     }
 
     private void nullifyCache() {
+        onNullifyCache();
         mCache = null;
-        notifyDataObservers();
+    }
+
+    protected void onNullifyCache() {
+
     }
 
     @Override
@@ -83,6 +92,11 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         if(mCache == null) mCache = makeGridData();
 
         return mCache;
+    }
+
+    protected void setCache(GvDataList<T> cache) {
+        mCache = cache;
+        notifyDataObservers();;
     }
 
     ReviewNode getReviewNode() {

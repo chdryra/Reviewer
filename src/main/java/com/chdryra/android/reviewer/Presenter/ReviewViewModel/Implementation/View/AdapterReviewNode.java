@@ -66,7 +66,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
         notifyDataObservers();
     }
 

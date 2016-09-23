@@ -92,7 +92,7 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
         notifyTreeChanged();
     }
 

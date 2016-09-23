@@ -120,7 +120,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
         notifyAllBinders();
     }
 

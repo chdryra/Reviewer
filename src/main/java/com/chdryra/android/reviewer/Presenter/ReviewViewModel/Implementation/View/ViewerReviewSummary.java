@@ -126,6 +126,18 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     }
 
     @Override
+    public void onNodeChanged() {
+        notifyDataObservers();
+        //Cache is a bunch of references all bound to node anyway so don't need to nullify.
+    }
+
+    @Override
+    protected void onNullifyCache() {
+        GvDataRefList<GvSize.Reference> cache = (GvDataRefList<GvSize.Reference>) getCache();
+        if(cache != null) cache.unbind();
+    }
+
+    @Override
     public ReviewStamp getStamp() {
         ReviewNode node = getReviewNode();
         return ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());

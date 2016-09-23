@@ -102,7 +102,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
         reselect();
     }
 

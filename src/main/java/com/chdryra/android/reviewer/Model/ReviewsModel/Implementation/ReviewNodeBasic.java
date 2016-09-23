@@ -23,8 +23,15 @@ import java.util.ArrayList;
 public abstract class ReviewNodeBasic implements ReviewNode {
     private final ArrayList<NodeObserver> mObservers;
 
+    //to deal with concurrent modification
+    private final ArrayList<NodeObserver> mToRemove;
+    private final ArrayList<NodeObserver> mToAdd;
+    private boolean mLockObservers = false;
+
     ReviewNodeBasic() {
         mObservers = new ArrayList<>();
+        mToRemove = new ArrayList<>();
+        mToAdd = new ArrayList<>();
     }
 
     @Override
@@ -40,35 +47,23 @@ public abstract class ReviewNodeBasic implements ReviewNode {
 
     @Override
     public void unregisterObserver(NodeObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
+        if (mObservers.contains(observer)) {
+            if (!mLockObservers) {
+                mObservers.remove(observer);
+            } else {
+                mToRemove.add(observer);
+            }
+        }
     }
 
     @Override
     public void registerObserver(NodeObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    void notifyOnChildAdded(ReviewNode child) {
-        for (NodeObserver observer : mObservers) {
-            observer.onChildAdded(child);
-        }
-    }
-
-    void notifyOnChildRemoved(ReviewNode child) {
-        for (NodeObserver observer : mObservers) {
-            observer.onChildRemoved(child);
-        }
-    }
-
-    void notifyOnNodeChanged() {
-        for (NodeObserver observer : mObservers) {
-            observer.onNodeChanged();
-        }
-    }
-
-    void notifyOnDescendantsChanged() {
-        for (NodeObserver observer : mObservers) {
-            observer.onDescendantsChanged();
+        if (!mObservers.contains(observer)) {
+            if (!mLockObservers) {
+                mObservers.add(observer);
+            } else {
+                mToAdd.add(observer);
+            }
         }
     }
 
@@ -79,12 +74,71 @@ public abstract class ReviewNodeBasic implements ReviewNode {
 
         ReviewNodeBasic that = (ReviewNodeBasic) o;
 
-        return mObservers.equals(that.mObservers);
+        if (mLockObservers != that.mLockObservers) return false;
+        if (!mObservers.equals(that.mObservers)) return false;
+        if (!mToRemove.equals(that.mToRemove)) return false;
+        return mToAdd.equals(that.mToAdd);
 
     }
 
     @Override
     public int hashCode() {
-        return mObservers.hashCode();
+        int result = mObservers.hashCode();
+        result = 31 * result + mToRemove.hashCode();
+        result = 31 * result + mToAdd.hashCode();
+        result = 31 * result + (mLockObservers ? 1 : 0);
+        return result;
+    }
+
+    void notifyOnChildAdded(ReviewNode child) {
+        lock();
+        for (NodeObserver observer : mObservers) {
+            observer.onChildAdded(child);
+        }
+        unlock();
+    }
+
+    void notifyOnChildRemoved(ReviewNode child) {
+        lock();
+        for (NodeObserver observer : mObservers) {
+            observer.onChildRemoved(child);
+        }
+        unlock();
+    }
+
+    void notifyOnNodeChanged() {
+        lock();
+        for (NodeObserver observer : mObservers) {
+            observer.onNodeChanged();
+        }
+        unlock();
+    }
+
+    void notifyOnTreeChanged() {
+        lock();
+        for (NodeObserver observer : mObservers) {
+            observer.onTreeChanged();
+        }
+        unlock();
+    }
+
+    private void rationaliseObservers() {
+        for (NodeObserver observer : mToAdd) {
+            registerObserver(observer);
+        }
+        for (NodeObserver observer : mToRemove) {
+            unregisterObserver(observer);
+        }
+        mToAdd.clear();
+        mToRemove.clear();
+    }
+
+    private void lock() {
+        mLockObservers = true;
+    }
+
+    private void unlock() {
+        mLockObservers = false;
+        rationaliseObservers();
     }
 }

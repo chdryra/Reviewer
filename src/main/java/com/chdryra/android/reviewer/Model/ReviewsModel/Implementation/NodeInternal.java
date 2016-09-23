@@ -212,21 +212,21 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     @Override
     public void onChildAdded(ReviewNode child) {
-        onDescendantsChanged();
+        onTreeChanged();
     }
 
     @Override
     public void onChildRemoved(ReviewNode child) {
-        onDescendantsChanged();
+        onTreeChanged();
     }
 
     @Override
     public void onNodeChanged() {
-        onDescendantsChanged();
+        onTreeChanged();
     }
 
     @Override
-    public void onDescendantsChanged() {
-        notifyOnDescendantsChanged();
+    public void onTreeChanged() {
+        notifyOnTreeChanged();
     }
 }

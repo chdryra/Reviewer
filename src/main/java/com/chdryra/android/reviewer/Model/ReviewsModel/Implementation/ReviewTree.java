@@ -49,7 +49,7 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
 
         mNode = node;
         mNode.registerObserver(this);
-        notifyOnNodeChanged();
+        notifyOnTreeChanged();
     }
 
     @Override
@@ -148,8 +148,8 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
-    public void onDescendantsChanged() {
-        notifyOnDescendantsChanged();
+    public void onTreeChanged() {
+        notifyOnTreeChanged();
     }
 
     @Override

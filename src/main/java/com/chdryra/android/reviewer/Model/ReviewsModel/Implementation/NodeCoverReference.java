@@ -97,7 +97,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     @Override
-    public void onDescendantsChanged() {
+    public void onTreeChanged() {
         chooseAgainAndNotifyIfNecessary();
     }
 
