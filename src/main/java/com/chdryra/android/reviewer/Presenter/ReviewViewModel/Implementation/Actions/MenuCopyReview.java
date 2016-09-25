@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuCopyReview<T extends GvData> extends MenuActionNone<T> {
-    private static final int NEW_REVIEW = R.id.menu_item_copy_review;
+    private static final int COPY_REVIEW = R.id.menu_item_copy_review;
     private static final int MENU = R.menu.menu_copy_review;
 
     private final MenuActionItem<T> mCopyReview;
@@ -30,6 +30,6 @@ public class MenuCopyReview<T extends GvData> extends MenuActionNone<T> {
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(mCopyReview, NEW_REVIEW, false);
+        bindMenuActionItem(mCopyReview, COPY_REVIEW, false);
     }
 }

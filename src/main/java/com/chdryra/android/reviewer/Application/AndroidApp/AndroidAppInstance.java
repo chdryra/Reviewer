@@ -40,11 +40,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -55,6 +55,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -67,8 +68,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
  * Singleton that controls app-wide duties.
  */
 public class AndroidAppInstance implements ApplicationInstance, UserSession.SessionObserver {
-    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
-    private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode("GoogleApiCheck");
+    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode(AndroidAppInstance.class, "LaunchLogin");
+    private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode(AndroidAppInstance.class, "GoogleApiCheck");
 
     private static AndroidAppInstance sSingleton;
 
@@ -278,8 +279,13 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public ReviewsListView newReviewsListView(ReviewNode node, boolean feedScreen) {
-        return mAppContext.newReviewsListView(node, feedScreen);
+    public ReviewsListView newFeedView() {
+        AuthorId feedOwner = getUserSession().getAuthorId();
+        ReferencesRepository feed = getUsersFeed();
+        AuthorsRepository authorsRepo = getUsersManager().getAuthorsRepository();
+        ReviewNodeRepo node = getReviewsFactory().createFeed(feedOwner, feed, authorsRepo);
+
+        return mAppContext.newFeedView(node);
     }
 
     @Override

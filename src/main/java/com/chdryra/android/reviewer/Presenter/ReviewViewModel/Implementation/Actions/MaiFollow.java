@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -43,33 +42,40 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        final ApplicationInstance app = getParent().getApp();
+        if(getParent() == null) return;
+
         String toast = mActionType == SocialProfile.FollowUnfollow.FOLLOW ?
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
-        app.getCurrentScreen().showToast(toast);
+        getCurrentScreen().showToast(toast);
 
-        SocialProfile profile = app.getSocialProfile();
+        SocialProfile profile = getApp().getSocialProfile();
         profile.followUnfollow(mAuthorId, mActionType, new SocialProfile.FollowCallback() {
             @Override
             public void onFollowingCallback(AuthorId authorId, SocialProfile.FollowUnfollow type,
                                             CallbackMessage message) {
                 String onCompletion = message.isError() ?
                         message.getMessage() : Strings.Toasts.Done;
-                app.getCurrentScreen().showToast(onCompletion);
+                getCurrentScreen().showToast(onCompletion);
             }
         });
     }
 
     @Override
     public void onInflateMenu() {
-        setFollow();
-        SocialProfile profile = getParent().getApp().getSocialProfile();
-        profile.getFollowing().bindToItems(mBinder);
+        MenuItem menuItem = getMenuItem();
+        AuthorId userId = getApp().getUserSession().getAuthorId();
+        if(menuItem != null && userId.toString().equals(mAuthorId.toString())) {
+            menuItem.setVisible(false);
+        } else {
+            setFollow();
+            SocialProfile profile = getApp().getSocialProfile();
+            profile.getFollowing().bindToItems(mBinder);
+        }
     }
 
     @Override
     public void onDetachReviewView() {
-        SocialProfile profile = getParent().getApp().getSocialProfile();
+        SocialProfile profile = getApp().getSocialProfile();
         profile.getFollowing().unbindFromItems(mBinder);
     }
 

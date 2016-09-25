@@ -49,7 +49,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
         if (ui == null) {
             ApplicationInstance app = getApp();
             ui = mReviewViewFactory.newDefaultView(expanded, app.newReviewLauncher(),
-                    app.getUsersManager().getAuthorsRepository());
+                    app.getUsersManager().getAuthorsRepository(), app.getUserSession());;
         }
 
         return ui;

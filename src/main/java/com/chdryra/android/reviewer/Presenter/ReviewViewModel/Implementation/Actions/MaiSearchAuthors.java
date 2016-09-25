@@ -35,13 +35,14 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() != null) {
-            ApplicationInstance app = getParent().getApp();
-            FactoryReviewViewAdapter adapterFactory = mFactory.getAdapterFactory();
-            ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
-                    .newFollowSearchAdapter(app.getUserSession().getAuthorId());
-            LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
-            app.getUiLauncher().launch(authorSearch, REQUEST_CODE);
-        }
+
+        if(getParent() == null) return;
+
+        ApplicationInstance app = getApp();
+        FactoryReviewViewAdapter adapterFactory = mFactory.getAdapterFactory();
+        ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
+                .newFollowSearchAdapter(app.getUserSession().getAuthorId());
+        LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
+        app.getUiLauncher().launch(authorSearch, REQUEST_CODE);
     }
 }

@@ -129,11 +129,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public void asMetaReview(ReviewId reviewId, ReviewsSource.ReviewsSourceCallback callback) {
-        mPersistenceContext.getReviewsSource().asMetaReview(reviewId, callback);
-    }
-
-    @Override
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
         mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter(template);
         return mReviewBuilderAdapter;
@@ -206,9 +201,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewsListView newReviewsListView(ReviewNode reviewNode, boolean feedScreen) {
-        return feedScreen ? mFactoryReviewView.newFeedView(reviewNode) :
-                mFactoryReviewView.newReviewsListView(reviewNode, false);
+    public ReviewsListView newFeedView(ReviewNode reviewNode) {
+        return mFactoryReviewView.newFeedView(reviewNode);
     }
 
     @Override

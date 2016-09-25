@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -33,11 +32,9 @@ public class MaiNewReview<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
+        if(getParent() == null) return;
 
-        if(getParent() != null) {
-            ApplicationInstance app = getParent().getApp();
-            if(mTemplate != null) app.getCurrentScreen().showToast(Strings.Toasts.COPYING);
-            mLauncher.launch(app, mTemplate);
-        }
+        if(mTemplate != null) getCurrentScreen().showToast(Strings.Toasts.COPYING);
+        mLauncher.launch(getApp(), mTemplate);
     }
 }

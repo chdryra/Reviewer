@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.R;
@@ -35,12 +34,8 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
         mCommentsAreSplit = !mCommentsAreSplit;
 
         item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
-        CurrentScreen screen = getParent().getReviewView().getScreen();
-        if (mCommentsAreSplit) {
-            screen.showToast(Strings.Toasts.SPLIT_COMMENT);
-        } else {
-            screen.showToast(Strings.Toasts.UNSPLIT_COMMENT);
-        }
+        getCurrentScreen().showToast(mCommentsAreSplit ?
+                Strings.Toasts.SPLIT_COMMENT : Strings.Toasts.UNSPLIT_COMMENT);
 
         doSplit(mCommentsAreSplit);
     }

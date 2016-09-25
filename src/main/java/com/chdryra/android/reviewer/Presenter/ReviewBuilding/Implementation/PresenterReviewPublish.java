@@ -16,19 +16,11 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
@@ -103,7 +95,7 @@ public class PresenterReviewPublish implements ActivityResultListener{
             PublishAction publishAction = new PublishAction(mApp, publishCallback);
 
             ReviewViewActions<GvSocialPlatform> actions
-                    = getActions(authoriser, platforms, publishAction);
+                    = new ReviewViewActions<>(new FactoryActions.Publish(authoriser, platforms, publishAction));
 
             ReviewViewPerspective<GvSocialPlatform> perspective =
                     new ReviewViewPerspective<>(adapter, actions, getParams());
@@ -127,20 +119,6 @@ public class PresenterReviewPublish implements ActivityResultListener{
             }
 
             return list;
-        }
-
-        @NonNull
-        private ReviewViewActions<GvSocialPlatform> getActions(PlatformAuthoriser authoriser,
-                                                               GvSocialPlatformList platforms,
-                                                               PublishAction publishAction) {
-            String title = Strings.Screens.SHARE;
-            SubjectAction<GvSocialPlatform> sa = new SubjectActionNone<>();
-            RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();
-            BannerButtonAction<GvSocialPlatform> bba = new BannerButtonActionNone<>(title);
-            GridItemShareScreen gi = new GridItemShareScreen(authoriser);
-            MenuAction<GvSocialPlatform> ma = new MenuActionNone<>(title);
-            ContextualButtonAction<GvSocialPlatform> cb = new PublishButton(platforms, publishAction);
-            return new ReviewViewActions<>(sa, rb, bba, gi, ma, cb);
         }
     }
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -22,53 +23,51 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemClickObserved;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ContextButtonStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButton;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ContextButtonStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemLaunchAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLaunchAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiDeleteReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .MaiSearchAuthors;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .MaiSplitCommentRefs;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuCopyReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuCopyDeleteReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectBannerFilter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectBannerFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
@@ -177,18 +176,21 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         private ReviewStamp mStamp;
         private AuthorsRepository mRepo;
         private BuildScreenLauncher mBuildScreenLauncher;
+        private UserSession mSession;
 
         public Summary(FactoryReviewView factory,
                        ReviewLauncher launcher,
                        ReviewStamp stamp,
                        AuthorsRepository repo,
-                       BuildScreenLauncher buildScreenLauncher) {
+                       BuildScreenLauncher buildScreenLauncher,
+                       UserSession session) {
             super(GvSize.Reference.TYPE);
             mFactory = factory;
             mLauncher = launcher;
             mStamp = stamp;
             mRepo = repo;
             mBuildScreenLauncher = buildScreenLauncher;
+            mSession = session;
         }
 
         @Override
@@ -196,9 +198,15 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
             String title = Strings.Screens.SUMMARY;
             MenuAction<GvSize.Reference> menu = new MenuActionNone<>(title);
             if (mStamp.isValid()) {
-                MaiNewReview<GvSize.Reference> mai
-                        = new MaiNewReview<>(mBuildScreenLauncher, mStamp.getReviewId());
-                menu = new MenuCopyReview<>(mai, title);
+                boolean isUser = mStamp.getAuthorId().toString().equals(mSession.getAuthorId()
+                        .toString());
+
+                ReviewId reviewId = mStamp.getReviewId();
+                MaiNewReview<GvSize.Reference> maiCopy
+                        = new MaiNewReview<>(mBuildScreenLauncher, reviewId);
+                MaiDeleteReview<GvSize.Reference> maiDelete = isUser ?
+                        new MaiDeleteReview<GvSize.Reference>(reviewId) : null;
+                menu = new MenuCopyDeleteReview<>(maiCopy, maiDelete, title);
             }
 
             return menu;
@@ -349,6 +357,83 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         @Override
         public GridItemAction<GvAuthor> newGridItem() {
             return new GridItemLaunchAuthor(getReviewViewFactory());
+        }
+    }
+
+    public static class Publish extends FactoryActions<GvSocialPlatform> {
+        private static final String TITLE = Strings.Screens.SHARE;;
+        private PlatformAuthoriser mAuthoriser;
+        private GvSocialPlatformList mPlatforms;
+        private PublishAction mPublishAction;
+
+        public Publish(PlatformAuthoriser authoriser,
+                       GvSocialPlatformList platforms,
+                       PublishAction publishAction) {
+            super(GvSocialPlatform.TYPE);
+            mAuthoriser = authoriser;
+            mPlatforms = platforms;
+            mPublishAction = publishAction;
+        }
+
+        @Override
+        public BannerButtonAction<GvSocialPlatform> newBannerButton() {
+            return new BannerButtonActionNone<>(TITLE);
+        }
+
+        @Override
+        public GridItemAction<GvSocialPlatform> newGridItem() {
+            return new GridItemShareScreen(mAuthoriser);
+        }
+
+        @Override
+        public MenuAction<GvSocialPlatform> newMenu() {
+            return new MenuActionNone<>(TITLE);
+        }
+
+        @Nullable
+        @Override
+        public ContextualButtonAction<GvSocialPlatform> newContextButton() {
+            return new PublishButton(mPlatforms, mPublishAction);
+        }
+    }
+
+    public static class Build<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActions<GC> {
+        private LaunchableConfig mShareScreenUi;
+
+        public Build(GvDataType<GC> dataType, LaunchableConfig shareScreenUi) {
+            super(dataType);
+            mShareScreenUi = shareScreenUi;
+        }
+
+        @Override
+        public SubjectAction<GC> newSubject() {
+            return new SubjectEditBuildScreen<>();
+        }
+
+        @Override
+        public RatingBarAction<GC> newRatingBar() {
+            return new RatingEditBuildScreen<>();
+        }
+
+        @Override
+        public BannerButtonAction<GC> newBannerButton() {
+            return new BannerButtonActionNone<>(Strings.Buttons.BUILD_SCREEN_BANNER);
+        }
+
+        @Override
+        public GridItemAction<GC> newGridItem() {
+            return new GridItemClickObserved<>();
+        }
+
+        @Override
+        public MenuAction<GC> newMenu() {
+            return new MenuBuildScreen<>(Strings.Screens.BUILD);
+        }
+
+        @Nullable
+        @Override
+        public ContextualButtonAction<GC> newContextButton() {
+            return new BuildScreenShareButton<>(mShareScreenUi);
         }
     }
 }

@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.MenuItem;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -48,5 +50,13 @@ public abstract class MenuActionItemBasic<T extends GvData> implements MenuActio
 
     protected MenuAction<T> getParent() {
         return mParent;
+    }
+
+    protected ApplicationInstance getApp() {
+        return mParent.getApp();
+    }
+
+    protected CurrentScreen getCurrentScreen() {
+        return getApp().getCurrentScreen();
     }
 }

@@ -76,7 +76,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         onInflateMenu();
     }
 
-    private void onInflateMenu() {
+    protected void onInflateMenu() {
         for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onInflateMenu();
         }
@@ -140,6 +140,11 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         }
 
         return mi;
+    }
+
+    @Nullable
+    protected MenuItem getItem(int itemId) {
+        return mMenu != null ? mMenu.findItem(itemId) : null;
     }
 
     private class MaiUp extends MenuActionItemBasic<T> {

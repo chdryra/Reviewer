@@ -88,11 +88,11 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
     }
 
     //protected methods
-    private MenuActionItem getDeleteAction() {
+    private MenuActionItem<T> getDeleteAction() {
         return mDeleteAction;
     }
 
-    private MenuActionItem getDoneAction() {
+    private MenuActionItem<T> getDoneAction() {
         return mDoneAction;
     }
 

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Re
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -56,7 +57,8 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     private void launchReview(ReviewNode reviewNode) {
         int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
-        boolean menu = !reviewNode.getAuthorId().toString().equals(mSessionAuthor.toString());
-        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu), requestCode);
+        DataAuthorId authorId = reviewNode.getAuthorId();
+        boolean menu = !authorId.toString().equals(mSessionAuthor.toString());
+        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu ? authorId : null), requestCode);
     }
 }

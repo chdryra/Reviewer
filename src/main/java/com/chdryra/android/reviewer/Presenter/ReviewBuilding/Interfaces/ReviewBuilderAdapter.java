@@ -43,4 +43,7 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
     Review buildReview();
 
     GvImage getCover();
+
+    @Override
+    GvDataType<GC> getGvDataType();
 }

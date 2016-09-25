@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewActions;
 
 import java.util.ArrayList;
 
@@ -58,6 +59,12 @@ public class ReviewViewActions<T extends GvData> {
         mMenuAction = menuAction;
         mContextualAction = contextualAction;
         mObservers = new ArrayList<>();
+    }
+
+    public ReviewViewActions(FactoryReviewViewActions<T> factory) {
+        this(factory.newSubject(),
+                factory.newRatingBar(), factory.newBannerButton(), factory.newGridItem(),
+                factory.newMenu(), factory.newContextButton());
     }
 
     public SubjectAction<T> getSubjectAction() {

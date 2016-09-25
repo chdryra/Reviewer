@@ -70,7 +70,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public GvDataType<? extends GvData> getGvDataType() {
+    public GvDataType<GC> getGvDataType() {
         return mGridUi.getGridWrapper().getGvDataType();
     }
 

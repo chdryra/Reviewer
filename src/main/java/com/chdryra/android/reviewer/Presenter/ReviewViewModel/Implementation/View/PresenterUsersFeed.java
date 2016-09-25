@@ -42,7 +42,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
     private PresenterUsersFeed(ApplicationInstance app,
                                ReviewNodeRepo feedNode,
                                PresenterListener listener) {
-        super(app, app.newReviewsListView(feedNode, true));
+        super(app, app.newFeedView());
         getApp().getPublisher().registerListener(this);
         mListener = listener;
     }
