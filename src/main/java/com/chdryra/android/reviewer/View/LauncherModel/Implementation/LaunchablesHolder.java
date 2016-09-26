@@ -13,7 +13,6 @@ import android.app.Activity;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mReviewBuilder;
     private final Class<? extends LaunchableUi> mMapEditor;
     private final Class<? extends LaunchableUi> mShare;
-    private final Class<? extends LaunchableUiAlertable> mShareEdit;
+    private final Class<? extends LaunchableUi> mShareEdit;
 
     //TODO make this independent of Android
     private final Class<? extends Activity> mDefaultReviewViewActivity;
@@ -43,7 +42,7 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> reviewBuilder,
                              Class<? extends LaunchableUi> mapEditor,
                              Class<? extends LaunchableUi> share,
-                             Class<? extends LaunchableUiAlertable> shareEdit,
+                             Class<? extends LaunchableUi> shareEdit,
                              Class<? extends Activity> defaultReviewViewActivity,
                              Class<? extends Activity> reviewsListActivity) {
         mLogin = login;
@@ -93,7 +92,7 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUiAlertable> getShareEditReviewUi() {
+    public Class<? extends LaunchableUi> getShareEditReviewUi() {
         return mShareEdit;
     }
 

@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
@@ -22,15 +22,15 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * number of followers.
  */
 public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
-    private final SocialPlatformsPublisher mPublisher;
+    private final SocialPublisherAsync mPublisher;
     private OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    SocialPlatformBasic(SocialPlatformsPublisher publisher) {
+    SocialPlatformBasic(SocialPublisherAsync publisher) {
         mPublisher = publisher;
     }
 
-    SocialPlatformBasic(SocialPlatformsPublisher publisher, OAuthRequester<T> requester) {
+    SocialPlatformBasic(SocialPublisherAsync publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
         mRequester = requester;
     }
@@ -41,7 +41,7 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public SocialPlatformsPublisher getPublisher() {
+    public SocialPublisherAsync getPublisher() {
         return mPublisher;
     }
 

@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -31,7 +31,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     public static final int KEY = R.string.consumer_key_twitter;
     public static final int SECRET = R.string.consumer_secret_twitter;
 
-    PlatformTwitter(Context context, SocialPlatformsPublisher publisher) {
+    PlatformTwitter(Context context, SocialPublisherAsync publisher) {
         super(publisher);
         TwitterAuthConfig authConfig
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));

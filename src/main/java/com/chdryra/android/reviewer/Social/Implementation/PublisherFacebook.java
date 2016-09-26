@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -28,7 +28,7 @@ import com.facebook.share.model.ShareLinkContent;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherFacebook implements SocialPlatformsPublisher {
+public class PublisherFacebook implements SocialPublisherAsync {
     private final String mPlatformName;
     private final ReviewSummariser mSummariser;
     private final ReviewFormatter mFormatter;

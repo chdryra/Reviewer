@@ -19,7 +19,7 @@ import java.util.Collection;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPublisher extends NetworkPublisher<SocialPublisher.Listener>{
+public interface SocialUploader extends NetworkUploader<SocialUploader.Listener> {
     interface Listener {
         void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
                 result);

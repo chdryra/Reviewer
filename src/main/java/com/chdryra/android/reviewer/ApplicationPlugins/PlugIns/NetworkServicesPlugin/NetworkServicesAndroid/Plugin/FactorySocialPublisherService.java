@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
 import android.content.Context;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService.SocialPublisherAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
@@ -32,7 +32,7 @@ public class FactorySocialPublisherService implements FactorySocialPublisher {
     }
 
     @Override
-    public SocialPublisher newPublisher(ReviewId id, ArrayList<String> platformNames) {
+    public SocialUploader newPublisher(ReviewId id, ArrayList<String> platformNames) {
         return new SocialPublisherAndroid(mContext, platformNames, new SocialPublishingReceiver(id));
     }
 }

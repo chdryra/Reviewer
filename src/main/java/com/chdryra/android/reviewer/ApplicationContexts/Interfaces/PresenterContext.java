@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -23,6 +24,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
@@ -76,4 +78,6 @@ public interface PresenterContext {
     ReviewDeleter newReviewDeleter(ReviewId id);
 
     ReviewLauncher newReviewLauncher(AuthorId sessionAuthor, UiLauncher launcher);
+
+    BuildScreenLauncher newBuildScreenLauncher(ApplicationInstance app);
 }

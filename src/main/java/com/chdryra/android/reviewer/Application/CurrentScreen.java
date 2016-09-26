@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer.Application;
 
+import android.app.DialogFragment;
 import android.os.Bundle;
+
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,9 +21,11 @@ import android.os.Bundle;
 public interface CurrentScreen {
     void close();
 
-    void showAlert(String alert, int requestCode, Bundle args);
+    void showAlert(String alert, int requestCode, AlertListener listener, Bundle args);
 
-    void showDeleteConfirm(String deleteWhat, int requestCode);
+    void showDeleteConfirm(String deleteWhat, int requestCode, AlertListener listener);
+
+    void showDialog(DialogFragment dialog, int requestCode, String tag, Bundle args);
 
     void showToast(String toast);
 
@@ -31,4 +36,6 @@ public interface CurrentScreen {
     boolean hasActionBar();
 
     void setHomeAsUp(boolean homeAsUp);
+
+    AlertListener getAlertListener(int requestCode);
 }

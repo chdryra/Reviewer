@@ -70,6 +70,6 @@ class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionB
 
     void showAlert(String alert, int requestCode, Bundle args) {
         mAlertDialogRequestCode = requestCode;
-        getApp().getCurrentScreen().showAlert(alert, requestCode, args);
+        getApp().getCurrentScreen().showAlert(alert, requestCode, this, args);
     }
 }

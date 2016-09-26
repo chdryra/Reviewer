@@ -21,7 +21,7 @@ public class Strings {
         public static final String EDIT_ON_MAP = "Edit on map?";
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
-        public static final String DELETE_REVIEW = "Delete published review?";
+        public static final String DELETE_REVIEW = "published review?";
         public static final String GOTO_REVIEW = "Go to review?";
         public static final String NEW_USER = "Looks like you're a new user?";
     }

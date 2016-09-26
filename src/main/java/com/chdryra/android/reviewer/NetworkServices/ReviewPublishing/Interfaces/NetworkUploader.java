@@ -6,14 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 17/11/2015
+ * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface LaunchableConfigAlertable extends LaunchableConfig{
-    @Override
-    LaunchableUiAlertable getLaunchable();
+interface NetworkUploader<Listener> {
+    void registerListener(Listener listener);
+
+    void unregisterListener(Listener listener);
+
+    void uploadReview();
 }

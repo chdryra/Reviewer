@@ -83,7 +83,7 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
 
         @Override
         public void doWork(Review review) {
-            mUploader.publishReview();
+            mUploader.uploadReview();
         }
     }
 }

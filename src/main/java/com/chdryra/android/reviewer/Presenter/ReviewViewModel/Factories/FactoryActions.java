@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemClickObserved;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
@@ -69,7 +68,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -175,21 +174,18 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         private ReviewLauncher mLauncher;
         private ReviewStamp mStamp;
         private AuthorsRepository mRepo;
-        private BuildScreenLauncher mBuildScreenLauncher;
         private UserSession mSession;
 
         public Summary(FactoryReviewView factory,
                        ReviewLauncher launcher,
                        ReviewStamp stamp,
                        AuthorsRepository repo,
-                       BuildScreenLauncher buildScreenLauncher,
-                       UserSession session) {
+                        UserSession session) {
             super(GvSize.Reference.TYPE);
             mFactory = factory;
             mLauncher = launcher;
             mStamp = stamp;
             mRepo = repo;
-            mBuildScreenLauncher = buildScreenLauncher;
             mSession = session;
         }
 
@@ -202,8 +198,7 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
                         .toString());
 
                 ReviewId reviewId = mStamp.getReviewId();
-                MaiNewReview<GvSize.Reference> maiCopy
-                        = new MaiNewReview<>(mBuildScreenLauncher, reviewId);
+                MaiNewReview<GvSize.Reference> maiCopy = new MaiNewReview<>(reviewId);
                 MaiDeleteReview<GvSize.Reference> maiDelete = isUser ?
                         new MaiDeleteReview<GvSize.Reference>(reviewId) : null;
                 menu = new MenuCopyDeleteReview<>(maiCopy, maiDelete, title);
@@ -230,8 +225,8 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         }
     }
 
-    protected MenuAction.MenuActionItem<T> newNewReviewItem(BuildScreenLauncher launcher, @Nullable ReviewId template) {
-        return new MaiNewReview<>(launcher, template);
+    protected MenuAction.MenuActionItem<T> newNewReviewItem(@Nullable ReviewId template) {
+        return new MaiNewReview<>(template);
     }
 
     public static class Comments extends ViewData<GvComment.Reference> {
@@ -256,16 +251,14 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
 
     static class ReviewsList extends FactoryActions<GvNode> {
         private FactoryReviewView mFactoryReviewView;
-        private LaunchableUiAlertable mShareEdit;
-        private BuildScreenLauncher mLauncher;
+        private LaunchableUi mShareEdit;
         private AuthorId mAuthorId;
 
-        ReviewsList(FactoryReviewView factoryReviewView, LaunchableUiAlertable shareEdit,
-                           BuildScreenLauncher launcher, @Nullable AuthorId authorId) {
+        ReviewsList(FactoryReviewView factoryReviewView, LaunchableUi shareEdit,
+                           @Nullable AuthorId authorId) {
             super(GvNode.TYPE);
             mFactoryReviewView = factoryReviewView;
             mShareEdit = shareEdit;
-            mLauncher = launcher;
             mAuthorId = authorId;
         }
 
@@ -273,12 +266,8 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
             return mFactoryReviewView;
         }
 
-        protected LaunchableUiAlertable getShareEdit() {
+        protected LaunchableUi getShareEdit() {
             return mShareEdit;
-        }
-
-        protected BuildScreenLauncher getLauncher() {
-            return mLauncher;
         }
 
         @Override
@@ -294,24 +283,23 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
 
         @Override
         public GridItemReviewsList newGridItem() {
-            return new GridItemReviewsList(mFactoryReviewView, mShareEdit, getLauncher());
+            return new GridItemReviewsList(mFactoryReviewView, mShareEdit);
         }
     }
 
     public static class Feed extends ReviewsList {
-        public Feed(FactoryReviewView factoryReviewView, LaunchableUiAlertable shareEdit,
-                    BuildScreenLauncher launcher) {
-            super(factoryReviewView, shareEdit, launcher, null);
+        public Feed(FactoryReviewView factoryReviewView, LaunchableUi shareEdit) {
+            super(factoryReviewView, shareEdit, null);
         }
 
         @Override
         public GridItemReviewsList newGridItem() {
-            return new GridItemFeed(getFactoryReviewView(), getShareEdit(), getLauncher());
+            return new GridItemFeed(getFactoryReviewView(), getShareEdit());
         }
 
         @Override
         public MenuAction<GvNode> newMenu() {
-            return new MenuFeed<>(newNewReviewItem(getLauncher(), null),
+            return new MenuFeed<>(newNewReviewItem(null),
                     new MaiSearchAuthors<GvNode>(getFactoryReviewView()),
                     new MaiSettings<GvNode>());
         }

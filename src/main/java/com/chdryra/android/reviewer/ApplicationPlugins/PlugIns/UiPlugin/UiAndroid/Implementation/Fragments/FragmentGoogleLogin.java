@@ -20,11 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -155,7 +154,9 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         Bundle args = new Bundle();
         args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
         dialog.setTargetFragment(this, REQUEST_RESOLVE_ERROR);
-        DialogShower.show(dialog, getActivity(), REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
+        AndroidAppInstance.getInstance(getActivity())
+                .getCurrentScreen()
+                .showDialog(dialog, REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
     }
 
     private View.OnClickListener newSignInListener() {

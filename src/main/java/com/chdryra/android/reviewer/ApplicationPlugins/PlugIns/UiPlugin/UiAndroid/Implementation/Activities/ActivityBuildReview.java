@@ -18,9 +18,8 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -30,8 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = TagKeyGenerator.getTag(ActivityBuildReview.class);
-    private static final String TEMPLATE_ID
-            = TagKeyGenerator.getKey(ActivityBuildReview.class, "TemplateReviewId");
+    public static final String TEMPLATE_ID = BuildScreenLauncher.TEMPLATE_ID;
 
     private PresenterReviewBuild mPresenter;
 
@@ -68,7 +66,7 @@ public class ActivityBuildReview extends ActivityReviewView {
     private void setTemplateReviewIfRequested(ApplicationInstance app,
                                               PresenterReviewBuild.Builder builder) {
         Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
-        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
+        String id = args != null ? args.getString(TEMPLATE_ID) : null;
         if (id != null) {
             Review template = app.unpackReview(args);
             if (template != null) builder.setTemplateReview(template);

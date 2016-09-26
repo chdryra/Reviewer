@@ -10,25 +10,16 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.os.Bundle;
-
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityReviewsList extends ActivityReviewView implements NewReviewListener,
-        AlertListener,
-        DeleteRequestListener {
+public class ActivityReviewsList extends ActivityReviewView {
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewsList.class);
 
     private PresenterReviewsList mPresenter;
@@ -60,26 +51,5 @@ public class ActivityReviewsList extends ActivityReviewView implements NewReview
     protected void onDestroy() {
         mPresenter.detach();
         super.onDestroy();
-    }
-
-    @Override
-    public void onNewReviewUsingTemplate(ReviewId template) {
-        mPresenter.onNewReviewUsingTemplate(template);
-    }
-
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-        mPresenter.onAlertNegative(requestCode, args);
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        mPresenter.onAlertPositive(requestCode, args);
-    }
-
-    @Override
-    public void onDeleteRequested(ReviewId reviewId) {
-        mPresenter.deleteReview(reviewId);
     }
 }

@@ -17,8 +17,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -27,15 +25,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenLauncher {
+    public static final String TEMPLATE_ID = "TemplateId";
     private static final int LAUNCH_BUILD_SCREEN
             = RequestCodeGenerator.getCode("BuildScreenLauncher");
 
-    public void launch(ApplicationInstance app, @Nullable ReviewId template) {
-        app.discardReviewBuilderAdapter();
+    private ApplicationInstance mApp;
+
+    public BuildScreenLauncher(ApplicationInstance app) {
+        mApp = app;
+    }
+
+    public void launch(@Nullable ReviewId template) {
+        mApp.discardReviewBuilderAdapter();
         if (template != null) {
-            app.getReview(template, new Callback(app));
+            mApp.getReview(template, new Callback(mApp));
         } else {
-            launchBuildUi(app, new Bundle());
+            launchBuildUi(mApp, new Bundle());
         }
     }
 
@@ -56,7 +61,7 @@ public class BuildScreenLauncher {
             Bundle args = new Bundle();
             Review review = result.getReview();
             if (!result.isError() && review != null) {
-                args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
+                args.putString(TEMPLATE_ID, review.getReviewId().toString());
                 mApp.packReview(review, args);
             }
 

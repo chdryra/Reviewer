@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryBuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -33,7 +34,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryIm
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryVhBuildReviewData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -74,12 +74,14 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
 
         setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView));
+
+        setFactoryBuildScreenLauncher(new FactoryBuildScreenLauncher());
     }
 
     private FactoryReviewView setFactoryReviewView(ModelContext modelContext, ViewContext viewContext,
                                       PersistenceContext persistenceContext, DataAggregatorsPlugin aggregatorsPlugin, ConverterGv gvConverter) {
         FactoryReviewView factoryReviewView = new FactoryReviewView(viewContext.getUiConfig(),
-                new FactoryReviewViewParams(), new BuildScreenLauncher());
+                new FactoryReviewViewParams());
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
                 persistenceContext.getReviewsSource(),
                 persistenceContext.getUsersManager().getAuthorsRepository(),

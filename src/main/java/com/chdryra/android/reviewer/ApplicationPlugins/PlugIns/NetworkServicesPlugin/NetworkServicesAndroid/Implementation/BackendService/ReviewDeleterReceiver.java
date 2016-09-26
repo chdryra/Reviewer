@@ -13,21 +13,21 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterCallback;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDeleterReceiver extends BackendRepoServiceReceiver<ReviewDeleterListener>
+public class ReviewDeleterReceiver extends BackendRepoServiceReceiver<ReviewDeleterCallback>
         implements HasReviewId {
     public ReviewDeleterReceiver(ReviewId reviewId) {
         super(BackendRepoService.Service.DELETE.completed(), reviewId);
     }
 
     @Override
-    protected void notifyListener(ReviewDeleterListener listener, DatumReviewId reviewId,
+    protected void notifyListener(ReviewDeleterCallback listener, DatumReviewId reviewId,
                                   CallbackMessage result) {
         listener.onReviewDeleted(reviewId, result);
     }

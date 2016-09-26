@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
@@ -19,8 +20,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SocialPublisherBasic implements SocialPlatformsPublisher,
-        AsyncSocialPublisher.SyncSocialPublisher {
+public abstract class SocialPublisherBasic implements SocialPublisherAsync,
+        SocialPublisher {
     private final String mName;
     private final ReviewSummariser mSummariser;
     private final ReviewFormatter mFormatter;

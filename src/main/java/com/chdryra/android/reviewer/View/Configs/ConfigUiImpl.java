@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +33,7 @@ public final class ConfigUiImpl implements ConfigUi {
     private final LaunchableConfig mBuildReviewConfig;
     private final LaunchableConfig mEditOnMapConfig;
     private final LaunchableConfig mShareReviewConfig;
-    private final LaunchableConfigAlertable mShareEditConfig;
+    private final LaunchableConfig mShareEditConfig;
 
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
                         LaunchableConfig loginConfig,
@@ -43,7 +42,7 @@ public final class ConfigUiImpl implements ConfigUi {
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
                         LaunchableConfig shareReviewConfig,
-                        LaunchableConfigAlertable shareEditConfig) {
+                        LaunchableConfig shareEditConfig) {
         mConfigsMap = new HashMap<>();
         for (LaunchableConfigsHolder<?> dataConfig : dataConfigs) {
             mConfigsMap.put(dataConfig.getGvDataType().getDatumName(), dataConfig);
@@ -103,7 +102,7 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfigAlertable getShareEdit() {
+    public LaunchableConfig getShareEdit() {
         return mShareEditConfig;
     }
 

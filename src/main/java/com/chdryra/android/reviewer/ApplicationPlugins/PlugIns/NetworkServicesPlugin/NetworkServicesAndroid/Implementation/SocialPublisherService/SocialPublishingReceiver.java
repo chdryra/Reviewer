@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
         .NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialPublishingReceiver extends BroadcastingServiceReceiver<SocialPublisher.Listener> {
+public class SocialPublishingReceiver extends BroadcastingServiceReceiver<SocialUploader.Listener> {
     private final ReviewId mReviewId;
 
     public SocialPublishingReceiver(ReviewId reviewId) {
@@ -81,7 +81,7 @@ public class SocialPublishingReceiver extends BroadcastingServiceReceiver<Social
 
     private void notifyPublishingSucceeded(ArrayList<PublishResults> ok, ArrayList<PublishResults
             > notOk, CallbackMessage result) {
-        for (SocialPublisher.Listener listener : this) {
+        for (SocialUploader.Listener listener : this) {
             listener.onPublishingCompleted(mReviewId, ok, notOk, result);
         }
     }
@@ -97,7 +97,7 @@ public class SocialPublishingReceiver extends BroadcastingServiceReceiver<Social
             platforms.add(results.getPublisherName());
         }
 
-        for (SocialPublisher.Listener listener : this) {
+        for (SocialUploader.Listener listener : this) {
             listener.onPublishingFailed(mReviewId, platforms, result);
         }
     }
@@ -105,7 +105,7 @@ public class SocialPublishingReceiver extends BroadcastingServiceReceiver<Social
     private void updateListenersOnStatus(Intent intent) {
         double percentage = intent.getDoubleExtra(SocialPublishingService.STATUS_PERCENTAGE, 0.);
         PublishResults results = intent.getParcelableExtra(SocialPublishingService.STATUS_RESULTS);
-        for (SocialPublisher.Listener listener : this) {
+        for (SocialUploader.Listener listener : this) {
             listener.onPublishingStatus(mReviewId, percentage, results);
         }
     }

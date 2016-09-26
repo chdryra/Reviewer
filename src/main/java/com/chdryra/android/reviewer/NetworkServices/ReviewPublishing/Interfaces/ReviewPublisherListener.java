@@ -13,5 +13,5 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewPublisherListener extends SocialPublisher.Listener, UploadListener {
+public interface ReviewPublisherListener extends SocialUploader.Listener, UploadListener {
 }

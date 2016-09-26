@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,11 +21,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Buil
  * Email: rizwan.choudrey@gmail.com
  */
 public class MaiNewReview<T extends GvData> extends MenuActionItemBasic<T> {
-    private final BuildScreenLauncher mLauncher;
     private final ReviewId mTemplate;
 
-    public MaiNewReview(BuildScreenLauncher launcher, @Nullable ReviewId template) {
-        mLauncher = launcher;
+    public MaiNewReview(@Nullable ReviewId template) {
         mTemplate = template;
     }
 
@@ -35,6 +32,6 @@ public class MaiNewReview<T extends GvData> extends MenuActionItemBasic<T> {
         if(getParent() == null) return;
 
         if(mTemplate != null) getCurrentScreen().showToast(Strings.Toasts.COPYING);
-        mLauncher.launch(getApp(), mTemplate);
+        getApp().newBuildScreenLauncher().launch(mTemplate);
     }
 }

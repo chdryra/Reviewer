@@ -15,13 +15,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentLogin;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
-public class ActivityLogin extends ActivitySingleFragment implements LaunchableUiAlertable {
+public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi, AlertListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityLogin.class);
     private static final String KEY = TagKeyGenerator.getKey(ActivityLogin.class, "Key");
     private static final String RETAIN_VIEW

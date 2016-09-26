@@ -15,7 +15,7 @@ import android.content.Context;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterCallback;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendReviewDeleterAndroid
-        extends BackendReviewAndroid<ReviewDeleterReceiver, ReviewDeleterListener>
-        implements ReviewDeleter, ReviewDeleterListener {
+        extends BackendReviewAndroid<ReviewDeleterReceiver, ReviewDeleterCallback>
+        implements ReviewDeleter, ReviewDeleterCallback {
     private ReviewDeleterCallback mCallback;
 
     public BackendReviewDeleterAndroid(Context context, ReviewDeleterReceiver receiver) {

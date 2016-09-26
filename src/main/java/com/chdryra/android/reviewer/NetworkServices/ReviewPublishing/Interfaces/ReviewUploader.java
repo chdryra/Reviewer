@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewUploader extends NetworkPublisher<ReviewUploader.Listener>{
+public interface ReviewUploader extends NetworkUploader<ReviewUploader.Listener> {
     interface Listener {
         void onUploadedToBackend(ReviewId reviewId, CallbackMessage result);
     }

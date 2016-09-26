@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -24,7 +25,7 @@ import twitter4j.auth.AccessToken;
  */
 public class PublisherTwitter4j extends SocialPublisherBasic implements
         FollowersFetcher.FollowersGetter,
-        AsyncSocialPublisher.SyncSocialPublisher {
+        SocialPublisher {
 
     private final Twitter mTwitter;
     private final String mPlatformName;

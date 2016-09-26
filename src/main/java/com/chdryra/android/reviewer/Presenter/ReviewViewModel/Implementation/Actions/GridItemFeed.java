@@ -10,24 +10,20 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemFeed extends GridItemReviewsList
-        implements AlertListener, NewReviewListener {
+public class GridItemFeed extends GridItemReviewsList{
 
     public GridItemFeed(FactoryReviewView launchableFactory,
-                        LaunchableUiAlertable shareEditUi,
-                        BuildScreenLauncher launcher) {
-        super(launchableFactory, shareEditUi, launcher);
+                        LaunchableUi shareEditUi) {
+        super(launchableFactory, shareEditUi);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class ReviewUploaderAndroid
     }
 
     @Override
-    public void publishReview() {
+    public void uploadReview() {
         startService();
     }
 }

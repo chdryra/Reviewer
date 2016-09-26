@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 
 import java.util.ArrayList;
 
@@ -19,5 +19,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactorySocialPublisher {
-    SocialPublisher newPublisher(ReviewId id, ArrayList<String> platformNames);
+    SocialUploader newPublisher(ReviewId id, ArrayList<String> platformNames);
 }

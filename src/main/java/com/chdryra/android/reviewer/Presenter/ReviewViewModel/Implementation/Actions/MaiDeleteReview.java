@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterCallback;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -35,7 +35,7 @@ public class MaiDeleteReview<T extends GvData> extends MenuActionItemBasic<T> im
     @Override
     public void doAction(MenuItem item) {
         if(getParent() != null) {
-            getCurrentScreen().showDeleteConfirm(Strings.Alerts.DELETE_REVIEW, DELETE);
+            getCurrentScreen().showDeleteConfirm(Strings.Alerts.DELETE_REVIEW, DELETE, this);
         }
     }
 
@@ -47,7 +47,7 @@ public class MaiDeleteReview<T extends GvData> extends MenuActionItemBasic<T> im
     @Override
     public void onAlertPositive(final int requestCode, Bundle args) {
         if (requestCode == DELETE) {
-            getApp().newReviewDeleter(mReviewId).deleteReview(new ReviewDeleter.ReviewDeleterCallback() {
+            getApp().newReviewDeleter(mReviewId).deleteReview(new ReviewDeleterCallback() {
                 @Override
                 public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
                     if(!result.isError()) {

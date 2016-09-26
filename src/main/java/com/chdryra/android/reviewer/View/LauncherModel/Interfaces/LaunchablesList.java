@@ -35,7 +35,7 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getShareReviewUi();
 
-    Class<? extends LaunchableUiAlertable> getShareEditReviewUi();
+    Class<? extends LaunchableUi> getShareEditReviewUi();
 
     Iterable<AddEditViewClasses<?>> getDataLaunchableUis();
 }

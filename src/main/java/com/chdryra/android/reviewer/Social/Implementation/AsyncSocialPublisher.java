@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
@@ -20,15 +21,9 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * Email: rizwan.choudrey@gmail.com
  */
 class AsyncSocialPublisher {
-    private final SyncSocialPublisher mPublisher;
+    private final SocialPublisher mPublisher;
 
-    public interface SyncSocialPublisher {
-        String getPlatformName();
-
-        PublishResults publish(Review review, TagsManager tagsManager);
-    }
-
-    public AsyncSocialPublisher(SyncSocialPublisher publisher) {
+    public AsyncSocialPublisher(SocialPublisher publisher) {
         mPublisher = publisher;
     }
 

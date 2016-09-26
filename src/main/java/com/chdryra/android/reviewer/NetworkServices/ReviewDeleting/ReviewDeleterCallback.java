@@ -16,6 +16,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 01/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDeleterListener {
+public interface ReviewDeleterCallback {
     void onReviewDeleted(ReviewId reviewId, CallbackMessage result);
 }

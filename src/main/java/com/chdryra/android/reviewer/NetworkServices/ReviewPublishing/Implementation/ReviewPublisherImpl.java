@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.UploadListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
@@ -33,7 +33,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewPublisherImpl implements ReviewPublisher, UploadListener,
-        SocialPublisher.Listener, WorkStoreCallback<Review> {
+        SocialUploader.Listener, WorkStoreCallback<Review> {
     private final ReviewQueue mQueue;
     private final SocialConsumer mSocial;
 

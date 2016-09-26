@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * number of followers.
  */
 public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
-    SocialPlatformsPublisher getPublisher();
+    SocialPublisherAsync getPublisher();
 
     OAuthRequester<T> getOAuthRequester();
 

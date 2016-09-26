@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.View.Configs;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class FactoryConfigUi {
         LaunchableConfig builder = getReviewBuilderConfig(launchables);
         LaunchableConfig mapper = getEditOnMapConfig(launchables);
         LaunchableConfig sharer = getShareReviewConfig(launchables);
-        LaunchableConfigAlertable shareEditer = getShareEditReviewConfig(launchables);
+        LaunchableConfig shareEditer = getShareEditReviewConfig(launchables);
 
         return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, builder,
                 mapper, sharer, shareEditer);
@@ -82,8 +81,8 @@ public class FactoryConfigUi {
         return new LaunchableConfigImpl(classes.getShareReviewUi(), SHARE_REVIEW, SHARE_REVIEW_TAG);
     }
 
-    private LaunchableConfigAlertable getShareEditReviewConfig(LaunchablesList classes) {
-        return new LaunchableConfigAlertableImpl(classes.getShareEditReviewUi(), SHARE_EDIT_REVIEW,
+    private LaunchableConfig getShareEditReviewConfig(LaunchablesList classes) {
+        return new LaunchableConfigImpl(classes.getShareEditReviewUi(), SHARE_EDIT_REVIEW,
                 SHARE_EDIT_REVIEW_TAG);
     }
 }

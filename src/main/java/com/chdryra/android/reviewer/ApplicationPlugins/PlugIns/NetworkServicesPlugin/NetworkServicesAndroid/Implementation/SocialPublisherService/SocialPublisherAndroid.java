@@ -14,7 +14,7 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingService;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublisherAndroid extends
-        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialPublisher.Listener>
-        implements SocialPublisher {
+        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialUploader.Listener>
+        implements SocialUploader {
 
     private final ArrayList<String> mPlatformNames;
     private final ReviewId mId;
@@ -41,7 +41,7 @@ public class SocialPublisherAndroid extends
     }
 
     @Override
-    public void publishReview() {
+    public void uploadReview() {
         Intent service = newService();
         service.putExtra(PublishingAction.PUBLISHED, mId.toString());
         service.putStringArrayListExtra(PublishingAction.PLATFORMS, mPlatformNames);
