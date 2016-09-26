@@ -85,36 +85,35 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         PublisherAndroid sharer = new PublisherAndroid(activity, new ReviewSummariser(), new ReviewFormatterTwitter());
 
-        final Command deleteCommand
-                = new DeleteCommand(DELETE, this, screen, app.newReviewDeleter(reviewId));
-        final Command shareCommand
-                = new ShareCommand(SHARE, this, app, reviewId, sharer);
-        final Command copyCommand
-                = new CopyCommand(COPY, this, screen, app.newBuildScreenLauncher(), reviewId);
 
+        final Command deleteCommand = new DeleteCommand(screen, app.newReviewDeleter(reviewId));
+        final Command shareCommand = new ShareCommand(app, reviewId, sharer);
+        final Command copyCommand = new CopyCommand(screen, app.newBuildScreenLauncher(), reviewId);
+
+        final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareCommand.execute();
+                shareCommand.execute(SHARE, listener);
             }
         });
 
         another.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                copyCommand.execute();
+                copyCommand.execute(COPY, listener);
             }
         });
 
-        if (!authorId.toString().equals(app.getUserSession().getAuthorId().toString())) {
-            delete.setVisibility(View.GONE);
-        } else {
+        if (authorId.toString().equals(app.getUserSession().getAuthorId().toString())) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    deleteCommand.execute();
+                    deleteCommand.execute(DELETE, listener);
                 }
             });
+        } else {
+            delete.setVisibility(View.GONE);
         }
 
         return layout;

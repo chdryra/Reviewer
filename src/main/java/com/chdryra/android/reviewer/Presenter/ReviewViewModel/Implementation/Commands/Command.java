@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/09/2016
@@ -21,11 +23,12 @@ public abstract class Command {
         void onCommandExecuted(int requestCode);
     }
 
-    public abstract void execute();
+    abstract void execute();
 
-    Command(int requestCode, ExecutionListener listener) {
+    public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;
         mListener = listener;
+        execute();
     }
 
     int getRequestCode() {
@@ -33,6 +36,6 @@ public abstract class Command {
     }
 
     void onExecutionComplete() {
-        mListener.onCommandExecuted(mRequestCode);
+        if(mListener != null) mListener.onCommandExecuted(mRequestCode);
     }
 }

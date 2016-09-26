@@ -27,17 +27,13 @@ public class DeleteCommand extends Command implements AlertListener {
     private CurrentScreen mScreen;
     private ReviewDeleter mDeleter;
 
-    public DeleteCommand(int requestCode,
-                         ExecutionListener listener,
-                         CurrentScreen screen,
-                         ReviewDeleter deleter) {
-        super(requestCode, listener);
+    public DeleteCommand(CurrentScreen screen, ReviewDeleter deleter) {
         mScreen = screen;
         mDeleter = deleter;
     }
 
     @Override
-    public void execute() {
+    void execute() {
         mScreen.showDeleteConfirm(Strings.Alerts.DELETE_REVIEW, getRequestCode(), this);
     }
 

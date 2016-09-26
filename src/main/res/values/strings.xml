@@ -77,6 +77,7 @@
     <string name="menu_new_review">new review</string>
     <string name="menu_delete_review">delete review</string>
     <string name="menu_copy_review">use as template</string>
+    <string name="menu_review_options">options</string>
     <string name="menu_follow">follow</string>
     <string name="menu_search_authors">search authors</string>
     <string name="menu_settings">settings</string>

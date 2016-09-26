@@ -27,19 +27,14 @@ public class ShareCommand extends Command {
     private ReviewId mReviewId;
     private SocialPublisher mSharer;
 
-    public ShareCommand(int requestCode,
-                        ExecutionListener listener,
-                        ApplicationInstance app,
-                        ReviewId reviewId,
-                        SocialPublisher sharer) {
-        super(requestCode, listener);
+    public ShareCommand(ApplicationInstance app, ReviewId reviewId, SocialPublisher sharer) {
         mApp = app;
         mReviewId = reviewId;
         mSharer = sharer;
     }
 
     @Override
-    public void execute() {
+    void execute() {
         mApp.getReview(mReviewId, fetchAndShare(mApp.getTagsManager()));
     }
 

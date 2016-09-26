@@ -34,5 +34,5 @@ public interface ConfigUi {
 
     LaunchableConfig getShareReview();
 
-    LaunchableConfig getShareEdit();
+    LaunchableConfig getReviewOptions();
 }

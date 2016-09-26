@@ -84,6 +84,10 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         return mId;
     }
 
+    public DatumAuthorId getDataAuthorId() {
+        return new DatumAuthorId(mId, mAuthorId.toString());
+    }
+
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(mAuthorId) && validator.validate(mDate) && validator.validate(mId);

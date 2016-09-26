@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -43,21 +42,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLaunchAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiDeleteReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiNewReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiReviewOptions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSettings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuCopyDeleteReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFollow;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuReviewOptions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectBannerFilter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -172,21 +172,21 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
     public  static class Summary extends FactoryActions<GvSize.Reference> {
         private FactoryReviewView mFactory;
         private ReviewLauncher mLauncher;
+        private LaunchableUi mOptionsUi;
         private ReviewStamp mStamp;
         private AuthorsRepository mRepo;
-        private UserSession mSession;
 
         public Summary(FactoryReviewView factory,
                        ReviewLauncher launcher,
+                       LaunchableUi optionsUi,
                        ReviewStamp stamp,
-                       AuthorsRepository repo,
-                        UserSession session) {
+                       AuthorsRepository repo) {
             super(GvSize.Reference.TYPE);
             mFactory = factory;
             mLauncher = launcher;
+            mOptionsUi = optionsUi;
             mStamp = stamp;
             mRepo = repo;
-            mSession = session;
         }
 
         @Override
@@ -194,14 +194,9 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
             String title = Strings.Screens.SUMMARY;
             MenuAction<GvSize.Reference> menu = new MenuActionNone<>(title);
             if (mStamp.isValid()) {
-                boolean isUser = mStamp.getAuthorId().toString().equals(mSession.getAuthorId()
-                        .toString());
-
-                ReviewId reviewId = mStamp.getReviewId();
-                MaiNewReview<GvSize.Reference> maiCopy = new MaiNewReview<>(reviewId);
-                MaiDeleteReview<GvSize.Reference> maiDelete = isUser ?
-                        new MaiDeleteReview<GvSize.Reference>(reviewId) : null;
-                menu = new MenuCopyDeleteReview<>(maiCopy, maiDelete, title);
+                LaunchOptionsCommand command = new LaunchOptionsCommand(mOptionsUi);
+                MaiReviewOptions<GvSize.Reference> mai = new MaiReviewOptions<>(command, mStamp.getDataAuthorId());
+                menu = new MenuReviewOptions<>(mai, title);
             }
 
             return menu;
@@ -254,20 +249,20 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
         private LaunchableUi mShareEdit;
         private AuthorId mAuthorId;
 
-        ReviewsList(FactoryReviewView factoryReviewView, LaunchableUi shareEdit,
-                           @Nullable AuthorId authorId) {
+        ReviewsList(FactoryReviewView factoryReviewView,
+                    LaunchableUi shareEdit, @Nullable AuthorId followAuthorId) {
             super(GvNode.TYPE);
             mFactoryReviewView = factoryReviewView;
             mShareEdit = shareEdit;
-            mAuthorId = authorId;
+            mAuthorId = followAuthorId;
         }
 
         protected FactoryReviewView getFactoryReviewView() {
             return mFactoryReviewView;
         }
 
-        protected LaunchableUi getShareEdit() {
-            return mShareEdit;
+        protected LaunchOptionsCommand newOptionsCommand() {
+            return new LaunchOptionsCommand(mShareEdit);
         }
 
         @Override
@@ -283,7 +278,7 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
 
         @Override
         public GridItemReviewsList newGridItem() {
-            return new GridItemReviewsList(mFactoryReviewView, mShareEdit);
+            return new GridItemReviewsList(mFactoryReviewView, newOptionsCommand());
         }
     }
 
@@ -294,7 +289,7 @@ public class FactoryActions<T extends GvData> implements FactoryReviewViewAction
 
         @Override
         public GridItemReviewsList newGridItem() {
-            return new GridItemFeed(getFactoryReviewView(), getShareEdit());
+            return new GridItemFeed(getFactoryReviewView(), newOptionsCommand());
         }
 
         @Override

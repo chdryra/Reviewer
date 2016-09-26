@@ -16,20 +16,20 @@ import com.chdryra.android.reviewer.R;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuCopyReview<T extends GvData> extends MenuActionNone<T> {
-    private static final int COPY_REVIEW = R.id.menu_item_copy_review;
-    private static final int MENU = R.menu.menu_copy_review;
+public class MenuReviewOptions<T extends GvData> extends MenuActionNone<T> {
+    private static final int COPY_REVIEW = R.id.menu_item_options;
+    private static final int MENU = R.menu.menu_review_options;
 
-    private final MenuActionItem<T> mCopyReview;
+    private final MenuActionItem<T> mReviewOptions;
 
-    public MenuCopyReview(MenuActionItem<T> copyReview, String title) {
+    public MenuReviewOptions(MenuActionItem<T> reviewOptions, String title) {
         super(MENU, title, false);
-        mCopyReview = copyReview;
-        mCopyReview.setParent(this);
+        mReviewOptions = reviewOptions;
+        mReviewOptions.setParent(this);
     }
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(mCopyReview, COPY_REVIEW, false);
+        bindMenuActionItem(mReviewOptions, COPY_REVIEW, false);
     }
 }

@@ -23,16 +23,14 @@ public class CopyCommand extends Command {
     private BuildScreenLauncher mLauncher;
     private ReviewId mReviewId;
 
-    public CopyCommand(int requestCode, ExecutionListener listener, CurrentScreen screen,
-                       BuildScreenLauncher launcher, ReviewId reviewId) {
-        super(requestCode, listener);
+    public CopyCommand(CurrentScreen screen, BuildScreenLauncher launcher, ReviewId reviewId) {
         mScreen = screen;
         mLauncher = launcher;
         mReviewId = reviewId;
     }
 
     @Override
-    public void execute() {
+    void execute() {
         mScreen.showToast(Strings.Toasts.COPYING);
         mLauncher.launch(mReviewId);
         onExecutionComplete();

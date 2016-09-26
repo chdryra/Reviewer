@@ -102,7 +102,7 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getShareEdit() {
+    public LaunchableConfig getReviewOptions() {
         return mShareEditConfig;
     }
 

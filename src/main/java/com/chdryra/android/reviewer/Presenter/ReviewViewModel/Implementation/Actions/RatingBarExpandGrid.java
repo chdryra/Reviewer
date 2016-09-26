@@ -43,7 +43,7 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
         if (ui == null) {
             ApplicationInstance app = getApp();
             ui = mFactory.newDefaultView(expanded, app.newReviewLauncher(),
-                    app.getUsersManager().getAuthorsRepository(), app.getUserSession());
+                    app.getUsersManager().getAuthorsRepository());
         }
 
         return ui;
