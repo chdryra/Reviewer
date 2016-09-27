@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishAction implements ReviewPublisher.QueueCallback {
-    private final ApplicationInstance mApp;
+    private final ReviewPublisher mPublisher;
     private final PublishCallback mResponse;
 
     public interface PublishCallback {
@@ -34,13 +33,13 @@ public class PublishAction implements ReviewPublisher.QueueCallback {
                 message);
     }
 
-    public PublishAction(ApplicationInstance app, PublishCallback response) {
-        mApp = app;
+    public PublishAction(ReviewPublisher publisher, PublishCallback response) {
+        mPublisher = publisher;
         mResponse = response;
     }
 
     public void publish(Review toPublish, ArrayList<String> selectedPublishers) {
-        mApp.getPublisher().addToQueue(toPublish, selectedPublishers, this);
+        mPublisher.addToQueue(toPublish, selectedPublishers, this);
     }
 
     @Override

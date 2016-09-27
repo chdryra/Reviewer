@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddFacts;
@@ -31,10 +29,10 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
     private static final GvDataType<GvFact> TYPE = GvFact.TYPE;
 
 
-    public FactoryEditActionsFacts(Context context, ConfigUi config,
+    public FactoryEditActionsFacts(ConfigUi config,
                                    FactoryGvData dataFactory,
                                    ParcelablePacker<GvFact> packer) {
-        super(context, TYPE, config, dataFactory, packer);
+        super(TYPE, config, dataFactory, packer);
     }
 
     @Override

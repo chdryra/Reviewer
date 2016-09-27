@@ -32,8 +32,7 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     private final ParcelablePacker<T> mDataPacker;
 
-    public GridItemEdit(LaunchableConfig editorConfig,
-                        ParcelablePacker<T> dataPacker) {
+    public GridItemEdit(LaunchableConfig editorConfig, ParcelablePacker<T> dataPacker) {
         super(TAG, editorConfig);
         mDataPacker = dataPacker;
     }

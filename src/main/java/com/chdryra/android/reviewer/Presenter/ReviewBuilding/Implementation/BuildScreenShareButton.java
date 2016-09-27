@@ -14,7 +14,8 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -24,8 +25,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 27/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenShareButton<T extends GvData> extends ReviewEditorActionBasic<T>
-        implements ContextualButtonAction<T>{
+public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewEditorActionBasic<GC>
+        implements ContextualButtonAction<GC>{
     private static final int SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
 
     private final LaunchableConfig mConfig;

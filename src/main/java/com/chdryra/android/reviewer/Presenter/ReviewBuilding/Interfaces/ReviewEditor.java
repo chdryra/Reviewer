@@ -9,8 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
@@ -18,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
+public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewView<GC> {
     enum ReadyToBuildResult {
         YES("yes"),
         NoSubject(Strings.Toasts.ENTER_SUBJECT),
@@ -49,5 +52,9 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
 
     ImageChooser getImageChooser();
 
+    <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType);
+
     ReadyToBuildResult isReviewBuildable();
+
+    Review buildReview();
 }

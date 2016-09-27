@@ -36,7 +36,7 @@ public class BuildScreenLauncher {
     }
 
     public void launch(@Nullable ReviewId template) {
-        mApp.discardReviewBuilderAdapter();
+        mApp.discardReviewEditor();
         if (template != null) {
             mApp.getReview(template, new Callback(mApp));
         } else {

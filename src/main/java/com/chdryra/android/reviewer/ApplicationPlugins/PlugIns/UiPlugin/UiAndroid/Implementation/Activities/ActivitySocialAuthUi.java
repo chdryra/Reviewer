@@ -19,10 +19,10 @@ import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentSocialLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -37,28 +37,22 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     private static final String PLATFORM = TagKeyGenerator.getKey(ActivitySocialAuthUi.class, "Platform");
 
     private Fragment mFragment;
-    private FactoryFragmentSocialLogin mFragmentFactory;
-    private FactoryLoginResultHandler mHandlerFactory;
-
     private BinaryResultCallback mHandler;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AndroidAppInstance.setActivity(this);
-        mFragmentFactory = new FactoryFragmentSocialLogin();
-        ApplicationInstance app = AndroidAppInstance.getInstance(this);
-        mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
-    }
 
     @Override
     protected Fragment createFragment() {
         OAuthRequest request = getBundledRequest();
         if(request != null) return FragmentOAuthLogin.newInstance(request);
 
+        AndroidAppInstance.setActivity(this);
+        ApplicationInstance app = AndroidAppInstance.getInstance(this);
+
         String platform = getBundledPlatform();
-        mFragment = mFragmentFactory.newFragment(platform);
-        mHandler = mHandlerFactory.newSocialLoginHandler(platform);
+        FactoryFragmentSocialLogin factory = new FactoryFragmentSocialLogin();
+        mFragment = factory.newFragment(platform);
+        FactoryLoginResultHandler handlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
+        mHandler = handlerFactory.newSocialLoginHandler(platform);
+
         return mFragment;
     }
 

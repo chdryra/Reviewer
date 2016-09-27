@@ -33,6 +33,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFi
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryVhBuildReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
@@ -42,6 +44,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -62,26 +65,34 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         super(modelContext, viewContext, socialContext, networkContext, persistenceContext);
 
         ConverterGv gvConverter = new ConverterGv();
-        FactoryReviewView factoryReviewView = setFactoryReviewView(modelContext, viewContext,
-                persistenceContext, aggregatorsPlugin, gvConverter);
 
         setFactoryGvData(new FactoryGvData());
 
+        FactoryReviewView factoryReviewView = setFactoryReviewView(context,
+                modelContext, deviceContext, viewContext, persistenceContext,
+                aggregatorsPlugin, gvConverter, validator);
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
-
-        setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
-                getGvDataFactory(), validator);
 
         setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView));
 
         setFactoryBuildScreenLauncher(new FactoryBuildScreenLauncher());
     }
 
-    private FactoryReviewView setFactoryReviewView(ModelContext modelContext, ViewContext viewContext,
-                                      PersistenceContext persistenceContext, DataAggregatorsPlugin aggregatorsPlugin, ConverterGv gvConverter) {
-        FactoryReviewView factoryReviewView = new FactoryReviewView(viewContext.getUiConfig(),
-                new FactoryReviewViewParams());
+    private FactoryReviewView setFactoryReviewView(Context context, ModelContext modelContext, DeviceContext deviceContext, ViewContext viewContext,
+                                      PersistenceContext persistenceContext, DataAggregatorsPlugin aggregatorsPlugin, ConverterGv gvConverter, DataValidator validator) {
+
+        FactoryReviewBuilderAdapter<?> builderFactory =
+                getReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
+                getGvDataFactory(), validator);
+
+        FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
+        ConfigUi uiConfig = viewContext.getUiConfig();
+        FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, getGvDataFactory(), paramsFactory);
+        FactoryReviewEditor<?> editorFactory
+                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig.getShareReview());
+
+        FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory);
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
                 persistenceContext.getReviewsSource(),
                 persistenceContext.getUsersManager().getAuthorsRepository(),
@@ -109,7 +120,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 gvConverter);
     }
 
-    private void setReviewBuilderAdapterFactory(Context context,
+    private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(Context context,
                                                 ModelContext modelContext,
                                                 DeviceContext deviceContext,
                                                 ConverterGv converter,
@@ -128,15 +139,12 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 dir, dir.toLowerCase());
 
         //TODO make type safe
-        FactoryReviewBuilderAdapter<?> builderAdapterFactory
-                = new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
+        return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),
                 new FactoryVhBuildReviewData(),
                 validator,
                 new FactoryDataBuilderAdapter(),
                 incrementorFactory,
                 new FactoryImageChooser(context));
-
-        setFactoryBuilderAdapter(builderAdapterFactory);
     }
 }

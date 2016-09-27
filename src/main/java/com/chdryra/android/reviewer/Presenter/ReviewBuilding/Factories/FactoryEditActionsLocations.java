@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
@@ -29,10 +27,10 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLocation> {
     private static final GvDataType<GvLocation> TYPE = GvLocation.TYPE;
 
-    public FactoryEditActionsLocations(Context context, ConfigUi config,
+    public FactoryEditActionsLocations(ConfigUi config,
                                        FactoryGvData dataFactory,
                                        ParcelablePacker<GvLocation> packer) {
-        super(context, TYPE, config, dataFactory, packer);
+        super(TYPE, config, dataFactory, packer);
     }
 
     @Override

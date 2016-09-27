@@ -14,7 +14,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -26,17 +27,18 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.Re
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
@@ -66,19 +68,17 @@ public interface ApplicationInstance {
 
     UiLauncher getUiLauncher();
 
-    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
+    ReviewEditor<?> newReviewEditor(@Nullable Review template);
 
-    ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter();
+    ReviewEditor<?> getReviewEditor();
 
-    Review executeReviewBuilder();
+    Review executeReviewEditor();
 
-    void discardReviewBuilderAdapter();
+    ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback);
+
+    void discardReviewEditor();
 
     FactoryReviews getReviewsFactory();
-
-    FactoryReviewViewParams getViewParamsFactory();
-
-    FactoryGvData getGvDataFactory();
 
     TagsManager getTagsManager();
 

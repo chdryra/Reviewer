@@ -37,4 +37,8 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
     void setRating(float rating, boolean fromUser);
 
     GvImage getCover();
+
+    void resetData();
+
+    void commitData();
 }

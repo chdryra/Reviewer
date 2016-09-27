@@ -24,16 +24,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsBuild;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
@@ -176,46 +171,17 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
     }
 
     public static class Builder {
-        private final FactoryReviewEditor mEditorFactory;
-        private final FactoryReviewViewParams mParamsFactory;
-        private final ApplicationInstance mApp;
         private Review mReview;
-
-        public Builder(ApplicationInstance app, FactoryReviewEditor editorFactory,
-                       FactoryReviewViewParams paramsFactory) {
-            mApp = app;
-            mEditorFactory = editorFactory;
-            mParamsFactory = paramsFactory;
-        }
 
         public void setTemplateReview(Review review) {
             mReview = review;
         }
 
-        public PresenterReviewBuild<?> build() {
-            ReviewBuilderAdapter<?> adapter = mApp.getReviewBuilderAdapter();
-            if (adapter == null) adapter = mApp.newReviewBuilderAdapter(mReview);
+        public PresenterReviewBuild<?> build(ApplicationInstance app) {
+            ReviewEditor<?> editor = app.getReviewEditor();
+            if (editor == null) editor = app.newReviewEditor(mReview);
 
-            return buildPresenter(adapter);
-        }
-
-        private <GC extends GvDataList<? extends GvDataParcelable>> PresenterReviewBuild<GC> buildPresenter
-                (ReviewBuilderAdapter<GC> adapter) {
-            ReviewEditor<GC> editor = newEditor(adapter,
-                    mApp.getConfigUi().getShareReview(), mEditorFactory, mParamsFactory);
-
-            return new PresenterReviewBuild<>(mApp, editor);
-        }
-
-        private <GC extends GvDataList<? extends GvDataParcelable>> ReviewEditor<GC>
-        newEditor(ReviewBuilderAdapter<GC> builder, LaunchableConfig shareScreenUi,
-                  FactoryReviewEditor factory, FactoryReviewViewParams paramsFactory) {
-            ReviewViewParams params = paramsFactory.newBuildReviewParams();
-
-            ReviewViewActions<GC> actions
-                    = new ReviewViewActions<>(new FactoryActionsBuild<>(builder.getGvDataType(), shareScreenUi));
-
-            return factory.newEditor(builder, params, actions);
+            return new PresenterReviewBuild<>(app, editor);
         }
     }
 }

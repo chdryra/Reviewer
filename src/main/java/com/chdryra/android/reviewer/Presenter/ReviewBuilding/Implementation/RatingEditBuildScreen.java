@@ -12,15 +12,17 @@ import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingEditBuildScreen<T extends GvData> extends ReviewEditorActionBasic<T>
-        implements RatingBarAction<T>{
+public class RatingEditBuildScreen<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewEditorActionBasic<GC>
+        implements RatingBarAction<GC>{
     @Override
     public void onClick(View v) {
 

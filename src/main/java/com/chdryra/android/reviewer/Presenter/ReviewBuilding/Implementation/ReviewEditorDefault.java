@@ -8,12 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
@@ -27,30 +32,33 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC> {
-    private final ReviewBuilderAdapter<?> mBuilder;
+    private final ReviewBuilderAdapter<?> mAdapter;
+    private final FactoryReviewDataEditor mEditorFactory;
 
-    public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
+    public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
-                               ReviewViewParams params) {
-        super(new ReviewViewPerspective<>(builder, actions, params));
-        mBuilder = builder;
+                               ReviewViewParams params,
+                               FactoryReviewDataEditor editorFactory) {
+        super(new ReviewViewPerspective<>(adapter, actions, params));
+        mAdapter = adapter;
+        mEditorFactory = editorFactory;
     }
 
     @Override
     public void setSubject() {
-        mBuilder.setSubject(getContainerSubject());
+        mAdapter.setSubject(getContainerSubject());
     }
 
     @Override
     public void setRatingIsAverage(boolean isAverage) {
-        mBuilder.setRatingIsAverage(isAverage);
-        if (isAverage) setRating(mBuilder.getRating(), false);
+        mAdapter.setRatingIsAverage(isAverage);
+        if (isAverage) setRating(mAdapter.getRating(), false);
     }
 
     @Override
     public void setRating(float rating, boolean fromUser) {
         if (fromUser) {
-            mBuilder.setRating(rating);
+            mAdapter.setRating(rating);
         } else {
             getContainer().setRating(rating);
         }
@@ -58,38 +66,49 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public GvImage getCover() {
-        return mBuilder.getCover();
+        return mAdapter.getCover();
     }
 
     @Override
     public void setCover(GvImage image) {
-        mBuilder.setCover(image);
+        mAdapter.setCover(image);
         updateCover();
     }
 
     @Override
     public void notifyBuilder() {
-        mBuilder.notifyDataObservers();
+        mAdapter.notifyDataObservers();
     }
 
     @Override
     public ImageChooser getImageChooser() {
-        return mBuilder.getImageChooser();
+        return mAdapter.getImageChooser();
+    }
+
+    @Override
+    public <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType) {
+        DataBuilderAdapter<T> adapter = mAdapter.getDataBuilderAdapter(dataType);
+        return mEditorFactory.newEditor(adapter, getImageChooser());
     }
 
     @Override
     public float getRating() {
-        return mBuilder.getRating();
+        return mAdapter.getRating();
     }
 
     @Override
     public ReadyToBuildResult isReviewBuildable() {
-        if(mBuilder.getSubject() == null || mBuilder.getSubject().length() == 0) {
+        if(mAdapter.getSubject() == null || mAdapter.getSubject().length() == 0) {
             return ReadyToBuildResult.NoSubject;
-        } else if(mBuilder.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {
+        } else if(mAdapter.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {
                 return ReadyToBuildResult.NoTags;
         } else {
             return ReadyToBuildResult.YES;
         }
+    }
+
+    @Override
+    public Review buildReview() {
+        return mAdapter.buildReview();
     }
 }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditComment;
@@ -28,10 +26,10 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  */
 public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
-    public FactoryEditActionsComments(Context context, ConfigUi config,
+    public FactoryEditActionsComments(ConfigUi config,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvComment> packer) {
-        super(context, TYPE, config, dataFactory, packer);
+        super(TYPE, config, dataFactory, packer);
     }
 
     @Override

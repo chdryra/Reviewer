@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -27,10 +25,10 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
     private static final GvDataType<GvCriterion> TYPE
             = GvCriterion.TYPE;
 
-    public FactoryEditActionsCriteria(Context context, ConfigUi config,
+    public FactoryEditActionsCriteria(ConfigUi config,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvCriterion> packer) {
-        super(context, TYPE, config, dataFactory, packer);
+        super(TYPE, config, dataFactory, packer);
     }
 
     @Override

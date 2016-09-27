@@ -110,4 +110,14 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     public float getRating() {
         return mRating;
     }
+
+    @Override
+    public void resetData() {
+        mBuilder.resetData();
+    }
+
+    @Override
+    public void commitData() {
+        mBuilder.commitData();
+    }
 }

@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -20,13 +19,11 @@ import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataEditPresenter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 
@@ -69,9 +66,11 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
 
     @Override
     protected ReviewView createReviewView() {
-        mPresenter = newPresenterFactory().newPresenter(mDataType);
-
-        return mPresenter.getEditor();
+        ApplicationInstance app = AndroidAppInstance.getInstance(this);
+        ReviewEditor<?> editor = app.getReviewEditor();
+        ReviewDataEditor<T> dataEditor = editor.newDataEditor(mDataType);
+        mPresenter = new PresenterReviewDataEdit<>(dataEditor);
+        return dataEditor;
     }
 
     @Override
@@ -112,20 +111,5 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @NonNull
-    private FactoryDataEditPresenter newPresenterFactory() {
-        ApplicationInstance app = AndroidAppInstance.getInstance(this);
-        ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
-
-        FactoryEditActions actionsFactory
-                = new FactoryEditActions(this, app.getConfigUi(), app.getGvDataFactory(),
-                parentBuilder.getImageChooser());
-
-        FactoryReviewDataEditor editorFactory
-                = new FactoryReviewDataEditor(app.getViewParamsFactory(), actionsFactory);
-
-        return new FactoryDataEditPresenter(this, parentBuilder, editorFactory);
     }
 }

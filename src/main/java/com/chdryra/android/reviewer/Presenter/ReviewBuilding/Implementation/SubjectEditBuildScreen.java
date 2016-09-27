@@ -9,15 +9,17 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditBuildScreen<T extends GvData> extends ReviewEditorActionBasic<T>
-        implements SubjectAction<T>{
+public class SubjectEditBuildScreen<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewEditorActionBasic<GC>
+        implements SubjectAction<GC>{
     @Override
     public String getSubject() {
         return getEditor().getSubject();

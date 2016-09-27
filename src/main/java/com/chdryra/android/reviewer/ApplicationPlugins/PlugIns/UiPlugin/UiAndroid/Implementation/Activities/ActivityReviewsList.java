@@ -43,7 +43,7 @@ public class ActivityReviewsList extends ActivityReviewView {
 
     @Override
     protected void onResume() {
-        AndroidAppInstance.getInstance(this).discardReviewBuilderAdapter();
+        AndroidAppInstance.getInstance(this).discardReviewEditor();
         super.onResume();
     }
 

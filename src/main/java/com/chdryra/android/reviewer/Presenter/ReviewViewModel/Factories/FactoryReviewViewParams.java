@@ -62,4 +62,11 @@ public class FactoryReviewViewParams {
 
         return params;
     }
+
+    public ReviewViewParams newPublishParams() {
+        ReviewViewParams params = new ReviewViewParams();
+        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+
+        return params;
+    }
 }

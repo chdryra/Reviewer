@@ -27,8 +27,6 @@ public class FactoryConfigUi {
     private static final int SIGN_UP = RequestCodeGenerator.getCode(SIGN_UP_TAG);
     private static final String USER_FEED_SCREEN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "UserFeedScreen");
     private static final int USER_FEED_SCREEN = RequestCodeGenerator.getCode(USER_FEED_SCREEN_TAG);
-    private static final String AUTHORS_REVIEWS_SCREEN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "FeedScreen");
-    private static final int AUTHORS_REVIEWS_SCREEN = RequestCodeGenerator.getCode(AUTHORS_REVIEWS_SCREEN_TAG);
     private static final String REVIEW_BUILD_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "ReviewBuilderScreen");
     private static final int REVIEW_BUILD = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
     private static final String EDIT_ON_MAP_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "EditOnMap");

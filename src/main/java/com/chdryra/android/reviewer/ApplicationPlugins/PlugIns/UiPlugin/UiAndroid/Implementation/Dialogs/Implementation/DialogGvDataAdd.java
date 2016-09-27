@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
@@ -38,7 +38,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
-    private DataBuilderAdapter<T> mBuilder;
+    private ReviewDataEditor<T> mBuilder;
     private DataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
@@ -107,7 +107,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-            mBuilder = app.getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
+            mBuilder = app.getReviewEditor().newDataEditor(mDataType);
         }
     }
 

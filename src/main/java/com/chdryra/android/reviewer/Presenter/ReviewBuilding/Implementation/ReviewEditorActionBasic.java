@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActionBasic;
 
@@ -17,11 +18,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewEditorActionBasic<T extends GvData>
-        extends ReviewViewActionBasic<T> {
-    private ReviewEditor<T> mEditor;
+public abstract class ReviewEditorActionBasic<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewViewActionBasic<GC> {
+    private ReviewEditor<GC> mEditor;
 
-    ReviewEditor<T> getEditor() {
+    ReviewEditor<GC> getEditor() {
         return mEditor;
     }
 
@@ -29,7 +30,7 @@ public abstract class ReviewEditorActionBasic<T extends GvData>
     public void onAttachReviewView() {
         super.onAttachReviewView();
         try {
-            mEditor = (ReviewEditor<T>)getReviewView();
+            mEditor = (ReviewEditor<GC>)getReviewView();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
@@ -28,10 +26,10 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private final TagAdjuster mTagAdjuster;
 
-    public FactoryEditActionsTags(Context context, ConfigUi config,
+    public FactoryEditActionsTags(ConfigUi config,
                                   FactoryGvData dataFactory,
                                   ParcelablePacker<GvTag> packer) {
-        super(context, TYPE, config, dataFactory, packer);
+        super(TYPE, config, dataFactory, packer);
         mTagAdjuster = new TagAdjuster();
     }
 

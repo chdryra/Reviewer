@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BuildScreenGridUi<GC extends GvDataList> {
-
     void setParentAdapter(ReviewBuilderAdapter<?> adapter);
 
     GvDataList<GC> getGridWrapper();

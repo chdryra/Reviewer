@@ -47,18 +47,18 @@ import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -118,11 +118,6 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     //API
     @Override
-    public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
-        return mAppContext.getReviewBuilderAdapter();
-    }
-
-    @Override
     public FactoryReviews getReviewsFactory() {
         return mAppContext.getReviewsFactory();
     }
@@ -140,16 +135,6 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     @Override
     public UiLauncher getUiLauncher() {
         return mAppContext.getLauncherFactory().newLauncher(mActivity);
-    }
-
-    @Override
-    public FactoryReviewViewParams getViewParamsFactory() {
-        return mAppContext.getReviewViewParamsFactory();
-    }
-
-    @Override
-    public FactoryGvData getGvDataFactory() {
-        return mAppContext.getGvDataFactory();
     }
 
     @Override
@@ -203,18 +188,28 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
-        return mAppContext.newReviewBuilderAdapter(template);
+    public ReviewEditor<?> newReviewEditor(@Nullable Review template) {
+        return mAppContext.newReviewEditor(template);
     }
 
     @Override
-    public void discardReviewBuilderAdapter() {
-        mAppContext.discardReviewBuilderAdapter();
+    public ReviewEditor<?> getReviewEditor() {
+        return mAppContext.getReviewEditor();
     }
 
     @Override
-    public Review executeReviewBuilder() {
-        return mAppContext.executeReviewBuilder();
+    public void discardReviewEditor() {
+        mAppContext.discardReviewEditor();
+    }
+
+    @Override
+    public Review executeReviewEditor() {
+        return mAppContext.executeReviewEditor();
+    }
+
+    @Override
+    public ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback) {
+        return mAppContext.newPublishScreen(authoriser, callback);
     }
 
     @Override

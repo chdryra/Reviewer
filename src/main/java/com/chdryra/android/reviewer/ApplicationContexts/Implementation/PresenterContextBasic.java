@@ -34,18 +34,20 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryBuildScreenLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
@@ -64,10 +66,9 @@ public abstract class PresenterContextBasic implements PresenterContext {
     private final ReviewPublisher mPublisher;
 
     private FactoryGvData mFactoryGvData;
-    private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
     private FactoryReviewView mFactoryReviewView;
     private FactoryReviewLauncher mFactoryReviewLauncher;
-    private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
+    private ReviewEditor<? extends GvDataList<? extends GvDataParcelable>> mReviewEditor;
     private FactoryBuildScreenLauncher mFactoryBuildScreenLauncher;
 
     protected PresenterContextBasic(ModelContext modelContext,
@@ -85,18 +86,12 @@ public abstract class PresenterContextBasic implements PresenterContext {
                 .getLocalRepository());
     }
 
-    protected void setFactoryReviewView(FactoryReviewView
-                                                factoryReviewView) {
+    protected void setFactoryReviewView(FactoryReviewView factoryReviewView) {
         mFactoryReviewView = factoryReviewView;
     }
 
     protected void setFactoryGvData(FactoryGvData factoryGvData) {
         mFactoryGvData = factoryGvData;
-    }
-
-
-    protected void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
-        mFactoryBuilderAdapter = factoryBuilderAdapter;
     }
 
     protected void setFactoryReviewLauncher(FactoryReviewLauncher factoryReviewLauncher) {
@@ -108,14 +103,9 @@ public abstract class PresenterContextBasic implements PresenterContext {
         mFactoryBuildScreenLauncher = factoryBuildScreenLauncher;
     }
 
-    @Override
-    public FactoryGvData getGvDataFactory() {
-        return mFactoryGvData;
-    }
 
-    @Override
-    public FactoryReviewViewParams getReviewViewParamsFactory() {
-        return mFactoryReviewView.getParamsFactory();
+    protected FactoryGvData getGvDataFactory() {
+        return mFactoryGvData;
     }
 
     @Override
@@ -139,27 +129,34 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
-        mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter(template);
-        return mReviewBuilderAdapter;
+    public ReviewEditor<?> newReviewEditor(@Nullable Review template) {
+        mReviewEditor = mFactoryReviewView.newEditor(template);
+        return mReviewEditor;
     }
 
     @Override
-    public void discardReviewBuilderAdapter() {
-        mReviewBuilderAdapter = null;
+    public void discardReviewEditor() {
+        mReviewEditor = null;
     }
 
     @Override
-    public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
-        return mReviewBuilderAdapter;
+    public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>> getReviewEditor() {
+        return mReviewEditor;
     }
 
     @Override
-    public Review executeReviewBuilder() {
-        Review published = mReviewBuilderAdapter.buildReview();
-        discardReviewBuilderAdapter();
+    public Review executeReviewEditor() {
+        Review published = mReviewEditor.buildReview();
+        discardReviewEditor();
 
         return published;
+    }
+
+    @Override
+    public ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback) {
+        ReviewView<?> editor = mReviewEditor != null ? mReviewEditor : mFactoryReviewView.newEditor(null);
+        return mFactoryReviewView.newPublishView(editor.getAdapter(), mPublisher,
+                callback, getSocialPlatformList(), authoriser);
     }
 
     @Override

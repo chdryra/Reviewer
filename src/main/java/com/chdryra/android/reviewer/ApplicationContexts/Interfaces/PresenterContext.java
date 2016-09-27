@@ -24,13 +24,14 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
@@ -41,10 +42,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PresenterContext {
-    FactoryReviewViewParams getReviewViewParamsFactory();
-
-    FactoryGvData getGvDataFactory();
-
     FactoryReviews getReviewsFactory();
 
     SocialPlatformList getSocialPlatformList();
@@ -55,13 +52,15 @@ public interface PresenterContext {
 
     ReviewsListView newFeedView(ReviewNode node);
 
-    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
+    ReviewEditor<?> newReviewEditor(@Nullable Review template);
 
-    void discardReviewBuilderAdapter();
+    void discardReviewEditor();
 
-    ReviewBuilderAdapter<?> getReviewBuilderAdapter();
+    ReviewEditor<?> getReviewEditor();
 
-    Review executeReviewBuilder();
+    Review executeReviewEditor();
+
+    ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback);
 
     ReviewsSource getMasterRepository();
 

@@ -43,7 +43,7 @@ public class PublishButton extends ReviewViewActionBasic<GvSocialPlatform>
 
     @Override
     public void onClick(View v) {
-        Review review = getApp().executeReviewBuilder();
+        Review review = getApp().executeReviewEditor();
         mPublishAction.publish(review, getChosenPlatforms());
     }
 

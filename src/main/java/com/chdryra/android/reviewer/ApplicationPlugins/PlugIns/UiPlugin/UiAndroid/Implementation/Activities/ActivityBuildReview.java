@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
@@ -35,15 +34,13 @@ public class ActivityBuildReview extends ActivityReviewView {
 
     @Override
     protected ReviewView createReviewView() {
-        AndroidAppInstance app = AndroidAppInstance.getInstance(this);
+        ApplicationInstance app = AndroidAppInstance.getInstance(this);
 
-        PresenterReviewBuild.Builder builder
-                = new PresenterReviewBuild.Builder(app,
-                new FactoryReviewEditor(), app.getViewParamsFactory());
+        PresenterReviewBuild.Builder builder = new PresenterReviewBuild.Builder();
 
-        setTemplateReviewIfRequested(app, builder);
+        setTemplateReviewIfAvailable(app, builder);
 
-        mPresenter = builder.build();
+        mPresenter = builder.build(app);
 
         return mPresenter.getEditor();
     }
@@ -63,7 +60,7 @@ public class ActivityBuildReview extends ActivityReviewView {
         launcher.launch(getClass(), TEMPLATE_ID);
     }
 
-    private void setTemplateReviewIfRequested(ApplicationInstance app,
+    private void setTemplateReviewIfAvailable(ApplicationInstance app,
                                               PresenterReviewBuild.Builder builder) {
         Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
         String id = args != null ? args.getString(TEMPLATE_ID) : null;
