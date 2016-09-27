@@ -10,12 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
@@ -39,9 +36,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
     }
 
-    private PresenterUsersFeed(ApplicationInstance app,
-                               ReviewNodeRepo feedNode,
-                               PresenterListener listener) {
+    private PresenterUsersFeed(ApplicationInstance app, PresenterListener listener) {
         super(app, app.newFeedView());
         getApp().getPublisher().registerListener(this);
         mListener = listener;
@@ -137,11 +132,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            AuthorId feedOwner = mApp.getUserSession().getAuthorId();
-            ReferencesRepository feed = mApp.getUsersFeed();
-            AuthorsRepository authorsRepo = mApp.getUsersManager().getAuthorsRepository();
-            ReviewNodeRepo node = mApp.getReviewsFactory().createFeed(feedOwner, feed, authorsRepo);
-            return new PresenterUsersFeed(mApp, node, listener);
+            return new PresenterUsersFeed(mApp, listener);
         }
     }
 }

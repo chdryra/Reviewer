@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Parc
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;

@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
         .NetworkServicesAndroid.Implementation.BackendService.ReviewDeleterReceiver;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 
 /**
  * Created by: Rizwan Choudrey

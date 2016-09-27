@@ -11,8 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .MenuActionItemBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData

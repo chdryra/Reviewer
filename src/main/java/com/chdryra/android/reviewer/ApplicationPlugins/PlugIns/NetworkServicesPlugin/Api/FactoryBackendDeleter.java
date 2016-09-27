@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 
 /**
  * Created by: Rizwan Choudrey

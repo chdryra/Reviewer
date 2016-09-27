@@ -28,9 +28,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -213,7 +213,7 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
             ReviewViewParams params = paramsFactory.newBuildReviewParams();
 
             ReviewViewActions<GC> actions
-                    = new ReviewViewActions<>(new FactoryActions.Build<>(builder.getGvDataType(), shareScreenUi));
+                    = new ReviewViewActions<>(new FactoryActionsBuild<>(builder.getGvDataType(), shareScreenUi));
 
             return factory.newEditor(builder, params, actions);
         }

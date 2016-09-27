@@ -12,7 +12,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories.FactoryReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories.FactoryReviewPublisher;
 
 /**

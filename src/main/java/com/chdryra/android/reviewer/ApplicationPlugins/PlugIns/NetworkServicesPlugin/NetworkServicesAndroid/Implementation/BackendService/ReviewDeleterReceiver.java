@@ -13,7 +13,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterCallback;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleterCallback;
 
 /**
  * Created by: Rizwan Choudrey

@@ -9,12 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -38,20 +32,5 @@ public class ReviewsListView extends ReviewViewDefault<GvNode>{
     @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(this);
-    }
-
-    public static class Actions extends ReviewViewActions<GvNode> {
-        public Actions(SubjectAction<GvNode> subjectAction,
-                       RatingBarAction<GvNode> ratingBarAction,
-                       BannerButtonAction<GvNode> bannerButtonAction,
-                       GridItemReviewsList gridItemAction,
-                       MenuAction<GvNode> menuAction) {
-            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
-        }
-
-        @Override
-        public GridItemReviewsList getGridItemAction() {
-            return (GridItemReviewsList) super.getGridItemAction();
-        }
     }
 }

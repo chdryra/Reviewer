@@ -24,10 +24,8 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.CopyCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.DeleteCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.ShareCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
@@ -85,10 +83,10 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         PublisherAndroid sharer = new PublisherAndroid(activity, new ReviewSummariser(), new ReviewFormatterTwitter());
 
-
-        final Command deleteCommand = new DeleteCommand(screen, app.newReviewDeleter(reviewId));
-        final Command shareCommand = new ShareCommand(app, reviewId, sharer);
-        final Command copyCommand = new CopyCommand(screen, app.newBuildScreenLauncher(), reviewId);
+        FactoryCommands factory = new FactoryCommands();
+        final Command deleteCommand = factory.newDeleteCommand(app.newReviewDeleter(reviewId), screen);
+        final Command shareCommand = factory.newShareCommand(app, reviewId, sharer);
+        final Command copyCommand = factory.newCopyCommand(app.newBuildScreenLauncher(), reviewId, screen);
 
         final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {

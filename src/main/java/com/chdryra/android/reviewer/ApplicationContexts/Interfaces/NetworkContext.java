@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories.FactoryReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories.FactoryReviewPublisher;
 
 /**

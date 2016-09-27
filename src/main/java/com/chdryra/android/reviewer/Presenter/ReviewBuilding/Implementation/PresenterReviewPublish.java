@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
@@ -95,7 +95,7 @@ public class PresenterReviewPublish implements ActivityResultListener{
             PublishAction publishAction = new PublishAction(mApp, publishCallback);
 
             ReviewViewActions<GvSocialPlatform> actions
-                    = new ReviewViewActions<>(new FactoryActions.Publish(authoriser, platforms, publishAction));
+                    = new ReviewViewActions<>(new FactoryActionsPublish(authoriser, platforms, publishAction));
 
             ReviewViewPerspective<GvSocialPlatform> perspective =
                     new ReviewViewPerspective<>(adapter, actions, getParams());
