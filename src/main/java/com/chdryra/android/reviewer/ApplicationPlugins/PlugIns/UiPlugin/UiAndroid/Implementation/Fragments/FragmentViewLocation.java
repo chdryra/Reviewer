@@ -108,7 +108,7 @@ public class FragmentViewLocation extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AndroidAppInstance.getInstance(getActivity()).getLocationClient(this);
+        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient(this);
         mLocationClient.connect();
     }
 

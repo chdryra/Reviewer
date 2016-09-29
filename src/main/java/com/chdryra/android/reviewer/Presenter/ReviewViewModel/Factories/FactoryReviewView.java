@@ -70,10 +70,6 @@ public class FactoryReviewView {
         mParamsFactory = paramsFactory;
     }
 
-    public FactoryReviewViewParams getParamsFactory() {
-        return mParamsFactory;
-    }
-
     public FactoryReviewViewAdapter getAdapterFactory() {
         return mAdapterFactory;
     }
@@ -95,7 +91,7 @@ public class FactoryReviewView {
         return newReviewsListView(node, mAdapterFactory.newChildListAdapter(node), followAuthorId, false);
     }
 
-    public ReviewView<?> newPublishView(ReviewViewAdapter<?> reviewAdapter,
+    public ReviewView<?> newPublishView(ReviewViewAdapter<?> toPublish,
                                         ReviewPublisher publisher,
                                         PublishAction.PublishCallback callback,
                                         SocialPlatformList platforms,
@@ -108,7 +104,7 @@ public class FactoryReviewView {
         PublishAction publishAction = new PublishAction(publisher, callback);
         FactoryActionsPublish factory = new FactoryActionsPublish(authoriser, list, publishAction);
 
-        return newReviewView(mAdapterFactory.newPublishAdapter(list, reviewAdapter),
+        return newReviewView(mAdapterFactory.newPublishAdapter(list, toPublish),
                 new ReviewViewActions<>(factory), mParamsFactory.newPublishParams());
     }
 

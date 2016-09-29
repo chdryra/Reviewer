@@ -295,7 +295,7 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public LocationClient getLocationClient(LocationClient.Locatable locatable) {
+    public LocationClient newLocationClient(LocationClient.Locatable locatable) {
         return new LocationClientConnector(mActivity, locatable);
     }
 

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -64,7 +65,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     @Override
-    public GridItemReviewsList newGridItem() {
+    public GridItemAction<GvNode> newGridItem() {
         return new GridItemReviewsList(mFactoryReviewView, newOptionsCommand());
     }
 
@@ -78,7 +79,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         }
 
         @Override
-        public GridItemReviewsList newGridItem() {
+        public GridItemAction<GvNode> newGridItem() {
             return new GridItemFeed(getFactoryReviewView(), newOptionsCommand());
         }
 

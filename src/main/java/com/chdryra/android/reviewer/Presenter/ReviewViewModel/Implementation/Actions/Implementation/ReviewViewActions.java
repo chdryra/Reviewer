@@ -125,6 +125,10 @@ public class ReviewViewActions<T extends GvData> {
     }
 
     public void registerObserver(ReviewViewAttachedObserver observer) {
-        mObservers.add(observer);
+        if(!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    public void unregisterObserver(ReviewViewAttachedObserver observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
     }
 }

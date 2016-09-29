@@ -58,7 +58,7 @@ public interface ApplicationInstance {
 
     LocationServicesApi getLocationServices();
 
-    LocationClient getLocationClient(LocationClient.Locatable locatable);
+    LocationClient newLocationClient(LocationClient.Locatable locatable);
 
     SocialPlatformList getSocialPlatformList();
 

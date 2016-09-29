@@ -12,7 +12,8 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemActionNone;
 
 import java.util.ArrayList;
 
@@ -21,34 +22,39 @@ import java.util.ArrayList;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemClickObserved<T extends GvData> extends GridItemActionNone<T>
+public class GridItemListenable<T extends GvData> extends GridItemActionNone<T>
         implements GridItemAction<T> {
-    private final ArrayList<ClickObserver<T>> mObservers;
+    private final ArrayList<ClickListener<T>> mListeners;
 
-    public interface ClickObserver<T extends GvData> {
+    interface ClickListener<T extends GvData> {
         void onGridItemClick(T item, int position, View v);
+
         void onGridItemLongClick(T item, int position, View v);
     }
 
-    public GridItemClickObserved() {
-        mObservers = new ArrayList<>();
+    public GridItemListenable() {
+        mListeners = new ArrayList<>();
+    }
+
+    public void registerListener(ClickListener<T> listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    public void unregisterListener(ClickListener<T> listener) {
+        if(mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override
     public void onGridItemClick(T item, int position, View v) {
-        for(ClickObserver<T> observer : mObservers) {
-            observer.onGridItemClick(item, position, v);
+        for (ClickListener<T> listener : mListeners) {
+            listener.onGridItemClick(item, position, v);
         }
     }
 
     @Override
     public void onGridItemLongClick(T item, int position, View v) {
-        for(ClickObserver<T> observer : mObservers) {
-            observer.onGridItemLongClick(item, position, v);
+        for (ClickListener<T> listener : mListeners) {
+            listener.onGridItemLongClick(item, position, v);
         }
-    }
-
-    public void registerObserver(ClickObserver<T> observer) {
-        mObservers.add(observer);
     }
 }

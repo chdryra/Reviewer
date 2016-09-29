@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Grid
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButton;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -56,7 +55,7 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
 
     @Override
     public MenuAction<GvSocialPlatform> newMenu() {
-        return new MenuActionNone<>(TITLE);
+        return newMenu(TITLE);
     }
 
     @Nullable

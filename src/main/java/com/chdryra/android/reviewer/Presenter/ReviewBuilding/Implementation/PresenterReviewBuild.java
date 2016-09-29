@@ -42,17 +42,18 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         ImageChooser.ImageChooserListener,
         LocationClientConnector.Locatable,
         ReviewViewActions.ReviewViewAttachedObserver,
-        GridItemClickObserved.ClickObserver<GC> {
+        GridItemListenable.ClickListener<GC> {
+
     private final ApplicationInstance mApp;
     private final ReviewEditor<GC> mEditor;
+
     private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
 
     private PresenterReviewBuild(ApplicationInstance app, ReviewEditor<GC> editor) {
-        mEditor = editor;
         mApp = app;
-        setGridItemObservation();
+        mEditor = editor;
     }
 
     public ReviewEditor getEditor() {
@@ -81,7 +82,7 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
 
     @Override
     public void onLocated(Location location) {
-        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+        mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
     }
 
     @Override
@@ -96,14 +97,16 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
 
     @Override
     public <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView) {
-        mImageChooser = mEditor.getImageChooser();
-        mLocationClient = mApp.getLocationClient(this);
+        if(mImageChooser == null) mImageChooser = mEditor.getImageChooser();
+        if(mLocationClient == null) mLocationClient = mApp.newLocationClient(this);
         mLocationClient.connect();
+        registerActionListener();
     }
 
     @Override
     public void onReviewViewDetached() {
         mLocationClient.disconnect();
+        unregisterActionListener();
     }
 
     //private methods
@@ -120,11 +123,16 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         }
     }
 
-    private void setGridItemObservation() {
+    private void registerActionListener() {
         ReviewViewActions<GC> actions = mEditor.getActions();
         actions.registerObserver(this);
-        GridItemClickObserved<GC> gi = (GridItemClickObserved<GC>) actions.getGridItemAction();
-        gi.registerObserver(this);
+        ((GridItemListenable<GC>) actions.getGridItemAction()).registerListener(this);
+    }
+
+    private void unregisterActionListener() {
+        ReviewViewActions<GC> actions = mEditor.getActions();
+        actions.unregisterObserver(this);
+        ((GridItemListenable<GC>) actions.getGridItemAction()).unregisterListener(this);
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
@@ -133,10 +141,6 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
 
     private void updateScreen() {
         mEditor.notifyBuilder();
-    }
-
-    private void setLatLng(LatLng latLng) {
-        mLatLng = latLng;
     }
 
     private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
@@ -171,15 +175,15 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
     }
 
     public static class Builder {
-        private Review mReview;
+        private Review mTemplate;
 
-        public void setTemplateReview(Review review) {
-            mReview = review;
+        public void setTemplateReview(Review template) {
+            mTemplate = template;
         }
 
         public PresenterReviewBuild<?> build(ApplicationInstance app) {
             ReviewEditor<?> editor = app.getReviewEditor();
-            if (editor == null) editor = app.newReviewEditor(mReview);
+            if (editor == null) editor = app.newReviewEditor(mTemplate);
 
             return new PresenterReviewBuild<>(app, editor);
         }

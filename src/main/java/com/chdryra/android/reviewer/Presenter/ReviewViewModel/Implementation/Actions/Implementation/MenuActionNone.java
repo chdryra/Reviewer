@@ -49,7 +49,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         if (mDisplayHomeAsUp) bindMenuActionItem(new MaiUp(), MENU_UP_ID, true);
     }
 
-    public MenuActionNone(String title) {
+    public MenuActionNone(@Nullable String title) {
         this(-1, title, true);
     }
 
