@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -34,7 +34,7 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
-        getApp().getUiLauncher().launch(getReviewView(expanded), REQUEST_CODE);
+        getApp().newUiLauncher().launch(getReviewView(expanded), REQUEST_CODE);
     }
 
     private LaunchableUi getReviewView(ReviewViewAdapter<?> expanded) {

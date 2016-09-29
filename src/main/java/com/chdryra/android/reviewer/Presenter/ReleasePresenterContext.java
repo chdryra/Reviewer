@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryBuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -75,8 +74,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
         setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView));
-
-        setFactoryBuildScreenLauncher(new FactoryBuildScreenLauncher());
     }
 
     private FactoryReviewView setFactoryReviewView(Context context, ModelContext modelContext, DeviceContext deviceContext, ViewContext viewContext,
@@ -90,7 +87,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         ConfigUi uiConfig = viewContext.getUiConfig();
         FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, getGvDataFactory(), paramsFactory);
         FactoryReviewEditor<?> editorFactory
-                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig.getShareReview());
+                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig);
 
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory);
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,

@@ -10,11 +10,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CopyCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DeleteCommand;
@@ -22,6 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.NewReviewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -31,15 +31,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 
 public class FactoryCommands {
-    public Command newNewReviewCommand() {
-        return new NewReviewCommand();
-    }
-
-    private NewReviewCommand newNewReviewCommand(BuildScreenLauncher launcher, @Nullable ReviewId template) {
+    private NewReviewCommand newNewReviewCommand(UiLauncher launcher, @Nullable ReviewId template) {
         return new NewReviewCommand(launcher, template);
     }
 
-    public Command newCopyCommand(BuildScreenLauncher launcher, @Nullable ReviewId template, CurrentScreen screen) {
+    public Command newCopyCommand(UiLauncher launcher, @Nullable ReviewId template, CurrentScreen screen) {
         return new CopyCommand(newNewReviewCommand(launcher, template), screen);
     }
 

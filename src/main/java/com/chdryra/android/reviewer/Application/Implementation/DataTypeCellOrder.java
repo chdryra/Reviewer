@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;

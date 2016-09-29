@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,10 +19,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Buil
  * Email: rizwan.choudrey@gmail.com
  */
 public class NewReviewCommand extends Command {
-    private BuildScreenLauncher mLauncher;
+    private UiLauncher mLauncher;
     private ReviewId mTemplate;
 
-    public NewReviewCommand(BuildScreenLauncher launcher, @Nullable ReviewId template) {
+    public NewReviewCommand(UiLauncher launcher, @Nullable ReviewId template) {
         mLauncher = launcher;
         mTemplate = template;
     }
@@ -30,17 +30,13 @@ public class NewReviewCommand extends Command {
     public NewReviewCommand() {
     }
 
-    public void setLauncher(BuildScreenLauncher launcher) {
+    public void setLauncher(UiLauncher launcher) {
         mLauncher = launcher;
     }
 
     @Override
     void execute() {
-        execute(mTemplate);
-    }
-
-    void execute(@Nullable ReviewId template) {
-        if(mLauncher != null) mLauncher.launch(template);
+        if(mLauncher != null) mLauncher.launchBuildUi(mTemplate);
         onExecutionComplete();
     }
 }

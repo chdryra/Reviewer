@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application.AndroidApp;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-class ReviewPacker {
+public class ReviewPacker {
     private static final String REVIEW_ID = TagKeyGenerator.getKey(ReviewPacker.class, "ReviewId");
     private final ObjectHolder mReviews;
 

@@ -12,10 +12,18 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
-import com.chdryra.android.reviewer.Application.AndroidApp.ReviewViewPacker;
+import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -32,13 +40,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 public class UiLauncherAndroid implements UiLauncher {
     private final Activity mCommissioner;
+    private final BuildScreenLauncher mBuildUiLauncher;
     private final Class<? extends Activity> mDefaultActivity;
     private final Class<? extends Activity> mReviewsListActivity;
 
     public UiLauncherAndroid(Activity commissioner,
+                             BuildScreenLauncher buildUiLauncher,
                              Class<? extends Activity> defaultActivity,
                              Class<? extends Activity> reviewsListActivity) {
         mCommissioner = commissioner;
+        mBuildUiLauncher = buildUiLauncher;
         mDefaultActivity = defaultActivity;
         mReviewsListActivity = reviewsListActivity;
     }
@@ -67,6 +78,21 @@ public class UiLauncherAndroid implements UiLauncher {
     public void launchAndClearBackStack(LaunchableConfig config, int requestCode) {
         LaunchableUi ui = config.getLaunchable();
         ui.launch(new AndroidLauncher(mCommissioner, requestCode, ui.getLaunchTag(), new Bundle(), true));
+    }
+
+    @Override
+    public void launchBuildUi(@Nullable ReviewId template) {
+        mBuildUiLauncher.launch(template);
+    }
+
+    @Override
+    public void launchEditDataUi(GvDataType<? extends GvDataParcelable> dataType) {
+        ActivityEditData.start(mCommissioner, dataType);
+    }
+
+    @Override
+    public void launchImageChooser(ImageChooser chooser, int requestCode) {
+        mCommissioner.startActivityForResult(chooser.getChooserIntents(), requestCode);
     }
 
     private class AndroidLauncher implements LauncherUi {

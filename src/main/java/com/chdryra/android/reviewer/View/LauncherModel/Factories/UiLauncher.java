@@ -9,7 +9,12 @@
 package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -28,4 +33,10 @@ public interface UiLauncher {
     void launch(LaunchableConfig config, int requestCode);
 
     void launchAndClearBackStack(LaunchableConfig config, int requestCode);
+
+    void launchBuildUi(@Nullable ReviewId template);
+
+    void launchEditDataUi(GvDataType<? extends GvDataParcelable> dataType);
+
+    void launchImageChooser(ImageChooser chooser, int requestCode);
 }

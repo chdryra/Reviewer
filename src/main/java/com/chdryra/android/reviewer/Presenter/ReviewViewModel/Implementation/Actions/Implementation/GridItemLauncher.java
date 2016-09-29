@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -34,7 +34,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     }
 
     void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        getApp().getUiLauncher().launch(ui, requestCode, args);
+        getApp().newUiLauncher().launch(ui, requestCode, args);
     }
 
     @Override

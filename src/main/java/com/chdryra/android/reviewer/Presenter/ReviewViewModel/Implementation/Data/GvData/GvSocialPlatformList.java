@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**

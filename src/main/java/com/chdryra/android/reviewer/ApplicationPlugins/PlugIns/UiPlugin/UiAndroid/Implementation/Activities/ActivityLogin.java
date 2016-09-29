@@ -17,7 +17,7 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;

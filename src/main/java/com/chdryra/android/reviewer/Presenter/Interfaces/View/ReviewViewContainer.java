@@ -13,7 +13,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 
 /**

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridDataWrapper<T extends GvData> extends GridDataViewer<T> {
-    void attachAdapter(ReviewViewAdapterBasic<T> adapter);
+    void attachAdapter(ReviewViewAdapterImpl<T> adapter);
 
     void detachAdapter();
 }

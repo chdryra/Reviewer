@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application.AndroidApp;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -18,7 +18,7 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.reviewer.Application.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 
 /**

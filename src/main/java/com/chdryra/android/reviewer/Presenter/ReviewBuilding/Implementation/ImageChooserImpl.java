@@ -47,8 +47,7 @@ public class ImageChooserImpl implements ImageChooser {
     private String mCaptureFile;
 
     //Constructors
-    public ImageChooserImpl(Context context,
-                            FileIncrementor fileIncrementor) {
+    public ImageChooserImpl(Context context, FileIncrementor fileIncrementor) {
         mContext = context;
         mFileIncrementor = fileIncrementor;
     }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;

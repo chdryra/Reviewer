@@ -26,9 +26,9 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;

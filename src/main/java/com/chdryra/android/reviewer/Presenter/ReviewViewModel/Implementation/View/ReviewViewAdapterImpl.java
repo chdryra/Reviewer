@@ -28,18 +28,18 @@ import java.util.ArrayList;
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T>,
+public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapter<T>,
         DataObservable.DataObserver {
     private final ArrayList<DataObserver> mObservers = new ArrayList<>();
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
 
-    public ReviewViewAdapterBasic() {
+    public ReviewViewAdapterImpl() {
         mWrapper = null;
     }
 
-    public ReviewViewAdapterBasic(GridDataWrapper<T> wrapper) {
+    public ReviewViewAdapterImpl(GridDataWrapper<T> wrapper) {
         mWrapper = wrapper;
     }
 

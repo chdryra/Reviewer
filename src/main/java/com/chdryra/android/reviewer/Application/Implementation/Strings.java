@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,6 +51,7 @@ public class Strings {
         public static final String FOLLOWING = "Following...";
         public static final String UNFOLLOWING = "Unfollowing...";
         public static final String Done = "Done";
+        public static final String LOGGING_OUT = "Logging out...";
     }
     
     public static class Screens {

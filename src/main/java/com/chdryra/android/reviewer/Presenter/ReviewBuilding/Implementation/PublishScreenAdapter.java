@@ -14,14 +14,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapperBasic;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
+public class PublishScreenAdapter extends ReviewViewAdapterImpl<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
     private final ReviewViewAdapter<?> mReviewViewAdapter;
 

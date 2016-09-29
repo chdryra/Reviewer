@@ -15,8 +15,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -216,7 +216,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     private void launchLaunchable(LaunchableConfig launchable, int code, Bundle args) {
-        UiLauncher uiLauncher = mApp.getUiLauncher();
+        UiLauncher uiLauncher = mApp.newUiLauncher();
         uiLauncher.launch(launchable, code, args);
     }
 

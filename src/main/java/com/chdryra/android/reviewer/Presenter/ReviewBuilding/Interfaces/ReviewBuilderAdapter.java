@@ -36,7 +36,7 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
 
     void setRatingIsAverage(boolean ratingIsAverage);
 
-    ImageChooser getImageChooser();
+    ImageChooser newImageChooser();
 
     <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 

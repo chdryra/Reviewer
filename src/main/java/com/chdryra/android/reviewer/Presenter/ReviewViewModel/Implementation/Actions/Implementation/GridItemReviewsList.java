@@ -29,6 +29,6 @@ public class GridItemReviewsList extends GridItemLauncher<GvNode> {
 
     @Override
     public void onGridItemLongClick(GvNode item, int position, View v) {
-        mCommand.execute(item.getAuthorId(), getApp().getUiLauncher());
+        mCommand.execute(item.getAuthorId(), getApp().newUiLauncher());
     }
 }

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.Interfaces;
 
 import android.app.DialogFragment;
 import android.os.Bundle;

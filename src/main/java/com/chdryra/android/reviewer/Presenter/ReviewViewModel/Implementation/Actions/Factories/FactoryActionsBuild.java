@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -20,13 +21,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemListenable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,11 +37,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
-    private LaunchableConfig mShareScreenUi;
+    private ConfigUi mConfig;
+    private UiLauncher mLauncher;
+    private LocationClient mLocationClient;
 
-    public FactoryActionsBuild(GvDataType<GC> dataType, LaunchableConfig shareScreenUi) {
+    public FactoryActionsBuild(GvDataType<GC> dataType, ConfigUi config, UiLauncher launcher,
+                               LocationClient locationClient) {
         super(dataType);
-        mShareScreenUi = shareScreenUi;
+        mConfig = config;
+        mLauncher = launcher;
+        mLocationClient = locationClient;
     }
 
     @Override
@@ -58,7 +66,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemListenable<>();
+        return new GridItemBuildScreen<>(mConfig, mLauncher, mLocationClient);
     }
 
     @Override
@@ -69,6 +77,6 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     @Nullable
     @Override
     public ContextualButtonAction<GC> newContextButton() {
-        return new BuildScreenShareButton<>(mShareScreenUi);
+        return new BuildScreenShareButton<>(mConfig.getShareReview());
     }
 }

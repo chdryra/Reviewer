@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -21,14 +21,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewViewAdapterBasic<T>
+public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
     implements DataBuilderAdapter<T> {
 
     private final ReviewBuilderAdapter mParentBuilder;

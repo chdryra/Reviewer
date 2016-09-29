@@ -20,8 +20,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 
-import java.util.ArrayList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2015
@@ -34,13 +32,6 @@ public class ReviewViewActions<T extends GvData> {
     private final GridItemAction<T> mGridItemAction;
     private final MenuAction<T> mMenuAction;
     private final ContextualButtonAction<T> mContextualAction;
-    private final ArrayList<ReviewViewAttachedObserver> mObservers;
-
-    public interface ReviewViewAttachedObserver {
-        <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView);
-
-        void onReviewViewDetached();
-    }
 
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
                              BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
@@ -58,7 +49,6 @@ public class ReviewViewActions<T extends GvData> {
         mGridItemAction = gridItemAction;
         mMenuAction = menuAction;
         mContextualAction = contextualAction;
-        mObservers = new ArrayList<>();
     }
 
     public ReviewViewActions(FactoryReviewViewActions<T> factory) {
@@ -99,7 +89,6 @@ public class ReviewViewActions<T extends GvData> {
         mBannerButtonAction.attachReviewView(view);
         mGridItemAction.attachReviewView(view);
         if(mContextualAction != null ) mContextualAction.attachReviewView(view);
-        notifyAttach(view);
     }
 
     public void detachReviewView() {
@@ -109,26 +98,5 @@ public class ReviewViewActions<T extends GvData> {
         mBannerButtonAction.detachReviewView();
         mGridItemAction.detachReviewView();
         if(mContextualAction != null ) mContextualAction.detachReviewView();
-        notifyDetach();
-    }
-
-    private void notifyAttach(ReviewView<T> reviewView) {
-        for(ReviewViewAttachedObserver observer : mObservers) {
-            observer.onReviewViewAttached(reviewView);
-        }
-    }
-
-    private void notifyDetach() {
-        for(ReviewViewAttachedObserver observer : mObservers) {
-            observer.onReviewViewDetached();
-        }
-    }
-
-    public void registerObserver(ReviewViewAttachedObserver observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    public void unregisterObserver(ReviewViewAttachedObserver observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
     }
 }

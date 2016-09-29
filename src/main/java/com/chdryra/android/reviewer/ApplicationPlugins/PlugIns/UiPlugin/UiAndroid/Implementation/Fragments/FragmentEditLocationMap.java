@@ -39,15 +39,16 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
@@ -171,13 +172,15 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onLocated(Location location) {
-        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+    public void onLocated(Location location, CallbackMessage message) {
+        if(!message.isError()) {
+            setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
     }
 
     @Override
-    public void onConnected(Location location) {
-        if (mNewLatLng == null) onLocated(location);
+    public void onConnected(Location location, CallbackMessage message) {
+        if (mNewLatLng == null) onLocated(location, message);
     }
 
     @Override
@@ -249,8 +252,8 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient(this);
-        mLocationClient.connect();
+        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient();
+        mLocationClient.connect(this);
     }
 
     @Override

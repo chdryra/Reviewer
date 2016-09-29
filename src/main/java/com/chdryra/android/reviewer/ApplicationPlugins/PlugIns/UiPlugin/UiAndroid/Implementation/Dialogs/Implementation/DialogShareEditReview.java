@@ -19,9 +19,9 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
@@ -86,7 +86,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         FactoryCommands factory = new FactoryCommands();
         final Command deleteCommand = factory.newDeleteCommand(app.newReviewDeleter(reviewId), screen);
         final Command shareCommand = factory.newShareCommand(app, reviewId, sharer);
-        final Command copyCommand = factory.newCopyCommand(app.newBuildScreenLauncher(), reviewId, screen);
+        final Command copyCommand = factory.newCopyCommand(app.newUiLauncher(), reviewId, screen);
 
         final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {

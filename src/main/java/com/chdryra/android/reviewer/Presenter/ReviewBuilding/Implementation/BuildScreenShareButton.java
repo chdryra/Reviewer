@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -53,7 +53,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
             return;
         }
 
-        getApp().getUiLauncher().launch(mConfig, SHARE_SCREEN);
+        getApp().newUiLauncher().launch(mConfig, SHARE_SCREEN);
     }
 
     @Override

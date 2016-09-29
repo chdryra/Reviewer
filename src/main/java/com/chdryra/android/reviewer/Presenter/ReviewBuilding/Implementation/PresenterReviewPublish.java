@@ -13,9 +13,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -94,7 +94,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     public static class Builder {
         public PresenterReviewPublish build(ApplicationInstance app, LaunchableUi authLaunchable) {
             PresenterReviewPublish presenter = new PresenterReviewPublish(app.getCurrentScreen(),
-                    app.getConfigUi().getUsersFeed(), authLaunchable, app.getUiLauncher());
+                    app.getConfigUi().getUsersFeed(), authLaunchable, app.newUiLauncher());
             ReviewView<?> reviewView = app.newPublishScreen(presenter, presenter);
             presenter.setView(reviewView);
             return presenter;

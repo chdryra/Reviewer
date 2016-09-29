@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ImageChooser {
-
     interface ImageChooserListener {
         void onChosenImage(GvImage image);
     }

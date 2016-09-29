@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridDataWrapperBasic<T extends GvData> implements GridDataWrapper<T> {
-    private ReviewViewAdapterBasic<T> mAdapter;
+    private ReviewViewAdapterImpl<T> mAdapter;
     private final ArrayList<DataObserver> mObservers = new ArrayList<>();
 
     void onAttach() {
@@ -31,7 +31,7 @@ public abstract class GridDataWrapperBasic<T extends GvData> implements GridData
     }
 
     @Override
-    public void attachAdapter(ReviewViewAdapterBasic<T> adapter) {
+    public void attachAdapter(ReviewViewAdapterImpl<T> adapter) {
         mAdapter = adapter;
         registerObserver(mAdapter);
         onAttach();

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application.AndroidApp;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.content.Intent;
 

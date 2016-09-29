@@ -8,13 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -22,6 +26,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,10 +38,20 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
-        implements GridItemAction<GC>, LocationClient.Locatable {
+        implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
+    private final ConfigUi mConfig;
+    private final UiLauncher mLauncher;
+
     private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
+
+
+    public GridItemBuildScreen(ConfigUi config, UiLauncher launcher, LocationClient locationClient) {
+        mConfig = config;
+        mLauncher = launcher;
+        mLocationClient = locationClient;
+    }
 
     @Override
     public void onGridItemClick(GC item, int position, View v) {
@@ -48,10 +64,14 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
+    public void onChosenImage(GvImage image) {
+        getEditor().setCover(image);
+    }
+
+    @Override
     public void onAttachReviewView() {
-        if(mImageChooser == null) mImageChooser = getEditor().getImageChooser();
-        if(mLocationClient == null) mLocationClient = getApp().newLocationClient(this);
-        mLocationClient.connect();
+        super.onAttachReviewView();
+        mLocationClient.connect(this);
     }
 
     @Override
@@ -60,13 +80,15 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void onLocated(Location location) {
-        mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+    public void onLocated(Location location, CallbackMessage message) {
+        if(!message.isError()) {
+            mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        }
     }
 
     @Override
-    public void onConnected(Location location) {
-        onLocated(location);
+    public void onConnected(Location location, CallbackMessage message) {
+        onLocated(location, message);
     }
 
     private void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
@@ -74,13 +96,14 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
         } else {
-            getApp().launchEditScreen(type);
+            mLauncher.launchEditDataUi(type);
         }
     }
 
     private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
-            getApp().launchImageChooser(mImageChooser, getImageRequestCode());
+            if(mImageChooser == null) mImageChooser = getEditor().newImageChooser();
+            mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
             showQuickSetLaunchable(getAdderConfig(type));
         }
@@ -91,15 +114,14 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
-        return getApp().getConfigUi().getAdder(dataType.getDatumName());
+        return mConfig.getAdder(dataType.getDatumName());
     }
 
     private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
         Bundle args = new Bundle();
         args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
-        getApp().getUiLauncher().launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag
-                ()), args);
+        mLauncher.launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
     }
 
     private void packLatLng(Bundle args) {
@@ -115,5 +137,13 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
 
         args.putParcelable(AddLocation.LATLNG, latLng);
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        boolean imageRequested = requestCode == getImageRequestCode();
+        if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
+            mImageChooser.getChosenImage(this);
+        }
     }
 }

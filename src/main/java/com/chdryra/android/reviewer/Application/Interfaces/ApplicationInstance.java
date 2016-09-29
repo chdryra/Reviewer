@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.Interfaces;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -27,15 +26,10 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.Re
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -50,65 +44,66 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 public interface ApplicationInstance {
     String APP_NAME = "Teeqr";
 
+    //Users Suite
     UserSession getUserSession();
-
-    void logout();
 
     UsersManager getUsersManager();
 
+    void logout();
+
+    //LocationsSuite
     LocationServicesApi getLocationServices();
 
-    LocationClient newLocationClient(LocationClient.Locatable locatable);
+    LocationClient newLocationClient();
 
-    SocialPlatformList getSocialPlatformList();
-
+    //UISuite
     CurrentScreen getCurrentScreen();
 
     ConfigUi getConfigUi();
 
-    UiLauncher getUiLauncher();
+    UiLauncher newUiLauncher();
 
+    ReviewsListView newFeedView();
+
+    ReviewLauncher newReviewLauncher();
+
+    //EditSuite
     ReviewEditor<?> newReviewEditor(@Nullable Review template);
 
     ReviewEditor<?> getReviewEditor();
 
     Review executeReviewEditor();
 
-    ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback);
-
     void discardReviewEditor();
 
-    FactoryReviews getReviewsFactory();
+    //Social suite
+    SocialPlatformList getSocialPlatformList();
 
-    TagsManager getTagsManager();
+    SocialProfile getSocialProfile();
+
+    ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback);
 
     ReviewPublisher getPublisher();
 
+    FactoryReviews getReviewsFactory();
+
+    //Repo suite
     void getReview(ReviewId id, RepositoryCallback callback);
 
     ReferencesRepository getReviews(AuthorId authorId);
 
     ReferencesRepository getUsersFeed();
 
-    SocialProfile getSocialProfile();
-
     ReviewDeleter newReviewDeleter(ReviewId id);
 
-    void packReview(Review review, Bundle args);
+    TagsManager getTagsManager();
 
+    //UtilSuite
     @Nullable
     Review unpackReview(Bundle args);
 
-    ReviewLauncher newReviewLauncher();
-
-    BuildScreenLauncher newBuildScreenLauncher();
-
-    void launchImageChooser(ImageChooser chooser, int requestCode);
-
-    void launchEditScreen(GvDataType<? extends GvDataParcelable> type);
-
     void setReturnResult(ActivityResultCode result);
 
-    ReviewsListView newFeedView();
+
 }
 

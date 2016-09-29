@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewView<GC> {
+public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewView<GC>, ActivityResultListener {
     enum ReadyToBuildResult {
         YES("yes"),
         NoSubject(Strings.Toasts.ENTER_SUBJECT),
@@ -48,9 +48,7 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
 
     void setCover(GvImage image);
 
-    void notifyBuilder();
-
-    ImageChooser getImageChooser();
+    ImageChooser newImageChooser();
 
     <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType);
 

@@ -20,15 +20,15 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
-import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
-import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
@@ -38,8 +38,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .NullLocatedPlace;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -180,8 +179,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (mCurrentLatLng != null) {
             onLatLngFound(mCurrentLatLng);
         } else {
-            LocationClient locationClient = AndroidAppInstance.getInstance(mContext).newLocationClient(this);
-            locationClient.connect();
+            AndroidAppInstance app = AndroidAppInstance.getInstance(mContext);
+            app.newLocationClient().connect(this);
         }
 
         return v;
@@ -201,13 +200,15 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void onLocated(Location location) {
-        onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
+    public void onLocated(Location location, CallbackMessage message) {
+        if(!message.isError()) {
+            onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
+        }
     }
 
     @Override
-    public void onConnected(Location location) {
-        onLocated(location);
+    public void onConnected(Location location, CallbackMessage message) {
+        onLocated(location, message);
     }
 
     @Override

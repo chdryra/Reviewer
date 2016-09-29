@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -24,6 +25,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewsList;
@@ -49,6 +51,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -79,8 +82,14 @@ public class FactoryReviewView {
         mAdapterFactory.setReviewViewFactory(this);
     }
 
-    public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>> newEditor(@Nullable Review template) {
-        return mFactoryReviewEditor.newEditor(template);
+    public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
+    newEditor(@Nullable Review template, UiLauncher launcher, LocationClient locationClient) {
+        return mFactoryReviewEditor.newEditor(template, launcher, locationClient);
+    }
+
+    public <T extends GvData> ReviewView<?> newNullView(GvDataType<T> dataType) {
+        return newReviewView(mAdapterFactory.newNullAdapter(dataType),
+                new ReviewViewActions<>(new FactoryActionsNone<>(dataType)), new ReviewViewParams());
     }
 
     public ReviewsListView newFeedView(ReviewNode node) {

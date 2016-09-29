@@ -11,11 +11,9 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.NullUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
@@ -24,7 +22,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 import java.util.ArrayList;
 
@@ -33,25 +33,35 @@ import java.util.ArrayList;
  * On: 16/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserSessionDefault implements UserSession {
+public class UserSessionDefault implements UserSession, UserAccounts.GetAccountCallback{
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
-    private final PresenterContext mAppContext;
-    private UserAccount mAccount;
-    private ArrayList<SessionObserver> mObservers;
+    private final UserAuthenticator mAuthenticator;
+    private final UserAccounts mAccounts;
+    private final SocialPlatformList mSocialPlatforms;
+    private final FactoryReviews mReviewsFactory;
+    private final ArrayList<SessionObserver> mObservers;
 
-    public UserSessionDefault(PresenterContext appContext) {
-        mAppContext = appContext;
+    private UserAccount mAccount;
+
+    public UserSessionDefault(UserAuthenticator authenticator,
+                              UserAccounts accounts,
+                              SocialPlatformList socialPlatforms,
+                              FactoryReviews reviewsFactory) {
+        mAuthenticator = authenticator;
+        mAccounts = accounts;
+        mSocialPlatforms = socialPlatforms;
+        mReviewsFactory = reviewsFactory;
+
         mObservers = new ArrayList<>();
-        UserAuthenticator authenticator = mAppContext.getUsersManager().getAuthenticator();
-        authenticator.registerObserver(this);
-        onUserStateChanged(null, authenticator.getAuthenticatedUser());
+        mAuthenticator.registerObserver(this);
+        onUserStateChanged(null, mAuthenticator.getAuthenticatedUser());
     }
 
     @Override
     public boolean isAuthenticated() {
-        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
+        return mAuthenticator.getAuthenticatedUser() != null;
     }
 
     @Override
@@ -83,9 +93,9 @@ public class UserSessionDefault implements UserSession {
     @Override
     public void logout(SessionProvider<?> googleHack) {
         //From Firebase
-        mAppContext.getUsersManager().logoutCurrentUser();
+        mAuthenticator.logout();
         //From twitter/fb (also if used for login)
-        mAppContext.getSocialPlatformList().logout();
+        mSocialPlatforms.logout();
         //Google needs its own method
         googleHack.logout(new SessionProvider.LogoutCallback() {
             @Override
@@ -110,21 +120,27 @@ public class UserSessionDefault implements UserSession {
 
     @Override
     public void refreshSession() {
-        mAppContext.getUsersManager().getCurrentUsersAccount(new UserAccounts.GetAccountCallback() {
-            @Override
-            public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
-                if (error == null) {
-                    if(mAccount != null && !mAccount.getAuthorId().equals(account.getAuthorId())) {
-                        notifySessionEnded(CallbackMessage.ok());
-                    }
-                    mAccount = account;
-                    mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(getAuthorId
-                            ()));
-                }
+        AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
+        if(user != null ) {
+            mAccounts.getAccount(user, this);
+        } else {
+            notifyOnSession(new NullUserAccount(),
+                    new AuthenticationError(ApplicationInstance.APP_NAME,
+                            AuthenticationError.Reason.NO_AUTHENTICATED_USER));
+        }
+    }
 
-                notifyOnSession(account, error);
+    @Override
+    public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
+        if (error == null) {
+            if(mAccount != null && !mAccount.getAuthorId().equals(account.getAuthorId())) {
+                notifySessionEnded(CallbackMessage.ok());
             }
-        });
+            mAccount = account;
+            mReviewsFactory.setAuthorsStamp(new AuthorsStamp(getAuthorId()));
+        }
+
+        notifyOnSession(account, error);
     }
 
     private void notifySessionEnded(CallbackMessage message) {
@@ -137,6 +153,17 @@ public class UserSessionDefault implements UserSession {
                                  @Nullable AuthenticationError error) {
         for (SessionObserver observer : mObservers) {
             observer.onLogIn(account, error);
+        }
+    }
+
+    private void getCurrentUsersAccount(UserAccounts.GetAccountCallback callback) {
+        AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
+        if(user != null ) {
+            mAccounts.getAccount(user, callback);
+        } else {
+            callback.onAccount(new NullUserAccount(),
+                    new AuthenticationError(ApplicationInstance.APP_NAME,
+                            AuthenticationError.Reason.NO_AUTHENTICATED_USER));
         }
     }
 }

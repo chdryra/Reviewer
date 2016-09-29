@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.content.Intent;
+
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -34,6 +36,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         implements ReviewEditor<GC> {
     private final ReviewBuilderAdapter<?> mAdapter;
     private final FactoryReviewDataEditor mEditorFactory;
+    private final GridItemBuildScreen<GC> mGridItem;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
@@ -42,6 +45,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         super(new ReviewViewPerspective<>(adapter, actions, params));
         mAdapter = adapter;
         mEditorFactory = editorFactory;
+        mGridItem = (GridItemBuildScreen<GC>) actions.getGridItemAction();
     }
 
     @Override
@@ -76,19 +80,14 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void notifyBuilder() {
-        mAdapter.notifyDataObservers();
-    }
-
-    @Override
-    public ImageChooser getImageChooser() {
-        return mAdapter.getImageChooser();
+    public ImageChooser newImageChooser() {
+        return mAdapter.newImageChooser();
     }
 
     @Override
     public <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType) {
         DataBuilderAdapter<T> adapter = mAdapter.getDataBuilderAdapter(dataType);
-        return mEditorFactory.newEditor(adapter, getImageChooser());
+        return mEditorFactory.newEditor(adapter, newImageChooser());
     }
 
     @Override
@@ -110,5 +109,10 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public Review buildReview() {
         return mAdapter.buildReview();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mGridItem.onActivityResult(requestCode, resultCode, data);
     }
 }

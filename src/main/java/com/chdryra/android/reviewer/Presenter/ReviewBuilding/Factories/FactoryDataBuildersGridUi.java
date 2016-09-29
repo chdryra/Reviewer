@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
+import com.chdryra.android.reviewer.Application.Implementation.DataTypeCellOrder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenGridUiImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderGridCell;

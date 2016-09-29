@@ -8,9 +8,11 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import android.app.Activity;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -25,7 +27,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
@@ -33,7 +34,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
@@ -48,11 +48,11 @@ public interface PresenterContext {
 
     ConfigUi getConfigUi();
 
-    FactoryUiLauncher getLauncherFactory();
+    UiLauncher newUiLauncher(Activity activity, ReviewPacker packer);
 
     ReviewsListView newFeedView(ReviewNode node);
 
-    ReviewEditor<?> newReviewEditor(@Nullable Review template);
+    ReviewEditor<?> newReviewEditor(@Nullable Review template, UiLauncher launcher, LocationClient client);
 
     void discardReviewEditor();
 
@@ -77,6 +77,4 @@ public interface PresenterContext {
     ReviewDeleter newReviewDeleter(ReviewId id);
 
     ReviewLauncher newReviewLauncher(AuthorId sessionAuthor, UiLauncher launcher);
-
-    BuildScreenLauncher newBuildScreenLauncher(ApplicationInstance app);
 }

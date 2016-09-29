@@ -10,6 +10,11 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import android.app.Activity;
 
+import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncherImpl;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 27/05/2016
@@ -25,7 +30,12 @@ public class FactoryUiLauncher {
         mReviewsListActivity = reviewsListActivity;
     }
 
-    public UiLauncher newLauncher(Activity activity) {
-        return new UiLauncherAndroid(activity, mDefaultActivity, mReviewsListActivity);
+    public UiLauncher newLauncher(Activity activity, PresenterContext appContext, ReviewPacker packer, LaunchableConfig buildConfig) {
+        BuildScreenLauncherImpl buildScreenLauncher = new BuildScreenLauncherImpl(appContext, packer, buildConfig);
+        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(activity, buildScreenLauncher, mDefaultActivity,
+                mReviewsListActivity);
+        buildScreenLauncher.setUiLauncher(uiLauncher);
+
+        return uiLauncher;
     }
 }

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application.AndroidApp;
+package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,8 +18,8 @@ import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
@@ -30,7 +30,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
@@ -47,13 +46,9 @@ import com.chdryra.android.reviewer.Persistence.Implementation.NullRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
@@ -101,7 +96,8 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
         mAppContext = appContext.getContext();
         mLocationServices = appContext.getLocationServices();
-        mUserSession = new UserSessionDefault(mAppContext);
+        mUserSession = new UserSessionDefault(mAppContext.getUsersManager().getAuthenticator(),
+                mAppContext.getUsersManager().getAccounts(), mAppContext.getSocialPlatformList(), mAppContext.getReviewsFactory());
         mUserSession.registerSessionObserver(this);
         mReviewPacker = new ReviewPacker();
     }
@@ -118,6 +114,21 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     //API
     @Override
+    public UsersManager getUsersManager() {
+        return mAppContext.getUsersManager();
+    }
+
+    @Override
+    public UserSession getUserSession() {
+        return mUserSession;
+    }
+
+    @Override
+    public void logout() {
+        mUserSession.logout(new GoogleLoginAndroid(mActivity));
+    }
+
+    @Override
     public FactoryReviews getReviewsFactory() {
         return mAppContext.getReviewsFactory();
     }
@@ -133,8 +144,8 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public UiLauncher getUiLauncher() {
-        return mAppContext.getLauncherFactory().newLauncher(mActivity);
+    public UiLauncher newUiLauncher() {
+        return mAppContext.newUiLauncher(mActivity, mReviewPacker);
     }
 
     @Override
@@ -150,16 +161,6 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     @Override
     public ReviewPublisher getPublisher() {
         return mAppContext.getReviewPublisher();
-    }
-
-    @Override
-    public UsersManager getUsersManager() {
-        return mAppContext.getUsersManager();
-    }
-
-    @Override
-    public UserSession getUserSession() {
-        return mUserSession;
     }
 
     @Override
@@ -189,7 +190,7 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     @Override
     public ReviewEditor<?> newReviewEditor(@Nullable Review template) {
-        return mAppContext.newReviewEditor(template);
+        return mAppContext.newReviewEditor(template, newUiLauncher(), newLocationClient());
     }
 
     @Override
@@ -210,11 +211,6 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     @Override
     public ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback) {
         return mAppContext.newPublishScreen(authoriser, callback);
-    }
-
-    @Override
-    public void packReview(Review review, Bundle args) {
-        mReviewPacker.packReview(review, args);
     }
 
     @Override
@@ -239,12 +235,6 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public void logout() {
-        mScreen.showToast("Logging out...");
-        mUserSession.logout(new GoogleLoginAndroid(mActivity));
-    }
-
-    @Override
     public void onLogIn(@Nullable UserAccount account, @Nullable AuthenticationError error) {
 
     }
@@ -260,13 +250,8 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     private void returnToLogin() {
         LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
-        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
+        newUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
         mScreen.close();
-    }
-
-    @Override
-    public void launchImageChooser(ImageChooser chooser, int requestCode) {
-        mActivity.startActivityForResult(chooser.getChooserIntents(), requestCode);
     }
 
     @Override
@@ -286,23 +271,12 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     @Override
     public ReviewLauncher newReviewLauncher() {
-        return mAppContext.newReviewLauncher(mUserSession.getAuthorId(), getUiLauncher());
+        return mAppContext.newReviewLauncher(mUserSession.getAuthorId(), newUiLauncher());
     }
 
     @Override
-    public BuildScreenLauncher newBuildScreenLauncher() {
-        return mAppContext.newBuildScreenLauncher(this);
-    }
-
-    @Override
-    public LocationClient newLocationClient(LocationClient.Locatable locatable) {
-        return new LocationClientConnector(mActivity, locatable);
-    }
-
-    @Override
-    public void launchEditScreen(GvDataType<? extends GvDataParcelable> type) {
-        //TODO can this be moved to LaunchablesList?
-        ActivityEditData.start(mActivity, type);
+    public LocationClient newLocationClient() {
+        return new LocationClientConnector(mActivity);
     }
 
     private void setCurrentActivity(Activity activity) {

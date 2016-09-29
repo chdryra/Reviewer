@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapterBasic<GC>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapterImpl<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES = GvDataTypes.BUILD_TYPES;
 
@@ -89,7 +89,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public ImageChooser getImageChooser() {
+    public ImageChooser newImageChooser() {
         return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 

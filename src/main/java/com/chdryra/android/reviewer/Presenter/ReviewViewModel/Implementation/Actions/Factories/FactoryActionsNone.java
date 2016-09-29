@@ -39,11 +39,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class FactoryActionsNone<T extends GvData> implements FactoryReviewViewActions<T> {
+public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewActions<T> {
     private GvDataType<T> mDataType;
     private FactoryCommands mCommandsFactory;
 
-    FactoryActionsNone(GvDataType<T> dataType) {
+    public FactoryActionsNone(GvDataType<T> dataType) {
         mDataType = dataType;
         mCommandsFactory = new FactoryCommands();
     }
