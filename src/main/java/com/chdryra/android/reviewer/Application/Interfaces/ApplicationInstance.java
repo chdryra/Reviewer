@@ -13,10 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -45,9 +43,7 @@ public interface ApplicationInstance {
     String APP_NAME = "Teeqr";
 
     //Users Suite
-    UserSession getUserSession();
-
-    UsersManager getUsersManager();
+    AuthenticationSuite getAuthenticationSuite();
 
     void logout();
 
@@ -56,16 +52,17 @@ public interface ApplicationInstance {
 
     LocationClient newLocationClient();
 
-    //UISuite
+    //UiSuite
     CurrentScreen getCurrentScreen();
 
     ConfigUi getConfigUi();
 
-    UiLauncher newUiLauncher();
+    UiLauncher getUiLauncher();
+
+    ReviewLauncher newReviewLauncher();
 
     ReviewsListView newFeedView();
 
-    ReviewLauncher newReviewLauncher();
 
     //EditSuite
     ReviewEditor<?> newReviewEditor(@Nullable Review template);

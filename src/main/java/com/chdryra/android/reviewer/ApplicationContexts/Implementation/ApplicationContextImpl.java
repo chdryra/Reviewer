@@ -8,9 +8,13 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
+import com.chdryra.android.reviewer.Application.Implementation.AuthenticationSuiteImpl;
+import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,21 +22,36 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationContextImpl implements ApplicationContext {
-    private final PresenterContext mPresenterContext;
+    private final PresenterContext mContext;
     private final LocationServicesApi mLocationServices;
 
-    public ApplicationContextImpl(PresenterContext presenterContext, LocationServicesApi locationServices) {
-        mPresenterContext = presenterContext;
+    private AuthenticationSuite mAuth;
+
+    public ApplicationContextImpl(PresenterContext context, LocationServicesApi locationServices) {
+        mContext = context;
         mLocationServices = locationServices;
+        setAuthenticationSuite();
     }
 
     @Override
     public PresenterContext getContext() {
-        return mPresenterContext;
+        return mContext;
     }
 
     @Override
     public LocationServicesApi getLocationServices() {
         return mLocationServices;
+    }
+
+    @Override
+    public AuthenticationSuite getAuthenticationSuite() {
+        return mAuth;
+    }
+
+    private void setAuthenticationSuite() {
+        AccountsManager manager = mContext.getAccountsManager();
+        UserSession session = new UserSessionDefault(manager,
+                mContext.getSocialPlatformList(), mContext.getReviewsFactory());
+        mAuth = new AuthenticationSuiteImpl(manager, session);
     }
 }

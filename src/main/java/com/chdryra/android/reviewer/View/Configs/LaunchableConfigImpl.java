@@ -8,9 +8,12 @@
 
 package com.chdryra.android.reviewer.View.Configs;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -24,13 +27,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * <li>A String tag that may be used (if ultimately launching a dialog)</li>
  * </ul>
  */
-public class LaunchableConfigImpl implements LaunchableConfig {
+class LaunchableConfigImpl implements LaunchableConfig {
     private static final String TAG = "LaunchableConfigImpl";
     private final Class<? extends LaunchableUi> mUiClass;
     private final int mRequestCode;
     private final String mTag;
 
-    public LaunchableConfigImpl(Class<? extends LaunchableUi> UiClass,
+    private UiLauncher mLauncher;
+
+    LaunchableConfigImpl(Class<? extends LaunchableUi> UiClass,
                                 int requestCode, String tag) {
         mUiClass = UiClass;
         mRequestCode = requestCode;
@@ -61,5 +66,27 @@ public class LaunchableConfigImpl implements LaunchableConfig {
     @Override
     public int getRequestCode() {
         return mRequestCode;
+    }
+
+    @Override
+    public LaunchableConfig setLauncher(UiLauncher launcher) {
+        mLauncher = launcher;
+        return this;
+    }
+
+    @Nullable
+    @Override
+    public UiLauncher getLauncher() {
+        return mLauncher;
+    }
+
+    @Override
+    public void launch(Bundle args) {
+        launch(getRequestCode(), args);
+    }
+
+    @Override
+    public void launch(int requestCode, Bundle args) {
+        mLauncher.launch(getLaunchable(), requestCode, args);
     }
 }

@@ -32,6 +32,6 @@ public class MaiReviewOptions<T extends GvData> extends MenuActionItemBasic<T> {
     @Override
     public void doAction(MenuItem item) {
         if(getParent() == null) return;
-        mCommand.execute(mAuthorId, getApp().newUiLauncher());
+        mCommand.execute(mAuthorId, getApp().getUiLauncher());
     }
 }

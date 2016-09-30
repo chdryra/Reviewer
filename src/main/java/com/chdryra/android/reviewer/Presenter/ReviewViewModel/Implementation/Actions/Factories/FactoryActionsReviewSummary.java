@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuReviewOptions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,20 +35,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Reference> {
     private FactoryReviewView mFactory;
-    private ReviewLauncher mLauncher;
-    private LaunchableUi mOptionsUi;
+    private UiLauncher mUiLauncher;
+    private LaunchableConfig mOptionsConfig;
     private ReviewStamp mStamp;
     private AuthorsRepository mRepo;
 
     public FactoryActionsReviewSummary(FactoryReviewView factory,
-                                ReviewLauncher launcher,
-                                LaunchableUi optionsUi,
-                                ReviewStamp stamp,
-                                AuthorsRepository repo) {
+                                       UiLauncher uiLauncher,
+                                       LaunchableConfig optionsConfig,
+                                       ReviewStamp stamp,
+                                       AuthorsRepository repo) {
         super(GvSize.Reference.TYPE);
         mFactory = factory;
-        mLauncher = launcher;
-        mOptionsUi = optionsUi;
+        mUiLauncher = uiLauncher;
+        mOptionsConfig = optionsConfig;
+        mOptionsConfig.setLauncher(uiLauncher);
         mStamp = stamp;
         mRepo = repo;
     }
@@ -59,7 +60,7 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
         MenuAction<GvSize.Reference> menu = new MenuActionNone<>(title);
         if (mStamp.isValid()) {
             MaiReviewOptions<GvSize.Reference> mai
-                    = new MaiReviewOptions<>(newOptionsCommand(mOptionsUi), mStamp.getDataAuthorId());
+                    = new MaiReviewOptions<>(newOptionsCommand(mOptionsConfig), mStamp.getDataAuthorId());
             menu = new MenuReviewOptions<>(mai, title);
         }
 
@@ -73,13 +74,13 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
 
     @Override
     public GridItemAction<GvSize.Reference> newGridItem() {
-        return new GridItemLauncher<>(mFactory);
+        return new GridItemLauncher<>(mUiLauncher, mFactory);
     }
 
     @Nullable
     @Override
     public ContextualButtonAction<GvSize.Reference> newContextButton() {
         return mStamp.isValid() ?
-                new ContextButtonStamp<GvSize.Reference>(mLauncher, mStamp, mRepo) : null;
+                new ContextButtonStamp<GvSize.Reference>(mUiLauncher.newReviewLauncher(), mStamp, mRepo) : null;
     }
 }

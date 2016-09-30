@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
@@ -19,4 +20,6 @@ public interface ApplicationContext {
     PresenterContext getContext();
 
     LocationServicesApi getLocationServices();
+
+    AuthenticationSuite getAuthenticationSuite();
 }

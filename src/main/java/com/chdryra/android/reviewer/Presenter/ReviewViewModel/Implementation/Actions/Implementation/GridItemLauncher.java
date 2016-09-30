@@ -8,15 +8,16 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+
 import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -27,14 +28,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final String TAG = "GridItemLauncher:";
 
-    private final FactoryReviewView mReviewViewFactory;
+    private final UiLauncher mUiLauncher;
+    private final FactoryReviewView mViewFactory;
 
-    public GridItemLauncher(FactoryReviewView reviewViewFactory) {
-        mReviewViewFactory = reviewViewFactory;
+    public GridItemLauncher(UiLauncher uiLauncher, FactoryReviewView viewFactory) {
+        mUiLauncher = uiLauncher;
+        mViewFactory = viewFactory;
     }
 
-    void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        getApp().newUiLauncher().launch(ui, requestCode, args);
+    private void launch(LaunchableUi ui, int requestCode, Bundle args) {
+        mUiLauncher.launch(ui, requestCode, args);
     }
 
     @Override
@@ -45,12 +48,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
 
     private <T2 extends GvData> ReviewView<T2> getReviewView(ReviewViewAdapter<T2> expanded) {
         ReviewView<T2> ui = expanded.getReviewView();
-
-        if (ui == null) {
-            ApplicationInstance app = getApp();
-            ui = mReviewViewFactory.newDefaultView(expanded, app.newReviewLauncher(),
-                    app.getUsersManager().getAuthorsRepository());;
-        }
+        if (ui == null) ui = mViewFactory.newDefaultView(expanded, mUiLauncher);
 
         return ui;
     }

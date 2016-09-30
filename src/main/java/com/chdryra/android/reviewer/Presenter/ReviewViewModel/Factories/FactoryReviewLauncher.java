@@ -23,13 +23,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
  */
 public class FactoryReviewLauncher {
     private FactoryReviewView mFactoryReviewView;
+    private ReviewsSource mMasterRepo;
 
-    public FactoryReviewLauncher(FactoryReviewView factoryReviewView) {
+    public FactoryReviewLauncher(FactoryReviewView factoryReviewView, ReviewsSource masterRepo) {
         mFactoryReviewView = factoryReviewView;
+        mMasterRepo = masterRepo;
     }
 
-    public ReviewLauncher newReviewLauncher(ReviewsSource masterRepo, UiLauncher launcher, AuthorId sessionAuthor) {
-        return new ReviewLauncherImpl(sessionAuthor, masterRepo, launcher, mFactoryReviewView);
+    public ReviewLauncher newReviewLauncher(UiLauncher launcher, AuthorId sessionAuthor) {
+        return new ReviewLauncherImpl(mMasterRepo, launcher, mFactoryReviewView, sessionAuthor);
     }
 
 }

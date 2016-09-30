@@ -73,11 +73,17 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
-        setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView));
+        setFactoryReviewLauncher(new FactoryReviewLauncher(factoryReviewView, getMasterRepository()));
     }
 
-    private FactoryReviewView setFactoryReviewView(Context context, ModelContext modelContext, DeviceContext deviceContext, ViewContext viewContext,
-                                      PersistenceContext persistenceContext, DataAggregatorsPlugin aggregatorsPlugin, ConverterGv gvConverter, DataValidator validator) {
+    private FactoryReviewView setFactoryReviewView(Context context,
+                                                   ModelContext modelContext,
+                                                   DeviceContext deviceContext,
+                                                   ViewContext viewContext,
+                                                   PersistenceContext persistenceContext,
+                                                   DataAggregatorsPlugin aggregatorsPlugin,
+                                                   ConverterGv gvConverter,
+                                                   DataValidator validator) {
 
         FactoryReviewBuilderAdapter<?> builderFactory =
                 getReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
@@ -89,10 +95,12 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewEditor<?> editorFactory
                 = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig);
 
-        FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory);
+        AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
+        FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory, authorRepo);
+
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
                 persistenceContext.getReviewsSource(),
-                persistenceContext.getUsersManager().getAuthorsRepository(),
+                authorRepo,
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
         factoryReviewView.setAdapterFactory(factoryReviewViewAdapter);

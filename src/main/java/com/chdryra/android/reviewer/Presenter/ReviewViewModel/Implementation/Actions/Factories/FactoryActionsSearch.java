@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectBannerFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,15 +27,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T> {
-    private FactoryReviewView mFactory;
+    private final UiLauncher mLauncher;
+    private final FactoryReviewView mFactory;
 
-    public FactoryActionsSearch(GvDataType<T> dataType, FactoryReviewView factory) {
+    public FactoryActionsSearch(GvDataType<T> dataType, UiLauncher launcher, FactoryReviewView
+            factory) {
         super(dataType);
+        mLauncher = launcher;
         mFactory = factory;
     }
 
     FactoryReviewView getReviewViewFactory() {
         return mFactory;
+    }
+
+    UiLauncher getLauncher() {
+        return mLauncher;
     }
 
     @Override
@@ -53,17 +61,17 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
 
     @Override
     public GridItemAction<T> newGridItem() {
-        return new GridItemLauncher<>(mFactory);
+        return new GridItemLauncher<>(mLauncher, mFactory);
     }
 
     public static class Author extends FactoryActionsSearch<GvAuthor> {
-        public Author(FactoryReviewView factory) {
-            super(GvAuthor.TYPE, factory);
+        public Author(UiLauncher launcher, FactoryReviewView factory) {
+            super(GvAuthor.TYPE, launcher, factory);
         }
 
         @Override
         public GridItemAction<GvAuthor> newGridItem() {
-            return new GridItemLaunchAuthor(getReviewViewFactory());
+            return new GridItemLaunchAuthor(getLauncher(), getReviewViewFactory());
         }
     }
 }

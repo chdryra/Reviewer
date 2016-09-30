@@ -96,7 +96,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-        mPresenter = new PresenterLogin.Builder(app).build(this);
+        mPresenter = new PresenterLogin.Builder().build(app, this);
         mPresenter.startSessionObservation();
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);

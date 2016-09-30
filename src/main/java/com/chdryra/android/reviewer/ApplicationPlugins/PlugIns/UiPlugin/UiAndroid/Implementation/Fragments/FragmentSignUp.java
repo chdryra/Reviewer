@@ -91,7 +91,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
         });
 
         ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-        mPresenter = new PresenterSignUp.Builder(app).build(this);
+        mPresenter = new PresenterSignUp.Builder().build(app, this);
 
         Bundle args = getArguments();
         if (args != null) initWithArgs(emailSignUp, args);

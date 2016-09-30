@@ -94,7 +94,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     public static class Builder {
         public PresenterReviewPublish build(ApplicationInstance app, LaunchableUi authLaunchable) {
             PresenterReviewPublish presenter = new PresenterReviewPublish(app.getCurrentScreen(),
-                    app.getConfigUi().getUsersFeed(), authLaunchable, app.newUiLauncher());
+                    app.getConfigUi().getUsersFeed(), authLaunchable, app.getUiLauncher());
             ReviewView<?> reviewView = app.newPublishScreen(presenter, presenter);
             presenter.setView(reviewView);
             return presenter;

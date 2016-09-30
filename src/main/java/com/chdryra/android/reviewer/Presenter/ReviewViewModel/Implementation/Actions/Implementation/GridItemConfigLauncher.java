@@ -11,14 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonical;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -35,7 +34,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewView launchableFactory,
                                   ParcelablePacker<GvDataParcelable> packer) {
-        super(launchableFactory);
+        super(dataConfig.getLauncher(), launchableFactory);
         mDataConfig = dataConfig;
         mPacker = packer;
         mLaunchCode = RequestCodeGenerator.getCode(TAG + mDataConfig.getTag());
@@ -68,6 +67,6 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         if (item.isVerboseCollection() || mDataConfig == null || item.getParcelable() == null) return;
         Bundle args = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), args);
-        launch(mDataConfig.getLaunchable(), mLaunchCode, args);
+        mDataConfig.launch(mLaunchCode, args);
     }
 }

@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -47,7 +48,7 @@ public class FactoryCommands {
         return new DeleteCommand(deleter, screen);
     }
 
-    public LaunchOptionsCommand newLaunchOptionsCommand(LaunchableUi optionsUi) {
+    public LaunchOptionsCommand newLaunchOptionsCommand(LaunchableConfig optionsUi) {
         return new LaunchOptionsCommand(optionsUi);
     }
 }

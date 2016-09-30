@@ -8,6 +8,10 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
+import android.os.Bundle;
+
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
@@ -19,4 +23,12 @@ public interface LaunchableConfig {
     int getRequestCode();
 
     LaunchableUi getLaunchable();
+
+    LaunchableConfig setLauncher(UiLauncher launcher);
+
+    UiLauncher getLauncher();
+
+    void launch(Bundle args);
+
+    void launch(int requestCode, Bundle args);
 }

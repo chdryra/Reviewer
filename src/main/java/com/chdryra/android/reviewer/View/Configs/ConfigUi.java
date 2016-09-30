@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Configs;
 
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -35,4 +36,8 @@ public interface ConfigUi {
     LaunchableConfig getShareReview();
 
     LaunchableConfig getReviewOptions();
+
+    UiLauncher getUiLauncher();
+
+    void setUiLauncher(UiLauncher launcher);
 }

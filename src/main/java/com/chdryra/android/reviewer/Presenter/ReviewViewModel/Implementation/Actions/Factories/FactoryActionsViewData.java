@@ -21,8 +21,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ContextButtonStamp;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -81,5 +89,31 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @Override
     public ContextualButtonAction<T> newContextButton() {
         return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher, mStamp, mRepo) : null;
+    }
+
+    /**
+     * Created by: Rizwan Choudrey
+     * On: 27/09/2016
+     * Email: rizwan.choudrey@gmail.com
+     */
+    public static class Comments extends FactoryActionsViewData<GvComment.Reference> {
+        public Comments(FactoryReviewView factory,
+                        ReviewLauncher launcher,
+                        ReviewStamp stamp,
+                        AuthorsRepository repo,
+                        LaunchableConfig config) {
+            super(GvComment.Reference.TYPE, factory, launcher, stamp, repo, config);
+        }
+
+        @Override
+        public GridItemLauncher<GvComment.Reference> newGridItem() {
+            return new GridItemComments(getConfig(), getFactory(),
+                    new ParcelablePacker<GvDataParcelable>());
+        }
+
+        @Override
+        public MenuAction<GvComment.Reference> newMenu() {
+            return new MenuComments(new MaiSplitCommentRefs());
+        }
     }
 }

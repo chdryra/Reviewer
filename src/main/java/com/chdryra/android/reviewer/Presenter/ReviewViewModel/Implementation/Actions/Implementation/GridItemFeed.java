@@ -13,6 +13,8 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,14 +22,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemFeed extends GridItemReviewsList{
+    private ReviewLauncher mLauncher;
 
     public GridItemFeed(FactoryReviewView launchableFactory,
-                        LaunchOptionsCommand command) {
+                        LaunchOptionsCommand command, ReviewLauncher launcher) {
         super(launchableFactory, command);
+        mLauncher = launcher;
     }
 
     @Override
     public void onGridItemClick(GvNode item, int position, View v) {
-        getApp().newReviewLauncher().launchReviews(item.getAuthorId());
+        mLauncher.launchReviews(item.getAuthorId());
     }
 }

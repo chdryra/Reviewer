@@ -9,8 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -23,7 +24,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 public abstract class PersistenceContextBasic implements PersistenceContext {
     private LocalRepository mLocalRepo;
     private ReviewsRepository mBackendRepo;
-    private UsersManager mUsersManager;
+    private AuthorsRepository mAuthorsRepo;
+    private AccountsManager mAccountsManager;
     private ReviewsSource mReviewsSource;
     private FactoryReviewsRepository mRepoFactory;
 
@@ -35,8 +37,12 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mBackendRepo = backendRepo;
     }
 
-    protected void setUsersManager(UsersManager usersManager) {
-        mUsersManager = usersManager;
+    protected void setAuthorsRepository(AuthorsRepository authorsRepo) {
+        mAuthorsRepo = authorsRepo;
+    }
+
+    protected void setAccountsManager(AccountsManager accountsManager) {
+        mAccountsManager = accountsManager;
     }
 
     protected void setReviewsSource(ReviewsSource reviewsSource) {
@@ -63,8 +69,13 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public UsersManager getUsersManager() {
-        return mUsersManager;
+    public AuthorsRepository getAuthorsRepository() {
+        return mAuthorsRepo;
+    }
+
+    @Override
+    public AccountsManager getAccountsManager() {
+        return mAccountsManager;
     }
 
     @Override

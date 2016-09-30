@@ -15,21 +15,21 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiNewReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiNewReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSettings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,13 +37,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
+    private UiLauncher mLauncher;
     private FactoryReviewView mFactoryReviewView;
-    private LaunchableUi mOptionsUi;
+    private LaunchableConfig mOptionsUi;
     private AuthorId mAuthorId;
 
-    public FactoryActionsReviewsList(FactoryReviewView factoryReviewView,
-                              LaunchableUi optionsUi, @Nullable AuthorId followAuthorId) {
+    public FactoryActionsReviewsList(UiLauncher launcher,
+                                     FactoryReviewView factoryReviewView,
+                                     LaunchableConfig optionsUi,
+                                     @Nullable AuthorId followAuthorId) {
         super(GvNode.TYPE);
+        mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
         mOptionsUi = optionsUi;
         mAuthorId = followAuthorId;
@@ -66,7 +70,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
-        return new GridItemReviewsList(mFactoryReviewView, newOptionsCommand());
+        return new GridItemReviewsList(mLauncher, mFactoryReviewView, newOptionsCommand());
     }
 
     LaunchOptionsCommand newOptionsCommand() {
@@ -74,13 +78,16 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     public static class Feed extends FactoryActionsReviewsList {
-        public Feed(FactoryReviewView factoryReviewView, LaunchableUi shareEdit) {
-            super(factoryReviewView, shareEdit, null);
+        private ReviewLauncher mLauncher;
+
+        public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView, LaunchableConfig optionsUi) {
+            super(launcher, factoryReviewView, optionsUi, null);
+            mLauncher = launcher.newReviewLauncher();
         }
 
         @Override
         public GridItemAction<GvNode> newGridItem() {
-            return new GridItemFeed(getFactoryReviewView(), newOptionsCommand());
+            return new GridItemFeed(getFactoryReviewView(), newOptionsCommand(), mLauncher);
         }
 
         @Override

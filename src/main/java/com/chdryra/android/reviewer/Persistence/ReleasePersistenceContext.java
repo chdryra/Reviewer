@@ -33,17 +33,19 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
 
         setReposFactory(newRepoFactory(model, validator, plugin));
 
-        setUsersManager(plugin.newUsersManager());
+        setAccountsManager(plugin.newAccountsManager());
 
         setLocalRepository(plugin.newLocalPersistence(model, validator, getRepoFactory()));
 
         ReviewsCache cache = getRepoFactory().newCache();
         setBackendRepository(plugin.newBackendPersistence(model, validator, getRepoFactory(), cache));
 
+        setAuthorsRepository(plugin.getAuthorsPersistence());
+
         ReviewsRepository cachedRepo = getRepoFactory().newCachedRepo(getBackendRepository(),
                 cache, model.getReviewsFactory(), model.getTagsManager());
         setReviewsSource(getRepoFactory().newReviewsSource(cachedRepo,
-                getUsersManager().getAuthorsRepository(), model.getReviewsFactory()));
+                plugin.getAuthorsPersistence(), model.getReviewsFactory()));
     }
 
     @NonNull

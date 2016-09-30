@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
-    public GridItemLaunchAuthor(FactoryReviewView launchableFactory) {
-        super(launchableFactory);
+    public GridItemLaunchAuthor(UiLauncher launcher, FactoryReviewView launchableFactory) {
+        super(launcher, launchableFactory);
     }
 
     @Override

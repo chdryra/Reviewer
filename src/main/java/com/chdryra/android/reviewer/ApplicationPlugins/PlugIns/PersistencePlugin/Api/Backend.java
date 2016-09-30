@@ -9,9 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
@@ -21,8 +22,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface Backend {
-    UsersManager newUsersManager();
+    AccountsManager newUsersManager();
 
-    ReviewsRepository newPersistence(ModelContext model, DataValidator validator,
+    ReviewsRepository newReviewsRepo(ModelContext model, DataValidator validator,
                                      FactoryReviewsRepository repoFactory, ReviewsCache cache);
+
+    AuthorsRepository getAuthorsRepo();
 }

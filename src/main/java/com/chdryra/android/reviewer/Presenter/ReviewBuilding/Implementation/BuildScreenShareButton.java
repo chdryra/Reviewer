@@ -53,7 +53,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
             return;
         }
 
-        getApp().newUiLauncher().launch(mConfig, SHARE_SCREEN);
+        getApp().getUiLauncher().launch(mConfig, SHARE_SCREEN);
     }
 
     @Override

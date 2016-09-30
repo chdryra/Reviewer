@@ -13,8 +13,7 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,27 +24,25 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class LaunchOptionsCommand extends Command {
     private static final int OPTIONS = RequestCodeGenerator.getCode(LaunchOptionsCommand.class, "Options");
 
-    private final LaunchableUi mShareEditUi;
-    private UiLauncher mLauncher;
+    private final LaunchableConfig mOptionsUi;
     private DataAuthorId mAuthorId;
 
-    public LaunchOptionsCommand(LaunchableUi shareEditUi) {
-        mShareEditUi = shareEditUi;
+    public LaunchOptionsCommand(LaunchableConfig optionsUi) {
+        mOptionsUi = optionsUi;
     }
 
-    public void execute(DataAuthorId authorId, UiLauncher launcher) {
-        mLauncher = launcher;
+    public void execute(DataAuthorId authorId) {
         mAuthorId = authorId;
         execute();
     }
 
     @Override
     void execute() {
-        if(mLauncher == null || mAuthorId == null) return;
+        if(mAuthorId == null) return;
 
         Bundle args = new Bundle();
         DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
-        args.putParcelable(mShareEditUi.getLaunchTag(), data);
-        mLauncher.launch(mShareEditUi, OPTIONS, args);
+        args.putParcelable(mOptionsUi.getTag(), data);
+        mOptionsUi.launch(OPTIONS, args);
     }
 }

@@ -41,7 +41,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     private static final AuthenticationError UNKNOWN_ERROR = new AuthenticationError(APP,
             AuthenticationError.Reason.UNKNOWN_ERROR);
 
-    private final ApplicationInstance mApp;
+    private final UserAccounts mAccounts;
     private final SignUpListener mListener;
     private EmailPassword mEmailPassword;
 
@@ -50,8 +50,8 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         AuthenticationError error);
     }
 
-    private PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
-        mApp = app;
+    private PresenterSignUp(UserAccounts accounts, SignUpListener listener) {
+        mAccounts = accounts;
         mListener = listener;
     }
 
@@ -103,12 +103,11 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     }
 
     private void createAccount(AuthenticatedUser user, String author) {
-        UserAccounts accounts = mApp.getUsersManager().getAccounts();
-        accounts.createAccount(user, accounts.newProfile(author), this);
+        mAccounts.createAccount(user, mAccounts.newProfile(author), this);
     }
 
     private void createAccount(EmailPassword emailPassword, final String author) {
-        mApp.getUsersManager().getAccounts().createUser(emailPassword, new UserAccounts
+        mAccounts.createUser(emailPassword, new UserAccounts
                 .CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
@@ -144,14 +143,8 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     }
 
     public static class Builder {
-        private final ApplicationInstance mApp;
-
-        public Builder(ApplicationInstance app) {
-            mApp = app;
-        }
-
-        public PresenterSignUp build(SignUpListener listener) {
-            return new PresenterSignUp(mApp, listener);
+        public PresenterSignUp build(ApplicationInstance app, SignUpListener listener) {
+            return new PresenterSignUp(app.getAuthenticationSuite().getUserAccounts(), listener);
         }
     }
 }

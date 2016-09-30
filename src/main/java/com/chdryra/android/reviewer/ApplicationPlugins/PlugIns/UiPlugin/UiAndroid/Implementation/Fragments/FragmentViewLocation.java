@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -96,20 +97,20 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     @Override
-    public void onLocated(Location location) {
+    public void onLocated(Location location, CallbackMessage message) {
 
     }
 
     @Override
-    public void onConnected(Location location) {
+    public void onConnected(Location location, CallbackMessage message) {
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient(this);
-        mLocationClient.connect();
+        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient();
+        mLocationClient.connect(this);
     }
 
     @Override

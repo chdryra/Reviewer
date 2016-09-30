@@ -19,9 +19,9 @@ import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnecto
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
@@ -30,11 +30,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
+
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -56,6 +55,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -69,10 +69,12 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     private static AndroidAppInstance sSingleton;
 
+    private ApplicationContext mContext;
+
     private ReviewPacker mReviewPacker;
     private PresenterContext mAppContext;
     private LocationServicesApi mLocationServices;
-    private UserSession mUserSession;
+    private UiLauncherAndroid mUiLauncher;
     private CurrentScreen mScreen;
     private Activity mActivity;
     private boolean mGoogleApiOk = false;
@@ -94,11 +96,12 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
         FactoryApplicationContext factory = new FactoryApplicationContext();
         ApplicationContext appContext = factory.newReleaseContext(context, plugins);
 
+        mContext = appContext;
         mAppContext = appContext.getContext();
         mLocationServices = appContext.getLocationServices();
-        mUserSession = new UserSessionDefault(mAppContext.getUsersManager().getAuthenticator(),
-                mAppContext.getUsersManager().getAccounts(), mAppContext.getSocialPlatformList(), mAppContext.getReviewsFactory());
-        mUserSession.registerSessionObserver(this);
+
+        mContext.getAuthenticationSuite().getUserSession().registerSessionObserver(this);
+
         mReviewPacker = new ReviewPacker();
     }
 
@@ -113,19 +116,15 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     //API
-    @Override
-    public UsersManager getUsersManager() {
-        return mAppContext.getUsersManager();
-    }
 
     @Override
-    public UserSession getUserSession() {
-        return mUserSession;
+    public AuthenticationSuite getAuthenticationSuite() {
+        return mContext.getAuthenticationSuite();
     }
 
     @Override
     public void logout() {
-        mUserSession.logout(new GoogleLoginAndroid(mActivity));
+        getAuthenticationSuite().logout(mActivity);
     }
 
     @Override
@@ -144,8 +143,16 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
     }
 
     @Override
-    public UiLauncher newUiLauncher() {
-        return mAppContext.newUiLauncher(mActivity, mReviewPacker);
+    public UiLauncher getUiLauncher() {
+        if(mUiLauncher == null) newLauncher();
+        return mUiLauncher;
+    }
+
+    private void newLauncher() {
+        mUiLauncher = mAppContext.newUiLauncher(mReviewPacker);
+        mUiLauncher.setActivity(mActivity);
+        mUiLauncher.setSession(getUserSession());
+        getConfigUi().setUiLauncher(mUiLauncher);
     }
 
     @Override
@@ -175,9 +182,9 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     @Override
     public ReferencesRepository getUsersFeed() {
-        if(mUserSession.isInSession()) {
+        if(getUserSession().isInSession()) {
             SocialProfile socialProfile = getSocialProfile();
-            return mAppContext.newFeed(mUserSession.getAuthorId(), socialProfile.getFollowing());
+            return mAppContext.newFeed(getSessionUser(), socialProfile.getFollowing());
         } else {
             return new NullRepository();
         }
@@ -185,12 +192,12 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     @Override
     public SocialProfile getSocialProfile() {
-        return mUserSession.getAccount().getSocialProfile();
+        return getUserSession().getAccount().getSocialProfile();
     }
 
     @Override
     public ReviewEditor<?> newReviewEditor(@Nullable Review template) {
-        return mAppContext.newReviewEditor(template, newUiLauncher(), newLocationClient());
+        return mAppContext.newReviewEditor(template, getUiLauncher(), newLocationClient());
     }
 
     @Override
@@ -231,12 +238,16 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     public void setBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
-        service.setRepository(mAppContext.getMasterRepository().getMutableRepository(mUserSession));
+        service.setRepository(mAppContext.getMasterRepository().getMutableRepository(getUserSession()));
+    }
+
+    private UserSession getUserSession() {
+        return getAuthenticationSuite().getUserSession();
     }
 
     @Override
     public void onLogIn(@Nullable UserAccount account, @Nullable AuthenticationError error) {
-
+        ((UiLauncherAndroid)getUiLauncher()).setSession(getUserSession());
     }
 
     @Override
@@ -250,7 +261,7 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     private void returnToLogin() {
         LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
-        newUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
+        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
         mScreen.close();
     }
 
@@ -261,17 +272,20 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
     @Override
     public ReviewsListView newFeedView() {
-        AuthorId feedOwner = getUserSession().getAuthorId();
         ReferencesRepository feed = getUsersFeed();
         AuthorsRepository authorsRepo = getUsersManager().getAuthorsRepository();
-        ReviewNodeRepo node = getReviewsFactory().createFeed(feedOwner, feed, authorsRepo);
+        ReviewNodeRepo node = getReviewsFactory().createFeed(getSessionUser(), feed, authorsRepo);
 
-        return mAppContext.newFeedView(node);
+        return mAppContext.newFeedView(node, newReviewLauncher());
     }
 
     @Override
     public ReviewLauncher newReviewLauncher() {
-        return mAppContext.newReviewLauncher(mUserSession.getAuthorId(), newUiLauncher());
+        return mUiLauncher.newReviewLauncher();
+    }
+
+    private AuthorId getSessionUser() {
+        return getUserSession().getAuthorId();
     }
 
     @Override
@@ -284,6 +298,12 @@ public class AndroidAppInstance implements ApplicationInstance, UserSession.Sess
 
         mActivity = activity;
         mScreen = new CurrentScreenAndroid(activity);
+
+        if(mUiLauncher != null) {
+            mUiLauncher.setActivity(mActivity);
+        } else {
+            newLauncher();
+        }
     }
 
     private void checkGoogleApi(Activity activity) {

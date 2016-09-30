@@ -14,16 +14,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -39,19 +41,30 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 
 public class UiLauncherAndroid implements UiLauncher {
-    private final Activity mCommissioner;
+    private Activity mCommissioner;
+    private UserSession mSession;
+
     private final BuildScreenLauncher mBuildUiLauncher;
     private final Class<? extends Activity> mDefaultActivity;
     private final Class<? extends Activity> mReviewsListActivity;
+    private final FactoryReviewLauncher mReviewLauncherFactory;
 
-    public UiLauncherAndroid(Activity commissioner,
-                             BuildScreenLauncher buildUiLauncher,
+    public UiLauncherAndroid(BuildScreenLauncher buildUiLauncher,
+                             FactoryReviewLauncher reviewLauncherFactory,
                              Class<? extends Activity> defaultActivity,
                              Class<? extends Activity> reviewsListActivity) {
-        mCommissioner = commissioner;
         mBuildUiLauncher = buildUiLauncher;
+        mReviewLauncherFactory = reviewLauncherFactory;
         mDefaultActivity = defaultActivity;
         mReviewsListActivity = reviewsListActivity;
+    }
+
+    public void setActivity(Activity activity) {
+        mCommissioner = activity;
+    }
+
+    public void setSession(UserSession session) {
+        mSession = session;
     }
 
     @Override
@@ -93,6 +106,11 @@ public class UiLauncherAndroid implements UiLauncher {
     @Override
     public void launchImageChooser(ImageChooser chooser, int requestCode) {
         mCommissioner.startActivityForResult(chooser.getChooserIntents(), requestCode);
+    }
+
+    @Override
+    public ReviewLauncher newReviewLauncher() {
+        return mReviewLauncherFactory.newReviewLauncher(this, mSession.getAuthorId());
     }
 
     private class AndroidLauncher implements LauncherUi {

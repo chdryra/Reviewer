@@ -27,9 +27,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
@@ -68,11 +69,16 @@ public class SQLiteFirebase implements PersistencePlugin {
                                                    DataValidator validator,
                                                    FactoryReviewsRepository repoFactory,
                                                    ReviewsCache cache) {
-        return mBackend.newPersistence(model, validator, repoFactory, cache);
+        return mBackend.newReviewsRepo(model, validator, repoFactory, cache);
     }
 
     @Override
-    public UsersManager newUsersManager() {
+    public AuthorsRepository getAuthorsPersistence() {
+        return mBackend.getAuthorsRepo();
+    }
+
+    @Override
+    public AccountsManager newAccountsManager() {
         return mBackend.newUsersManager();
     }
 }

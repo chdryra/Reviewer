@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public final class ConfigUiImpl implements ConfigUi {
     private final LaunchableConfig mShareReviewConfig;
     private final LaunchableConfig mShareEditConfig;
 
+    private UiLauncher mLauncher;
+
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
@@ -58,52 +61,62 @@ public final class ConfigUiImpl implements ConfigUi {
 
     @Override
     public LaunchableConfig getViewer(String datumName) {
-        return getConfigs(datumName).getViewerConfig();
+        return getConfigs(datumName).getViewerConfig().setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getEditor(String datumName) {
-        return getConfigs(datumName).getEditorConfig();
+        return getConfigs(datumName).getEditorConfig().setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getAdder(String datumName) {
-        return getConfigs(datumName).getAdderConfig();
+        return getConfigs(datumName).getAdderConfig().setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getLogin() {
-        return mLoginConfig;
+        return mLoginConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getSignUp() {
-        return mSignUpConfig;
+        return mSignUpConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getUsersFeed() {
-        return mUsersFeedConfig;
+        return mUsersFeedConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getBuildReview() {
-        return mBuildReviewConfig;
+        return mBuildReviewConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getMapEditor() {
-        return mEditOnMapConfig;
+        return mEditOnMapConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getShareReview() {
-        return mShareReviewConfig;
+        return mShareReviewConfig.setLauncher(mLauncher);
     }
 
     @Override
     public LaunchableConfig getReviewOptions() {
-        return mShareEditConfig;
+        return mShareEditConfig.setLauncher(mLauncher);
+    }
+
+    @Override
+    public UiLauncher getUiLauncher() {
+        return mLauncher;
+    }
+
+    @Override
+    public void setUiLauncher(UiLauncher launcher) {
+        mLauncher = launcher;
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

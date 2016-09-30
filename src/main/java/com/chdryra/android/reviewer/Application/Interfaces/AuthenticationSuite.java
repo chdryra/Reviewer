@@ -8,8 +8,11 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
+import android.app.Activity;
+
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,10 +20,12 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface UsersSuite {
+public interface AuthenticationSuite {
+    UserAuthenticator getAuthenticator();
+
     UserSession getUserSession();
 
     UserAccounts getUserAccounts();
 
-    void logout();
+    void logout(Activity activity);
 }

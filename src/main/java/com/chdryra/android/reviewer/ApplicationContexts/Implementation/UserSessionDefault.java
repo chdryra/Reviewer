@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
@@ -37,31 +38,32 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
-    private final UserAuthenticator mAuthenticator;
-    private final UserAccounts mAccounts;
+    private final AccountsManager mManager;
     private final SocialPlatformList mSocialPlatforms;
     private final FactoryReviews mReviewsFactory;
     private final ArrayList<SessionObserver> mObservers;
 
     private UserAccount mAccount;
 
-    public UserSessionDefault(UserAuthenticator authenticator,
-                              UserAccounts accounts,
+    public UserSessionDefault(AccountsManager accountsManager,
                               SocialPlatformList socialPlatforms,
                               FactoryReviews reviewsFactory) {
-        mAuthenticator = authenticator;
-        mAccounts = accounts;
+        mManager = accountsManager;
         mSocialPlatforms = socialPlatforms;
         mReviewsFactory = reviewsFactory;
 
         mObservers = new ArrayList<>();
-        mAuthenticator.registerObserver(this);
-        onUserStateChanged(null, mAuthenticator.getAuthenticatedUser());
+        getAuthenticator().registerObserver(this);
+        onUserStateChanged(null, getAuthenticator().getAuthenticatedUser());
+    }
+
+    private UserAuthenticator getAuthenticator() {
+        return mManager.getAuthenticator();
     }
 
     @Override
     public boolean isAuthenticated() {
-        return mAuthenticator.getAuthenticatedUser() != null;
+        return getAuthenticator().getAuthenticatedUser() != null;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     @Override
     public void logout(SessionProvider<?> googleHack) {
         //From Firebase
-        mAuthenticator.logout();
+        getAuthenticator().logout();
         //From twitter/fb (also if used for login)
         mSocialPlatforms.logout();
         //Google needs its own method
@@ -120,9 +122,9 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
 
     @Override
     public void refreshSession() {
-        AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
+        AuthenticatedUser user = getAuthenticator().getAuthenticatedUser();
         if(user != null ) {
-            mAccounts.getAccount(user, this);
+            mManager.getAccounts().getAccount(user, this);
         } else {
             notifyOnSession(new NullUserAccount(),
                     new AuthenticationError(ApplicationInstance.APP_NAME,
@@ -153,17 +155,6 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
                                  @Nullable AuthenticationError error) {
         for (SessionObserver observer : mObservers) {
             observer.onLogIn(account, error);
-        }
-    }
-
-    private void getCurrentUsersAccount(UserAccounts.GetAccountCallback callback) {
-        AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
-        if(user != null ) {
-            mAccounts.getAccount(user, callback);
-        } else {
-            callback.onAccount(new NullUserAccount(),
-                    new AuthenticationError(ApplicationInstance.APP_NAME,
-                            AuthenticationError.Reason.NO_AUTHENTICATED_USER));
         }
     }
 }

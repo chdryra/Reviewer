@@ -47,8 +47,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FirebaseStructure;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UsersManager;
-import com.chdryra.android.reviewer.Authentication.Implementation.UsersManagerImpl;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
+import com.chdryra.android.reviewer.Authentication.Implementation.AccountsManagerImpl;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
@@ -68,6 +68,7 @@ public class BackendFirebase implements Backend {
     private final FirebaseStructure mStructure;
     private final UserProfileConverter mConverter;
     private final FactoryFbReference mDataReferencer;
+    private final AuthorsRepository mAuthorsRepo;
 
     public BackendFirebase(Context context, FactoryAuthorProfile profileFactory) {
         Firebase.setAndroidContext(context);
@@ -75,10 +76,11 @@ public class BackendFirebase implements Backend {
         mStructure = new FbStructUsersLed();
         mConverter = new UserProfileConverter(profileFactory);
         mDataReferencer = new FactoryFbReference();
+        mAuthorsRepo = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
     }
 
     @Override
-    public ReviewsRepository newPersistence(ModelContext model,
+    public ReviewsRepository newReviewsRepo(ModelContext model,
                                             DataValidator validator,
                                             FactoryReviewsRepository repoFactory,
                                             ReviewsCache cache) {
@@ -96,13 +98,16 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public UsersManager newUsersManager() {
-        AuthorsRepository authorsRepo
-                = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
+    public AccountsManager newUsersManager() {
         UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
-                authorsRepo, new FactoryUserAccount());
+                mAuthorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);
 
-        return new UsersManagerImpl(authenticator, accounts, authorsRepo);
+        return new AccountsManagerImpl(authenticator, accounts);
+    }
+
+    @Override
+    public AuthorsRepository getAuthorsRepo() {
+        return new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
     }
 }

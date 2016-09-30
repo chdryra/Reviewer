@@ -22,6 +22,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
@@ -86,7 +87,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         FactoryCommands factory = new FactoryCommands();
         final Command deleteCommand = factory.newDeleteCommand(app.newReviewDeleter(reviewId), screen);
         final Command shareCommand = factory.newShareCommand(app, reviewId, sharer);
-        final Command copyCommand = factory.newCopyCommand(app.newUiLauncher(), reviewId, screen);
+        final Command copyCommand = factory.newCopyCommand(app.getUiLauncher(), reviewId, screen);
 
         final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +104,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             }
         });
 
-        if (authorId.toString().equals(app.getUserSession().getAuthorId().toString())) {
+        AuthorId inSessionUser = app.getAuthenticationSuite().getUserSession().getAuthorId();
+        if (authorId.toString().equals(inSessionUser.toString())) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

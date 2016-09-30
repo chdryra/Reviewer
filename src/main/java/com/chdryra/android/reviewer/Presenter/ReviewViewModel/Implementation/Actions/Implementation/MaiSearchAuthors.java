@@ -42,6 +42,6 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
         ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
                 .newFollowSearchAdapter(app.getUserSession().getAuthorId());
         LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
-        app.newUiLauncher().launch(authorSearch, REQUEST_CODE);
+        app.getUiLauncher().launch(authorSearch, REQUEST_CODE);
     }
 }

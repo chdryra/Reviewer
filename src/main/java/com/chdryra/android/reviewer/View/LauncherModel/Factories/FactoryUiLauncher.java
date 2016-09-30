@@ -12,7 +12,10 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncherImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -30,10 +33,14 @@ public class FactoryUiLauncher {
         mReviewsListActivity = reviewsListActivity;
     }
 
-    public UiLauncher newLauncher(Activity activity, PresenterContext appContext, ReviewPacker packer, LaunchableConfig buildConfig) {
-        BuildScreenLauncherImpl buildScreenLauncher = new BuildScreenLauncherImpl(appContext, packer, buildConfig);
-        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(activity, buildScreenLauncher, mDefaultActivity,
-                mReviewsListActivity);
+    public UiLauncherAndroid newLauncher(PresenterContext appContext,
+                                         FactoryReviewView factoryReviewView,
+                                         ReviewsSource masterRepo,
+                                         ReviewPacker packer,
+                                         LaunchableConfig buildConfig) {
+        BuildScreenLauncherImpl buildScreenLauncher = new BuildScreenLauncherImpl(buildConfig, appContext, packer);
+        FactoryReviewLauncher factoryReviewLauncher = new FactoryReviewLauncher(factoryReviewView, masterRepo);
+        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, factoryReviewLauncher, mDefaultActivity, mReviewsListActivity);
         buildScreenLauncher.setUiLauncher(uiLauncher);
 
         return uiLauncher;

@@ -34,7 +34,7 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
-        getApp().newUiLauncher().launch(getReviewView(expanded), REQUEST_CODE);
+        getApp().getUiLauncher().launch(getReviewView(expanded), REQUEST_CODE);
     }
 
     private LaunchableUi getReviewView(ReviewViewAdapter<?> expanded) {

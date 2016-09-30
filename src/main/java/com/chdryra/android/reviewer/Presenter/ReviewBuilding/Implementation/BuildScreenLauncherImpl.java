@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -27,22 +26,18 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenLauncherImpl implements BuildScreenLauncher {
-    private static final int LAUNCH_BUILD_SCREEN
-            = RequestCodeGenerator.getCode("BuildScreenLauncher");
-
     private PresenterContext mAppContext;
     private ReviewPacker mPacker;
     private LaunchableConfig mBuildReviewConfig;
-    private UiLauncher mUiLauncher;
 
-    public BuildScreenLauncherImpl(PresenterContext appContext, ReviewPacker packer, LaunchableConfig buildReviewConfig) {
+    public BuildScreenLauncherImpl(LaunchableConfig buildReviewConfig, PresenterContext appContext, ReviewPacker packer) {
+        mBuildReviewConfig = buildReviewConfig;
         mAppContext = appContext;
         mPacker = packer;
-        mBuildReviewConfig = buildReviewConfig;
     }
 
     public void setUiLauncher(UiLauncher uiLauncher) {
-        mUiLauncher = uiLauncher;
+        mBuildReviewConfig.setLauncher(uiLauncher);
     }
 
     @Override
@@ -56,7 +51,7 @@ public class BuildScreenLauncherImpl implements BuildScreenLauncher {
     }
 
     private void launchBuildUi(Bundle args) {
-        mUiLauncher.launch(mBuildReviewConfig.getLaunchable(), LAUNCH_BUILD_SCREEN, args);
+        mBuildReviewConfig.launch(args);
     }
 
     private class Callback implements RepositoryCallback {

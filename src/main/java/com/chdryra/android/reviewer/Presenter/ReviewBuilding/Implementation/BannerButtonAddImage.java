@@ -39,7 +39,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     @Override
     public void onClick(View v) {
         setLaunchableRequestCode(LAUNCH_TAG);
-        getApp().launchImageChooser(mImageChooser, getLaunchableRequestCode());
+        getApp().getUiLauncher().launchImageChooser(mImageChooser, getLaunchableRequestCode());
     }
 
     @Override

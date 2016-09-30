@@ -15,8 +15,10 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -35,6 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -51,7 +54,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private final FactoryCredentialsHandler mHandlerFactory;
     private final FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
-    private final ApplicationInstance mApp;
+    private final AuthenticationSuite mAuth;
+    private final CurrentScreen mScreen;
+    private final LaunchableConfig mSignUp;
+    private final LaunchableConfig mFeed;
+    private final UiLauncher mLauncher;
     private final LoginListener mListener;
     private CredentialsHandler mHandler;
 
@@ -69,18 +76,30 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         void onLoggedIn();
     }
 
-    private PresenterLogin(ApplicationInstance app,
+    private PresenterLogin(AuthenticationSuite auth,
+                           LaunchableConfig signUp,
+                           LaunchableConfig feed,
+                           UiLauncher launcher,
+                           CurrentScreen screen,
                            FactoryCredentialsHandler handlerFactory,
                            FactoryCredentialsAuthenticator authenticatorFactory,
                            LoginListener listener) {
-        mApp = app;
+        mAuth = auth;
+        mSignUp = signUp;
+        mFeed = feed;
+        mLauncher = launcher;
+        mScreen = screen;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
     }
 
     public void startSessionObservation() {
-        mApp.getUserSession().registerSessionObserver(this);
+        getUserSession().registerSessionObserver(this);
+    }
+
+    private UserSession getUserSession() {
+        return mAuth.getUserSession();
     }
 
     @NonNull
@@ -89,7 +108,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public boolean hasAuthenticatedUser() {
-        return mApp.getUserSession().isAuthenticated();
+        return getUserSession().isAuthenticated();
     }
 
     public void logIn(EmailPassword emailPassword) {
@@ -135,9 +154,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public void onLoginComplete() {
-        UserSession userSession = mApp.getUserSession();
-        userSession.unregisterSessionObserver(this);
-        launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
+        getUserSession().unregisterSessionObserver(this);
+        launchLaunchable(mFeed, FEED, new Bundle());
         mListener.onLoggedIn();
     }
 
@@ -152,12 +170,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SIGN_UP) {
-            mApp.getCurrentScreen().showToast(Strings.Toasts.COMPLETING_SIGNUP);
+            mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
             if(data != null) {
                 EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
                 if (emailPassword != null) authenticateWithCredentials(emailPassword);
             } else {
-                mApp.getUserSession().refreshSession();
+                getUserSession().refreshSession();
             }
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
@@ -199,7 +217,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         Bundle args = new Bundle();
         ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        launchLaunchable(mApp.getConfigUi().getSignUp(), SIGN_UP, args);
+        launchLaunchable(mSignUp, SIGN_UP, args);
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
@@ -209,15 +227,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             } else if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
                 mListener.onNoCurrentUser();
             } else {
-                mApp.getCurrentScreen().showToast(Strings.Toasts.LOGIN_UNSUCCESSFUL + ": " + error);
+                mScreen.showToast(Strings.Toasts.LOGIN_UNSUCCESSFUL + ": " + error);
                 mListener.onAuthenticationFailed(error);
             }
         }
     }
 
     private void launchLaunchable(LaunchableConfig launchable, int code, Bundle args) {
-        UiLauncher uiLauncher = mApp.newUiLauncher();
-        uiLauncher.launch(launchable, code, args);
+        mLauncher.launch(launchable, code, args);
     }
 
     private void authenticateWithCredentials(CredentialsHandler handler) {
@@ -232,15 +249,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public static class Builder {
-        private final ApplicationInstance mApp;
-
-        public Builder(ApplicationInstance app) {
-            mApp = app;
-        }
-
-        public PresenterLogin build(LoginListener listener) {
-            return new PresenterLogin(mApp, new FactoryCredentialsHandler(),
-                    new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()), listener);
+        public PresenterLogin build(ApplicationInstance app, LoginListener listener) {
+            AuthenticationSuite auth = app.getAuthenticationSuite();
+            ConfigUi config = app.getConfigUi();
+            return new PresenterLogin(auth, config.getSignUp(), config.getUsersFeed(),
+                    app.getUiLauncher(), app.getCurrentScreen(), new FactoryCredentialsHandler(),
+                    new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);
         }
     }
 
