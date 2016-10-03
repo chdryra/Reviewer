@@ -26,7 +26,7 @@ import java.util.Map;
  * by whichever UI needs them in response to a user interaction.
  * </p>
  */
-public final class ConfigUiImpl implements ConfigUi {
+public final class UiConfigImpl implements UiConfig {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
     private final LaunchableConfig mLoginConfig;
     private final LaunchableConfig mSignUpConfig;
@@ -38,7 +38,7 @@ public final class ConfigUiImpl implements ConfigUi {
 
     private UiLauncher mLauncher;
 
-    public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
+    public UiConfigImpl(Iterable<? extends LaunchableConfigsHolder<?>> dataConfigs,
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
                         LaunchableConfig usersFeedConfig,
@@ -61,52 +61,52 @@ public final class ConfigUiImpl implements ConfigUi {
 
     @Override
     public LaunchableConfig getViewer(String datumName) {
-        return getConfigs(datumName).getViewerConfig().setLauncher(mLauncher);
+        return getConfigs(datumName).getViewerConfig();
     }
 
     @Override
     public LaunchableConfig getEditor(String datumName) {
-        return getConfigs(datumName).getEditorConfig().setLauncher(mLauncher);
+        return getConfigs(datumName).getEditorConfig();
     }
 
     @Override
     public LaunchableConfig getAdder(String datumName) {
-        return getConfigs(datumName).getAdderConfig().setLauncher(mLauncher);
+        return getConfigs(datumName).getAdderConfig();
     }
 
     @Override
     public LaunchableConfig getLogin() {
-        return mLoginConfig.setLauncher(mLauncher);
+        return mLoginConfig;
     }
 
     @Override
     public LaunchableConfig getSignUp() {
-        return mSignUpConfig.setLauncher(mLauncher);
+        return mSignUpConfig;
     }
 
     @Override
     public LaunchableConfig getUsersFeed() {
-        return mUsersFeedConfig.setLauncher(mLauncher);
+        return mUsersFeedConfig;
     }
 
     @Override
     public LaunchableConfig getBuildReview() {
-        return mBuildReviewConfig.setLauncher(mLauncher);
+        return mBuildReviewConfig;
     }
 
     @Override
     public LaunchableConfig getMapEditor() {
-        return mEditOnMapConfig.setLauncher(mLauncher);
+        return mEditOnMapConfig;
     }
 
     @Override
     public LaunchableConfig getShareReview() {
-        return mShareReviewConfig.setLauncher(mLauncher);
+        return mShareReviewConfig;
     }
 
     @Override
     public LaunchableConfig getReviewOptions() {
-        return mShareEditConfig.setLauncher(mLauncher);
+        return mShareEditConfig;
     }
 
     @Override
@@ -117,6 +117,13 @@ public final class ConfigUiImpl implements ConfigUi {
     @Override
     public void setUiLauncher(UiLauncher launcher) {
         mLauncher = launcher;
+        mLoginConfig.setLauncher(mLauncher);
+        mSignUpConfig.setLauncher(mLauncher);
+        mUsersFeedConfig.setLauncher(mLauncher);
+        mBuildReviewConfig.setLauncher(mLauncher);
+        mEditOnMapConfig.setLauncher(mLauncher);
+        mShareReviewConfig.setLauncher(mLauncher);
+        mShareEditConfig.setLauncher(mLauncher);        
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

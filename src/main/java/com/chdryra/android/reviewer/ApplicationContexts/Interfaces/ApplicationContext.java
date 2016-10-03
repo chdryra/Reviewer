@@ -9,7 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,7 +22,13 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
 public interface ApplicationContext {
     PresenterContext getContext();
 
-    LocationServicesApi getLocationServices();
-
     AuthenticationSuite getAuthenticationSuite();
+
+    LocationServicesSuite getLocationServicesSuite();
+
+    UiSuite getUiSuite();
+
+    RepositorySuite getRepositorySuite();
+
+    ReviewBuilderSuite getReviewBuilderSuite();
 }

@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 
 /**
@@ -44,7 +44,7 @@ public class DialogAlert extends DialogAlertFragment {
 
     @Override
     protected AlertListener getTargetListener() {
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         return app.getCurrentScreen().getAlertListener(getRequestCode());
     }
 }

@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,19 +35,15 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
         mViewFactory = viewFactory;
     }
 
-    private void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        mUiLauncher.launch(ui, requestCode, args);
-    }
-
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
         ReviewView<?> ui = getReviewView(expanded);
-        launch(ui, RequestCodeGenerator.getCode(TAG + ui.getLaunchTag()), new Bundle());
+        mUiLauncher.launch(ui, RequestCodeGenerator.getCode(TAG + ui.getLaunchTag()), new Bundle());
     }
 
     private <T2 extends GvData> ReviewView<T2> getReviewView(ReviewViewAdapter<T2> expanded) {
         ReviewView<T2> ui = expanded.getReviewView();
-        if (ui == null) ui = mViewFactory.newDefaultView(expanded, mUiLauncher);
+        if (ui == null) ui = mViewFactory.newDefaultView(expanded);
 
         return ui;
     }

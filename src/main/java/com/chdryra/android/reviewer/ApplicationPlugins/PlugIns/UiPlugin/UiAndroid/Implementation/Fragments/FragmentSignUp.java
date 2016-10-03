@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -90,7 +90,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
             }
         });
 
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         mPresenter = new PresenterSignUp.Builder().build(app, this);
 
         Bundle args = getArguments();

@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
 import com.chdryra.android.reviewer.R;
@@ -61,7 +61,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         SocialPlatformList platforms = app.getSocialPlatformList();
         PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
         if(google == null) throw new RuntimeException("Google not found!");
@@ -154,7 +154,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         Bundle args = new Bundle();
         args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
         dialog.setTargetFragment(this, REQUEST_RESOLVE_ERROR);
-        AndroidAppInstance.getInstance(getActivity())
+        AppInstanceAndroid.getInstance(getActivity())
                 .getCurrentScreen()
                 .showDialog(dialog, REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
     }

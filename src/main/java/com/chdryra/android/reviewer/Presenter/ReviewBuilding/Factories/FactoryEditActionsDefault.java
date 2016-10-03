@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Subj
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -34,12 +34,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 class FactoryEditActionsDefault<T extends GvDataParcelable> {
     private final GvDataType<T> mDataType;
-    private final ConfigUi mConfig;
+    private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
     private final ParcelablePacker<T> mPacker;
 
     public FactoryEditActionsDefault(GvDataType<T> dataType,
-                                     ConfigUi config,
+                                     UiConfig config,
                                      FactoryGvData dataFactory,
                                      ParcelablePacker<T> packer) {
         mDataType = dataType;
@@ -61,7 +61,7 @@ class FactoryEditActionsDefault<T extends GvDataParcelable> {
         return mConfig.getAdder(mDataType.getDatumName());
     }
 
-    ConfigUi getConfig() {
+    UiConfig getConfig() {
         return mConfig;
     }
 

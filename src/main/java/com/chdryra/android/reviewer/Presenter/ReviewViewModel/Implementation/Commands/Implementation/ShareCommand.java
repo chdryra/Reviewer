@@ -8,8 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -23,32 +24,36 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ShareCommand extends Command {
-    private ApplicationInstance mApp;
+    private RepositorySuite mRepo;
+    private CurrentScreen mScreen;
     private ReviewId mReviewId;
     private SocialPublisher mSharer;
+    private TagsManager mTagsManager;
 
-    public ShareCommand(ApplicationInstance app, ReviewId reviewId, SocialPublisher sharer) {
-        mApp = app;
+    public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen, SocialPublisher sharer, TagsManager tagsManager) {
+        mRepo = repo;
+        mScreen = screen;
         mReviewId = reviewId;
         mSharer = sharer;
+        mTagsManager = tagsManager;
     }
 
     @Override
     void execute() {
-        mApp.getReview(mReviewId, fetchAndShare(mApp.getTagsManager()));
+        mRepo.getReview(mReviewId, fetchAndShare());
     }
 
-    private RepositoryCallback fetchAndShare(final TagsManager tagsManager) {
+    private RepositoryCallback fetchAndShare() {
         return new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 Review review = result.getReview();
                 if (!result.isError() && review != null) {
-                    mSharer.publish(review, tagsManager);
+                    mSharer.publish(review, mTagsManager);
                 } else {
                     String message = Strings.Toasts.REVIEW_NOT_FOUND;
                     if (result.isError()) message += ": " + result.getMessage();
-                    mApp.getCurrentScreen().showToast(message);
+                    mScreen.showToast(message);
                 }
                 onExecutionComplete();
             }

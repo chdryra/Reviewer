@@ -21,18 +21,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ContextButtonStamp;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -42,20 +38,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
     private FactoryReviewView mFactory;
-    private ReviewLauncher mLauncher;
     private ReviewStamp mStamp;
     private LaunchableConfig mConfig;
     private AuthorsRepository mRepo;
 
     public FactoryActionsViewData(GvDataType<T> dataType,
                                   FactoryReviewView factory,
-                                  ReviewLauncher launcher,
+                                  LaunchableConfig config,
                                   ReviewStamp stamp,
-                                  AuthorsRepository repo,
-                                  LaunchableConfig config) {
+                                  AuthorsRepository repo) {
         super(dataType);
         mFactory = factory;
-        mLauncher = launcher;
         mStamp = stamp;
         mRepo = repo;
         mConfig = config;
@@ -88,7 +81,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @Nullable
     @Override
     public ContextualButtonAction<T> newContextButton() {
-        return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher, mStamp, mRepo) : null;
+        return mStamp.isValid() ? new ContextButtonStamp<T>(mConfig.getLauncher().newReviewLauncher(), mStamp, mRepo) : null;
     }
 
     /**
@@ -98,11 +91,10 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
      */
     public static class Comments extends FactoryActionsViewData<GvComment.Reference> {
         public Comments(FactoryReviewView factory,
-                        ReviewLauncher launcher,
+                        LaunchableConfig config,
                         ReviewStamp stamp,
-                        AuthorsRepository repo,
-                        LaunchableConfig config) {
-            super(GvComment.Reference.TYPE, factory, launcher, stamp, repo, config);
+                        AuthorsRepository repo) {
+            super(GvComment.Reference.TYPE, factory,config, stamp, repo);
         }
 
         @Override

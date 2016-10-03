@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
@@ -106,8 +106,8 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
             //TODO make type safe
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
-            ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-            mBuilder = app.getReviewEditor().newDataEditor(mDataType);
+            ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
+            mBuilder = app.getReviewBuilder().newDataEditor(mDataType);
         }
     }
 
@@ -120,8 +120,8 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     }
 
     private void setLayout() {
-        LocationServicesApi provider = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), provider);
+        LocationServicesApi api = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().getApi();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), api);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }

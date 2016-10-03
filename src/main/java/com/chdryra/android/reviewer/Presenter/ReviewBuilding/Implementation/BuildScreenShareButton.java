@@ -10,9 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -28,12 +27,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements ContextualButtonAction<GC>{
-    private static final int SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
+    private final LaunchableConfig mBuildScreenConfig;
 
-    private final LaunchableConfig mConfig;
-
-    public BuildScreenShareButton(LaunchableConfig config) {
-        mConfig = config;
+    public BuildScreenShareButton(LaunchableConfig buildScreenConfig) {
+        mBuildScreenConfig = buildScreenConfig;
     }
 
     @Override
@@ -53,7 +50,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
             return;
         }
 
-        getApp().getUiLauncher().launch(mConfig, SHARE_SCREEN);
+        mBuildScreenConfig.launch();
     }
 
     @Override

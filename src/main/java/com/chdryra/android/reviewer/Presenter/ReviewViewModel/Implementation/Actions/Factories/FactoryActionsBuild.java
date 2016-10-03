@@ -25,11 +25,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Grid
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,15 +35,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
-    private ConfigUi mConfig;
-    private UiLauncher mLauncher;
+    private UiConfig mConfig;
     private LocationClient mLocationClient;
 
-    public FactoryActionsBuild(GvDataType<GC> dataType, ConfigUi config, UiLauncher launcher,
+    public FactoryActionsBuild(GvDataType<GC> dataType, UiConfig config,
                                LocationClient locationClient) {
         super(dataType);
         mConfig = config;
-        mLauncher = launcher;
         mLocationClient = locationClient;
     }
 
@@ -66,7 +62,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildScreen<>(mConfig, mLauncher, mLocationClient);
+        return new GridItemBuildScreen<>(mConfig, mLocationClient);
     }
 
     @Override

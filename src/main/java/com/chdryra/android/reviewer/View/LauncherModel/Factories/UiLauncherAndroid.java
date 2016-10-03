@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -78,18 +77,7 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Override
-    public void launch(LaunchableConfig config, int requestCode, Bundle args) {
-        launch(config.getLaunchable(), requestCode, args);
-    }
-
-    @Override
-    public void launch(LaunchableConfig config, int requestCode) {
-        launch(config.getLaunchable(), requestCode, new Bundle());
-    }
-
-    @Override
-    public void launchAndClearBackStack(LaunchableConfig config, int requestCode) {
-        LaunchableUi ui = config.getLaunchable();
+    public void launchAndClearBackStack(LaunchableUi ui, int requestCode) {
         ui.launch(new AndroidLauncher(mCommissioner, requestCode, ui.getLaunchTag(), new Bundle(), true));
     }
 

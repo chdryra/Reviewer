@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Used for Review summaries in published feed
  *
- * @see AndroidAppInstance
+ * @see AppInstanceAndroid
  */
 public class GvNodeList extends GvDataListImpl<GvNode> {
     public GvNodeList() {

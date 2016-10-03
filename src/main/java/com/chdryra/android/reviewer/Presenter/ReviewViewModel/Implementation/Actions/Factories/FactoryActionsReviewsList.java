@@ -26,8 +26,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -57,6 +55,10 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         return mFactoryReviewView;
     }
 
+    UiLauncher getUiLauncher() {
+        return mLauncher;
+    }
+
     @Override
     public MenuAction<GvNode> newMenu() {
         return mAuthorId != null ?
@@ -78,22 +80,19 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     public static class Feed extends FactoryActionsReviewsList {
-        private ReviewLauncher mLauncher;
-
         public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView, LaunchableConfig optionsUi) {
             super(launcher, factoryReviewView, optionsUi, null);
-            mLauncher = launcher.newReviewLauncher();
         }
 
         @Override
         public GridItemAction<GvNode> newGridItem() {
-            return new GridItemFeed(getFactoryReviewView(), newOptionsCommand(), mLauncher);
+            return new GridItemFeed(getUiLauncher(), getFactoryReviewView(), newOptionsCommand());
         }
 
         @Override
         public MenuAction<GvNode> newMenu() {
-            return new MenuFeed<>(new MaiNewReview<GvNode>(),
-                    new MaiSearchAuthors<GvNode>(getFactoryReviewView()),
+            return new MenuFeed<>(new MaiNewReview<GvNode>(getUiLauncher()),
+                    new MaiSearchAuthors<GvNode>(getUiLauncher(), getFactoryReviewView()),
                     new MaiSettings<GvNode>());
         }
     }

@@ -27,9 +27,6 @@ public class NewReviewCommand extends Command {
         mTemplate = template;
     }
 
-    public NewReviewCommand() {
-    }
-
     public void setLauncher(UiLauncher launcher) {
         mLauncher = launcher;
     }

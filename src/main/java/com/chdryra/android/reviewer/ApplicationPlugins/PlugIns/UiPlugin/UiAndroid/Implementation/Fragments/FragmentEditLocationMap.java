@@ -46,9 +46,10 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
@@ -252,7 +253,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient();
+        mLocationClient = getLocationServices().newLocationClient();
         mLocationClient.connect(this);
     }
 
@@ -311,8 +312,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void setLocationServices() {
-        LocationServicesApi services
-                = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
+        LocationServicesApi services = getLocationServices().getApi();
         mPlaceSearcher = services.newPlaceSearcher();
         mAddressSuggester = services.newAddressesSuggester();
     }
@@ -499,14 +499,17 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void updateSuggestionAdapters() {
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-        LocationServicesApi api = app.getLocationServices();
+        LocationServicesApi api = getLocationServices().getApi();
         mAutoCompleter = new StringAutoCompleterLocation(api.newAutoCompleter(new UserLocatedPlace(mNewLatLng)));
         mSearchAdapter = new StringFilterAdapter(getActivity(), new ArrayList<String>(), mAutoCompleter);
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 
         mAddressSuggester.fetchAddresses(mNewLatLng, NUMBER_DEFAULT_NAMES, this);
+    }
+
+    private LocationServicesSuite getLocationServices() {
+        return AppInstanceAndroid.getInstance(getActivity()).getLocationServices();
     }
 
     @NonNull
@@ -550,7 +553,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void makeToast(String toast) {
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         app.getCurrentScreen().showToast(toast);
     }
 

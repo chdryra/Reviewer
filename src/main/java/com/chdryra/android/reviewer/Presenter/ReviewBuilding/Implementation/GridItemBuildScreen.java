@@ -16,9 +16,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -26,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -39,17 +37,15 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
-    private final ConfigUi mConfig;
-    private final UiLauncher mLauncher;
+    private final UiConfig mConfig;
 
     private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
 
 
-    public GridItemBuildScreen(ConfigUi config, UiLauncher launcher, LocationClient locationClient) {
+    public GridItemBuildScreen(UiConfig config, LocationClient locationClient) {
         mConfig = config;
-        mLauncher = launcher;
         mLocationClient = locationClient;
     }
 
@@ -96,14 +92,18 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
         } else {
-            mLauncher.launchEditDataUi(type);
+            getUiLauncher().launchEditDataUi(type);
         }
+    }
+
+    private UiLauncher getUiLauncher() {
+        return mConfig.getUiLauncher();
     }
 
     private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
             if(mImageChooser == null) mImageChooser = getEditor().newImageChooser();
-            mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());
+            getUiLauncher().launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
             showQuickSetLaunchable(getAdderConfig(type));
         }
@@ -121,7 +121,7 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         Bundle args = new Bundle();
         args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
-        mLauncher.launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
+        adderConfig.launch(args);
     }
 
     private void packLatLng(Bundle args) {

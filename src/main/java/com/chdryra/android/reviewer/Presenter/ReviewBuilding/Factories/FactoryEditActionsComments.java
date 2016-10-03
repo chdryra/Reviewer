@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  */
 public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
-    public FactoryEditActionsComments(ConfigUi config,
+    public FactoryEditActionsComments(UiConfig config,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvComment> packer) {
         super(TYPE, config, dataFactory, packer);

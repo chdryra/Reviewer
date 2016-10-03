@@ -13,7 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -34,7 +34,7 @@ public class ActivityBuildReview extends ActivityReviewView {
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = AndroidAppInstance.getInstance(this);
+        ApplicationInstance app = AppInstanceAndroid.getInstance(this);
 
         PresenterReviewBuild.Builder builder = new PresenterReviewBuild.Builder();
 

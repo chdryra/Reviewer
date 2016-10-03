@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentSocialLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
@@ -44,8 +44,8 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
         OAuthRequest request = getBundledRequest();
         if(request != null) return FragmentOAuthLogin.newInstance(request);
 
-        AndroidAppInstance.setActivity(this);
-        ApplicationInstance app = AndroidAppInstance.getInstance(this);
+        AppInstanceAndroid.setActivity(this);
+        ApplicationInstance app = AppInstanceAndroid.getInstance(this);
 
         String platform = getBundledPlatform();
         FactoryFragmentSocialLogin factory = new FactoryFragmentSocialLogin();

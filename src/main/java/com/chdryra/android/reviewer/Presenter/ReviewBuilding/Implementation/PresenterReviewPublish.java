@@ -13,9 +13,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -37,7 +36,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
 
     private final CurrentScreen mScreen;
-    private final LaunchableConfig mFeed;
+    private final LaunchableUi mFeed;
     private final LaunchableUi mAuthLaunchable;
     private final UiLauncher mLauncher;
 
@@ -46,7 +45,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
 
     private PresenterReviewPublish(CurrentScreen screen,
-                                   LaunchableConfig feed,
+                                   LaunchableUi feed,
                                    LaunchableUi authLaunchable,
                                    UiLauncher launcher) {
 
@@ -94,7 +93,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     public static class Builder {
         public PresenterReviewPublish build(ApplicationInstance app, LaunchableUi authLaunchable) {
             PresenterReviewPublish presenter = new PresenterReviewPublish(app.getCurrentScreen(),
-                    app.getConfigUi().getUsersFeed(), authLaunchable, app.getUiLauncher());
+                    app.getUiConfig().getUsersFeed().getLaunchable(), authLaunchable, app.getUiLauncher());
             ReviewView<?> reviewView = app.newPublishScreen(presenter, presenter);
             presenter.setView(reviewView);
             return presenter;

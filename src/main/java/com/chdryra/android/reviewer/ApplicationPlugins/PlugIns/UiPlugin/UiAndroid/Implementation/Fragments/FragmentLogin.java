@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -95,7 +95,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mEmail = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         mPresenter = new PresenterLogin.Builder().build(app, this);
         mPresenter.startSessionObservation();
 
@@ -138,7 +138,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     @Override
     public void onLoggedIn() {
         closeLoggingInDialog();
-        getActivity().finish();
     }
 
     @Override

@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 
@@ -40,7 +40,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         if(savedInstanceState != null) {
            mView = ((ReviewViewContainer) getFragment()).getReviewView();
         }
-        AndroidAppInstance.setActivity(this);
+        AppInstanceAndroid.setActivity(this);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     @Override
     protected void onResume() {
         super.onResume();
-        AndroidAppInstance.setActivity(this);
+        AppInstanceAndroid.setActivity(this);
     }
 }

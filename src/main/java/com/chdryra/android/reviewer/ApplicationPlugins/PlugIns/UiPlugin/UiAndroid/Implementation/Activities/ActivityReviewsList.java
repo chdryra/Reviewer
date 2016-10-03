@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
@@ -33,7 +33,7 @@ public class ActivityReviewsList extends ActivityReviewView {
 
     PresenterReviewsList newPresenter() {
         ReviewsListView view = (ReviewsListView) super.createReviewView();
-        return new PresenterReviewsList.Builder().build(AndroidAppInstance.getInstance(this), view);
+        return new PresenterReviewsList.Builder().build(AppInstanceAndroid.getInstance(this), view);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ActivityReviewsList extends ActivityReviewView {
 
     @Override
     protected void onResume() {
-        AndroidAppInstance.getInstance(this).discardReviewEditor();
+        AppInstanceAndroid.getInstance(this).discardReviewEditor();
         super.onResume();
     }
 

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 
 /**
@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLaunch
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ViewContextBasic implements ViewContext {
-    private ConfigUi mConfigUi;
+    private UiConfig mUiConfig;
     private FactoryUiLauncher mLauncherFactory;
 
-    protected void setConfigUi(ConfigUi configUi) {
-        mConfigUi = configUi;
+    protected void setUiConfig(UiConfig uiConfig) {
+        mUiConfig = uiConfig;
     }
 
     protected void setLauncherFactory(FactoryUiLauncher launcherFactory) {
@@ -35,7 +35,7 @@ public abstract class ViewContextBasic implements ViewContext {
     }
 
     @Override
-    public ConfigUi getUiConfig() {
-        return mConfigUi;
+    public UiConfig getUiConfig() {
+        return mUiConfig;
     }
 }

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -22,8 +21,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 
 public class LaunchOptionsCommand extends Command {
-    private static final int OPTIONS = RequestCodeGenerator.getCode(LaunchOptionsCommand.class, "Options");
-
     private final LaunchableConfig mOptionsUi;
     private DataAuthorId mAuthorId;
 
@@ -43,6 +40,6 @@ public class LaunchOptionsCommand extends Command {
         Bundle args = new Bundle();
         DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
         args.putParcelable(mOptionsUi.getTag(), data);
-        mOptionsUi.launch(OPTIONS, args);
+        mOptionsUi.launch(args);
     }
 }

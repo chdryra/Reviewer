@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class AuthenticationSuiteImpl implements AuthenticationSuite {
+public class AuthenticationSuiteAndroid implements AuthenticationSuite {
     private AccountsManager mManager;
     private UserSession mSession;
+    private GoogleLoginAndroid mGoogleLogin;
 
-
-    public AuthenticationSuiteImpl(AccountsManager manager, UserSession session) {
+    public AuthenticationSuiteAndroid(AccountsManager manager, UserSession session) {
         mManager = manager;
         mSession = session;
     }
@@ -50,7 +50,11 @@ public class AuthenticationSuiteImpl implements AuthenticationSuite {
     }
 
     @Override
-    public void logout(Activity activity) {
-        mSession.logout(new GoogleLoginAndroid(activity));
+    public void logout() {
+        mSession.logout(mGoogleLogin);
+    }
+
+    public void setActivity(Activity activity) {
+        mGoogleLogin = new GoogleLoginAndroid(activity);
     }
 }

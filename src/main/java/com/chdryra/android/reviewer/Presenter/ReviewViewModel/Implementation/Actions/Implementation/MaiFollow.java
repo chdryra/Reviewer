@@ -48,8 +48,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
         getCurrentScreen().showToast(toast);
 
-        SocialProfile profile = getApp().getSocialProfile();
-        profile.followUnfollow(mAuthorId, mActionType, new SocialProfile.FollowCallback() {
+        getProfile().followUnfollow(mAuthorId, mActionType, new SocialProfile.FollowCallback() {
             @Override
             public void onFollowingCallback(AuthorId authorId, SocialProfile.FollowUnfollow type,
                                             CallbackMessage message) {
@@ -65,20 +64,22 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         if(getParent() == null) return;
 
         MenuItem menuItem = getMenuItem();
-        AuthorId userId = getApp().getUserSession().getAuthorId();
+        AuthorId userId = getApp().getAuthentication().getUserSession().getAuthorId();
         if(menuItem != null && userId.toString().equals(mAuthorId.toString())) {
             menuItem.setVisible(false);
         } else {
             setFollow();
-            SocialProfile profile = getApp().getSocialProfile();
-            profile.getFollowing().bindToItems(mBinder);
+            getProfile().getFollowing().bindToItems(mBinder);
         }
     }
 
     @Override
     public void onDetachReviewView() {
-        SocialProfile profile = getApp().getSocialProfile();
-        profile.getFollowing().unbindFromItems(mBinder);
+        getProfile().getFollowing().unbindFromItems(mBinder);
+    }
+
+    private SocialProfile getProfile() {
+        return getApp().getSocialProfile();
     }
 
     private boolean isAuthor(AuthorId value) {

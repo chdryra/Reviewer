@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -27,9 +27,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("FollowSearch");
+    private UiLauncher mLauncher;
     private FactoryReviewView mFactory;
 
-    public MaiSearchAuthors(FactoryReviewView factory) {
+    public MaiSearchAuthors(UiLauncher launcher, FactoryReviewView factory) {
+        mLauncher = launcher;
         mFactory = factory;
     }
 
@@ -37,11 +39,10 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
     public void doAction(MenuItem item) {
         if(getParent() == null) return;
 
-        ApplicationInstance app = getApp();
         FactoryReviewViewAdapter adapterFactory = mFactory.getAdapterFactory();
         ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
-                .newFollowSearchAdapter(app.getUserSession().getAuthorId());
+                .newFollowSearchAdapter(getApp().getAuthentication().getUserSession().getAuthorId());
         LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
-        app.getUiLauncher().launch(authorSearch, REQUEST_CODE);
+        mLauncher.launch(authorSearch, REQUEST_CODE);
     }
 }

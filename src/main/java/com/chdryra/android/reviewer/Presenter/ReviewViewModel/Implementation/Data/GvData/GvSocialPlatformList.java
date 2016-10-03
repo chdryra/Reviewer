@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**
  * Used for social sharing screen showing social platforms and number of followers.
  *
- * @see AndroidAppInstance
+ * @see AppInstanceAndroid
  * @see SocialPlatformList
  */
 public class GvSocialPlatformList extends GvDataListParcelable<GvSocialPlatform> {

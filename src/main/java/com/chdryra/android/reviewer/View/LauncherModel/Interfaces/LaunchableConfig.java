@@ -28,6 +28,8 @@ public interface LaunchableConfig {
 
     UiLauncher getLauncher();
 
+    void launch();
+
     void launch(Bundle args);
 
     void launch(int requestCode, Bundle args);

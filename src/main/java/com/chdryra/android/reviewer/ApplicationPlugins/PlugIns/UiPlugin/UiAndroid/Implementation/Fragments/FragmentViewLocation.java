@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -109,7 +109,7 @@ public class FragmentViewLocation extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AndroidAppInstance.getInstance(getActivity()).newLocationClient();
+        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().newLocationClient();
         mLocationClient.connect(this);
     }
 
@@ -243,7 +243,7 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     private void onGotoReviewSelected() {
-        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
+        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         app.newReviewLauncher().launchReview(mCurrent.getReviewId());
     }
 

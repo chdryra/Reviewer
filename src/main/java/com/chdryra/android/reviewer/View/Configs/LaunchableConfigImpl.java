@@ -81,6 +81,11 @@ class LaunchableConfigImpl implements LaunchableConfig {
     }
 
     @Override
+    public void launch() {
+        mLauncher.launch(getLaunchable(), getRequestCode());
+    }
+
+    @Override
     public void launch(Bundle args) {
         launch(getRequestCode(), args);
     }

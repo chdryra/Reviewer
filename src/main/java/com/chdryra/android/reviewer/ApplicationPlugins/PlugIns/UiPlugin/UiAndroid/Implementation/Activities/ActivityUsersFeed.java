@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
@@ -25,7 +25,7 @@ public class ActivityUsersFeed extends ActivityReviewsList implements
 
     @Override
     protected PresenterReviewsList newPresenter() {
-        AndroidAppInstance app = AndroidAppInstance.getInstance(this);
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         return new PresenterUsersFeed.Builder(app).build(this);
     }
 

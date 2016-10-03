@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDa
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,11 +24,11 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewDataEditor {
-    private final ConfigUi mConfig;
+    private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
     private final FactoryReviewViewParams mParamsFactory;
 
-    public FactoryReviewDataEditor(ConfigUi config, FactoryGvData dataFactory,
+    public FactoryReviewDataEditor(UiConfig config, FactoryGvData dataFactory,
                                    FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mDataFactory = dataFactory;

@@ -18,12 +18,18 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ContextButtonStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiReviewOptions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuReviewOptions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ContextButtonStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -35,21 +41,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Reference> {
     private FactoryReviewView mFactory;
-    private UiLauncher mUiLauncher;
     private LaunchableConfig mOptionsConfig;
     private ReviewStamp mStamp;
     private AuthorsRepository mRepo;
 
     public FactoryActionsReviewSummary(FactoryReviewView factory,
-                                       UiLauncher uiLauncher,
                                        LaunchableConfig optionsConfig,
                                        ReviewStamp stamp,
                                        AuthorsRepository repo) {
         super(GvSize.Reference.TYPE);
         mFactory = factory;
-        mUiLauncher = uiLauncher;
         mOptionsConfig = optionsConfig;
-        mOptionsConfig.setLauncher(uiLauncher);
         mStamp = stamp;
         mRepo = repo;
     }
@@ -60,7 +62,8 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
         MenuAction<GvSize.Reference> menu = new MenuActionNone<>(title);
         if (mStamp.isValid()) {
             MaiReviewOptions<GvSize.Reference> mai
-                    = new MaiReviewOptions<>(newOptionsCommand(mOptionsConfig), mStamp.getDataAuthorId());
+                    = new MaiReviewOptions<>(newOptionsCommand(mOptionsConfig), mStamp
+                    .getDataAuthorId());
             menu = new MenuReviewOptions<>(mai, title);
         }
 
@@ -74,13 +77,18 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
 
     @Override
     public GridItemAction<GvSize.Reference> newGridItem() {
-        return new GridItemLauncher<>(mUiLauncher, mFactory);
+        return new GridItemLauncher<>(getLauncher(), mFactory);
     }
 
     @Nullable
     @Override
     public ContextualButtonAction<GvSize.Reference> newContextButton() {
         return mStamp.isValid() ?
-                new ContextButtonStamp<GvSize.Reference>(mUiLauncher.newReviewLauncher(), mStamp, mRepo) : null;
+                new ContextButtonStamp<GvSize.Reference>(getLauncher().newReviewLauncher(),
+                        mStamp, mRepo) : null;
+    }
+
+    private UiLauncher getLauncher() {
+        return mOptionsConfig.getLauncher();
     }
 }

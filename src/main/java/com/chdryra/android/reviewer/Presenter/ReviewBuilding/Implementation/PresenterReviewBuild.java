@@ -48,7 +48,7 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         }
 
         public PresenterReviewBuild<?> build(ApplicationInstance app) {
-            ReviewEditor<?> editor = app.getReviewEditor();
+            ReviewEditor<?> editor = app.getReviewBuilder();
             if (editor == null) editor = app.newReviewEditor(mTemplate);
 
             return new PresenterReviewBuild<>(editor);

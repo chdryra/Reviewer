@@ -43,7 +43,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -90,7 +90,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
 
         FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
-        ConfigUi uiConfig = viewContext.getUiConfig();
+        UiConfig uiConfig = viewContext.getUiConfig();
         FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, getGvDataFactory(), paramsFactory);
         FactoryReviewEditor<?> editorFactory
                 = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig);

@@ -22,7 +22,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
@@ -88,7 +88,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     @Override
     public ApplicationInstance getApp() {
-        return AndroidAppInstance.getInstance(getActivity());
+        return AppInstanceAndroid.getInstance(getActivity());
     }
 
     @Override

@@ -19,9 +19,11 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -77,17 +79,20 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         Button another = (Button) layout.findViewById(COPY_BUTTON);
         Button delete = (Button) layout.findViewById(DELETE_BUTTON);
 
-        ApplicationInstance app = AndroidAppInstance.getInstance(activity);
+        ApplicationInstance app = AppInstanceAndroid.getInstance(activity);
         DataAuthorId authorId = getAuthorId();
         ReviewId reviewId = authorId.getReviewId();
-        CurrentScreen screen = app.getCurrentScreen();
+
+        UiSuite ui = app.getUi();
+        CurrentScreen screen = ui.getCurrentScreen();
+        RepositorySuite repo = app.getRepository();
 
         PublisherAndroid sharer = new PublisherAndroid(activity, new ReviewSummariser(), new ReviewFormatterTwitter());
 
         FactoryCommands factory = new FactoryCommands();
-        final Command deleteCommand = factory.newDeleteCommand(app.newReviewDeleter(reviewId), screen);
-        final Command shareCommand = factory.newShareCommand(app, reviewId, sharer);
-        final Command copyCommand = factory.newCopyCommand(app.getUiLauncher(), reviewId, screen);
+        final Command deleteCommand = factory.newDeleteCommand(repo.newReviewDeleter(reviewId), screen);
+        final Command shareCommand = factory.newShareCommand(repo, reviewId, screen, sharer, app.getTagsManager());
+        final Command copyCommand = factory.newCopyCommand(ui.getUiLauncher(), reviewId, screen);
 
         final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +109,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             }
         });
 
-        AuthorId inSessionUser = app.getAuthenticationSuite().getUserSession().getAuthorId();
+        AuthorId inSessionUser = app.getAuthentication().getUserSession().getAuthorId();
         if (authorId.toString().equals(inSessionUser.toString())) {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -36,7 +36,7 @@ public class FactoryConfigUi {
     private static final String SHARE_EDIT_REVIEW_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "ShareEditReview");
     private static final int SHARE_EDIT_REVIEW = RequestCodeGenerator.getCode(SHARE_EDIT_REVIEW_TAG);
 
-    public ConfigUi newUiConfig(LaunchablesList launchables) {
+    public UiConfig newUiConfig(LaunchablesList launchables) {
         ArrayList<LaunchableConfigsHolder<?>> dataConfigs = new ArrayList<>();
 
         for (AddEditViewClasses<?> uiClasses : launchables.getDataLaunchableUis()) {
@@ -51,7 +51,7 @@ public class FactoryConfigUi {
         LaunchableConfig sharer = getShareReviewConfig(launchables);
         LaunchableConfig shareEditer = getShareEditReviewConfig(launchables);
 
-        return new ConfigUiImpl(dataConfigs, login, signUp, usersFeed, builder,
+        return new UiConfigImpl(dataConfigs, login, signUp, usersFeed, builder,
                 mapper, sharer, shareEditer);
     }
 

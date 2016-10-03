@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
-import android.app.Activity;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -27,5 +25,5 @@ public interface AuthenticationSuite {
 
     UserAccounts getUserAccounts();
 
-    void logout(Activity activity);
+    void logout();
 }

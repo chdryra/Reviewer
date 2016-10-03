@@ -19,11 +19,10 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -44,12 +43,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
 
 /**
@@ -112,18 +109,18 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ConfigUi getConfigUi() {
+    public UiConfig getUiConfig() {
         return mViewContext.getUiConfig();
     }
 
     @Override
     public UiLauncherAndroid newUiLauncher(ReviewPacker packer) {
-        return mViewContext.getLauncherFactory().newLauncher(this, mFactoryReviewView, getMasterRepository(), packer, getConfigUi().getBuildReview());
+        return mViewContext.getLauncherFactory().newLauncher(this, mFactoryReviewView, getMasterRepository(), packer, getUiConfig().getBuildReview());
     }
 
     @Override
-    public ReviewEditor<?> newReviewEditor(@Nullable Review template, UiLauncher Launcher, LocationClient client) {
-        mReviewEditor = mFactoryReviewView.newEditor(template, Launcher, client);
+    public ReviewEditor<?> newReviewEditor(@Nullable Review template, LocationClient client) {
+        mReviewEditor = mFactoryReviewView.newEditor(template, client);
         return mReviewEditor;
     }
 
@@ -149,8 +146,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     public ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback) {
         ReviewView<?> editor = mReviewEditor != null ?
                 mReviewEditor : mFactoryReviewView.newNullView(GvSocialPlatform.TYPE);
-        return mFactoryReviewView.newPublishView(editor.getAdapter(), mPublisher,
-                callback, getSocialPlatformList(), authoriser);
+        return mFactoryReviewView.newPublishView(editor.getAdapter(), getSocialPlatformList(), authoriser, mPublisher,
+                callback);
     }
 
     @Override
@@ -187,8 +184,9 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReferencesRepository newFeed(AuthorId usersId, RefAuthorList following) {
-        return mPersistenceContext.getRepoFactory().newFeed(usersId, following, getMasterRepository());
+    public ReferencesRepository newFeed(SocialProfile profile) {
+        return mPersistenceContext.getRepoFactory().newFeed(profile.getAuthorId(),
+                profile.getFollowing(), getMasterRepository());
     }
 
     @Override
@@ -202,7 +200,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewsListView newFeedView(ReviewNode reviewNode, ReviewLauncher launcher) {
-        return mFactoryReviewView.newFeedView(reviewNode, launcher);
+    public ReviewsListView newFeedView(ReviewNode reviewNode) {
+        return mFactoryReviewView.newFeedView(reviewNode);
     }
 }

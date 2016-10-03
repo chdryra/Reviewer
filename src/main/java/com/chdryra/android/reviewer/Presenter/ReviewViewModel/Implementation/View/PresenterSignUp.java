@@ -144,7 +144,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
 
     public static class Builder {
         public PresenterSignUp build(ApplicationInstance app, SignUpListener listener) {
-            return new PresenterSignUp(app.getAuthenticationSuite().getUserAccounts(), listener);
+            return new PresenterSignUp(app.getAuthentication().getUserAccounts(), listener);
         }
     }
 }

@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,12 +32,12 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryReviewBuilderAdapter<GC> mFactoryAdapter;
     private final FactoryReviewDataEditor mFactoryDataEditor;
     private final FactoryReviewViewParams mParamsFactory;
-    private final ConfigUi mConfig;
+    private final UiConfig mConfig;
 
     public FactoryReviewEditor(FactoryReviewBuilderAdapter<GC> factoryAdapter,
                                FactoryReviewDataEditor factoryDataEditor,
                                FactoryReviewViewParams paramsFactory,
-                               ConfigUi config) {
+                               UiConfig config) {
         mFactoryAdapter = factoryAdapter;
         mFactoryDataEditor = factoryDataEditor;
         mParamsFactory = paramsFactory;
@@ -46,11 +45,10 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     public ReviewEditor<GC> newEditor(@Nullable Review template,
-                                      UiLauncher launcher,
                                       LocationClient locationClient) {
         ReviewBuilderAdapter<GC> adapter = mFactoryAdapter.newAdapter(template);
         FactoryActionsBuild<GC> factory
-                = new FactoryActionsBuild<>(adapter.getGvDataType(), mConfig, launcher, locationClient);
+                = new FactoryActionsBuild<>(adapter.getGvDataType(), mConfig, locationClient);
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 

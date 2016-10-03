@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
         .ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,10 +25,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Rev
 public class GridItemFeed extends GridItemReviewsList{
     private ReviewLauncher mLauncher;
 
-    public GridItemFeed(FactoryReviewView launchableFactory,
-                        LaunchOptionsCommand command, ReviewLauncher launcher) {
-        super(launchableFactory, command);
-        mLauncher = launcher;
+    public GridItemFeed(UiLauncher launcher, FactoryReviewView launchableFactory,
+                        LaunchOptionsCommand command) {
+        super(launcher, launchableFactory, command);
+        mLauncher = launcher.newReviewLauncher();
     }
 
     @Override

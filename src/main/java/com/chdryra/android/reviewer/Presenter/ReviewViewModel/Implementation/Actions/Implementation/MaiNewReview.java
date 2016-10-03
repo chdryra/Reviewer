@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,9 +19,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MaiNewReview<T extends GvData> extends MenuActionItemBasic<T> {
+    private UiLauncher mLauncher;
+
+    public MaiNewReview(UiLauncher launcher) {
+        mLauncher = launcher;
+    }
+
     @Override
     public void doAction(MenuItem item) {
         if(getParent() == null) return;
-        getApp().newBuildScreenLauncher().launch(null);
+        mLauncher.launchBuildUi(null);
     }
 }

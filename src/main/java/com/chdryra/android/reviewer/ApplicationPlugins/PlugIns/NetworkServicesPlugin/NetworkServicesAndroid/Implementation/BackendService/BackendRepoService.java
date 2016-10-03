@@ -17,7 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
-import com.chdryra.android.reviewer.Application.Implementation.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -77,7 +77,7 @@ public class BackendRepoService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        AndroidAppInstance app = AndroidAppInstance.getInstance(getApplicationContext());
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getApplicationContext());
         app.setBackendRepository(this);
         mPublisher = app.getPublisher();
 

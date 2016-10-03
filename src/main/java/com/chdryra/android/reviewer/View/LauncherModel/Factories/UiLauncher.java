@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -29,11 +28,7 @@ public interface UiLauncher {
 
     void launch(LaunchableUi ui, int requestCode);
 
-    void launch(LaunchableConfig config, int requestCode, Bundle args);
-
-    void launch(LaunchableConfig config, int requestCode);
-
-    void launchAndClearBackStack(LaunchableConfig config, int requestCode);
+    void launchAndClearBackStack(LaunchableUi ui, int requestCode);
 
     void launchBuildUi(@Nullable ReviewId template);
 

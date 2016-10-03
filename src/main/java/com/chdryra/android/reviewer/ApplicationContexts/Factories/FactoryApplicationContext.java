@@ -10,16 +10,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Factories;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextAndroid;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextImpl;
-import com.chdryra.android.reviewer.Model.ReleaseModelContext;
-import com.chdryra.android.reviewer.NetworkServices.ReleaseNetworkContext;
-import com.chdryra.android.reviewer.Persistence.ReleasePersistenceContext;
-import com.chdryra.android.reviewer.Presenter.ReleasePresenterContext;
-import com.chdryra.android.reviewer.Social.ReleaseSocialContext;
-import com.chdryra.android.reviewer.View.ReleaseViewContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
@@ -27,10 +19,15 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Model.ReleaseModelContext;
+import com.chdryra.android.reviewer.NetworkServices.ReleaseNetworkContext;
+import com.chdryra.android.reviewer.Persistence.ReleasePersistenceContext;
+import com.chdryra.android.reviewer.Presenter.ReleasePresenterContext;
+import com.chdryra.android.reviewer.Social.ReleaseSocialContext;
+import com.chdryra.android.reviewer.View.ReleaseViewContext;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,8 +35,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryApplicationContext {
-    public ApplicationContext newReleaseContext(Context context,
-                                                ApplicationPlugins plugins) {
+    public ApplicationContextAndroid newAndroidContext(Context context,
+                                                       ApplicationPlugins plugins) {
         DataValidator validator = new DataValidator();
 
         DeviceContext deviceContext = new ReleaseDeviceContext(context);
@@ -65,6 +62,6 @@ public class FactoryApplicationContext {
 
         LocationServicesApi services = plugins.getLocationServicesPlugin().getLocationServices();
 
-        return new ApplicationContextImpl(presenterContext, services);
+        return new ApplicationContextAndroid(presenterContext, services);
     }
 }
