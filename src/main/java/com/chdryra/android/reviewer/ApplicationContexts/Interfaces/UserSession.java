@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -42,7 +43,7 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
 
     AuthorId getAuthorId();
 
-    UserAccount getAccount();
+    SocialProfile getSocialProfile();
 
     void logout(SessionProvider<?> googleHack);
 }

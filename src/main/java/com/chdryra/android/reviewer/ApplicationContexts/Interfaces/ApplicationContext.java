@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 
 /**
@@ -20,8 +21,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationContext {
-    PresenterContext getContext();
-
     AuthenticationSuite getAuthenticationSuite();
 
     LocationServicesSuite getLocationServicesSuite();
@@ -31,4 +30,6 @@ public interface ApplicationContext {
     RepositorySuite getRepositorySuite();
 
     ReviewBuilderSuite getReviewBuilderSuite();
+
+    SocialSuite getSocialSuite();
 }

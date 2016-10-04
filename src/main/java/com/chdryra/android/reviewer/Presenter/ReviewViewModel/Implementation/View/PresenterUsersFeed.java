@@ -37,7 +37,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
     }
 
     private PresenterUsersFeed(ApplicationInstance app, PresenterListener listener) {
-        super(app, app.newFeedView());
+        super(app, app.getUi().newFeedView(app.getSocial().getSocialProfile()));
         app.getPublisher().registerListener(this);
         mListener = listener;
     }
@@ -121,7 +121,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
     }
 
     private void makeToast(String message) {
-        getApp().getCurrentScreen().showToast(message);
+        getApp().getUi().getCurrentScreen().showToast(message);
     }
 
     public static class Builder {

@@ -11,12 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -26,32 +27,32 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenLauncherImpl implements BuildScreenLauncher {
-    private PresenterContext mAppContext;
-    private ReviewPacker mPacker;
-    private LaunchableConfig mBuildReviewConfig;
+    private RepositorySuite mRepository;
+    private ReviewBuilderSuite mBuilder;
+    private LaunchableConfig mUi;
 
-    public BuildScreenLauncherImpl(LaunchableConfig buildReviewConfig, PresenterContext appContext, ReviewPacker packer) {
-        mBuildReviewConfig = buildReviewConfig;
-        mAppContext = appContext;
-        mPacker = packer;
+    public BuildScreenLauncherImpl(LaunchableConfig ui, RepositorySuite repository, ReviewBuilderSuite builder) {
+        mUi = ui;
+        mRepository = repository;
+        mBuilder = builder;
     }
 
     public void setUiLauncher(UiLauncher uiLauncher) {
-        mBuildReviewConfig.setLauncher(uiLauncher);
+        mUi.setLauncher(uiLauncher);
     }
 
     @Override
     public void launch(@Nullable ReviewId template) {
-        mAppContext.discardReviewEditor();
+        mBuilder.discardReviewEditor();
         if (template != null) {
-            mAppContext.getReview(template, new Callback());
+            mRepository.getReview(template, new Callback());
         } else {
             launchBuildUi(new Bundle());
         }
     }
 
     private void launchBuildUi(Bundle args) {
-        mBuildReviewConfig.launch(args);
+        mUi.launch(args);
     }
 
     private class Callback implements RepositoryCallback {
@@ -61,7 +62,7 @@ public class BuildScreenLauncherImpl implements BuildScreenLauncher {
             Review review = result.getReview();
             if (!result.isError() && review != null) {
                 args.putString(TEMPLATE_ID, review.getReviewId().toString());
-                mPacker.packReview(review, args);
+                mBuilder.packTemplate(review, args);
             }
 
             launchBuildUi(args);

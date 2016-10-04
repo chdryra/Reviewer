@@ -28,9 +28,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 public interface UiSuite {
     CurrentScreen getCurrentScreen();
 
-    UiConfig getUiConfig();
+    UiConfig getConfig();
 
-    UiLauncher getUiLauncher();
+    UiLauncher getLauncher();
 
     ReviewsListView newFeedView(SocialProfile profile);
 

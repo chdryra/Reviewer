@@ -44,11 +44,6 @@ public class GvNodeList extends GvDataListImpl<GvNode> {
     }
 
     @Override
-    public boolean add(GvNode overview) {
-        return !contains(overview.getReviewId()) && super.add(overview);
-    }
-
-    @Override
     public boolean contains(Object object) {
         try {
             GvNode item = (GvNode) object;

@@ -29,7 +29,7 @@ public interface PersistenceContext {
 
     AccountsManager getAccountsManager();
 
-    ReviewsSource getReviewsSource();
+    ReviewsSource getMasterRepo();
 
     FactoryReviewsRepository getRepoFactory();
 }

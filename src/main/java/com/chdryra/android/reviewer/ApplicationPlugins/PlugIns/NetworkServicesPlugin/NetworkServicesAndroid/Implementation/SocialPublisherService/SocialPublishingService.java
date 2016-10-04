@@ -19,15 +19,15 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -77,16 +77,15 @@ public class SocialPublishingService extends IntentService {
     }
 
     private void doPublish(Review review) {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(getApplicationContext());
-        TagsManager tagsManager = app.getTagsManager();
+        SocialSuite social = AppInstanceAndroid.getInstance(getApplicationContext()).getSocial();
 
         Collection<SocialPlatform<?>> platforms = new ArrayList<>();
-        for (SocialPlatform<?> platform : app.getSocialPlatformList()) {
+        for (SocialPlatform<?> platform : social.getSocialPlatformList()) {
             if (mPlatforms.contains(platform.getName())) platforms.add(platform);
         }
 
         BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, batchListener());
-        publisher.publishReview(review, tagsManager);
+        publisher.publishReview(review, social.getTagsManager());
     }
 
     private void broadcastPublishingStatus(double percentage, PublishResults results) {

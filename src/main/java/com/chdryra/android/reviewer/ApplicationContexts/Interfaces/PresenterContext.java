@@ -8,27 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.reviewer.Application.Implementation.ReviewPacker;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,33 +16,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndro
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PresenterContext {
-    FactoryReviews getReviewsFactory();
+    ModelContext getModelContext();
 
-    SocialPlatformList getSocialPlatformList();
+    ViewContext getViewContext();
 
-    UiConfig getUiConfig();
+    SocialContext getSocialContext();
 
-    UiLauncherAndroid newUiLauncher(ReviewPacker packer);
+    NetworkContext getNetworkContext();
 
-    ReviewEditor<?> newReviewEditor(@Nullable Review template, LocationClient client);
+    PersistenceContext getPersistenceContext();
 
-    void discardReviewEditor();
-
-    ReviewEditor<?> getReviewEditor();
-
-    Review executeReviewEditor();
-
-    ReviewView<?> newPublishScreen(PlatformAuthoriser authoriser, PublishAction.PublishCallback callback);
-
-    ReviewsSource getMasterRepository();
-
-    ReferencesRepository newFeed(SocialProfile profile);
-
-    void getReview(ReviewId id, RepositoryCallback callback);
-
-    TagsManager getTagsManager();
-
-    ReviewPublisher getReviewPublisher();
-
-    AccountsManager getAccountsManager();
+    FactoryReviewView getReviewViewFactory();
 }

@@ -35,8 +35,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewIn
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
@@ -50,7 +52,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepoTitler;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewNodeRepoTitler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -107,10 +110,10 @@ public class FactoryReviews implements ReviewMaker {
                 new NodeTitler.AuthorsTree(authorsRepo.getName(authorId)));
     }
 
-    public ReviewNodeRepo createFeed(AuthorId feedOwner, ReferencesRepository feed, AuthorsRepository authorsRepo) {
+    public ReviewNodeRepo createFeed(AuthorId feedOwner, DataReference<NamedAuthor> ownerName, ReferencesRepository feed) {
         DataReviewInfo info = getMetaForAuthor(feedOwner);
         return newReviewNodeAuthored(info, feed,
-                new NodeTitler.UsersFeed(authorsRepo.getName(feedOwner)));
+                new NodeTitler.UsersFeed(ownerName));
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {

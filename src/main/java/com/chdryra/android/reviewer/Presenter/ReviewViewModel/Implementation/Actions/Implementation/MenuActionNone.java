@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -36,8 +37,13 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     private int mMenuId = -1;
     private boolean mDisplayHomeAsUp = true;
     private Menu mMenu;
+    private CurrentScreen mScreen;
 
-    public MenuActionNone() {
+    public MenuActionNone(@Nullable String title) {
+        this(-1, title, true);
+    }
+
+    protected MenuActionNone() {
         this(-1, null, true);
     }
 
@@ -49,10 +55,6 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         if (mDisplayHomeAsUp) bindMenuActionItem(new MaiUp(), MENU_UP_ID, true);
     }
 
-    public MenuActionNone(@Nullable String title) {
-        this(-1, title, true);
-    }
-
     protected void addMenuItems() {
     }
 
@@ -61,7 +63,12 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     }
 
     protected void doUpSelected() {
-        returnToPreviousActivity();
+        mScreen.returnToPrevious();
+    }
+
+    @Nullable
+    protected MenuItem getItem(int itemId) {
+        return mMenu != null ? mMenu.findItem(itemId) : null;
     }
 
     @Override
@@ -73,11 +80,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     public void inflateMenu(Menu menu, MenuInflater inflater) {
         mMenu = menu;
         if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
-        onInflateMenu();
-    }
-
-    protected void onInflateMenu() {
-        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onInflateMenu();
         }
     }
@@ -98,7 +101,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         MenuActionItemInfo actionItem = mActionItems.get(itemId);
         if (actionItem != null) {
             actionItem.mItem.doAction(item);
-            if (actionItem.mCloseScreen) getApp().getCurrentScreen().close();
+            if (actionItem.mCloseScreen) mScreen.close();
             return true;
         }
 
@@ -107,14 +110,14 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void onAttachReviewView() {
-        CurrentScreen screen = getApp().getCurrentScreen();
-        if (screen.hasActionBar()) {
-            screen.setHomeAsUp(mDisplayHomeAsUp);
-            screen.setTitle(mTitle);
+        mScreen = getApp().getUi().getCurrentScreen();
+        if (mScreen.hasActionBar()) {
+            mScreen.setHomeAsUp(mDisplayHomeAsUp);
+            mScreen.setTitle(mTitle);
             addMenuItems();
         }
 
-        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onAttachReviewView();
         }
     }
@@ -122,7 +125,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     @Override
     public void onDetachReviewView() {
         super.onDetachReviewView();
-        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onDetachReviewView();
         }
     }
@@ -131,32 +134,15 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     @Nullable
     public MenuItem getItem(MenuActionItem<T> item) {
         MenuItem mi = null;
-        for(Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             MenuActionItemInfo info = entry.getValue();
-            if(info.mItem.equals(item)) {
+            if (info.mItem.equals(item)) {
                 mi = mMenu != null ? mMenu.findItem(entry.getKey()) : null;
                 break;
             }
         }
 
         return mi;
-    }
-
-    @Nullable
-    protected MenuItem getItem(int itemId) {
-        return mMenu != null ? mMenu.findItem(itemId) : null;
-    }
-
-    private class MaiUp extends MenuActionItemBasic<T> {
-        @Override
-        public void doAction(MenuItem item) {
-            doUpSelected();
-            sendResult(RESULT_UP);
-        }
-    }
-
-    private void returnToPreviousActivity() {
-        getApp().getCurrentScreen().returnToPrevious();
     }
 
     private static class MenuActionItemInfo {
@@ -166,6 +152,14 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         private MenuActionItemInfo(MenuActionItem<?> item, boolean closeScreen) {
             mItem = item;
             mCloseScreen = closeScreen;
+        }
+    }
+
+    private class MaiUp extends MenuActionItemBasic<T> {
+        @Override
+        public void doAction(MenuItem item) {
+            doUpSelected();
+            sendResult(RESULT_UP);
         }
     }
 }

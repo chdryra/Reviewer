@@ -18,6 +18,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -71,15 +72,12 @@ public class BackendRepoService extends IntentService {
         super(SERVICE);
     }
 
-    public void setRepository(MutableRepository repo) {
-        mRepo = repo;
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getApplicationContext());
-        app.setBackendRepository(this);
-        mPublisher = app.getPublisher();
+        RepositorySuite repository = app.getRepository();
+        mRepo = repository.getMutableRepository(app.getAuthentication().getUserSession());
+        mPublisher = repository.getReviewPublisher();
 
         mReviewId = intent.getStringExtra(REVIEW_ID);
         Service service = (Service) intent.getSerializableExtra(REQUEST_SERVICE);

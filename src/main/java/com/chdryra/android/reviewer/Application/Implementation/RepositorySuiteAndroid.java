@@ -6,10 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application.Interfaces;
+package com.chdryra.android.reviewer.Application.Implementation;
 
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -18,8 +21,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories.FactoryReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -31,24 +37,30 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  */
 
 public class RepositorySuiteAndroid implements RepositorySuite {
-    private ReviewsSource mMasterRepo;
-    private FactoryReviewsRepository mRepoFactory;
-    private FactoryReviewDeleter mDeleterFactory;
-    private TagsManager mManager;
+    private final ReviewsSource mReviewsRepo;
+    private final AuthorsRepository mAuthorsRepo;
+    private final FactoryReviewsRepository mRepoFactory;
+    private final FactoryReviewDeleter mDeleterFactory;
+    private final ReviewPublisher mPublisher;
+    private final TagsManager mManager;
 
-    public RepositorySuiteAndroid(ReviewsSource masterRepo,
+    public RepositorySuiteAndroid(ReviewsSource reviewsRepo,
+                                  AuthorsRepository authorsRepo,
                                   FactoryReviewsRepository repoFactory,
                                   FactoryReviewDeleter deleterFactory,
+                                  ReviewPublisher publisher,
                                   TagsManager manager) {
-        mMasterRepo = masterRepo;
+        mReviewsRepo = reviewsRepo;
+        mAuthorsRepo = authorsRepo;
         mRepoFactory = repoFactory;
         mDeleterFactory = deleterFactory;
+        mPublisher = publisher;
         mManager = manager;
     }
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mMasterRepo.getReference(id, new RepositoryCallback() {
+        mReviewsRepo.getReference(id, new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 ReviewReference reference = result.getReference();
@@ -65,17 +77,32 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
+    public DataReference<NamedAuthor> getName(AuthorId authorId) {
+        return mAuthorsRepo.getName(authorId);
+    }
+
+    @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
-        return mMasterRepo.getRepositoryForAuthor(authorId);
+        return mReviewsRepo.getRepositoryForAuthor(authorId);
     }
 
     @Override
     public ReferencesRepository getFeed(SocialProfile profile) {
-        return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mMasterRepo);
+        return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
 
     @Override
     public ReviewDeleter newReviewDeleter(ReviewId id) {
         return mDeleterFactory.newDeleter(id, mManager);
+    }
+
+    @Override
+    public MutableRepository getMutableRepository(UserSession session) {
+        return mReviewsRepo.getMutableRepository(session);
+    }
+
+    @Override
+    public ReviewPublisher getReviewPublisher() {
+        return mPublisher;
     }
 }

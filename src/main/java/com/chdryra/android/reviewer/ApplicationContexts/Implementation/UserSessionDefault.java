@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -77,8 +78,8 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     }
 
     @Override
-    public UserAccount getAccount() {
-        return isInSession() ? mAccount : new NullUserAccount();
+    public SocialProfile getSocialProfile() {
+        return isInSession() ? mAccount.getSocialProfile() : new NullUserAccount().getSocialProfile();
     }
 
     @Override

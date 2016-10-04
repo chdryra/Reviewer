@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -40,12 +42,17 @@ public class UiSuiteAndroid implements UiSuite{
     private UiConfig mUiConfig;
     private UiLauncherAndroid mUiLauncher;
     private FactoryReviewView mViewFactory;
-    private AuthorsRepository mRepo;
+    private FactoryReviews mReviewsFactory;
+    private RepositorySuite mRepo;
+    private AuthorId mSessionUser;
 
-    public UiSuiteAndroid(UiConfig uiConfig, FactoryReviewView viewFactory, AuthorsRepository repo) {
+    public UiSuiteAndroid(UiConfig uiConfig, UiLauncherAndroid uiLauncher,
+                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory, RepositorySuite repo) {
         mUiConfig = uiConfig;
-        mRepo = repo;
+        mUiLauncher = uiLauncher;
         mViewFactory = viewFactory;
+        mReviewsFactory = reviewsFactory;
+        mRepo = repo;
     }
 
     @Override
@@ -54,21 +61,22 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Override
-    public UiConfig getUiConfig() {
+    public UiConfig getConfig() {
         return mUiConfig;
     }
 
     @Override
-    public UiLauncher getUiLauncher() {
+    public UiLauncher getLauncher() {
         return mUiLauncher;
     }
 
     @Override
     public ReviewsListView newFeedView(SocialProfile profile) {
-        ReferencesRepository feed = getUsersFeed();
-        ReviewNodeRepo node = getReviewsFactory().createFeed(getSessionUser(), feed, mRepo);
+        ReferencesRepository feed = mRepo.getFeed(profile);
+        AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
+        ReviewNodeRepo node = mReviewsFactory.createFeed(user, mRepo.getName(user), feed);
 
-        return mAppContext.newFeedView(node);
+        return mViewFactory.newFeedView(node);
     }
 
     @Override
@@ -87,10 +95,6 @@ public class UiSuiteAndroid implements UiSuite{
 
     public void setSession(UserSession session) {
         mUiLauncher.setSession(session);
-    }
-
-    public void setLauncher(UiLauncherAndroid launcher) {
-        mUiLauncher = launcher;
-        mUiConfig.setUiLauncher(mUiLauncher);
+        mSessionUser = session.getAuthorId();
     }
 }

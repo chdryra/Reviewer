@@ -129,7 +129,7 @@ public class FactoryReviewViewAdapter {
             collection.add(author, mReviewSource.getRepositoryForAuthor(author));
         }
 
-        ReviewNode node = mReviewsFactory.createFeed(summaryOwner, collection, mAuthorsRepository);
+        ReviewNode node = mReviewsFactory.createFeed(summaryOwner, mAuthorsRepository.getName(summaryOwner), collection);
         GridDataWrapper<?> viewer = mViewerFactory.newTreeSummaryViewer(node, mConverter);
 
         return newNodeAdapter(node, viewer);

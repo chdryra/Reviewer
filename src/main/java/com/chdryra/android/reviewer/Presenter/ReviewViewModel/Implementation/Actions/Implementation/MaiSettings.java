@@ -24,7 +24,7 @@ public class MaiSettings<T extends GvData> extends MenuActionItemBasic<T>{
     public void doAction(MenuItem item) {
         if(getParent() != null) {
             ApplicationInstance app = getParent().getApp();
-            app.getCurrentScreen().showToast(Strings.Toasts.LOGGING_OUT);
+            app.getUi().getCurrentScreen().showToast(Strings.Toasts.LOGGING_OUT);
             app.logout();
         }
     }
