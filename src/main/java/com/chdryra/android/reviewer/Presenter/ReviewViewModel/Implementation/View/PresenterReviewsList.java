@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
@@ -20,19 +19,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class PresenterReviewsList implements ReviewNode.NodeObserver {
 
-    private final ApplicationInstance mApp;
     private final ReviewsListView mReviewView;
     private final ReviewNode mNode;
 
-    PresenterReviewsList(ApplicationInstance app, ReviewsListView reviewView) {
-        mApp = app;
+    PresenterReviewsList(ReviewsListView reviewView) {
         mReviewView = reviewView;
-
         mNode = mReviewView.getNode();
-    }
-
-    ApplicationInstance getApp() {
-        return mApp;
     }
 
     ReviewNode getNode() {
@@ -76,8 +68,8 @@ public class PresenterReviewsList implements ReviewNode.NodeObserver {
     }
 
     public static class Builder {
-        public PresenterReviewsList build(ApplicationInstance app, ReviewsListView view) {
-            return new PresenterReviewsList(app, view);
+        public PresenterReviewsList build(ReviewsListView view) {
+            return new PresenterReviewsList(view);
         }
     }
 }

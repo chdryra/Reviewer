@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
@@ -84,11 +83,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public ReviewView<?> getReviewView() {
         return mReviewView;
-    }
-
-    @Override
-    public ApplicationInstance getApp() {
-        return AppInstanceAndroid.getInstance(getActivity());
     }
 
     @Override
@@ -181,14 +175,14 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private void attachToReviewViewIfNecessary() {
         if (!mIsAttached) {
-            mReviewView.attachContainer(this);
+            mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
             mIsAttached = true;
         }
     }
 
     private void detachFromReviewViewIfNecessary() {
         if (mIsAttached) {
-            mReviewView.detachContainer(this);
+            mReviewView.detachEnvironment();
             mIsAttached = false;
         }
     }

@@ -29,7 +29,7 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() == null || getParent().getReviewView() == null) return;
+        if(!isAttached() || getReviewView() == null) return;
 
         mCommentsAreSplit = !mCommentsAreSplit;
 

@@ -47,7 +47,6 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -553,8 +552,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void makeToast(String toast) {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        app.getCurrentScreen().showToast(toast);
+        AppInstanceAndroid.getInstance(getActivity()).getUi().getCurrentScreen().showToast(toast);
     }
 
     private class LocationSuggestionsObserver extends DataSetObserver {

@@ -165,7 +165,7 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
 
     private void makeToastHasItem(GvData datum) {
         String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
-        getReviewView().getScreen().showToast(toast);
+        getReviewView().getCurrentScreen().showToast(toast);
     }
 }
 

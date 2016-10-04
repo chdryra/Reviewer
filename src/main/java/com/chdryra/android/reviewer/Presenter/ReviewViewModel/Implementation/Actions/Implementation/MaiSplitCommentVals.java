@@ -24,7 +24,7 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
     @Override
     protected void doSplit(boolean doSplit) {
         mCommentsAreSplit = doSplit;
-        ReviewView<GvComment> view = getParent().getReviewView();
+        ReviewView<GvComment> view = getReviewView();
         GvDataList<GvComment> data = view.getGridData();
         if (doSplit) {
             GvCommentList splitComments = new GvCommentList(data.getGvReviewId());
@@ -39,7 +39,7 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
     }
 
     public void updateGridData() {
-        if(getParent() == null || getParent().getReviewView() == null) return;
+        if(!isAttached() || getReviewView() == null) return;
         doSplit(mCommentsAreSplit);
     }
 }

@@ -8,12 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,15 +50,23 @@ public abstract class MenuActionItemBasic<T extends GvData> implements MenuActio
 
     }
 
-    protected MenuAction<T> getParent() {
-        return mParent;
+    @Nullable
+    MenuItem getMenuItem() {
+        return mParent.getItem(this);
+    }
+
+    protected boolean isAttached() {
+        return mParent != null;
+    }
+    protected ReviewView<T> getReviewView() {
+        return mParent.getReviewView();
     }
 
     protected ApplicationInstance getApp() {
-        return mParent.getApp();
+        return mParent.getReviewView().getApp();
     }
 
     protected CurrentScreen getCurrentScreen() {
-        return getApp().getCurrentScreen();
+        return mParent.getCurrentScreen();
     }
 }

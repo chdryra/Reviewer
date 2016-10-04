@@ -89,7 +89,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         UiConfig uiConfig = viewContext.getUiConfig();
         FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, dataFactory, paramsFactory);
         FactoryReviewEditor<?> editorFactory
-                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory, uiConfig);
+                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory);
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory, authorRepo);

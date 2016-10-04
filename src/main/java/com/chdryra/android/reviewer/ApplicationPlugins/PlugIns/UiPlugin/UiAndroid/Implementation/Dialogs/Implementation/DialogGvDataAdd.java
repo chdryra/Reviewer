@@ -107,7 +107,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-            mBuilder = app.getReviewBuilder().newDataEditor(mDataType);
+            mBuilder = app.getReviewBuilder().getReviewEditor().newDataEditor(mDataType);
         }
     }
 

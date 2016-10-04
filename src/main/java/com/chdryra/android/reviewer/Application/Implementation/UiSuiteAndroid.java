@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
@@ -43,16 +43,15 @@ public class UiSuiteAndroid implements UiSuite{
     private UiLauncherAndroid mUiLauncher;
     private FactoryReviewView mViewFactory;
     private FactoryReviews mReviewsFactory;
-    private RepositorySuite mRepo;
     private AuthorId mSessionUser;
 
     public UiSuiteAndroid(UiConfig uiConfig, UiLauncherAndroid uiLauncher,
-                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory, RepositorySuite repo) {
+                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory) {
         mUiConfig = uiConfig;
         mUiLauncher = uiLauncher;
+        mUiConfig.setUiLauncher(mUiLauncher);
         mViewFactory = viewFactory;
         mReviewsFactory = reviewsFactory;
-        mRepo = repo;
     }
 
     @Override
@@ -71,21 +70,20 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Override
-    public ReviewsListView newFeedView(SocialProfile profile) {
-        ReferencesRepository feed = mRepo.getFeed(profile);
+    public ReviewsListView newFeedView(RepositorySuite repository, SocialProfile profile) {
+        ReferencesRepository feed = repository.getFeed(profile);
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
-        ReviewNodeRepo node = mReviewsFactory.createFeed(user, mRepo.getName(user), feed);
+        ReviewNodeRepo node = mReviewsFactory.createFeed(user, repository.getName(user), feed);
 
         return mViewFactory.newFeedView(node);
     }
 
     @Override
-    public ReviewView<?> newPublishView(ReviewViewAdapter<?> builder,
-                                        SocialPlatformList platforms,
+    public ReviewView<?> newPublishView(ReviewEditor<?> editor,
+                                        ReviewPublisher publisher, SocialPlatformList platforms,
                                         PlatformAuthoriser authoriser,
-                                        ReviewPublisher publisher,
                                         PublishAction.PublishCallback callback) {
-        return mViewFactory.newPublishView(builder, platforms, authoriser, publisher, callback);
+        return mViewFactory.newPublishView(editor, publisher, platforms, authoriser, callback);
     }
 
     public void setActivity(Activity activity) {

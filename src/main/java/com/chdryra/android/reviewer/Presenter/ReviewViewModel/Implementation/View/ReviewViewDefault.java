@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -16,7 +17,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -32,6 +34,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     private final ReviewViewPerspective<T> mPerspective;
     private final ArrayList<DataObservable.DataObserver> mObservers;
     private ReviewViewContainer mContainer;
+    private ApplicationInstance mApp;
     private GvDataList<T> mGridViewData;
     private boolean mIsAttached = false;
 
@@ -48,15 +51,17 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public ReviewViewContainer getContainer() {
-        if (mContainer == null)
-            throw new IllegalStateException("Cannot call before Container attached");
-        return mContainer;
+    public ApplicationInstance getApp() {
+        if (mApp == null) {
+            throw new IllegalStateException("Cannot call before Environment attached");
+        }
+
+        return mApp;
     }
 
     @Override
-    public CurrentScreen getScreen() {
-        return getContainer().getApp().getCurrentScreen();
+    public CurrentScreen getCurrentScreen() {
+        return mApp.getUi().getCurrentScreen();
     }
 
     @Override
@@ -107,16 +112,17 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void attachContainer(ReviewViewContainer container) {
+    public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         if (mContainer != null) throw new RuntimeException("There is a Fragment already attached");
         mContainer = container;
+        mApp = app;
         registerObserver(mContainer);
         mPerspective.attachToActions(this);
         if (!mIsAttached) attachToAdapter();
     }
 
     @Override
-    public void detachContainer(ReviewViewContainer container) {
+    public void detachEnvironment() {
         unregisterObserver(mContainer);
         mPerspective.detach();
         mContainer = null;
@@ -130,7 +136,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
             getAdapter().getCover(new ReviewViewAdapter.CoverCallback() {
                 @Override
                 public void onAdapterCover(GvImage cover) {
-                    if(mContainer != null) mContainer.setCover(cover);
+                    if (mContainer != null) mContainer.setCover(cover);
                 }
             });
         }
@@ -138,7 +144,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public void updateContextButton() {
-        getContainer().updateContextButton();
+        mContainer.updateContextButton();
     }
 
     @Override

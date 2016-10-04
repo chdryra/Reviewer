@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 
@@ -21,10 +20,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class MaiSplitCommentRefs extends MaiSplitCommentsBasic<GvComment.Reference> {
     @Override
     protected void doSplit(boolean doSplit) {
-        ReviewView<GvComment.Reference> view = getParent().getReviewView();
-        if (view == null) return;
-
-        AdapterComments adapter = (AdapterComments) view.getAdapter();
-        adapter.setSplit(doSplit);
+        ((AdapterComments) getReviewView().getAdapter()).setSplit(doSplit);
     }
 }

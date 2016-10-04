@@ -16,14 +16,11 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 
@@ -66,11 +63,9 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(this);
-        ReviewEditor<?> editor = app.getReviewBuilder();
-        ReviewDataEditor<T> dataEditor = editor.newDataEditor(mDataType);
-        mPresenter = new PresenterReviewDataEdit<>(dataEditor);
-        return dataEditor;
+        PresenterReviewDataEdit.Builder<T> builder = new PresenterReviewDataEdit.Builder<>(mDataType);
+        mPresenter = builder.build(AppInstanceAndroid.getInstance(this));
+        return builder.getEditor();
     }
 
     @Override

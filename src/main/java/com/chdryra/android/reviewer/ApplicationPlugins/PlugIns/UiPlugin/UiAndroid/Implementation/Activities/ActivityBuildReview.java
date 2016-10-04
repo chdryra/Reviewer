@@ -65,7 +65,7 @@ public class ActivityBuildReview extends ActivityReviewView {
         Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
         String id = args != null ? args.getString(TEMPLATE_ID) : null;
         if (id != null) {
-            Review template = app.unpackReview(args);
+            Review template = app.getReviewBuilder().unpackTemplate(args);
             if (template != null) builder.setTemplateReview(template);
         }
     }

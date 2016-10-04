@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite {
+public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEditor.BuildListener {
     private FactoryReviewView mViewFactory;
     private ReviewEditor<?> mReviewEditor;
     private ReviewPacker mReviewPacker;
@@ -45,16 +45,18 @@ public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite {
     }
 
     @Override
-    public Review executeReviewEditor() {
-        Review published = mReviewEditor.buildReview();
+    public void onReviewBuilt() {
         discardReviewEditor();
-
-        return published;
     }
 
     @Override
     public void discardReviewEditor() {
         mReviewEditor = null;
+    }
+
+    @Override
+    public void packTemplate(Review review, Bundle args) {
+        mReviewPacker.packReview(review, args);
     }
 
     @Nullable

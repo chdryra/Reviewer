@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -32,11 +32,11 @@ public interface UiSuite {
 
     UiLauncher getLauncher();
 
-    ReviewsListView newFeedView(SocialProfile profile);
+    ReviewsListView newFeedView(RepositorySuite repository, SocialProfile profile);
 
-    ReviewView<?> newPublishView(ReviewViewAdapter<?> builder,
+    ReviewView<?> newPublishView(ReviewEditor<?> editor,
+                                 ReviewPublisher publisher,
                                  SocialPlatformList platforms,
                                  PlatformAuthoriser authoriser,
-                                 ReviewPublisher publisher,
                                  PublishAction.PublishCallback callback);
 }

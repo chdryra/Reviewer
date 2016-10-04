@@ -62,7 +62,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         super.onCreate(savedInstanceState);
 
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        SocialPlatformList platforms = app.getSocialPlatformList();
+        SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
         PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
         if(google == null) throw new RuntimeException("Google not found!");
         mOptions = google.getSignInOptions();
@@ -154,9 +154,8 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         Bundle args = new Bundle();
         args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
         dialog.setTargetFragment(this, REQUEST_RESOLVE_ERROR);
-        AppInstanceAndroid.getInstance(getActivity())
-                .getCurrentScreen()
-                .showDialog(dialog, REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        app.getUi().getCurrentScreen().showDialog(dialog, REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
     }
 
     private View.OnClickListener newSignInListener() {

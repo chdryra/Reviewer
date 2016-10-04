@@ -25,8 +25,7 @@ public class ActivityUsersFeed extends ActivityReviewsList implements
 
     @Override
     protected PresenterReviewsList newPresenter() {
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
-        return new PresenterUsersFeed.Builder(app).build(this);
+        return new PresenterUsersFeed.Builder().build(AppInstanceAndroid.getInstance(this), this);
     }
 
     @Override

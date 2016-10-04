@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -34,8 +35,6 @@ public interface ReviewView<T extends GvData>
 
     ReviewViewAdapter<T> getAdapter();
 
-    ReviewViewContainer getContainer();
-
     ReviewViewParams getParams();
 
     ReviewViewActions<T> getActions();
@@ -44,15 +43,17 @@ public interface ReviewView<T extends GvData>
 
     float getContainerRating();
 
-    void attachContainer(ReviewViewContainer container);
-
-    void detachContainer(ReviewViewContainer container);
-
     void updateContextButton();
 
     void updateCover();
 
     void updateAll();
 
-    CurrentScreen getScreen();
+    CurrentScreen getCurrentScreen();
+
+    void attachEnvironment(ReviewViewContainer container, ApplicationInstance app);
+
+    void detachEnvironment();
+
+    ApplicationInstance getApp();
 }

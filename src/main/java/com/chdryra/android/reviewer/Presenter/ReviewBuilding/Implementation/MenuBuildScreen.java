@@ -49,7 +49,7 @@ public class MenuBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> 
 
     @Override
     protected void doUpSelected() {
-        getApp().discardReviewEditor();
+        getReviewView().getApp().getReviewBuilder().discardReviewEditor();
         super.doUpSelected();
     }
 

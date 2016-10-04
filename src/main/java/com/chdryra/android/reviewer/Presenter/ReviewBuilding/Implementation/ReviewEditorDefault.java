@@ -10,22 +10,28 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,7 +43,9 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final ReviewBuilderAdapter<?> mAdapter;
     private final FactoryReviewDataEditor mEditorFactory;
     private final GridItemBuildScreen<GC> mGridItem;
+    private final ArrayList<BuildListener> mListeners;
 
+    private ReviewViewContainer mContainer;
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
                                ReviewViewParams params,
@@ -46,6 +54,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mAdapter = adapter;
         mEditorFactory = editorFactory;
         mGridItem = (GridItemBuildScreen<GC>) actions.getGridItemAction();
+        mListeners = new ArrayList<>();
     }
 
     @Override
@@ -64,8 +73,20 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         if (fromUser) {
             mAdapter.setRating(rating);
         } else {
-            getContainer().setRating(rating);
+            mContainer.setRating(rating);
         }
+    }
+
+    @Override
+    public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
+        super.attachEnvironment(container, app);
+        mContainer = container;
+    }
+
+    @Override
+    public void detachEnvironment() {
+        super.detachEnvironment();
+        mContainer = null;
     }
 
     @Override
@@ -108,11 +129,29 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public Review buildReview() {
-        return mAdapter.buildReview();
+        Review review = mAdapter.buildReview();
+        notifyListeners();
+        return review;
+    }
+
+    private void notifyListeners() {
+        for(BuildListener listener : mListeners) {
+            listener.onReviewBuilt();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mGridItem.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void registerListener(BuildListener listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    @Override
+    public void unregisterListener(BuildListener listener) {
+        if(mListeners.contains(listener)) mListeners.remove(listener);
     }
 }

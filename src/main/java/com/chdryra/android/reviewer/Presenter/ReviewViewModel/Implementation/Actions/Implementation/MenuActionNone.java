@@ -37,7 +37,6 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     private int mMenuId = -1;
     private boolean mDisplayHomeAsUp = true;
     private Menu mMenu;
-    private CurrentScreen mScreen;
 
     public MenuActionNone(@Nullable String title) {
         this(-1, title, true);
@@ -59,11 +58,11 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     }
 
     protected void sendResult(ActivityResultCode result) {
-        getApp().setReturnResult(result);
+        getReviewView().getApp().setReturnResult(result);
     }
 
     protected void doUpSelected() {
-        mScreen.returnToPrevious();
+        getCurrentScreen().returnToPrevious();
     }
 
     @Nullable
@@ -101,7 +100,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         MenuActionItemInfo actionItem = mActionItems.get(itemId);
         if (actionItem != null) {
             actionItem.mItem.doAction(item);
-            if (actionItem.mCloseScreen) mScreen.close();
+            if (actionItem.mCloseScreen) getCurrentScreen().close();
             return true;
         }
 
@@ -110,10 +109,10 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void onAttachReviewView() {
-        mScreen = getApp().getUi().getCurrentScreen();
-        if (mScreen.hasActionBar()) {
-            mScreen.setHomeAsUp(mDisplayHomeAsUp);
-            mScreen.setTitle(mTitle);
+        CurrentScreen screen = getCurrentScreen();
+        if (screen.hasActionBar()) {
+            screen.setHomeAsUp(mDisplayHomeAsUp);
+            screen.setTitle(mTitle);
             addMenuItems();
         }
 

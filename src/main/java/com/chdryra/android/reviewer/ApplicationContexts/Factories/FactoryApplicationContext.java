@@ -127,7 +127,7 @@ public class FactoryApplicationContext {
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
                 reviewViewFactory, persistence.getMasterRepo(), uiConfig.getBuildReview());
-        return new UiSuiteAndroid(uiConfig, uiLauncher, reviewViewFactory, model.getReviewsFactory(), repo);
+        return new UiSuiteAndroid(uiConfig, uiLauncher, reviewViewFactory, model.getReviewsFactory());
     }
 
     private ReviewBuilderSuiteAndroid newReviewBuilderSuite(PresenterContext context) {

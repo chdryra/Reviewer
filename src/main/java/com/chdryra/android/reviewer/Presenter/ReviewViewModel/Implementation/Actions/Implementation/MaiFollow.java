@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -42,7 +41,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() == null) return;
+        if(!isAttached()) return;
 
         String toast = mActionType == SocialProfile.FollowUnfollow.FOLLOW ?
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
@@ -61,7 +60,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void onInflateMenu() {
-        if(getParent() == null) return;
+        if(!isAttached()) return;
 
         MenuItem menuItem = getMenuItem();
         AuthorId userId = getApp().getAuthentication().getUserSession().getAuthorId();
@@ -79,7 +78,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     }
 
     private SocialProfile getProfile() {
-        return getApp().getSocialProfile();
+        return getApp().getSocial().getSocialProfile();
     }
 
     private boolean isAuthor(AuthorId value) {
@@ -96,11 +95,6 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         mActionType = SocialProfile.FollowUnfollow.UNFOLLOW;
         MenuItem item = getMenuItem();
         if (item != null) item.setIcon(UNFOLLOW_ICON);
-    }
-
-    @Nullable
-    private MenuItem getMenuItem() {
-        return getParent().getItem(this);
     }
 
     private class Binder implements ListItemBinder<AuthorId> {

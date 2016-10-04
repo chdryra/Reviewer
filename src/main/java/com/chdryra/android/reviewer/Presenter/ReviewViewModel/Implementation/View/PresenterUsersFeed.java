@@ -10,8 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
@@ -31,14 +36,18 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
         ReviewNode.NodeObserver {
 
     private final PresenterListener mListener;
+    private ReviewPublisher mPublisher;
+    private CurrentScreen mScreen;
 
     public interface PresenterListener {
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
     }
 
-    private PresenterUsersFeed(ApplicationInstance app, PresenterListener listener) {
-        super(app, app.getUi().newFeedView(app.getSocial().getSocialProfile()));
-        app.getPublisher().registerListener(this);
+    private PresenterUsersFeed(RepositorySuite repository, UiSuite ui, SocialProfile profile, PresenterListener listener) {
+        super(ui.newFeedView(repository, profile));
+        mScreen = ui.getCurrentScreen();
+        mPublisher = repository.getReviewPublisher();
+        mPublisher.registerListener(this);
         mListener = listener;
     }
 
@@ -46,7 +55,7 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
     public void detach() {
         super.detach();
         ((ReviewNodeRepo)getNode()).detachFromRepo();
-        getApp().getPublisher().unregisterListener(this);
+        mPublisher.unregisterListener(this);
     }
 
     private String getPublishedMessage(Collection<PublishResults> platformsOk,
@@ -121,18 +130,12 @@ public class PresenterUsersFeed extends PresenterReviewsList implements
     }
 
     private void makeToast(String message) {
-        getApp().getUi().getCurrentScreen().showToast(message);
+        mScreen.showToast(message);
     }
 
     public static class Builder {
-        private final ApplicationInstance mApp;
-
-        public Builder(ApplicationInstance app) {
-            mApp = app;
-        }
-
-        public PresenterUsersFeed build(PresenterListener listener) {
-            return new PresenterUsersFeed(mApp, listener);
+        public PresenterUsersFeed build(ApplicationInstance app, PresenterListener listener) {
+            return new PresenterUsersFeed(app.getRepository(), app.getUi(), app.getSocial().getSocialProfile(), listener);
         }
     }
 }

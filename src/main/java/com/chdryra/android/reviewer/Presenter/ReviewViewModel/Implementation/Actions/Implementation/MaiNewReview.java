@@ -27,7 +27,7 @@ public class MaiNewReview<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() == null) return;
+        if(!isAttached()) return;
         mLauncher.launchBuildUi(null);
     }
 }

@@ -26,7 +26,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewsList;
@@ -86,12 +85,7 @@ public class FactoryReviewView {
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
     newEditor(@Nullable Review template, LocationClient locationClient) {
-        return mFactoryReviewEditor.newEditor(template, locationClient);
-    }
-
-    public <T extends GvData> ReviewView<?> newNullView(GvDataType<T> dataType) {
-        return newReviewView(mAdapterFactory.newNullAdapter(dataType),
-                new ReviewViewActions<>(new FactoryActionsNone<>(dataType)), new ReviewViewParams());
+        return mFactoryReviewEditor.newEditor(mConfig, getUiLauncher(), locationClient, template);
     }
 
     public ReviewsListView newFeedView(ReviewNode node) {
@@ -104,8 +98,10 @@ public class FactoryReviewView {
                 new FactoryActionsReviewsList(getUiLauncher(), this, getOptionsConfig(), followAuthorId));
     }
 
-    public ReviewView<?> newPublishView(ReviewViewAdapter<?> toPublish,
-                                        SocialPlatformList platforms, PlatformAuthoriser authoriser, ReviewPublisher publisher,
+    public ReviewView<?> newPublishView(ReviewEditor<?> toPublish,
+                                        ReviewPublisher publisher,
+                                        SocialPlatformList platforms,
+                                        PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
         GvSocialPlatformList list = new GvSocialPlatformList();
         for(SocialPlatform platform : platforms) {
@@ -113,9 +109,9 @@ public class FactoryReviewView {
         }
 
         PublishAction publishAction = new PublishAction(publisher, callback);
-        FactoryActionsPublish factory = new FactoryActionsPublish(authoriser, list, publishAction);
+        FactoryActionsPublish factory = new FactoryActionsPublish(toPublish, publishAction, list, authoriser);
 
-        return newReviewView(mAdapterFactory.newPublishAdapter(list, toPublish),
+        return newReviewView(mAdapterFactory.newPublishAdapter(list, toPublish.getAdapter()),
                 new ReviewViewActions<>(factory), mParamsFactory.newPublishParams());
     }
 

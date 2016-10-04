@@ -16,10 +16,14 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -92,10 +96,19 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
     public static class Builder {
         public PresenterReviewPublish build(ApplicationInstance app, LaunchableUi authLaunchable) {
-            PresenterReviewPublish presenter = new PresenterReviewPublish(app.getCurrentScreen(),
-                    app.getUiConfig().getUsersFeed().getLaunchable(), authLaunchable, app.getUiLauncher());
-            ReviewView<?> reviewView = app.newPublishScreen(presenter, presenter);
+            UiSuite ui = app.getUi();
+
+            PresenterReviewPublish presenter = new PresenterReviewPublish(ui.getCurrentScreen(),
+                    ui.getConfig().getUsersFeed().getLaunchable(), authLaunchable, ui.getLauncher());
+
+            ReviewEditor<?> editor = app.getReviewBuilder().getReviewEditor();
+            SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
+            ReviewPublisher publisher = app.getRepository().getReviewPublisher();
+
+            ReviewView<?> reviewView = ui.newPublishView(editor, publisher, platforms, presenter, presenter);
+
             presenter.setView(reviewView);
+
             return presenter;
         }
     }

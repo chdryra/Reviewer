@@ -37,7 +37,7 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() == null) return;
+        if(!isAttached()) return;
 
         FactoryReviewViewAdapter adapterFactory = mFactory.getAdapterFactory();
         ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory

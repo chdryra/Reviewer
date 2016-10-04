@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -240,9 +241,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     public static class Builder {
         public PresenterLogin build(ApplicationInstance app, LoginListener listener) {
             AuthenticationSuite auth = app.getAuthentication();
-            UiConfig config = app.getUiConfig();
+            UiSuite ui = app.getUi();
+            UiConfig config = ui.getConfig();
             return new PresenterLogin(auth, config.getSignUp(), config.getUsersFeed(),
-                    app.getCurrentScreen(), new FactoryCredentialsHandler(),
+                    ui.getCurrentScreen(), new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);
         }
     }

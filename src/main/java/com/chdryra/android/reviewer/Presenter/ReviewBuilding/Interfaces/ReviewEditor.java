@@ -38,6 +38,10 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         }
     }
 
+    interface BuildListener {
+        void onReviewBuilt();
+    }
+
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);
@@ -55,4 +59,8 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     ReadyToBuildResult isReviewBuildable();
 
     Review buildReview();
+
+    void registerListener(BuildListener listener);
+
+    void unregisterListener(BuildListener listener);
 }

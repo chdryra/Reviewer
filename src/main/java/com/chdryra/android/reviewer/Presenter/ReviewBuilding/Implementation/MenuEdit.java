@@ -116,7 +116,7 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
             getBuilder().deleteAll();
             if (mDismissOnDelete) {
                 sendResult(RESULT_DELETE);
-                getApp().getCurrentScreen().close();
+                getCurrentScreen().close();
             }
         }
     }
@@ -127,7 +127,7 @@ public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements Ale
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = "all " + mDeleteWhat;
-        getApp().getCurrentScreen().showDeleteConfirm(deleteWhat, ALERT_DIALOG, this);
+        getCurrentScreen().showDeleteConfirm(deleteWhat, ALERT_DIALOG, this);
     }
 
     private boolean hasDataToDelete() {

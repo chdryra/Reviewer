@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 public class MaiSettings<T extends GvData> extends MenuActionItemBasic<T>{
     @Override
     public void doAction(MenuItem item) {
-        if(getParent() != null) {
-            ApplicationInstance app = getParent().getApp();
+        if(isAttached()) {
+            ApplicationInstance app = getApp();
             app.getUi().getCurrentScreen().showToast(Strings.Toasts.LOGGING_OUT);
             app.logout();
         }

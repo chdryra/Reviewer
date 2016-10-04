@@ -244,7 +244,7 @@ public class FragmentViewLocation extends Fragment implements
 
     private void onGotoReviewSelected() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        app.newReviewLauncher().launchReview(mCurrent.getReviewId());
+        app.getUi().getLauncher().newReviewLauncher().launchReview(mCurrent.getReviewId());
     }
 
     private void zoomToLatLng() {

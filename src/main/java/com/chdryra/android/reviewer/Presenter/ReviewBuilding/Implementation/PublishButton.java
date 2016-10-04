@@ -12,8 +12,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActionBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
@@ -27,10 +27,12 @@ import java.util.ArrayList;
  */
 public class PublishButton extends ReviewViewActionBasic<GvSocialPlatform>
         implements ContextualButtonAction<GvSocialPlatform>{
-    private final GvSocialPlatformList mPlatforms;
     private final PublishAction mPublishAction;
+    private final GvSocialPlatformList mPlatforms;
+    private final ReviewEditor<?> mEditor;
 
-    public PublishButton(GvSocialPlatformList platforms, PublishAction publishAction) {
+    public PublishButton(ReviewEditor<?> editor, PublishAction publishAction, GvSocialPlatformList platforms) {
+        mEditor = editor;
         mPlatforms = platforms;
         mPublishAction = publishAction;
     }
@@ -43,8 +45,7 @@ public class PublishButton extends ReviewViewActionBasic<GvSocialPlatform>
 
     @Override
     public void onClick(View v) {
-        Review review = getApp().executeReviewEditor();
-        mPublishAction.publish(review, getChosenPlatforms());
+        mPublishAction.publish(mEditor.buildReview(), getChosenPlatforms());
     }
 
     @Override

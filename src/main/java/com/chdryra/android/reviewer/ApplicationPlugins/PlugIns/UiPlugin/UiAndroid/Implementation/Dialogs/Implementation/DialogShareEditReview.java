@@ -91,7 +91,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         FactoryCommands factory = new FactoryCommands();
         final Command deleteCommand = factory.newDeleteCommand(repo.newReviewDeleter(reviewId), screen);
-        final Command shareCommand = factory.newShareCommand(repo, reviewId, screen, sharer, app.getTagsManager());
+        final Command shareCommand = factory.newShareCommand(repo, reviewId, screen, sharer, app.getSocial().getTagsManager());
         final Command copyCommand = factory.newCopyCommand(ui.getLauncher(), reviewId, screen);
 
         final Command.ExecutionListener listener = this;

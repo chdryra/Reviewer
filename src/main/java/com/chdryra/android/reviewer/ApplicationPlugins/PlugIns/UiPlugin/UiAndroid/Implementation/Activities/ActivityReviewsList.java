@@ -32,8 +32,7 @@ public class ActivityReviewsList extends ActivityReviewView {
     }
 
     PresenterReviewsList newPresenter() {
-        ReviewsListView view = (ReviewsListView) super.createReviewView();
-        return new PresenterReviewsList.Builder().build(AppInstanceAndroid.getInstance(this), view);
+        return new PresenterReviewsList.Builder().build((ReviewsListView) super.createReviewView());
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ActivityReviewsList extends ActivityReviewView {
 
     @Override
     protected void onResume() {
-        AppInstanceAndroid.getInstance(this).discardReviewEditor();
+        AppInstanceAndroid.getInstance(this).getReviewBuilder().discardReviewEditor();
         super.onResume();
     }
 

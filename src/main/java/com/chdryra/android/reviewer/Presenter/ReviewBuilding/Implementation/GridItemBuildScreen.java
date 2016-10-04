@@ -38,14 +38,16 @@ import com.google.android.gms.maps.model.LatLng;
 public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
     private final UiConfig mConfig;
+    private final UiLauncher mLauncher;
 
     private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
 
 
-    public GridItemBuildScreen(UiConfig config, LocationClient locationClient) {
+    public GridItemBuildScreen(UiConfig config, UiLauncher launcher, LocationClient locationClient) {
         mConfig = config;
+        mLauncher = launcher;
         mLocationClient = locationClient;
     }
 
@@ -92,18 +94,14 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
         } else {
-            getUiLauncher().launchEditDataUi(type);
+            mLauncher.launchEditDataUi(type);
         }
-    }
-
-    private UiLauncher getUiLauncher() {
-        return mConfig.getUiLauncher();
     }
 
     private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
             if(mImageChooser == null) mImageChooser = getEditor().newImageChooser();
-            getUiLauncher().launchImageChooser(mImageChooser, getImageRequestCode());
+            mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
             showQuickSetLaunchable(getAdderConfig(type));
         }

@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -48,8 +50,12 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         }
 
         public PresenterReviewBuild<?> build(ApplicationInstance app) {
-            ReviewEditor<?> editor = app.getReviewBuilder();
-            if (editor == null) editor = app.newReviewEditor(mTemplate);
+            ReviewBuilderSuite builder = app.getReviewBuilder();
+            ReviewEditor<?> editor = builder.getReviewEditor();
+            if (editor == null) {
+                LocationClient client = app.getLocationServices().newLocationClient();
+                editor = builder.newReviewEditor(client, mTemplate);
+            }
 
             return new PresenterReviewBuild<>(editor);
         }

@@ -211,7 +211,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
 
     private void makeToast(String toast) {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        app.getCurrentScreen().showToast(toast);
+        app.getUi().getCurrentScreen().showToast(toast);
     }
 
     private void loadUrlInEditText() {

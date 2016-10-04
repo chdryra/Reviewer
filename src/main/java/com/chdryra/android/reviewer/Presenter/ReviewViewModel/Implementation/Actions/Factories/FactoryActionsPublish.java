@@ -18,9 +18,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButton;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 
 /**
@@ -30,17 +34,20 @@ import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
  */
 public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> {
     private static final String TITLE = Strings.Screens.SHARE;
-    private PlatformAuthoriser mAuthoriser;
-    private GvSocialPlatformList mPlatforms;
-    private PublishAction mPublishAction;
+    private final ReviewEditor<?> mEditor;
+    private final PublishAction mPublishAction;
+    private final GvSocialPlatformList mPlatforms;
+    private final PlatformAuthoriser mAuthoriser;
 
-    public FactoryActionsPublish(PlatformAuthoriser authoriser,
+    public FactoryActionsPublish(ReviewEditor<?> editor,
+                                 PublishAction publishAction,
                                  GvSocialPlatformList platforms,
-                                 PublishAction publishAction) {
+                                 PlatformAuthoriser authoriser) {
         super(GvSocialPlatform.TYPE);
-        mAuthoriser = authoriser;
-        mPlatforms = platforms;
+        mEditor = editor;
         mPublishAction = publishAction;
+        mPlatforms = platforms;
+        mAuthoriser = authoriser;
     }
 
     @Override
@@ -61,6 +68,6 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
     @Nullable
     @Override
     public ContextualButtonAction<GvSocialPlatform> newContextButton() {
-        return new PublishButton(mPlatforms, mPublishAction);
+        return new PublishButton(mEditor, mPublishAction, mPlatforms);
     }
 }

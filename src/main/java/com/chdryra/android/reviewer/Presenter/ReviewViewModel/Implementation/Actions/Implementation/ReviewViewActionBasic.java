@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ReviewViewAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -29,11 +29,6 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     }
 
     @Override
-    public ApplicationInstance getApp() {
-        return getReviewView().getContainer().getApp();
-    }
-
-    @Override
     public ReviewView<T> getReviewView() {
         throwIfNoReviewViewAttached();
         return mReviewView;
@@ -42,6 +37,11 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     @Override
     public ReviewViewAdapter<T> getAdapter() {
         return getReviewView().getAdapter();
+    }
+
+    @Override
+    public CurrentScreen getCurrentScreen() {
+        return getReviewView().getCurrentScreen();
     }
 
     @Override

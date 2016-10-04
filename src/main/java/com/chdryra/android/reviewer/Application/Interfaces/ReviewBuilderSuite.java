@@ -26,8 +26,6 @@ public interface ReviewBuilderSuite {
 
     ReviewEditor<?> getReviewEditor();
 
-    Review executeReviewEditor();
-
     void discardReviewEditor();
 
     void packTemplate(Review review, Bundle args);

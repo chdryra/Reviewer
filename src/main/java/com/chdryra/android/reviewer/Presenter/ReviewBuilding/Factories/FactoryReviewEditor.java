@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Configs.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,23 +33,19 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryReviewBuilderAdapter<GC> mFactoryAdapter;
     private final FactoryReviewDataEditor mFactoryDataEditor;
     private final FactoryReviewViewParams mParamsFactory;
-    private final UiConfig mConfig;
 
     public FactoryReviewEditor(FactoryReviewBuilderAdapter<GC> factoryAdapter,
                                FactoryReviewDataEditor factoryDataEditor,
-                               FactoryReviewViewParams paramsFactory,
-                               UiConfig config) {
+                               FactoryReviewViewParams paramsFactory) {
         mFactoryAdapter = factoryAdapter;
         mFactoryDataEditor = factoryDataEditor;
         mParamsFactory = paramsFactory;
-        mConfig = config;
     }
 
-    public ReviewEditor<GC> newEditor(@Nullable Review template,
-                                      LocationClient locationClient) {
+    public ReviewEditor<GC> newEditor(UiConfig config, UiLauncher launcher, LocationClient locationClient, @Nullable Review template) {
         ReviewBuilderAdapter<GC> adapter = mFactoryAdapter.newAdapter(template);
         FactoryActionsBuild<GC> factory
-                = new FactoryActionsBuild<>(adapter.getGvDataType(), mConfig, locationClient);
+                = new FactoryActionsBuild<>(adapter.getGvDataType(), config, launcher, locationClient);
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 

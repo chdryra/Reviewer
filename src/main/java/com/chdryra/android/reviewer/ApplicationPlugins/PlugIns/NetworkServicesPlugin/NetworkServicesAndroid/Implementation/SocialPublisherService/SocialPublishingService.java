@@ -72,7 +72,7 @@ public class SocialPublishingService extends IntentService {
 
     private void batchPublish() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getApplicationContext());
-        mPublisher = app.getPublisher();
+        mPublisher = app.getRepository().getReviewPublisher();
         mToken = mPublisher.getFromQueue(new DatumReviewId(mReviewId), publisherCallback(), this);
     }
 
