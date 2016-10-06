@@ -69,7 +69,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mSocial.setSession(session);
     }
 
-    public void setReturnResult(ActivityResultCode result) {
+    void setReturnResult(ActivityResultCode result) {
         if (result != null) mActivity.setResult(result.get(), null);
     }
 

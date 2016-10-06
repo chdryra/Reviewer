@@ -79,16 +79,16 @@ public class FactoryApplicationSuite {
     }
 
     private AuthenticationSuiteAndroid newAuthenticationSuite(ModelContext model, PersistenceContext persistence, SocialContext social) {
-        AccountsManager manager = persistence.getAccountsManager();
-        SocialPlatformList platforms = social.getSocialPlatforms();
+        AccountsManager accountsManager = persistence.getAccountsManager();
+        SocialPlatformList socialPlatforms = social.getSocialPlatforms();
 
-        UserSession session = new UserSessionDefault(manager, platforms);
+        UserSession session = new UserSessionDefault(accountsManager, socialPlatforms);
 
         InSessionStamper reviewStamper = new InSessionStamper();
         session.registerSessionObserver(reviewStamper);
         model.getReviewsFactory().setReviewStamper(reviewStamper);
 
-        return new AuthenticationSuiteAndroid(manager, session);
+        return new AuthenticationSuiteAndroid(accountsManager, session);
     }
 
     private LocationServicesSuiteAndroid newLocationServicesSuite(LocationServicesApi services) {
@@ -113,10 +113,10 @@ public class FactoryApplicationSuite {
                                       RepositorySuite repo,
                                       ReviewBuilderSuite builder) {
         FactoryReviewView reviewViewFactory = presenter.getReviewViewFactory();
-
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
                 reviewViewFactory, persistence.getMasterRepo(), uiConfig.getBuildReview());
+
         return new UiSuiteAndroid(uiConfig, uiLauncher, reviewViewFactory, model.getReviewsFactory());
     }
 
