@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
+package com.chdryra.android.reviewer.Application.Interfaces;
 
 import android.support.annotation.Nullable;
 

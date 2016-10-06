@@ -733,10 +733,10 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     private void testDialogShowing(boolean isShowing) {
         if (isShowing) {
             assertTrue(mSolo.searchButton("Cancel"));
-            assertTrue(mSolo.searchButton("Done"));
+            assertTrue(mSolo.searchButton("DONE"));
         } else {
             assertFalse(mSolo.searchButton("Cancel"));
-            assertFalse(mSolo.searchButton("Done"));
+            assertFalse(mSolo.searchButton("DONE"));
         }
     }
 

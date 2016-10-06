@@ -10,39 +10,32 @@ package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextAndroid;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
  * Singleton that controls app-wide duties.
  */
-public class AppInstanceAndroid implements ApplicationInstance, UserSession.SessionObserver {
+public class AppInstanceAndroid implements ApplicationInstance {
     private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode(AppInstanceAndroid
             .class, "GoogleApiCheck");
 
     private static AppInstanceAndroid sSingleton;
-    private ApplicationContextAndroid mContext;
+    private ApplicationSuiteAndroid mContext;
 
     private boolean mGoogleApiOk = false;
 
@@ -68,64 +61,42 @@ public class AppInstanceAndroid implements ApplicationInstance, UserSession.Sess
     //API
     @Override
     public AuthenticationSuite getAuthentication() {
-        return mContext.getAuthenticationSuite();
+        return mContext.getAuthentication();
     }
 
     @Override
     public LocationServicesSuite getLocationServices() {
-        return mContext.getLocationServicesSuite();
+        return mContext.getLocationServices();
     }
 
     @Override
     public UiSuite getUi() {
-        return mContext.getUiSuite();
+        return mContext.getUi();
     }
 
     @Override
     public RepositorySuite getRepository() {
-        return mContext.getRepositorySuite();
+        return mContext.getRepository();
     }
 
     @Override
     public ReviewBuilderSuite getReviewBuilder() {
-        return mContext.getReviewBuilderSuite();
+        return mContext.getReviewBuilder();
     }
 
     @Override
     public SocialSuite getSocial() {
-        return mContext.getSocialSuite();
+        return mContext.getSocial();
     }
 
     @Override
     public void logout() {
-        getAuthentication().logout();
-    }
-
-    @Override
-    public void onLogIn(@Nullable UserAccount account, @Nullable AuthenticationError error) {
-        mContext.setSession(getUserSession());
-    }
-
-    @Override
-    public void onLogOut(UserAccount account, CallbackMessage message) {
-        if (!message.isError()) {
-            returnToLogin();
-        } else {
-            getScreen().showToast("Problem logging out: " + message.getMessage());
-        }
+        mContext.logout();
     }
 
     @Override
     public void setReturnResult(ActivityResultCode result) {
         mContext.setReturnResult(result);
-    }
-
-    private UserSession getUserSession() {
-        return getAuthentication().getUserSession();
-    }
-
-    private CurrentScreen getScreen() {
-        return getUi().getCurrentScreen();
     }
 
     private void instantiate(Context context, LaunchState launchState) {
@@ -136,15 +107,8 @@ public class AppInstanceAndroid implements ApplicationInstance, UserSession.Sess
             plugins = new ApplicationPluginsTest(context);
         }
 
-        FactoryApplicationContext factory = new FactoryApplicationContext();
+        FactoryApplicationSuite factory = new FactoryApplicationSuite();
         mContext = factory.newAndroidContext(context, plugins);
-
-        getUserSession().registerSessionObserver(this);
-    }
-
-    private void returnToLogin() {
-        getUi().getConfig().getLogin().launch();
-        getScreen().close();
     }
 
     private void setCurrentActivity(Activity activity) {

@@ -30,7 +30,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;
 
 import org.hamcrest.Matchers;
@@ -70,7 +69,7 @@ public class FactoryReviewsTest {
         mAuthor = RandomAuthor.nextAuthor();
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
         mFactory = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
-        mFactory.setAuthorsStamp(new AuthorsStamp(mAuthor));
+        mFactory.setReviewStamper(new FactoryReviews.AuthorsStamp(mAuthor));
         mDataMocker = new MdDataMocker();
     }
 

@@ -16,15 +16,5 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PresenterContext {
-    ModelContext getModelContext();
-
-    ViewContext getViewContext();
-
-    SocialContext getSocialContext();
-
-    NetworkContext getNetworkContext();
-
-    PersistenceContext getPersistenceContext();
-
     FactoryReviewView getReviewViewFactory();
 }

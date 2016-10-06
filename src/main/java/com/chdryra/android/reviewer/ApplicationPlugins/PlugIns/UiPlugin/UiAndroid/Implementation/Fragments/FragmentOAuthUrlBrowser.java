@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 
 /**
  * UI Fragment: web browser. Browser shows URL passed in the arguments,
- * or Google home if null. By clicking "Done" icon, current URL is added to/edited into review.
+ * or Google home if null. By clicking "DONE" icon, current URL is added to/edited into review.
  * <p/>
  * <p>
  * In addition:

@@ -9,14 +9,12 @@
 package com.chdryra.android.reviewer.Model;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ModelContextBasic;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.NullAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,11 +28,9 @@ public class ReleaseModelContext extends ModelContextBasic {
         setReferenceFactory(new FactoryReference());
 
         FactoryMdReference mdReferenceFactory = new FactoryMdReference(getReferenceFactory(),
-                new FactoryNodeTraverser(),
-                new FactoryVisitorReviewNode());
+                new FactoryNodeTraverser(), new FactoryVisitorReviewNode());
 
-        FactoryReviews reviews = new FactoryReviews(mdReferenceFactory, new
-                AuthorsStamp(NullAuthor.AUTHOR.getAuthorId()));
+        FactoryReviews reviews = new FactoryReviews(mdReferenceFactory);
 
         setReviewsFactory(reviews);
     }

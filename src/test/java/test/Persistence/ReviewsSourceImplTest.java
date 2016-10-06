@@ -35,7 +35,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -339,7 +338,7 @@ public class ReviewsSourceImplTest {
     private FactoryReviews getReviewFactory() {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
         FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
-        factoryReviews.setAuthorsStamp(new AuthorsStamp(AUTHOR));
+        factoryReviews.setReviewStamper(new FactoryReviews.AuthorsStamp(AUTHOR));
         return factoryReviews;
     }
 

@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsViewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -32,7 +32,7 @@ public interface UiSuite {
 
     UiLauncher getLauncher();
 
-    ReviewsViewNode newFeedView(RepositorySuite repository, SocialProfile profile);
+    ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile);
 
     ReviewView<?> newPublishView(ReviewEditor<?> editor,
                                  ReviewPublisher publisher,

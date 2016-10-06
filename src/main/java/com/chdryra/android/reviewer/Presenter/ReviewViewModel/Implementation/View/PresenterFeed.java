@@ -34,7 +34,7 @@ import java.util.Collection;
  */
 public class PresenterFeed implements ReviewPublisherListener {
     private final PresenterListener mListener;
-    private final ReviewsViewNode mReviewView;
+    private final ReviewViewNode mReviewView;
     private final ReviewPublisher mPublisher;
     private final CurrentScreen mScreen;
 
@@ -42,7 +42,7 @@ public class PresenterFeed implements ReviewPublisherListener {
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
     }
 
-    private PresenterFeed(ReviewsViewNode reviewView, CurrentScreen screen,
+    private PresenterFeed(ReviewViewNode reviewView, CurrentScreen screen,
                           ReviewPublisher publisher, PresenterListener listener) {
         mReviewView = reviewView;
         mScreen = screen;

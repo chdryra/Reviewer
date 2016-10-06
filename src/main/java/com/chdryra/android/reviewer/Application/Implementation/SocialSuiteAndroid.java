@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Application.Implementation;
 
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
@@ -50,10 +51,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewNodeRepoTitler;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepoTitler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -69,16 +68,15 @@ import java.util.ArrayList;
 public class FactoryReviews implements ReviewMaker {
     private final FactoryReviewNode mNodeFactory;
     private final FactoryMdReference mReferenceFactory;
-    private AuthorsStamp mAuthorsStamp;
+    private ReviewStamper mStamper;
 
-    public FactoryReviews(FactoryMdReference referenceFactory, AuthorsStamp authorsStamp) {
+    public FactoryReviews(FactoryMdReference referenceFactory) {
         mNodeFactory = new FactoryReviewNode(this, referenceFactory);
         mReferenceFactory = referenceFactory;
-        mAuthorsStamp = authorsStamp;
     }
 
-    public void setAuthorsStamp(AuthorsStamp authorsStamp) {
-        mAuthorsStamp = authorsStamp;
+    public void setReviewStamper(ReviewStamper stamper) {
+        mStamper = stamper;
     }
 
     public Review createUserReview(String subject, float rating,
@@ -167,9 +165,7 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
                                  boolean ratingIsAverage) {
-        if (mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
-
-        ReviewStamp stamp = newStamp();
+        ReviewStamp stamp = mStamper.newStamp();
         AuthorId author = stamp.getAuthorId();
         DateTime date = stamp.getDate();
 
@@ -178,10 +174,6 @@ public class FactoryReviews implements ReviewMaker {
         return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images,
                 facts,
                 locations);
-    }
-
-    private ReviewStamp newStamp() {
-        return mAuthorsStamp.newStamp();
     }
 
     private float getAverageRating(Iterable<? extends DataCriterion> criteria) {

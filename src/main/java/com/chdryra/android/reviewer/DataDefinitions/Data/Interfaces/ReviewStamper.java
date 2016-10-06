@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
+package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
+
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 11/01/2016
+ * On: 06/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface LocationServicesPlugin {
-    LocationServicesApi getApi();
+public interface ReviewStamper {
+    ReviewStamp newStamp();
 }

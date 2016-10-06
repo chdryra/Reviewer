@@ -47,7 +47,6 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -97,7 +96,7 @@ public class TestReviews {
         mNodeFactory = new FactoryReviewNode();
         mFactory = new FactoryReviews(mNodeFactory,
                 converter.newMdConverter(), new DataValidator());
-        mFactory.setAuthorsStamp(new AuthorsStamp(AUTHOR));
+        mFactory.setReviewStamper(new FactoryReviews.AuthorsStamp(AUTHOR));
     }
 
     private static TestReviews get(Instrumentation instr) {

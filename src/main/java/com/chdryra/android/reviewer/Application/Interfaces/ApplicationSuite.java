@@ -8,21 +8,21 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
-
 /**
  * Created by: Rizwan Choudrey
- * On: 29/09/2016
+ * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
+public interface ApplicationSuite {
+    AuthenticationSuite getAuthentication();
 
-public interface AuthenticationSuite {
-    UserAuthenticator getAuthenticator();
+    LocationServicesSuite getLocationServices();
 
-    UserSession getUserSession();
+    UiSuite getUi();
 
-    UserAccounts getUserAccounts();
+    RepositorySuite getRepository();
 
-    void logout();
+    ReviewBuilderSuite getReviewBuilder();
+
+    SocialSuite getSocial();
 }

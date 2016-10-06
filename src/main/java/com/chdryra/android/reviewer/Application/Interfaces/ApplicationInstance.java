@@ -15,20 +15,8 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ApplicationInstance {
+public interface ApplicationInstance extends ApplicationSuite {
     String APP_NAME = "Teeqr";
-
-    AuthenticationSuite getAuthentication();
-
-    LocationServicesSuite getLocationServices();
-
-    UiSuite getUi();
-
-    RepositorySuite getRepository();
-
-    ReviewBuilderSuite getReviewBuilder();
-
-    SocialSuite getSocial();
 
     void logout();
 

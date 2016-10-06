@@ -15,9 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PresenterContextBasic;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
@@ -53,15 +51,11 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     public ReleasePresenterContext(Context context,
                                    ModelContext modelContext,
                                    ViewContext viewContext,
-                                   SocialContext socialContext,
-                                   NetworkContext networkContext,
                                    PersistenceContext persistenceContext,
                                    DeviceContext deviceContext,
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregatorsPlugin,
                                    DataValidator validator) {
-        super(modelContext, viewContext, socialContext, networkContext, persistenceContext);
-
         ConverterGv gvConverter = new ConverterGv();
 
         setFactoryReviewView(context,
@@ -72,13 +66,13 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private void setFactoryReviewView(Context context,
-                                                   ModelContext modelContext,
-                                                   DeviceContext deviceContext,
-                                                   ViewContext viewContext,
-                                                   PersistenceContext persistenceContext,
-                                                   DataAggregatorsPlugin aggregatorsPlugin,
-                                                   ConverterGv gvConverter,
-                                                   DataValidator validator) {
+                                      ModelContext modelContext,
+                                      DeviceContext deviceContext,
+                                      ViewContext viewContext,
+                                      PersistenceContext persistenceContext,
+                                      DataAggregatorsPlugin aggregatorsPlugin,
+                                      ConverterGv gvConverter,
+                                      DataValidator validator) {
         FactoryGvData dataFactory = new FactoryGvData();
 
         FactoryReviewBuilderAdapter<?> builderFactory =

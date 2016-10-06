@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;

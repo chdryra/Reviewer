@@ -21,15 +21,15 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPl
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationPlugins {
-    DataComparatorsPlugin getDataComparatorsPlugin();
+    DataComparatorsPlugin getDataComparators();
 
-    DataAggregatorsPlugin getDataAggregatorsPlugin();
+    DataAggregatorsPlugin getDataAggregators();
 
-    PersistencePlugin getPersistencePlugin();
+    PersistencePlugin getPersistence();
 
-    LocationServicesPlugin getLocationServicesPlugin();
+    LocationServicesPlugin getLocationServices();
 
-    NetworkServicesPlugin getNetworkServicesPlugin();
+    NetworkServicesPlugin getNetworkServices();
 
-    UiPlugin getUiPlugin();
+    UiPlugin getUi();
 }

@@ -39,32 +39,32 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
     }
 
     @Override
-    public DataComparatorsPlugin getDataComparatorsPlugin() {
+    public DataComparatorsPlugin getDataComparators() {
         return new DataComparatorsDefault();
     }
 
     @Override
-    public DataAggregatorsPlugin getDataAggregatorsPlugin() {
+    public DataAggregatorsPlugin getDataAggregators() {
         return new DataAggregatorsDefault();
     }
 
     @Override
-    public PersistencePlugin getPersistencePlugin() {
+    public PersistencePlugin getPersistence() {
         return new SQLiteFirebase(mContext, PERSISTENCE_NAME, PERSISTENCE_VER);
     }
 
     @Override
-    public LocationServicesPlugin getLocationServicesPlugin() {
+    public LocationServicesPlugin getLocationServices() {
         return new LocationServicesGoogle(mContext);
     }
 
     @Override
-    public NetworkServicesPlugin getNetworkServicesPlugin() {
+    public NetworkServicesPlugin getNetworkServices() {
         return new NetworkServicesAndroid(mContext);
     }
 
     @Override
-    public UiPlugin getUiPlugin() {
+    public UiPlugin getUi() {
         return new UiAndroid();
     }
 }

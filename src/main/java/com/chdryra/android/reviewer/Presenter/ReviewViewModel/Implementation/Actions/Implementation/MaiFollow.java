@@ -52,7 +52,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
             public void onFollowingCallback(AuthorId authorId, SocialProfile.FollowUnfollow type,
                                             CallbackMessage message) {
                 String onCompletion = message.isError() ?
-                        message.getMessage() : Strings.Toasts.Done;
+                        message.getMessage() : Strings.Toasts.DONE;
                 getCurrentScreen().showToast(onCompletion);
             }
         });

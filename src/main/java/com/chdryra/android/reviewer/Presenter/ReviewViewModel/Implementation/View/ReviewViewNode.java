@@ -16,10 +16,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsViewNode extends ReviewViewDefault<GvNode>{
+public class ReviewViewNode extends ReviewViewDefault<GvNode>{
     private final ReviewNode mNode;
 
-    public ReviewsViewNode(ReviewNode node, ReviewViewPerspective<GvNode> perspective) {
+    public ReviewViewNode(ReviewNode node, ReviewViewPerspective<GvNode> perspective) {
         super(perspective);
         mNode = node;
     }
