@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Parc
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 
 /**
@@ -47,7 +47,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), LOCATION);
     }
 

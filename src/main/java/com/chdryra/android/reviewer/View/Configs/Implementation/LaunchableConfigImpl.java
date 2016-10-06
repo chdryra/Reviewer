@@ -6,16 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.View.Configs;
+package com.chdryra.android.reviewer.View.Configs.Implementation;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Encapsulates a configuration for a UI that can add, edit, view review data of a certain
@@ -27,32 +26,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * <li>A String tag that may be used (if ultimately launching a dialog)</li>
  * </ul>
  */
-class LaunchableConfigImpl implements LaunchableConfig {
+public class LaunchableConfigImpl implements LaunchableConfig {
     private static final String TAG = "LaunchableConfigImpl";
     private final Class<? extends LaunchableUi> mUiClass;
     private final int mRequestCode;
-    private final String mTag;
 
     private UiLauncher mLauncher;
 
-    LaunchableConfigImpl(Class<? extends LaunchableUi> UiClass,
-                                int requestCode, String tag) {
+    public LaunchableConfigImpl(Class<? extends LaunchableUi> UiClass, int requestCode) {
         mUiClass = UiClass;
         mRequestCode = requestCode;
-        mTag = tag;
     }
 
-    @Override
-    public String getTag() {
-        return mTag;
-    }
-
-    @Override
-    public LaunchableUi getLaunchable() throws RuntimeException {
-        if (mUiClass == null) return null;
+    private LaunchableUi newLaunchable() {
         try {
             return mUiClass.newInstance();
-        } catch (java.lang.InstantiationException e) {
+        } catch (InstantiationException e) {
             //If this happens not good so throwing runtime exception
             Log.e(TAG, "Couldn't create UI for " + mUiClass.getName(), e);
             throw new RuntimeException(e);
@@ -64,34 +53,22 @@ class LaunchableConfigImpl implements LaunchableConfig {
     }
 
     @Override
-    public int getRequestCode() {
+    public int getDefaultRequestCode() {
         return mRequestCode;
     }
 
     @Override
-    public LaunchableConfig setLauncher(UiLauncher launcher) {
+    public void setLauncher(UiLauncher launcher) {
         mLauncher = launcher;
-        return this;
-    }
-
-    @Nullable
-    @Override
-    public UiLauncher getLauncher() {
-        return mLauncher;
     }
 
     @Override
     public void launch() {
-        mLauncher.launch(getLaunchable(), getRequestCode());
+        launch(new UiLauncherArgs(getDefaultRequestCode()));
     }
 
     @Override
-    public void launch(Bundle args) {
-        launch(getRequestCode(), args);
-    }
-
-    @Override
-    public void launch(int requestCode, Bundle args) {
-        mLauncher.launch(getLaunchable(), requestCode, args);
+    public void launch(UiLauncherArgs args) {
+        if(mLauncher != null) mLauncher.launch(newLaunchable(), args);
     }
 }

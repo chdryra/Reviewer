@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -25,7 +26,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LoginUiDefault<T> implements LoginUi {
-    private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
+    private static final int AUTHORISATION = RequestCodeGenerator.getCode(LoginUiDefault.class);
 
     private final LaunchableUi mAuthorisationUi;
     private final SocialPlatform<T> mPlatform;
@@ -46,7 +47,7 @@ public class LoginUiDefault<T> implements LoginUi {
     public void launchUi(UiLauncher launcher) {
         Bundle args = new Bundle();
         args.putString(mAuthorisationUi.getLaunchTag(), mPlatform.getName());
-        launcher.launch(mAuthorisationUi, AUTHORISATION, args);
+        launcher.launch(mAuthorisationUi, new UiLauncherArgs(AUTHORISATION).setBundle(args));
     }
 
     @Override

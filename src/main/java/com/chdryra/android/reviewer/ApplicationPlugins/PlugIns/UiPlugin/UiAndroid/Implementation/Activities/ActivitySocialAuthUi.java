@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -77,7 +77,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), PLATFORM);
     }
 

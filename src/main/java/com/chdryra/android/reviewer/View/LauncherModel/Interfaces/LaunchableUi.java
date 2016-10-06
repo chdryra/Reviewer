@@ -17,5 +17,5 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 public interface LaunchableUi {
     String getLaunchTag();
 
-    void launch(LauncherUi launcher);
+    void launch(UiTypeLauncher launcher);
 }

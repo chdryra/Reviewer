@@ -29,7 +29,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,29 +38,32 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
-    private FactoryReviewView mFactory;
-    private ReviewStamp mStamp;
-    private LaunchableConfig mConfig;
-    private AuthorsRepository mRepo;
+    private final FactoryReviewView mFactory;
+    private final UiLauncher mLauncher;
+    private final LaunchableConfig mConfig;
+    private final ReviewStamp mStamp;
+    private final AuthorsRepository mRepo;
 
-    public FactoryActionsViewData(GvDataType<T> dataType,
-                                  FactoryReviewView factory,
-                                  LaunchableConfig config,
-                                  ReviewStamp stamp,
-                                  AuthorsRepository repo) {
+    public FactoryActionsViewData(GvDataType<T> dataType, FactoryReviewView factory, UiLauncher
+            launcher, LaunchableConfig config, ReviewStamp stamp, AuthorsRepository repo) {
         super(dataType);
         mFactory = factory;
+        mLauncher = launcher;
+        mConfig = config;
         mStamp = stamp;
         mRepo = repo;
-        mConfig = config;
     }
 
     protected FactoryReviewView getFactory() {
         return mFactory;
     }
 
-    public LaunchableConfig getConfig() {
+    protected LaunchableConfig getConfig() {
         return mConfig;
+    }
+
+    protected UiLauncher getLauncher() {
+        return mLauncher;
     }
 
     @Override
@@ -69,19 +73,19 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public RatingBarAction<T> newRatingBar() {
-        return new RatingBarExpandGrid<>(mFactory);
+        return new RatingBarExpandGrid<>(mLauncher, mFactory);
     }
 
     @Override
     public GridItemAction<T> newGridItem() {
-        return new GridItemConfigLauncher<>(mConfig, mFactory,
+        return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactory,
                 new ParcelablePacker<GvDataParcelable>());
     }
 
     @Nullable
     @Override
     public ContextualButtonAction<T> newContextButton() {
-        return mStamp.isValid() ? new ContextButtonStamp<T>(mConfig.getLauncher().newReviewLauncher(), mStamp, mRepo) : null;
+        return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher.newReviewLauncher(), mStamp, mRepo) : null;
     }
 
     /**
@@ -91,15 +95,16 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
      */
     public static class Comments extends FactoryActionsViewData<GvComment.Reference> {
         public Comments(FactoryReviewView factory,
+                        UiLauncher launcher,
                         LaunchableConfig config,
                         ReviewStamp stamp,
                         AuthorsRepository repo) {
-            super(GvComment.Reference.TYPE, factory,config, stamp, repo);
+            super(GvComment.Reference.TYPE, factory, launcher, config, stamp, repo);
         }
 
         @Override
         public GridItemLauncher<GvComment.Reference> newGridItem() {
-            return new GridItemComments(getConfig(), getFactory(),
+            return new GridItemComments(getLauncher(), getConfig(), getFactory(),
                     new ParcelablePacker<GvDataParcelable>());
         }
 

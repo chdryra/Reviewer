@@ -25,9 +25,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddL
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * Base class for all dialog fragments that can edit data on reviews.
@@ -61,7 +61,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(this);
     }
 
@@ -101,7 +101,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     private void setIsQuickSet() {
         Bundle args = getArguments();
-        mQuickSet = args != null && args.getBoolean(AdderConfig.QUICK_SET);
+        mQuickSet = args != null && args.getBoolean(DataConfigs.Adder.QUICK_SET);
         if (!mQuickSet) {
             //TODO make type safe
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);

@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Rati
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -78,6 +78,6 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     @Nullable
     @Override
     public ContextualButtonAction<GC> newContextButton() {
-        return new BuildScreenShareButton<>(mConfig.getShareReview());
+        return new BuildScreenShareButton<>(mConfig.getPublish());
     }
 }

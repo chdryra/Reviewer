@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagA
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey

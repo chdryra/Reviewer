@@ -13,7 +13,8 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,12 +34,12 @@ class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionB
         mConfig = config;
     }
 
-    public int getLaunchableRequestCode() {
+    int getLaunchableRequestCode() {
         return mLaunchableRequestCode;
     }
 
-    void setLaunchableRequestCode(String tag) {
-        mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + tag);
+    void setLaunchableRequestCode(int defaultCode) {
+        mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + String.valueOf(defaultCode));
     }
 
     void launchDefaultConfig(Bundle args){
@@ -46,8 +47,8 @@ class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionB
     }
 
     void launch(LaunchableConfig config, Bundle args) {
-        setLaunchableRequestCode(config.getTag());
-        config.launch(getLaunchableRequestCode(), args);
+        setLaunchableRequestCode(config.getDefaultRequestCode());
+        config.launch(new UiLauncherArgs(getLaunchableRequestCode()).setBundle(args));
     }
 
     public int getAlertRequestCode() {

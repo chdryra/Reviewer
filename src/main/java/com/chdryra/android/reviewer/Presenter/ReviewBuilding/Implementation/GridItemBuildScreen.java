@@ -24,10 +24,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -108,7 +109,7 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private int getImageRequestCode() {
-        return getAdderConfig(GvImage.TYPE).getRequestCode();
+        return getAdderConfig(GvImage.TYPE).getDefaultRequestCode();
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
@@ -117,9 +118,9 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
 
     private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
         Bundle args = new Bundle();
-        args.putBoolean(AdderConfig.QUICK_SET, true);
+        args.putBoolean(DataConfigs.Adder.QUICK_SET, true);
         packLatLng(args);
-        adderConfig.launch(args);
+        adderConfig.launch(new UiLauncherArgs(adderConfig.getDefaultRequestCode()).setBundle(args));
     }
 
     private void packLatLng(Bundle args) {

@@ -31,8 +31,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,16 +41,19 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Reference> {
     private FactoryReviewView mFactory;
+    private UiLauncher mLauncher;
     private LaunchableConfig mOptionsConfig;
     private ReviewStamp mStamp;
     private AuthorsRepository mRepo;
 
     public FactoryActionsReviewSummary(FactoryReviewView factory,
+                                       UiLauncher launcher,
                                        LaunchableConfig optionsConfig,
                                        ReviewStamp stamp,
                                        AuthorsRepository repo) {
         super(GvSize.Reference.TYPE);
         mFactory = factory;
+        mLauncher = launcher;
         mOptionsConfig = optionsConfig;
         mStamp = stamp;
         mRepo = repo;
@@ -72,23 +75,19 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
 
     @Override
     public RatingBarAction<GvSize.Reference> newRatingBar() {
-        return new RatingBarExpandGrid<>(mFactory);
+        return new RatingBarExpandGrid<>(mLauncher, mFactory);
     }
 
     @Override
     public GridItemAction<GvSize.Reference> newGridItem() {
-        return new GridItemLauncher<>(getLauncher(), mFactory);
+        return new GridItemLauncher<>(mLauncher, mFactory);
     }
 
     @Nullable
     @Override
     public ContextualButtonAction<GvSize.Reference> newContextButton() {
         return mStamp.isValid() ?
-                new ContextButtonStamp<GvSize.Reference>(getLauncher().newReviewLauncher(),
+                new ContextButtonStamp<GvSize.Reference>(mLauncher.newReviewLauncher(),
                         mStamp, mRepo) : null;
-    }
-
-    private UiLauncher getLauncher() {
-        return mOptionsConfig.getLauncher();
     }
 }

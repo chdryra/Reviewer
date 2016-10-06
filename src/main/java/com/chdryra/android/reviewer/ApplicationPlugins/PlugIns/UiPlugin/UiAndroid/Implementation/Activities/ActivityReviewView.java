@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,10 +37,11 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppInstanceAndroid.setActivity(this);
+
         if(savedInstanceState != null) {
            mView = ((ReviewViewContainer) getFragment()).getReviewView();
         }
-        AppInstanceAndroid.setActivity(this);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), getLaunchTag());
     }
 

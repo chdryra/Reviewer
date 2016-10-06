@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthUrlBrowser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
@@ -40,7 +40,7 @@ public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), URL);
     }
 

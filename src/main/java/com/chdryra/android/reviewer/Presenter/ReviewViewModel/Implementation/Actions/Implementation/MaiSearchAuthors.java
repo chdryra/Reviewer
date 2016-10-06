@@ -17,7 +17,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -43,6 +44,6 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
         ReviewViewAdapter.Filterable<GvAuthor> adapter = adapterFactory
                 .newFollowSearchAdapter(getApp().getAuthentication().getUserSession().getAuthorId());
         LaunchableUi authorSearch = mFactory.newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
-        mLauncher.launch(authorSearch, REQUEST_CODE);
+        mLauncher.launch(authorSearch, new UiLauncherArgs(REQUEST_CODE));
     }
 }

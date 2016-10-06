@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,9 +54,10 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     private void launchReview(ReviewNode reviewNode) {
-        int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
         DataAuthorId authorId = reviewNode.getAuthorId();
         boolean menu = !authorId.toString().equals(mSessionAuthor.toString());
-        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu ? authorId : null), requestCode);
+        int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
+        UiLauncherArgs args = new UiLauncherArgs(requestCode);
+        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu ? authorId : null), args);
     }
 }

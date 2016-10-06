@@ -37,9 +37,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -163,7 +164,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == mSignUp.getRequestCode()) {
+        if (requestCode == mSignUp.getDefaultRequestCode()) {
             mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
             if(data != null) {
                 EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
@@ -211,7 +212,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         Bundle args = new Bundle();
         ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        mSignUp.launch(args);
+        mSignUp.launch(new UiLauncherArgs(mSignUp.getDefaultRequestCode()).setBundle(args));
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
@@ -243,7 +244,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             AuthenticationSuite auth = app.getAuthentication();
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();
-            return new PresenterLogin(auth, config.getSignUp(), config.getUsersFeed(),
+            return new PresenterLogin(auth, config.getSignUp(), config.getFeed(),
                     ui.getCurrentScreen(), new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);
         }

@@ -12,7 +12,9 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,13 +22,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
+    private ReviewLauncher mLauncher;
+
     public GridItemLaunchAuthor(UiLauncher launcher, FactoryReviewView launchableFactory) {
         super(launcher, launchableFactory);
+        mLauncher = launcher.newReviewLauncher();
     }
 
     @Override
     public void onGridItemClick(GvAuthor item, int position, View v) {
-        getApp().newReviewLauncher().launchReviews(item.getAuthorId());
+        mLauncher.launchReviews(item.getAuthorId());
     }
 
     @Override

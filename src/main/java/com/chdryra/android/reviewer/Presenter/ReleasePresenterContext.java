@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 
 /**
  * Created by: Rizwan Choudrey

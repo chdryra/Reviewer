@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ViewContextBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPlugin;
-import com.chdryra.android.reviewer.View.Configs.FactoryConfigUi;
+import com.chdryra.android.reviewer.View.Configs.Factories.FactoryUiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
@@ -23,7 +23,7 @@ public class ReleaseViewContext extends ViewContextBasic {
     public ReleaseViewContext(UiPlugin ui) {
         LaunchablesList uis = ui.getUiLaunchables();
 
-        setUiConfig(new FactoryConfigUi().newUiConfig(uis));
+        setUiConfig(new FactoryUiConfig().newUiConfig(uis));
 
         setLauncherFactory(new FactoryUiLauncher(uis.getDefaultReviewViewActivity(), uis.getReviewsListActivity()));
     }

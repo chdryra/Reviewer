@@ -18,8 +18,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,7 +53,7 @@ public class BuildScreenLauncherImpl implements BuildScreenLauncher {
     }
 
     private void launchBuildUi(Bundle args) {
-        mUi.launch(args);
+        mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
     }
 
     private class Callback implements RepositoryCallback {

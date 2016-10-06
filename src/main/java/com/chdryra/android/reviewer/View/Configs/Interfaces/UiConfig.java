@@ -6,10 +6,9 @@
  *
  */
 
-package com.chdryra.android.reviewer.View.Configs;
+package com.chdryra.android.reviewer.View.Configs.Interfaces;
 
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,13 +26,13 @@ public interface UiConfig {
 
     LaunchableConfig getSignUp();
 
-    LaunchableConfig getUsersFeed();
+    LaunchableConfig getFeed();
 
     LaunchableConfig getBuildReview();
 
     LaunchableConfig getMapEditor();
 
-    LaunchableConfig getShareReview();
+    LaunchableConfig getPublish();
 
     LaunchableConfig getReviewOptions();
 

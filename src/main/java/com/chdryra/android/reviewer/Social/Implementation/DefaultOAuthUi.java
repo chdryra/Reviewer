@@ -18,7 +18,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -80,7 +81,7 @@ public class DefaultOAuthUi<T> implements
     private void launchUi(OAuthRequest request) {
         Bundle args = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, args);
-        mLauncher.launch(mAuthorisationUi, AUTHORISATION, args);
+        mLauncher.launch(mAuthorisationUi, new UiLauncherArgs(AUTHORISATION).setBundle(args));
         mLauncher = null;
     }
 

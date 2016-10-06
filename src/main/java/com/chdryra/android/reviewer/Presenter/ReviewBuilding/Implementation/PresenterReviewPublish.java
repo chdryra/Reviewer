@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
@@ -28,7 +27,9 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -37,10 +38,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterReviewPublish implements ActivityResultListener, PlatformAuthoriser, PublishAction.PublishCallback {
-    private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
-
     private final CurrentScreen mScreen;
-    private final LaunchableUi mFeed;
+    private final LaunchableConfig mFeed;
     private final LaunchableUi mAuthLaunchable;
     private final UiLauncher mLauncher;
 
@@ -49,7 +48,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
 
     private PresenterReviewPublish(CurrentScreen screen,
-                                   LaunchableUi feed,
+                                   LaunchableConfig feed,
                                    LaunchableUi authLaunchable,
                                    UiLauncher launcher) {
 
@@ -70,7 +69,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
         showToast(Strings.Toasts.PUBLISHING);
-        mLauncher.launchAndClearBackStack(mFeed, FEED);
+        mFeed.launch(new UiLauncherArgs(mFeed.getDefaultRequestCode()).setClearBackStack());
         mScreen.close();
     }
 
@@ -83,7 +82,8 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
         mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
-        mAuthUi.launchUi(mLauncher);    }
+        mAuthUi.launchUi(mLauncher);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,7 +99,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
             UiSuite ui = app.getUi();
 
             PresenterReviewPublish presenter = new PresenterReviewPublish(ui.getCurrentScreen(),
-                    ui.getConfig().getUsersFeed().getLaunchable(), authLaunchable, ui.getLauncher());
+                    ui.getConfig().getFeed(), authLaunchable, ui.getLauncher());
 
             ReviewEditor<?> editor = app.getReviewBuilder().getReviewEditor();
             SocialPlatformList platforms = app.getSocial().getSocialPlatformList();

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Parc
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditUrlBrowser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
@@ -41,7 +41,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), URL);
     }
 

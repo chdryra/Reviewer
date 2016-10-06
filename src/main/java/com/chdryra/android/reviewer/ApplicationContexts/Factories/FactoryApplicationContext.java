@@ -42,8 +42,8 @@ import com.chdryra.android.reviewer.Presenter.ReleasePresenterContext;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.ReleaseSocialContext;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncherAndroid;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 import com.chdryra.android.reviewer.View.ReleaseViewContext;
 
 /**

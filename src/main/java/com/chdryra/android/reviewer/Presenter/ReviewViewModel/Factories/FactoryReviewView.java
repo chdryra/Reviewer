@@ -48,9 +48,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -182,13 +182,13 @@ public class FactoryReviewView {
         ReviewStamp stamp = adapter.getStamp();
 
         if (dataType.equals(GvSize.Reference.TYPE)) {
-            factory = new FactoryActionsReviewSummary(this, getOptionsConfig(), stamp, mAuthorsRepo);
+            factory = new FactoryActionsReviewSummary(this, getUiLauncher(), getOptionsConfig(), stamp, mAuthorsRepo);
         } else {
             LaunchableConfig viewer = mConfig.getViewer(dataType.getDatumName());
             if (dataType.equals(GvComment.Reference.TYPE)) {
-                factory = new FactoryActionsViewData.Comments(this, viewer, stamp, mAuthorsRepo);
+                factory = new FactoryActionsViewData.Comments(this, getUiLauncher(), viewer, stamp, mAuthorsRepo);
             } else {
-                factory = new FactoryActionsViewData<>(dataType, this, viewer, stamp, mAuthorsRepo);
+                factory = new FactoryActionsViewData<>(dataType, this, getUiLauncher(), viewer, stamp, mAuthorsRepo);
             }
         }
 

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DataLaunchables;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LaunchablesHolder implements LaunchablesList {
-    private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
+    private final ArrayList<DataLaunchables<?>> mDataLaunchables;
     private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
     private final Class<? extends LaunchableUi> mUsersFeed;
@@ -57,47 +57,47 @@ public class LaunchablesHolder implements LaunchablesList {
         mDataLaunchables = new ArrayList<>();
     }
 
-    protected <T extends GvData> void addDataClasses(AddEditViewClasses<T> classes) {
+    protected <T extends GvData> void addDataClasses(DataLaunchables<T> classes) {
         mDataLaunchables.add(classes);
     }
 
     @Override
-    public Class<? extends LaunchableUi> getLoginUi() {
+    public Class<? extends LaunchableUi> getLogin() {
         return mLogin;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getSignUpUi() {
+    public Class<? extends LaunchableUi> getSignUp() {
         return mSignUp;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getUsersFeedUi() {
+    public Class<? extends LaunchableUi> getFeed() {
         return mUsersFeed;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getReviewBuilderUi() {
+    public Class<? extends LaunchableUi> getReviewBuild() {
         return mReviewBuilder;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getMapEditorUi() {
+    public Class<? extends LaunchableUi> getMapEdit() {
         return mMapEditor;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getShareReviewUi() {
+    public Class<? extends LaunchableUi> getPublish() {
         return mShare;
     }
 
     @Override
-    public Class<? extends LaunchableUi> getShareEditReviewUi() {
+    public Class<? extends LaunchableUi> getReviewOptions() {
         return mShareEdit;
     }
 
     @Override
-    public ArrayList<AddEditViewClasses<?>> getDataLaunchableUis() {
+    public ArrayList<DataLaunchables<?>> getDataLaunchables() {
         return mDataLaunchables;
     }
 

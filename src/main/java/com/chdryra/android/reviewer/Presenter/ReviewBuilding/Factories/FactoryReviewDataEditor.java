@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDa
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.UiConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,15 +29,16 @@ public class FactoryReviewDataEditor {
     private final FactoryGvData mDataFactory;
     private final FactoryReviewViewParams mParamsFactory;
 
-    public FactoryReviewDataEditor(UiConfig config, FactoryGvData dataFactory,
+    public FactoryReviewDataEditor(UiConfig config,
+                                   FactoryGvData dataFactory,
                                    FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mDataFactory = dataFactory;
         mParamsFactory = paramsFactory;
     }
 
-    public <T extends GvDataParcelable> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter, ImageChooser imageChooser) {
-        FactoryEditActions actionsFactory = new FactoryEditActions(mConfig, mDataFactory, imageChooser);
+    public <T extends GvDataParcelable> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter, UiLauncher launcher, ImageChooser imageChooser) {
+        FactoryEditActions actionsFactory = new FactoryEditActions(mConfig, mDataFactory, launcher, imageChooser);
         GvDataType<T> type = adapter.getGvDataType();
         return new ReviewDataEditorImpl<>(adapter,
                 actionsFactory.newActions(type), mParamsFactory.newEditorParams(type));

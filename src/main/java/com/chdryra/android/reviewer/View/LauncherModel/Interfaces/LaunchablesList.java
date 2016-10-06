@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DataLaunchables;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,19 +23,19 @@ public interface LaunchablesList {
 
     Class<? extends Activity> getReviewsListActivity();
 
-    Class<? extends LaunchableUi> getLoginUi();
+    Class<? extends LaunchableUi> getLogin();
 
-    Class<? extends LaunchableUi> getSignUpUi();
+    Class<? extends LaunchableUi> getSignUp();
 
-    Class<? extends LaunchableUi> getUsersFeedUi();
+    Class<? extends LaunchableUi> getFeed();
 
-    Class<? extends LaunchableUi> getReviewBuilderUi();
+    Class<? extends LaunchableUi> getReviewBuild();
 
-    Class<? extends LaunchableUi> getMapEditorUi();
+    Class<? extends LaunchableUi> getMapEdit();
 
-    Class<? extends LaunchableUi> getShareReviewUi();
+    Class<? extends LaunchableUi> getPublish();
 
-    Class<? extends LaunchableUi> getShareEditReviewUi();
+    Class<? extends LaunchableUi> getReviewOptions();
 
-    Iterable<AddEditViewClasses<?>> getDataLaunchableUis();
+    Iterable<DataLaunchables<?>> getDataLaunchables();
 }

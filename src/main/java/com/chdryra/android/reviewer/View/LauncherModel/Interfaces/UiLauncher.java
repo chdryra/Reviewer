@@ -6,9 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.View.LauncherModel.Factories;
+package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -16,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,11 +23,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface UiLauncher {
-    void launch(LaunchableUi ui, int requestCode, Bundle args);
-
-    void launch(LaunchableUi ui, int requestCode);
-
-    void launchAndClearBackStack(LaunchableUi ui, int requestCode);
+    void launch(LaunchableUi ui, UiLauncherArgs args);
 
     void launchBuildUi(@Nullable ReviewId template);
 

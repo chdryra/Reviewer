@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,8 +18,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,18 +30,18 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
-    private static final String TAG = "GridItemConfigLauncher:";
+    private static final String TAG = GridItemConfigLauncher.class.getName();
     private final LaunchableConfig mDataConfig;
     private final ParcelablePacker<GvDataParcelable> mPacker;
     private final int mLaunchCode;
 
-    public GridItemConfigLauncher(LaunchableConfig dataConfig,
+    public GridItemConfigLauncher(UiLauncher launcher, LaunchableConfig dataConfig,
                                   FactoryReviewView launchableFactory,
                                   ParcelablePacker<GvDataParcelable> packer) {
-        super(dataConfig.getLauncher(), launchableFactory);
+        super(launcher, launchableFactory);
         mDataConfig = dataConfig;
         mPacker = packer;
-        mLaunchCode = RequestCodeGenerator.getCode(TAG + mDataConfig.getTag());
+        mLaunchCode = RequestCodeGenerator.getCode(TAG + String.valueOf(mDataConfig.getDefaultRequestCode()));
     }
 
     @Override
@@ -65,8 +69,8 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
 
     private void launchViewerIfPossible(GvData item) {
         if (item.isVerboseCollection() || mDataConfig == null || item.getParcelable() == null) return;
-        Bundle args = new Bundle();
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), args);
-        mDataConfig.launch(mLaunchCode, args);
+        Bundle bundle = new Bundle();
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), bundle);
+        mDataConfig.launch(new UiLauncherArgs(mLaunchCode).setBundle(bundle));
     }
 }

@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Rev
         .ReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
         .ReviewLauncherImpl;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey

@@ -29,12 +29,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -47,6 +50,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private static final int SHARE = RequestCodeGenerator.getCode(DialogShareEditReview.class, "Share");
     private static final int COPY = RequestCodeGenerator.getCode(DialogShareEditReview.class, "Copy");
     private static final String TAG = TagKeyGenerator.getTag(DialogShareEditReview.class);
+    private static final String ARGS = LaunchOptionsCommand.AUTHOR_ID;
 
     private static final int LAYOUT = R.layout.dialog_share_edit_review;
     private static final int SHARE_BUTTON = R.id.button_share_review;
@@ -60,7 +64,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(this);
     }
 
@@ -134,7 +138,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private DataAuthorId getAuthorId() {
         DataAuthorId authorId = null;
-        if (getArguments() != null) authorId = getArguments().getParcelable(getLaunchTag());
+        if (getArguments() != null) authorId = getArguments().getParcelable(ARGS);
         if(authorId == null) throw new IllegalArgumentException(NO_AUTHOR);
 
         return authorId;

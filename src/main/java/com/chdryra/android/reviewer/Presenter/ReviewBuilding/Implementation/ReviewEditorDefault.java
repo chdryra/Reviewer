@@ -108,7 +108,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType) {
         DataBuilderAdapter<T> adapter = mAdapter.getDataBuilderAdapter(dataType);
-        return mEditorFactory.newEditor(adapter, newImageChooser());
+        return mEditorFactory.newEditor(adapter, getApp().getUi().getLauncher(), newImageChooser());
     }
 
     @Override

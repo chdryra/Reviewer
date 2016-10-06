@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi, AlertListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityLogin.class);
@@ -37,9 +37,9 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     }
 
     @Override
-    public void launch(LauncherUi launcher) {
+    public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), KEY);
-        launcher.getCommissioner().finish();
+        AppInstanceAndroid.getInstance(this).getUi().getCurrentScreen().close();
     }
 
     @Override

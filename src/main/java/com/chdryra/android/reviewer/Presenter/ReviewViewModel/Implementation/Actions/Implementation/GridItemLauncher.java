@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -17,7 +16,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,7 +38,8 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
         ReviewView<?> ui = getReviewView(expanded);
-        mUiLauncher.launch(ui, RequestCodeGenerator.getCode(TAG + ui.getLaunchTag()), new Bundle());
+        int code = RequestCodeGenerator.getCode(TAG + ui.getLaunchTag());
+        mUiLauncher.launch(ui, new UiLauncherArgs(code));
     }
 
     private <T2 extends GvData> ReviewView<T2> getReviewView(ReviewViewAdapter<T2> expanded) {
