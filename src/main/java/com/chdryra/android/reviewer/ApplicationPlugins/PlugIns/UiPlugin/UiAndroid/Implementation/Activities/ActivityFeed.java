@@ -10,29 +10,29 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.content.Intent;
+
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterFeed;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityReviewsList extends ActivityReviewView {
-    private static final String TAG = TagKeyGenerator.getTag(ActivityReviewsList.class);
+public class ActivityFeed extends ActivityReviewView implements
+        PresenterFeed.PresenterListener{
+    private static final String TAG = TagKeyGenerator.getTag(ActivityFeed.class);
 
-    private PresenterReviewsList mPresenter;
+    private PresenterFeed mPresenter;
 
     @Override
     protected ReviewView createReviewView() {
-        mPresenter = newPresenter();
+        mPresenter = new PresenterFeed.Builder().build(AppInstanceAndroid.getInstance(this), this);
         mPresenter.attach();
         return mPresenter.getView();
-    }
-
-    PresenterReviewsList newPresenter() {
-        return new PresenterReviewsList.Builder().build((ReviewsListView) super.createReviewView());
     }
 
     @Override
@@ -50,5 +50,16 @@ public class ActivityReviewsList extends ActivityReviewView {
     protected void onDestroy() {
         mPresenter.detach();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+
     }
 }

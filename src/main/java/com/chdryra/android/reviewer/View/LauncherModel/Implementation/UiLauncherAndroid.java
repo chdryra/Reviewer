@@ -25,10 +25,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -45,17 +44,14 @@ public class UiLauncherAndroid implements UiLauncher {
 
     private final BuildScreenLauncher mBuildUiLauncher;
     private final Class<? extends Activity> mDefaultActivity;
-    private final Class<? extends Activity> mReviewsListActivity;
     private final FactoryReviewLauncher mReviewLauncherFactory;
 
     public UiLauncherAndroid(BuildScreenLauncher buildUiLauncher,
                              FactoryReviewLauncher reviewLauncherFactory,
-                             Class<? extends Activity> defaultActivity,
-                             Class<? extends Activity> reviewsListActivity) {
+                             Class<? extends Activity> defaultActivity) {
         mBuildUiLauncher = buildUiLauncher;
         mReviewLauncherFactory = reviewLauncherFactory;
         mDefaultActivity = defaultActivity;
-        mReviewsListActivity = reviewsListActivity;
     }
 
     public void setActivity(Activity activity) {
@@ -120,10 +116,6 @@ public class UiLauncherAndroid implements UiLauncher {
             launchReviewView(view, mDefaultActivity);
         }
 
-        @Override
-        public void launch(ReviewsListView view) {
-            launchReviewView(view, mReviewsListActivity);
-        }
 
         private void launchReviewView(ReviewView<?> view, Class<? extends Activity> activity) {
             Intent i = new Intent(mCommissioner, activity);

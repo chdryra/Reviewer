@@ -44,7 +44,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -88,12 +88,12 @@ public class FactoryReviewView {
         return mFactoryReviewEditor.newEditor(mConfig, getUiLauncher(), locationClient, template);
     }
 
-    public ReviewsListView newFeedView(ReviewNode node) {
+    public ReviewsViewNode newFeedView(ReviewNode node) {
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node),
                 new FactoryActionsReviewsList.Feed(getUiLauncher(), this, getOptionsConfig()));
     }
 
-    public ReviewsListView newReviewsListView(ReviewNode node, @Nullable AuthorId followAuthorId) {
+    public ReviewsViewNode newReviewsListView(ReviewNode node, @Nullable AuthorId followAuthorId) {
         return newReviewsListView(node, mAdapterFactory.newChildListAdapter(node),
                 new FactoryActionsReviewsList(getUiLauncher(), this, getOptionsConfig(), followAuthorId));
     }
@@ -143,12 +143,12 @@ public class FactoryReviewView {
     }
 
     @NonNull
-    private ReviewsListView newReviewsListView(ReviewNode node,
+    private ReviewsViewNode newReviewsListView(ReviewNode node,
                                                ReviewViewAdapter<GvNode> adapter,
                                                FactoryReviewViewActions<GvNode> actionsFactory) {
         ReviewViewActions<GvNode> actions = new ReviewViewActions<>(actionsFactory);
         ReviewViewParams params = mParamsFactory.newReviewsListParams();
-        return new ReviewsListView(node, newPerspective(adapter, actions, params));
+        return new ReviewsViewNode(node, newPerspective(adapter, actions, params));
     }
 
     @NonNull

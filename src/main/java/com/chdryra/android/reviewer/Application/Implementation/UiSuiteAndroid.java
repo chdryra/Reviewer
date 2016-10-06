@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Publ
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -70,7 +70,7 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Override
-    public ReviewsListView newFeedView(RepositorySuite repository, SocialProfile profile) {
+    public ReviewsViewNode newFeedView(RepositorySuite repository, SocialProfile profile) {
         ReferencesRepository feed = repository.getFeed(profile);
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
         ReviewNodeRepo node = mReviewsFactory.createFeed(user, repository.getName(user), feed);

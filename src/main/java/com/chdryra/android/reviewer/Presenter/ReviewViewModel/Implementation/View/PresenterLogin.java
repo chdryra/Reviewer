@@ -244,6 +244,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             AuthenticationSuite auth = app.getAuthentication();
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();
+
             return new PresenterLogin(auth, config.getSignUp(), config.getFeed(),
                     ui.getCurrentScreen(), new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);

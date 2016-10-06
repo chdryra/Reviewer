@@ -26,12 +26,9 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 public class FactoryUiLauncher {
     private final Class<? extends Activity> mDefaultActivity;
-    private final Class<? extends Activity> mReviewsListActivity;
 
-    public FactoryUiLauncher(Class<? extends Activity> defaultActivity, Class<? extends Activity>
-            reviewsListActivity) {
+    public FactoryUiLauncher(Class<? extends Activity> defaultActivity) {
         mDefaultActivity = defaultActivity;
-        mReviewsListActivity = reviewsListActivity;
     }
 
     public UiLauncherAndroid newLauncher(RepositorySuite repository,
@@ -41,7 +38,7 @@ public class FactoryUiLauncher {
                                          LaunchableConfig buildConfig) {
         BuildScreenLauncherImpl buildScreenLauncher = new BuildScreenLauncherImpl(buildConfig, repository, builder);
         FactoryReviewLauncher factoryReviewLauncher = new FactoryReviewLauncher(factoryReviewView, masterRepo);
-        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, factoryReviewLauncher, mDefaultActivity, mReviewsListActivity);
+        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, factoryReviewLauncher, mDefaultActivity);
         buildScreenLauncher.setUiLauncher(uiLauncher);
 
         return uiLauncher;

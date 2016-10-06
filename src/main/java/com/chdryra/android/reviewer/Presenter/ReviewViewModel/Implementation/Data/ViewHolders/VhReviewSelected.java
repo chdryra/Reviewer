@@ -172,12 +172,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void newFooter() {
-        ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview
-                .getPublishDate());
-        String date = stamp.toReadableDate();
-        String name = mAuthor != null ? " by " + mAuthor.getName() : "";
-        String text = date + name + (validateString(mLocation) ? " @" + mLocation : "");
-        mPublishDate.setText(text);
+        if(mReview != null) {
+            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
+            String date = stamp.toReadableDate();
+            String name = mAuthor != null ? " by " + mAuthor.getName() : "";
+            String text = date + name + (validateString(mLocation) ? " @" + mLocation : "");
+            mPublishDate.setText(text);
+        }
     }
 
     private String getLocationString(IdableList<? extends DataLocation> value) {

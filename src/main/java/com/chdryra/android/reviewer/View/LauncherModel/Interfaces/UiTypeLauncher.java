@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.DialogFragment;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,6 +25,4 @@ public interface UiTypeLauncher {
     void launch(Class<? extends Activity> activityClass, String argsKey);
 
     void launch(ReviewView<?> view);
-
-    void launch(ReviewsListView view);
 }

@@ -19,9 +19,7 @@ import com.chdryra.android.reviewer.View.Configs.Implementation.DataLaunchables;
  */
 public interface LaunchablesList {
     //TODO make this independent of Android
-    Class<? extends Activity> getDefaultReviewViewActivity();
-
-    Class<? extends Activity> getReviewsListActivity();
+    Class<? extends Activity> getDefaultActivity();
 
     Class<? extends LaunchableUi> getLogin();
 

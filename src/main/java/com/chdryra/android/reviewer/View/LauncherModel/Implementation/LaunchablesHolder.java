@@ -26,34 +26,31 @@ public class LaunchablesHolder implements LaunchablesList {
     private final ArrayList<DataLaunchables<?>> mDataLaunchables;
     private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
-    private final Class<? extends LaunchableUi> mUsersFeed;
-    private final Class<? extends LaunchableUi> mReviewBuilder;
-    private final Class<? extends LaunchableUi> mMapEditor;
-    private final Class<? extends LaunchableUi> mShare;
-    private final Class<? extends LaunchableUi> mShareEdit;
+    private final Class<? extends LaunchableUi> mFeed;
+    private final Class<? extends LaunchableUi> mReviewBuild;
+    private final Class<? extends LaunchableUi> mMapEdit;
+    private final Class<? extends LaunchableUi> mPublish;
+    private final Class<? extends LaunchableUi> mOptions;
 
     //TODO make this independent of Android
-    private final Class<? extends Activity> mDefaultReviewViewActivity;
-    private final Class<? extends Activity> mReviewsListActivity;
+    private final Class<? extends Activity> mDefaultActivity;
 
     public LaunchablesHolder(Class<? extends LaunchableUi> login,
                              Class<? extends LaunchableUi> signUp,
-                             Class<? extends LaunchableUi> usersFeed,
-                             Class<? extends LaunchableUi> reviewBuilder,
-                             Class<? extends LaunchableUi> mapEditor,
-                             Class<? extends LaunchableUi> share,
-                             Class<? extends LaunchableUi> shareEdit,
-                             Class<? extends Activity> defaultReviewViewActivity,
-                             Class<? extends Activity> reviewsListActivity) {
+                             Class<? extends LaunchableUi> feed,
+                             Class<? extends LaunchableUi> reviewBuild,
+                             Class<? extends LaunchableUi> mapEdit,
+                             Class<? extends LaunchableUi> publish,
+                             Class<? extends LaunchableUi> options,
+                             Class<? extends Activity> defaultActivity) {
         mLogin = login;
         mSignUp = signUp;
-        mUsersFeed = usersFeed;
-        mReviewBuilder = reviewBuilder;
-        mMapEditor = mapEditor;
-        mShare = share;
-        mShareEdit = shareEdit;
-        mDefaultReviewViewActivity = defaultReviewViewActivity;
-        mReviewsListActivity = reviewsListActivity;
+        mFeed = feed;
+        mReviewBuild = reviewBuild;
+        mMapEdit = mapEdit;
+        mPublish = publish;
+        mOptions = options;
+        mDefaultActivity = defaultActivity;
         mDataLaunchables = new ArrayList<>();
     }
 
@@ -73,27 +70,27 @@ public class LaunchablesHolder implements LaunchablesList {
 
     @Override
     public Class<? extends LaunchableUi> getFeed() {
-        return mUsersFeed;
+        return mFeed;
     }
 
     @Override
     public Class<? extends LaunchableUi> getReviewBuild() {
-        return mReviewBuilder;
+        return mReviewBuild;
     }
 
     @Override
     public Class<? extends LaunchableUi> getMapEdit() {
-        return mMapEditor;
+        return mMapEdit;
     }
 
     @Override
     public Class<? extends LaunchableUi> getPublish() {
-        return mShare;
+        return mPublish;
     }
 
     @Override
     public Class<? extends LaunchableUi> getReviewOptions() {
-        return mShareEdit;
+        return mOptions;
     }
 
     @Override
@@ -102,12 +99,7 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends Activity> getDefaultReviewViewActivity() {
-        return mDefaultReviewViewActivity;
-    }
-
-    @Override
-    public Class<? extends Activity> getReviewsListActivity() {
-        return mReviewsListActivity;
+    public Class<? extends Activity> getDefaultActivity() {
+        return mDefaultActivity;
     }
 }

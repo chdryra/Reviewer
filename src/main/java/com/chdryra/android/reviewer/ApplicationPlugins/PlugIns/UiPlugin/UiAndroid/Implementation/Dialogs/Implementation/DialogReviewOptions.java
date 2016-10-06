@@ -44,12 +44,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogShareEditReview extends DialogOneButtonFragment implements
+public class DialogReviewOptions extends DialogOneButtonFragment implements
         LaunchableUi, Command.ExecutionListener {
-    private static final int DELETE = RequestCodeGenerator.getCode(DialogShareEditReview.class, "Delete");
-    private static final int SHARE = RequestCodeGenerator.getCode(DialogShareEditReview.class, "Share");
-    private static final int COPY = RequestCodeGenerator.getCode(DialogShareEditReview.class, "Copy");
-    private static final String TAG = TagKeyGenerator.getTag(DialogShareEditReview.class);
+    private static final int DELETE = RequestCodeGenerator.getCode(DialogReviewOptions.class, "Delete");
+    private static final int SHARE = RequestCodeGenerator.getCode(DialogReviewOptions.class, "Share");
+    private static final int COPY = RequestCodeGenerator.getCode(DialogReviewOptions.class, "Copy");
+    private static final String TAG = TagKeyGenerator.getTag(DialogReviewOptions.class);
     private static final String ARGS = LaunchOptionsCommand.AUTHOR_ID;
 
     private static final int LAYOUT = R.layout.dialog_share_edit_review;

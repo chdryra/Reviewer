@@ -61,7 +61,7 @@ public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, R
         addChild(mNodeFactory.createLeafNode(review));
     }
 
-    public void detachFromRepo() {
+    void detachFromRepo() {
         mRepo.unsubscribe(this);
         for(ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
