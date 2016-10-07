@@ -6,18 +6,19 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher;
+package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 12/09/2016
+ * On: 29/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewLauncher {
-    void launchReview(ReviewId reviewId);
+public interface BuildScreenLauncher {
+    String TEMPLATE_ID = "TemplateId";
 
-    void launchReviews(AuthorId authorId);
+    void launch(@Nullable ReviewId template);
 }

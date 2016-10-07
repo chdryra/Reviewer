@@ -157,11 +157,6 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         visitor.visit(this);
     }
 
-    @Override
-    public boolean isRatingAverageOfChildren() {
-        return true;
-    }
-
     //-------------Review Reference methods--------------
     @Override
     public ReviewId getReviewId() {

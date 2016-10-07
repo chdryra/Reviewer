@@ -34,8 +34,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComponent,
-        DataReference.InvalidationListener {
+public class NodeLeaf extends ReviewNodeComponentBasic
+        implements DataReference.InvalidationListener {
     private final ReviewReference mReview;
     private final FactoryReference mReferenceFactory;
 
@@ -133,11 +133,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public boolean isRatingAverageOfChildren() {
-        return false;
     }
 
     @Override

@@ -52,8 +52,6 @@ public interface ReviewNode extends NodeData {
 
     void acceptVisitor(VisitorReviewNode visitor);
 
-    boolean isRatingAverageOfChildren();
-
     boolean isLeaf();
 
     @Nullable

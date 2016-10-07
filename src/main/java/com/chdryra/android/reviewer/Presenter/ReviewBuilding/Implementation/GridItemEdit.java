@@ -17,7 +17,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 

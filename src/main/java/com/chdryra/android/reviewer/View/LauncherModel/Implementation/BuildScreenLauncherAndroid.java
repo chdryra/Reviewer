@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
+package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,10 +18,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey

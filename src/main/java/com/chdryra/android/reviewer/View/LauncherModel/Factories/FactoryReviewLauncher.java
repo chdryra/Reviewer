@@ -6,14 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
+package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncherImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**

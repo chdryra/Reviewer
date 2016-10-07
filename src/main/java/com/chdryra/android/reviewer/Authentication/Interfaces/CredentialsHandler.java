@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 
 /**
  * Created by: Rizwan Choudrey

@@ -32,6 +32,7 @@ public class TreeListReferences<Value extends HasReviewId,
         Reference extends ReviewItemReference<Value>,
         List extends ReviewListReference<Value, Reference>>
         extends TreeDataReferenceBasic<Value, Reference> {
+
     private final FactoryMdReference mReferenceFactory;
     private final VisitorFactory.ListVisitor<List> mVisitorFactory;
 

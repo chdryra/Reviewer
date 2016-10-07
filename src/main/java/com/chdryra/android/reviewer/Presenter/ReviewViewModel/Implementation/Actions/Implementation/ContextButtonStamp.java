@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey

@@ -12,8 +12,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
-        .ReviewLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**

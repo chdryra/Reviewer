@@ -10,14 +10,13 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceBasic;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -37,7 +36,6 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
         DataReference.InvalidationListener,
         ReviewNode.NodeObserver {
 
-    private static final CallbackMessage OK = CallbackMessage.ok();
     private final Collection<ReferenceBinder<DataSize>> mValueBinders;
     private boolean mCached = false;
     private final TreeDataReferenceBasic<Value, ?> mDataReference;

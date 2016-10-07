@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
+package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
 import android.content.Intent;
 

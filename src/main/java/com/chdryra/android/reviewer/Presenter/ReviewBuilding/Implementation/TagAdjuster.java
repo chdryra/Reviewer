@@ -30,10 +30,6 @@ public class TagAdjuster {
         }
     }
 
-    public GvTag getCurrentSubjectTag() {
-        return mCurrentSubjectTag;
-    }
-
     public void adjustTagsIfNecessary(ReviewDataEditor<GvTag> editor) {
         GvTag toAdd = new GvTag(editor.getContainerSubject());
         GvTag toRemove = mCurrentSubjectTag;

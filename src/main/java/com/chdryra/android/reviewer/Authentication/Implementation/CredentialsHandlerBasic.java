@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallba
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 
 /**
  * Created by: Rizwan Choudrey
