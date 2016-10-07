@@ -21,14 +21,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGridCellAdapter {
-    public FactoryGridCellAdapter() {
+    private Activity mActivity;
+
+    public FactoryGridCellAdapter(Activity activity) {
+        mActivity = activity;
     }
 
-    public ViewHolderAdapter newAdapter(Activity activity, GvDataList<?> data, int cellWidth,
-                                               int cellHeight) {
+    public ViewHolderAdapter newAdapter(GvDataList<?> data, int cellWidth, int cellHeight) {
         boolean uniqueViews = data.getGvDataType().equals(GvSize.Reference.TYPE) ||
                 data.getGvDataType().equals(DataBuilderGridCell.TYPE);
-        return new ViewHolderAdapter(activity, data, cellWidth, cellHeight, uniqueViews);
+        return new ViewHolderAdapter(mActivity, data, cellWidth, cellHeight, uniqueViews);
     }
 }
 

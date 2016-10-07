@@ -171,12 +171,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void updateAll() {
-        onDataChanged();
-        updateCover();
-    }
-
-    @Override
     public String getLaunchTag() {
         return getSubject() + " " + TAG;
     }

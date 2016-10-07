@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.support.annotation.NonNull;
@@ -22,21 +23,20 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonUi {
-    private final ReviewView<?> mReviewView;
     private final Button mView;
 
     public BannerButtonUi(ReviewView<?> reviewView, Button view, int textColour) {
-        mReviewView = reviewView;
         mView = view;
-        initialise(textColour);
+        initialise(reviewView, textColour);
     }
 
     public void update() {
     }
 
-    private void initialise(int textColour) {
-        BannerButtonAction action = mReviewView.getActions().getBannerButtonAction();
+    private void initialise(ReviewView<?> reviewView, int textColour) {
+        BannerButtonAction action = reviewView.getActions().getBannerButtonAction();
         action.setButton(new ButtonWrapper());
+
         mView.setTextColor(textColour);
         mView.setOnClickListener(newClickListener(action));
         mView.setOnLongClickListener(newLongClickListener(action));

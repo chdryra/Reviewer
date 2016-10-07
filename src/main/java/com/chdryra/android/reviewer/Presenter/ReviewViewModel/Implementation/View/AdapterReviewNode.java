@@ -85,11 +85,9 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
         mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
             @Override
             public void onDereferenced(DataValue<DataImage> value) {
-                if(value.hasValue()) {
-                    callback.onAdapterCover(mCoversConverter.convert(value.getData()));
-                } else {
-                    callback.onAdapterCover(new GvImage());
-                }
+                GvImage image = value.hasValue() ?
+                        mCoversConverter.convert(value.getData()) : new GvImage();
+                callback.onAdapterCover(image);
             }
         });
     }

@@ -47,8 +47,6 @@ public interface ReviewView<T extends GvData>
 
     void updateCover();
 
-    void updateAll();
-
     CurrentScreen getCurrentScreen();
 
     void attachEnvironment(ReviewViewContainer container, ApplicationInstance app);

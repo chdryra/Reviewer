@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -30,76 +29,77 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridViewUi {
-    private final ReviewView<?> mReviewView;
+public class GridViewUi<T extends GvData> {
+    private final ReviewView<T> mReviewView;
     private final GridView mView;
     private final FactoryGridCellAdapter mFactory;
 
-    public GridViewUi(ReviewView<?> reviewView, GridView view, FactoryGridCellAdapter factory, Activity activity) {
+    public GridViewUi(ReviewView<T> reviewView,
+                      GridView view,
+                      FactoryGridCellAdapter factory,
+                      DisplayMetrics metrics) {
         mReviewView = reviewView;
         mView = view;
         mFactory = factory;
-        inititialise(activity);
+        inititialise(metrics);
     }
 
     public void update() {
-        GvDataList<?> gridViewData = mReviewView.getGridViewData();
+        GvDataList<T> gridViewData = mReviewView.getGridViewData();
         ((ViewHolderAdapter) mView.getAdapter()).setData(gridViewData);
     }
 
-    public void setOpaque() {
+    void setOpaque() {
         mView.getBackground().setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
     }
 
-    public void setTransparent() {
+    void setTransparent() {
         mView.getBackground().setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
     }
 
-    private void inititialise(Activity activity) {
+    private void inititialise(DisplayMetrics displayMetrics) {
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
 
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int maxCellSize = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
+        int maxCellSize = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
         int widthDivider = params.getCellWidth().getDivider();
         int cell_width = maxCellSize / widthDivider;
         int cell_height = maxCellSize / params.getCellHeight().getDivider();
 
-        ViewHolderAdapter adapter = mFactory.newAdapter(activity,
-                mReviewView.getGridViewData(), cell_width, cell_height);
+        ViewHolderAdapter adapter
+                = mFactory.newAdapter(mReviewView.getGridViewData(), cell_width, cell_height);
         mView.setDrawSelectorOnTop(true);
         mView.setAdapter(adapter);
         mView.setColumnWidth(cell_width);
         mView.setNumColumns(widthDivider);
 
-        GridItemAction<?> action = mReviewView.getActions().getGridItemAction();
+        GridItemAction<T> action = mReviewView.getActions().getGridItemAction();
         mView.setOnItemClickListener(newGridItemClickListener(action));
         mView.setOnItemLongClickListener(newGridItemLongClickListener(action));
     }
 
     @NonNull
-    private AdapterView.OnItemLongClickListener newGridItemLongClickListener(final GridItemAction
-                                                                                         action) {
+    private AdapterView.OnItemLongClickListener newGridItemLongClickListener(final GridItemAction<T> action) {
         return new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                //TODO make type safe
-                action.onGridItemLongClick(item, position, v);
+                action.onGridItemLongClick(getItem(parent, position), position, v);
                 return true;
             }
         };
     }
 
     @NonNull
-    private AdapterView.OnItemClickListener newGridItemClickListener(final GridItemAction action) {
+    private AdapterView.OnItemClickListener newGridItemClickListener(final GridItemAction<T> action) {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                //TODO make type safe
-                action.onGridItemClick(item, position, v);
+                action.onGridItemClick(getItem(parent, position), position, v);
             }
         };
+    }
+
+    private T getItem(AdapterView<?> parent, int position) {
+        //TODO make type safe
+        return (T) parent.getItemAtPosition(position);
     }
 }

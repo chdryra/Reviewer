@@ -24,20 +24,18 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextualUi {
-    private final ReviewView<?> mReviewView;
     private final LinearLayout mView;
     private final Button mButton;
     private ContextualButtonAction<?> mAction;
 
-    public ContextualUi(ReviewView reviewView, LinearLayout view, int buttonId, int textColour) {
-        mReviewView = reviewView;
+    public ContextualUi(ReviewView<?> reviewView, LinearLayout view, int buttonId, int textColour) {
         mView = view;
         mButton = (Button) mView.findViewById(buttonId);
-        initialise(textColour);
+        initialise(reviewView, textColour);
     }
 
-    private void initialise(int textColour) {
-        mAction = mReviewView.getActions().getContextualAction();
+    private void initialise(ReviewView<?> reviewView, int textColour) {
+        mAction = reviewView.getActions().getContextualAction();
         if (mAction == null) {
             mView.setVisibility(View.GONE);
             return;

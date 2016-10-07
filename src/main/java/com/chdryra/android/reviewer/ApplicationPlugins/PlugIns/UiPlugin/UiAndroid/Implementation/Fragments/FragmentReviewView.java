@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -56,7 +57,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private SubjectUi mSubject;
     private RatingBarUi mRatingBar;
     private BannerButtonUi mBannerButton;
-    private GridViewUi mGridView;
+    private GridViewUi<?> mGridView;
     private MenuUi mMenu;
     private CoverUi mCover;
     private ContextualUi mContextual;
@@ -111,6 +112,9 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         if (mReviewView == null) extractReviewView();
         if (mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         View v = inflater.inflate(LAYOUT, container, false);
 
         LinearLayout mainView = (LinearLayout) v.findViewById(MAIN_VIEW);
@@ -118,8 +122,8 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
         mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
-        mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), new
-                FactoryGridCellAdapter(), getActivity());
+        mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
+                FactoryGridCellAdapter(getActivity()), displayMetrics);
         mMenu = new MenuUi(mReviewView);
         mCover = new CoverUi(mReviewView, mainView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,

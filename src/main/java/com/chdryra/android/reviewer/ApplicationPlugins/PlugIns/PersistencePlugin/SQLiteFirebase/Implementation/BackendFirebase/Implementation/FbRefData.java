@@ -13,8 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.BindableReferenceBasic;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
@@ -101,13 +100,15 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                T value = mConverter.convert(dataSnapshot);
-                if (value != null) {
-                    onDereferenced(value);
-                    callback.onDereferenced(newValue(value));
-                } else {
-                    invalidReference(callback);
-                    invalidate();
+                if(isValidReference()) {
+                    T value = mConverter.convert(dataSnapshot);
+                    if (value != null) {
+                        onDereferenced(value);
+                        callback.onDereferenced(newValue(value));
+                    } else {
+                        invalidReference(callback);
+                        invalidate();
+                    }
                 }
             }
 
