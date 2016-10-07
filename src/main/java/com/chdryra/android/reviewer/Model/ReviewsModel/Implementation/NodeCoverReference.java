@@ -56,16 +56,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
 
     @Override
     public void dereference(final DereferenceCallback<DataImage> callback) {
-        if (mReview == null || !mReview.isValidReference()) {
-            findReviewWithCover(new ChoiceCallback() {
-                @Override
-                public void onChosen(boolean changed) {
-                    dereferenceCurrent(callback);
-                }
-            });
-        } else {
-            dereferenceCurrent(callback);
-        }
+        dereferenceCurrent(callback);
     }
 
     @Override
@@ -201,6 +192,19 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     private void dereferenceCurrent(final DereferenceCallback<DataImage> callback) {
+        if (mReview != null && mReview.isValidReference()) {
+            doDereference(callback);
+        } else {
+            findReviewWithCover(new ChoiceCallback() {
+                @Override
+                public void onChosen(boolean changed) {
+                    doDereference(callback);
+                }
+            });
+        }
+    }
+
+    private void doDereference(final DereferenceCallback<DataImage> callback) {
         if (mReview != null && mReview.isValidReference()) {
             mReview.dereference(new DereferenceCallback<ReviewReference>() {
                 @Override
