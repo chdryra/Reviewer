@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -27,15 +28,18 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * On: 05/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenLauncherImpl implements BuildScreenLauncher {
-    private RepositorySuite mRepository;
-    private ReviewBuilderSuite mBuilder;
-    private LaunchableConfig mUi;
+public class BuildScreenLauncherAndroid implements BuildScreenLauncher {
+    private final LaunchableConfig mUi;
+    private final RepositorySuite mRepository;
+    private final ReviewBuilderSuite mBuilder;
+    private final ItemPacker<Review> mPacker;
 
-    public BuildScreenLauncherImpl(LaunchableConfig ui, RepositorySuite repository, ReviewBuilderSuite builder) {
+    public BuildScreenLauncherAndroid(LaunchableConfig ui, RepositorySuite repository,
+                                      ReviewBuilderSuite builder, ItemPacker<Review> packer) {
         mUi = ui;
         mRepository = repository;
         mBuilder = builder;
+        mPacker = packer;
     }
 
     public void setUiLauncher(UiLauncher uiLauncher) {
@@ -52,6 +56,11 @@ public class BuildScreenLauncherImpl implements BuildScreenLauncher {
         }
     }
 
+    @Nullable
+    public Review unpackTemplate(Bundle args) {
+        return mPacker.unpack(args);
+    }
+
     private void launchBuildUi(Bundle args) {
         mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
     }
@@ -63,7 +72,7 @@ public class BuildScreenLauncherImpl implements BuildScreenLauncher {
             Review review = result.getReview();
             if (!result.isError() && review != null) {
                 args.putString(TEMPLATE_ID, review.getReviewId().toString());
-                mBuilder.packTemplate(review, args);
+                mPacker.pack(review, args);
             }
 
             launchBuildUi(args);

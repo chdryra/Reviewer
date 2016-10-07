@@ -10,6 +10,9 @@ package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -24,6 +27,8 @@ import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuit
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -31,21 +36,20 @@ import com.google.android.gms.common.GoogleApiAvailability;
  * Singleton that controls app-wide duties.
  */
 public class AppInstanceAndroid implements ApplicationInstance {
-    private static final int GOOGLE_API_CHECK = RequestCodeGenerator.getCode(AppInstanceAndroid
-            .class, "GoogleApiCheck");
+    private static final int GOOGLE_API_CHECK
+            = RequestCodeGenerator.getCode(AppInstanceAndroid.class, "GoogleApiCheck");
 
     private static AppInstanceAndroid sSingleton;
-    private ApplicationSuiteAndroid mContext;
 
+    private ApplicationSuiteAndroid mApp;
     private boolean mGoogleApiOk = false;
 
     private enum LaunchState {RELEASE, TEST}
 
-    private AppInstanceAndroid(Context context) {
-        instantiate(context, LaunchState.TEST);
+    private AppInstanceAndroid(Context app) {
+        instantiate(app, LaunchState.TEST);
     }
 
-    //Static methods
     public static AppInstanceAndroid getInstance(Context context) {
         if (sSingleton == null) {
             sSingleton = new AppInstanceAndroid(context.getApplicationContext());
@@ -58,62 +62,67 @@ public class AppInstanceAndroid implements ApplicationInstance {
         getInstance(activity).setCurrentActivity(activity);
     }
 
-    //API
     @Override
     public AuthenticationSuite getAuthentication() {
-        return mContext.getAuthentication();
+        return mApp.getAuthentication();
     }
 
     @Override
     public LocationServicesSuite getLocationServices() {
-        return mContext.getLocationServices();
+        return mApp.getLocationServices();
     }
 
     @Override
     public UiSuite getUi() {
-        return mContext.getUi();
+        return mApp.getUi();
     }
 
     @Override
     public RepositorySuite getRepository() {
-        return mContext.getRepository();
+        return mApp.getRepository();
     }
 
     @Override
     public ReviewBuilderSuite getReviewBuilder() {
-        return mContext.getReviewBuilder();
+        return mApp.getReviewBuilder();
     }
 
     @Override
     public SocialSuite getSocial() {
-        return mContext.getSocial();
+        return mApp.getSocial();
     }
 
     @Override
     public void logout() {
-        mContext.logout();
+        mApp.logout();
     }
 
     @Override
     public void setReturnResult(ActivityResultCode result) {
-        mContext.setReturnResult(result);
+        mApp.setReturnResult(result);
+    }
+
+    @Nullable
+    public Review unpackTemplate(Bundle args) {
+        return mApp.unpackTemplate(args);
+    }
+
+    @Nullable
+    public ReviewView<?> unpackView(Intent i) {
+            return mApp.unpackView(i);
     }
 
     private void instantiate(Context context, LaunchState launchState) {
-        ApplicationPlugins plugins;
-        if (launchState.equals(LaunchState.RELEASE)) {
-            plugins = new ApplicationPluginsRelease(context);
-        } else {
-            plugins = new ApplicationPluginsTest(context);
-        }
+        ApplicationPlugins plugins = launchState.equals(LaunchState.RELEASE) ?
+                new ApplicationPluginsRelease(context) : new ApplicationPluginsTest(context);
 
         FactoryApplicationSuite factory = new FactoryApplicationSuite();
-        mContext = factory.newAndroidContext(context, plugins);
+        mApp = factory.newAndroidApp(context, plugins);
     }
 
     private void setCurrentActivity(Activity activity) {
         if (!mGoogleApiOk) checkGoogleApi(activity);
-        mContext.setActivity(activity);
+        mApp.setActivity(activity);
     }
 
     private void checkGoogleApi(Activity activity) {

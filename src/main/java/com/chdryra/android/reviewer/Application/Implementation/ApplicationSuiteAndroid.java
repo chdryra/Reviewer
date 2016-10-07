@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -24,6 +26,8 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -121,5 +125,15 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
 
     public void logout() {
         getAuthentication().logout();
+    }
+
+    @Nullable
+    Review unpackTemplate(Bundle args) {
+        return mUi.unpackTemplate(args);
+    }
+
+    @Nullable
+    ReviewView<?> unpackView(Intent i) {
+        return mUi.unpackView(i);
     }
 }

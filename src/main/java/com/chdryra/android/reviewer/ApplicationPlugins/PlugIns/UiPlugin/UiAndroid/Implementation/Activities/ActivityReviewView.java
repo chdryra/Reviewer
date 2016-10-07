@@ -6,19 +6,20 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -34,13 +35,17 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     private ReviewView mView;
 
+    public ReviewView getReviewView() {
+        return mView;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppInstanceAndroid.setActivity(this);
 
-        if(savedInstanceState != null) {
-           mView = ((ReviewViewContainer) getFragment()).getReviewView();
+        if (savedInstanceState != null) {
+            mView = ((ReviewViewContainer) getFragment()).getReviewView();
         }
     }
 
@@ -50,18 +55,10 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         super.onSaveInstanceState(outState);
     }
 
-    ReviewView<?> createReviewView() {
-        return ReviewViewPacker.unpackView(getIntent());
-    }
-
-    public ReviewView getReviewView() {
-        return mView;
-    }
-
     @Override
     protected Fragment createFragment() {
         mView = createReviewView();
-        if(mView == null) throw new RuntimeException("View is null!");
+        throwIfNull(mView);
         return new FragmentReviewView();
     }
 
@@ -79,5 +76,15 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
+    }
+
+    ReviewView<?> createReviewView() {
+        ReviewView<?> view = AppInstanceAndroid.getInstance(this).unpackView(getIntent());
+        throwIfNull(view);
+        return view;
+    }
+
+    private void throwIfNull(@Nullable ReviewView<?> view) {
+        if (view == null) throw new RuntimeException("View is null!");
     }
 }

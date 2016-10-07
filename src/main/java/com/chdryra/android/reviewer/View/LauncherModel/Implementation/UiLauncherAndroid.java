@@ -11,20 +11,26 @@ package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.Implementation.ReviewViewPacker;
+import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .BuildScreenLauncherAndroid;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.ReviewLauncher
+        .ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
@@ -42,16 +48,20 @@ public class UiLauncherAndroid implements UiLauncher {
     private Activity mCommissioner;
     private UserSession mSession;
 
-    private final BuildScreenLauncher mBuildUiLauncher;
+    private final BuildScreenLauncherAndroid mBuildUiLauncher;
     private final Class<? extends Activity> mDefaultActivity;
     private final FactoryReviewLauncher mReviewLauncherFactory;
 
-    public UiLauncherAndroid(BuildScreenLauncher buildUiLauncher,
+    private final ItemPacker<ReviewView<?>> mViewPacker;
+
+    public UiLauncherAndroid(BuildScreenLauncherAndroid buildUiLauncher,
                              FactoryReviewLauncher reviewLauncherFactory,
-                             Class<? extends Activity> defaultActivity) {
+                             Class<? extends Activity> defaultActivity,
+                             ItemPacker<ReviewView<?>> viewPacker) {
         mBuildUiLauncher = buildUiLauncher;
         mReviewLauncherFactory = reviewLauncherFactory;
         mDefaultActivity = defaultActivity;
+        mViewPacker = viewPacker;
     }
 
     public void setActivity(Activity activity) {
@@ -87,12 +97,22 @@ public class UiLauncherAndroid implements UiLauncher {
         return mReviewLauncherFactory.newReviewLauncher(this, mSession.getAuthorId());
     }
 
+    @Nullable
+    public Review unpackTemplate(Bundle args) {
+        return mBuildUiLauncher.unpackTemplate(args);
+    }
+
+    @Nullable
+    public ReviewView<?> unpackView(Intent i) {
+        return mViewPacker.unpack(i);
+    }
+
     private class AndroidTypeLauncher implements UiTypeLauncher {
         private final Activity mCommissioner;
         private final String mTag;
         private final UiLauncherArgs mArgs;
 
-        public AndroidTypeLauncher(Activity commissioner, String tag, UiLauncherArgs args) {
+        AndroidTypeLauncher(Activity commissioner, String tag, UiLauncherArgs args) {
             mCommissioner = commissioner;
             mTag = tag;
             mArgs = args;
@@ -116,10 +136,9 @@ public class UiLauncherAndroid implements UiLauncher {
             launchReviewView(view, mDefaultActivity);
         }
 
-
         private void launchReviewView(ReviewView<?> view, Class<? extends Activity> activity) {
             Intent i = new Intent(mCommissioner, activity);
-            ReviewViewPacker.packView(view, i);
+            mViewPacker.pack(view, i);
             mCommissioner.startActivityForResult(i, mArgs.getRequestCode());
         }
     }

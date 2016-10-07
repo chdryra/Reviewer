@@ -10,10 +10,13 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import android.app.Activity;
 
+import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncherImpl;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncherAndroid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
@@ -36,9 +39,12 @@ public class FactoryUiLauncher {
                                          FactoryReviewView factoryReviewView,
                                          ReviewsSource masterRepo,
                                          LaunchableConfig buildConfig) {
-        BuildScreenLauncherImpl buildScreenLauncher = new BuildScreenLauncherImpl(buildConfig, repository, builder);
+        BuildScreenLauncherAndroid buildScreenLauncher
+                = new BuildScreenLauncherAndroid(buildConfig, repository, builder, new ItemPacker<Review>());
+
         FactoryReviewLauncher factoryReviewLauncher = new FactoryReviewLauncher(factoryReviewView, masterRepo);
-        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, factoryReviewLauncher, mDefaultActivity);
+        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher,
+                factoryReviewLauncher, mDefaultActivity, new ItemPacker<ReviewView<?>>());
         buildScreenLauncher.setUiLauncher(uiLauncher);
 
         return uiLauncher;

@@ -89,7 +89,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory, authorRepo);
 
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
-                persistenceContext.getMasterRepo(),
+                persistenceContext.getReviewsRepository(),
                 authorRepo,
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());

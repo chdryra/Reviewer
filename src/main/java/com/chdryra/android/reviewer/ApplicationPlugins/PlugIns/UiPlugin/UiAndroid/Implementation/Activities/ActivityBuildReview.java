@@ -14,11 +14,10 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
@@ -34,7 +33,7 @@ public class ActivityBuildReview extends ActivityReviewView {
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(this);
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
 
         PresenterReviewBuild.Builder builder = new PresenterReviewBuild.Builder();
 
@@ -60,12 +59,12 @@ public class ActivityBuildReview extends ActivityReviewView {
         launcher.launch(getClass(), TEMPLATE_ID);
     }
 
-    private void setTemplateReviewIfAvailable(ApplicationInstance app,
+    private void setTemplateReviewIfAvailable(AppInstanceAndroid app,
                                               PresenterReviewBuild.Builder builder) {
         Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
         String id = args != null ? args.getString(TEMPLATE_ID) : null;
         if (id != null) {
-            Review template = app.getReviewBuilder().unpackTemplate(args);
+            Review template = app.unpackTemplate(args);
             if (template != null) builder.setTemplateReview(template);
         }
     }

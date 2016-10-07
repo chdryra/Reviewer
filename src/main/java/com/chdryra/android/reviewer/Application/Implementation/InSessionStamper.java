@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStampe
  */
 public class InSessionStamper implements UserSession.SessionObserver, ReviewStamper {
     private static final AuthorId NULL_AUTHOR = NullAuthor.AUTHOR.getAuthorId();
+
     private AuthorId mAuthorId;
 
     public InSessionStamper() {

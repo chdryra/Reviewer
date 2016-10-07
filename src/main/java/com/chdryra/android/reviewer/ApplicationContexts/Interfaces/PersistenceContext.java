@@ -25,11 +25,11 @@ public interface PersistenceContext {
 
     ReviewsRepository getBackendRepository();
 
+    ReviewsSource getReviewsRepository();
+
     AuthorsRepository getAuthorsRepository();
 
     AccountsManager getAccountsManager();
-
-    ReviewsSource getMasterRepo();
 
     FactoryReviewsRepository getRepoFactory();
 }

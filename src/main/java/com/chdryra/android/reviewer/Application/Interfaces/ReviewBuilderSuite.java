@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
@@ -27,9 +26,4 @@ public interface ReviewBuilderSuite {
     ReviewEditor<?> getReviewEditor();
 
     void discardReviewEditor();
-
-    void packTemplate(Review review, Bundle args);
-
-    @Nullable
-    Review unpackTemplate(Bundle args);
 }

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Application.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
@@ -60,20 +62,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mReviewsRepo.getReference(id, new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                ReviewReference reference = result.getReference();
-                if(result.isReference() && reference != null) {
-                    reference.dereference(new DataReference.DereferenceCallback<Review>() {
-                        @Override
-                        public void onDereferenced(DataValue<Review> review) {
-                            callback.onRepositoryCallback(new RepositoryResult(review.getData(), review.getMessage()));
-                        }
-                    });
-                }
-            }
-        });
+        mReviewsRepo.getReference(id, dereferenceOnReturn(callback));
     }
 
     @Override
@@ -104,5 +93,27 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     @Override
     public ReviewPublisher getReviewPublisher() {
         return mPublisher;
+    }
+
+    @NonNull
+    private RepositoryCallback dereferenceOnReturn(final RepositoryCallback callback) {
+        return new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                ReviewReference reference = result.getReference();
+                if (result.isReference() && reference != null) dereference(reference, callback);
+            }
+        };
+    }
+
+    private void dereference(ReviewReference reference, final RepositoryCallback callback) {
+        reference.dereference(new DataReference.DereferenceCallback<Review>() {
+            @Override
+            public void onDereferenced(DataValue<Review> review) {
+                RepositoryResult result
+                        = new RepositoryResult(review.getData(), review.getMessage());
+                callback.onRepositoryCallback(result);
+            }
+        });
     }
 }

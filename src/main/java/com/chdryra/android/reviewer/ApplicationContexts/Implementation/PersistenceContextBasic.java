@@ -54,7 +54,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public ReviewsSource getMasterRepo() {
+    public ReviewsSource getReviewsRepository() {
         return mReviewsSource;
     }
 

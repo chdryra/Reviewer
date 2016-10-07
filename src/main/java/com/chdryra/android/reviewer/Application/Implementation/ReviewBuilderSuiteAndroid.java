@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Application.Implementation;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
@@ -24,13 +23,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  */
 
 public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEditor.BuildListener {
-    private FactoryReviewView mViewFactory;
+    private final FactoryReviewView mViewFactory;
     private ReviewEditor<?> mReviewEditor;
-    private ReviewPacker mReviewPacker;
 
-    public ReviewBuilderSuiteAndroid(FactoryReviewView viewFactory, ReviewPacker reviewPacker) {
+    public ReviewBuilderSuiteAndroid(FactoryReviewView viewFactory) {
         mViewFactory = viewFactory;
-        mReviewPacker = reviewPacker;
     }
 
     @Override
@@ -52,16 +49,5 @@ public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEdit
     @Override
     public void discardReviewEditor() {
         mReviewEditor = null;
-    }
-
-    @Override
-    public void packTemplate(Review review, Bundle args) {
-        mReviewPacker.packReview(review, args);
-    }
-
-    @Nullable
-    @Override
-    public Review unpackTemplate(Bundle args) {
-        return mReviewPacker.unpackReview(args);
     }
 }
