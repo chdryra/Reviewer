@@ -22,13 +22,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -40,15 +41,16 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
     private final UiConfig mConfig;
     private final UiLauncher mLauncher;
+    private final LocationClient mLocationClient;
 
-    private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
+    private ReviewEditor.GridUiType mUiType;
 
-
-    public GridItemBuildReview(UiConfig config, UiLauncher launcher, LocationClient locationClient) {
+    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.GridUiType uiType, LocationClient locationClient) {
         mConfig = config;
         mLauncher = launcher;
+        mUiType = uiType;
         mLocationClient = locationClient;
     }
 
@@ -90,13 +92,27 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         onLocated(location, message);
     }
 
+    public void setView(ReviewEditor.GridUiType uiType) {
+        mUiType = uiType;
+    }
+
+    private boolean isQuickReview() {
+        return mUiType == ReviewEditor.GridUiType.QUICK;
+    }
+
     protected void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
         GvDataType<? extends GvDataParcelable> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
+        } else if(isQuickReview() && gridCell.size() == 1) {
+            launchQuickSetEditor(type);
         } else {
             mLauncher.launchEditDataUi(type);
         }
+    }
+
+    protected void launchQuickSetEditor(GvDataType<? extends GvData> type) {
+        showQuickSetLaunchable(getEditorConfig(type));
     }
 
     protected void launchQuickSetAdder(GvDataType<? extends GvData> type) {
@@ -114,6 +130,10 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
         return mConfig.getAdder(dataType.getDatumName());
+    }
+
+    private <T extends GvData> LaunchableConfig getEditorConfig(GvDataType<T> dataType) {
+        return mConfig.getEditor(dataType.getDatumName());
     }
 
     private void showQuickSetLaunchable(LaunchableConfig adderConfig) {

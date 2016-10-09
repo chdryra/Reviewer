@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  */
 
 public interface ReviewBuilderSuite {
-    ReviewEditor<?> newReviewEditor(LocationClient client, @Nullable Review template);
+    ReviewEditor<?> newReviewEditor(ReviewEditor.GridUiType uiType, LocationClient client, @Nullable Review template);
 
     ReviewEditor<?> getReviewEditor();
 

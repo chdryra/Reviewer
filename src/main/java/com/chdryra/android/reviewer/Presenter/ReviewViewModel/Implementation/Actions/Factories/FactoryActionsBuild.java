@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
@@ -27,6 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Grid
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -40,15 +40,18 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     private UiConfig mConfig;
     private UiLauncher mLauncher;
     private LocationClient mLocationClient;
+    private ReviewEditor.GridUiType mUiType;
 
     public FactoryActionsBuild(GvDataType<GC> dataType,
                                UiConfig config,
                                UiLauncher launcher,
+                               ReviewEditor.GridUiType uiType,
                                LocationClient locationClient) {
         super(dataType);
         mConfig = config;
         mLauncher = launcher;
         mLocationClient = locationClient;
+        mUiType = uiType;
     }
 
     @Override
@@ -63,12 +66,12 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public BannerButtonAction<GC> newBannerButton() {
-        return new BannerButtonReviewBuild<>(Settings.BuildReview.DEFAULT_UI);
+        return new BannerButtonReviewBuild<>(mUiType);
     }
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildReview<>(mConfig, mLauncher, mLocationClient);
+        return new GridItemBuildReview<>(mConfig, mLauncher, mUiType, mLocationClient);
     }
 
     @Override

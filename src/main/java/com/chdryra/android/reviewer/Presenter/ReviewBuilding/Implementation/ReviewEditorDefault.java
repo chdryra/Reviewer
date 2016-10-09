@@ -167,5 +167,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private void setView() {
         GridUiType uiType = mBannerButton.getUiType();
         mAdapter.setView(uiType);
+        mGridItem.setView(uiType);
     }
 }
