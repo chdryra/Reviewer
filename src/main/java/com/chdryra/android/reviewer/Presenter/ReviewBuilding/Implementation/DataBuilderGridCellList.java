@@ -9,11 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
-
-
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 
@@ -23,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataBuilderGridCellList extends GvDataListImpl<DataBuilderGridCell> {
-    DataBuilderGridCellList() {
+    public DataBuilderGridCellList() {
         super(DataBuilderGridCell.TYPE, new GvReviewId());
     }
 
@@ -32,7 +31,6 @@ public class DataBuilderGridCellList extends GvDataListImpl<DataBuilderGridCell>
         add(new DataBuilderGridCell<>(dataAdapter, viewHolderFactory));
     }
 
-    //Overridden
     @Override
     public void sort() {
     }

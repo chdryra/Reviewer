@@ -63,7 +63,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
         mAdapterFactory = adapterFactory;
         mConverter = converter;
         mCellOrder = new ArrayList<>();
-        mCellOrder.addAll(DataTypeCellOrder.ReviewOrder.ORDER);
+        mCellOrder.addAll(DataTypeCellOrder.Review.FULL);
     }
 
     FactoryReviewViewAdapter getAdapterFactory() {

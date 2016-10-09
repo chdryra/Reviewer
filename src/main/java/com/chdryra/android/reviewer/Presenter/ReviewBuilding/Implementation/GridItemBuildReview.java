@@ -36,7 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
+public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
     private final UiConfig mConfig;
     private final UiLauncher mLauncher;
@@ -46,7 +46,7 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
     private LatLng mLatLng;
 
 
-    public GridItemBuildScreen(UiConfig config, UiLauncher launcher, LocationClient locationClient) {
+    public GridItemBuildReview(UiConfig config, UiLauncher launcher, LocationClient locationClient) {
         mConfig = config;
         mLauncher = launcher;
         mLocationClient = locationClient;
@@ -90,7 +90,7 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         onLocated(location, message);
     }
 
-    private void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
+    protected void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
         GvDataType<? extends GvDataParcelable> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
@@ -99,7 +99,7 @@ public class GridItemBuildScreen<GC extends GvDataList<? extends GvDataParcelabl
         }
     }
 
-    private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
+    protected void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
             if(mImageChooser == null) mImageChooser = getEditor().newImageChooser();
             mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());

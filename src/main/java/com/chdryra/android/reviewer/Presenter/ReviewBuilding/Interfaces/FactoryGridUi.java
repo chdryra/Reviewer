@@ -16,5 +16,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryGridUi<GC extends GvDataList> {
-    BuildScreenGridUi<GC> newGridUiWrapper(FactoryVhDataCollection vhFactory);
+    BuildScreenGridUi<GC> newGridUiWrapperFull();
+
+    BuildScreenGridUi<GC> newGridUiWrapperQuick();
 }

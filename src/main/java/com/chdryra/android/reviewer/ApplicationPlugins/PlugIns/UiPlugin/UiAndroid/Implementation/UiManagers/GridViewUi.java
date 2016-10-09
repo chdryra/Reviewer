@@ -33,6 +33,7 @@ public class GridViewUi<T extends GvData> {
     private final ReviewView<T> mReviewView;
     private final GridView mView;
     private final FactoryGridCellAdapter mFactory;
+    private final DisplayMetrics mMetrics;
 
     public GridViewUi(ReviewView<T> reviewView,
                       GridView view,
@@ -41,12 +42,13 @@ public class GridViewUi<T extends GvData> {
         mReviewView = reviewView;
         mView = view;
         mFactory = factory;
-        inititialise(metrics);
+        mMetrics = metrics;
+        inititialise();
     }
 
     public void update() {
         GvDataList<T> gridViewData = mReviewView.getGridViewData();
-        ((ViewHolderAdapter) mView.getAdapter()).setData(gridViewData);
+        getAdapter().setData(gridViewData);
     }
 
     void setOpaque() {
@@ -57,16 +59,21 @@ public class GridViewUi<T extends GvData> {
         mView.getBackground().setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
     }
 
-    private void inititialise(DisplayMetrics displayMetrics) {
+    private ViewHolderAdapter getAdapter() {
+        return (ViewHolderAdapter) mView.getAdapter();
+    }
+
+    private void inititialise() {
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
 
-        int maxCellSize = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        int maxCellSize = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
         int widthDivider = params.getCellWidth().getDivider();
         int cell_width = maxCellSize / widthDivider;
         int cell_height = maxCellSize / params.getCellHeight().getDivider();
 
         ViewHolderAdapter adapter
                 = mFactory.newAdapter(mReviewView.getGridViewData(), cell_width, cell_height);
+
         mView.setDrawSelectorOnTop(true);
         mView.setAdapter(adapter);
         mView.setColumnWidth(cell_width);
@@ -77,8 +84,19 @@ public class GridViewUi<T extends GvData> {
         mView.setOnItemLongClickListener(newGridItemLongClickListener(action));
     }
 
+    public void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams.CellDimension height) {
+        int maxCellSize = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
+        int widthDivider = width.getDivider();
+        int cell_width = maxCellSize / widthDivider;
+        int cell_height = maxCellSize / height.getDivider();
+        mView.setColumnWidth(cell_width);
+        mView.setNumColumns(widthDivider);
+        getAdapter().setCellDimensions(cell_width, cell_height);
+    }
+
     @NonNull
-    private AdapterView.OnItemLongClickListener newGridItemLongClickListener(final GridItemAction<T> action) {
+    private AdapterView.OnItemLongClickListener newGridItemLongClickListener(final
+                                                                                 GridItemAction<T> action) {
         return new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
@@ -89,7 +107,8 @@ public class GridViewUi<T extends GvData> {
     }
 
     @NonNull
-    private AdapterView.OnItemClickListener newGridItemClickListener(final GridItemAction<T> action) {
+    private AdapterView.OnItemClickListener newGridItemClickListener(final GridItemAction<T>
+                                                                                 action) {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

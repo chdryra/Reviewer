@@ -26,6 +26,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * .reviewer.Model.Review} object
  */
 public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapter<GC> {
+
+
     ReviewBuilder getBuilder();
 
     void setSubject(String subject);
@@ -46,4 +48,6 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
 
     @Override
     GvDataType<GC> getGvDataType();
+
+    void setView(ReviewEditor.GridUiType uiType);
 }

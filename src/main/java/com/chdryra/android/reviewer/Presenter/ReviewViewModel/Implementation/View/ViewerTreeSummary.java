@@ -34,7 +34,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerTreeSummary extends ViewerReviewSummary {
-    private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.MetaOrder.ORDER;
+    private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.Meta.ORDER;
 
     public ViewerTreeSummary(ReviewNode node, FactoryReviewViewAdapter adapterFactory, ConverterGv converter) {
         super(node, adapterFactory, converter, ORDER);

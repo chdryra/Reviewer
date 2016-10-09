@@ -12,6 +12,7 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
@@ -21,15 +22,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 import java.util.ArrayList;
 
@@ -39,10 +38,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
-        implements ReviewEditor<GC> {
+        implements ReviewEditor<GC>, BannerButtonAction.ClickListener {
     private final ReviewBuilderAdapter<?> mAdapter;
     private final FactoryReviewDataEditor mEditorFactory;
-    private final GridItemBuildScreen<GC> mGridItem;
+    private final BannerButtonReviewBuild<GC> mBannerButton;
+    private final GridItemBuildReview<GC> mGridItem;
     private final ArrayList<BuildListener> mListeners;
 
     private ReviewViewContainer mContainer;
@@ -53,7 +53,8 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         super(new ReviewViewPerspective<>(adapter, actions, params));
         mAdapter = adapter;
         mEditorFactory = editorFactory;
-        mGridItem = (GridItemBuildScreen<GC>) actions.getGridItemAction();
+        mBannerButton = (BannerButtonReviewBuild<GC>) actions.getBannerButtonAction();
+        mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
         mListeners = new ArrayList<>();
     }
 
@@ -81,12 +82,15 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         super.attachEnvironment(container, app);
         mContainer = container;
+        mBannerButton.registerListener(this);
+        setView();
     }
 
     @Override
     public void detachEnvironment() {
         super.detachEnvironment();
         mContainer = null;
+        mBannerButton.unregisterListener(this);
     }
 
     @Override
@@ -153,5 +157,15 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void unregisterListener(BuildListener listener) {
         if(mListeners.contains(listener)) mListeners.remove(listener);
+    }
+
+    @Override
+    public void onClick() {
+        setView();
+    }
+
+    private void setView() {
+        GridUiType uiType = mBannerButton.getUiType();
+        mAdapter.setView(uiType);
     }
 }

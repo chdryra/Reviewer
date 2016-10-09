@@ -36,6 +36,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -94,6 +95,12 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public void updateContextButton() {
         mContextual.update();
+    }
+
+    @Override
+    public void setCellDimension(ReviewViewParams.CellDimension width,
+                                 ReviewViewParams.CellDimension height) {
+        mGridView.setCellDimension(width, height);
     }
 
     @Override

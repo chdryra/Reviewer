@@ -14,6 +14,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
@@ -22,14 +25,17 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilter<T>
         implements BannerButtonAction<T>, SubjectAction<T> {
 
-    private String mButtonTitle;
-    private String mWorkingMessage;
+    private final String mButtonTitle;
+    private final String mWorkingMessage;
+    private final List<ClickListener> mListeners;
+
     private BannerButton mButton;
     private boolean mFiltering = false;
 
     public SubjectBannerFilter(String buttonTitle, String workingMessage) {
         mButtonTitle = buttonTitle;
         mWorkingMessage = workingMessage;
+        mListeners = new ArrayList<>();
     }
 
     @Override
@@ -76,5 +82,15 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     public void onFiltered() {
         mFiltering = false;
         mButton.setTitle(mButtonTitle);
+    }
+
+    @Override
+    public void registerListener(ClickListener listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    @Override
+    public void unregisterListener(ClickListener listener) {
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 }

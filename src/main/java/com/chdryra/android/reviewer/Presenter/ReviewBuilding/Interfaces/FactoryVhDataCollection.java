@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataCollection;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 11/11/2015
+ * On: 09/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryVhDataCollection {

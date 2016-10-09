@@ -31,6 +31,7 @@ public class BannerButtonUi {
     }
 
     public void update() {
+
     }
 
     private void initialise(ReviewView<?> reviewView, int textColour) {

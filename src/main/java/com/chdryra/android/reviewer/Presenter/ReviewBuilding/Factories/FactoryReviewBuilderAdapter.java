@@ -15,10 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
-        .ReviewBuilderAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 
@@ -30,7 +28,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParcelable>> {
     private final FactoryReviewBuilder mBuilderFactory;
     private final FactoryGridUi<GC> mGridUiFactory;
-    private final FactoryVhDataCollection mVhFactory;
     private final DataValidator mDataValidator;
     private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mFactoryFileIncrementor;
@@ -38,28 +35,27 @@ public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataP
 
     public FactoryReviewBuilderAdapter(FactoryReviewBuilder builderFactory,
                                        FactoryGridUi<GC> gridUiFactory,
-                                       FactoryVhDataCollection vhFactory,
                                        DataValidator dataValidator,
                                        FactoryDataBuilderAdapter dataBuilderAdapterFactory,
                                        FactoryFileIncrementor factoryFileIncrementor,
                                        FactoryImageChooser factoryImageChooser) {
         mBuilderFactory = builderFactory;
         mGridUiFactory = gridUiFactory;
-        mVhFactory = vhFactory;
         mDataValidator = dataValidator;
         mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mFactoryFileIncrementor = factoryFileIncrementor;
         mFactoryImageChooser = factoryImageChooser;
     }
 
-    public ReviewBuilderAdapter<GC> newAdapter(@Nullable Review template) {
+    ReviewBuilderAdapter<GC> newAdapter(@Nullable Review template) {
         return newReviewBuilderAdapter(mBuilderFactory.newBuilder(template));
     }
 
     @NonNull
     private ReviewBuilderAdapter<GC> newReviewBuilderAdapter(ReviewBuilder builder) {
         return new ReviewBuilderAdapterImpl<>(builder,
-                mGridUiFactory.newGridUiWrapper(mVhFactory),
+                mGridUiFactory.newGridUiWrapperFull(),
+                mGridUiFactory.newGridUiWrapperQuick(),
                 mDataValidator,
                 mDataBuilderAdapterFactory,
                 mFactoryFileIncrementor,

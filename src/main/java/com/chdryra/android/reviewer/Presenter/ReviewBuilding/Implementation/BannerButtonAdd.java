@@ -20,6 +20,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultList
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 09/10/2015
@@ -33,6 +36,7 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     private final ParcelablePacker<T> mDataPacker;
 
     private final GvDataList<T> mAdded;
+    private final List<ClickListener> mListeners;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
                            String title,
@@ -42,6 +46,7 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
         mTitle = title;
         mAdded = emptyListToAddTo;
         mDataPacker = dataPacker;
+        mListeners = new ArrayList<>();
         initDataList();
     }
 
@@ -100,6 +105,16 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
             T datum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
             if(datum != null) onAdd(datum, requestCode);
         }
+    }
+
+    @Override
+    public void registerListener(ClickListener listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    @Override
+    public void unregisterListener(ClickListener listener) {
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     private void initDataList() {

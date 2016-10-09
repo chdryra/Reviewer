@@ -25,35 +25,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhDataCollection implements ViewHolder {
+    private final ViewHolder mDataView;
     private Context mContext;
     private ViewGroup mParent;
-
-    private final ViewHolder mDataView;
     private ViewHolder mCurrentView;
 
     public VhDataCollection() {
         mDataView = new VhDualText();
         mCurrentView = mDataView;
-    }
-
-    String getUpperString(int number) {
-        return String.valueOf(number);
-    }
-
-    private void updateDataView(GvDataCollection data) {
-        int number = data.size();
-        GvDataType dataType = data.getGvDataType();
-
-        String type = number == 1 ? dataType.getDatumName() : dataType.getDataName();
-        mDataView.updateView(new GvDualText(getUpperString(number), type));
-        mCurrentView = mDataView;
-    }
-
-    private void updateDatumView(GvDataCollection data) {
-        ViewHolderData datum = data.getItem(0);
-        mCurrentView = datum.getViewHolder();
-        mCurrentView.inflate(mContext, mParent);
-        mCurrentView.updateView(datum);
     }
 
     //Overridden
@@ -78,5 +57,28 @@ public class VhDataCollection implements ViewHolder {
     @Override
     public View getView() {
         return mCurrentView.getView();
+    }
+
+    String getUpperString(int number) {
+        return String.valueOf(number);
+    }
+
+    String getLowerString(int number, GvDataType dataType) {
+        return number == 1 ? dataType.getDatumName() : dataType.getDataName();
+    }
+
+    private void updateDataView(GvDataCollection data) {
+        int number = data.size();
+        GvDataType dataType = data.getGvDataType();
+        mDataView.updateView(new GvDualText(getUpperString(number), getLowerString(number,
+                dataType)));
+        mCurrentView = mDataView;
+    }
+
+    private void updateDatumView(GvDataCollection data) {
+        ViewHolderData datum = data.getItem(0);
+        mCurrentView = datum.getViewHolder();
+        mCurrentView.inflate(mContext, mParent);
+        mCurrentView.updateView(datum);
     }
 }

@@ -32,7 +32,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryVhBuildReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -134,7 +133,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         //TODO make type safe
         return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),
-                new FactoryVhBuildReviewData(),
                 validator,
                 new FactoryDataBuilderAdapter(),
                 incrementorFactory,

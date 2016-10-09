@@ -180,6 +180,10 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         launcher.launch(this);
     }
 
+    protected void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams.CellDimension height) {
+        mContainer.setCellDimension(width, height);
+    }
+
     private void attachToAdapter() {
         mPerspective.attachToAdapter(this);
         mIsAttached = true;

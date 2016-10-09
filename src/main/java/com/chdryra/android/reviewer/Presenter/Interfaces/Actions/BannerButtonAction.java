@@ -22,9 +22,17 @@ public interface BannerButtonAction<T extends GvData> extends ReviewViewAction<T
         void setTitle(String title);
     }
 
+    interface ClickListener {
+        void onClick();
+    }
+
     boolean onLongClick(View v);
 
     void onClick(View v);
 
     void setButton(BannerButton button);
+
+    void registerListener(ClickListener listener);
+
+    void unregisterListener(ClickListener listener);
 }

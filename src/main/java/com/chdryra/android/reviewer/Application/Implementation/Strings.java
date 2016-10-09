@@ -96,4 +96,6 @@ public class Strings {
     public static final String LOADING = "loading...";
     public static final String FETCHING = "fetching...";
     public static final String SEARCHING = "searching...";
+    public static final String FULL_REVIEW = "Full review";
+    public static final String QUICK_REVIEW = "Quick review";
 }

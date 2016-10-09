@@ -39,6 +39,21 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         }
     }
 
+    enum GridUiType {
+        FULL(Strings.FULL_REVIEW),
+        QUICK(Strings.QUICK_REVIEW);
+
+        private String mLabel;
+
+        GridUiType(String label) {
+            mLabel = label;
+        }
+
+        public String getLabel() {
+            return mLabel;
+        }
+    }
+
     interface BuildListener {
         void onReviewBuilt();
     }

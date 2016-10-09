@@ -14,6 +14,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,4 +35,7 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
     void setCover(@Nullable DataImage cover);
 
     void updateContextButton();
+
+    void setCellDimension(ReviewViewParams.CellDimension width,
+                          ReviewViewParams.CellDimension height);
 }

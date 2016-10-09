@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
@@ -20,12 +21,12 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -62,12 +63,12 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public BannerButtonAction<GC> newBannerButton() {
-        return new BannerButtonActionNone<>(Strings.Buttons.BUILD_SCREEN_BANNER);
+        return new BannerButtonReviewBuild<>(Settings.BuildReview.DEFAULT_UI);
     }
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildScreen<>(mConfig, mLauncher, mLocationClient);
+        return new GridItemBuildReview<>(mConfig, mLauncher, mLocationClient);
     }
 
     @Override

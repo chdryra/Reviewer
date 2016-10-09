@@ -32,30 +32,38 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataTypeCellOrder {
-    public static class ReviewOrder {
-        public static final List<GvDataType<? extends GvDataParcelable>> ORDER = new ArrayList<>();
+    public static class Review {
+        public static final List<GvDataType<? extends GvDataParcelable>> FULL = new ArrayList<>();
         static {
-            ORDER.add(GvTag.TYPE);
-            ORDER.add(GvCriterion.TYPE);
-            ORDER.add(GvImage.TYPE);
-            ORDER.add(GvComment.TYPE);
-            ORDER.add(GvLocation.TYPE);
-            ORDER.add(GvFact.TYPE);
+            FULL.add(GvImage.TYPE);
+            FULL.add(GvComment.TYPE);
+            FULL.add(GvLocation.TYPE);
+            FULL.add(GvTag.TYPE);
+            FULL.add(GvCriterion.TYPE);
+            FULL.add(GvFact.TYPE);
+        }
+
+        public static final List<GvDataType<? extends GvDataParcelable>> QUICK = new ArrayList<>();
+        static {
+            QUICK.add(GvImage.TYPE);
+            QUICK.add(GvComment.TYPE);
+            QUICK.add(GvLocation.TYPE);
+            QUICK.add(GvTag.TYPE);
         }
     }
 
-    public static class MetaOrder {
+    public static class Meta {
         public static final List<GvDataType<? extends GvData>> ORDER = new ArrayList<>();
         static {
             ORDER.add(GvNode.TYPE);
             ORDER.add(GvAuthorId.TYPE);
             ORDER.add(GvSubject.TYPE);
             ORDER.add(GvDate.TYPE);
-            ORDER.add(GvTag.TYPE);
-            ORDER.add(GvCriterion.TYPE);
             ORDER.add(GvImage.TYPE);
             ORDER.add(GvComment.TYPE);
             ORDER.add(GvLocation.TYPE);
+            ORDER.add(GvTag.TYPE);
+            ORDER.add(GvCriterion.TYPE);
             ORDER.add(GvFact.TYPE);
         }
     }

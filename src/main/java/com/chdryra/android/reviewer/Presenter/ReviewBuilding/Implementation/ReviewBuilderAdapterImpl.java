@@ -22,11 +22,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataTypes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewAdapterImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,12 +40,15 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapterImpl<GC>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends
+        ReviewViewAdapterImpl<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES = GvDataTypes.BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES = GvDataTypes
+            .BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
-    private final BuildScreenGridUi<GC> mGridUi;
+    private final BuildScreenGridUi<GC> mFullGridUi;
+    private final BuildScreenGridUi<GC> mQuickGridUi;
     private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mIncrementorFactory;
     private final FactoryImageChooser mImageChooserFactory;
@@ -50,19 +56,27 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private final DataValidator mDataValidator;
     private FileIncrementor mIncrementor;
     private GvTag mSubjectTag;
+    private ReviewEditor.GridUiType mUiType = ReviewEditor.GridUiType.QUICK;
 
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
-                                    BuildScreenGridUi<GC> gridUi,
+                                    BuildScreenGridUi<GC> fullGridUi,
+                                    BuildScreenGridUi<GC> quickGridUi,
                                     DataValidator dataValidator,
                                     FactoryDataBuilderAdapter dataBuilderAdapterFactory,
                                     FactoryFileIncrementor incrementorFactory,
                                     FactoryImageChooser imageChooserFactory) {
         mBuilder = builder;
-        mDataValidator = dataValidator;
+
         mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mDataBuilders = new DataBuildersMap();
-        mGridUi = gridUi;
-        mGridUi.setParentAdapter(this);
+
+        mFullGridUi = fullGridUi;
+        mFullGridUi.setParentAdapter(this);
+        mQuickGridUi = quickGridUi;
+        mQuickGridUi.setParentAdapter(this);
+
+        mDataValidator = dataValidator;
+
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
         mSubjectTag = new GvTag("");
@@ -71,7 +85,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public GvDataType<GC> getGvDataType() {
-        return mGridUi.getGridWrapper().getGvDataType();
+
+        return getGridUi().getGridWrapper().getGvDataType();
     }
 
     @Override
@@ -80,21 +95,13 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public void setCover(GvImage cover) {
-        getCover().setIsCover(false);
-        cover.setIsCover(true);
-        DataBuilderAdapter<GvImage> builder = getDataBuilderAdapter(GvImage.TYPE);
-        builder.add(cover);
-        builder.commitData();
-    }
-
-    @Override
     public ImageChooser newImageChooser() {
         return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 
     @Override
-    public <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
+    public <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T>
+                                                                                                dataType) {
         return mDataBuilders.get(dataType);
     }
 
@@ -122,7 +129,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public GvDataList<GC> getGridData() {
-        return mGridUi.getGridWrapper();
+        return getGridUi().getGridWrapper();
     }
 
     @Override
@@ -145,6 +152,25 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         return mBuilder.getCover();
     }
 
+    @Override
+    public void setCover(GvImage cover) {
+        getCover().setIsCover(false);
+        cover.setIsCover(true);
+        DataBuilderAdapter<GvImage> builder = getDataBuilderAdapter(GvImage.TYPE);
+        builder.add(cover);
+        builder.commitData();
+    }
+
+    @Override
+    public void setView(ReviewEditor.GridUiType uiType) {
+        mUiType = uiType;
+        notifyDataObservers();
+    }
+
+    private BuildScreenGridUi<GC> getGridUi() {
+        return mUiType == ReviewEditor.GridUiType.QUICK ? mQuickGridUi : mFullGridUi;
+    }
+
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
         GvTag newTag = new GvTag(toAdd);
         DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
@@ -154,7 +180,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
         boolean added = mDataValidator.validateString(newTag.getTag()) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
-        if(!newTag.equals(toRemove)) tagBuilder.delete(toRemove);
+        if (!newTag.equals(toRemove)) tagBuilder.delete(toRemove);
         tagBuilder.commitData();
 
         return added ? newTag : new GvTag("");
@@ -175,8 +201,9 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
             }
         }
 
-        private <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T>
-                                                                                       dataType) {
+        private <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter
+                (GvDataType<T>
+                                                                                                 dataType) {
             return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType,
                     ReviewBuilderAdapterImpl.this);
         }
