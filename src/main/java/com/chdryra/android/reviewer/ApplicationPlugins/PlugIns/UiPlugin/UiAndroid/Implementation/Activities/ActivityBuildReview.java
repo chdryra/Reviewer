@@ -15,8 +15,10 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -25,11 +27,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityBuildReview extends ActivityReviewView {
+public class ActivityBuildReview extends ActivityReviewView implements DataEditListener<GvData>{
     private static final String TAG = TagKeyGenerator.getTag(ActivityBuildReview.class);
     public static final String TEMPLATE_ID = BuildScreenLauncher.TEMPLATE_ID;
 
     private PresenterReviewBuild mPresenter;
+
+    @Override
+    public void onDelete(GvData data, int requestCode) {
+
+    }
+
+    @Override
+    public void onEdit(GvData oldDatum, GvData newDatum, int requestCode) {
+
+    }
 
     @Override
     protected ReviewView createReviewView() {
