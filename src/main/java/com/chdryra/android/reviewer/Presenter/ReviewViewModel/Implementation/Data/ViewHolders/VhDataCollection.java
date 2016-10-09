@@ -68,10 +68,9 @@ public class VhDataCollection implements ViewHolder {
     }
 
     private void updateDataView(GvDataCollection data) {
-        int number = data.size();
-        GvDataType dataType = data.getGvDataType();
-        mDataView.updateView(new GvDualText(getUpperString(number), getLowerString(number,
-                dataType)));
+        String upper = getUpperString(data.size());
+        String lower = getLowerString(data.size(), data.getGvDataType());
+        mDataView.updateView(new GvDualText(upper, lower));
         mCurrentView = mDataView;
     }
 

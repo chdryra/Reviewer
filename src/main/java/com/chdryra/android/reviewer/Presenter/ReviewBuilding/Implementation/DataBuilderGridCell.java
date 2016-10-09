@@ -56,4 +56,25 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
     public void onDataChanged() {
         mData = mDataAdapter.getGridData().toArrayList();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataBuilderGridCell)) return false;
+        if (!super.equals(o)) return false;
+
+        DataBuilderGridCell<?> that = (DataBuilderGridCell<?>) o;
+
+        if (!mDataAdapter.equals(that.mDataAdapter)) return false;
+        return mViewHolderFactory.equals(that.mViewHolderFactory);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mDataAdapter.hashCode();
+        result = 31 * result + mViewHolderFactory.hashCode();
+        return result;
+    }
 }

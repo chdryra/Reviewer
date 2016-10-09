@@ -16,7 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -28,11 +28,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 public class CoverUi {
     private final ReviewView mReviewView;
-    private final LinearLayout mView;
+    private final RelativeLayout mView;
     private final GridViewUi mGridView;
     private final Activity mActivity;
 
-    public CoverUi(ReviewView reviewView, LinearLayout view, GridViewUi gridView, Activity
+    public CoverUi(ReviewView reviewView, RelativeLayout view, GridViewUi gridView, Activity
             activity) {
         mReviewView = reviewView;
         mView = view;

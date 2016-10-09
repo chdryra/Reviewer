@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
@@ -46,7 +47,7 @@ import com.chdryra.android.reviewer.R;
  */
 public class FragmentReviewView extends Fragment implements ReviewViewContainer {
     private static final int LAYOUT = R.layout.fragment_review_view;
-    private static final int MAIN_VIEW = R.id.main_view;
+    private static final int FULL_VIEW = R.id.full_view;
     private static final int SUBJECT = R.id.subject_edit_text;
     private static final int RATING = R.id.review_rating;
     private static final int BANNER = R.id.banner_button;
@@ -124,7 +125,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        LinearLayout mainView = (LinearLayout) v.findViewById(MAIN_VIEW);
+        RelativeLayout fullView = (RelativeLayout) v.findViewById(FULL_VIEW);
         mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
@@ -132,7 +133,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
                 FactoryGridCellAdapter(getActivity()), displayMetrics);
         mMenu = new MenuUi(mReviewView);
-        mCover = new CoverUi(mReviewView, mainView, mGridView, getActivity());
+        mCover = new CoverUi(mReviewView, fullView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,
                 (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON, colour);
 

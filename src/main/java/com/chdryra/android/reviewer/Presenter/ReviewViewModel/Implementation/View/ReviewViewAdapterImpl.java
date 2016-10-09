@@ -113,7 +113,7 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
     }
 
     @Override
-    public void registerObserver(DataObserver observer) {
+    public void     registerObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
