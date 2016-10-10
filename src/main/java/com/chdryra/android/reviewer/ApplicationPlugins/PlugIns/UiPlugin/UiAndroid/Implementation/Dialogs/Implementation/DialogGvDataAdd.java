@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation;
 
 import android.os.Bundle;
 import android.view.View;
@@ -16,11 +17,16 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
@@ -52,10 +58,6 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         return mDataType;
     }
 
-    private boolean isQuickAdd() {
-        return mQuickAdd && mBuilder != null;
-    }
-
     @Override
     public String getLaunchTag() {
         return "Add" + mDataType.getDatumName();
@@ -82,7 +84,8 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         T newDatum = mLayout.createGvDataFromInputs();
 
         boolean added = isQuickAdd() ? mBuilder.add(newDatum) :
-                newDatum.isValidForDisplay() && mAddListener.onAdd(newDatum, getTargetRequestCode());
+                newDatum.isValidForDisplay() && mAddListener.onAdd(newDatum, getTargetRequestCode
+                        ());
 
         if (added) mLayout.onAdd(newDatum);
     }
@@ -101,10 +104,32 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         setDialogTitle();
     }
 
+    @Override
+    protected void onCancelButtonClick() {
+        if (isQuickAdd()) {
+            mBuilder.resetData();
+        } else {
+            mAddListener.onCancel(getTargetRequestCode());
+        }
+    }
+
+    @Override
+    protected void onDoneButtonClick() {
+        if (isQuickAdd()) {
+            mBuilder.commitData();
+        } else {
+            mAddListener.onDone(getTargetRequestCode());
+        }
+    }
+
+    private boolean isQuickAdd() {
+        return mQuickAdd && mBuilder != null;
+    }
+
     private void setIsQuickReview() {
         Bundle args = getArguments();
         boolean quickReview = args != null && args.getBoolean(ReviewBuilderSuite.QUICK_REVIEW);
-        if(quickReview && !mDataType.equals(GvTag.TYPE)) setHideMiddleButton();
+        if (quickReview && !mDataType.equals(GvTag.TYPE)) setHideMiddleButton();
     }
 
     private void setIsQuickSet() {
@@ -128,27 +153,11 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     }
 
     private void setLayout() {
-        LocationServicesApi api = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().getApi();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), api);
+        LocationServicesApi api = AppInstanceAndroid.getInstance(getActivity())
+                .getLocationServices().getApi();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new
+                DefaultLayoutConfig(), api);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
-    }
-
-    @Override
-    protected void onCancelButtonClick() {
-        if (isQuickAdd()) {
-            mBuilder.resetData();
-        } else {
-            mAddListener.onCancel(getTargetRequestCode());
-        }
-    }
-
-    @Override
-    protected void onDoneButtonClick() {
-        if (isQuickAdd()) {
-            mBuilder.commitData();
-        } else {
-            mAddListener.onDone(getTargetRequestCode());
-        }
     }
 }
