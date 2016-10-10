@@ -11,11 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -25,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
@@ -37,7 +40,8 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewEditorActionBasic<GC>
+public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends
+        ReviewEditorActionBasic<GC>
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
     private final UiConfig mConfig;
     private final UiLauncher mLauncher;
@@ -47,11 +51,24 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     private LatLng mLatLng;
     private ReviewEditor.GridUiType mUiType;
 
-    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.GridUiType uiType, LocationClient locationClient) {
+    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.GridUiType
+            uiType, LocationClient locationClient) {
         mConfig = config;
         mLauncher = launcher;
         mUiType = uiType;
         mLocationClient = locationClient;
+    }
+
+    public void setView(ReviewEditor.GridUiType uiType) {
+        mUiType = uiType;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        boolean imageRequested = requestCode == getImageRequestCode();
+        if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
+            mImageChooser.getChosenImage(this);
+        }
     }
 
     @Override
@@ -61,7 +78,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onGridItemLongClick(GC item, int position, View v) {
-        executeIntent(item, false);
+        executeIntent(item, isQuickReview());
     }
 
     @Override
@@ -82,7 +99,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onLocated(Location location, CallbackMessage message) {
-        if(!message.isError()) {
+        if (!message.isError()) {
             mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         }
     }
@@ -92,55 +109,57 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         onLocated(location, message);
     }
 
-    public void setView(ReviewEditor.GridUiType uiType) {
-        mUiType = uiType;
-    }
-
     private boolean isQuickReview() {
         return mUiType == ReviewEditor.GridUiType.QUICK;
     }
 
-    protected void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean quickDialog) {
+    private int getImageRequestCode() {
+        return mConfig.getAdder(GvImage.TYPE.getDatumName()).getDefaultRequestCode();
+    }
+
+    private void executeIntent(GvDataList<? extends GvDataParcelable> gridCell, boolean
+            quickDialog) {
         GvDataType<? extends GvDataParcelable> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
-        } else if(isQuickReview() && gridCell.size() == 1) {
-            launchQuickSetEditor(type);
+        } else if (isQuickReview() && gridCell.size() == 1) {
+            launchQuickSetEditor(gridCell.getItem(0));
         } else {
             mLauncher.launchEditDataUi(type);
         }
     }
 
-    protected void launchQuickSetEditor(GvDataType<? extends GvData> type) {
-        showQuickSetLaunchable(getEditorConfig(type));
+    private <T extends GvDataParcelable> void launchQuickSetEditor(T datum) {
+        showQuickSetLaunchable(mConfig.getEditor(datum.getGvDataType().getDatumName()), datum, false);
     }
 
-    protected void launchQuickSetAdder(GvDataType<? extends GvData> type) {
+    private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
-            if(mImageChooser == null) mImageChooser = getEditor().newImageChooser();
+            if (mImageChooser == null) mImageChooser = getEditor().newImageChooser();
             mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
-            showQuickSetLaunchable(getAdderConfig(type));
+            showQuickSetLaunchable(mConfig.getAdder(type.getDatumName()), null, type.equals(GvLocation.TYPE));
         }
     }
 
-    private int getImageRequestCode() {
-        return getAdderConfig(GvImage.TYPE).getDefaultRequestCode();
+    private <T extends GvDataParcelable> void showQuickSetLaunchable(LaunchableConfig config, @Nullable T datum, boolean packLatLng) {
+        Bundle args = packData(datum, packLatLng);
+        config.launch(new UiLauncherArgs(config.getDefaultRequestCode()).setBundle(args));
     }
 
-    private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
-        return mConfig.getAdder(dataType.getDatumName());
-    }
-
-    private <T extends GvData> LaunchableConfig getEditorConfig(GvDataType<T> dataType) {
-        return mConfig.getEditor(dataType.getDatumName());
-    }
-
-    private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
+    @NonNull
+    private <T extends GvDataParcelable> Bundle packData(@Nullable T datum, boolean packLatLng) {
         Bundle args = new Bundle();
-        args.putBoolean(DataConfigs.Adder.QUICK_SET, true);
-        packLatLng(args);
-        adderConfig.launch(new UiLauncherArgs(adderConfig.getDefaultRequestCode()).setBundle(args));
+        args.putBoolean(ReviewBuilderSuite.QUICK_ADD, true);
+
+        if(isQuickReview()) args.putBoolean(ReviewBuilderSuite.QUICK_REVIEW, true);
+        if(datum != null) {
+            ParcelablePacker<T> packer = new ParcelablePacker<>();
+            packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, datum, args);
+        }
+        if(packLatLng) packLatLng(args);
+
+        return args;
     }
 
     private void packLatLng(Bundle args) {
@@ -156,13 +175,5 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
         args.putParcelable(AddLocation.LATLNG, latLng);
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ActivityResultCode result = ActivityResultCode.get(resultCode);
-        boolean imageRequested = requestCode == getImageRequestCode();
-        if (imageRequested && mImageChooser.chosenImageExists(result, data)) {
-            mImageChooser.getChosenImage(this);
-        }
     }
 }

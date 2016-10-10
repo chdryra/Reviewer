@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 
@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * @param <T>: {@link GvData} type
  */
 public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutBasic<T>
-        implements AddEditLayout<T> {
+        implements DatumLayoutEdit<T> {
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
@@ -110,7 +110,7 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
         @Override
         public void initialise(T data) {
             mEditor.setKeyboardAction(getEditTextForKeyboardAction());
-            mEditor.setDeleteConfirmTitle(data.getStringSummary());
+            mEditor.setDeleteTitle(data.getStringSummary());
             updateLayout(data);
         }
 

@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
 public abstract class DialogGvDataView<T extends GvDataParcelable> extends DialogOneButtonFragment
         implements LaunchableUi {
     private final GvDataType<T> mDataType;
-    private DialogLayout<T> mLayout;
+    private DatumLayoutView<T> mLayout;
     private T mDatum;
 
     DialogGvDataView(GvDataType<T> dataType) {
@@ -76,7 +76,7 @@ public abstract class DialogGvDataView<T extends GvDataParcelable> extends Dialo
                 = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().getApi();
         FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), api);
         //TODO make type safe
-        mLayout = (DialogLayout<T>) layoutFactory.newLayout(mDatum.getGvDataType());
+        mLayout = (DatumLayoutView<T>) layoutFactory.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), getArguments());
     }
 

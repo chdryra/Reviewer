@@ -98,18 +98,17 @@ public class DialogReviewOptions extends DialogOneButtonFragment implements
         final Command shareCommand = factory.newShareCommand(repo, reviewId, screen, sharer, app.getSocial().getTagsManager());
         final Command copyCommand = factory.newCopyCommand(ui.getLauncher(), reviewId, screen);
 
-        final Command.ExecutionListener listener = this;
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareCommand.execute(SHARE, listener);
+                shareCommand.execute(SHARE, DialogReviewOptions.this);
             }
         });
 
         another.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                copyCommand.execute(COPY, listener);
+                copyCommand.execute(COPY, DialogReviewOptions.this);
             }
         });
 
@@ -118,7 +117,7 @@ public class DialogReviewOptions extends DialogOneButtonFragment implements
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    deleteCommand.execute(DELETE, listener);
+                    deleteCommand.execute(DELETE, DialogReviewOptions.this);
                 }
             });
         } else {

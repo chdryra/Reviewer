@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 
@@ -21,6 +22,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  */
 
 public interface ReviewBuilderSuite {
+    String QUICK_ADD = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickAdd");
+    String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickReview");
+
     ReviewEditor<?> newReviewEditor(ReviewEditor.GridUiType uiType, LocationClient client, @Nullable Review template);
 
     ReviewEditor<?> getReviewEditor();

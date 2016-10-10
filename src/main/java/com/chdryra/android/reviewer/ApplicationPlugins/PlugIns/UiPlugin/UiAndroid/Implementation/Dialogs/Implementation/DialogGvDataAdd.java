@@ -15,17 +15,18 @@ import android.widget.EditText;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -37,11 +38,11 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     private static final int ADD = R.string.add;
 
     private final GvDataType<T> mDataType;
-    private AddEditLayout<T> mLayout;
+    private DatumLayoutEdit<T> mLayout;
     private ReviewDataEditor<T> mBuilder;
     private DataAddListener<T> mAddListener;
 
-    private boolean mQuickSet = false;
+    private boolean mQuickAdd = false;
 
     public DialogGvDataAdd(GvDataType<T> dataType) {
         mDataType = dataType;
@@ -51,8 +52,8 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         return mDataType;
     }
 
-    private boolean isQuickSet() {
-        return mQuickSet && mBuilder != null;
+    private boolean isQuickAdd() {
+        return mQuickAdd && mBuilder != null;
     }
 
     @Override
@@ -80,7 +81,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     protected void onAddButtonClick() {
         T newDatum = mLayout.createGvDataFromInputs();
 
-        boolean added = isQuickSet() ? mBuilder.add(newDatum) :
+        boolean added = isQuickAdd() ? mBuilder.add(newDatum) :
                 newDatum.isValidForDisplay() && mAddListener.onAdd(newDatum, getTargetRequestCode());
 
         if (added) mLayout.onAdd(newDatum);
@@ -96,13 +97,20 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         super.onCreate(savedInstanceState);
         setLayout();
         setIsQuickSet();
+        setIsQuickReview();
         setDialogTitle();
+    }
+
+    private void setIsQuickReview() {
+        Bundle args = getArguments();
+        boolean quickReview = args != null && args.getBoolean(ReviewBuilderSuite.QUICK_REVIEW);
+        if(quickReview && !mDataType.equals(GvTag.TYPE)) setHideMiddleButton();
     }
 
     private void setIsQuickSet() {
         Bundle args = getArguments();
-        mQuickSet = args != null && args.getBoolean(DataConfigs.Adder.QUICK_SET);
-        if (!mQuickSet) {
+        mQuickAdd = args != null && args.getBoolean(ReviewBuilderSuite.QUICK_ADD);
+        if (!mQuickAdd) {
             //TODO make type safe
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
@@ -128,7 +136,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     @Override
     protected void onCancelButtonClick() {
-        if (isQuickSet()) {
+        if (isQuickAdd()) {
             mBuilder.resetData();
         } else {
             mAddListener.onCancel(getTargetRequestCode());
@@ -137,7 +145,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     @Override
     protected void onDoneButtonClick() {
-        if (isQuickSet()) {
+        if (isQuickAdd()) {
             mBuilder.commitData();
         } else {
             mAddListener.onDone(getTargetRequestCode());

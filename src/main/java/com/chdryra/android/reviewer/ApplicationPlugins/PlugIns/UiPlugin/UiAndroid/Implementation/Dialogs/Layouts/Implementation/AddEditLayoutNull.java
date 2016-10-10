@@ -16,8 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -25,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 05/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditLayoutNull<T extends GvData> implements AddEditLayout<T> {
+public class AddEditLayoutNull<T extends GvData> implements DatumLayoutEdit<T> {
     private Context mContext;
     private T mNullData;
 

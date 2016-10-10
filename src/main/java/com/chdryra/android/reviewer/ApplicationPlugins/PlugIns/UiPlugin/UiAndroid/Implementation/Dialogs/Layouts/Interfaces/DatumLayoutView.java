@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -20,14 +21,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 24/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DialogLayout<T extends GvData> {
+public interface DatumLayoutView<T extends GvData> {
     View getView(int viewId);
 
     void onActivityAttached(Activity activity, Bundle args);
 
     void onActivityStopped();
 
-    View createLayoutUi(Context context, T data);
+    View createLayoutUi(Context context, @Nullable T data);
 
     void initialise(T data);
 

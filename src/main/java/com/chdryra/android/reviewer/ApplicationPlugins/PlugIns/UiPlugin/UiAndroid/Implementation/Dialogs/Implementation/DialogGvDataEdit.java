@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,14 +16,17 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.R;
@@ -45,17 +49,15 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
     private static final int EDIT = R.string.edit;
 
     private final GvDataType<T> mDataType;
-    private AddEditLayout<T> mLayout;
+    private DatumLayoutEdit<T> mLayout;
+    private ReviewDataEditor<T> mEditor;
+    private DataEditListener<T> mListener;
     private T mDatum;
-    private DataEditListener<T> mDataEditListener;
+
+    private boolean mQuickSet = false;
 
     public DialogGvDataEdit(GvDataType<T> dataType) {
         mDataType = dataType;
-    }
-
-    @Override
-    protected Intent getReturnData() {
-        return null;
     }
 
     @Override
@@ -74,13 +76,18 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
     }
 
     @Override
-    public void setDeleteConfirmTitle(String title) {
+    public void setDeleteTitle(String title) {
         setDeleteWhatTitle(title);
     }
 
     @Override
     protected void onConfirmedDeleteButtonClick() {
-        mDataEditListener.onDelete(mDatum, getTargetRequestCode());
+        if(isQuickSet()) {
+            mEditor.delete(mDatum);
+            mEditor.commitData();
+        } else {
+            mListener.onDelete(mDatum, getTargetRequestCode());
+        }
     }
 
     @Override
@@ -97,14 +104,36 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayout();
-        getDatumToEdit();
-        getTargetListener();
+        setIsQuickSet();
         setDialogTitle();
+        getDatumToEdit();
     }
 
-    private void getTargetListener() {
-        //TODO make type safe
-        mDataEditListener = (DataEditListener<T>) getTargetListenerOrThrow(DataEditListener.class);
+    @Override
+    protected void onDoneButtonClick() {
+        T newDatum = mLayout.createGvDataFromInputs();
+        if(isQuickSet()) {
+            if(!mDatum.equals(newDatum)) mEditor.replace(mDatum, newDatum);
+            mEditor.commitData();
+        } else {
+            mListener.onEdit(mDatum, newDatum, getTargetRequestCode());
+        }
+    }
+
+    private boolean isQuickSet() {
+        return mQuickSet && mEditor != null;
+    }
+
+    private void setIsQuickSet() {
+        Bundle args = getArguments();
+        mQuickSet = args != null && args.getBoolean(ReviewBuilderSuite.QUICK_ADD);
+        if (!mQuickSet) {
+            //TODO make type safe
+            mListener = (DataEditListener<T>) getTargetListenerOrThrow(DataEditListener.class);
+        } else {
+            ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
+            mEditor = app.getReviewBuilder().getReviewEditor().newDataEditor(mDataType);
+        }
     }
 
     private void getDatumToEdit() {
@@ -113,8 +142,10 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
     }
 
     private void setLayout() {
-        LocationServicesApi services = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().getApi();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), services);
+        LocationServicesApi services = AppInstanceAndroid.getInstance(getActivity())
+                .getLocationServices().getApi();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new
+                DefaultLayoutConfig(), services);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }
@@ -132,8 +163,9 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
         return getString(EDIT);
     }
 
+
     @Override
-    protected void onDoneButtonClick() {
-        mDataEditListener.onEdit(mDatum, mLayout.createGvDataFromInputs(), getTargetRequestCode());
+    protected Intent getReturnData() {
+        return null;
     }
 }

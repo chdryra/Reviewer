@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +27,12 @@ public abstract class ConfigDialogLayouts {
     private final Map<GvDataType<?>, ConfigLayout<?>> mMap = new HashMap<>();
 
     @Nullable
-    public <T extends GvData> Class<? extends AddEditLayout<T>> getAddEditLayoutClass(GvDataType<T> dataType) {
+    public <T extends GvData> Class<? extends DatumLayoutEdit<T>> getAddEditLayoutClass(GvDataType<T> dataType) {
         return getLayouts(dataType).getAddEditLayoutClass();
     }
 
     @Nullable
-    public <T extends GvData> Class<? extends DialogLayout<T>> getViewLayoutClass(GvDataType<T> dataType) {
+    public <T extends GvData> Class<? extends DatumLayoutView<T>> getViewLayoutClass(GvDataType<T> dataType) {
         return getLayouts(dataType).getViewLayoutClass();
     }
 
@@ -42,8 +42,8 @@ public abstract class ConfigDialogLayouts {
     }
 
     <T extends GvData> void add(GvDataType<T> dataType,
-                                @Nullable Class<? extends AddEditLayout<T>> addEditClass,
-                                @Nullable Class<? extends DialogLayout<T>> viewClass) {
+                                @Nullable Class<? extends DatumLayoutEdit<T>> addEditClass,
+                                @Nullable Class<? extends DatumLayoutView<T>> viewClass) {
         mMap.put(dataType, new ConfigLayout<>(dataType, addEditClass, viewClass));
     }
 
@@ -54,11 +54,11 @@ public abstract class ConfigDialogLayouts {
      */
     private static class ConfigLayout<T extends GvData> {
         private final GvDataType<T> mDataType;
-        private final Class<? extends AddEditLayout<T>> mAddEditLayoutClass;
-        private final Class<? extends DialogLayout<T>> mViewLayoutClass;
+        private final Class<? extends DatumLayoutEdit<T>> mAddEditLayoutClass;
+        private final Class<? extends DatumLayoutView<T>> mViewLayoutClass;
 
-        private ConfigLayout(GvDataType<T> dataType, @Nullable Class<? extends AddEditLayout<T>>
-                addEditLayoutClass, @Nullable Class<? extends DialogLayout<T>> viewLayoutClass) {
+        private ConfigLayout(GvDataType<T> dataType, @Nullable Class<? extends DatumLayoutEdit<T>>
+                addEditLayoutClass, @Nullable Class<? extends DatumLayoutView<T>> viewLayoutClass) {
             mDataType = dataType;
             mAddEditLayoutClass = addEditLayoutClass;
             mViewLayoutClass = viewLayoutClass;
@@ -69,12 +69,12 @@ public abstract class ConfigDialogLayouts {
         }
 
         @Nullable
-        public Class<? extends AddEditLayout<T>> getAddEditLayoutClass() {
+        public Class<? extends DatumLayoutEdit<T>> getAddEditLayoutClass() {
             return mAddEditLayoutClass;
         }
 
         @Nullable
-        public Class<? extends DialogLayout<T>> getViewLayoutClass() {
+        public Class<? extends DatumLayoutView<T>> getViewLayoutClass() {
             return mViewLayoutClass;
         }
     }

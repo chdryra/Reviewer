@@ -23,10 +23,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .Dialogs.Layouts.Implementation.AddEditLayoutNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -56,19 +54,19 @@ public class FactoryDialogLayout {
     }
 
     @Nullable
-    public <T extends GvData> AddEditLayout<T> newLayout
+    public <T extends GvData> DatumLayoutEdit<T> newLayout
     (GvDataType<T> dataType, GvDataAdder adder) {
         if(dataType == GvLocation.TYPE) {
             //TODO make type safe
-            return (AddEditLayout<T>) new AddLocation(adder, mServices);
+            return (DatumLayoutEdit<T>) new AddLocation(adder, mServices);
         }
 
         try {
-            Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
 
             if(addEditLayout == null) return newNullLayout(dataType);
 
-            Constructor<? extends AddEditLayout<T>> ctor
+            Constructor<? extends DatumLayoutEdit<T>> ctor
                     = addEditLayout.getDeclaredConstructor(GvDataAdder.class);
             try {
                 return ctor.newInstance(adder);
@@ -90,7 +88,7 @@ public class FactoryDialogLayout {
     }
 
     @NonNull
-    private <T extends GvData> AddEditLayout<T> newNullLayout(GvDataType<T> dataType) {
+    private <T extends GvData> DatumLayoutEdit<T> newNullLayout(GvDataType<T> dataType) {
         try {
             return new AddEditLayoutNull<>(mContext, dataType.getDataClass().newInstance());
         } catch (InstantiationException e) {
@@ -102,15 +100,14 @@ public class FactoryDialogLayout {
         }
     }
 
-    @Nullable
-    public <T extends GvData> AddEditLayout<T> newLayout
+    public <T extends GvData> DatumLayoutEdit<T> newLayout
             (GvDataType<T> dataType, GvDataEditor editor) {
         try {
-            Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
 
             if(addEditLayout == null) return newNullLayout(dataType);
 
-            Constructor<? extends AddEditLayout<T>> ctor =
+            Constructor<? extends DatumLayoutEdit<T>> ctor =
                     addEditLayout.getDeclaredConstructor(GvDataEditor.class);
             try {
                 return ctor.newInstance(editor);
@@ -132,10 +129,10 @@ public class FactoryDialogLayout {
     }
 
     @Nullable
-    public <T extends GvData> DialogLayout<T> newLayout
+    public <T extends GvData> DatumLayoutView<T> newLayout
             (GvDataType<T> dataType) {
         try {
-            Class<? extends DialogLayout<T>> viewClass = mConfig.getViewLayoutClass(dataType);
+            Class<? extends DatumLayoutView<T>> viewClass = mConfig.getViewLayoutClass(dataType);
             return viewClass != null ? viewClass.newInstance() : newNullLayout(dataType);
         } catch (InstantiationException e) {
             Log.e(TAG, "Problem constructing edit dialog for " + dataType.getDatumName(), e);

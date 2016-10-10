@@ -18,5 +18,5 @@ import android.widget.EditText;
 public interface GvDataEditor {
     void setKeyboardAction(EditText editText);
 
-    void setDeleteConfirmTitle(String title);
+    void setDeleteTitle(String title);
 }
