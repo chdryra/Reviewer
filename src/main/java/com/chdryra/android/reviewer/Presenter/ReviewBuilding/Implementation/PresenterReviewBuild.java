@@ -55,7 +55,7 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
             ReviewEditor<?> editor = builder.getReviewEditor();
             if (editor == null) {
                 LocationClient client = app.getLocationServices().newLocationClient();
-                editor = builder.newReviewEditor(Settings.BuildReview.DEFAULT_UI, client, mTemplate);
+                editor = builder.newReviewEditor(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mTemplate);
             }
 
             return new PresenterReviewBuild<>(editor);

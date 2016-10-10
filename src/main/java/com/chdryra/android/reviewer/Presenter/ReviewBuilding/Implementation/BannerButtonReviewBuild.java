@@ -23,24 +23,24 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 
 public class BannerButtonReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         extends BannerButtonActionNone<GC> {
-    private static final ReviewEditor.GridUiType FULL = ReviewEditor.GridUiType.FULL;
-    private static final ReviewEditor.GridUiType QUICK = ReviewEditor.GridUiType.QUICK;
+    private static final ReviewEditor.EditMode FULL = ReviewEditor.EditMode.FULL;
+    private static final ReviewEditor.EditMode QUICK = ReviewEditor.EditMode.QUICK;
 
-    private ReviewEditor.GridUiType mType;
+    private ReviewEditor.EditMode mMode;
 
-    public BannerButtonReviewBuild(ReviewEditor.GridUiType type) {
-        mType = type;
-        setTitle(mType.getLabel());
+    public BannerButtonReviewBuild(ReviewEditor.EditMode mode) {
+        mMode = mode;
+        setTitle(mMode.getLabel());
     }
 
     @Override
     public void onClick(View v) {
-        mType = mType == FULL ? QUICK : FULL;
-        setTitle(mType.getLabel());
+        mMode = mMode == FULL ? QUICK : FULL;
+        setTitle(mMode.getLabel());
         notifyListeners();
     }
 
-    public ReviewEditor.GridUiType getUiType() {
-        return mType;
+    public ReviewEditor.EditMode getEditMode() {
+        return mMode;
     }
 }

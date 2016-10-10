@@ -47,5 +47,5 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
     @Override
     GvDataType<GC> getGvDataType();
 
-    void setView(ReviewEditor.GridUiType uiType);
+    void setView(ReviewEditor.EditMode uiType);
 }

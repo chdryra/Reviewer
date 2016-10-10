@@ -24,12 +24,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataTypes;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +54,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private final DataValidator mDataValidator;
     private FileIncrementor mIncrementor;
     private GvTag mSubjectTag;
-    private ReviewEditor.GridUiType mUiType = ReviewEditor.GridUiType.QUICK;
+    private ReviewEditor.EditMode mUiType = ReviewEditor.EditMode.QUICK;
 
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
                                     BuildScreenGridUi<GC> fullGridUi,
@@ -122,9 +120,11 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public void setSubject(String subject) {
-        mBuilder.setSubject(subject);
-        newIncrementor();
-        mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
+        if(!mBuilder.getSubject().equals(subject)) {
+            mBuilder.setSubject(subject);
+            newIncrementor();
+            mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
+        }
     }
 
     @Override
@@ -162,13 +162,13 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public void setView(ReviewEditor.GridUiType uiType) {
+    public void setView(ReviewEditor.EditMode uiType) {
         mUiType = uiType;
         notifyDataObservers();
     }
 
     private BuildScreenGridUi<GC> getGridUi() {
-        return mUiType == ReviewEditor.GridUiType.QUICK ? mQuickGridUi : mFullGridUi;
+        return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
     }
 
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {

@@ -39,13 +39,13 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         }
     }
 
-    enum GridUiType {
+    enum EditMode {
         FULL(Strings.FULL_REVIEW),
         QUICK(Strings.QUICK_REVIEW);
 
         private String mLabel;
 
-        GridUiType(String label) {
+        EditMode(String label) {
             mLabel = label;
         }
 
@@ -56,6 +56,10 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
 
     interface BuildListener {
         void onReviewBuilt();
+    }
+
+    interface ModeListener {
+        void onEditMode(EditMode mode);
     }
 
     void setSubject();
@@ -76,7 +80,13 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
 
     Review buildReview();
 
+    EditMode getEditMode();
+
     void registerListener(BuildListener listener);
 
     void unregisterListener(BuildListener listener);
+
+    void registerListener(ModeListener listener);
+
+    void unregisterListener(ModeListener listener);
 }

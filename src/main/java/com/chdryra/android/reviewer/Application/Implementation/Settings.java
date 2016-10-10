@@ -18,6 +18,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
 
 public class Settings {
     public static class BuildReview {
-        public static final ReviewEditor.GridUiType DEFAULT_UI = ReviewEditor.GridUiType.QUICK;
+        public static final ReviewEditor.EditMode DEFAULT_EDIT_MODE = ReviewEditor.EditMode.QUICK;
     }
 }

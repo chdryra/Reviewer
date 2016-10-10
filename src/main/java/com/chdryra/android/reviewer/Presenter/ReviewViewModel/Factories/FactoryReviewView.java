@@ -84,8 +84,8 @@ public class FactoryReviewView {
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
-    newEditor(ReviewEditor.GridUiType uiType, LocationClient locationClient, @Nullable Review template) {
-        return mFactoryReviewEditor.newEditor(mConfig, getUiLauncher(), uiType, locationClient, template);
+    newEditor(ReviewEditor.EditMode editMode, LocationClient locationClient, @Nullable Review template) {
+        return mFactoryReviewEditor.newEditor(mConfig, getUiLauncher(), editMode, locationClient, template);
     }
 
     public ReviewViewNode newFeedView(ReviewNode node) {

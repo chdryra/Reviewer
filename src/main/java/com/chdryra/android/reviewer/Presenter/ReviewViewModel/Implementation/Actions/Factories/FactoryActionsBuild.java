@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuBuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -40,18 +40,18 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     private UiConfig mConfig;
     private UiLauncher mLauncher;
     private LocationClient mLocationClient;
-    private ReviewEditor.GridUiType mUiType;
+    private ReviewEditor.EditMode mEditMode;
 
     public FactoryActionsBuild(GvDataType<GC> dataType,
                                UiConfig config,
                                UiLauncher launcher,
-                               ReviewEditor.GridUiType uiType,
+                               ReviewEditor.EditMode editMode,
                                LocationClient locationClient) {
         super(dataType);
         mConfig = config;
         mLauncher = launcher;
         mLocationClient = locationClient;
-        mUiType = uiType;
+        mEditMode = editMode;
     }
 
     @Override
@@ -66,17 +66,17 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public BannerButtonAction<GC> newBannerButton() {
-        return new BannerButtonReviewBuild<>(mUiType);
+        return new BannerButtonReviewBuild<>(mEditMode);
     }
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildReview<>(mConfig, mLauncher, mUiType, mLocationClient);
+        return new GridItemBuildReview<>(mConfig, mLauncher, mEditMode, mLocationClient);
     }
 
     @Override
     public MenuAction<GC> newMenu() {
-        return new MenuBuildScreen<>(Strings.Screens.BUILD);
+        return new MenuReviewBuild<>(Strings.Screens.BUILD);
     }
 
     @Nullable

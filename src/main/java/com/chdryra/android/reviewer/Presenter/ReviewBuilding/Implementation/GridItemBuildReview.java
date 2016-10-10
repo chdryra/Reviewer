@@ -49,9 +49,9 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
-    private ReviewEditor.GridUiType mUiType;
+    private ReviewEditor.EditMode mUiType;
 
-    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.GridUiType
+    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.EditMode
             uiType, LocationClient locationClient) {
         mConfig = config;
         mLauncher = launcher;
@@ -59,7 +59,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         mLocationClient = locationClient;
     }
 
-    public void setView(ReviewEditor.GridUiType uiType) {
+    public void setView(ReviewEditor.EditMode uiType) {
         mUiType = uiType;
     }
 
@@ -110,7 +110,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private boolean isQuickReview() {
-        return mUiType == ReviewEditor.GridUiType.QUICK;
+        return mUiType == ReviewEditor.EditMode.QUICK;
     }
 
     private int getImageRequestCode() {

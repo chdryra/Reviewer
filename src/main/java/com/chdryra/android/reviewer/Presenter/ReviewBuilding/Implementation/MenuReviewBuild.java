@@ -22,19 +22,22 @@ import com.chdryra.android.reviewer.R;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> extends MenuActionNone<GC> {
+public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
+        extends MenuActionNone<GC> implements ReviewEditor.ModeListener{
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
+    private MenuActionItem<GC> mAverageRating;
 
-    public MenuBuildScreen(String title) {
+    public MenuReviewBuild(String title) {
         super(MENU, title, true);
+        mAverageRating = new DoAverageRating();
     }
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(new DoAverageRating(), MENU_AVERAGE_ID, false);
+        bindMenuActionItem(mAverageRating, MENU_AVERAGE_ID, false);
     }
 
     @Override
@@ -45,12 +48,34 @@ public class MenuBuildScreen<GC extends GvDataList<? extends GvDataParcelable>> 
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
+
+        mEditor.registerListener(this);
+    }
+
+    @Override
+    public void onDetachReviewView() {
+        super.onDetachReviewView();
+        mEditor.unregisterListener(this);
     }
 
     @Override
     protected void doUpSelected() {
         getReviewView().getApp().getReviewBuilder().discardReviewEditor();
         super.doUpSelected();
+    }
+
+    @Override
+    protected void onMenuInflated() {
+        onEditMode(mEditor.getEditMode());
+    }
+
+    @Override
+    public void onEditMode(ReviewEditor.EditMode mode) {
+        MenuItem item = getItem(mAverageRating);
+        if(item != null) {
+            //item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
+            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        }
     }
 
     private class DoAverageRating extends MenuActionItemBasic<GC> {

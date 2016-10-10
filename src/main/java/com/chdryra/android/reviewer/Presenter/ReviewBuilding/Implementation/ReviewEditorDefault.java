@@ -43,9 +43,12 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryReviewDataEditor mEditorFactory;
     private final BannerButtonReviewBuild<GC> mBannerButton;
     private final GridItemBuildReview<GC> mGridItem;
-    private final ArrayList<BuildListener> mListeners;
+    private final ArrayList<BuildListener> mBuildListeners;
+    private final ArrayList<ModeListener> mModeListeners;
 
     private ReviewViewContainer mContainer;
+    private EditMode mEditMode = EditMode.QUICK;
+
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
                                ReviewViewParams params,
@@ -55,7 +58,8 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mEditorFactory = editorFactory;
         mBannerButton = (BannerButtonReviewBuild<GC>) actions.getBannerButtonAction();
         mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
-        mListeners = new ArrayList<>();
+        mBuildListeners = new ArrayList<>();
+        mModeListeners = new ArrayList<>();
     }
 
     @Override
@@ -134,13 +138,19 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public Review buildReview() {
         Review review = mAdapter.buildReview();
-        notifyListeners();
+        notifyBuildListeners();
         return review;
     }
 
-    private void notifyListeners() {
-        for(BuildListener listener : mListeners) {
+    private void notifyBuildListeners() {
+        for(BuildListener listener : mBuildListeners) {
             listener.onReviewBuilt();
+        }
+    }
+
+    private void notifyModeListeners() {
+        for(ModeListener listener : mModeListeners) {
+            listener.onEditMode(mEditMode);
         }
     }
 
@@ -151,22 +161,38 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void registerListener(BuildListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if(!mBuildListeners.contains(listener)) mBuildListeners.add(listener);
     }
 
     @Override
     public void unregisterListener(BuildListener listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
+        if(mBuildListeners.contains(listener)) mBuildListeners.remove(listener);
+    }
+
+    @Override
+    public void registerListener(ModeListener listener) {
+        if(!mModeListeners.contains(listener)) mModeListeners.add(listener);
+    }
+
+    @Override
+    public void unregisterListener(ModeListener listener) {
+        if(mModeListeners.contains(listener)) mModeListeners.remove(listener);
     }
 
     @Override
     public void onClick() {
         setView();
+        notifyModeListeners();
+    }
+
+    @Override
+    public EditMode getEditMode() {
+        return mEditMode;
     }
 
     private void setView() {
-        GridUiType uiType = mBannerButton.getUiType();
-        mAdapter.setView(uiType);
-        mGridItem.setView(uiType);
+        mEditMode = mBannerButton.getEditMode();
+        mAdapter.setView(mEditMode);
+        mGridItem.setView(mEditMode);
     }
 }

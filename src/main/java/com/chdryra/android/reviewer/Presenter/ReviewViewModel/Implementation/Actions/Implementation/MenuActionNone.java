@@ -82,6 +82,11 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onInflateMenu();
         }
+        onMenuInflated();
+    }
+
+    protected void onMenuInflated() {
+
     }
 
     @Override
