@@ -20,7 +20,7 @@ import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
@@ -52,7 +52,7 @@ import org.jetbrains.annotations.NotNull;
  * </p>
  */
 public class FragmentViewLocation extends Fragment implements
-        LocationClientConnector.Locatable {
+        LocationClientGoogle.Locatable {
     private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
     private static final float DEFAULT_ZOOM = 15;
 

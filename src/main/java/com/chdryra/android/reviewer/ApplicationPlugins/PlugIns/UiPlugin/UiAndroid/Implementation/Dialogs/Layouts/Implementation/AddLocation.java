@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddLocation extends AddEditLayoutBasic<GvLocation>
-        implements LocationClientConnector.Locatable,
+        implements LocationClientGoogle.Locatable,
         NearestPlacesSuggester.NearestPlacesListener,
         LocationDetailsFetcher.LocationDetailsListener {
     private static final int LAYOUT = R.layout.dialog_location_add;

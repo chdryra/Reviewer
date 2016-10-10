@@ -55,7 +55,7 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     @Override
     public void setRatingIsAverage(boolean isAverage) {
         mRatingIsAverage = isAverage;
-        if(isAverage) setRating(mBuilder.getAverageRating(), false);
+        if(isAverage) setRating(mBuilder.getCriteriaAverage(), false);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
             mBuilder.setSubject(containerSubject);
         }
         mBuilder.setRatingIsAverage(mRatingIsAverage);
-        mBuilder.setRating(getContainerRating());
+        mBuilder.setRating(mRatingIsAverage ? mBuilder.getCriteriaAverage() : getContainerRating());
         mBuilder.commitData();
     }
 

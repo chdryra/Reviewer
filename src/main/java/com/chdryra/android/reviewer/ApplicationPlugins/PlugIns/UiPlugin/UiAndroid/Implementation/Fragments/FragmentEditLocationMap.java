@@ -41,7 +41,7 @@ import android.widget.SimpleCursorAdapter;
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
@@ -77,7 +77,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
-        LocationClientConnector.Locatable,
+        LocationClientGoogle.Locatable,
         AddressesSuggester.AddressSuggestionsListener,
         PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback {
 

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
         .LocationServicesApi;
@@ -37,7 +37,7 @@ public class LocationServicesSuiteAndroid implements LocationServicesSuite {
 
     @Override
     public LocationClient newLocationClient() {
-        return new LocationClientConnector(mActivity);
+        return new LocationClientGoogle(mActivity);
     }
 
     public void setActivity(Activity activity) {

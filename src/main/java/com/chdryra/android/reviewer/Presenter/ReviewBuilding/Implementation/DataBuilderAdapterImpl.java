@@ -60,7 +60,7 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public float getAverageRating() {
+    public float getCriteriaAverage() {
         if (mType.equals(GvCriterion.TYPE)) {
             return ((GvCriterionList) getGridData()).getAverageRating();
         } else {

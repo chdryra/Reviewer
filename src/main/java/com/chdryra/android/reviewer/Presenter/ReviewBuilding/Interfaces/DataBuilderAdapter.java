@@ -21,9 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewViewAdapter<T>{
     ReviewBuilderAdapter<?> getParentBuilder();
 
-    boolean isRatingAverage();
-
-    float getAverageRating();
+    float getCriteriaAverage();
 
     boolean add(T datum);
 
@@ -36,6 +34,8 @@ public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewVi
     void commitData();
 
     void resetData();
+
+    boolean isRatingAverage();
 
     void setRatingIsAverage(boolean ratingIsAverage);
 

@@ -96,7 +96,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     @Override
     public void setRating(float rating) {
-        if (!isRatingAverage()) mRating = rating;
+        mRating = rating;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
-        if (ratingIsAverage) mRating = getAverageRating();
+        if (ratingIsAverage) setRating(getAverageRating());
     }
 
     @Override

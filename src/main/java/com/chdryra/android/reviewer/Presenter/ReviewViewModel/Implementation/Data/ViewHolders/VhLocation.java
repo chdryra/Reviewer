@@ -26,7 +26,7 @@ public class VhLocation extends VhText {
             public String getString(ViewHolderData data) {
                 GvLocation location = (GvLocation) data;
                 String name = location != null ? location.getShortenedName() : null;
-                return name != null ? name : "";
+                return name != null ? "@" + name : "";
             }
         });
     }
