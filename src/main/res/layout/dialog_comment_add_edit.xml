@@ -5,13 +5,42 @@
   ~ rizwan.choudrey@gmail.com
   ~
   -->
+<LinearLayout
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-<EditText
-    android:id="@+id/comment_edit_text"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="top"
-    android:hint="@string/edit_text_add_comment_hint"
-    android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-    android:minLines="5"/>
+    <EditText
+        android:id="@+id/comment_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:hint="@string/edit_text_add_comment_hint"
+        android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+        android:minLines="7"/>
+
+
+    <LinearLayout
+        style="@style/LineaLayoutHorizontal.WrappedVertical"
+        android:id="@+id/comment_edit_buttons">
+
+        <Button
+            style="@style/Button.Narrow"
+            android:id="@+id/comment_edit_left"
+            android:layout_weight="1"/>
+
+        <View style="@style/VerticalDivider"/>
+
+        <Button
+            style="@style/Button.Narrow"
+            android:id="@+id/comment_edit_middle"
+            android:layout_weight="1"/>
+
+        <View style="@style/VerticalDivider"/>
+
+        <Button
+            style="@style/Button.Narrow"
+            android:id="@+id/comment_edit_right"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

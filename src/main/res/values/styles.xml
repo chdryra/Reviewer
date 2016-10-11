@@ -98,9 +98,16 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="Button.Narrow">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
+
+
     <style name="Button.LeftLabel">
         <item name="android:gravity">left|center_vertical</item>
     </style>
+
 
     <!-- TextViews -->
     <style name="TextViewGridCell">

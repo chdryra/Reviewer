@@ -22,12 +22,12 @@ public class Strings {
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "published review?";
-        public static final String GOTO_REVIEW = "Go to review?";
         public static final String NEW_USER = "Looks like you're a new user?";
     }
 
     public static class Dialogs {
-        public static final String FIND_AUTHOR = "Find author";
+        public static final String ADD = "Add";
+        public static final String EDIT = "Edit";
     }
 
     public static class Toasts {
@@ -70,8 +70,13 @@ public class Strings {
         public static final String SEARCH = "search";
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
-        public static final String BUILD_SCREEN_BANNER = "details";
         public static final String ADD = "add";
+
+        public static class CommentEdit {
+            public static final String EQUALS = "=";
+            public static final String STAR = "*";
+            public static final String HASHTAG = "#";
+        }
     }
 
     public static class EditTexts {

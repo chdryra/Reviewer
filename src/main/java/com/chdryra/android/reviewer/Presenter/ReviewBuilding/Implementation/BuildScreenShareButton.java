@@ -50,6 +50,6 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
 
     @Override
     public String getButtonTitle() {
-        return Strings.Screens.SHARE;
+        return Strings.Buttons.SHARE;
     }
 }

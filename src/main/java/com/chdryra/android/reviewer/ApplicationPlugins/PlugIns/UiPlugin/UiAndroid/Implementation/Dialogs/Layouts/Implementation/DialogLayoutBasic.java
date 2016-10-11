@@ -38,7 +38,12 @@ public abstract class DialogLayoutBasic<T extends GvData> implements DatumLayout
     public View createLayoutUi(Context context, @Nullable T data) {
         mHolder.inflate(context);
         if(data != null) initialise(data);
+        onLayoutInflated();
         return mHolder.getView();
+    }
+
+    protected void onLayoutInflated() {
+
     }
 
     @Override
