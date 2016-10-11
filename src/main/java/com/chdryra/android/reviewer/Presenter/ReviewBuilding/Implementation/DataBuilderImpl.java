@@ -30,9 +30,9 @@ import java.util.ArrayList;
 public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
-    private final ArrayList<DataBuilderObserver> mObservers;
-    
-    private GvDataList<T> mResetData;
+    private final ArrayList<BuildListener> mObservers;
+
+    private GvDataList<T> mOriginalData;
     private GvDataList<T> mData;
     private final FactoryGvData mCopier;
 
@@ -53,7 +53,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
         mAddConstraint = addConstraint;
         mReplaceConstraint = replaceConstraint;
         mObservers = new ArrayList<>();
-        mResetData = data;
+        mOriginalData = data;
         mCopier = copier;
         resetData();
     }
@@ -100,8 +100,8 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     }
 
     @Override
-    public void delete(T data) {
-        mData.remove(data);
+    public boolean delete(T data) {
+        return mData.remove(data);
     }
 
     @Override
@@ -111,21 +111,30 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
 
     @Override
     public void resetData() {
-        mData = mCopier.copy(mResetData);
+        mData = mCopier.copy(mOriginalData);
     }
 
     @Override
-    public void registerObserver(DataBuilderObserver observer) {
-        mObservers.add(observer);
+    public void registerListener(BuildListener observer) {
+        if(!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterListener(BuildListener observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     @Override
     public void buildData() {
-        mResetData = mData;
-        for(DataBuilderObserver observer : mObservers) {
-            observer.onDataPublished(this);
+        mOriginalData = mData;
+        for(BuildListener observer : mObservers) {
+            observer.onDataBuilt();
         }
         resetData();
+    }
+
+    GvDataList<T> getOriginalData() {
+        return mOriginalData;
     }
 
     private boolean isValid(T datum) {

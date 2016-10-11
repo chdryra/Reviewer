@@ -9,9 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -20,7 +17,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
@@ -31,7 +27,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,27 +40,22 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     private String mSubject;
     private float mRating;
-    private ArrayList<ReviewBuilderImpl> mChildren;
     private boolean mIsAverage = false;
 
-    private final ConverterGv mConverter;
     private final TagsManager mTagsManager;
     private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
     private final DataValidator mDataValidator;
 
     //Constructors
-    public ReviewBuilderImpl(ConverterGv converter,
-                             TagsManager tagsManager,
+    public ReviewBuilderImpl(TagsManager tagsManager,
                              FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
                              DataValidator dataValidator) {
-        mConverter = converter;
         mTagsManager = tagsManager;
         mReviewFactory = reviewFactory;
         mDataValidator = dataValidator;
 
-        mChildren = new ArrayList<>();
         mDataBuilders = new HashMap<>();
         mDataBuilderFactory = dataBuilderFactory;
 
@@ -113,20 +103,14 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     @Override
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
-        DataBuilder builder = mDataBuilders.get(dataType);
-        if(builder == null) builder = createDataBuilder(dataType);
         //TODO make type safe
+        DataBuilder<T> builder = (DataBuilder<T>) mDataBuilders.get(dataType);
+        if(builder == null) builder = createDataBuilder(dataType);
         return builder;
     }
 
     private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return getDataBuilder(dataType).getData();
-    }
-
-    @Override
-    public <T extends GvData> void onDataPublished(DataBuilder<T> dataBuilder) {
-        GvDataType<T> dataType = dataBuilder.getGvDataType();
-        if (dataType.equals(GvCriterion.TYPE)) setCriteria(dataBuilder.getData());
     }
 
     @Override
@@ -150,7 +134,14 @@ public class ReviewBuilderImpl implements ReviewBuilder {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        Review review = assembleReview();
+        Review review = mReviewFactory.createUserReview(getSubject(), getRating(),
+                getData(GvCriterion.TYPE),
+                getData(GvComment.TYPE),
+                getData(GvImage.TYPE),
+                getData(GvFact.TYPE),
+                getData(GvLocation.TYPE),
+                mIsAverage);
+
         GvTagList tags = (GvTagList) getData(GvTag.TYPE);
         mTagsManager.tagItem(review.getReviewId().toString(), tags.toStringArray());
 
@@ -159,44 +150,12 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     //private methods
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
-        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(dataType);
-        db.registerObserver(this);
+        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(dataType, this);
         mDataBuilders.put(dataType, db);
         return db;
     }
 
     private boolean isValidForPublication() {
         return mDataValidator.validateString(mSubject) && hasTags();
-    }
-
-    private Review assembleReview() {
-        IdableCollection<Review> criteriaReviews = new IdableDataCollection<>();
-        for (ReviewBuilderImpl child : mChildren) {
-            criteriaReviews.add(child.assembleReview());
-        }
-
-        ArrayList<DataCriterion> criteria = new ArrayList<>();
-        for(Review criterion : criteriaReviews) {
-            criteria.add(new GvCriterion(criterion.getSubject().getSubject(), criterion.getRating().getRating()));
-        }
-
-        return mReviewFactory.createUserReview(getSubject(), getRating(),
-                criteria,
-                getData(GvComment.TYPE),
-                getData(GvImage.TYPE),
-                getData(GvFact.TYPE),
-                getData(GvLocation.TYPE),
-                mIsAverage);
-    }
-
-    private void setCriteria(GvDataList children) {
-        mChildren = new ArrayList<>();
-        for (GvCriterion child : (GvCriterionList) children) {
-            ReviewBuilderImpl childBuilder = new ReviewBuilderImpl(mConverter, mTagsManager,
-                    mReviewFactory, mDataBuilderFactory, mDataValidator);
-            childBuilder.setSubject(child.getSubject());
-            childBuilder.setRating(child.getRating());
-            mChildren.add(childBuilder);
-        }
     }
 }

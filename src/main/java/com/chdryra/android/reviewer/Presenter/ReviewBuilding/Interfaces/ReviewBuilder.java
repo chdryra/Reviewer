@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewBuilder extends DataBuilder.DataBuilderObserver{
+public interface ReviewBuilder {
     String getSubject();
 
     void setSubject(String subject);
@@ -40,7 +40,4 @@ public interface ReviewBuilder extends DataBuilder.DataBuilderObserver{
     boolean hasTags();
 
     Review buildReview();
-
-    @Override
-    <T extends GvData> void onDataPublished(DataBuilder<T> dataBuilder);
 }

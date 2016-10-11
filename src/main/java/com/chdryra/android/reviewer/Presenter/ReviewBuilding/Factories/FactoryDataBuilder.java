@@ -13,12 +13,13 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.AddConstraintDefault;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.CommentsParser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvCommentsBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -41,7 +42,7 @@ public class FactoryDataBuilder {
     }
 
     public <T extends GvData> DataBuilder<T> newDataBuilder
-    (final GvDataType<T> dataType) {
+    (final GvDataType<T> dataType, ReviewBuilder builder) {
         GvDataList<T> data = mDataFactory.newDataList(dataType);
         if (dataType.equals(GvImage.TYPE)) {
             return newImageDataBuilder(data);
@@ -49,7 +50,7 @@ public class FactoryDataBuilder {
             return newCriterionDataBuilder(data);
         } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
-            return (DataBuilder<T>) new GvCommentHandler((GvDataList<GvComment>) data);
+            return (DataBuilder<T>) new GvCommentsBuilder((GvDataList<GvComment>) data, mDataFactory, new CommentsParser(builder));
         } else {
             return new DataBuilderImpl<>(data, mDataFactory);
         }
@@ -66,23 +67,23 @@ public class FactoryDataBuilder {
     @NonNull
     private <T extends GvData> DataBuilder.ReplaceConstraint<T> newCriterionReplaceConstraint() {
         return new DataBuilder.ReplaceConstraint<T>() {
-                    @Override
-                    public DataBuilder.ConstraintResult passes(GvDataList<T> data, T oldDatum, T newDatum) {
-                        return childReplace((GvCriterionList) data,
-                                (GvCriterion) oldDatum,
-                                (GvCriterion) newDatum);
-                    }
-                };
+            @Override
+            public DataBuilder.ConstraintResult passes(GvDataList<T> data, T oldDatum, T newDatum) {
+                return childReplace((GvCriterionList) data,
+                        (GvCriterion) oldDatum,
+                        (GvCriterion) newDatum);
+            }
+        };
     }
 
     @NonNull
     private <T extends GvData> DataBuilder.AddConstraint<T> newCriterionAddConstraint() {
         return new DataBuilder.AddConstraint<T>() {
-                    @Override
-                    public DataBuilder.ConstraintResult passes(GvDataList<T> data, T datum) {
-                        return childAdd((GvCriterionList) data, (GvCriterion) datum);
-                    }
-                };
+            @Override
+            public DataBuilder.ConstraintResult passes(GvDataList<T> data, T datum) {
+                return childAdd((GvCriterionList) data, (GvCriterion) datum);
+            }
+        };
     }
 
     @NonNull
@@ -141,36 +142,5 @@ public class FactoryDataBuilder {
                     DataBuilder.ConstraintResult.HAS_DATUM;
         }
         return res;
-    }
-
-    private class GvCommentHandler extends DataBuilderImpl<GvComment> {
-        private GvCommentHandler(GvDataList<GvComment> data) {
-            super(data, mDataFactory);
-        }
-
-        @Override
-        public ConstraintResult add(GvComment newDatum) {
-            if (getData().size() == 0) newDatum.setIsHeadline(true);
-            return super.add(newDatum);
-        }
-
-        @Override
-        public ConstraintResult replace(GvComment oldDatum,
-                                        GvComment newDatum) {
-            newDatum.setIsHeadline(oldDatum.isHeadline());
-            return super.replace(oldDatum, newDatum);
-        }
-
-        @Override
-        public void delete(GvComment data) {
-            super.delete(data);
-            if (data.isHeadline()) {
-                data.setIsHeadline(false);
-                GvCommentList comments = (GvCommentList) getData();
-                if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
-                    comments.getItem(0).setIsHeadline(true);
-                }
-            }
-        }
     }
 }

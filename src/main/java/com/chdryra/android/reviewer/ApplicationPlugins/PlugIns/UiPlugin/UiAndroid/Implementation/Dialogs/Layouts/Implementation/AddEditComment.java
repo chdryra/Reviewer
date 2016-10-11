@@ -59,9 +59,8 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     @Override
     public GvComment createGvDataFromInputs() {
-        EditText comment = getCommentView();
         boolean isHeadline = mCurrent != null && mCurrent.isHeadline();
-        mCurrent = new GvComment(comment.getText().toString().trim(), isHeadline);
+        mCurrent = new GvComment(getComment().getText().toString().trim(), isHeadline);
 
         return mCurrent;
     }
@@ -69,7 +68,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     @Override
     public void updateLayout(GvComment comment) {
         mCurrent = comment;
-        getCommentView().setText(mCurrent.getComment());
+        getComment().setText(mCurrent.getComment());
     }
 
     @Override
@@ -79,17 +78,17 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
         setupButton(BUTTON_RIGHT);
     }
 
-    private EditText getCommentView() {
+    private EditText getComment() {
         return (EditText) getView(COMMENT);
     }
 
     private void setupButton(final int buttonId) {
-        Button left = (Button) getView(buttonId);
-        left.setText(BUTTON_MAPPING.get(buttonId));
-        left.setOnClickListener(new View.OnClickListener() {
+        Button button = (Button) getView(buttonId);
+        button.setText(BUTTON_MAPPING.get(buttonId));
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCommentView().getText().append(BUTTON_MAPPING.get(buttonId));
+                getComment().getText().append(BUTTON_MAPPING.get(buttonId));
             }
         });
     }

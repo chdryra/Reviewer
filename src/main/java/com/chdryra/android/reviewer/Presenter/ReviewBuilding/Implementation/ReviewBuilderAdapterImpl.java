@@ -83,7 +83,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public GvDataType<GC> getGvDataType() {
-
         return getGridUi().getGridWrapper().getGvDataType();
     }
 
@@ -202,8 +201,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         }
 
         private <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter
-                (GvDataType<T>
-                                                                                                 dataType) {
+                (GvDataType<T> dataType) {
             return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType,
                     ReviewBuilderAdapterImpl.this);
         }

@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
-    implements DataBuilderAdapter<T> {
+    implements DataBuilderAdapter<T>, DataBuilder.BuildListener {
 
     private final ReviewBuilderAdapter mParentBuilder;
     private final ReviewBuilder mBuilder;
@@ -72,7 +72,7 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     public boolean add(T datum) {
         DataBuilder.ConstraintResult res = mDataBuilder.add(datum);
         if (res == DataBuilder.ConstraintResult.PASSED) {
-            this.notifyDataObservers();
+            notifyDataObservers();
             return true;
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
@@ -85,13 +85,13 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     @Override
     public void delete(T datum) {
         mDataBuilder.delete(datum);
-        this.notifyDataObservers();
+        notifyDataObservers();
     }
 
     @Override
     public void deleteAll() {
         mDataBuilder.deleteAll();
-        this.notifyDataObservers();
+        notifyDataObservers();
     }
 
     @Override
@@ -109,13 +109,18 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     @Override
     public void commitData() {
         mDataBuilder.buildData();
-        getParentBuilder().notifyDataObservers();
     }
 
     @Override
     public void resetData() {
         mDataBuilder.resetData();
-        this.notifyDataObservers();
+        notifyDataObservers();
+    }
+
+    @Override
+    public void onDataBuilt() {
+        notifyDataObservers();
+        getParentBuilder().notifyDataObservers();
     }
 
     @Override
@@ -166,6 +171,18 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     private void makeToastHasItem(GvData datum) {
         String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
         getReviewView().getCurrentScreen().showToast(toast);
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        mDataBuilder.registerListener(this);
+    }
+
+    @Override
+    protected void onDetach() {
+        mDataBuilder.unregisterListener(this);
+        super.onDetach();
     }
 }
 

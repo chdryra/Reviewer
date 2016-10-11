@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * @param <T>: {@link GvData} type.
  */
 public interface DataBuilder<T extends GvData> {
-    interface DataBuilderObserver {
-        <T2 extends GvData> void onDataPublished(DataBuilder<T2> builder);
+    interface BuildListener {
+        void onDataBuilt();
     }
 
     GvDataType<T> getGvDataType();
@@ -36,7 +36,7 @@ public interface DataBuilder<T extends GvData> {
 
     ConstraintResult replace(T oldDatum, T newDatum);
 
-    void delete(T data);
+    boolean delete(T data);
 
     void deleteAll();
 
@@ -44,7 +44,9 @@ public interface DataBuilder<T extends GvData> {
 
     void buildData();
 
-    void registerObserver(DataBuilderObserver observer);
+    void registerListener(BuildListener observer);
+
+    void unregisterListener(BuildListener observer);
 
     interface AddConstraint<G extends GvData> {
         ConstraintResult passes(GvDataList<G> data, G datum);

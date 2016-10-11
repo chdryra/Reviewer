@@ -37,26 +37,23 @@ public class FactoryReviewBuilder {
     private final ConverterGv mConverterGv;
     private final TagsManager mTagsManager;
     private final FactoryReviews mFactoryReviews;
-    private final DataValidator mDataValidator;
-    private final FactoryDataBuilder mDataBuilderFactory;
+    private final DataValidator mValidator;
+    private final FactoryDataBuilder mBuilderFactory;
 
     public FactoryReviewBuilder(ConverterGv converterGv,
-                                DataValidator dataValidator, TagsManager tagsManager,
+                                DataValidator validator, TagsManager tagsManager,
                                 FactoryReviews factoryReviews,
-                                FactoryDataBuilder dataBuilderfactory) {
+                                FactoryDataBuilder builderfactory) {
         mConverterGv = converterGv;
         mTagsManager = tagsManager;
         mFactoryReviews = factoryReviews;
-        mDataValidator = dataValidator;
-        mDataBuilderFactory = dataBuilderfactory;
+        mValidator = validator;
+        mBuilderFactory = builderfactory;
     }
 
     public ReviewBuilder newBuilder(@Nullable Review template) {
-        ReviewBuilder builder = new ReviewBuilderImpl(mConverterGv,
-                mTagsManager,
-                mFactoryReviews,
-                mDataBuilderFactory,
-                mDataValidator);
+        ReviewBuilder builder
+                = new ReviewBuilderImpl(mTagsManager, mFactoryReviews, mBuilderFactory, mValidator);
 
         if(template != null) {
             builder.setSubject(template.getSubject().getSubject());
