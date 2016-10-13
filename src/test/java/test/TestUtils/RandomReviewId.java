@@ -10,7 +10,6 @@ package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,19 +18,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class RandomReviewId {
     public static ReviewId nextReviewId() {
-        return nextMdReviewId();
-    }
-
-    public static MdReviewId nextMdReviewId() {
-        ReviewStamp stamp = ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate());
-        return new MdReviewId(stamp);
+        return ReviewStamp.newStamp(RandomAuthor.nextAuthorId(), RandomDataDate.nextDateTime()).getReviewId();
     }
 
     public static String nextIdString() {
-        return nextMdReviewId().toString();
-    }
-
-    public static GvReviewId nextGvReviewId() {
-        return new GvReviewId(nextIdString());
+        return nextReviewId().toString();
     }
 }

@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.AddConstraintDefault;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.CommentsParser;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.CommentsDataParser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvCommentsBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
@@ -50,7 +50,7 @@ public class FactoryDataBuilder {
             return newCriterionDataBuilder(data);
         } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
-            return (DataBuilder<T>) new GvCommentsBuilder((GvDataList<GvComment>) data, mDataFactory, new CommentsParser(builder));
+            return (DataBuilder<T>) new GvCommentsBuilder((GvDataList<GvComment>) data, mDataFactory, new CommentsDataParser(builder));
         } else {
             return new DataBuilderImpl<>(data, mDataFactory);
         }

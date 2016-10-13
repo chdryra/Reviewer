@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
-    private CommentsParser mParser;
+    private CommentsDataParser mParser;
 
-    public GvCommentsBuilder(GvDataList<GvComment> data, FactoryGvData dataFactory, CommentsParser parser) {
+    public GvCommentsBuilder(GvDataList<GvComment> data, FactoryGvData dataFactory, CommentsDataParser parser) {
         super(data, dataFactory);
         mParser = parser;
     }

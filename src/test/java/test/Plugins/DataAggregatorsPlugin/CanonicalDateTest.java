@@ -50,7 +50,7 @@ public class CanonicalDateTest {
         IdableList<DataDate> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
         long expectedTime = 0l;
         for (int i = 0; i < NUM; ++i) {
-            DataDate date = RandomDataDate.nextDateReview();
+            DataDate date = RandomDataDate.nextDate();
             if (date.getTime() > expectedTime) expectedTime = date.getTime();
             dates.add(date);
         }

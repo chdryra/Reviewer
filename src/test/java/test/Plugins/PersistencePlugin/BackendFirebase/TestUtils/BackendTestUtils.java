@@ -54,7 +54,7 @@ public class BackendTestUtils {
     @NonNull
     public static Profile randomProfile() {
         return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
-                RandomDataDate.nextDate()));
+                RandomDataDate.nextDateTime()));
     }
 
     @NonNull

@@ -49,7 +49,7 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
         RAND.nextBytes(data);
         boolean isCover = RAND.nextBoolean();
         String caption = RandomString.nextSentence();
-        long imageDate = RandomDataDate.nextDate().getTime();
+        long imageDate = RandomDataDate.nextDateTime().getTime();
 
         values.put(RowImage.REVIEW_ID, reviewId);
         values.put(RowImage.IMAGE_ID, imageId);
@@ -195,7 +195,7 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
         values.put(RowImage.BITMAP, byteArray);
         values.put(RowImage.IS_COVER, RAND.nextBoolean());
         values.put(RowImage.CAPTION, RandomString.nextSentence());
-        values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDate().getTime());
+        values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDateTime().getTime());
 
         return new RowImageImpl(values);
     }

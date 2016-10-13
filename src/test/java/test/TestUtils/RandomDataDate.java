@@ -22,12 +22,12 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomDataDate {
-    public static DataDate nextDateReview() {
+    public static DataDate nextDate() {
         Date date = RandomDate.nextDate();
         return new DatumDate(RandomReviewId.nextReviewId(), date.getTime());
     }
 
-    public static DateTime nextDate() {
+    public static DateTime nextDateTime() {
         Date date = RandomDate.nextDate();
         return new DatumDateTime(date.getTime());
     }

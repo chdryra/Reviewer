@@ -19,7 +19,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import test.Model.ReviewsModel.Utils.MdDataMocker;
+import test.Model.ReviewsModel.Utils.DataMocker;
 import test.TestUtils.RandomAuthor;
 import test.TestUtils.RandomDataDate;
 
@@ -31,8 +31,8 @@ import test.TestUtils.RandomDataDate;
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewUserTest {
     private MdReviewId mRightId;
-    private MdDataMocker mWrongMocker;
-    private MdDataMocker mRightMocker;
+    private DataMocker mWrongMocker;
+    private DataMocker mRightMocker;
     private FactoryReviewNode mNodeFactory;
 
     @Rule
@@ -40,10 +40,10 @@ public class ReviewUserTest {
 
     @Before
     public void setup() {
-        mRightId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate()));
-        MdReviewId wrongId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate()));
-        mRightMocker = new MdDataMocker(mRightId);
-        mWrongMocker = new MdDataMocker(wrongId);
+        mRightId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDateTime()));
+        MdReviewId wrongId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDateTime()));
+        mRightMocker = new DataMocker(mRightId);
+        mWrongMocker = new DataMocker(wrongId);
         mNodeFactory = new FactoryReviewNode();
     }
 

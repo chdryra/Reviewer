@@ -76,6 +76,6 @@ public class RandomReviewData {
 
     public static DataImage nextImage(ReviewId reviewId) {
         return new DatumImage(reviewId, BitmapMocker.nextBitmap(),
-                RandomDataDate.nextDate(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
+                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
     }
 }

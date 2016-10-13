@@ -41,6 +41,7 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
         mParentBuilder = parentBuilder;
         mBuilder = parentBuilder.getBuilder();
         mDataBuilder = mBuilder.getDataBuilder(mType);
+        mDataBuilder.registerListener(this);
         resetData();
     }
 

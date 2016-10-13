@@ -50,7 +50,7 @@ public class ReviewStampTest {
     }
 
     private DateTime newDate() {
-        return RandomDataDate.nextDate();
+        return RandomDataDate.nextDateTime();
     }
 
     @NonNull

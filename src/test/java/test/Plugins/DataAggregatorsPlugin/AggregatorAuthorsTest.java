@@ -34,7 +34,7 @@ public class AggregatorAuthorsTest extends AggregatedDistinctItemsTest<DataAutho
     @NonNull
     @Override
     protected DataAuthor randomDatum() {
-        return RandomAuthor.nextAuthorReview();
+        return RandomAuthor.nextDataAuthor();
     }
 
     @NonNull

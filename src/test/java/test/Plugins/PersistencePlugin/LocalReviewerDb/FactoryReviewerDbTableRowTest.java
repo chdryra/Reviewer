@@ -127,7 +127,7 @@ public class FactoryReviewerDbTableRowTest {
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, RandomReviewId.nextIdString());
         values.put(RowReview.AUTHOR_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
-        values.put(RowReview.PUBLISH_DATE, RandomDataDate.nextDate().getTime());
+        values.put(RowReview.PUBLISH_DATE, RandomDataDate.nextDateTime().getTime());
         values.put(RowReview.SUBJECT, RandomString.nextWord());
         values.put(RowReview.RATING, RandomRating.nextRating());
         values.put(RowReview.RATING_WEIGHT, RandomRating.nextWeight());
@@ -275,7 +275,7 @@ public class FactoryReviewerDbTableRowTest {
     public void newRowImageWithDataImageConstructor() {
         //TODO do properly when android Bitmap utils are mocked
         DataImage image = new DatumImage(RandomReviewId.nextReviewId(), null,
-                RandomDataDate.nextDate(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
+                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
         RowImage row = mFactory.newRow(RowImage.class, image, INDEX);
 
         assertThat(row, not(nullValue()));
@@ -291,7 +291,7 @@ public class FactoryReviewerDbTableRowTest {
         new Random().nextBytes(data);
         values.put(RowImage.BITMAP, new ByteArray(data));
         values.put(RowImage.CAPTION, RandomString.nextSentence());
-        values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDate().getTime());
+        values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDateTime().getTime());
         values.put(RowImage.IS_COVER, RandomBoolean.nextBoolean());
 
         RowImage row = mFactory.newRow(RowImage.class, values);

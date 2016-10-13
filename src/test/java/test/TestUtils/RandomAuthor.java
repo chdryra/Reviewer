@@ -8,10 +8,14 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -20,12 +24,16 @@ import com.chdryra.android.testutils.RandomString;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomAuthor {
-    public static NamedAuthor nextAuthor() {
-        return new DatumAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
+    public static AuthorId nextAuthorId() {
+        return AuthorIdGenerator.newId();
     }
 
-    public static DataAuthor nextAuthorReview() {
+    public static NamedAuthor nextAuthor() {
+        return new DefaultNamedAuthor(RandomString.nextWord(), nextAuthorId());
+    }
+
+    public static DataAuthor nextDataAuthor() {
         return new DatumAuthor(RandomReviewId.nextReviewId(), RandomString.nextWord(),
-                AuthorIdGenerator.newId());
+                nextAuthorId());
     }
 }

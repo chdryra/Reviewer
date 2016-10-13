@@ -8,7 +8,7 @@
 
 package test.Model.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -20,9 +20,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -30,6 +32,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.testutils.RandomString;
 
 import org.hamcrest.Matchers;
@@ -39,7 +43,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 
-import test.Model.ReviewsModel.Utils.MdDataMocker;
+import test.Model.ReviewsModel.Utils.DataMocker;
 import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomAuthor;
 import test.TestUtils.RandomRating;
@@ -62,27 +66,27 @@ public class FactoryReviewsTest {
     private static final int NUM = 3;
     private NamedAuthor mAuthor;
     private FactoryReviews mFactory;
-    private MdDataMocker mDataMocker;
+    private DataMocker mDataMocker;
 
     @Before
     public void setup() {
         mAuthor = RandomAuthor.nextAuthor();
-        ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        mFactory = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
-        mFactory.setReviewStamper(new FactoryReviews.AuthorsStamp(mAuthor));
-        mDataMocker = new MdDataMocker();
-    }
 
-    @Test
-    public void getAuthorReturnsExpectedAuthor() {
-        assertThat(mFactory.getAuthor(), is(mAuthor));
+        mFactory = new FactoryReviews(new FactoryMdReference(new FactoryReference(), new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
+        mFactory.setReviewStamper(new ReviewStamper() {
+            @Override
+            public ReviewStamp newStamp() {
+                return ReviewStamp.newStamp(mAuthor.getAuthorId());
+            }
+        });
+        mDataMocker = new DataMocker();
     }
 
     @Test
     public void createUserReviewWithRatingNotAverageOfCriteriaCreatesReviewWithExpectedData() {
         String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
-        Iterable<? extends DataComment> comments = mDataMocker.newCommentList(NUM);
+        IdableList<DataComment> comments = mDataMocker.newCommentList(NUM);
         Iterable<? extends DataImage> images = new ArrayList<>(); //Android can't mock bitmaps
         Iterable<? extends DataFact> facts = mDataMocker.newFactList(NUM);
         Iterable<? extends DataLocation> locations = mDataMocker.newLocationList(NUM);
@@ -122,7 +126,6 @@ public class FactoryReviewsTest {
         Review review = mFactory.createUserReview(subject,
                 rating, criteria, comments, images, facts, locations, true);
 
-        assertThat(review.isRatingAverageOfCriteria(), is(true));
         assertThat(review.getRating().getReviewId(), is(review.getReviewId()));
         assertThat((double) review.getRating().getRating(), closeTo(averageRating, 0.001));
 
@@ -147,7 +150,6 @@ public class FactoryReviewsTest {
         assertThat(meta.getReviewId(), not(review.getReviewId()));
         assertThat(meta.getParent(), is(nullValue()));
         assertThat(meta.getChildren().size(), is(1));
-        assertThat(meta.isRatingAverageOfChildren(), is(true));
         checkAuthor(mAuthor, meta);
         checkNodeAgainstReview(review, meta);
         

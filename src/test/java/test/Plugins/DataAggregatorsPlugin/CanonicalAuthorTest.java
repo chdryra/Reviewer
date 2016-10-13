@@ -65,7 +65,7 @@ public class CanonicalAuthorTest {
     public void ifMoreThanOneAuthorReferencedInListThenReturnsInvalidAuthor() {
         ReviewId reviewId = RandomReviewId.nextReviewId();
         IdableList<DataAuthor> authors = getReferenceAuthors(reviewId);
-        authors.add(RandomAuthor.nextAuthorReview());
+        authors.add(RandomAuthor.nextDataAuthor());
 
         DataAuthor canonical = mCanonical.getCanonical(authors);
 

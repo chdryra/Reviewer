@@ -52,7 +52,7 @@ public class AggregatorDatesTest extends AggregatedDistinctItemsTest<DataDate>{
     @Override
     @NonNull
     protected DataDate randomDatum() {
-        return RandomDataDate.nextDateReview();
+        return RandomDataDate.nextDate();
     }
 
     @Override

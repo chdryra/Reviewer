@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 
 import java.util.ArrayList;
 
-import test.Model.ReviewsModel.Utils.MdDataMocker;
+import test.Model.ReviewsModel.Utils.DataMocker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +30,7 @@ public class RandomReview {
 
     public static Review nextReview() {
         MdReviewId id = RandomReviewId.nextMdReviewId();
-        return new MockReview(id, new MdDataMocker(id), false);
+        return new MockReview(id, new DataMocker(id), false);
     }
 
     public static ReviewNode nextReviewNode() {
@@ -39,7 +39,7 @@ public class RandomReview {
 
     public static ReviewNode nextReviewNode(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
-        Review review = new MockReview(id, new MdDataMocker(id), false);
+        Review review = new MockReview(id, new DataMocker(id), false);
         return NODE_FACTORY.createComponent(review, isAverage);
     }
 
@@ -49,7 +49,7 @@ public class RandomReview {
 
     public static ReviewNodeComponent nextReviewNodeComponent(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
-        Review review = new MockReview(id, new MdDataMocker(id), false);
+        Review review = new MockReview(id, new DataMocker(id), false);
         return NODE_FACTORY.createLeafNode(review, isAverage);
     }
 
@@ -97,7 +97,7 @@ public class RandomReview {
 
     private static class MockReview extends ReviewUser{
         //Need to ignore images as Bitmap.createBitmap(.) not mocked in Android unit testing framework
-        private MockReview(MdReviewId id, MdDataMocker mocker, boolean ratingIsAverage) {
+        private MockReview(MdReviewId id, DataMocker mocker, boolean ratingIsAverage) {
             super(id, mocker.newAuthor(), mocker.newDate(), mocker.newSubject(), mocker.newRating(),
                     mocker.newCommentList(NUM), new MdDataList<MdImage>(id), mocker.newFactList(NUM),
                     mocker.newLocationList(NUM), mocker.newCriterionList(NUM), ratingIsAverage,
