@@ -8,14 +8,22 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,16 +43,19 @@ public class CommentsDataParser {
     public void add(GvComment newDatum) {
         addTags(newDatum);
         addCriteria(newDatum);
+        addFacts(newDatum);
     }
 
     public void delete(GvComment datum) {
         deleteTags(datum);
         deleteCriteria(datum);
+        deleteFacts(datum);
     }
 
     void commit() {
         mBuilder.getDataBuilder(GvTag.TYPE).buildData();
         mBuilder.getDataBuilder(GvCriterion.TYPE).buildData();
+        mBuilder.getDataBuilder(GvFact.TYPE).buildData();
     }
 
     private void addTags(GvComment newDatum) {
@@ -58,6 +69,13 @@ public class CommentsDataParser {
         DataBuilder<GvCriterion> dataBuilder = mBuilder.getDataBuilder(GvCriterion.TYPE);
         for (GvCriterion criterion : getCriteria(newDatum)) {
             dataBuilder.add(criterion);
+        }
+    }
+
+    private void addFacts(GvComment newDatum) {
+        DataBuilder<GvFact> dataBuilder = mBuilder.getDataBuilder(GvFact.TYPE);
+        for (GvFact fact : getFacts(newDatum)) {
+            dataBuilder.add(fact);
         }
     }
 
@@ -75,8 +93,15 @@ public class CommentsDataParser {
         }
     }
 
+    private void deleteFacts(GvComment newDatum) {
+        DataBuilder<GvFact> dataBuilder = mBuilder.getDataBuilder(GvFact.TYPE);
+        for (GvFact fact : getFacts(newDatum)) {
+            dataBuilder.delete(fact);
+        }
+    }
+
     private GvCriterionList getCriteria(GvComment comment) {
-        String number = "(\\d+(\\.\\d*)?)";
+        String number = "\\s+(\\d+(\\.\\d*)?)";
         String asterisk = "(\\*\\s)";
         String criterion = "(#?(\\w+))";
 
@@ -84,13 +109,58 @@ public class CommentsDataParser {
         Matcher matcher = criteriaPattern.matcher(comment.getComment());
         GvCriterionList criteria = new GvCriterionList();
         while (matcher.find()) {
-            float rating = Float.valueOf(matcher.group(1));
+            float rating = Float.valueOf(matcher.group(1).trim());
             if(rating > 5f) continue;
-            String subject = matcher.group(matcher.groupCount() == 5 ? 5 : 4);
-            subject = subject.substring(0, 1).toUpperCase() + subject.substring(1);
-            criteria.add(new GvCriterion(subject, rating));
+            String subject = matcher.group(matcher.groupCount() == 5 ? 5 : 4).trim();
+            criteria.add(new GvCriterion(upperFirst(subject), rating));
         }
 
         return criteria;
+    }
+
+    @NonNull
+    private String upperFirst(String subject) {
+        return subject.substring(0, 1).toUpperCase() + subject.substring(1);
+    }
+
+    private GvFactList getFacts(GvComment comment) {
+        ArrayList<String> links = TextUtils.getLinks(comment.getComment());
+
+        String lab = "(#?(\\w+))";
+        String equals = "(\\s=\\s)";
+        String val = "(#?(\\S+))";
+
+
+        Pattern factPattern = Pattern.compile(lab + equals + val);
+        Matcher matcher = factPattern.matcher(comment.getComment());
+        GvFactList facts = new GvFactList();
+        while (matcher.find()) {
+            String label = matcher.group(1).trim();
+            String value = matcher.group(4).trim();
+            if(label.startsWith("#")) label = label.substring(1);
+            if(value.startsWith("#")) value = value.substring(1);
+
+            if(links.contains(label)) {
+                String temp = value;
+                value = label;
+                label = temp;
+            }
+
+            boolean isUrl = false;
+            if(links.contains(value)) {
+                isUrl = true;
+                links.remove(value);
+            }
+
+            value = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(value), " ");
+
+            facts.add(new GvFact(upperFirst(label), isUrl ? value : upperFirst(value)));
+        }
+
+        for(int i = 0; i < links.size(); ++i) {
+            facts.add(GvFact.newFactOrUrl(Strings.LINK + " " + String.valueOf(i+1), links.get(i)));
+        }
+
+        return facts;
     }
 }

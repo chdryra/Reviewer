@@ -58,7 +58,7 @@ public class GvUrl extends GvFact implements DataUrl {
         mUrl = url;
     }
 
-    private GvUrl(GvUrl url) {
+    public GvUrl(GvUrl url) {
         this(url.getGvReviewId(), url.getLabel(), url.getUrl());
     }
 

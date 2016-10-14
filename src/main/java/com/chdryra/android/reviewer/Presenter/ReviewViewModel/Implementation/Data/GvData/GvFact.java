@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 import android.support.annotation.Nullable;
+import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
@@ -18,6 +19,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFact;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -53,6 +57,15 @@ public class GvFact extends GvDualText implements DataFact {
 
     public GvFact(GvFact fact) {
         this(fact.getGvReviewId(), fact.getLabel(), fact.getValue());
+    }
+
+    public static GvFact newFactOrUrl(String label, String urlCandidate) {
+        String urlGuess = URLUtil.guessUrl(urlCandidate.toLowerCase());
+        try {
+            return new GvUrl(label, new URL(urlGuess));
+        } catch (MalformedURLException e) {
+            return new GvFact(label, urlCandidate);
+        }
     }
 
     protected GvFact(Parcel in) {

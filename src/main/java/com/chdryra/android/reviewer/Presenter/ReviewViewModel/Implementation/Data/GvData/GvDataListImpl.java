@@ -159,7 +159,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         //TODO make type safe
         Class<T> dataClass = (Class<T>) datum.getClass();
         try {
-            Constructor<T> ctor = dataClass.getConstructor(datum.getClass());
+            Constructor<T> ctor = dataClass.getConstructor(dataClass);
             return ctor.newInstance(datum);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(NO_CTOR_ERR + dataClass.getName());
