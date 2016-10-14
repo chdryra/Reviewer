@@ -16,7 +16,6 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -163,7 +162,9 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
         }
     }
 
-    private String edit() {
-        return Strings.Dialogs.EDIT;
+    @Override
+    public void onDestroyView() {
+        if(mEditor != null) mEditor.detachFromBuilder();
+        super.onDestroyView();
     }
 }

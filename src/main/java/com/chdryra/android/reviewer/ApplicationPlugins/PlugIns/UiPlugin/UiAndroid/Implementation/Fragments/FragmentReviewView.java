@@ -149,6 +149,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public void onResume() {
         super.onResume();
+        attachToReviewViewIfNecessary();
         updateUi(true);
     }
 

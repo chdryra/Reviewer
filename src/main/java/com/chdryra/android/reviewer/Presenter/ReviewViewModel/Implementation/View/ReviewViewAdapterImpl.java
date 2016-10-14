@@ -43,26 +43,30 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
         mWrapper = wrapper;
     }
 
+    protected GridDataWrapper<T> getWrapper() {
+        return mWrapper;
+    }
+
     protected void setWrapper(GridDataWrapper<T> wrapper) {
         if (mWrapper != null) mWrapper.detachAdapter();
         attachToViewer(wrapper);
         notifyDataObservers();
     }
 
-    protected GridDataWrapper<T> getWrapper() {
-        return mWrapper;
+    protected void onAttach() {
+
+    }
+
+    protected void onDetach() {
+
     }
 
     @Override
     public void attachReviewView(ReviewView<T> view) {
         mView = view;
-        registerObserver(view);
+        registerObserver(mView);
         if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
         onAttach();
-    }
-
-    protected void onAttach() {
-
     }
 
     @Override
@@ -71,10 +75,6 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
         mView = null;
         if (mWrapper != null && mIsAttached) detachFromViewer();
         onDetach();
-    }
-
-    protected void onDetach() {
-
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
     }
 
     @Override
-    public void     registerObserver(DataObserver observer) {
+    public void registerObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 

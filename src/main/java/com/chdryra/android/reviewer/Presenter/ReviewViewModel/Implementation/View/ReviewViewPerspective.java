@@ -23,6 +23,9 @@ public class ReviewViewPerspective<T extends GvData> {
     private final ReviewViewParams mParams;
     private final ReviewViewActions<T> mActions;
 
+    private boolean mIsAttachedToActions = false;
+    private boolean mIsAttachedToAdapter = false;
+
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
                                  ReviewViewActions<T> actions,
                                  ReviewViewParams params) {
@@ -44,16 +47,31 @@ public class ReviewViewPerspective<T extends GvData> {
     }
 
     public void attachToActions(ReviewView<T> view) {
-        mActions.attachReviewView(view);
+        if(!mIsAttachedToActions) {
+            mActions.attachReviewView(view);
+            mIsAttachedToActions = true;
+        }
     }
 
     public void attachToAdapter(ReviewView<T> view) {
-        mAdapter.attachReviewView(view);
+        if(!mIsAttachedToAdapter) {
+            mAdapter.attachReviewView(view);
+            mIsAttachedToAdapter = true;
+        }
     }
 
-    public void detach() {
-        mActions.detachReviewView();
-        mAdapter.detachReviewView();
+    public void detachFromActions() {
+        if(mIsAttachedToActions) {
+            mActions.detachReviewView();
+            mIsAttachedToActions = false;
+        }
+    }
+
+    public void detachFromAdapter() {
+        if(mIsAttachedToAdapter) {
+            mAdapter.detachReviewView();
+            mIsAttachedToAdapter = false;
+        }
     }
 }
 

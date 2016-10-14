@@ -41,8 +41,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
         mObservers = new ArrayList<>();
-
-        attachToAdapter();
     }
 
     @Override
@@ -118,13 +116,14 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         mApp = app;
         registerObserver(mContainer);
         mPerspective.attachToActions(this);
-        if (!mIsAttached) attachToAdapter();
+        attachToAdapter();
     }
 
     @Override
     public void detachEnvironment() {
+        mPerspective.detachFromActions();
+        detachFromAdapter();
         unregisterObserver(mContainer);
-        mPerspective.detach();
         mContainer = null;
         mGridViewData = null;
         mIsAttached = false;
@@ -184,9 +183,18 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         mContainer.setCellDimension(width, height);
     }
 
-    private void attachToAdapter() {
-        mPerspective.attachToAdapter(this);
-        mIsAttached = true;
-        mGridViewData = mPerspective.getAdapter().getGridData();
+    protected void attachToAdapter() {
+        if(!mIsAttached) {
+            mPerspective.attachToAdapter(this);
+            mIsAttached = true;
+            mGridViewData = mPerspective.getAdapter().getGridData();
+        }
+    }
+
+    protected void detachFromAdapter() {
+        if(mIsAttached) {
+            mPerspective.detachFromAdapter();
+            mIsAttached = false;
+        }
     }
 }

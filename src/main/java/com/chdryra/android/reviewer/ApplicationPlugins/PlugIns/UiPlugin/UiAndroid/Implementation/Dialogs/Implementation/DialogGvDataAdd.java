@@ -39,7 +39,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     private final GvDataType<T> mDataType;
 
     private DatumLayoutEdit<T> mLayout;
-    private ReviewDataEditor<T> mBuilder;
+    private ReviewDataEditor<T> mEditor;
     private DataAddListener<T> mAddListener;
 
     private boolean mQuickAdd = false;
@@ -77,7 +77,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     protected void onAddButtonClick() {
         T newDatum = mLayout.createGvDataFromInputs();
 
-        boolean added = isQuickAdd() ? mBuilder.add(newDatum) :
+        boolean added = isQuickAdd() ? mEditor.add(newDatum) :
                 newDatum.isValidForDisplay() && mAddListener.onAdd(newDatum, getTargetRequestCode
                         ());
 
@@ -101,7 +101,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     @Override
     protected void onCancelButtonClick() {
         if (isQuickAdd()) {
-            mBuilder.resetData();
+            mEditor.resetData();
         } else {
             mAddListener.onCancel(getTargetRequestCode());
         }
@@ -110,14 +110,14 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     @Override
     protected void onDoneButtonClick() {
         if (isQuickAdd()) {
-            mBuilder.commitData();
+            mEditor.commitData();
         } else {
             mAddListener.onDone(getTargetRequestCode());
         }
     }
 
     private boolean isQuickAdd() {
-        return mQuickAdd && mBuilder != null;
+        return mQuickAdd && mEditor != null;
     }
 
     private void setIsQuickReview() {
@@ -134,7 +134,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-            mBuilder = app.getReviewBuilder().getReviewEditor().newDataEditor(mDataType);
+            mEditor = app.getReviewBuilder().getReviewEditor().newDataEditor(mDataType);
         }
     }
 
@@ -155,4 +155,11 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }
+
+    @Override
+    public void onDestroyView() {
+        if(mEditor != null) mEditor.detachFromBuilder();
+        super.onDestroyView();
+    }
 }
+

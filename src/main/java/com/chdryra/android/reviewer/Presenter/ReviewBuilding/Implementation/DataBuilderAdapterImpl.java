@@ -110,6 +110,7 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     @Override
     public void commitData() {
         mDataBuilder.buildData();
+        notifyDataObservers();
     }
 
     @Override
@@ -176,14 +177,35 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
 
     @Override
     protected void onAttach() {
-        super.onAttach();
         mDataBuilder.registerListener(this);
     }
 
     @Override
     protected void onDetach() {
         mDataBuilder.unregisterListener(this);
-        super.onDetach();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataBuilderAdapterImpl)) return false;
+
+        DataBuilderAdapterImpl<?> that = (DataBuilderAdapterImpl<?>) o;
+
+        if (!mParentBuilder.equals(that.mParentBuilder)) return false;
+        if (!mBuilder.equals(that.mBuilder)) return false;
+        if (!mDataBuilder.equals(that.mDataBuilder)) return false;
+        return mType.equals(that.mType);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mParentBuilder.hashCode();
+        result = 31 * result + mBuilder.hashCode();
+        result = 31 * result + mDataBuilder.hashCode();
+        result = 31 * result + mType.hashCode();
+        return result;
     }
 }
 

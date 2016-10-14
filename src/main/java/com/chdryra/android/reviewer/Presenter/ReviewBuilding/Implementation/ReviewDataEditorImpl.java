@@ -40,6 +40,7 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
         mSubject = builder.getSubject();
         mRating = builder.getRating();
         mRatingIsAverage = builder.isRatingAverage();
+        attachToAdapter();
     }
 
     @Override
@@ -131,5 +132,10 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     @Override
     public void commitData() {
         mBuilder.commitData();
+    }
+
+    @Override
+    public void detachFromBuilder() {
+        detachFromAdapter();
     }
 }

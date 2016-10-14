@@ -41,4 +41,6 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
     void resetData();
 
     void commitData();
+
+    void detachFromBuilder();
 }

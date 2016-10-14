@@ -127,10 +127,10 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     @Override
     public void buildData() {
         mOriginalData = mData;
+        resetData();
         for(BuildListener observer : mObservers) {
             observer.onDataBuilt();
         }
-        resetData();
     }
 
     GvDataList<T> getOriginalData() {
