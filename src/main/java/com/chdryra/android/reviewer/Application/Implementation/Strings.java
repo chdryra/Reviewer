@@ -73,7 +73,7 @@ public class Strings {
         public static final String ADD = "add";
 
         public static class CommentEdit {
-            public static final String EQUALS = "=";
+            public static final String COLON = ":";
             public static final String STAR = "*";
             public static final String HASHTAG = "#";
         }

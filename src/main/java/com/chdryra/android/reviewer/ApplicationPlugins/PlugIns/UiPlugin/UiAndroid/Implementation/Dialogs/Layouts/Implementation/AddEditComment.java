@@ -36,7 +36,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     private static final SparseArray<String> BUTTON_MAPPING = new SparseArray<>();
 
     static {
-        BUTTON_MAPPING.put(BUTTON_LEFT, Strings.Buttons.CommentEdit.EQUALS);
+        BUTTON_MAPPING.put(BUTTON_LEFT, Strings.Buttons.CommentEdit.COLON);
         BUTTON_MAPPING.put(BUTTON_MIDDLE, Strings.Buttons.CommentEdit.STAR);
         BUTTON_MAPPING.put(BUTTON_RIGHT, Strings.Buttons.CommentEdit.HASHTAG);
     }

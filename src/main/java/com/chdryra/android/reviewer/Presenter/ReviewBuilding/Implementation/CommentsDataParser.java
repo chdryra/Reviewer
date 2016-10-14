@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -34,6 +35,10 @@ import java.util.regex.Pattern;
  */
 
 public class CommentsDataParser {
+    private static final String WORD = "#?(\\w+)";
+    private static final String COLON = "(:\\s)";
+    private static final String STARS = "(\\d+(\\.\\d*)?)\\*";
+    private static final String VALUE = "#?(\\S+)";
     private ReviewBuilder mBuilder;
 
     public CommentsDataParser(ReviewBuilder builder) {
@@ -101,17 +106,14 @@ public class CommentsDataParser {
     }
 
     private GvCriterionList getCriteria(GvComment comment) {
-        String number = "\\s+(\\d+(\\.\\d*)?)";
-        String asterisk = "(\\*\\s)";
-        String criterion = "(#?(\\w+))";
-
-        Pattern criteriaPattern = Pattern.compile(number + asterisk + criterion);
-        Matcher matcher = criteriaPattern.matcher(comment.getComment());
+        Pattern criterionPattern = Pattern.compile(WORD + COLON + STARS);
+        Matcher matcher = criterionPattern.matcher(comment.getComment());
         GvCriterionList criteria = new GvCriterionList();
         while (matcher.find()) {
-            float rating = Float.valueOf(matcher.group(1).trim());
+            String subject = matcher.group(1).trim();
+            float rating = Float.valueOf(matcher.group(3).trim());
             if(rating > 5f) continue;
-            String subject = matcher.group(matcher.groupCount() == 5 ? 5 : 4).trim();
+
             criteria.add(new GvCriterion(upperFirst(subject), rating));
         }
 
@@ -124,20 +126,20 @@ public class CommentsDataParser {
     }
 
     private GvFactList getFacts(GvComment comment) {
+        String val = "(?!" + STARS + ")" + "(#?(\\S+))";
+
         ArrayList<String> links = TextUtils.getLinks(comment.getComment());
-
-        String lab = "(#?(\\w+))";
-        String equals = "(\\s=\\s)";
-        String val = "(#?(\\S+))";
-
-
-        Pattern factPattern = Pattern.compile(lab + equals + val);
+        Pattern factPattern = Pattern.compile(WORD + COLON + val);
         Matcher matcher = factPattern.matcher(comment.getComment());
         GvFactList facts = new GvFactList();
         while (matcher.find()) {
+            for(int i = 0; i < matcher.groupCount(); ++i) {
+                String a = matcher.group(i);
+                if(a != null) Log.i("Regex", a);
+            }
+
             String label = matcher.group(1).trim();
             String value = matcher.group(4).trim();
-            if(label.startsWith("#")) label = label.substring(1);
             if(value.startsWith("#")) value = value.substring(1);
 
             if(links.contains(label)) {
