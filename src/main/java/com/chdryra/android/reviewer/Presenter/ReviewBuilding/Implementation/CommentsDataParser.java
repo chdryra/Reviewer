@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -36,9 +35,12 @@ import java.util.regex.Pattern;
 
 public class CommentsDataParser {
     private static final String WORD = "#?(\\w+)";
-    private static final String COLON = "(:\\s)";
+    private static final String SEPARATOR = "(\\s+=\\s+)";
     private static final String STARS = "(\\d+(\\.\\d*)?)\\*";
     private static final String VALUE = "#?(\\S+)";
+    private static final String REGEX_CRIT = WORD + SEPARATOR + STARS;
+    private static final String REGEX_FACT = WORD + SEPARATOR + "(?!" + STARS + ")" + VALUE;
+
     private ReviewBuilder mBuilder;
 
     public CommentsDataParser(ReviewBuilder builder) {
@@ -106,41 +108,34 @@ public class CommentsDataParser {
     }
 
     private GvCriterionList getCriteria(GvComment comment) {
-        Pattern criterionPattern = Pattern.compile(WORD + COLON + STARS);
+        Pattern criterionPattern = Pattern.compile(REGEX_CRIT);
         Matcher matcher = criterionPattern.matcher(comment.getComment());
         GvCriterionList criteria = new GvCriterionList();
+
         while (matcher.find()) {
-            String subject = matcher.group(1).trim();
-            float rating = Float.valueOf(matcher.group(3).trim());
+            String subject = matcher.group(1);
+            String stars = matcher.group(3);
+            if(subject == null || stars == null) continue;
+
+            float rating = Float.valueOf(stars.trim());
             if(rating > 5f) continue;
 
-            criteria.add(new GvCriterion(upperFirst(subject), rating));
+            criteria.add(new GvCriterion(upperFirst(subject.trim()), rating));
         }
 
         return criteria;
     }
 
-    @NonNull
-    private String upperFirst(String subject) {
-        return subject.substring(0, 1).toUpperCase() + subject.substring(1);
-    }
-
     private GvFactList getFacts(GvComment comment) {
-        String val = "(?!" + STARS + ")" + "(#?(\\S+))";
-
-        ArrayList<String> links = TextUtils.getLinks(comment.getComment());
-        Pattern factPattern = Pattern.compile(WORD + COLON + val);
+        Pattern factPattern = Pattern.compile(REGEX_FACT);
         Matcher matcher = factPattern.matcher(comment.getComment());
         GvFactList facts = new GvFactList();
-        while (matcher.find()) {
-            for(int i = 0; i < matcher.groupCount(); ++i) {
-                String a = matcher.group(i);
-                if(a != null) Log.i("Regex", a);
-            }
+        ArrayList<String> links = TextUtils.getLinks(comment.getComment());
 
-            String label = matcher.group(1).trim();
-            String value = matcher.group(4).trim();
-            if(value.startsWith("#")) value = value.substring(1);
+        while (matcher.find()) {
+            String label = matcher.group(1);
+            String value = matcher.group(5);
+            if(label == null || value == null) continue;
 
             if(links.contains(label)) {
                 String temp = value;
@@ -148,21 +143,34 @@ public class CommentsDataParser {
                 label = temp;
             }
 
-            boolean isUrl = false;
+            label = label.trim();
+            value = value.trim();
+            label = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(label), " ");
+            GvFact fact;
             if(links.contains(value)) {
-                isUrl = true;
                 links.remove(value);
+                fact = newUrl(upperFirst(label), value);
+            } else {
+                value = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(value), " ");
+                fact = new GvFact(upperFirst(label), upperFirst(value));
             }
 
-            value = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(value), " ");
-
-            facts.add(new GvFact(upperFirst(label), isUrl ? value : upperFirst(value)));
+            facts.add(fact);
         }
 
         for(int i = 0; i < links.size(); ++i) {
-            facts.add(GvFact.newFactOrUrl(Strings.LINK + " " + String.valueOf(i+1), links.get(i)));
+            facts.add(newUrl(Strings.LINK + " " + String.valueOf(i + 1), links.get(i)));
         }
 
         return facts;
+    }
+
+    private GvFact newUrl(String label, String value) {
+        return GvFact.newFactOrUrl(label, value);
+    }
+
+    @NonNull
+    private String upperFirst(String subject) {
+        return subject.substring(0, 1).toUpperCase() + subject.substring(1);
     }
 }
