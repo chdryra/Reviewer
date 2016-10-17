@@ -84,11 +84,12 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     private void setupButton(final int buttonId) {
         Button button = (Button) getView(buttonId);
-        button.setText(BUTTON_MAPPING.get(buttonId));
+        final String separator = BUTTON_MAPPING.get(buttonId);
+        button.setText(separator);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getComment().getText().append(BUTTON_MAPPING.get(buttonId));
+                getComment().getText().insert(getComment().getSelectionStart(), " " + separator + " ");
             }
         });
     }

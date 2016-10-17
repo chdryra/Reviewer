@@ -18,8 +18,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverte
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhComment;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -97,6 +99,10 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         }
 
         return splitComments;
+    }
+
+    public String getFormattedComment() {
+        return CommentFormatter.format(getComment());
     }
 
     public void setIsHeadline(boolean isHeadline) {
@@ -186,7 +192,8 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
 
         public Reference(RefComment reference,
                          DataConverter<DataComment, GvComment, ?> converter) {
-            super(TYPE, reference, converter, VhComment.class, new PlaceHolderFactory<DataComment>() {
+            super(TYPE, reference, converter, VhComment.class, new
+                    PlaceHolderFactory<DataComment>() {
                 @Override
                 public DataComment newPlaceHolder(String placeHolder) {
                     return new GvComment(placeHolder, false);
@@ -197,22 +204,23 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         public Reference getFullCommentReference() {
             RefComment reference = (RefComment) super.getReference();
             RefComment parent = reference.getParent();
-            if(parent == null) {
+            if (parent == null) {
                 return this;
             } else {
                 //TODO make type safe
-                return new Reference(parent, (DataConverter<DataComment, GvComment, ?>) getConverter());
+                return new Reference(parent, (DataConverter<DataComment, GvComment, ?>)
+                        getConverter());
             }
-        }
-
-        public void setParcelable(GvComment parcelable) {
-            mParcelable = parcelable;
         }
 
         @Nullable
         @Override
         public GvDataParcelable getParcelable() {
             return mParcelable != null ? mParcelable : super.getParcelable();
+        }
+
+        public void setParcelable(GvComment parcelable) {
+            mParcelable = parcelable;
         }
     }
 }

@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.CommentsDataParser;
+
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,11 @@ import java.util.List;
  * </ul>
  */
 public class CommentFormatter {
-    public static final String SENTENCE_DELIMITERS = ".!?";
     private static final String IGNORE_DELIMITER = ".";
+    private static final String SEPARATOR_REPLACEMENT = ": ";
 
     public static String getFirstSentence(String comment) {
-        //return getFirstSentence(comment, true);
-        return split(comment).get(0);
+        return format(split(comment).get(0));
     }
 
     public static ArrayList<String> split(String comment) {
@@ -59,6 +60,10 @@ public class CommentFormatter {
         return comments;
     }
 
+    public static String format(String comment) {
+        return comment.replaceAll(CommentsDataParser.SEPARATOR, SEPARATOR_REPLACEMENT);
+    }
+
     private static String trim(@NonNull String string, @NonNull String toTrim) {
         String trimmed = string;
 
@@ -73,31 +78,4 @@ public class CommentFormatter {
 
         return trimmed;
     }
-
-    //
-//    public static ArrayList<String> split(String comment, boolean ignoreStop) {
-//        ArrayList<String> comments = new ArrayList<>();
-//        String remaining = comment;
-//        while (remaining != null && remaining.length() > 0) {
-//            String sentence = getFirstSentence(remaining, false);
-//            remaining = remaining.substring(sentence.length(), remaining.length());
-//            String toTrim = ignoreStop ? IGNORE_DELIMITER + " " : " ";
-//            sentence = trim(sentence, toTrim);
-//            if (sentence != null && sentence.length() > 0) comments.add(sentence);
-//        }
-//
-//        return comments;
-//    }
-
-//
-//    private static String getFirstSentence(@NonNull String comment, boolean trimmed) {
-//        if (comment.length() > 0) {
-//            StringTokenizer tokens = new StringTokenizer(comment, SENTENCE_DELIMITERS, true);
-//            String headline = tokens.nextToken();
-//            if (tokens.hasMoreTokens()) headline += tokens.nextToken();
-//            return trimmed ? trim(headline, IGNORE_DELIMITER) : headline;
-//        } else {
-//            return comment;
-//        }
-//    }
 }

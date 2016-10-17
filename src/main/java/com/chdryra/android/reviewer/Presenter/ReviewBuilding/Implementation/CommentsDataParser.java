@@ -34,12 +34,13 @@ import java.util.regex.Pattern;
  */
 
 public class CommentsDataParser {
+    public static final String SEPARATOR = "(\\s+" + Strings.Buttons.CommentEdit.SEPARATOR + "\\s+)";
     private static final String WORD = "#?(\\w+)";
-    private static final String SEPARATOR = "(\\s+=\\s+)";
     private static final String STARS = "(\\d+(\\.\\d*)?)\\*";
-    private static final String VALUE = "#?(\\S+)";
+    private static final String VALUE = "#?(\\S+?)([\\.,;\\s]|$)";
     private static final String REGEX_CRIT = WORD + SEPARATOR + STARS;
     private static final String REGEX_FACT = WORD + SEPARATOR + "(?!" + STARS + ")" + VALUE;
+    private static final String CAMEL = "(?=[A-Z])";
 
     private ReviewBuilder mBuilder;
 
@@ -145,13 +146,13 @@ public class CommentsDataParser {
 
             label = label.trim();
             value = value.trim();
-            label = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(label), " ");
+            label = camelCaseToSpace(label);
             GvFact fact;
             if(links.contains(value)) {
                 links.remove(value);
                 fact = newUrl(upperFirst(label), value);
             } else {
-                value = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(value), " ");
+                value = camelCaseToSpace(value);
                 fact = new GvFact(upperFirst(label), upperFirst(value));
             }
 
@@ -163,6 +164,10 @@ public class CommentsDataParser {
         }
 
         return facts;
+    }
+
+    private String camelCaseToSpace(String string) {
+        return StringUtils.join(string.split(CAMEL), " ");
     }
 
     private GvFact newUrl(String label, String value) {
