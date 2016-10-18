@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
@@ -47,7 +46,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private final DataBuildersMap mDataBuilders;
     private final BuildScreenGridUi<GC> mFullGridUi;
     private final BuildScreenGridUi<GC> mQuickGridUi;
-    private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mIncrementorFactory;
     private final FactoryImageChooser mImageChooserFactory;
     private final ReviewBuilder mBuilder;
@@ -60,12 +58,10 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
                                     BuildScreenGridUi<GC> fullGridUi,
                                     BuildScreenGridUi<GC> quickGridUi,
                                     DataValidator dataValidator,
-                                    FactoryDataBuilderAdapter dataBuilderAdapterFactory,
                                     FactoryFileIncrementor incrementorFactory,
                                     FactoryImageChooser imageChooserFactory) {
         mBuilder = builder;
 
-        mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mDataBuilders = new DataBuildersMap();
 
         mFullGridUi = fullGridUi;
@@ -97,8 +93,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T>
-                                                                                                dataType) {
+    public <T extends GvDataParcelable> DataBuilderAdapter<T>
+    getDataBuilderAdapter(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
     }
 
@@ -161,6 +157,16 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
+    protected void onAttach() {
+        mDataBuilders.attach();
+    }
+
+    @Override
+    protected void onDetach() {
+        mDataBuilders.detach();
+    }
+
+    @Override
     public void setView(ReviewEditor.EditMode uiType) {
         mUiType = uiType;
         notifyDataObservers();
@@ -189,8 +195,9 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         mIncrementor = mIncrementorFactory.newJpgFileIncrementor(mBuilder.getSubject());
     }
 
+
     private class DataBuildersMap {
-        private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
+        private final Map<GvDataType<? extends GvData>, DataBuilderAdapterImpl<? extends GvData>>
                 mDataBuilders;
 
         private DataBuildersMap() {
@@ -200,15 +207,26 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
             }
         }
 
-        private <T extends GvDataParcelable> DataBuilderAdapter<T> newDataBuilderAdapter
+        private <T extends GvDataParcelable> DataBuilderAdapterImpl<T> newDataBuilderAdapter
                 (GvDataType<T> dataType) {
-            return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType,
-                    ReviewBuilderAdapterImpl.this);
+            return new DataBuilderAdapterImpl<>(dataType, ReviewBuilderAdapterImpl.this);
         }
 
         //TODO make type safe although it is really....
         private <T extends GvDataParcelable> DataBuilderAdapter<T> get(GvDataType<T> type) {
             return (DataBuilderAdapter<T>) mDataBuilders.get(type);
+        }
+
+        private void attach() {
+            for(DataBuilderAdapterImpl<?> builder : mDataBuilders.values()) {
+                builder.attach();
+            }
+        }
+
+        private void detach() {
+            for(DataBuilderAdapterImpl<?> builder : mDataBuilders.values()) {
+                builder.detach();
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
@@ -26,6 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.DataObservableDefault;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +37,7 @@ import java.util.Map;
  * On: 10/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderImpl implements ReviewBuilder {
+public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBuilder, DataObservable.DataObserver {
     private final Map<GvDataType<?>, DataBuilder<?>> mDataBuilders;
 
     private String mSubject;
@@ -63,7 +65,11 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mRating = 0f;
     }
 
-    //public methods
+    @Override
+    public void onDataChanged() {
+        notifyDataObservers();
+    }
+
     @Override
     public String getSubject() {
         return mSubject;
@@ -72,6 +78,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     @Override
     public void setSubject(String subject) {
         mSubject = subject;
+        notifyDataObservers();
     }
 
     @Override
@@ -87,6 +94,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     @Override
     public void setRating(float rating) {
         mRating = rating;
+        notifyDataObservers();
     }
 
     @Override
@@ -99,6 +107,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
         if (ratingIsAverage) setRating(getAverageRating());
+        notifyDataObservers();
     }
 
     @Override
@@ -148,9 +157,11 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         return review;
     }
 
+
     //private methods
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
         DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(dataType, this);
+        db.registerObserver(this);
         mDataBuilders.put(dataType, db);
         return db;
     }

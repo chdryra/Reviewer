@@ -11,16 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
-import java.util.ArrayList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 05/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GridDataWrapperBasic<T extends GvData> implements GridDataWrapper<T> {
+public abstract class GridDataWrapperBasic<T extends GvData> extends DataObservableDefault implements GridDataWrapper<T> {
     private ReviewViewAdapterImpl<T> mAdapter;
-    private final ArrayList<DataObserver> mObservers = new ArrayList<>();
 
     void onAttach() {
 
@@ -42,23 +39,6 @@ public abstract class GridDataWrapperBasic<T extends GvData> implements GridData
         unregisterObserver(mAdapter);
         onDetach();
         mAdapter = null;
-    }
-
-    @Override
-    public void registerObserver(DataObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(DataObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyDataObservers() {
-        for (DataObserver observer : mObservers) {
-            observer.onDataChanged();
-        }
     }
 
     @Override

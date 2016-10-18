@@ -8,41 +8,55 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.util.Log;
+
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewAdapterImpl;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
-    implements DataBuilderAdapter<T>, DataBuilder.BuildListener {
+public class DataBuilderAdapterImpl<T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
+        implements DataBuilderAdapter<T>, DataObservable.DataObserver {
 
-    private final ReviewBuilderAdapter mParentBuilder;
-    private final ReviewBuilder mBuilder;
-    private final DataBuilder<T> mDataBuilder;
     private final GvDataType<T> mType;
+    private final ReviewBuilderAdapter<?> mParentBuilder;
 
-    public DataBuilderAdapterImpl(GvDataType<T> type, ReviewBuilderAdapter parentBuilder) {
+    public DataBuilderAdapterImpl(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
-        mBuilder = parentBuilder.getBuilder();
-        mDataBuilder = mBuilder.getDataBuilder(mType);
-        mDataBuilder.registerListener(this);
-        resetData();
+    }
+
+    public void attach() {
+        Log.i("Detach", "Attaching DataBuilderAdapter " + mType.getDataName());
+        registerObserver(mParentBuilder);
+        getDataBuilder().registerObserver(this);
+        notifyDataObservers();
+    }
+
+    public void detach() {
+        Log.i("Detach", "Detaching DataBuilderAdapter " + mType.getDataName());
+        unregisterObserver(mParentBuilder);
+        getDataBuilder().unregisterObserver(this);
     }
 
     @Override
@@ -51,13 +65,8 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public ReviewBuilderAdapter getParentBuilder() {
-        return mParentBuilder;
-    }
-
-    @Override
     public boolean isRatingAverage() {
-        return mBuilder.isRatingAverage();
+        return getBuilder().isRatingAverage();
     }
 
     @Override
@@ -65,15 +74,14 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
         if (mType.equals(GvCriterion.TYPE)) {
             return ((GvCriterionList) getGridData()).getAverageRating();
         } else {
-            return mBuilder.getAverageRating();
+            return getBuilder().getAverageRating();
         }
     }
 
     @Override
     public boolean add(T datum) {
-        DataBuilder.ConstraintResult res = mDataBuilder.add(datum);
+        DataBuilder.ConstraintResult res = getDataBuilder().add(datum);
         if (res == DataBuilder.ConstraintResult.PASSED) {
-            notifyDataObservers();
             return true;
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
@@ -85,104 +93,88 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
 
     @Override
     public void delete(T datum) {
-        mDataBuilder.delete(datum);
-        notifyDataObservers();
+        getDataBuilder().delete(datum);
     }
 
     @Override
     public void deleteAll() {
-        mDataBuilder.deleteAll();
-        notifyDataObservers();
+        getDataBuilder().deleteAll();
     }
 
     @Override
     public void replace(T oldDatum, T newDatum) {
-        DataBuilder.ConstraintResult res = mDataBuilder.replace(oldDatum, newDatum);
-        if (res == DataBuilder.ConstraintResult.PASSED) {
-            this.notifyDataObservers();
-        } else {
-            if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
-                makeToastHasItem(newDatum);
-            }
-        }
+        DataBuilder.ConstraintResult res = getDataBuilder().replace(oldDatum, newDatum);
+        if (res == DataBuilder.ConstraintResult.HAS_DATUM) makeToastHasItem(newDatum);
     }
 
     @Override
     public void commitData() {
-        mDataBuilder.buildData();
-        notifyDataObservers();
+        getDataBuilder().buildData();
     }
 
     @Override
     public void resetData() {
-        mDataBuilder.resetData();
-        notifyDataObservers();
+        getDataBuilder().resetData();
     }
 
     @Override
-    public void onDataBuilt() {
+    public void onDataChanged() {
         notifyDataObservers();
-        getParentBuilder().notifyDataObservers();
     }
 
     @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
-        getParentBuilder().setRatingIsAverage(ratingIsAverage);
+        mParentBuilder.setRatingIsAverage(ratingIsAverage);
     }
 
     @Override
     public GvDataList<T> getGridData() {
-        return mDataBuilder.getData();
+        return getDataBuilder().getData();
     }
 
     @Override
     public String getSubject() {
-        return getParentBuilder().getSubject();
+        return mParentBuilder.getSubject();
     }
 
     @Override
     public void setSubject(String subject) {
-        getParentBuilder().setSubject(subject);
+        mParentBuilder.setSubject(subject);
     }
 
     @Override
     public float getRating() {
-        return getParentBuilder().getRating();
+        return mParentBuilder.getRating();
     }
 
     @Override
     public void setRating(float rating) {
-        getParentBuilder().setRating(rating);
+        mParentBuilder.setRating(rating);
     }
 
     @Override
     public void getCover(CoverCallback callback) {
-        if(mType.equals(GvImage.TYPE)) {
-            callback.onAdapterCover(((GvImageList)getGridData()).getRandomCover());
+        if (mType.equals(GvImage.TYPE)) {
+            callback.onAdapterCover(((GvImageList) getGridData()).getRandomCover());
         } else {
-            getParentBuilder().getCover(callback);
+            mParentBuilder.getCover(callback);
         }
     }
 
     @Override
     public GvImage getCover() {
-        return mType.equals(GvImage.TYPE) ? ((GvImageList)getGridData()).getCovers().getItem(0)
-                : getParentBuilder().getCover();
-    }
-
-    private void makeToastHasItem(GvData datum) {
-        String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
-        getReviewView().getCurrentScreen().showToast(toast);
+        return mType.equals(GvImage.TYPE) ? ((GvImageList) getGridData()).getCovers().getItem(0)
+                : mParentBuilder.getCover();
     }
 
     @Override
     protected void onAttach() {
-        mDataBuilder.registerListener(this);
+        attach();
     }
 
     @Override
     protected void onDetach() {
-        mDataBuilder.unregisterListener(this);
+        detach();
     }
 
     @Override
@@ -193,8 +185,8 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
         DataBuilderAdapterImpl<?> that = (DataBuilderAdapterImpl<?>) o;
 
         if (!mParentBuilder.equals(that.mParentBuilder)) return false;
-        if (!mBuilder.equals(that.mBuilder)) return false;
-        if (!mDataBuilder.equals(that.mDataBuilder)) return false;
+        if (!getBuilder().equals(that.getBuilder())) return false;
+        if (!getDataBuilder().equals(that.getDataBuilder())) return false;
         return mType.equals(that.mType);
 
     }
@@ -202,10 +194,23 @@ public class DataBuilderAdapterImpl <T extends GvDataParcelable> extends ReviewV
     @Override
     public int hashCode() {
         int result = mParentBuilder.hashCode();
-        result = 31 * result + mBuilder.hashCode();
-        result = 31 * result + mDataBuilder.hashCode();
+        result = 31 * result + getBuilder().hashCode();
+        result = 31 * result + getDataBuilder().hashCode();
         result = 31 * result + mType.hashCode();
         return result;
+    }
+
+    private DataBuilder<T> getDataBuilder() {
+        return getBuilder().getDataBuilder(mType);
+    }
+
+    private ReviewBuilder getBuilder() {
+        return mParentBuilder.getBuilder();
+    }
+
+    private void makeToastHasItem(GvData datum) {
+        String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
+        getReviewView().getCurrentScreen().showToast(toast);
     }
 }
 

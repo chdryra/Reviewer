@@ -50,6 +50,8 @@ public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
             }
         }
 
+        notifyDataObservers();
+
         return removed;
     }
 

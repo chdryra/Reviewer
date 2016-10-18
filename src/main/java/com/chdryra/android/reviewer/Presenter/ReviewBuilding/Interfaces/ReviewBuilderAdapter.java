@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -25,7 +26,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * For building reviews. Collects appropriate data and builds a {@link com.chdryra.android
  * .reviewer.Model.Review} object
  */
-public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewAdapter<GC> {
+public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewViewAdapter<GC>, DataObservable.DataObserver{
     ReviewBuilder getBuilder();
 
     void setSubject(String subject);

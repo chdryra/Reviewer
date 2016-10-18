@@ -24,7 +24,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
@@ -134,7 +133,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),
                 validator,
-                new FactoryDataBuilderAdapter(),
                 incrementorFactory,
                 new FactoryImageChooser(context));
     }

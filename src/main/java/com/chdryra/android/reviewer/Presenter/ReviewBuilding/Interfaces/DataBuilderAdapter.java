@@ -19,8 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewViewAdapter<T>{
-    ReviewBuilderAdapter<?> getParentBuilder();
-
     float getCriteriaAverage();
 
     boolean add(T datum);

@@ -16,6 +16,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -23,11 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  *
  * @param <T>: {@link GvData} type.
  */
-public interface DataBuilder<T extends GvData> {
-    interface BuildListener {
-        void onDataBuilt();
-    }
-
+public interface DataBuilder<T extends GvData> extends DataObservable{
     GvDataType<T> getGvDataType();
 
     GvDataList<T> getData();
@@ -43,10 +40,6 @@ public interface DataBuilder<T extends GvData> {
     void resetData();
 
     void buildData();
-
-    void registerListener(BuildListener observer);
-
-    void unregisterListener(BuildListener observer);
 
     interface AddConstraint<G extends GvData> {
         ConstraintResult passes(GvDataList<G> data, G datum);

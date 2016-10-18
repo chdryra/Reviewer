@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.util.Log;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -55,6 +57,7 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public void attachToAdapter(ReviewView<T> view) {
         if(!mIsAttachedToAdapter) {
+            Log.i("Detach", "Attaching perspective adapter");
             mAdapter.attachReviewView(view);
             mIsAttachedToAdapter = true;
         }
@@ -69,6 +72,7 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public void detachFromAdapter() {
         if(mIsAttachedToAdapter) {
+            Log.i("Detach", "Detaching perspective adapter");
             mAdapter.detachReviewView();
             mIsAttachedToAdapter = false;
         }

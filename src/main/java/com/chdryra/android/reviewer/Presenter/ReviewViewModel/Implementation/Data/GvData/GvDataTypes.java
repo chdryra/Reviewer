@@ -24,7 +24,6 @@ public abstract class GvDataTypes {
         BUILD_TYPES.add(GvFact.TYPE);
         BUILD_TYPES.add(GvLocation.TYPE);
         BUILD_TYPES.add(GvImage.TYPE);
-        BUILD_TYPES.add(GvUrl.TYPE);
         BUILD_TYPES.add(GvTag.TYPE);
         BUILD_TYPES.add(GvCriterion.TYPE);
     }

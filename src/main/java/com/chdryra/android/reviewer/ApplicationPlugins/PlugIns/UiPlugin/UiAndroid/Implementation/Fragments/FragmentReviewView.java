@@ -13,6 +13,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -188,6 +189,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private void attachToReviewViewIfNecessary() {
         if (!mIsAttached) {
+            Log.i("Detach", "Attaching fragment");
             mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
             mIsAttached = true;
         }
@@ -195,6 +197,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private void detachFromReviewViewIfNecessary() {
         if (mIsAttached) {
+            Log.i("Detach", "Detaching fragment");
             mReviewView.detachEnvironment();
             mIsAttached = false;
         }

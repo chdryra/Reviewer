@@ -36,7 +36,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     private static final SparseArray<String> BUTTON_MAPPING = new SparseArray<>();
 
     static {
-        BUTTON_MAPPING.put(BUTTON_LEFT, Strings.Buttons.CommentEdit.SEPARATOR);
+        BUTTON_MAPPING.put(BUTTON_LEFT, " " + Strings.Buttons.CommentEdit.SEPARATOR + " ");
         BUTTON_MAPPING.put(BUTTON_MIDDLE, Strings.Buttons.CommentEdit.STAR);
         BUTTON_MAPPING.put(BUTTON_RIGHT, Strings.Buttons.CommentEdit.HASHTAG);
     }
@@ -84,12 +84,12 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     private void setupButton(final int buttonId) {
         Button button = (Button) getView(buttonId);
-        final String separator = BUTTON_MAPPING.get(buttonId);
-        button.setText(separator);
+        final String character = BUTTON_MAPPING.get(buttonId);
+        button.setText(character);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getComment().getText().insert(getComment().getSelectionStart(), " " + separator + " ");
+                getComment().getText().insert(getComment().getSelectionStart(), character);
             }
         });
     }

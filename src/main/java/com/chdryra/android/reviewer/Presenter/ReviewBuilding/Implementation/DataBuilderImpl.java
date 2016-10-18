@@ -19,18 +19,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.DataObservableDefault;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
  *
  * @param <T>: {@link GvData} type.
  */
-public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
+public class DataBuilderImpl<T extends GvData> extends DataObservableDefault implements DataBuilder<T> {
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
-    private final ArrayList<BuildListener> mObservers;
 
     private GvDataList<T> mOriginalData;
     private GvDataList<T> mData;
@@ -52,7 +50,6 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
                            ReplaceConstraint<T> replaceConstraint) {
         mAddConstraint = addConstraint;
         mReplaceConstraint = replaceConstraint;
-        mObservers = new ArrayList<>();
         mOriginalData = data;
         mCopier = copier;
         resetData();
@@ -73,7 +70,10 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
         ConstraintResult res;
         if (isValid(newDatum)) {
             res = mAddConstraint.passes(mData, newDatum);
-            if (res == ConstraintResult.PASSED) mData.add(newDatum);
+            if (res == ConstraintResult.PASSED) {
+                mData.add(newDatum);
+                notifyDataObservers();
+            }
         } else {
             res = ConstraintResult.INVALID_DATUM;
         }
@@ -93,6 +93,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
             if (res == ConstraintResult.PASSED) {
                 mData.remove(oldDatum);
                 mData.add(newDatum);
+                notifyDataObservers();
             }
         }
 
@@ -101,36 +102,27 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
 
     @Override
     public boolean delete(T data) {
-        return mData.remove(data);
+        boolean remove = mData.remove(data);
+        notifyDataObservers();
+        return remove;
     }
 
     @Override
     public void deleteAll() {
         mData.clear();
+        notifyDataObservers();
     }
 
     @Override
     public void resetData() {
         mData = mCopier.copy(mOriginalData);
-    }
-
-    @Override
-    public void registerListener(BuildListener observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterListener(BuildListener observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
+        notifyDataObservers();
     }
 
     @Override
     public void buildData() {
         mOriginalData = mData;
         resetData();
-        for(BuildListener observer : mObservers) {
-            observer.onDataBuilt();
-        }
     }
 
     GvDataList<T> getOriginalData() {

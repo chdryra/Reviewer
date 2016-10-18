@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.util.Log;
+
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
@@ -36,7 +38,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     private ReviewViewContainer mContainer;
     private ApplicationInstance mApp;
     private GvDataList<T> mGridViewData;
-    private boolean mIsAttached = false;
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
@@ -112,6 +113,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         if (mContainer != null) throw new RuntimeException("There is a Fragment already attached");
+        Log.i("Detach", "Attaching ReviewView environment " + this.getClass());
         mContainer = container;
         mApp = app;
         registerObserver(mContainer);
@@ -121,12 +123,12 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public void detachEnvironment() {
+        Log.i("Detach", "Detaching ReviewView environment " + this.getClass());
         mPerspective.detachFromActions();
         detachFromAdapter();
         unregisterObserver(mContainer);
         mContainer = null;
         mGridViewData = null;
-        mIsAttached = false;
     }
 
     @Override
@@ -184,17 +186,14 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     protected void attachToAdapter() {
-        if(!mIsAttached) {
-            mPerspective.attachToAdapter(this);
-            mIsAttached = true;
-            mGridViewData = mPerspective.getAdapter().getGridData();
-        }
+        Log.i("Detach", "Attaching ReviewView adapter " + this.getClass());
+        mPerspective.attachToAdapter(this);
+        mGridViewData = mPerspective.getAdapter().getGridData();
+        notifyDataObservers();
     }
 
     protected void detachFromAdapter() {
-        if(mIsAttached) {
-            mPerspective.detachFromAdapter();
-            mIsAttached = false;
-        }
+        Log.i("Detach", "Detaching ReviewView adapter " + this.getClass());
+        mPerspective.detachFromAdapter();
     }
 }

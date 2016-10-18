@@ -29,20 +29,17 @@ public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataP
     private final FactoryReviewBuilder mBuilderFactory;
     private final FactoryGridUi<GC> mGridUiFactory;
     private final DataValidator mDataValidator;
-    private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mFactoryFileIncrementor;
     private final FactoryImageChooser mFactoryImageChooser;
 
     public FactoryReviewBuilderAdapter(FactoryReviewBuilder builderFactory,
                                        FactoryGridUi<GC> gridUiFactory,
                                        DataValidator dataValidator,
-                                       FactoryDataBuilderAdapter dataBuilderAdapterFactory,
                                        FactoryFileIncrementor factoryFileIncrementor,
                                        FactoryImageChooser factoryImageChooser) {
         mBuilderFactory = builderFactory;
         mGridUiFactory = gridUiFactory;
         mDataValidator = dataValidator;
-        mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mFactoryFileIncrementor = factoryFileIncrementor;
         mFactoryImageChooser = factoryImageChooser;
     }
@@ -57,7 +54,6 @@ public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataP
                 mGridUiFactory.newGridUiWrapperFull(),
                 mGridUiFactory.newGridUiWrapperQuick(),
                 mDataValidator,
-                mDataBuilderAdapterFactory,
                 mFactoryFileIncrementor,
                 mFactoryImageChooser);
     }

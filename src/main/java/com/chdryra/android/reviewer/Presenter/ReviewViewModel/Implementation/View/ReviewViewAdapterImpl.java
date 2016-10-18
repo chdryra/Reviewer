@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.util.Log;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -16,8 +18,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,9 +28,8 @@ import java.util.ArrayList;
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapter<T>,
-        DataObservable.DataObserver {
-    private final ArrayList<DataObserver> mObservers = new ArrayList<>();
+public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefault implements ReviewViewAdapter<T>, DataObservable.DataObserver{
+
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
@@ -62,7 +61,14 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
     }
 
     @Override
+    public void onDataChanged() {
+        notifyDataObservers();
+    }
+
+    @Override
     public void attachReviewView(ReviewView<T> view) {
+        Log.i("Detach", "Attaching adapter " + this.getClass());
+        if(mView != null) detachReviewView(false);
         mView = view;
         registerObserver(mView);
         if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
@@ -71,9 +77,14 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
 
     @Override
     public void detachReviewView() {
+        detachReviewView(true);
+    }
+
+    private void detachReviewView(boolean detachViewer) {
+        Log.i("Detach", "Detaching adapter " + this.getClass());
         unregisterObserver(mView);
         mView = null;
-        if (mWrapper != null && mIsAttached) detachFromViewer();
+        if (detachViewer && mWrapper != null && mIsAttached) detachFromViewer();
         onDetach();
     }
 
@@ -105,28 +116,6 @@ public class ReviewViewAdapterImpl<T extends GvData> implements ReviewViewAdapte
     @Override
     public ReviewViewAdapter<?> expandGridData() {
         return mWrapper.expandGridData();
-    }
-
-    @Override
-    public void onDataChanged() {
-        notifyDataObservers();
-    }
-
-    @Override
-    public void registerObserver(DataObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(DataObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyDataObservers() {
-        for (DataObserver observer : mObservers) {
-            observer.onDataChanged();
-        }
     }
 
     @Override
