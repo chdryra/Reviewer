@@ -34,7 +34,7 @@ public class Comment {
 
     public Comment(DataComment comment) {
         String commentString = comment.getComment();
-        string = commentString.replace("\n", "\\<n\\>");
+        string = commentString.replaceAll("\n", "<\n>");
         sentences = CommentFormatter.split(commentString, false);
         numSentences = sentences.size();
         headline = comment.isHeadline();
@@ -57,7 +57,7 @@ public class Comment {
     }
 
     public String toComment() {
-        return string.replace("\\<n\\>", "\n");
+        return string.replaceAll("<\\n>", "\n");
     }
 
     public static int size() {
