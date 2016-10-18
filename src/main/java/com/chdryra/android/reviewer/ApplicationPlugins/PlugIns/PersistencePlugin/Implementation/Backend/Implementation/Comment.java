@@ -24,6 +24,7 @@ public class Comment {
     public static final String SENTENCES = "sentences";
     public static final String NUM_SENTENCES = "numSentences";
 
+    private String string;
     private List<String> sentences;
     private int numSentences;
     private boolean headline;
@@ -33,9 +34,14 @@ public class Comment {
 
     public Comment(DataComment comment) {
         String commentString = comment.getComment();
+        string = commentString.replace("\n", "\\<n\\>");
         sentences = CommentFormatter.split(commentString, false);
         numSentences = sentences.size();
         headline = comment.isHeadline();
+    }
+
+    public String getString() {
+        return string;
     }
 
     public int getNumSentences() {
@@ -51,10 +57,10 @@ public class Comment {
     }
 
     public String toComment() {
-        return CommentFormatter.join(sentences);
+        return string.replace("\\<n\\>", "\n");
     }
 
     public static int size() {
-        return 3;
+        return 4;
     }
 }

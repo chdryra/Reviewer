@@ -44,10 +44,14 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
 
     public ReviewEditor<GC> newEditor(UiConfig config,
                                       UiLauncher launcher,
-                                      ReviewEditor.EditMode editMode,
+                                      ReviewEditor.EditMode defaultMode,
                                       LocationClient locationClient,
                                       @Nullable Review template) {
         ReviewBuilderAdapter<GC> adapter = mFactoryAdapter.newAdapter(template);
+        ReviewEditor.EditMode editMode = defaultMode;
+        if(template != null && (template.getCriteria().size() > 0 || template.getFacts().size() > 0)) {
+            editMode = ReviewEditor.EditMode.FULL;
+        }
         FactoryActionsBuild<GC> factory
                 = new FactoryActionsBuild<>(adapter.getGvDataType(), config, launcher, editMode, locationClient);
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);

@@ -40,18 +40,18 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     private UiConfig mConfig;
     private UiLauncher mLauncher;
     private LocationClient mLocationClient;
-    private ReviewEditor.EditMode mEditMode;
+    private ReviewEditor.EditMode mDefaultEditMode;
 
     public FactoryActionsBuild(GvDataType<GC> dataType,
                                UiConfig config,
                                UiLauncher launcher,
-                               ReviewEditor.EditMode editMode,
+                               ReviewEditor.EditMode defaultEditMode,
                                LocationClient locationClient) {
         super(dataType);
         mConfig = config;
         mLauncher = launcher;
         mLocationClient = locationClient;
-        mEditMode = editMode;
+        mDefaultEditMode = defaultEditMode;
     }
 
     @Override
@@ -66,12 +66,12 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public BannerButtonAction<GC> newBannerButton() {
-        return new BannerButtonReviewBuild<>(mEditMode);
+        return new BannerButtonReviewBuild<>(mDefaultEditMode);
     }
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildReview<>(mConfig, mLauncher, mEditMode, mLocationClient);
+        return new GridItemBuildReview<>(mConfig, mLauncher, mDefaultEditMode, mLocationClient);
     }
 
     @Override

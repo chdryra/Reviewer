@@ -28,7 +28,7 @@ public class CommentFormatter {
     private static final String SEPARATOR_REPLACEMENT = ": ";
 
     public static String getFirstSentence(String comment) {
-        return format(split(comment).get(0));
+        return split(comment).get(0);
     }
 
     public static ArrayList<String> split(String comment) {
@@ -54,7 +54,7 @@ public class CommentFormatter {
              start = end, end = boundary.next()) {
             String substring = comment.substring(start, end).trim();
             if(ignoreStop) substring = trim(substring, IGNORE_DELIMITER);
-            comments.add(substring);
+            if(substring != null && substring.length() > 0) comments.add(substring);
         }
 
         return comments;

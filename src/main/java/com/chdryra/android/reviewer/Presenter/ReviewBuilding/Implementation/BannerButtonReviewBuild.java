@@ -28,8 +28,8 @@ public class BannerButtonReviewBuild<GC extends GvDataList<? extends GvDataParce
 
     private ReviewEditor.EditMode mMode;
 
-    public BannerButtonReviewBuild(ReviewEditor.EditMode mode) {
-        mMode = mode;
+    public BannerButtonReviewBuild(ReviewEditor.EditMode defaultMode) {
+        mMode = defaultMode;
         setTitle(mMode.getLabel());
     }
 
