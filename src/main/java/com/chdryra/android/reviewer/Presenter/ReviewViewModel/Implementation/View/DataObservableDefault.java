@@ -32,8 +32,7 @@ public class DataObservableDefault implements DataObservable {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
-    @Override
-    public void notifyDataObservers() {
+    protected void notifyDataObservers() {
         for (DataObserver observer : mObservers) {
             observer.onDataChanged();
         }

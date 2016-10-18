@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.util.Log;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -67,7 +65,6 @@ public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefau
 
     @Override
     public void attachReviewView(ReviewView<T> view) {
-        Log.i("Detach", "Attaching adapter " + this.getClass());
         if(mView != null) detachReviewView(false);
         mView = view;
         registerObserver(mView);
@@ -81,7 +78,6 @@ public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefau
     }
 
     private void detachReviewView(boolean detachViewer) {
-        Log.i("Detach", "Detaching adapter " + this.getClass());
         unregisterObserver(mView);
         mView = null;
         if (detachViewer && mWrapper != null && mIsAttached) detachFromViewer();

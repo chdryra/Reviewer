@@ -74,14 +74,20 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryGvData dataFactory = new FactoryGvData();
 
         FactoryReviewBuilderAdapter<?> builderFactory =
-                getReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
-                dataFactory, validator);
+                getReviewBuilderAdapterFactory(modelContext, gvConverter,dataFactory, validator);
 
         FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
         UiConfig uiConfig = viewContext.getUiConfig();
         FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, dataFactory, paramsFactory);
+
+        String dir = deviceContext.getImageStorageDirectory();
+        FactoryFileIncrementor incrementorFactory
+                = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
+                dir, dir.toLowerCase());
+
         FactoryReviewEditor<?> editorFactory
-                = new FactoryReviewEditor<>(builderFactory, dataEditorFactory, paramsFactory);
+                = new FactoryReviewEditor<>(builderFactory, paramsFactory, dataEditorFactory,
+                incrementorFactory, new FactoryImageChooser(context));
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory, authorRepo);
@@ -111,9 +117,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 gvConverter);
     }
 
-    private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(Context context,
-                                                ModelContext modelContext,
-                                                DeviceContext deviceContext,
+    private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(ModelContext modelContext,
                                                 ConverterGv converter,
                                                 FactoryGvData dataFactory,
                                                 DataValidator validator) {
@@ -124,16 +128,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 modelContext.getReviewsFactory(),
                 new FactoryDataBuilder(dataFactory));
 
-        String dir = deviceContext.getImageStorageDirectory();
-        FactoryFileIncrementor incrementorFactory
-                = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
-                dir, dir.toLowerCase());
-
         //TODO make type safe
-        return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
-                new FactoryDataBuildersGridUi(),
-                validator,
-                incrementorFactory,
-                new FactoryImageChooser(context));
+        return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder, new FactoryDataBuildersGridUi(), validator);
     }
 }

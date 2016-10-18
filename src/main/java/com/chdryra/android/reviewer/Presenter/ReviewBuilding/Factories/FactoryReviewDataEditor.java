@@ -37,9 +37,13 @@ public class FactoryReviewDataEditor {
         mParamsFactory = paramsFactory;
     }
 
-    public <T extends GvDataParcelable> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter, UiLauncher launcher, ImageChooser imageChooser) {
-        FactoryEditActions actionsFactory = new FactoryEditActions(mConfig, mDataFactory, launcher, imageChooser);
+    public <T extends GvDataParcelable> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter,
+                                                                      UiLauncher launcher,
+                                                                      ImageChooser imageChooser) {
         GvDataType<T> type = adapter.getGvDataType();
+        FactoryEditActions actionsFactory
+                = new FactoryEditActions(mConfig, mDataFactory, launcher, imageChooser);
+
         return new ReviewDataEditorImpl<>(adapter,
                 actionsFactory.newActions(type), mParamsFactory.newEditorParams(type));
     }

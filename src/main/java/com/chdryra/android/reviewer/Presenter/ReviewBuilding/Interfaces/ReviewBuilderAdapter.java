@@ -38,16 +38,14 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
 
     void setRatingIsAverage(boolean ratingIsAverage);
 
-    ImageChooser newImageChooser();
+    GvImage getCover();
+
+    void setView(ReviewEditor.EditMode uiType);
 
     <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
     Review buildReview();
 
-    GvImage getCover();
-
     @Override
     GvDataType<GC> getGvDataType();
-
-    void setView(ReviewEditor.EditMode uiType);
 }

@@ -21,6 +21,4 @@ public interface DataObservable {
     void registerObserver(DataObserver observer);
 
     void unregisterObserver(DataObserver observer);
-
-    void notifyDataObservers();
 }

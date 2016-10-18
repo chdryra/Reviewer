@@ -38,18 +38,16 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBuilder, DataObservable.DataObserver {
+    private final TagsManager mTagsManager;
+    private final FactoryReviews mReviewFactory;
+    private final FactoryDataBuilder mDataBuilderFactory;
+    private final DataValidator mDataValidator;
     private final Map<GvDataType<?>, DataBuilder<?>> mDataBuilders;
 
     private String mSubject;
     private float mRating;
     private boolean mIsAverage = false;
 
-    private final TagsManager mTagsManager;
-    private final FactoryReviews mReviewFactory;
-    private final FactoryDataBuilder mDataBuilderFactory;
-    private final DataValidator mDataValidator;
-
-    //Constructors
     public ReviewBuilderImpl(TagsManager tagsManager,
                              FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
@@ -157,12 +155,11 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
         return review;
     }
 
-
-    //private methods
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
         DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(dataType, this);
         db.registerObserver(this);
         mDataBuilders.put(dataType, db);
+
         return db;
     }
 

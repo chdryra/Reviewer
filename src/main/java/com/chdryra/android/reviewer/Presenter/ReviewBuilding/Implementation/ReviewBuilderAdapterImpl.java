@@ -8,17 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -40,41 +36,32 @@ import java.util.Map;
 public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends
         ReviewViewAdapterImpl<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES = GvDataTypes
-            .BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES
+            = GvDataTypes.BUILD_TYPES;
 
-    private final DataBuildersMap mDataBuilders;
+    private final ReviewBuilder mBuilder;
     private final BuildScreenGridUi<GC> mFullGridUi;
     private final BuildScreenGridUi<GC> mQuickGridUi;
-    private final FactoryFileIncrementor mIncrementorFactory;
-    private final FactoryImageChooser mImageChooserFactory;
-    private final ReviewBuilder mBuilder;
     private final DataValidator mDataValidator;
-    private FileIncrementor mIncrementor;
+    private final DataBuildersMap mDataBuilders;
+
     private GvTag mSubjectTag;
     private ReviewEditor.EditMode mUiType = ReviewEditor.EditMode.QUICK;
 
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
                                     BuildScreenGridUi<GC> fullGridUi,
                                     BuildScreenGridUi<GC> quickGridUi,
-                                    DataValidator dataValidator,
-                                    FactoryFileIncrementor incrementorFactory,
-                                    FactoryImageChooser imageChooserFactory) {
+                                    DataValidator dataValidator) {
         mBuilder = builder;
-
-        mDataBuilders = new DataBuildersMap();
-
         mFullGridUi = fullGridUi;
-        mFullGridUi.setParentAdapter(this);
         mQuickGridUi = quickGridUi;
-        mQuickGridUi.setParentAdapter(this);
-
         mDataValidator = dataValidator;
 
-        mIncrementorFactory = incrementorFactory;
-        mImageChooserFactory = imageChooserFactory;
+        mDataBuilders = new DataBuildersMap();
+        mFullGridUi.setParentAdapter(this);
+        mQuickGridUi.setParentAdapter(this);
+
         mSubjectTag = new GvTag("");
-        newIncrementor();
     }
 
     @Override
@@ -85,11 +72,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mBuilder.setRatingIsAverage(ratingIsAverage);
-    }
-
-    @Override
-    public ImageChooser newImageChooser() {
-        return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 
     @Override
@@ -117,7 +99,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     public void setSubject(String subject) {
         if(!mBuilder.getSubject().equals(subject)) {
             mBuilder.setSubject(subject);
-            newIncrementor();
             mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
         }
     }
@@ -190,11 +171,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
         return added ? newTag : new GvTag("");
     }
-
-    private void newIncrementor() {
-        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(mBuilder.getSubject());
-    }
-
 
     private class DataBuildersMap {
         private final Map<GvDataType<? extends GvData>, DataBuilderAdapterImpl<? extends GvData>>

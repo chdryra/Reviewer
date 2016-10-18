@@ -10,25 +10,30 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 
+import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 
 import java.util.ArrayList;
 
@@ -45,21 +50,45 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final GridItemBuildReview<GC> mGridItem;
     private final ArrayList<BuildListener> mBuildListeners;
     private final ArrayList<ModeListener> mModeListeners;
+    private final FactoryFileIncrementor mIncrementorFactory;
+    private final FactoryImageChooser mImageChooserFactory;
 
+    private String mCurrentSubject;
     private ReviewViewContainer mContainer;
     private EditMode mEditMode = EditMode.QUICK;
+    private FileIncrementor mIncrementor;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
                                ReviewViewParams params,
-                               FactoryReviewDataEditor editorFactory) {
+                               FactoryReviewDataEditor editorFactory,
+                               FactoryFileIncrementor incrementorFactory,
+                               FactoryImageChooser imageChooserFactory) {
         super(new ReviewViewPerspective<>(adapter, actions, params));
         mAdapter = adapter;
         mEditorFactory = editorFactory;
+        mIncrementorFactory = incrementorFactory;
+        mImageChooserFactory = imageChooserFactory;
+
         mBannerButton = (BannerButtonReviewBuild<GC>) actions.getBannerButtonAction();
         mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
+
         mBuildListeners = new ArrayList<>();
         mModeListeners = new ArrayList<>();
+
+        mCurrentSubject = mAdapter.getSubject();
+
+        newIncrementor();
+    }
+
+    @Override
+    public void onDataChanged() {
+        super.onDataChanged();
+        String subject = mAdapter.getSubject();
+        if(!mCurrentSubject.equals(subject)) {
+            mCurrentSubject = subject;
+            newIncrementor();
+        }
     }
 
     @Override
@@ -110,7 +139,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public ImageChooser newImageChooser() {
-        return mAdapter.newImageChooser();
+        return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 
     @Override
@@ -193,6 +222,10 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public EditMode getEditMode() {
         return mEditMode;
+    }
+
+    private void newIncrementor() {
+        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(getSubject());
     }
 
     private void setView() {

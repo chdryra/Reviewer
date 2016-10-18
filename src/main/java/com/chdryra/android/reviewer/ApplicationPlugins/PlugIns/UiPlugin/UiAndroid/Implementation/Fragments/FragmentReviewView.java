@@ -189,7 +189,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private void attachToReviewViewIfNecessary() {
         if (!mIsAttached) {
-            Log.i("Detach", "Attaching fragment");
             mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
             mIsAttached = true;
         }
@@ -197,7 +196,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private void detachFromReviewViewIfNecessary() {
         if (mIsAttached) {
-            Log.i("Detach", "Detaching fragment");
             mReviewView.detachEnvironment();
             mIsAttached = false;
         }

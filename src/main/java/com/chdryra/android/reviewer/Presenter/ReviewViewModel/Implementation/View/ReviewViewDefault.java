@@ -8,40 +8,34 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.util.Log;
-
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
+public class ReviewViewDefault<T extends GvData> extends DataObservableDefault implements ReviewView<T> {
     private static final String TAG = TagKeyGenerator.getTag(ReviewViewDefault.class);
+
     private final ReviewViewPerspective<T> mPerspective;
-    private final ArrayList<DataObservable.DataObserver> mObservers;
+
     private ReviewViewContainer mContainer;
     private ApplicationInstance mApp;
     private GvDataList<T> mGridViewData;
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
-        mObservers = new ArrayList<>();
     }
 
     @Override
@@ -51,9 +45,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public ApplicationInstance getApp() {
-        if (mApp == null) {
-            throw new IllegalStateException("Cannot call before Environment attached");
-        }
+        if (mApp == null) throw new IllegalStateException("Environment not attached");
 
         return mApp;
     }
@@ -113,7 +105,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         if (mContainer != null) throw new RuntimeException("There is a Fragment already attached");
-        Log.i("Detach", "Attaching ReviewView environment " + this.getClass());
         mContainer = container;
         mApp = app;
         registerObserver(mContainer);
@@ -123,7 +114,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public void detachEnvironment() {
-        Log.i("Detach", "Detaching ReviewView environment " + this.getClass());
         mPerspective.detachFromActions();
         detachFromAdapter();
         unregisterObserver(mContainer);
@@ -149,23 +139,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void registerObserver(DataObservable.DataObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(DataObservable.DataObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyDataObservers() {
-        for (DataObservable.DataObserver observer : mObservers) {
-            observer.onDataChanged();
-        }
-    }
-
-    @Override
     public void onDataChanged() {
         mGridViewData = null;
         notifyDataObservers();
@@ -186,14 +159,12 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     protected void attachToAdapter() {
-        Log.i("Detach", "Attaching ReviewView adapter " + this.getClass());
         mPerspective.attachToAdapter(this);
         mGridViewData = mPerspective.getAdapter().getGridData();
         notifyDataObservers();
     }
 
     protected void detachFromAdapter() {
-        Log.i("Detach", "Detaching ReviewView adapter " + this.getClass());
         mPerspective.detachFromAdapter();
     }
 }

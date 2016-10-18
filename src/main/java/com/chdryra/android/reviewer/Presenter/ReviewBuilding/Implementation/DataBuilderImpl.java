@@ -29,10 +29,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class DataBuilderImpl<T extends GvData> extends DataObservableDefault implements DataBuilder<T> {
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
+    private final FactoryGvData mCopier;
 
     private GvDataList<T> mOriginalData;
     private GvDataList<T> mData;
-    private final FactoryGvData mCopier;
 
     public DataBuilderImpl(GvDataList<T> data, FactoryGvData copier) {
         this(data, copier, new AddConstraintDefault<T>());
@@ -104,6 +104,7 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
     public boolean delete(T data) {
         boolean remove = mData.remove(data);
         notifyDataObservers();
+
         return remove;
     }
 

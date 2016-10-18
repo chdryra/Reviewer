@@ -138,4 +138,9 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     public void detachFromBuilder() {
         detachFromAdapter();
     }
+
+    @Override
+    public void update() {
+        notifyDataObservers();
+    }
 }

@@ -31,15 +31,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelable>> {
     private final FactoryReviewBuilderAdapter<GC> mFactoryAdapter;
-    private final FactoryReviewDataEditor mFactoryDataEditor;
     private final FactoryReviewViewParams mParamsFactory;
+    private final FactoryReviewDataEditor mFactoryDataEditor;
+    private final FactoryFileIncrementor mFactoryFileIncrementor;
+    private final FactoryImageChooser mFactoryImageChooser;
 
     public FactoryReviewEditor(FactoryReviewBuilderAdapter<GC> factoryAdapter,
+                               FactoryReviewViewParams paramsFactory,
                                FactoryReviewDataEditor factoryDataEditor,
-                               FactoryReviewViewParams paramsFactory) {
+                               FactoryFileIncrementor factoryFileIncrementor,
+                               FactoryImageChooser factoryImageChooser) {
         mFactoryAdapter = factoryAdapter;
-        mFactoryDataEditor = factoryDataEditor;
         mParamsFactory = paramsFactory;
+        mFactoryDataEditor = factoryDataEditor;
+        mFactoryFileIncrementor = factoryFileIncrementor;
+        mFactoryImageChooser = factoryImageChooser;
     }
 
     public ReviewEditor<GC> newEditor(UiConfig config,
@@ -57,6 +63,7 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 
-        return new ReviewEditorDefault<>(adapter, actions, params, mFactoryDataEditor);
+        return new ReviewEditorDefault<>(adapter, actions, params, mFactoryDataEditor,
+                mFactoryFileIncrementor, mFactoryImageChooser);
     }
 }

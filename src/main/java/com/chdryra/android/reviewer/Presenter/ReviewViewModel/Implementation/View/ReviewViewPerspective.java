@@ -57,7 +57,6 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public void attachToAdapter(ReviewView<T> view) {
         if(!mIsAttachedToAdapter) {
-            Log.i("Detach", "Attaching perspective adapter");
             mAdapter.attachReviewView(view);
             mIsAttachedToAdapter = true;
         }
@@ -72,7 +71,6 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public void detachFromAdapter() {
         if(mIsAttachedToAdapter) {
-            Log.i("Detach", "Detaching perspective adapter");
             mAdapter.detachReviewView();
             mIsAttachedToAdapter = false;
         }
