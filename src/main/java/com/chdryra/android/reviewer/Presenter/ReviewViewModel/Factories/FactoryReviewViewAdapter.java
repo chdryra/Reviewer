@@ -92,12 +92,10 @@ public class FactoryReviewViewAdapter {
     }
 
     //List reviews generating this datum
-    public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {
+    public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum, @Nullable String title, @Nullable AuthorId toFollow) {
         HasReviewId dataValue = datum.getDataValue();
-        boolean isAuthor = datum.getGvDataType().equals(GvAuthorId.Reference.TYPE);
-        AuthorId toFollow = isAuthor ? (GvAuthorId)dataValue : null;
         ReviewTreeSourceCallback node = newAsyncNode();
-        String title = dataValue != null ? dataValue.toString() : datum.toString();
+        if(title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
         mReviewSource.asMetaReview(datum, title, node);
         return newReviewsListAdapter(node, toFollow);
     }
@@ -169,6 +167,9 @@ public class FactoryReviewViewAdapter {
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
                     .newTreeCommentsViewer(node, mConverter));
+        } if (dataType == GvAuthorId.TYPE) {
+            return newNodeAdapter(node, mViewerFactory.newTreeAuthorsViewer(node,
+                    mConverter.newConverterAuthorsIds(mAuthorsRepository)));
         } else {
             return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType,
                     mConverter));

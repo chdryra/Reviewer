@@ -16,6 +16,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterAuthorIds;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
@@ -74,6 +77,11 @@ public class FactoryGridDataViewer {
                 converter.newConverterComments().getReferencesConverter(), mAdapterFactory, mReferenceFactory);
     }
 
+    ViewerTreeData.TreeAuthorList newTreeAuthorsViewer(ReviewNode node, GvConverterAuthorIds converter) {
+        return new ViewerTreeData.TreeAuthorList(node.getAuthorIds(),
+                converter.getReferencesConverter(), mAdapterFactory);
+    }
+
     @Nullable
     GridDataWrapper<?> newReviewDataViewer(ReviewNode node,
                                            GvDataType<?> dataType,
@@ -116,8 +124,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getImages(), converter.newConverterImages()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvComment.TYPE)) {
-            viewer = new ViewerTreeData.TreeCommentList(node.getComments(), converter.newConverterComments()
-                    .getReferencesConverter(), mAdapterFactory, mReferenceFactory);
+            viewer = newTreeCommentsViewer(node, converter);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerTreeData<>(node.getLocations(), converter.newConverterLocations
                     ().getReferencesConverter(), mAdapterFactory);
@@ -125,8 +132,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getFacts(), converter.newConverterFacts()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvAuthorId.TYPE)) {
-        viewer = new ViewerTreeData<>(node.getAuthorIds(), converter.newConverterAuthorsIds(mAuthorsRepository)
-                    .getReferencesConverter(), mAdapterFactory);
+        viewer = newTreeAuthorsViewer(node, converter.newConverterAuthorsIds(mAuthorsRepository));
         } else if (dataType.equals(GvSubject.TYPE)) {
             viewer = new ViewerTreeData<>(node.getSubjects(), converter.newConverterSubjects()
                     .getReferencesConverter(), mAdapterFactory);

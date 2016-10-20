@@ -8,8 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
@@ -17,8 +20,8 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 
@@ -39,6 +42,10 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         mAdapterFactory = adapterFactory;
     }
 
+    FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
     @Override
     public boolean isExpandable(GvRef datum) {
         return getGridData().contains(datum);
@@ -51,7 +58,29 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
 
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvRef datum) {
-        return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum) : null;
+        return isExpandable(datum) ? newAdapter(datum) : null;
+    }
+
+    protected ReviewViewAdapter<?> newAdapter(GvRef datum) {
+        return mAdapterFactory.newReviewsListAdapter(datum, null, null);
+    }
+
+    public static class TreeAuthorList extends ViewerTreeData<DataAuthorId, GvAuthorId.Reference> {
+
+        public TreeAuthorList(RefDataList<DataAuthorId> reference,
+                              GvConverterReferences<DataAuthorId, GvAuthorId.Reference,
+                                      ReviewItemReference<DataAuthorId>> converter,
+                              FactoryReviewViewAdapter adapterFactory) {
+            super(reference, converter, adapterFactory);
+        }
+
+        @Override
+        protected ReviewViewAdapter<?> newAdapter(GvAuthorId.Reference datum) {
+            NamedAuthor author = datum.getNamedAuthor();
+            String name = author != null ? author.getName() : null;
+            AuthorId id = author != null ? author.getAuthorId() : null;
+            return getAdapterFactory().newReviewsListAdapter(datum, name, id);
+        }
     }
 
     public static class TreeCommentList extends ViewerReviewData.CommentList {
@@ -77,7 +106,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
 
         @Override
         public ReviewViewAdapter<?> expandGridCell(GvComment.Reference datum) {
-            return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum) : null;
+            return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum, null, null) : null;
         }
     }
 }

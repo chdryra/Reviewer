@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -22,6 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
     private DataReference<NamedAuthor> mReference;
+    private NamedAuthor mAuthor;
 
     @Override
     public void updateView(ViewHolderData data) {
@@ -36,11 +39,17 @@ public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
 
     @Override
     public void onReferenceValue(NamedAuthor value) {
+        mAuthor = value;
         updateView(value.getName());
     }
 
     @Override
     public void onInvalidated(DataReference<NamedAuthor> reference) {
         updateView("");
+    }
+
+    @Nullable
+    public NamedAuthor getAuthor() {
+        return mAuthor;
     }
 }

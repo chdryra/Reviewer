@@ -63,6 +63,10 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
         return mDataValue;
     }
 
+    public ValueHolder getValueHolder() {
+        return mValueHolder;
+    }
+
     @Override
     public void inflate(Context context, ViewGroup parent) {
         mValueHolder.inflate(context, parent);

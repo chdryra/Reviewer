@@ -23,6 +23,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthorId;
 
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataRef;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 25/03/2015
@@ -168,6 +172,15 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
                     return new GvAuthorId(placeHolder);
                 }
             });
+        }
+
+        @Nullable
+        public NamedAuthor getNamedAuthor() {
+            VhDataRef refHolder = (VhDataRef) getReferenceViewHolder();
+            if(refHolder == null) return null;
+            VhAuthorId valueHolder = (VhAuthorId) refHolder.getValueHolder();
+            if(valueHolder == null) return null;
+            return valueHolder.getAuthor();
         }
     }
 }

@@ -71,6 +71,11 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
     }
 
     @Nullable
+    public VhDataReference<ValueType> getReferenceViewHolder() {
+        return mViewHolder;
+    }
+
+    @Nullable
     public ValueType getDataValue() {
         return mViewHolder != null ? mViewHolder.getDataValue() : null;
     }
