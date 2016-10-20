@@ -116,5 +116,4 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     private ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {
         return mAdapterFactory.newTreeSummaryAdapter(node);
     }
-
 }

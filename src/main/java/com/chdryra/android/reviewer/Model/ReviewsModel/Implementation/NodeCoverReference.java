@@ -139,6 +139,11 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
 
     private void findReviewWithCover(final ArrayList<ReviewItemReference<ReviewReference>> list,
                                      final int index, final ChoiceCallback callback) {
+        if(index >= list.size()) {
+            callback.onChosen(false);
+            return;
+        }
+
         final ReviewItemReference<ReviewReference> review = list.get(index);
         final int nextIndex = index + 1;
         if (review.isValidReference()) {
@@ -166,9 +171,10 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
             @Override
             public void onDereferenced(DataValue<DataSize> value) {
                 if (value.hasValue() && value.getData().getSize() > 0) {
+                    ReviewItemReference<ReviewReference> old = mReview;
                     setReview(review);
-                    callback.onChosen(mReview == null
-                            || !mReview.getReviewId().equals(review.getReviewId()));
+                    callback.onChosen(old == null
+                            || !old.getReviewId().equals(review.getReviewId()));
                 } else {
                     findReviewWithCover(list, nextIndex, callback);
                 }

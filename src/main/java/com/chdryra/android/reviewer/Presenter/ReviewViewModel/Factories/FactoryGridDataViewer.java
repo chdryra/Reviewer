@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
@@ -34,12 +33,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
-
-
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
-
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
@@ -55,7 +49,7 @@ public class FactoryGridDataViewer {
     private final FactoryReference mReferenceFactory;
     private final AuthorsRepository mAuthorsRepository;
 
-    public FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
+    FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
                                  FactoryReference referenceFactory,
                                  AuthorsRepository authorsRepository) {
         mAdapterFactory = adapterFactory;
@@ -63,41 +57,27 @@ public class FactoryGridDataViewer {
         mAuthorsRepository = authorsRepository;
     }
 
-    public GridDataWrapper<?> newDataSummaryViewer(ReviewNode node, ConverterGv converter) {
-        GridDataWrapper<?> viewer;
-        IdableList<ReviewNode> children = node.getChildren();
-        if (children.size() > 1) {
-            viewer = newTreeSummaryViewer(node, converter);
-        } else {
-            node = children.size() == 0 ? node : children.getItem(0);
-            viewer = newReviewSummaryViewer(node, converter);
-        }
-
-        return viewer;
-    }
-
-    public GridDataWrapper<?> newTreeSummaryViewer(ReviewNode node, ConverterGv converter) {
+    GridDataWrapper<?> newTreeSummaryViewer(ReviewNode node, ConverterGv converter) {
         return new ViewerTreeSummary(node, mAdapterFactory, converter);
     }
 
-    public GridDataWrapper<?> newReviewSummaryViewer(ReviewNode node, ConverterGv converter) {
+    GridDataWrapper<?> newNodeSummaryViewer(ReviewNode node, ConverterGv converter) {
         return new ViewerReviewSummary(node, mAdapterFactory, converter);
     }
 
-    public ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node, ConverterGv converter) {
+    ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node, ConverterGv converter) {
         return new ViewerReviewData.CommentList(node.getComments(), converter.newConverterComments().getReferencesConverter(), mReferenceFactory);
     }
 
-    public ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node, ConverterGv converter) {
+    ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node, ConverterGv converter) {
         return new ViewerTreeData.TreeCommentList(node.getComments(),
                 converter.newConverterComments().getReferencesConverter(), mAdapterFactory, mReferenceFactory);
     }
 
-
     @Nullable
-    public GridDataWrapper<?> newReviewDataViewer(ReviewNode node,
-                                                  GvDataType<?> dataType,
-                                                  ConverterGv converter) {
+    GridDataWrapper<?> newReviewDataViewer(ReviewNode node,
+                                           GvDataType<?> dataType,
+                                           ConverterGv converter) {
         GridDataWrapper<?> viewer = null;
         if (dataType.equals(GvTag.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getTags(),
@@ -122,9 +102,9 @@ public class FactoryGridDataViewer {
     }
 
     @Nullable
-    public GridDataWrapper<?> newTreeDataViewer(ReviewNode node,
-                                                GvDataType<?> dataType,
-                                                ConverterGv converter) {
+    GridDataWrapper<?> newTreeDataViewer(ReviewNode node,
+                                         GvDataType<?> dataType,
+                                         ConverterGv converter) {
         GridDataWrapper<?> viewer = null;
         if (dataType.equals(GvTag.TYPE)) {
             viewer = new ViewerTreeData<>(node.getTags(), converter.newConverterTags()
@@ -157,6 +137,8 @@ public class FactoryGridDataViewer {
 
         return viewer;
     }
+
+    //Old aggregate stuff
 //
 //    public <T extends GvData> GridDataWrapper<T> newDataToDataViewer(ReviewNode parent,
 //                                                                    GvDataType<T> dataType) {
@@ -164,8 +146,7 @@ public class FactoryGridDataViewer {
 //    }
 
     public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToDataViewer
-            (GvCanonicalCollection<T> data,
-                                                                                    GvDataAggregator aggregateFactory) {
+            (GvCanonicalCollection<T> data, GvDataAggregator aggregateFactory) {
         GridDataWrapper<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterion.TYPE)) {
             //TODO make type safe

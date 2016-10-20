@@ -135,17 +135,19 @@ public class FactoryReviewViewAdapter {
 
     //Summary of reviews for this review tree
     public ReviewViewAdapter<?> newTreeSummaryAdapter(ReviewNode node) {
-        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
+        GridDataWrapper<?> viewer = node.getChildren().size() > 0 ?
+                mViewerFactory.newTreeSummaryViewer(node, mConverter) :
+                mViewerFactory.newNodeSummaryViewer(node, mConverter);
         return newNodeAdapter(node, viewer);
     }
 
     //Summary of reviews generating this data
-    public <T extends GvData> ReviewViewAdapter<?> newTreeSummaryAdapter(GvDataCollection<T> data) {
-        ReviewTreeSourceCallback node = newAsyncNode();
-        mReviewSource.getMetaReview(data, data.toString(), node);
-        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
-        return newNodeAdapter(node, viewer);
-    }
+//    public <T extends GvData> ReviewViewAdapter<?> newTreeSummaryAdapter(GvDataCollection<T> data) {
+//        ReviewTreeSourceCallback node = newAsyncNode();
+//        mReviewSource.getMetaReview(data, data.toString(), node);
+//        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
+//        return newNodeAdapter(node, viewer);
+//    }
 
     //View specific data for this review as if it was a single review
     @Nullable
@@ -241,13 +243,6 @@ public class FactoryReviewViewAdapter {
         return newNodeAdapter(node, viewer);
     }
 
-    private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter
-            (GvCanonicalCollection<T> data, String subject, GridDataWrapper<GvCanonical> viewer) {
-
-        ReviewTreeSourceCallback node = newFlattenedMetaReview(data, subject);
-        return data.size() == 1 ? newReviewsListAdapter(node, null) : newNodeAdapter(node, viewer);
-    }
-
     private <T extends GvData> ReviewTreeSourceCallback newFlattenedMetaReview
             (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> gvDataType = data.getGvDataType();
@@ -281,5 +276,13 @@ public class FactoryReviewViewAdapter {
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);
 
         return new ReviewTreeSourceCallback(node);
+    }
+
+
+    private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter
+            (GvCanonicalCollection<T> data, String subject, GridDataWrapper<GvCanonical> viewer) {
+
+        ReviewTreeSourceCallback node = newFlattenedMetaReview(data, subject);
+        return data.size() == 1 ? newReviewsListAdapter(node, null) : newNodeAdapter(node, viewer);
     }
 }
