@@ -95,7 +95,7 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
         @Override
         public void onAddEdit(T data) {
             clearViews();
-            mAdder.setTitle("+ " + data.getStringSummary());
+            mAdder.setTitle("+ " + data.toString());
         }
     }
 
@@ -110,7 +110,7 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
         @Override
         public void initialise(T data) {
             mEditor.setKeyboardAction(getEditTextForKeyboardAction());
-            mEditor.setDeleteTitle(data.getStringSummary());
+            mEditor.setDeleteTitle(data.toString());
             updateLayout(data);
         }
 

@@ -88,11 +88,6 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     }
 
     @Override
-    public String getStringSummary() {
-        return toString();
-    }
-
-    @Override
     public ReviewId getReviewId() {
         return mReviewId;
     }
@@ -103,7 +98,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return false;
     }
 

@@ -34,10 +34,10 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         extends GvDataBasic<Reference> implements DataReference.InvalidationListener {
 
     private final ReviewItemReference<ValueType> mReference;
-    private VhDataReference<ValueType> mViewHolder;
     private final PlaceHolderFactory<ValueType> mFactory;
     private final DataConverter<ValueType, ? extends GvDataParcelable, ?> mConverter;
     private final Class<ValueHolder> mValueHolderClass;
+    private VhDataReference<ValueType> mViewHolder;
 
     public interface PlaceHolderFactory<ValueType extends HasReviewId> {
         ValueType newPlaceHolder(String placeHolder);
@@ -113,8 +113,8 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
     }
 
     @Override
-    public String getStringSummary() {
-        return getGvReviewId().getStringSummary();
+    public String toString() {
+        return getGvReviewId().toString();
     }
 
     @Override

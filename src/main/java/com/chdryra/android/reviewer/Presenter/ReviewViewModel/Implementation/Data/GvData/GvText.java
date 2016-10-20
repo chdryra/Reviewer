@@ -84,7 +84,7 @@ public class GvText<T extends GvText> extends VHDString implements GvDataParcela
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return getString();
     }
 
@@ -99,7 +99,7 @@ public class GvText<T extends GvText> extends VHDString implements GvDataParcela
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return false;
     }
 

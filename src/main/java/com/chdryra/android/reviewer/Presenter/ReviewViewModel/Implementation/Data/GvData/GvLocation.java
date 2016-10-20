@@ -96,7 +96,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return "@" + getShortenedName();
     }
 

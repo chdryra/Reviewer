@@ -107,8 +107,8 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     }
 
     @Override
-    public String getStringSummary() {
-        return mCanonical.getStringSummary();
+    public String toString() {
+        return mCanonical.toString();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return true;
     }
 

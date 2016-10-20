@@ -89,7 +89,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return getName();
     }
 

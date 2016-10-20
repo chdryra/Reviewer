@@ -80,11 +80,6 @@ public class GvReviewId implements GvDataParcelable, ReviewId {
     }
 
     @Override
-    public String getStringSummary() {
-        return toString();
-    }
-
-    @Override
     public ReviewId getReviewId() {
         return this;
     }
@@ -95,7 +90,7 @@ public class GvReviewId implements GvDataParcelable, ReviewId {
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return false;
     }
 

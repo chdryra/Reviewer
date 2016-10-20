@@ -8,20 +8,16 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VerboseData extends Validatable{
-    String getStringSummary();
+    @Override
+    String toString();
 
     boolean hasElements();
 
-    boolean isVerboseCollection();
-
-    @Override
-    boolean hasData(DataValidator dataValidator);
+    boolean isCollection();
 }

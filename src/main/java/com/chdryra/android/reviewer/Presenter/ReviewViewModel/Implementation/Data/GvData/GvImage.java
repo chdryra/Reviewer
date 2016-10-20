@@ -109,7 +109,7 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return mCaption != null ? TYPE.getDatumName() + ": " + mCaption : TYPE.getDatumName();
     }
 

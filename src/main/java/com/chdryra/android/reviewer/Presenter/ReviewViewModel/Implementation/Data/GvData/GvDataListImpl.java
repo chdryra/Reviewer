@@ -79,7 +79,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         int num = size();
         String dataString = num == 1 ? mType.getDatumName() : mType.getDataName();
         return String.valueOf(size()) + " " + dataString;
@@ -96,7 +96,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return true;
     }
 

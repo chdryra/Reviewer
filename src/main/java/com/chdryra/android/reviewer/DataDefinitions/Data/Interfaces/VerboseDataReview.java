@@ -18,11 +18,11 @@ public interface VerboseDataReview extends HasReviewId, VerboseData {
     ReviewId getReviewId();
 
     @Override
-    String getStringSummary();
+    String toString();
 
     @Override
     boolean hasElements();
 
     @Override
-    boolean isVerboseCollection();
+    boolean isCollection();
 }

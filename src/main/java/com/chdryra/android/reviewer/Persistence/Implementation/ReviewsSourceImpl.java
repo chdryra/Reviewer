@@ -12,7 +12,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
@@ -78,17 +80,25 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public void asMetaReview(final VerboseDataReview datum, final String subjectIfMetaOfItems,
                              final ReviewsSourceCallback callback) {
-        ReviewId id = getSingleSourceId(datum);
-        if (id != null) {
-            asMetaReviewNullable(id, callback);
+        if(!datum.isCollection()) {
+            IdableCollection<VerboseDataReview> data = new IdableDataCollection<>();
+            data.add(datum);
+            getMetaReview(data, subjectIfMetaOfItems, callback);
         } else {
             getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                     subjectIfMetaOfItems, callback);
         }
+//        ReviewId id = getSingleSourceId(datum);
+//        if (id != null) {
+//            asMetaReviewNullable(id, callback);
+//        } else {
+//            getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
+//                    subjectIfMetaOfItems, callback);
+//        }
     }
 
     @Override
-    public void getMetaReview(final VerboseIdableCollection data, final String subject,
+    public void getMetaReview(final IdableCollection<?> data, final String subject,
                               final ReviewsSourceCallback callback) {
         getUniqueReviews(data, new RepositoryCallback() {
             @Override
@@ -127,7 +137,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Nullable
     private ReviewId getSingleSourceId(VerboseDataReview datum) {
         ReviewId id = datum.getReviewId();
-        if (datum.isVerboseCollection() && datum.hasElements()) {
+        if (datum.isCollection() && datum.hasElements()) {
             VerboseIdableCollection<? extends VerboseDataReview> data =
                     (VerboseIdableCollection<? extends VerboseDataReview>) datum;
             id = data.getItem(0).getReviewId();
@@ -161,7 +171,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         });
     }
 
-    private void getUniqueReviews(final VerboseIdableCollection data,
+    private void getUniqueReviews(final IdableCollection<?> data,
                                   final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
@@ -176,7 +186,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         private final int mMaxReviews;
         private int mCurrentIndex;
 
-        public UniqueCallback(int maxReviews, RepositoryCallback finalCallback) {
+        private UniqueCallback(int maxReviews, RepositoryCallback finalCallback) {
             mMaxReviews = maxReviews;
             mFinalCallback = finalCallback;
             mCurrentIndex = 0;

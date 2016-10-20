@@ -98,7 +98,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
     }
 
     @Override
-    public String getStringSummary() {
-        return getGvReviewId().getStringSummary();
+    public String toString() {
+        return getGvReviewId().toString();
     }
 }

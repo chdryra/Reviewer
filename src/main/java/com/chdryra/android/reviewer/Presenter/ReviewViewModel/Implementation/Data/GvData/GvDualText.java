@@ -74,7 +74,7 @@ public class GvDualText extends VHDDualString implements GvDataParcelable {
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return "Upper: " + getUpper() + ", Lower: " + getLower();
     }
 
@@ -89,7 +89,7 @@ public class GvDualText extends VHDDualString implements GvDataParcelable {
     }
 
     @Override
-    public boolean isVerboseCollection() {
+    public boolean isCollection() {
         return false;
     }
 

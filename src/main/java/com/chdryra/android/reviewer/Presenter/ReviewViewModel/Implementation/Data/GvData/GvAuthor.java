@@ -117,7 +117,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return mName;
     }
 

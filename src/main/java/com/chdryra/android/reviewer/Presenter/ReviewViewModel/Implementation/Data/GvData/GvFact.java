@@ -78,7 +78,7 @@ public class GvFact extends GvDualText implements DataFact {
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return getLabel() + ": " + getValue();
     }
 

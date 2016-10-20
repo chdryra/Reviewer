@@ -68,7 +68,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     }
 
     private void launchViewerIfPossible(GvData item) {
-        if (item.isVerboseCollection() || mDataConfig == null || item.getParcelable() == null) return;
+        if (item.isCollection() || mDataConfig == null || item.getParcelable() == null) return;
         Bundle bundle = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), bundle);
         mDataConfig.launch(new UiLauncherArgs(mLaunchCode).setBundle(bundle));

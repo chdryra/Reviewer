@@ -76,7 +76,7 @@ public class GvTag extends GvText<GvTag> implements DataTag {
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return "#" + getString();
     }
 

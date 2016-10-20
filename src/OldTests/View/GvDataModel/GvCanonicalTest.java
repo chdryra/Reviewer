@@ -112,8 +112,8 @@ public class GvCanonicalTest extends TestCase {
     }
 
     @SmallTest
-    public void testGetStringSummary() {
-        assertEquals(mCanonical.getStringSummary(), mGvCanonical.getStringSummary());
+    public void testtoString() {
+        assertEquals(mCanonical.toString(), mGvCanonical.toString());
     }
 
     @SmallTest

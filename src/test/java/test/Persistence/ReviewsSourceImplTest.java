@@ -407,7 +407,7 @@ public class ReviewsSourceImplTest {
         }
 
         @Override
-        public String getStringSummary() {
+        public String toString() {
             return mSummary;
         }
 
@@ -417,7 +417,7 @@ public class ReviewsSourceImplTest {
         }
 
         @Override
-        public boolean isVerboseCollection() {
+        public boolean isCollection() {
             return false;
         }
 
@@ -453,7 +453,7 @@ public class ReviewsSourceImplTest {
         }
 
         @Override
-        public String getStringSummary() {
+        public String toString() {
             return mSummary;
         }
 
@@ -463,7 +463,7 @@ public class ReviewsSourceImplTest {
         }
 
         @Override
-        public boolean isVerboseCollection() {
+        public boolean isCollection() {
             return true;
         }
 

@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
@@ -27,7 +27,7 @@ public interface ReviewsSource extends ReviewsRepository {
 
     void asMetaReview(VerboseDataReview datum, String subject, ReviewsSourceCallback callback);
 
-    void getMetaReview(VerboseIdableCollection data, String subject, ReviewsSourceCallback callback);
+    void getMetaReview(IdableCollection<?> data, String subject, ReviewsSourceCallback callback);
 
     //As review node in result
     interface ReviewsSourceCallback {

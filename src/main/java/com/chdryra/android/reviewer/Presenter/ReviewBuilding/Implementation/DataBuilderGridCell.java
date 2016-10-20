@@ -43,7 +43,7 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return getGvDataType().getDataName();
     }
 

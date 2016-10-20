@@ -42,7 +42,7 @@ public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasi
 
     ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
-                datum.getCanonical().getStringSummary());
+                datum.getCanonical().toString());
     }
 
     @Override

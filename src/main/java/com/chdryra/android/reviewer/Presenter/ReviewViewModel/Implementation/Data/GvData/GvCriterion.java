@@ -95,7 +95,7 @@ public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements D
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         return getSubject() + ": " + RatingFormatter.outOfFive(getRating());
     }
 

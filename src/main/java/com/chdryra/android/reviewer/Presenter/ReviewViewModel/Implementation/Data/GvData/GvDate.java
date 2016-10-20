@@ -105,7 +105,7 @@ public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
     }
 
     @Override
-    public String getStringSummary() {
+    public String toString() {
         DateFormat format = SimpleDateFormat.getDateInstance();
         return format.format(new Date(mTime));
     }

@@ -126,8 +126,8 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     }
 
     @Override
-    public String getStringSummary() {
-        return getUnsplitComment().getFirstSentence();
+    public String toString() {
+        return getComment();
     }
 
     @Override
@@ -138,11 +138,6 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     @Override
     public boolean isHeadline() {
         return mIsHeadline;
-    }
-
-    @Override
-    public String toString() {
-        return getComment();
     }
 
     @Override
