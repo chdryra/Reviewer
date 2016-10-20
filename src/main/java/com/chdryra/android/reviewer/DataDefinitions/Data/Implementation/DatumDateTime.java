@@ -50,4 +50,9 @@ public class DatumDateTime implements DateTime {
     public int hashCode() {
         return (int) (mTime ^ (mTime >>> 32));
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

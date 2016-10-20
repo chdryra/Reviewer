@@ -14,6 +14,7 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -79,7 +80,7 @@ public class GvFact extends GvDualText implements DataFact {
 
     @Override
     public String toString() {
-        return getLabel() + ": " + getValue();
+        return StringParser.parse(this);
     }
 
     @Override

@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Comm
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Helper class for comment string processing.
@@ -33,15 +32,6 @@ public class CommentFormatter {
 
     public static ArrayList<String> split(String comment) {
         return split(comment, true);
-    }
-
-    public static String join(List<String> sentences) {
-        String comment = "";
-        for(String sentence : sentences) {
-            comment += sentence + " ";
-        }
-
-        return comment.trim();
     }
 
     public static ArrayList<String> split(String comment, boolean ignoreStop) {

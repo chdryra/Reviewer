@@ -13,14 +13,14 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.LocationFormatter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocation;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.StringTokenizer;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -28,7 +28,6 @@ import java.util.StringTokenizer;
  * {@link ViewHolder}: {@link VhLocation}
  */
 public class GvLocation extends GvDataParcelableBasic<GvLocation> implements DataLocation {
-    private static final String DELIMITERS = ",|";
     public static final GvDataType<GvLocation> TYPE = new GvDataType<>(GvLocation.class,
             "location");
     public static final Creator<GvLocation> CREATOR = new Creator<GvLocation>() {
@@ -69,15 +68,9 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
         mName = in.readString();
     }
 
-    @Nullable
+    @Override
     public String getShortenedName() {
-        String shortened = mName;
-        if (mName != null) {
-            StringTokenizer tokens = new StringTokenizer(mName, DELIMITERS);
-            shortened = tokens.nextToken();
-        }
-
-        return shortened != null ? shortened.trim() : mName;
+        return LocationFormatter.getShortenedName(mName);
     }
 
     @Override
@@ -97,7 +90,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
 
     @Override
     public String toString() {
-        return "@" + getShortenedName();
+        return StringParser.parse(this);
     }
 
     @Override

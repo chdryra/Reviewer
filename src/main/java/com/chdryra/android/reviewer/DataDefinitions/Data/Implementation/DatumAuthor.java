@@ -78,4 +78,9 @@ public class DatumAuthor implements DataAuthor {
         result = 31 * result + mAuthorId.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse((NamedAuthor)this);
+    }
 }

@@ -85,4 +85,9 @@ public class DatumFact implements DataFact {
         result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

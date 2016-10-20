@@ -49,11 +49,6 @@ public class DatumAuthorId implements DataAuthorId, Parcelable {
     }
 
     @Override
-    public String toString() {
-        return mAuthorId;
-    }
-
-    @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validate(mReviewId) && dataValidator.validate(this);
     }
@@ -92,5 +87,10 @@ public class DatumAuthorId implements DataAuthorId, Parcelable {
         int result = mReviewId != null ? mReviewId.hashCode() : 0;
         result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return mAuthorId;
     }
 }

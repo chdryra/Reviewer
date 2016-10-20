@@ -12,6 +12,7 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
@@ -90,7 +91,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
     @Override
     public String toString() {
-        return getName();
+        return StringParser.parse(this);
     }
 
     @Override

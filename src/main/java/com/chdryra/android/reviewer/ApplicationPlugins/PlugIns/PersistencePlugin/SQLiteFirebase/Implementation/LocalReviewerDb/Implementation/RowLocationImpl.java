@@ -12,11 +12,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .LocationFormatter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -69,6 +73,11 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
     @Override
     public String getName() {
         return mName;
+    }
+
+    @Override
+    public String getShortenedName() {
+        return LocationFormatter.getShortenedName(mName);
     }
 
     @Override
@@ -139,5 +148,10 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (mName != null ? mName.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 }

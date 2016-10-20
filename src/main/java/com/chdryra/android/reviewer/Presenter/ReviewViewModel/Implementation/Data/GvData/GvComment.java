@@ -13,15 +13,14 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .CommentFormatter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -126,11 +125,6 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     }
 
     @Override
-    public String toString() {
-        return getComment();
-    }
-
-    @Override
     public String getComment() {
         return mComment;
     }
@@ -177,6 +171,11 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         result = 31 * result + (mUnsplitParent != null ? mUnsplitParent.hashCode() : 0);
         result = 31 * result + (mIsHeadline ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 
     public static class Reference extends GvDataRef<Reference, DataComment, VhComment> {

@@ -72,4 +72,9 @@ public class DatumCriterion implements DataCriterion {
         result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

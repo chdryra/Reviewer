@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
@@ -118,7 +119,7 @@ public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAut
 
     @Override
     public String toString() {
-        return mName;
+        return StringParser.parse((NamedAuthor)this);
     }
 
     @Override

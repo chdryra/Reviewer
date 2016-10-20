@@ -67,4 +67,9 @@ public class DatumTag implements DataTag {
         result = 31 * result + mTag.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

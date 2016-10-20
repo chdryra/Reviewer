@@ -117,4 +117,9 @@ public class DatumImage implements DataImage {
         result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSizes;
@@ -107,6 +108,11 @@ public class GvSize extends GvDualText implements DataSize{
         result = 31 * result + mSize;
         result = 31 * result + mType.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 
     public static class Reference extends GvDataRef<Reference, DataSize, VhSize> {

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -128,5 +129,10 @@ public class RowCriterionImpl extends RowTableBasic<RowCriterion> implements Row
         result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
         result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 }

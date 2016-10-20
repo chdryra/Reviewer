@@ -61,4 +61,9 @@ public class DatumDate implements DataDate {
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

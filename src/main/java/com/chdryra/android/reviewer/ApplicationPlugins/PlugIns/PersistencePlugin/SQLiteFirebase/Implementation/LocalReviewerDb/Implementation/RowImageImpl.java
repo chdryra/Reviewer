@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -216,5 +217,10 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
         result = 31 * result + (int) (mDate ^ (mDate >>> 32));
         result = 31 * result + (mValidIsCover ? 1 : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 }

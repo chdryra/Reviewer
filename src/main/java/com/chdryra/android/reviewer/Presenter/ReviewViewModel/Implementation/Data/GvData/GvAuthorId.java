@@ -15,9 +15,9 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -70,11 +70,6 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     @Nullable
     public DataReference<NamedAuthor> getReference() {
         return mReference;
-    }
-
-    @Override
-    public String toString() {
-        return mAuthorId;
     }
 
     @Override
@@ -143,6 +138,11 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
         result = 31 * result + mAuthorId.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return mAuthorId;
     }
 
     @Override

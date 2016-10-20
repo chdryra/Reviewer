@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -59,6 +60,11 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
     @Override
     public String getSubject() {
         return getString();
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 
     public static class Reference extends GvDataRef<Reference, DataSubject, VhText> {

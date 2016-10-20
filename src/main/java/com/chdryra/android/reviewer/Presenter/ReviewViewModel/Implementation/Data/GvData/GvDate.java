@@ -13,14 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDate;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * {@link } version of: {@link java.util.Date}
@@ -106,8 +103,7 @@ public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
 
     @Override
     public String toString() {
-        DateFormat format = SimpleDateFormat.getDateInstance();
-        return format.format(new Date(mTime));
+        return StringParser.parse(this);
     }
 
     @Override

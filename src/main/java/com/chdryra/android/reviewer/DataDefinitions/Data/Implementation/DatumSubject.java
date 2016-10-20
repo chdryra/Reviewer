@@ -61,4 +61,9 @@ public class DatumSubject implements DataSubject {
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

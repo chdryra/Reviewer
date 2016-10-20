@@ -53,4 +53,9 @@ public class DatumSize implements DataSize {
         result = 31 * result + mSize;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

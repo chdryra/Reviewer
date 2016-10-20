@@ -114,7 +114,7 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
 
     @Override
     public String toString() {
-        return getGvReviewId().toString();
+        return getDataValue() != null ? getDataValue().toString() : getGvReviewId().toString() + ": " + getGvDataType().getDataName();
     }
 
     @Override

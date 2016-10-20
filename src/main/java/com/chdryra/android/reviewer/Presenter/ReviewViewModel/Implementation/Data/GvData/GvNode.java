@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
@@ -99,6 +100,6 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
 
     @Override
     public String toString() {
-        return getGvReviewId().toString();
+        return StringParser.parse(this);
     }
 }

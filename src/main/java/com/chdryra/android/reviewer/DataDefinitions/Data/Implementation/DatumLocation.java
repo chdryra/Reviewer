@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .LocationFormatter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -45,6 +47,11 @@ public class DatumLocation implements DataLocation {
     }
 
     @Override
+    public String getShortenedName() {
+        return LocationFormatter.getShortenedName(mName);
+    }
+
+    @Override
     public ReviewId getReviewId() {
         return mReviewId;
     }
@@ -73,5 +80,10 @@ public class DatumLocation implements DataLocation {
         result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
         result = 31 * result + mName.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
     }
 }

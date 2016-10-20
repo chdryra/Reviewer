@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -77,7 +78,7 @@ public class GvTag extends GvText<GvTag> implements DataTag {
 
     @Override
     public String toString() {
-        return "#" + getString();
+        return StringParser.parse(this);
     }
 
     @Override

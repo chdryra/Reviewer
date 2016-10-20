@@ -74,4 +74,9 @@ public class DatumComment implements DataComment {
         result = 31 * result + (mIsHeadline ? 1 : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

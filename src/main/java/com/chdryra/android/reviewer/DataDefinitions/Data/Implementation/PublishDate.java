@@ -67,4 +67,9 @@ public class PublishDate implements DateTime {
     public int hashCode() {
         return getDate().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }

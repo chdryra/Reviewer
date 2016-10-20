@@ -60,4 +60,9 @@ public class DefaultNamedAuthor implements NamedAuthor {
         result = 31 * result + (mName != null ? mName.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return StringParser.parse(this);
+    }
 }
