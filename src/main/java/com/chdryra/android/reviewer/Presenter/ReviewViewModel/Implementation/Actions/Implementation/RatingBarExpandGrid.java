@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,14 +38,6 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
-        mLauncher.launch(getReviewView(expanded), new UiLauncherArgs(REQUEST_CODE));
-    }
-
-    private LaunchableUi getReviewView(ReviewViewAdapter<?> expanded) {
-        LaunchableUi ui = expanded.getReviewView();
-
-        if (ui == null) ui = mFactory.newDefaultView(expanded);
-
-        return ui;
+        mLauncher.launch(mFactory.newDefaultView(expanded), new UiLauncherArgs(REQUEST_CODE));
     }
 }

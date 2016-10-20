@@ -172,8 +172,7 @@ public class FactoryReviews implements ReviewMaker {
         if (ratingIsAverage) rating = getAverageRating(criteria);
 
         return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images,
-                facts,
-                locations);
+                facts, locations);
     }
 
     private float getAverageRating(Iterable<? extends DataCriterion> criteria) {

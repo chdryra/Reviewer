@@ -90,14 +90,14 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 incrementorFactory, new FactoryImageChooser(context));
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
-        FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig, editorFactory, paramsFactory, authorRepo);
-
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
                 persistenceContext.getReviewsRepository(),
                 authorRepo,
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
-        factoryReviewView.setAdapterFactory(factoryReviewViewAdapter);
+        FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
+                factoryReviewViewAdapter, editorFactory, paramsFactory, authorRepo);
+
         setFactoryReviewView(factoryReviewView);
     }
 

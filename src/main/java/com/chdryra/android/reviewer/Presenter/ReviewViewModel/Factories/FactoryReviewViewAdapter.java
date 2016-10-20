@@ -50,11 +50,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AuthorSearchAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeFlat;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeSourceCallback;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerFeed;
@@ -74,7 +74,6 @@ public class FactoryReviewViewAdapter {
     private final ConverterGv mConverter;
     private final AuthorsRepository mAuthorsRepository;
     private final ReviewsSource mReviewSource;
-    private FactoryReviewView mReviewViewFactory;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
                                     FactoryReference referenceFactory,
@@ -90,17 +89,12 @@ public class FactoryReviewViewAdapter {
         mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository);
     }
 
-
-    public <T extends GvData> ReviewViewAdapter<T> newNullAdapter(GvDataType<T> dataType) {
-        return new ReviewViewAdapterImpl<T>();
-    }
-
     //List reviews generating this datum
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {
-        ReviewTreeSourceCallback node = newAsyncNode();
-        mReviewSource.asMetaReview(datum, datum.getStringSummary(), node);
         boolean isAuthor = datum.getGvDataType().equals(GvAuthorId.Reference.TYPE);
         AuthorId toFollow = isAuthor ? ((GvAuthorId.Reference) datum).getDataValue() : null;
+        ReviewTreeSourceCallback node = newAsyncNode();
+        mReviewSource.asMetaReview(datum, datum.getStringSummary(), node);
         return newReviewsListAdapter(node, toFollow);
     }
 
@@ -216,15 +210,6 @@ public class FactoryReviewViewAdapter {
         return newMetaReviewAdapter(data, subject, viewer);
     }
 
-    void setReviewViewFactory(FactoryReviewView reviewViewFactory) {
-        mReviewViewFactory = reviewViewFactory;
-    }
-
-    ReviewViewAdapter<GvNode> newChildListAdapter(ReviewNode node) {
-        return newNodeAdapter(node,
-                new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), this));
-    }
-
     ReviewViewAdapter<GvNode> newFeedAdapter(ReviewNode node) {
         return newNodeAdapter(node,
                 new ViewerFeed(node, mConverter.newConverterNodes(mAuthorsRepository), this));
@@ -236,10 +221,11 @@ public class FactoryReviewViewAdapter {
     }
 
     //adapter shows child nodes
-    private ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node, @Nullable AuthorId
-            followAuthorId) {
-        //Doing it this way ensures proper actions
-        return mReviewViewFactory.newReviewsListView(node, followAuthorId).getAdapter();
+    ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node,
+                                                    @Nullable AuthorId followAuthorId) {
+        return new AdapterNodeList(node, mConverter.newConverterImages(),
+                new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), this),
+                followAuthorId);
     }
 
     private <T extends GvData> ReviewViewAdapter<T> newMetaReviewAdapter(GvDataCollection<T> data,

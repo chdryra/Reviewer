@@ -40,6 +40,10 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
         mCoversConverter = coversConverter;
     }
 
+    ReviewNode getNode() {
+        return mNode;
+    }
+
     @Override
     protected void onAttach() {
         mNode.registerObserver(this);

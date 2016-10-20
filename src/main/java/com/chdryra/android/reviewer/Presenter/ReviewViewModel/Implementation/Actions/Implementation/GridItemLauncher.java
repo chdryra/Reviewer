@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -25,27 +26,20 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
-    private static final String TAG = "GridItemLauncher:";
+    private static final String TAG = TagKeyGenerator.getTag(GridItemLauncher.class);
 
-    private final UiLauncher mUiLauncher;
-    private final FactoryReviewView mViewFactory;
+    private final UiLauncher mLauncher;
+    private final FactoryReviewView mFactory;
 
-    public GridItemLauncher(UiLauncher uiLauncher, FactoryReviewView viewFactory) {
-        mUiLauncher = uiLauncher;
-        mViewFactory = viewFactory;
+    public GridItemLauncher(UiLauncher launcher, FactoryReviewView factory) {
+        mLauncher = launcher;
+        mFactory = factory;
     }
 
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
-        ReviewView<?> ui = getReviewView(expanded);
+        ReviewView<?> ui = mFactory.newDefaultView(expanded);
         int code = RequestCodeGenerator.getCode(TAG + ui.getLaunchTag());
-        mUiLauncher.launch(ui, new UiLauncherArgs(code));
-    }
-
-    private <T2 extends GvData> ReviewView<T2> getReviewView(ReviewViewAdapter<T2> expanded) {
-        ReviewView<T2> ui = expanded.getReviewView();
-        if (ui == null) ui = mViewFactory.newDefaultView(expanded);
-
-        return ui;
+        mLauncher.launch(ui, new UiLauncherArgs(code));
     }
 }
