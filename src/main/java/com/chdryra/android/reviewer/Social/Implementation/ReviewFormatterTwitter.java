@@ -27,7 +27,7 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
     public FormattedReview format(ReviewSummary summary) {
         String subjectTag = TextUtils.toCamelCase(summary.getSubject());
         String title = subjectTag + " " +
-                RatingFormatter.twoSignificantDigits(summary.getRating()) + "*";
+                RatingFormatter.upToTwoSignificantDigits(summary.getRating()) + "*";
 
         String body = "#" + title + ": ";
         ArrayList<String> headlines = summary.getHeadlines();

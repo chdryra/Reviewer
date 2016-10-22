@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+    style="@style/GridCell"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/review_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_review_cd"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout style="@style/LineaLayoutVertical.GridCell">
+
+            <TextView
+                android:id="@+id/review_subject"
+                style="@style/TextViewGridCell.Bold.Large"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+        <LinearLayout style="@style/LineaLayoutHorizontal.WrappedVertical"
+                      android:layout_weight="10">
+            <TextView
+                android:id="@+id/review_rating_number"
+                style="@style/TextViewGridCell.Bold.Large"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:gravity="end|top"
+                android:layout_gravity="top"
+                android:layout_weight="1"/>
+
+            <ToggleButton
+                android:button="@android:drawable/btn_star"
+                style="@style/ToggleButtonStar"
+                android:layout_height="match_parent"
+                android:gravity="start|top"
+                android:layout_gravity="top"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+                      android:background="#25000000">
+            <TextView
+                android:id="@+id/review_headline"
+                style="@style/TextViewGridCell.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/review_tags"
+                style="@style/TextViewGridCell.Bold.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/review_publish_data"
+                style="@style/TextViewGridCell.Bold.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>

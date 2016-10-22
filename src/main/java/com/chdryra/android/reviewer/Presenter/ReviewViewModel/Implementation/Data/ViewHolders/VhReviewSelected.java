@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
@@ -22,12 +21,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewSt
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -39,6 +38,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 import java.util.ArrayList;
 
@@ -48,9 +48,10 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback, VhNode {
-    private static final int LAYOUT = R.layout.grid_cell_review_overview;
+    private static final int LAYOUT = R.layout.grid_cell_review_overview2;
     private static final int SUBJECT = R.id.review_subject;
-    private static final int RATING = R.id.review_rating;
+    //private static final int RATING = R.id.review_rating;
+    private static final int RATING = R.id.review_rating_number;
     private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
@@ -62,7 +63,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private final GvConverterLocations mConverterLocations;
 
     private TextView mSubject;
-    private RatingBar mRating;
+    private TextView mRating;
+    //private RatingBar mRating;
     private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
@@ -122,7 +124,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void setViewsIfNecessary() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        if (mRating == null) mRating = (RatingBar) getView(RATING);
+        //if (mRating == null) mRating = (RatingBar) getView(RATING);
+        if (mRating == null) mRating = (TextView) getView(RATING);
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
         if (mTags == null) mTags = (TextView) getView(TAGS);
@@ -144,7 +147,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void initialiseData(ReviewNode node) {
         mSubject.setText(node.getSubject().getSubject());
-        mRating.setRating(node.getRating().getRating());
+        //mRating.setRating(node.getRating().getRating());
+        String text = RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating());
+        mRating.setText(text);
         mImage.setImageBitmap(null);
         mHeadline.setText(null);
         mTags.setText(null);

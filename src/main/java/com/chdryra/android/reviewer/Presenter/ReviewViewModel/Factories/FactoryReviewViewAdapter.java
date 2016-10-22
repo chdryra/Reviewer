@@ -92,7 +92,9 @@ public class FactoryReviewViewAdapter {
     }
 
     //List reviews generating this datum
-    public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum, @Nullable String title, @Nullable AuthorId toFollow) {
+    public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum,
+                                                                            @Nullable String title,
+                                                                            @Nullable AuthorId toFollow) {
         HasReviewId dataValue = datum.getDataValue();
         ReviewTreeSourceCallback node = newAsyncNode();
         if(title == null) title = dataValue != null ? dataValue.toString() : datum.toString();

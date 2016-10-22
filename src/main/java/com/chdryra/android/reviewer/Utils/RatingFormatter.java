@@ -19,15 +19,15 @@ public class RatingFormatter extends NumberFormatter {
     private static final int DIGITS = 2;
     private static final int MAXRATING = 5;
 
+    public static String upToTwoSignificantDigits(float rating) {
+        return roundToSignificant(rating, DIGITS, true);
+    }
+
     public static String twoSignificantDigits(float rating) {
-        return roundToSignificant(rating, DIGITS);
+        return roundToSignificant(rating, DIGITS, false);
     }
 
     public static String outOfFive(float rating) {
         return twoSignificantDigits(rating) + "/" + String.valueOf(MAXRATING);
-    }
-
-    public static String outOfFiveStars(float rating) {
-        return twoSignificantDigits(rating) + "*/" + String.valueOf(MAXRATING) + "*";
     }
 }
