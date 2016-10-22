@@ -50,7 +50,6 @@ import java.util.ArrayList;
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback, VhNode {
     private static final int LAYOUT = R.layout.grid_cell_review_overview2;
     private static final int SUBJECT = R.id.review_subject;
-    //private static final int RATING = R.id.review_rating;
     private static final int RATING = R.id.review_rating_number;
     private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
@@ -64,7 +63,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private TextView mSubject;
     private TextView mRating;
-    //private RatingBar mRating;
     private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
@@ -124,7 +122,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void setViewsIfNecessary() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        //if (mRating == null) mRating = (RatingBar) getView(RATING);
         if (mRating == null) mRating = (TextView) getView(RATING);
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
@@ -147,9 +144,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void initialiseData(ReviewNode node) {
         mSubject.setText(node.getSubject().getSubject());
-        //mRating.setRating(node.getRating().getRating());
-        String text = RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating());
-        mRating.setText(text);
+        mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
         mImage.setImageBitmap(null);
         mHeadline.setText(null);
         mTags.setText(null);
