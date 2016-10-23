@@ -25,7 +25,7 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     private ReviewView<T> mReviewView;
 
     protected GvDataList<T> getGridData() {
-        return getReviewView().getGridData();
+        return getReviewView().getAdapterData();
     }
 
     @Override

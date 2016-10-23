@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -25,7 +26,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewDefault<T extends GvData> extends DataObservableDefault implements ReviewView<T> {
+public class ReviewViewDefault<T extends GvData> extends DataObservableDefault implements
+        ReviewView<T> {
     private static final String TAG = TagKeyGenerator.getTag(ReviewViewDefault.class);
 
     private final ReviewViewPerspective<T> mPerspective;
@@ -36,6 +38,21 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
+    }
+
+    protected void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams
+            .CellDimension height) {
+        mContainer.setCellDimension(width, height);
+    }
+
+    protected void attachToAdapter() {
+        mPerspective.attachToAdapter(this);
+        mGridViewData = mPerspective.getAdapter().getGridData();
+        notifyDataObservers();
+    }
+
+    protected void detachFromAdapter() {
+        mPerspective.detachFromAdapter();
     }
 
     @Override
@@ -71,18 +88,17 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     }
 
     @Override
-    public GvDataList<T> getGridData() {
+    public GvDataList<T> getAdapterData() {
         return getAdapter().getGridData();
     }
 
     @Override
-    public GvDataList<T> getGridViewData() {
-        if (mGridViewData == null) mGridViewData = getGridData();
+    public GvDataList<T> getGridData() {
+        if (mGridViewData == null) mGridViewData = getAdapterData();
         return mGridViewData;
     }
 
-    @Override
-    public void setGridViewData(GvDataList<T> dataToShow) {
+    protected void setGridViewData(GvDataList<T> dataToShow) {
         mGridViewData = dataToShow;
         if (mContainer != null) mContainer.onDataChanged();
     }
@@ -152,19 +168,5 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     @Override
     public void launch(UiTypeLauncher launcher) {
         launcher.launch(this);
-    }
-
-    protected void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams.CellDimension height) {
-        mContainer.setCellDimension(width, height);
-    }
-
-    protected void attachToAdapter() {
-        mPerspective.attachToAdapter(this);
-        mGridViewData = mPerspective.getAdapter().getGridData();
-        notifyDataObservers();
-    }
-
-    protected void detachFromAdapter() {
-        mPerspective.detachFromAdapter();
     }
 }

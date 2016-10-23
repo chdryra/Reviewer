@@ -9,13 +9,18 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewDataEditorImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewCommentsEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewDataEditorDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -41,10 +46,23 @@ public class FactoryReviewDataEditor {
                                                                       UiLauncher launcher,
                                                                       ImageChooser imageChooser) {
         GvDataType<T> type = adapter.getGvDataType();
+
         FactoryEditActions actionsFactory
                 = new FactoryEditActions(mConfig, mDataFactory, launcher, imageChooser);
 
-        return new ReviewDataEditorImpl<>(adapter,
-                actionsFactory.newActions(type), mParamsFactory.newEditorParams(type));
+        ReviewViewActions<T> actions = actionsFactory.newActions(type);
+        ReviewViewParams params = mParamsFactory.newEditorParams(type);
+
+        //TODO make type safe
+        ReviewDataEditor editor;
+        if(type.equals(GvComment.TYPE)) {
+            editor = new ReviewCommentsEditor((DataBuilderAdapter<GvComment>) adapter,
+                    (ReviewViewActions<GvComment>) actions, params);
+        } else {
+            editor = new ReviewDataEditorDefault<>(adapter, actions, params);
+        }
+
+        //TODO make type safe
+        return (ReviewDataEditor<T>) editor;
     }
 }

@@ -27,11 +27,9 @@ public interface ReviewView<T extends GvData>
 
     float getRating();
 
+    GvDataList<T> getAdapterData();
+
     GvDataList<T> getGridData();
-
-    GvDataList<T> getGridViewData();
-
-    void setGridViewData(GvDataList<T> dataToShow);
 
     ReviewViewAdapter<T> getAdapter();
 

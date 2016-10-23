@@ -19,7 +19,6 @@ import android.widget.GridView;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -47,8 +46,7 @@ public class GridViewUi<T extends GvData> {
     }
 
     public void update() {
-        GvDataList<T> gridViewData = mReviewView.getGridViewData();
-        getAdapter().setData(gridViewData);
+        getAdapter().setData(mReviewView.getGridData());
     }
 
     void setOpaque() {
@@ -72,7 +70,7 @@ public class GridViewUi<T extends GvData> {
         int cell_height = maxCellSize / params.getCellHeight().getDivider();
 
         ViewHolderAdapter adapter
-                = mFactory.newAdapter(mReviewView.getGridViewData(), cell_width, cell_height);
+                = mFactory.newAdapter(mReviewView.getGridData(), cell_width, cell_height);
 
         mView.setDrawSelectorOnTop(true);
         mView.setAdapter(adapter);

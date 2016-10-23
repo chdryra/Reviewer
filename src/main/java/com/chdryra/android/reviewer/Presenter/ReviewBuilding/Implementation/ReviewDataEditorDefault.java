@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewViewDefault<T>
+public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewViewDefault<T>
         implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;
@@ -33,8 +33,8 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     private final DataBuilderAdapter<T> mBuilder;
     private ReviewViewContainer mContainer;
 
-    public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
-                                ReviewViewActions<T> actions, ReviewViewParams params) {
+    public ReviewDataEditorDefault(DataBuilderAdapter<T> builder,
+                                   ReviewViewActions<T> actions, ReviewViewParams params) {
         super(new ReviewViewPerspective<>(builder, actions, params));
         mBuilder = builder;
         mSubject = builder.getSubject();
@@ -143,4 +143,5 @@ public class ReviewDataEditorImpl<T extends GvDataParcelable> extends ReviewView
     public void update() {
         notifyDataObservers();
     }
+
 }

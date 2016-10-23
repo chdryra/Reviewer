@@ -35,7 +35,7 @@ public class TagAdjuster {
         GvTag toRemove = mCurrentSubjectTag;
         if(toAdd.equals(toRemove)) return;
 
-        GvDataList<GvTag> tags = editor.getGridData();
+        GvDataList<GvTag> tags = editor.getAdapterData();
         String subject = toAdd.getTag();
         if(subject != null && subject.length() > 0) {
             if(!tags.contains(toAdd)) {

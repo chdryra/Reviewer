@@ -165,8 +165,8 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public GvDataList<GC> getGridViewData() {
-        return super.getGridData();
+    public GvDataList<GC> getGridData() {
+        return super.getAdapterData();
     }
 
     @Override

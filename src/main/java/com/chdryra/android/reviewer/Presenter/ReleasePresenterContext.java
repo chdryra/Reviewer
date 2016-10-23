@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
@@ -121,7 +122,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                                 ConverterGv converter,
                                                 FactoryGvData dataFactory,
                                                 DataValidator validator) {
-        FactoryReviewBuilder factoryReviewBuilder
+        FactoryReviewBuilder builder
                 = new FactoryReviewBuilder(converter,
                 validator,
                 modelContext.getTagsManager(),
@@ -129,6 +130,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 new FactoryDataBuilder(dataFactory));
 
         //TODO make type safe
-        return new FactoryReviewBuilderAdapter<>(factoryReviewBuilder, new FactoryDataBuildersGridUi(), validator);
+        return new FactoryReviewBuilderAdapter<>(builder, new FactoryDataBuilderAdapter(), new FactoryDataBuildersGridUi(), validator);
     }
 }

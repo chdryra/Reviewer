@@ -60,6 +60,7 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
             GvDataList<GvImage> images = getGridData();
             if(images.size() > 0) images.getItem(0).setIsCover(true);
         }
+        updateEditor();
     }
 
     @Override

@@ -175,8 +175,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         if(mReview != null) {
             ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
             String date = stamp.toReadableDate();
-            String name = mAuthor != null ? " by " + mAuthor.getName() : "";
-            String text = date + name + (validateString(mLocation) ? " @" + mLocation : "");
+            String name = mAuthor != null ? mAuthor.getName() : "";
+            String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
             mPublishDate.setText(text);
         }
     }

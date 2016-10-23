@@ -61,5 +61,6 @@ public class GridItemEditComment extends GridItemEdit<GvComment> {
             GvDataList<GvComment> comments = getGridData();
             if(comments.size() > 0) comments.getItem(0).setIsHeadline(true);
         }
+        updateEditor();
     }
 }

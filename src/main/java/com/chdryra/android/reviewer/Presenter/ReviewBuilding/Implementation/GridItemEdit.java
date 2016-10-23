@@ -39,13 +39,11 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     private void editData(T oldDatum, T newDatum) {
         getEditor().replace(oldDatum, newDatum);
-        updateEditor();
     }
 
     private void deleteData(T datum) {
         getEditor().delete(datum);
         onDataDeleted(datum);
-        updateEditor();
     }
 
     void onDataDeleted(T datum) {

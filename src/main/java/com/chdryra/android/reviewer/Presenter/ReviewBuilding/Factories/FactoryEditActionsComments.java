@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  */
 public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
+
     public FactoryEditActionsComments(UiConfig config,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvComment> packer) {

@@ -29,26 +29,25 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderAdapterImpl<T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
+public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
         implements DataBuilderAdapter<T>, DataObservable.DataObserver {
 
     private final GvDataType<T> mType;
     private final ReviewBuilderAdapter<?> mParentBuilder;
 
-    public DataBuilderAdapterImpl(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
+    public DataBuilderAdapterDefault(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
+        getDataBuilder().registerObserver(this);
     }
 
-    public void attach() {
+    void attach() {
         registerObserver(mParentBuilder);
-        getDataBuilder().registerObserver(this);
         notifyDataObservers();
     }
 
     void detach() {
         unregisterObserver(mParentBuilder);
-        getDataBuilder().unregisterObserver(this);
     }
 
     @Override
@@ -172,9 +171,9 @@ public class DataBuilderAdapterImpl<T extends GvDataParcelable> extends ReviewVi
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DataBuilderAdapterImpl)) return false;
+        if (!(o instanceof DataBuilderAdapterDefault)) return false;
 
-        DataBuilderAdapterImpl<?> that = (DataBuilderAdapterImpl<?>) o;
+        DataBuilderAdapterDefault<?> that = (DataBuilderAdapterDefault<?>) o;
 
         if (!mParentBuilder.equals(that.mParentBuilder)) return false;
         if (!getBuilder().equals(that.getBuilder())) return false;
@@ -192,7 +191,7 @@ public class DataBuilderAdapterImpl<T extends GvDataParcelable> extends ReviewVi
         return result;
     }
 
-    private DataBuilder<T> getDataBuilder() {
+    protected DataBuilder<T> getDataBuilder() {
         return getBuilder().getDataBuilder(mType);
     }
 

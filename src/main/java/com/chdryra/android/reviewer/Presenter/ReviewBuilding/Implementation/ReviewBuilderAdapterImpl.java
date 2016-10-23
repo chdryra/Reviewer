@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
@@ -49,6 +50,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private ReviewEditor.EditMode mUiType = ReviewEditor.EditMode.QUICK;
 
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
+                                    FactoryDataBuilderAdapter factory,
                                     BuildScreenGridUi<GC> fullGridUi,
                                     BuildScreenGridUi<GC> quickGridUi,
                                     DataValidator dataValidator) {
@@ -57,7 +59,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         mQuickGridUi = quickGridUi;
         mDataValidator = dataValidator;
 
-        mDataBuilders = new DataBuildersMap();
+        mDataBuilders = new DataBuildersMap(factory);
         mFullGridUi.setParentAdapter(this);
         mQuickGridUi.setParentAdapter(this);
 
@@ -173,19 +175,14 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     private class DataBuildersMap {
-        private final Map<GvDataType<? extends GvData>, DataBuilderAdapterImpl<? extends GvData>>
+        private final Map<GvDataType<? extends GvData>, DataBuilderAdapterDefault<? extends GvData>>
                 mDataBuilders;
 
-        private DataBuildersMap() {
+        private DataBuildersMap(FactoryDataBuilderAdapter factory) {
             mDataBuilders = new HashMap<>();
             for (GvDataType<? extends GvDataParcelable> type : TYPES) {
-                mDataBuilders.put(type, newDataBuilderAdapter(type));
+                mDataBuilders.put(type, factory.newDataBuilderAdapter(type, ReviewBuilderAdapterImpl.this));
             }
-        }
-
-        private <T extends GvDataParcelable> DataBuilderAdapterImpl<T> newDataBuilderAdapter
-                (GvDataType<T> dataType) {
-            return new DataBuilderAdapterImpl<>(dataType, ReviewBuilderAdapterImpl.this);
         }
 
         //TODO make type safe although it is really....
@@ -194,13 +191,13 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         }
 
         private void attach() {
-            for(DataBuilderAdapterImpl<?> builder : mDataBuilders.values()) {
+            for(DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
                 builder.attach();
             }
         }
 
         private void detach() {
-            for(DataBuilderAdapterImpl<?> builder : mDataBuilders.values()) {
+            for(DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
                 builder.detach();
             }
         }
