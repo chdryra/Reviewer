@@ -13,7 +13,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -27,13 +26,13 @@ import android.widget.RelativeLayout;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonEditUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.GridViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarEditUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
@@ -53,20 +52,18 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int RATING = R.id.review_rating;
     private static final int BANNER = R.id.banner_button;
     private static final int GRID = R.id.gridview_data;
-
     private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
-    private SubjectUi mSubject;
-    private RatingBarUi mRatingBar;
-    private BannerButtonUi mBannerButton;
+    private SubjectEditUi mSubject;
+    private RatingBarEditUi mRatingBar;
+    private BannerButtonEditUi mBannerButton;
     private GridViewUi<?> mGridView;
+    private ContextualUi mContextual;
     private MenuUi mMenu;
     private CoverUi mCover;
-    private ContextualUi mContextual;
 
     private ReviewView<?> mReviewView;
-
     private boolean mIsAttached = false;
 
     @Override
@@ -126,15 +123,15 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        RelativeLayout fullView = (RelativeLayout) v.findViewById(FULL_VIEW);
-        mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
-        mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
+        mSubject = new SubjectEditUi(mReviewView, (EditText) v.findViewById(SUBJECT));
+        mRatingBar = new RatingBarEditUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
-        mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
+        mBannerButton = new BannerButtonEditUi(mReviewView, (Button) v.findViewById(BANNER), colour);
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
                 FactoryGridCellAdapter(getActivity()), displayMetrics);
         mMenu = new MenuUi(mReviewView);
-        mCover = new CoverUi(mReviewView, fullView, mGridView, getActivity());
+        mCover = new CoverUi(mReviewView, (RelativeLayout) v.findViewById(FULL_VIEW),
+                mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,
                 (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON, colour);
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout
+    style="@style/LineaLayoutVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/header_formatted"
+        style="@style/LineaLayoutVertical.WrappedVertical" >
+
+        <include
+            android:id="@+id/subject_formatted"
+            android:text="subject"
+            layout="@layout/review_subject_text_view"/>
+
+        <View style="@style/HorizontalDivider"/>
+
+        <include
+            android:id="@+id/rating_formatted"
+            layout="@layout/review_rating_indicator"/>
+
+        <View style="@style/HorizontalDivider"/>
+
+        <include
+            android:id="@+id/stamp_formatted"
+            layout="@layout/review_button"/>
+
+    </LinearLayout>
+
+    <ScrollView android:id="@+id/scroll_formatted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical">
+
+            <include
+                android:id="@+id/tags_formatted"
+                layout="@layout/review_data_grid"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/locations_formatted"
+                layout="@layout/review_button"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/criteria_formatted"
+                layout="@layout/review_data_grid"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/comment_formatted"
+                layout="@layout/comment_text_view"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/images_formatted"
+                layout="@layout/review_data_grid"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/facts_formatted"
+                layout="@layout/review_data_grid"/>
+
+            <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

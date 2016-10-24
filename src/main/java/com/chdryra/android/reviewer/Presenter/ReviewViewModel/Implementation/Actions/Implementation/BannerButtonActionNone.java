@@ -28,7 +28,7 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
 
     private final List<ClickListener> mListeners;
 
-    private BannerButton mButton;
+    private ButtonTitle mButtonTitle;
     private String mTitle;
 
     public BannerButtonActionNone() {
@@ -42,13 +42,13 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
 
     protected void setTitle(String title) {
         mTitle = title;
-        if(mButton != null) mButton.setTitle(mTitle);
+        if(mButtonTitle != null) mButtonTitle.setTitle(mTitle);
     }
 
     @Override
-    public void setButton(BannerButton button) {
-        mButton = button;
-        mButton.setTitle(mTitle);
+    public void setTitle(ButtonTitle title) {
+        mButtonTitle = title;
+        mButtonTitle.setTitle(mTitle);
     }
 
     @Override

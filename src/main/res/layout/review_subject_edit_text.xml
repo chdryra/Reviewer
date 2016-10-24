@@ -7,12 +7,6 @@
   -->
 
 <com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText
-    android:id="@+id/subject_edit_text"
-    style="@style/EditTextCapSentences.Done"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@null"
-    android:cursorVisible="false"
-    android:gravity="center"
-    android:hint="@string/edit_text_subject_hint"
-    android:padding="@dimen/subject_text_padding"
-    android:textAppearance="?android:attr/textAppearanceLarge"/>
+    android:id="@+id/subject_edit_text"
+    style="@style/EditTextCapSentences.Subject"/>

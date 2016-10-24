@@ -27,18 +27,6 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
         void onAdapterCover(GvImage cover);
     }
 
-    void attachReviewView(ReviewView<T> view);
-
-    void detachReviewView();
-
-    ReviewView<T> getReviewView();
-
-    String getSubject();
-
-    float getRating();
-
-    void getCover(CoverCallback callback);
-
     interface Filterable<T extends GvData> extends ReviewViewAdapter<T> {
         interface Callback {
             void onFiltered();
@@ -46,4 +34,16 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
 
         void filterGrid(String query, Callback callback);
     }
+
+    void attachReviewView(ReviewView<T> view);
+
+    void detachReviewView();
+
+    ReviewView<T> getReviewView();
+
+    void getCover(CoverCallback callback);
+
+    String getSubject();
+
+    float getRating();
 }

@@ -25,7 +25,7 @@ public interface ReviewBuilderSuite {
     String QUICK_ADD = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickAdd");
     String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickReview");
 
-    ReviewEditor<?> newReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+    ReviewEditor<?> createReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
 
     ReviewEditor<?> getReviewEditor();
 

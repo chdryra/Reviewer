@@ -35,10 +35,6 @@ public class BannerButtonReviewBuild<GC extends GvDataList<? extends GvDataParce
 
     @Override
     public void onClick(View v) {
-        click();
-    }
-
-    void click() {
         mMode = mMode == FULL ? QUICK : FULL;
         setTitle(mMode.getLabel());
         notifyListeners();
@@ -47,5 +43,4 @@ public class BannerButtonReviewBuild<GC extends GvDataList<? extends GvDataParce
     ReviewEditor.EditMode getEditMode() {
         return mMode;
     }
-
 }

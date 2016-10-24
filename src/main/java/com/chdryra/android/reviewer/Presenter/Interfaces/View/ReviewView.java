@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public interface ReviewView<T extends GvData>
         extends DataObservable, DataObservable.DataObserver, LaunchableUi {
+
     String getSubject();
 
     float getRating();

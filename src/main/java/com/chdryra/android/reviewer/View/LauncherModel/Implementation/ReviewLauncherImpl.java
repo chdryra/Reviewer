@@ -29,7 +29,10 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     private FactoryReviewView mFactoryReviewView;
     private UiLauncher mLauncher;
 
-    public ReviewLauncherImpl(ReviewsSource reviewsSource, UiLauncher launcher, FactoryReviewView factoryReviewView, AuthorId sessionAuthor) {
+    public ReviewLauncherImpl(ReviewsSource reviewsSource,
+                              UiLauncher launcher,
+                              FactoryReviewView factoryReviewView,
+                              AuthorId sessionAuthor) {
         mSessionAuthor = sessionAuthor;
         mReviewsSource = reviewsSource;
         mFactoryReviewView = factoryReviewView;

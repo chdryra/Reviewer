@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.support.annotation.NonNull;
@@ -21,10 +22,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonUi {
+public class BannerButtonEditUi {
     private final Button mView;
 
-    public BannerButtonUi(ReviewView<?> reviewView, Button view, int textColour) {
+    public BannerButtonEditUi(ReviewView<?> reviewView, Button view, int textColour) {
         mView = view;
         initialise(reviewView, textColour);
     }

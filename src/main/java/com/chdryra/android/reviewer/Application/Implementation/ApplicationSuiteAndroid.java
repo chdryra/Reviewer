@@ -128,8 +128,8 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Nullable
-    Review unpackTemplate(Bundle args) {
-        return mUi.unpackTemplate(args);
+    Review unpackReview(Bundle args) {
+        return mUi.unpackReview(args);
     }
 
     @Nullable

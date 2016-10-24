@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
@@ -46,16 +46,17 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
     public static class Builder {
         private Review mTemplate;
 
-        public void setTemplateReview(Review template) {
+        public Builder setTemplate(@Nullable Review template) {
             mTemplate = template;
+            return this;
         }
 
         public PresenterReviewBuild<?> build(ApplicationInstance app) {
             ReviewBuilderSuite builder = app.getReviewBuilder();
             ReviewEditor<?> editor = builder.getReviewEditor();
             if (editor == null) {
-                LocationClient client = app.getLocationServices().newLocationClient();
-                editor = builder.newReviewEditor(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mTemplate);
+                editor = builder.createReviewEditor(Settings.BuildReview.DEFAULT_EDIT_MODE,
+                        app.getLocationServices().newLocationClient(), mTemplate);
             }
 
             return new PresenterReviewBuild<>(editor);

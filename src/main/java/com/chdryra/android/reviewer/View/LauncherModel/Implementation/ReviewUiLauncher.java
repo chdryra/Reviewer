@@ -9,35 +9,35 @@
 package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 05/06/2016
+ * On: 29/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenLauncherAndroid implements BuildScreenLauncher {
+public class ReviewUiLauncher {
+    public static final String REVIEW_ID = "ReviewId";
+
     private final LaunchableConfig mUi;
     private final RepositorySuite mRepository;
-    private final ReviewBuilderSuite mBuilder;
     private final ItemPacker<Review> mPacker;
 
-    public BuildScreenLauncherAndroid(LaunchableConfig ui, RepositorySuite repository,
-                                      ReviewBuilderSuite builder, ItemPacker<Review> packer) {
+    public ReviewUiLauncher(LaunchableConfig ui,
+                            RepositorySuite repository,
+                            ItemPacker<Review> packer) {
         mUi = ui;
         mRepository = repository;
-        mBuilder = builder;
         mPacker = packer;
     }
 
@@ -45,36 +45,38 @@ public class BuildScreenLauncherAndroid implements BuildScreenLauncher {
         mUi.setLauncher(uiLauncher);
     }
 
-    @Override
-    public void launch(@Nullable ReviewId template) {
-        mBuilder.discardReviewEditor();
-        if (template != null) {
-            mRepository.getReview(template, new Callback());
+    public void launch(@Nullable ReviewId reviewId) {
+        onPrelaunch();
+        if (reviewId == null) {
+            launchUi(new Bundle());
         } else {
-            launchBuildUi(new Bundle());
+            mRepository.getReview(reviewId, new RepositoryCallback() {
+                @Override
+                public void onRepositoryCallback(RepositoryResult result) {
+                    launchUi(toBundle(result));
+                }
+            });
         }
+    }
+
+    void onPrelaunch() {
+
     }
 
     @Nullable
-    public Review unpackTemplate(Bundle args) {
+    Review unpackReview(Bundle args) {
         return mPacker.unpack(args);
     }
 
-    private void launchBuildUi(Bundle args) {
-        mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
+    @NonNull
+    private Bundle toBundle(RepositoryResult result) {
+        Bundle args = new Bundle();
+        Review review = result.getReview();
+        if (!result.isError() && review != null) mPacker.pack(review, args);
+        return args;
     }
 
-    private class Callback implements RepositoryCallback {
-        @Override
-        public void onRepositoryCallback(RepositoryResult result) {
-            Bundle args = new Bundle();
-            Review review = result.getReview();
-            if (!result.isError() && review != null) {
-                args.putString(TEMPLATE_ID, review.getReviewId().toString());
-                mPacker.pack(review, args);
-            }
-
-            launchBuildUi(args);
-        }
+    private void launchUi(Bundle args) {
+        mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
     }
 }

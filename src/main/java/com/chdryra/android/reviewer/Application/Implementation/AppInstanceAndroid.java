@@ -103,8 +103,8 @@ public class AppInstanceAndroid implements ApplicationInstance {
     }
 
     @Nullable
-    public Review unpackTemplate(Bundle args) {
-        return mApp.unpackTemplate(args);
+    public Review unpackReview(Bundle args) {
+        return mApp.unpackReview(args);
     }
 
     @Nullable

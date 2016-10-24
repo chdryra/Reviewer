@@ -10,16 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Activities;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.BuildScreenLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
@@ -27,31 +23,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityBuildReview extends ActivityReviewView implements DataEditListener<GvData>{
+public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = TagKeyGenerator.getTag(ActivityBuildReview.class);
-    public static final String TEMPLATE_ID = BuildScreenLauncher.TEMPLATE_ID;
 
     private PresenterReviewBuild mPresenter;
 
     @Override
-    public void onDelete(GvData data, int requestCode) {
-
-    }
-
-    @Override
-    public void onEdit(GvData oldDatum, GvData newDatum, int requestCode) {
-
-    }
-
-    @Override
     protected ReviewView createReviewView() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
+        Review template = app.unpackReview(getIntent().getBundleExtra(getLaunchTag()));
 
-        PresenterReviewBuild.Builder builder = new PresenterReviewBuild.Builder();
-
-        setTemplateReviewIfAvailable(app, builder);
-
-        mPresenter = builder.build(app);
+        mPresenter = new PresenterReviewBuild.Builder().setTemplate(template).build(app);
 
         return mPresenter.getEditor();
     }
@@ -68,16 +50,6 @@ public class ActivityBuildReview extends ActivityReviewView implements DataEditL
 
     @Override
     public void launch(UiTypeLauncher launcher) {
-        launcher.launch(getClass(), TEMPLATE_ID);
-    }
-
-    private void setTemplateReviewIfAvailable(AppInstanceAndroid app,
-                                              PresenterReviewBuild.Builder builder) {
-        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
-        String id = args != null ? args.getString(TEMPLATE_ID) : null;
-        if (id != null) {
-            Review template = app.unpackTemplate(args);
-            if (template != null) builder.setTemplateReview(template);
-        }
+        launcher.launch(getClass(), getLaunchTag());
     }
 }

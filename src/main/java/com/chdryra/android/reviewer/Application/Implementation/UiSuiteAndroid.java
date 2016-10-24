@@ -101,8 +101,8 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Nullable
-    Review unpackTemplate(Bundle args) {
-        return mUiLauncher.unpackTemplate(args);
+    Review unpackReview(Bundle args) {
+        return mUiLauncher.unpackReview(args);
     }
 
     @Nullable

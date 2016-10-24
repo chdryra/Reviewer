@@ -31,7 +31,7 @@ public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEdit
     }
 
     @Override
-    public ReviewEditor<?> newReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
+    public ReviewEditor<?> createReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
         mReviewEditor = mViewFactory.newEditor(editMode, client, template);
         return mReviewEditor;
     }

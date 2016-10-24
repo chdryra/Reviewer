@@ -16,17 +16,15 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Implementation.DialogShower;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -45,13 +43,13 @@ public class UiLauncherAndroid implements UiLauncher {
     private Activity mCommissioner;
     private UserSession mSession;
 
-    private final BuildScreenLauncherAndroid mBuildUiLauncher;
+    private final ReviewUiLauncher mBuildUiLauncher;
     private final Class<? extends Activity> mDefaultActivity;
     private final FactoryReviewLauncher mReviewLauncherFactory;
 
     private final ItemPacker<ReviewView<?>> mViewPacker;
 
-    public UiLauncherAndroid(BuildScreenLauncherAndroid buildUiLauncher,
+    public UiLauncherAndroid(ReviewUiLauncher buildUiLauncher,
                              FactoryReviewLauncher reviewLauncherFactory,
                              Class<? extends Activity> defaultActivity,
                              ItemPacker<ReviewView<?>> viewPacker) {
@@ -95,8 +93,8 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Nullable
-    public Review unpackTemplate(Bundle args) {
-        return mBuildUiLauncher.unpackTemplate(args);
+    public Review unpackReview(Bundle args) {
+        return mBuildUiLauncher.unpackReview(args);
     }
 
     @Nullable

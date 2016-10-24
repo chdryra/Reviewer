@@ -158,6 +158,14 @@
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
 
+    <style name="TextView.Subject">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/subject_text_padding</item>
+    </style>
+
     <!-- EditTexts -->
     <style name="EditTextBasic">
         <item name="android:layout_width">match_parent</item>
@@ -181,6 +189,15 @@
 
     <style name="EditTextCapSentences.Done">
         <item name="android:imeOptions">actionDone</item>
+    </style>
+
+    <style name="EditTextCapSentences.Subject">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:background">@null</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:hint">@string/edit_text_subject_hint</item>
+        <item name="android:padding">@dimen/subject_text_padding</item>
     </style>
 
     <style name="EditTextCapSentences.AutoComplete">

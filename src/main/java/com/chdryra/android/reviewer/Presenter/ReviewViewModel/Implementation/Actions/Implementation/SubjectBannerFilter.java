@@ -29,7 +29,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     private final String mWorkingMessage;
     private final List<ClickListener> mListeners;
 
-    private BannerButton mButton;
+    private ButtonTitle mButton;
     private boolean mFiltering = false;
 
     public SubjectBannerFilter(String buttonTitle, String workingMessage) {
@@ -60,8 +60,8 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     }
 
     @Override
-    public void setButton(BannerButton button) {
-        mButton = button;
+    public void setTitle(ButtonTitle title) {
+        mButton = title;
         mButton.setTitle(mButtonTitle);
     }
 
