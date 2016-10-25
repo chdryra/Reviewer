@@ -33,6 +33,7 @@ public final class UiConfigImpl implements UiConfig {
     private final LaunchableConfig mSignUp;
     private final LaunchableConfig mFeed;
     private final LaunchableConfig mBuildReview;
+    private final LaunchableConfig mFormattedReview;
     private final LaunchableConfig mEditOnMap;
     private final LaunchableConfig mPublish;
     private final LaunchableConfig mOptions;
@@ -44,6 +45,7 @@ public final class UiConfigImpl implements UiConfig {
                         LaunchableConfig signUp,
                         LaunchableConfig feed,
                         LaunchableConfig buildReview,
+                        LaunchableConfig formattedReview,
                         LaunchableConfig editOnMap,
                         LaunchableConfig publish,
                         LaunchableConfig options) {
@@ -56,6 +58,7 @@ public final class UiConfigImpl implements UiConfig {
         mSignUp = signUp;
         mFeed = feed;
         mBuildReview = buildReview;
+        mFormattedReview = formattedReview;
         mEditOnMap = editOnMap;
         mPublish = publish;
         mOptions = options;
@@ -97,6 +100,11 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
+    public LaunchableConfig getFormattedReview() {
+        return mFormattedReview;
+    }
+
+    @Override
     public LaunchableConfig getMapEditor() {
         return mEditOnMap;
     }
@@ -123,6 +131,7 @@ public final class UiConfigImpl implements UiConfig {
         mSignUp.setLauncher(mLauncher);
         mFeed.setLauncher(mLauncher);
         mBuildReview.setLauncher(mLauncher);
+        mFormattedReview.setLauncher(mLauncher);
         mEditOnMap.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);

@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,8 +24,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 public class MenuUi {
     private final MenuAction<?> mAction;
 
-    public MenuUi(ReviewView<?> reviewView) {
-        mAction = reviewView.getActions().getMenuAction();
+    public MenuUi(MenuAction<?> action) {
+        mAction = action;
     }
 
     public void inflate(Menu menu, MenuInflater inflater) {

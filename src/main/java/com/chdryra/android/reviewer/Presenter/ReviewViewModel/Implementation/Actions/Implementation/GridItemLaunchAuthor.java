@@ -25,7 +25,7 @@ public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
 
     public GridItemLaunchAuthor(UiLauncher launcher, FactoryReviewView launchableFactory) {
         super(launcher, launchableFactory);
-        mLauncher = launcher.newReviewLauncher();
+        mLauncher = launcher.getReviewLauncher();
     }
 
     @Override

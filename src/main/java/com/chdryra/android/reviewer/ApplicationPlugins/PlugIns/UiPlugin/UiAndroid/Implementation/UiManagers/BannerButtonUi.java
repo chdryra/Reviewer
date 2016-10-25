@@ -6,68 +6,57 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonUi {
-    private final Button mView;
+public class BannerButtonUi extends ButtonUi {
 
-    public BannerButtonUi(ReviewView<?> reviewView, Button view, int textColour) {
-        mView = view;
-        initialise(reviewView, textColour);
+    public BannerButtonUi(Button view, final BannerButtonAction<?> action, int textColour) {
+        super(view, new ValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return action.getTitleString();
+            }
+        }, textColour);
+
+        initialise(action);
     }
 
-    public void update() {
-
-    }
-
-    private void initialise(ReviewView<?> reviewView, int textColour) {
-        BannerButtonAction action = reviewView.getActions().getBannerButtonAction();
+    private void initialise(final BannerButtonAction<?> action) {
         action.setTitle(new ButtonTitle());
 
-        mView.setTextColor(textColour);
-        mView.setOnClickListener(newClickListener(action));
-        mView.setOnLongClickListener(newLongClickListener(action));
-
-        update();
-    }
-
-    @NonNull
-    private View.OnLongClickListener newLongClickListener(final BannerButtonAction action) {
-        return new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return action.onLongClick(v);
-            }
-        };
-    }
-
-    @NonNull
-    private View.OnClickListener newClickListener(final BannerButtonAction action) {
-        return new View.OnClickListener() {
+        getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 action.onClick(v);
             }
-        };
+        });
+
+        getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return action.onLongClick(v);
+            }
+        });
+
+        update();
     }
 
     private class ButtonTitle implements BannerButtonAction.ButtonTitle {
         @Override
-        public void setTitle(String title) {
-            mView.setText(title);
+        public void update(String title) {
+            getView().setText(title);
         }
     }
 }

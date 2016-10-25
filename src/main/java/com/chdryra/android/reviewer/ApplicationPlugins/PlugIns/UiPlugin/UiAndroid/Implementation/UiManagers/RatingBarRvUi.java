@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
@@ -22,48 +21,44 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarEditUi extends RatingBarUi {
+public class RatingBarRvUi extends RatingBarUi {
 
-    public RatingBarEditUi(ReviewView<?> reviewView, RatingBar view) {
-        super(reviewView, view);
+    public RatingBarRvUi(final ReviewView<?> reviewView, RatingBar view) {
+        super(view, new ValueGetter<Float>() {
+            @Override
+            public Float getValue() {
+                return reviewView.getRating();
+            }
+        });
+
         initialise(reviewView);
     }
 
     private void initialise(ReviewView<?> reviewView) {
-        boolean isEditable = reviewView.getParams().getRatingBarParams().isEditable();
-        boolean isVisible = reviewView.getParams().getRatingBarParams().isVisible();
-
-        if(!isVisible) {
+        if(!reviewView.getParams().getRatingBarParams().isVisible()) {
             getView().setVisibility(View.GONE);
             return;
         }
 
+        boolean isEditable = reviewView.getParams().getRatingBarParams().isEditable();
         getView().setIsIndicator(!isEditable);
-        RatingBarAction<?> action = reviewView.getActions().getRatingBarAction();
-        getView().setOnTouchListener(newTouchListener(action));
-        if (isEditable) getView().setOnRatingBarChangeListener(newChangeListener(action));
 
-        update();
-    }
-
-    @NonNull
-    private View.OnTouchListener newTouchListener(final RatingBarAction<?> action) {
-        return new View.OnTouchListener() {
+        final RatingBarAction<?> action = reviewView.getActions().getRatingBarAction();
+        getView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 action.onClick(v);
                 return false;
             }
-        };
-    }
+        });
 
-    @NonNull
-    private RatingBar.OnRatingBarChangeListener newChangeListener(final RatingBarAction<?> action) {
-        return new RatingBar.OnRatingBarChangeListener() {
+        if (isEditable) getView().setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 action.onRatingChanged(ratingBar, rating, fromUser);
             }
-        };
+        });
+
+        update();
     }
 }

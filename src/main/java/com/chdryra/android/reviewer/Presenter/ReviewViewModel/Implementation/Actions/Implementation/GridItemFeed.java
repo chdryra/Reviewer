@@ -27,7 +27,7 @@ public class GridItemFeed extends GridItemReviewsList{
     public GridItemFeed(UiLauncher launcher, FactoryReviewView launchableFactory,
                         LaunchOptionsCommand command) {
         super(launcher, launchableFactory, command);
-        mLauncher = launcher.newReviewLauncher();
+        mLauncher = launcher.getReviewLauncher();
     }
 
     @Override

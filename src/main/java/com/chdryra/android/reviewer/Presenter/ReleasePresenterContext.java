@@ -55,11 +55,11 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregatorsPlugin,
                                    DataValidator validator) {
-        ConverterGv gvConverter = new ConverterGv();
+        setConverter(new ConverterGv());
 
         setFactoryReviewView(context,
                 modelContext, deviceContext, viewContext, persistenceContext,
-                aggregatorsPlugin, gvConverter, validator);
+                aggregatorsPlugin, getGvConverter(), validator);
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
     }

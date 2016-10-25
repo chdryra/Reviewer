@@ -10,10 +10,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.CommentsDataParser;
 
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Helper class for comment string processing.
@@ -67,5 +69,15 @@ public class CommentFormatter {
         }
 
         return trimmed;
+    }
+
+    public static String formatComments(Collection<? extends DataComment> comments) {
+        String formatted = "";
+        String bullet = comments.size() == 1 ? "" : "- ";
+        for(DataComment comment : comments) {
+            formatted += bullet + comment + "\n\n";
+        }
+
+        return formatted.trim();
     }
 }

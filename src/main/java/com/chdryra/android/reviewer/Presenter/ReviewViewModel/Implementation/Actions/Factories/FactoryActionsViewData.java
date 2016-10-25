@@ -85,7 +85,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @Nullable
     @Override
     public ContextualButtonAction<T> newContextButton() {
-        return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher.newReviewLauncher(), mStamp, mRepo) : null;
+        return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher.getReviewLauncher(), mStamp, mRepo) : null;
     }
 
     /**

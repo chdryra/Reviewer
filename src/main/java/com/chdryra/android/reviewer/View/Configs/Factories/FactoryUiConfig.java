@@ -29,6 +29,7 @@ public class FactoryUiConfig {
     private static final int SIGN_UP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "SignUp");
     private static final int FEED = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Feed");
     private static final int BUILD = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Build");
+    private static final int FORMATTED = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Formatted");
     private static final int MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Map");
     private static final int PUBLISH = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Publish");
     private static final int OPTIONS = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Options");
@@ -44,10 +45,11 @@ public class FactoryUiConfig {
         LaunchableConfig signUp = new LaunchableConfigImpl(classes.getSignUp(), SIGN_UP);
         LaunchableConfig feed = new LaunchableConfigImpl(classes.getFeed(), FEED);
         LaunchableConfig build = new LaunchableConfigImpl(classes.getReviewBuild(), BUILD);
+        LaunchableConfig formatted = new LaunchableConfigImpl(classes.getReviewFormatted(), FORMATTED);
         LaunchableConfig map = new LaunchableConfigImpl(classes.getMapEdit(), MAP);
         LaunchableConfig publish = new LaunchableConfigImpl(classes.getPublish(), PUBLISH);
         LaunchableConfig options = new LaunchableConfigImpl(classes.getReviewOptions(), OPTIONS);
 
-        return new UiConfigImpl(dataConfigs, login, signUp, feed, build, map, publish, options);
+        return new UiConfigImpl(dataConfigs, login, signUp, feed, build, formatted, map, publish, options);
     }
 }

@@ -95,6 +95,11 @@ public class RepositorySuiteAndroid implements RepositorySuite {
         return mPublisher;
     }
 
+    @Override
+    public TagsManager getTagsManager() {
+        return mManager;
+    }
+
     @NonNull
     private RepositoryCallback dereferenceOnReturn(final RepositoryCallback callback) {
         return new RepositoryCallback() {

@@ -67,7 +67,12 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
 
     @Override
     public void setTitle(ButtonTitle title) {
-        title.setTitle(mTitle);
+        title.update(mTitle);
+    }
+
+    @Override
+    public String getTitleString() {
+        return mTitle;
     }
 
     @Override

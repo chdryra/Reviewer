@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public interface BannerButtonAction<T extends GvData> extends ReviewViewAction<T> {
     interface ButtonTitle {
-        void setTitle(String title);
+        void update(String title);
     }
 
     interface ClickListener {
@@ -31,6 +31,8 @@ public interface BannerButtonAction<T extends GvData> extends ReviewViewAction<T
     void onClick(View v);
 
     void setTitle(ButtonTitle title);
+
+    String  getTitleString();
 
     void registerListener(ClickListener listener);
 

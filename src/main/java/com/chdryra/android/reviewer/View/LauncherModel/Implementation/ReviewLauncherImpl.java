@@ -25,18 +25,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class ReviewLauncherImpl implements ReviewLauncher {
     private AuthorId mSessionAuthor;
-    private ReviewsSource mReviewsSource;
-    private FactoryReviewView mFactoryReviewView;
-    private UiLauncher mLauncher;
+    private final ReviewsSource mReviewsSource;
+    private final FactoryReviewView mFactoryReviewView;
+    private final UiLauncher mLauncher;
+    private final ReviewUiLauncher mFormattedLauncher;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
                               UiLauncher launcher,
-                              FactoryReviewView factoryReviewView,
-                              AuthorId sessionAuthor) {
-        mSessionAuthor = sessionAuthor;
+                              ReviewUiLauncher formattedLauncher,
+                              FactoryReviewView factoryReviewView) {
         mReviewsSource = reviewsSource;
         mFactoryReviewView = factoryReviewView;
         mLauncher = launcher;
+        mFormattedLauncher = formattedLauncher;
+    }
+
+    @Override
+    public void setSessionAuthor(AuthorId authorId) {
+        mSessionAuthor = authorId;
     }
 
     @Override
@@ -48,6 +54,11 @@ public class ReviewLauncherImpl implements ReviewLauncher {
                 if (!result.isError() && node != null) launchReview(node);
             }
         });
+    }
+
+    @Override
+    public void launchReviewFormatted(ReviewId reviewId) {
+        mFormattedLauncher.launch(reviewId);
     }
 
     @Override

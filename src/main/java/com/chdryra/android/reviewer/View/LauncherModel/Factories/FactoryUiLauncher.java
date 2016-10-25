@@ -13,13 +13,13 @@ import android.app.Activity;
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.BuildUiLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.BuildUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,12 +37,15 @@ public class FactoryUiLauncher {
                                          ReviewBuilderSuite builder,
                                          FactoryReviewView factoryReviewView,
                                          ReviewsSource masterRepo,
-                                         LaunchableConfig buildConfig) {
-        BuildUiLauncher buildScreenLauncher
-                = new BuildUiLauncher(buildConfig, repository, new ItemPacker<Review>(), builder);
+                                         LaunchableConfig buildConfig,
+                                         LaunchableConfig formatted) {
 
+        ReviewUiLauncher formattedLauncher = new ReviewUiLauncher(formatted, repository);
         FactoryReviewLauncher factoryReviewLauncher = new FactoryReviewLauncher(factoryReviewView, masterRepo);
-        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher,
+
+        BuildUiLauncher buildScreenLauncher
+                = new BuildUiLauncher(buildConfig, repository, builder);
+        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, formattedLauncher,
                 factoryReviewLauncher, mDefaultActivity, new ItemPacker<ReviewView<?>>());
         buildScreenLauncher.setUiLauncher(uiLauncher);
 

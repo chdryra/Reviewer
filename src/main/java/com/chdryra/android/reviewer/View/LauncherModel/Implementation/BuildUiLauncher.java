@@ -8,10 +8,8 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -23,8 +21,8 @@ public class BuildUiLauncher extends ReviewUiLauncher {
     private final ReviewBuilderSuite mBuilder;
 
     public BuildUiLauncher(LaunchableConfig ui, RepositorySuite repository,
-                           ItemPacker<Review> packer, ReviewBuilderSuite builder) {
-        super(ui, repository, packer);
+                           ReviewBuilderSuite builder) {
+        super(ui, repository);
         mBuilder = builder;
     }
 

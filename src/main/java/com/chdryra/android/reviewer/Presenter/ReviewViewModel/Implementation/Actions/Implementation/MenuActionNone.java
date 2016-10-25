@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -58,7 +59,11 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     }
 
     protected void sendResult(ActivityResultCode result) {
-        getReviewView().getApp().setReturnResult(result);
+        getApp().setReturnResult(result);
+    }
+
+    protected ApplicationInstance getApp() {
+        return getReviewView().getApp();
     }
 
     protected void doUpSelected() {
@@ -114,15 +119,18 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void onAttachReviewView() {
+        setupActionBar();
+        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
+            entry.getValue().mItem.onAttachReviewView();
+        }
+    }
+
+    protected void setupActionBar() {
         CurrentScreen screen = getCurrentScreen();
         if (screen.hasActionBar()) {
             screen.setHomeAsUp(mDisplayHomeAsUp);
             screen.setTitle(mTitle);
             addMenuItems();
-        }
-
-        for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
-            entry.getValue().mItem.onAttachReviewView();
         }
     }
 

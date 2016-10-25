@@ -79,6 +79,17 @@
         <item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
     </style>
 
+    <!-- RecyclerViews -->
+    <style name="RecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/grid_view_left_padding</item>
+        <item name="android:paddingRight">@dimen/grid_view_right_padding</item>
+        <item name="android:horizontalSpacing">@dimen/grid_view_horizontal_spacing</item>
+        <item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
+    </style>
+
     <!-- GridCells -->
     <style name="GridCell">
         <item name="android:layout_width">match_parent</item>

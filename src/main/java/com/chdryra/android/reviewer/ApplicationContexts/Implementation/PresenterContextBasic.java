@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,12 +20,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  */
 public abstract class PresenterContextBasic implements PresenterContext {
     private FactoryReviewView mFactoryReviewView;
+    private ConverterGv mConverter;
 
     protected PresenterContextBasic() {
     }
 
     protected void setFactoryReviewView(FactoryReviewView factoryReviewView) {
         mFactoryReviewView = factoryReviewView;
+    }
+
+    @Override
+    public ConverterGv getGvConverter() {
+        return mConverter;
+    }
+
+    protected void setConverter(ConverterGv converter) {
+        mConverter = converter;
     }
 
     @Override

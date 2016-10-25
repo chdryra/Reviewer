@@ -10,13 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,51 +23,43 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextualUi {
-    private final LinearLayout mView;
     private final Button mButton;
-    private ContextualButtonAction<?> mAction;
+    private final ContextualButtonAction<?> mAction;
+    private boolean mIsVisible = true;
 
-    public ContextualUi(ReviewView<?> reviewView, LinearLayout view, int buttonId, int textColour) {
-        mView = view;
-        mButton = (Button) mView.findViewById(buttonId);
-        initialise(reviewView, textColour);
+    public ContextualUi(LinearLayout view, int buttonId, @Nullable ContextualButtonAction<?> action, int textColour) {
+        mButton = (Button) view.findViewById(buttonId);
+        mButton.setTextColor(textColour);
+        mAction = action;
+
+        initialise(view);
     }
 
-    private void initialise(ReviewView<?> reviewView, int textColour) {
-        mAction = reviewView.getActions().getContextualAction();
+    private void initialise(LinearLayout view) {
         if (mAction == null) {
-            mView.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);
+            mIsVisible = false;
             return;
         }
 
-        mButton.setTextColor(textColour);
-        mButton.setOnClickListener(newClickListener(mAction));
-        mButton.setOnLongClickListener(newLongClickListener(mAction));
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAction.onClick(v);
+            }
+        });
+
+        mButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return mAction.onLongClick(v);
+            }
+        });
 
         update();
     }
 
     public void update() {
-        if(mAction != null) mButton.setText(mAction.getButtonTitle());
-    }
-
-    @NonNull
-    private View.OnLongClickListener newLongClickListener(final ContextualButtonAction<?> action) {
-        return new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return action.onLongClick(v);
-            }
-        };
-    }
-
-    @NonNull
-    private View.OnClickListener newClickListener(final ContextualButtonAction<?> action) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                action.onClick(v);
-            }
-        };
+        if(mIsVisible) mButton.setText(mAction.getButtonTitle());
     }
 }

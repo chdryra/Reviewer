@@ -27,6 +27,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -42,20 +44,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 
 public class UiSuiteAndroid implements UiSuite{
+    private final UiConfig mUiConfig;
+    private final UiLauncherAndroid mUiLauncher;
+    private final FactoryReviewView mViewFactory;
+    private final FactoryReviews mReviewsFactory;
+    private final ConverterGv mConverter;
+
     private CurrentScreen mCurrentScreen;
-    private UiConfig mUiConfig;
-    private UiLauncherAndroid mUiLauncher;
-    private FactoryReviewView mViewFactory;
-    private FactoryReviews mReviewsFactory;
     private AuthorId mSessionUser;
 
     public UiSuiteAndroid(UiConfig uiConfig, UiLauncherAndroid uiLauncher,
-                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory) {
+                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory,
+                          ConverterGv converter) {
         mUiConfig = uiConfig;
         mUiLauncher = uiLauncher;
         mUiConfig.setUiLauncher(mUiLauncher);
         mViewFactory = viewFactory;
         mReviewsFactory = reviewsFactory;
+        mConverter = converter;
     }
 
     @Override
@@ -88,6 +94,11 @@ public class UiSuiteAndroid implements UiSuite{
                                         PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
         return mViewFactory.newPublishView(editor, publisher, platforms, authoriser, callback);
+    }
+
+    @Override
+    public ConverterGv getGvConverter() {
+        return mConverter;
     }
 
     public void setActivity(Activity activity) {

@@ -17,7 +17,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewLauncher {
+    void setSessionAuthor(AuthorId authorId);
+
     void launchReview(ReviewId reviewId);
+
+    void launchReviewFormatted(ReviewId reviewId);
 
     void launchReviews(AuthorId authorId);
 }

@@ -15,7 +15,7 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewFormatted;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -24,10 +24,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewFormatted extends ActivitySingleFragment implements LaunchableUi {
-    private static final String TAG = TagKeyGenerator.getTag(ActivityReviewFormatted.class);
+public class ActivityFormatReview extends ActivitySingleFragment implements LaunchableUi {
+    public static final String TAG = TagKeyGenerator.getTag(ActivityFormatReview.class);
     private static final String RETAIN_VIEW
-            = TagKeyGenerator.getKey(ActivityReviewFormatted.class, "RetainView");
+            = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class ActivityReviewFormatted extends ActivitySingleFragment implements L
 
     @Override
     protected Fragment createFragment() {
-        FragmentReviewFormatted fragment = new FragmentReviewFormatted();
+        FragmentFormatReview fragment = new FragmentFormatReview();
         fragment.setArguments(getIntent().getBundleExtra(getLaunchTag()));
         return fragment;
     }

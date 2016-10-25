@@ -33,12 +33,10 @@ public class ReviewUiLauncher {
     private final RepositorySuite mRepository;
     private final ItemPacker<Review> mPacker;
 
-    public ReviewUiLauncher(LaunchableConfig ui,
-                            RepositorySuite repository,
-                            ItemPacker<Review> packer) {
+    public ReviewUiLauncher(LaunchableConfig ui, RepositorySuite repository) {
         mUi = ui;
         mRepository = repository;
-        mPacker = packer;
+        mPacker = new ItemPacker<>();
     }
 
     public void setUiLauncher(UiLauncher uiLauncher) {

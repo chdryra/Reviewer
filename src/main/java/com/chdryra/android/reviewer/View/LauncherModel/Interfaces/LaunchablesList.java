@@ -29,6 +29,8 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getReviewBuild();
 
+    Class<? extends LaunchableUi> getReviewFormatted();
+
     Class<? extends LaunchableUi> getMapEdit();
 
     Class<? extends LaunchableUi> getPublish();

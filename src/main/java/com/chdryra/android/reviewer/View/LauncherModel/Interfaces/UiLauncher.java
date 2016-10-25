@@ -30,5 +30,5 @@ public interface UiLauncher {
 
     void launchImageChooser(ImageChooser chooser, int requestCode);
 
-    ReviewLauncher newReviewLauncher();
+    ReviewLauncher getReviewLauncher();
 }

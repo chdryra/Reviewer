@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -32,23 +31,28 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
     private String mTitle;
 
     public BannerButtonActionNone() {
-        this(null);
+        this("");
     }
 
-    public BannerButtonActionNone(@Nullable String title) {
+    public BannerButtonActionNone(String title) {
         mTitle = title;
         mListeners = new ArrayList<>();
     }
 
     protected void setTitle(String title) {
         mTitle = title;
-        if(mButtonTitle != null) mButtonTitle.setTitle(mTitle);
+        if(mButtonTitle != null) mButtonTitle.update(mTitle);
     }
 
     @Override
     public void setTitle(ButtonTitle title) {
         mButtonTitle = title;
-        mButtonTitle.setTitle(mTitle);
+        setTitle(mTitle);
+    }
+
+    @Override
+    public String getTitleString() {
+        return mTitle;
     }
 
     @Override

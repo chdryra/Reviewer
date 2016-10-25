@@ -30,6 +30,8 @@ public interface UiConfig {
 
     LaunchableConfig getBuildReview();
 
+    LaunchableConfig getFormattedReview();
+
     LaunchableConfig getMapEditor();
 
     LaunchableConfig getPublish();

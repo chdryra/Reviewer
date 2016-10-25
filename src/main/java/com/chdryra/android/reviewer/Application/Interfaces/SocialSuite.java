@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**
@@ -22,6 +21,4 @@ public interface SocialSuite {
     SocialPlatformList getSocialPlatformList();
 
     SocialProfile getSocialProfile();
-
-    TagsManager getTagsManager();
 }

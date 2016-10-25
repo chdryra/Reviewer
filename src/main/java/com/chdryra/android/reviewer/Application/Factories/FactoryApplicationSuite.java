@@ -71,7 +71,7 @@ public class FactoryApplicationSuite {
         RepositorySuiteAndroid repo = newRepositorySuite(model, persistence, network);
         ReviewBuilderSuiteAndroid builder = newReviewBuilderSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(model, persistence, view, presenter, repo, builder);
-        SocialSuiteAndroid socialSuite = newSocialSuite(model, social);
+        SocialSuiteAndroid socialSuite = newSocialSuite(social);
 
         return new ApplicationSuiteAndroid(auth, location, ui, repo, builder, socialSuite);
     }
@@ -106,8 +106,8 @@ public class FactoryApplicationSuite {
                 model.getTagsManager());
     }
 
-    private SocialSuiteAndroid newSocialSuite(ModelContext model, SocialContext social) {
-        return new SocialSuiteAndroid(social.getSocialPlatforms(), model.getTagsManager());
+    private SocialSuiteAndroid newSocialSuite(SocialContext social) {
+        return new SocialSuiteAndroid(social.getSocialPlatforms());
     }
 
     private UiSuiteAndroid newUiSuite(ModelContext model,
@@ -119,9 +119,10 @@ public class FactoryApplicationSuite {
         FactoryReviewView viewFactory = presenter.getReviewViewFactory();
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
-                viewFactory, persistence.getReviewsRepository(), uiConfig.getBuildReview());
+                viewFactory, persistence.getReviewsRepository(), uiConfig.getBuildReview(),
+                uiConfig.getFormattedReview());
 
-        return new UiSuiteAndroid(uiConfig, uiLauncher, viewFactory, model.getReviewsFactory());
+        return new UiSuiteAndroid(uiConfig, uiLauncher, viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
     }
 
     private ReviewBuilderSuiteAndroid newReviewBuilderSuite(PresenterContext context) {

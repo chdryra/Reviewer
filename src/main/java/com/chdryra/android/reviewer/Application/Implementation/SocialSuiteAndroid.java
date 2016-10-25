@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**
@@ -24,11 +23,9 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 public class SocialSuiteAndroid implements SocialSuite {
     private SocialPlatformList mList;
     private UserSession mSession;
-    private TagsManager mManager;
 
-    public SocialSuiteAndroid(SocialPlatformList list, TagsManager manager) {
+    public SocialSuiteAndroid(SocialPlatformList list) {
         mList = list;
-        mManager = manager;
     }
 
     @Override
@@ -39,11 +36,6 @@ public class SocialSuiteAndroid implements SocialSuite {
     @Override
     public SocialProfile getSocialProfile() {
         return mSession != null ? mSession.getSocialProfile() : new NullSocialProfile();
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mManager;
     }
 
     public void setSession(UserSession session) {

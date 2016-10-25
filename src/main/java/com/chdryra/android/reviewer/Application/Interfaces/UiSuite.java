@@ -13,6 +13,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -39,4 +41,6 @@ public interface UiSuite {
                                  SocialPlatformList platforms,
                                  PlatformAuthoriser authoriser,
                                  PublishAction.PublishCallback callback);
+
+    ConverterGv getGvConverter();
 }

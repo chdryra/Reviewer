@@ -44,17 +44,20 @@ public class UiLauncherAndroid implements UiLauncher {
     private UserSession mSession;
 
     private final ReviewUiLauncher mBuildUiLauncher;
+    private final ReviewUiLauncher mReviewUiLauncher;
+    private final ReviewLauncher mReviewLauncher;
     private final Class<? extends Activity> mDefaultActivity;
-    private final FactoryReviewLauncher mReviewLauncherFactory;
 
     private final ItemPacker<ReviewView<?>> mViewPacker;
 
     public UiLauncherAndroid(ReviewUiLauncher buildUiLauncher,
+                             ReviewUiLauncher reviewUiLauncher,
                              FactoryReviewLauncher reviewLauncherFactory,
                              Class<? extends Activity> defaultActivity,
                              ItemPacker<ReviewView<?>> viewPacker) {
         mBuildUiLauncher = buildUiLauncher;
-        mReviewLauncherFactory = reviewLauncherFactory;
+        mReviewUiLauncher = reviewUiLauncher;
+        mReviewLauncher = reviewLauncherFactory.newReviewLauncher(this, mReviewUiLauncher);
         mDefaultActivity = defaultActivity;
         mViewPacker = viewPacker;
     }
@@ -88,13 +91,15 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Override
-    public ReviewLauncher newReviewLauncher() {
-        return mReviewLauncherFactory.newReviewLauncher(this, mSession.getAuthorId());
+    public ReviewLauncher getReviewLauncher() {
+        mReviewLauncher.setSessionAuthor(mSession.getAuthorId());
+        return mReviewLauncher;
     }
 
     @Nullable
     public Review unpackReview(Bundle args) {
-        return mBuildUiLauncher.unpackReview(args);
+        Review review = mBuildUiLauncher.unpackReview(args);
+        return review != null ? review : mReviewUiLauncher.unpackReview(args);
     }
 
     @Nullable

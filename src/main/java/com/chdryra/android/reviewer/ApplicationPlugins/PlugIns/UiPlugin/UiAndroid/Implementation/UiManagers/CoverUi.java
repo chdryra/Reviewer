@@ -12,56 +12,43 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.widget.RelativeLayout;
-
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import android.view.View;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverUi {
-    private final ReviewView mReviewView;
-    private final RelativeLayout mView;
-    private final GridViewUi mGridView;
+public class CoverUi extends ViewUi<View, Bitmap>{
     private final Activity mActivity;
 
-    public CoverUi(ReviewView reviewView, RelativeLayout view, GridViewUi gridView, Activity
-            activity) {
-        mReviewView = reviewView;
-        mView = view;
-        mGridView = gridView;
+    public CoverUi(View view, ValueGetter<Bitmap> getter, Activity activity) {
+        super(view, getter);
         mActivity = activity;
     }
 
     public void update() {
-        mReviewView.updateCover();
+        setCover(getValue());
     }
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setCover(@Nullable DataImage cover) {
-        if (cover != null && cover.getBitmap() != null) {
-            BitmapDrawable bitmap = new BitmapDrawable(mActivity.getResources(), cover.getBitmap());
+    public void setCover(@Nullable Bitmap image) {
+        if (image != null) {
+            BitmapDrawable bitmap = new BitmapDrawable(mActivity.getResources(), image);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                mView.setBackground(bitmap);
+                getView().setBackground(bitmap);
             } else {
-                mView.setBackgroundDrawable(bitmap);
+                getView().setBackgroundDrawable(bitmap);
             }
-            mGridView.setTransparent();
-        } else {
-            removeCover();
-        }
-    }
 
-    private void removeCover() {
-        mView.setBackgroundColor(Color.TRANSPARENT);
-        mGridView.setOpaque();
+        } else {
+            getView().setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 }

@@ -9,28 +9,20 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-
-import android.widget.RatingBar;
+import android.widget.Button;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/10/2016
+ * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarUi extends ViewUi<RatingBar, Float>{
-    public RatingBarUi(RatingBar view, ValueGetter<Float> rating) {
-        super(view, rating);
-    }
-
-    public float getRating() {
-        return getView().getRating();
+public class ButtonUi extends ViewUi<Button, String>{
+    public ButtonUi(Button button, ViewUi.ValueGetter<String> getter, int textColor) {
+        super(button, getter);
+        getView().setTextColor(textColor);
     }
 
     public void update() {
-        setRating(getValue());
-    }
-
-    public void setRating(float rating) {
-        getView().setRating(rating);
+        getView().setText(getValue());
     }
 }
