@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.HorizontalAdapter;
@@ -34,7 +34,9 @@ public class HorizontalGridUi<T extends GvData> extends ViewUi<RecyclerView, GvD
         super(view, getter);
         mAdapter = new HorizontalAdapter<>(getValue(), viewholderFactory);
         getView().setHasFixedSize(true);
-        getView().setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        GridLayoutManager layout
+                = new GridLayoutManager(context, 2, GridLayoutManager.HORIZONTAL, false);
+        getView().setLayoutManager(layout);
         getView().setAdapter(mAdapter);
     }
 

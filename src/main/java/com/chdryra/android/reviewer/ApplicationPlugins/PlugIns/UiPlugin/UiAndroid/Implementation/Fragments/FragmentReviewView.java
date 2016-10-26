@@ -130,7 +130,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarRvUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
-        mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
+            mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
                 actions.getBannerButtonAction(), colour);
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
                 FactoryGridCellAdapter(getActivity()), displayMetrics);

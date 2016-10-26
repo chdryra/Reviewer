@@ -27,7 +27,7 @@ public class BannerButtonLaunchFormatted extends BannerButtonActionNone<GvSize.R
     private final ReviewLauncher mLauncher;
 
     public BannerButtonLaunchFormatted(ReviewId review, ReviewLauncher launcher) {
-        super("Press for Formatted");
+        super("Click to view");
         mReview = review;
         mLauncher = launcher;
     }

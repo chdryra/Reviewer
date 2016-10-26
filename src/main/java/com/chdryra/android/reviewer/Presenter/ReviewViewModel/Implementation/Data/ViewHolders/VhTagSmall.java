@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvText;
@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * .TagsManager.ReviewTag} ({@link GvText}). Shows tag
  * string.
  */
-public class VhTag extends VhText {
-    public VhTag() {
+public class VhTagSmall extends VhTextSmall {
+    public VhTagSmall() {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {

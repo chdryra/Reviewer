@@ -57,6 +57,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 import com.chdryra.android.reviewer.R;
 
@@ -71,7 +74,7 @@ import java.util.Date;
 
 public class FragmentFormatReview extends Fragment {
     private static final int LAYOUT = R.layout.fragment_review_formatted;
-    private static final int HEADER = R.id.header_formatted;
+    private static final int IMAGE = R.id.image_formatted;
     private static final int SUBJECT = R.id.subject_formatted;
     private static final int RATING = R.id.rating_formatted;
     private static final int STAMP = R.id.stamp_formatted;
@@ -122,7 +125,12 @@ public class FragmentFormatReview extends Fragment {
         mStamp = new ButtonUi((Button) v.findViewById(STAMP), stamp(), colour);
         HorizontalGridUi<GvTag> tags = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
                 .findViewById(TAGS),
-                newVhFactory(new GvTag()), tags());
+                new ViewHolderFactory<ViewHolder>() {
+                    @Override
+                    public ViewHolder newViewHolder() {
+                        return new VhTagSmall();
+                    }
+                }, tags());
         ButtonUi locations = new ButtonUi((Button) v.findViewById(LOCATIONS), locations(), colour);
         HorizontalGridUi<GvCriterion> criteria = new HorizontalGridUi<>(getActivity(),
                 (RecyclerView) v.findViewById(CRITERIA),
@@ -134,7 +142,7 @@ public class FragmentFormatReview extends Fragment {
         HorizontalGridUi<GvFact> facts = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
                 .findViewById(FACTS),
                 newVhFactory(new GvFact()), facts());
-        CoverUi cover = new CoverUi(v.findViewById(HEADER), cover(), getActivity());
+        CoverUi cover = new CoverUi(v.findViewById(IMAGE), cover(), getActivity());
 
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
 

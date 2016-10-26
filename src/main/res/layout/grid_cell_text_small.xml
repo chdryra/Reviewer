@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+    style="@style/GridCell"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/grid_cell_text_view_small"
+        style="@style/TextViewGridCell.Wrapped.Small"/>
+
+</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>
+
