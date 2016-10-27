@@ -41,7 +41,7 @@
 
             <include
                 android:id="@+id/stamp_formatted"
-                layout="@layout/review_button"/>
+                layout="@layout/review_button_stamp"/>
 
         </LinearLayout>
 
@@ -54,12 +54,24 @@
 
             <include
                 android:id="@+id/locations_formatted"
-                layout="@layout/review_button"/>
+                layout="@layout/review_data_row"/>
 
             <View style="@style/HorizontalDivider"/>
 
             <include
                 android:id="@+id/tags_formatted"
+                layout="@layout/review_data_row"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/facts_formatted"
+                layout="@layout/review_data_row"/>
+
+            <View style="@style/HorizontalDivider"/>
+
+            <include
+                android:id="@+id/images_formatted"
                 layout="@layout/review_data_row"/>
 
             <View style="@style/HorizontalDivider"/>
@@ -73,18 +85,6 @@
             <include
                 android:id="@+id/comment_formatted"
                 layout="@layout/comment_text_view"/>
-
-            <View style="@style/HorizontalDivider"/>
-
-            <include
-                android:id="@+id/images_formatted"
-                layout="@layout/review_data_row"/>
-
-            <View style="@style/HorizontalDivider"/>
-
-            <include
-                android:id="@+id/facts_formatted"
-                layout="@layout/review_data_row"/>
 
             <View style="@style/HorizontalDivider"/>
         </LinearLayout>

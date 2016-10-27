@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +26,7 @@ import android.widget.RelativeLayout;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverRvUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.GridViewUi;
@@ -37,8 +37,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 
@@ -120,9 +119,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         if (mReviewView == null) extractReviewView();
         if (mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         View v = inflater.inflate(LAYOUT, container, false);
 
         ReviewViewActions<?> actions = mReviewView.getActions();
@@ -133,7 +129,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
             mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
                 actions.getBannerButtonAction(), colour);
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
-                FactoryGridCellAdapter(getActivity()), displayMetrics);
+                FactoryGridCellAdapter(getActivity()), new CellDimensionsCalculator(getActivity()));
         mMenu = new MenuUi(mReviewView.getActions().getMenuAction());
         mCover = new CoverRvUi(mReviewView, (RelativeLayout) v.findViewById(FULL_VIEW),
                 mGridView, getActivity());

@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -33,16 +32,16 @@ public class GridViewUi<T extends GvData> {
     private final ReviewView<T> mReviewView;
     private final GridView mView;
     private final FactoryGridCellAdapter mFactory;
-    private final DisplayMetrics mMetrics;
+    private final CellDimensionsCalculator mCalculator;
 
     public GridViewUi(ReviewView<T> reviewView,
                       GridView view,
                       FactoryGridCellAdapter factory,
-                      DisplayMetrics metrics) {
+                      CellDimensionsCalculator calculator) {
         mReviewView = reviewView;
         mView = view;
         mFactory = factory;
-        mMetrics = metrics;
+        mCalculator = calculator;
         inititialise();
     }
 
@@ -50,14 +49,14 @@ public class GridViewUi<T extends GvData> {
         getAdapter().setData(mReviewView.getGridData());
     }
 
-    public void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams
-            .CellDimension height) {
-        int maxCellSize = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
-        int widthDivider = width.getDivider();
-        int cell_width = maxCellSize / widthDivider;
-        int cell_height = maxCellSize / height.getDivider();
+    public void setCellDimension(ReviewViewParams.CellDimension width,
+                                 ReviewViewParams.CellDimension height) {
+        CellDimensionsCalculator.Dimensions dims = mCalculator.calcDimensions(width, height);
+        int cell_width = dims.getCellWidth();
+        int cell_height = dims.getCellHeight();
+
         mView.setColumnWidth(cell_width);
-        mView.setNumColumns(widthDivider);
+        mView.setNumColumns(width.getDivider());
         getAdapter().setCellDimensions(cell_width, cell_height);
     }
 
@@ -80,19 +79,15 @@ public class GridViewUi<T extends GvData> {
 
     private void inititialise() {
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
-
-        int maxCellSize = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
-        int widthDivider = params.getCellWidth().getDivider();
-        int cell_width = maxCellSize / widthDivider;
-        int cell_height = maxCellSize / params.getCellHeight().getDivider();
-
-        ViewHolderAdapter adapter
-                = mFactory.newAdapter(mReviewView.getGridData(), cell_width, cell_height);
+        CellDimensionsCalculator.Dimensions dims
+                = mCalculator.calcDimensions(params.getCellWidth(), params.getCellHeight());
+        int cell_width = dims.getCellWidth();
+        int cell_height = dims.getCellHeight();
 
         mView.setDrawSelectorOnTop(true);
-        mView.setAdapter(adapter);
+        mView.setAdapter(mFactory.newAdapter(mReviewView.getGridData(), cell_width, cell_height));
         mView.setColumnWidth(cell_width);
-        mView.setNumColumns(widthDivider);
+        mView.setNumColumns(params.getCellWidth().getDivider());
 
         GridItemAction<T> action = mReviewView.getActions().getGridItemAction();
         mView.setOnItemClickListener(newGridItemClickListener(action));
@@ -127,4 +122,5 @@ public class GridViewUi<T extends GvData> {
         //TODO make type safe
         return (T) parent.getItemAtPosition(position);
     }
+
 }

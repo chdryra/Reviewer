@@ -40,7 +40,8 @@ public class ReviewViewParams {
     public enum CellDimension {
         FULL(1),
         HALF(2),
-        QUARTER(4);
+        QUARTER(4),
+        EIGHTH(8);
 
         private final int mDivider;
         CellDimension(int divider) {

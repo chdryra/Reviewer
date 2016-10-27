@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -29,6 +28,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ButtonUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
@@ -36,7 +36,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -55,12 +54,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhTagSmall;
+        .VhLocationSmall;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
@@ -116,13 +118,20 @@ public class FragmentFormatReview extends Fragment {
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
+        CellDimensionsCalculator.Dimensions dims8
+                = calculator.calcDimensions(ReviewViewParams.CellDimension.HALF,
+                ReviewViewParams.CellDimension.EIGHTH);
+        CellDimensionsCalculator.Dimensions dims4 = calculator.calcDimensions(ReviewViewParams.CellDimension.HALF,
+                ReviewViewParams.CellDimension.QUARTER);
+
 
         TextUi<TextView> subject = new TextUi<>((TextView) v.findViewById(SUBJECT), subject());
+
         RatingBarUi ratingBar = new RatingBarUi((RatingBar) v.findViewById(RATING), rating());
-        int colour = subject.getTextColour();
-        mStamp = new ButtonUi((Button) v.findViewById(STAMP), stamp(), colour);
+
+        mStamp = new ButtonUi((Button) v.findViewById(STAMP), stamp(), subject.getTextColour());
+
         HorizontalGridUi<GvTag> tags = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
                 .findViewById(TAGS),
                 new ViewHolderFactory<ViewHolder>() {
@@ -130,18 +139,30 @@ public class FragmentFormatReview extends Fragment {
                     public ViewHolder newViewHolder() {
                         return new VhTagSmall();
                     }
-                }, tags());
-        ButtonUi locations = new ButtonUi((Button) v.findViewById(LOCATIONS), locations(), colour);
+                }, tags(), 2, dims8);
+
+//        ButtonUi locations
+//                = new ButtonUi((Button) v.findViewById(LOCATIONS), locations(), subject.getTextColour());
+
+        HorizontalGridUi<GvLocation> locations = new HorizontalGridUi<>(getActivity(),
+                (RecyclerView) v.findViewById(LOCATIONS), new ViewHolderFactory<ViewHolder>() {
+            @Override
+            public ViewHolder newViewHolder() {
+                return new VhLocationSmall();
+            }
+        }, locations(), 1, dims8);
+
         HorizontalGridUi<GvCriterion> criteria = new HorizontalGridUi<>(getActivity(),
-                (RecyclerView) v.findViewById(CRITERIA),
-                newVhFactory(new GvCriterion()), criteria());
+                (RecyclerView) v.findViewById(CRITERIA), newVhFactory(new GvCriterion()), criteria(), 1, dims4);
+
         TextUi<TextView> comment = new TextUi<>((TextView) v.findViewById(COMMENT), comment());
+
         HorizontalGridUi<GvImage> images = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
-                .findViewById(IMAGES),
-                newVhFactory(new GvImage()), images());
+                .findViewById(IMAGES), newVhFactory(new GvImage()), images(), 1, dims4);
+
         HorizontalGridUi<GvFact> facts = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
-                .findViewById(FACTS),
-                newVhFactory(new GvFact()), facts());
+                .findViewById(FACTS), newVhFactory(new GvFact()), facts(), 1, dims4);
+
         CoverUi cover = new CoverUi(v.findViewById(IMAGE), cover(), getActivity());
 
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
@@ -304,16 +325,26 @@ public class FragmentFormatReview extends Fragment {
             }
         };
     }
+//
+//    @NonNull
+//    private ViewUi.ValueGetter<String> locations() {
+//        return new ViewUi.ValueGetter<String>() {
+//            @Override
+//            public String getValue() {
+//                IdableList<? extends DataLocation> locations = mReview.getLocations();
+//                if (locations.size() == 0) return "";
+//                if (locations.size() == 1) return "@" + locations.getItem(0).getName();
+//                return "@ " + String.valueOf(locations.size()) + " locations";
+//            }
+//        };
+//    }
 
     @NonNull
-    private ViewUi.ValueGetter<String> locations() {
-        return new ViewUi.ValueGetter<String>() {
+    private ViewUi.ValueGetter<GvDataList<GvLocation>> locations() {
+        return new ViewUi.ValueGetter<GvDataList<GvLocation>>() {
             @Override
-            public String getValue() {
-                IdableList<? extends DataLocation> locations = mReview.getLocations();
-                if (locations.size() == 0) return "";
-                if (locations.size() == 1) return "@" + locations.getItem(0).getName();
-                return "@ " + String.valueOf(locations.size()) + " locations";
+            public GvDataList<GvLocation> getValue() {
+                return mConverter.newConverterLocations().convert(mReview.getLocations());
             }
         };
     }

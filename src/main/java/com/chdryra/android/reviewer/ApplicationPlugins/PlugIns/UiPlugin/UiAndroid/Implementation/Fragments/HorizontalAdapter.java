@@ -26,11 +26,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class HorizontalAdapter<T extends GvData, V extends ViewHolder>
         extends RecyclerView.Adapter<RecyclerViewHolder> {
     private final ViewHolderFactory<V> mFactory;
+    private final int mCellWidth;
+    private final int mCellHeight;
+
     private GvDataList<T> mData;
 
-    public HorizontalAdapter(GvDataList<T> data, ViewHolderFactory<V> factory) {
+    public HorizontalAdapter(GvDataList<T> data, ViewHolderFactory<V> factory, int cellWidth, int cellHeight) {
         mData = data;
         mFactory = factory;
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
     }
 
     public void setData(GvDataList<T> data) {
@@ -42,6 +47,10 @@ public class HorizontalAdapter<T extends GvData, V extends ViewHolder>
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         V viewHolder = mFactory.newViewHolder();
         viewHolder.inflate(parent.getContext(), parent);
+        ViewGroup.LayoutParams params = viewHolder.getView().getLayoutParams();
+        params.height = mCellHeight;
+        params.width = mCellWidth;
+
         return new RecyclerViewHolder(viewHolder);
     }
 
