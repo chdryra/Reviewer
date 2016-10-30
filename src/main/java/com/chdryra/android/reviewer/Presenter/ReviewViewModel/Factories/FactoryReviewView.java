@@ -129,10 +129,6 @@ public class FactoryReviewView {
                 new ReviewViewActions<>(factory), mParamsFactory.newPublishParams());
     }
 
-    public ReviewView<?> newSummaryView(ReviewNode node) {
-        return newDefaultView(mAdapterFactory.newTreeSummaryAdapter(node));
-    }
-
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter) {
         ReviewView view;
         try {

@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -27,16 +28,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class ReviewLauncherImpl implements ReviewLauncher {
     private AuthorId mSessionAuthor;
     private final ReviewsSource mReviewsSource;
-    private final FactoryReviewView mFactoryReviewView;
+    private final FactoryReviewView mViewFactory;
     private final UiLauncher mLauncher;
     private final ReviewUiLauncher mFormattedLauncher;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
                               UiLauncher launcher,
                               ReviewUiLauncher formattedLauncher,
-                              FactoryReviewView factoryReviewView) {
+                              FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
-        mFactoryReviewView = factoryReviewView;
+        mViewFactory = viewFactory;
         mLauncher = launcher;
         mFormattedLauncher = formattedLauncher;
     }
@@ -67,7 +68,9 @@ public class ReviewLauncherImpl implements ReviewLauncher {
                 ReviewNode node = result.getReviewNode();
                 if (!result.isError() && node != null) {
                     ReviewNode review = node.getChildren().getItem(0);
-                    launchView(mFactoryReviewView.newSummaryView(review), getRequestCode(review));
+                    ReviewViewAdapter<?> adapter = mViewFactory.getAdapterFactory()
+                            .newSummaryAdapter(review);
+                    launchView(mViewFactory.newDefaultView(adapter), getRequestCode(review));
                 }
             }
         });
@@ -94,6 +97,6 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     private ReviewView<?> newListView(ReviewNode reviewNode) {
         boolean menu = !reviewNode.getAuthorId().toString().equals(mSessionAuthor.toString());
-        return mFactoryReviewView.newReviewsListView(reviewNode, menu);
+        return mViewFactory.newReviewsListView(reviewNode, menu);
     }
 }

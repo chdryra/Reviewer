@@ -38,6 +38,6 @@ public class ViewerFeed extends ViewerChildList {
             authors.add(child.getAuthorId());
         }
 
-        return getAdapterFactory().newTreeSummaryAdapter(node.getAuthorId(), authors);
+        return getAdapterFactory().newSummaryAdapter(node.getAuthorId(), authors);
     }
 }

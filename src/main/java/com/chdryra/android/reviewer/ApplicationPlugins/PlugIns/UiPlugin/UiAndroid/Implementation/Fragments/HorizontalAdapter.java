@@ -43,6 +43,7 @@ public class HorizontalAdapter<T extends GvData, V extends ViewHolder>
         notifyDataSetChanged();
     }
 
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         V viewHolder = mFactory.newViewHolder();

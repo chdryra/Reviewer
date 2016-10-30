@@ -110,18 +110,14 @@ public class FactoryReviewViewAdapter {
     }
 
     //List reviews for this author
-    public ReviewViewAdapter<?> newReviewsListAdapter(AuthorId id) {
-        return newReviewsListAdapter(mReviewSource.asMetaReview(id), id);
-    }
-
     //List all reviews in the tree
     public ReviewViewAdapter<?> newFlattenedReviewsListAdapter(ReviewNode toFlatten) {
         return newReviewsListAdapter(new ReviewTreeFlat(toFlatten, mReviewsFactory), null);
     }
 
     //Summary of reviews for this author
-    public ReviewViewAdapter<?> newTreeSummaryAdapter(AuthorId summaryOwner,
-                                                      Set<AuthorId> reviewAuthors) {
+    public ReviewViewAdapter<?> newSummaryAdapter(AuthorId summaryOwner,
+                                                  Set<AuthorId> reviewAuthors) {
         RepositoryCollection<AuthorId> collection = new RepositoryCollection<>();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getRepositoryForAuthor(author));
@@ -134,7 +130,7 @@ public class FactoryReviewViewAdapter {
     }
 
     //Summary of reviews for this review tree
-    public ReviewViewAdapter<?> newTreeSummaryAdapter(ReviewNode node) {
+    public ReviewViewAdapter<?> newSummaryAdapter(ReviewNode node) {
         GridDataWrapper<?> viewer = node.getChildren().size() > 0 ?
                 mViewerFactory.newTreeSummaryViewer(node, mConverter) :
                 mViewerFactory.newNodeSummaryViewer(node, mConverter);
@@ -142,7 +138,6 @@ public class FactoryReviewViewAdapter {
     }
 
     //View specific data for this review as if it was a single review
-    @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newReviewDataAdapter(ReviewNode node,
                                                                         GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {

@@ -43,6 +43,7 @@ public class HorizontalGridUi<T extends GvData> extends ViewUi<RecyclerView, GvD
         getView().setAdapter(mAdapter);
     }
 
+    @Override
     public void update() {
         mAdapter.setData(getValue());
     }
