@@ -42,7 +42,7 @@
             <include
                 android:id="@+id/stamp_formatted"
                 layout="@layout/review_button"
-                android:textStyle="bold|italic"/>
+                android:textStyle="bold"/>
 
             <View style="@style/HorizontalDivider"/>
 

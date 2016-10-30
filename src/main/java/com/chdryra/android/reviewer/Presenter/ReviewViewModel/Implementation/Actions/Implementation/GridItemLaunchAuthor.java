@@ -30,7 +30,7 @@ public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
 
     @Override
     public void onGridItemClick(GvAuthor item, int position, View v) {
-        mLauncher.launchReviews(item.getAuthorId());
+        mLauncher.launchReviewsList(item.getAuthorId());
     }
 
     @Override

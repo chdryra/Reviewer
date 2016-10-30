@@ -43,7 +43,7 @@ implements DataReference.DereferenceCallback<NamedAuthor>{
 
     @Override
     public void onClick(View v) {
-        mLauncher.launchReviews(mAuthorId);
+        mLauncher.launchReviewsList(mAuthorId);
         notifyListeners();
     }
 

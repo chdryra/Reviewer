@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiReviewOptions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuReviewOptions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarFormatReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarReviewFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -75,7 +75,7 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
 
     @Override
     public RatingBarAction<GvSize.Reference> newRatingBar() {
-        return mStamp.isValid() ? new RatingBarFormatReview<GvSize.Reference>(mStamp, mLauncher.getReviewLauncher()) :
+        return mStamp.isValid() ? new RatingBarReviewFormatted<GvSize.Reference>(mStamp, mLauncher.getReviewLauncher()) :
                 super.newRatingBar();
     }
 

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ModelContextBasic;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
@@ -30,7 +31,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         FactoryMdReference mdReferenceFactory = new FactoryMdReference(getReferenceFactory(),
                 new FactoryNodeTraverser(), new FactoryVisitorReviewNode());
 
-        FactoryReviews reviews = new FactoryReviews(mdReferenceFactory);
+        FactoryReviews reviews = new FactoryReviews(new FactoryReviewNode(mdReferenceFactory), mdReferenceFactory);
 
         setReviewsFactory(reviews);
     }

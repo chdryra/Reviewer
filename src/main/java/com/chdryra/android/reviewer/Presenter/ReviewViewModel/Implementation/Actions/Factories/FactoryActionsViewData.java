@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarFormatReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarReviewFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -73,7 +73,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     
     @Override
     public RatingBarAction<T> newRatingBar() {
-        return mStamp.isValid() ? new RatingBarFormatReview<T>(mStamp, mLauncher.getReviewLauncher()) :
+        return mStamp.isValid() ? new RatingBarReviewFormatted<T>(mStamp, mLauncher.getReviewLauncher()) :
                 super.newRatingBar();
     }
 

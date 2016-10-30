@@ -70,8 +70,8 @@ public class FactoryReviews implements ReviewMaker {
     private final FactoryMdReference mReferenceFactory;
     private ReviewStamper mStamper;
 
-    public FactoryReviews(FactoryMdReference referenceFactory) {
-        mNodeFactory = new FactoryReviewNode(this, referenceFactory);
+    public FactoryReviews(FactoryReviewNode nodeFactory, FactoryMdReference referenceFactory) {
+        mNodeFactory = nodeFactory;
         mReferenceFactory = referenceFactory;
     }
 
@@ -126,15 +126,11 @@ public class FactoryReviews implements ReviewMaker {
                 reviewData.getFacts(), reviewData.getLocations());
     }
 
-    private FactoryReviewNode getNodeFactory() {
-        return mNodeFactory;
-    }
-
     @NonNull
     private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
                                                  ReferencesRepository reviews, NodeTitler titler) {
         return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
-                getNodeFactory(), titler);
+                mNodeFactory, titler);
     }
 
     @NonNull

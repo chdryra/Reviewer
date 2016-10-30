@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -46,30 +47,53 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchReview(ReviewId reviewId) {
+    public void launchAsList(ReviewId reviewId) {
         mReviewsSource.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
                 ReviewNode node = result.getReviewNode();
-                if (!result.isError() && node != null) launchReview(node);
+                if (!result.isError() && node != null) {
+                    launchView(newListView(node), getRequestCode(node));
+                }
             }
         });
     }
 
     @Override
-    public void launchReviewFormatted(ReviewId reviewId) {
+    public void launchSummary(final ReviewId reviewId) {
+        mReviewsSource.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
+            @Override
+            public void onMetaReviewCallback(RepositoryResult result) {
+                ReviewNode node = result.getReviewNode();
+                if (!result.isError() && node != null) {
+                    ReviewNode review = node.getChildren().getItem(0);
+                    launchView(mFactoryReviewView.newSummaryView(review), getRequestCode(review));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void launchFormatted(ReviewId reviewId) {
         mFormattedLauncher.launch(reviewId);
     }
 
     @Override
-    public void launchReviews(AuthorId authorId) {
-        launchReview(mReviewsSource.asMetaReview(authorId));
+    public void launchReviewsList(AuthorId authorId) {
+        ReviewNode node = mReviewsSource.asMetaReview(authorId);
+        launchView(newListView(node), getRequestCode(node));
     }
 
-    private void launchReview(ReviewNode reviewNode) {
+    private int getRequestCode(ReviewNode node) {
+        return RequestCodeGenerator.getCode(node.getSubject().getSubject());
+    }
+
+    private void launchView(ReviewView<?> ui, int requestCode) {
+        mLauncher.launch(ui, new UiLauncherArgs(requestCode));
+    }
+
+    private ReviewView<?> newListView(ReviewNode reviewNode) {
         boolean menu = !reviewNode.getAuthorId().toString().equals(mSessionAuthor.toString());
-        int requestCode = RequestCodeGenerator.getCode(reviewNode.getSubject().getSubject());
-        UiLauncherArgs args = new UiLauncherArgs(requestCode);
-        mLauncher.launch(mFactoryReviewView.newReviewsListView(reviewNode, menu), args);
+        return mFactoryReviewView.newReviewsListView(reviewNode, menu);
     }
 }

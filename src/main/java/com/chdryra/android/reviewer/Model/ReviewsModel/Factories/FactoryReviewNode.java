@@ -24,17 +24,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    private final FactoryReviews mReviewsFactory;
     private final FactoryMdReference mReferenceFactory;
 
-    public FactoryReviewNode(FactoryReviews reviewFactory,
-                             FactoryMdReference referenceFactory) {
-        mReviewsFactory = reviewFactory;
+    public FactoryReviewNode(FactoryMdReference referenceFactory) {
         mReferenceFactory = referenceFactory;
-    }
-
-    public FactoryReviews getReviewsFactory() {
-        return mReviewsFactory;
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference review) {

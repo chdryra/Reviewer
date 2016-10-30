@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback, VhNode {
-    private static final int LAYOUT = R.layout.grid_cell_review_overview2;
+    private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
     private static final int IMAGE = R.id.review_image;

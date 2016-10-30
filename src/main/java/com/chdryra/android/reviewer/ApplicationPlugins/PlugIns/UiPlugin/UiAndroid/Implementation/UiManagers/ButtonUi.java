@@ -22,6 +22,7 @@ public class ButtonUi extends ViewUi<Button, String>{
         getView().setTextColor(textColor);
     }
 
+    @Override
     public void update() {
         getView().setText(getValue());
     }

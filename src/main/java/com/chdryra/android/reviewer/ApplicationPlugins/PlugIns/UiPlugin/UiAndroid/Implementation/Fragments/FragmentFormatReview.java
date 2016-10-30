@@ -27,12 +27,17 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.ButtonStampUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HideableViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RatingBarSummaryUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
@@ -66,6 +71,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -123,6 +129,7 @@ public class FragmentFormatReview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
 
         CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
         CellDimensionsCalculator.Dimensions dims8
@@ -137,9 +144,10 @@ public class FragmentFormatReview extends Fragment {
 
         TextUi<TextView> subject = new TextUi<>((TextView) v.findViewById(SUBJECT), subject());
 
-        RatingBarUi ratingBar = new RatingBarUi((RatingBar) v.findViewById(RATING), rating());
+        ReviewLauncher launcher = app.getUi().getLauncher().getReviewLauncher();
+        RatingBarUi ratingBar = new RatingBarSummaryUi((RatingBar) v.findViewById(RATING), rating(), mReview.getReviewId(), launcher);
 
-        mStamp = new ButtonUi((Button) v.findViewById(STAMP), stamp(), subject.getTextColour());
+        mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), subject.getTextColour(), mReview.getAuthorId(), launcher);
 
         ViewUi<View, String> comment = new HideableViewUi<>(new TextUi<>((TextView) v.findViewById(COMMENT), comment()),
                 v.findViewById(COMMENT_VIEW), new HideableViewUi.HideCondition<String>() {
@@ -162,7 +170,6 @@ public class FragmentFormatReview extends Fragment {
         ViewUi<View, GvDataList<GvFact>> facts = newGridUi(v.findViewById
                 (FACTS_VIEW), FACTS, VhFactSmall.class, 1, dims4, facts(), true);
 
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         FactoryCommands factory = new FactoryCommands();
         LaunchOptionsCommand command = factory.newLaunchOptionsCommand(app.getUi().getConfig()
                 .getReviewOptions());

@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarFormatReview<T extends GvData> extends RatingBarActionNone<T> {
+public class RatingBarReviewFormatted<T extends GvData> extends RatingBarActionNone<T> {
     private final ReviewId mReviewId;
     private final ReviewLauncher mLauncher;
 
-    public RatingBarFormatReview(ReviewId reviewId, ReviewLauncher launcher) {
+    public RatingBarReviewFormatted(ReviewId reviewId, ReviewLauncher launcher) {
         mReviewId = reviewId;
         mLauncher = launcher;
     }
@@ -34,6 +34,6 @@ public class RatingBarFormatReview<T extends GvData> extends RatingBarActionNone
     @Override
     public void onClick(View v) {
         getCurrentScreen().showToast(Strings.LOADING);
-        mLauncher.launchReviewFormatted(mReviewId);
+        mLauncher.launchFormatted(mReviewId);
     }
 }

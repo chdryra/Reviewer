@@ -141,14 +141,6 @@ public class FactoryReviewViewAdapter {
         return newNodeAdapter(node, viewer);
     }
 
-    //Summary of reviews generating this data
-//    public <T extends GvData> ReviewViewAdapter<?> newTreeSummaryAdapter(GvDataCollection<T> data) {
-//        ReviewTreeSourceCallback node = newAsyncNode();
-//        mReviewSource.getMetaReview(data, data.toString(), node);
-//        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter);
-//        return newNodeAdapter(node, viewer);
-//    }
-
     //View specific data for this review as if it was a single review
     @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newReviewDataAdapter(ReviewNode node,

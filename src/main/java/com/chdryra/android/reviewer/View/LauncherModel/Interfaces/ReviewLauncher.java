@@ -19,9 +19,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 public interface ReviewLauncher {
     void setSessionAuthor(AuthorId authorId);
 
-    void launchReview(ReviewId reviewId);
+    void launchAsList(ReviewId reviewId);
 
-    void launchReviewFormatted(ReviewId reviewId);
+    void launchSummary(ReviewId reviewId);
 
-    void launchReviews(AuthorId authorId);
+    void launchFormatted(ReviewId reviewId);
+
+    void launchReviewsList(AuthorId authorId);
 }

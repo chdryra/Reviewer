@@ -113,34 +113,6 @@ public class ReviewViewParams {
         }
     }
 
-    public static class RatingBarParams {
-        private boolean mIsEditable;
-        private boolean mIsVisible;
-
-        public RatingBarParams() {
-            mIsEditable = false;
-            mIsVisible = true;
-        }
-
-        public RatingBarParams setEditable(boolean editable) {
-            mIsEditable = editable;
-            return this;
-        }
-
-        public RatingBarParams setVisible(boolean visible) {
-            mIsVisible = visible;
-            return this;
-        }
-
-        public boolean isEditable() {
-            return mIsEditable;
-        }
-
-        public boolean isVisible() {
-            return mIsVisible;
-        }
-    }
-
     public static class GridViewParams {
         private GridViewAlpha mGridAlpha = GridViewAlpha.TRANSPARENT;
         private CellDimension mCellWidth = CellDimension.HALF;
