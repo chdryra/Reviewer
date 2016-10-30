@@ -30,6 +30,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HideableViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarUi;
@@ -57,9 +58,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhLocationSmall;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterionSmall;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFactSmall;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocationSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -80,11 +82,17 @@ public class FragmentFormatReview extends Fragment {
     private static final int SUBJECT = R.id.subject_formatted;
     private static final int RATING = R.id.rating_formatted;
     private static final int STAMP = R.id.stamp_formatted;
+
     private static final int TAGS = R.id.tags_formatted;
+    private static final int LOCATIONS_VIEW = R.id.locations_formatted_view;
     private static final int LOCATIONS = R.id.locations_formatted;
+    private static final int CRITERIA_VIEW = R.id.criteria_formatted_view;
     private static final int CRITERIA = R.id.criteria_formatted;
+    private static final int COMMENT_VIEW = R.id.comment_formatted_view;
     private static final int COMMENT = R.id.comment_formatted;
+    private static final int IMAGES_VIEW = R.id.images_formatted_view;
     private static final int IMAGES = R.id.images_formatted;
+    private static final int FACTS_VIEW = R.id.facts_formatted_view;
     private static final int FACTS = R.id.facts_formatted;
 
     private ButtonUi mStamp;
@@ -116,15 +124,16 @@ public class FragmentFormatReview extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(LAYOUT, container, false);
-
         CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
         CellDimensionsCalculator.Dimensions dims8
                 = calculator.calcDimensions(ReviewViewParams.CellDimension.HALF,
                 ReviewViewParams.CellDimension.EIGHTH);
         CellDimensionsCalculator.Dimensions dims4 = calculator.calcDimensions(ReviewViewParams.CellDimension.HALF,
                 ReviewViewParams.CellDimension.QUARTER);
+        CellDimensionsCalculator.Dimensions dims44 = calculator.calcDimensions(ReviewViewParams.CellDimension.QUARTER,
+                ReviewViewParams.CellDimension.QUARTER);
 
+        View v = inflater.inflate(LAYOUT, container, false);
 
         TextUi<TextView> subject = new TextUi<>((TextView) v.findViewById(SUBJECT), subject());
 
@@ -132,41 +141,28 @@ public class FragmentFormatReview extends Fragment {
 
         mStamp = new ButtonUi((Button) v.findViewById(STAMP), stamp(), subject.getTextColour());
 
-        HorizontalGridUi<GvTag> tags = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
-                .findViewById(TAGS),
-                new ViewHolderFactory<ViewHolder>() {
-                    @Override
-                    public ViewHolder newViewHolder() {
-                        return new VhTagSmall();
-                    }
-                }, tags(), 2, dims8);
-
-//        ButtonUi locations
-//                = new ButtonUi((Button) v.findViewById(LOCATIONS), locations(), subject.getTextColour());
-
-        HorizontalGridUi<GvLocation> locations = new HorizontalGridUi<>(getActivity(),
-                (RecyclerView) v.findViewById(LOCATIONS), new ViewHolderFactory<ViewHolder>() {
+        ViewUi<View, String> comment = new HideableViewUi<>(new TextUi<>((TextView) v.findViewById(COMMENT), comment()),
+                v.findViewById(COMMENT_VIEW), new HideableViewUi.HideCondition<String>() {
             @Override
-            public ViewHolder newViewHolder() {
-                return new VhLocationSmall();
+            public boolean hideView(String s) {
+                return s == null || s.length() == 0;
             }
-        }, locations(), 1, dims8);
-
-        HorizontalGridUi<GvCriterion> criteria = new HorizontalGridUi<>(getActivity(),
-                (RecyclerView) v.findViewById(CRITERIA), newVhFactory(new GvCriterion()), criteria(), 1, dims4);
-
-        TextUi<TextView> comment = new TextUi<>((TextView) v.findViewById(COMMENT), comment());
-
-        HorizontalGridUi<GvImage> images = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
-                .findViewById(IMAGES), newVhFactory(new GvImage()), images(), 1, dims4);
-
-        HorizontalGridUi<GvFact> facts = new HorizontalGridUi<>(getActivity(), (RecyclerView) v
-                .findViewById(FACTS), newVhFactory(new GvFact()), facts(), 1, dims4);
+        });
 
         CoverUi cover = new CoverUi(v.findViewById(IMAGE), cover(), getActivity());
 
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        ViewUi<View, GvDataList<GvTag>> tags = newGridUi(v, TAGS, VhTagSmall
+                .class, tagsSpan(), dims8, tags(), false);
+        ViewUi<View, GvDataList<GvLocation>> locations = newGridUi(v.findViewById
+                (LOCATIONS_VIEW), LOCATIONS, VhLocationSmall.class, 1, dims8, locations(), true);
+        ViewUi<View, GvDataList<GvCriterion>> criteria = newGridUi(v.findViewById
+                (CRITERIA_VIEW), CRITERIA, VhCriterionSmall.class, 1, dims4, criteria(), true);
+        ViewUi<View, GvDataList<GvImage>> images = newGridUi(v.findViewById
+                (IMAGES_VIEW), IMAGES, VhImage.class, 1, dims44, images(), true);
+        ViewUi<View, GvDataList<GvFact>> facts = newGridUi(v.findViewById
+                (FACTS_VIEW), FACTS, VhFactSmall.class, 1, dims4, facts(), true);
 
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         FactoryCommands factory = new FactoryCommands();
         LaunchOptionsCommand command = factory.newLaunchOptionsCommand(app.getUi().getConfig()
                 .getReviewOptions());
@@ -191,6 +187,22 @@ public class FragmentFormatReview extends Fragment {
         return v;
     }
 
+    @NonNull
+    private <T extends GvData> ViewUi<View, GvDataList<T>> newGridUi(View v, int viewId,
+                                                             Class<? extends ViewHolder> vhClass, 
+                                                             int span, 
+                                                             CellDimensionsCalculator.Dimensions dims, 
+                                                             ViewUi.ValueGetter<GvDataList<T>> getter,
+                                                                     final boolean hideable) {
+        return new HideableViewUi<>(new HorizontalGridUi<>(getActivity(), (RecyclerView) v.findViewById(viewId), new VhFactory<>(vhClass), getter, span, dims),
+                v, new HideableViewUi.HideCondition<GvDataList<T>>() {
+            @Override
+            public boolean hideView(GvDataList<T> data) {
+                return hideable && data.size() == 0;
+            }
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -206,6 +218,10 @@ public class FragmentFormatReview extends Fragment {
         ReviewId reviewId = mReview.getReviewId();
         ItemTagCollection tags = mTagsManager.getTags(reviewId.toString());
         return mConverter.newConverterItemTags().convert(tags, reviewId);
+    }
+
+    private int tagsSpan() {
+        return getTags().size() > 2 ? 2 : 1;
     }
 
     @NonNull
@@ -229,16 +245,6 @@ public class FragmentFormatReview extends Fragment {
             public Bitmap getValue() {
                 IdableList<? extends DataImage> images = mReview.getImages();
                 return images.size() > 0 ? images.getItem(0).getBitmap() : null;
-            }
-        };
-    }
-
-    @NonNull
-    private ViewHolderFactory<ViewHolder> newVhFactory(final GvData datum) {
-        return new ViewHolderFactory<ViewHolder>() {
-            @Override
-            public ViewHolder newViewHolder() {
-                return datum.getViewHolder();
             }
         };
     }
@@ -291,7 +297,7 @@ public class FragmentFormatReview extends Fragment {
                 String author = mAuthor != null ? mAuthor.getName() : "";
                 String date = DateFormat.getDateInstance(DateFormat.SHORT).format(new Date
                         (mReview.getPublishDate().getTime()));
-                return mAuthor != null ? "By " + author + " on " + date : "on " + date;
+                return mAuthor != null ? author + " " + date : date;
             }
         };
     }
@@ -347,5 +353,27 @@ public class FragmentFormatReview extends Fragment {
                 return mConverter.newConverterLocations().convert(mReview.getLocations());
             }
         };
+    }
+    
+    private class VhFactory<T extends ViewHolder> implements ViewHolderFactory<T> {
+        private static final String INSTANTIATION_ERR = "Constructor not found: ";
+        private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
+        
+        private final Class<T> mVhClass;
+
+        public VhFactory(Class<T> vhClass) {
+            mVhClass = vhClass;
+        }
+
+        @Override
+        public T newViewHolder() {
+            try {
+                return mVhClass.newInstance();
+            } catch (java.lang.InstantiationException e) {
+                throw new RuntimeException(INSTANTIATION_ERR + mVhClass.getName(), e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(ILLEGAL_ACCESS_ERR + mVhClass.getName(), e);
+            }
+        }
     }
 }

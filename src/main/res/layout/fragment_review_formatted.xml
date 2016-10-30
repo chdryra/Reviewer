@@ -41,7 +41,10 @@
 
             <include
                 android:id="@+id/stamp_formatted"
-                layout="@layout/review_button_stamp"/>
+                layout="@layout/review_button"
+                android:textStyle="bold|italic"/>
+
+            <View style="@style/HorizontalDivider"/>
 
         </LinearLayout>
 
@@ -51,42 +54,57 @@
                 android:background="#50000000">
 
         <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical">
-
-            <include
-                android:id="@+id/locations_formatted"
-                layout="@layout/review_data_row"/>
-
-            <View style="@style/HorizontalDivider"/>
-
             <include
                 android:id="@+id/tags_formatted"
                 layout="@layout/review_data_row"/>
 
             <View style="@style/HorizontalDivider"/>
 
-            <include
-                android:id="@+id/facts_formatted"
-                layout="@layout/review_data_row"/>
-
-            <View style="@style/HorizontalDivider"/>
-
-            <include
-                android:id="@+id/images_formatted"
-                layout="@layout/review_data_row"/>
-
-            <View style="@style/HorizontalDivider"/>
-
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            android:id="@+id/criteria_formatted_view">
             <include
                 android:id="@+id/criteria_formatted"
                 layout="@layout/review_data_row"/>
 
             <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
 
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+                      android:id="@+id/comment_formatted_view">
             <include
                 android:id="@+id/comment_formatted"
                 layout="@layout/comment_text_view"/>
 
             <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+                      android:id="@+id/images_formatted_view">
+            <include
+                android:id="@+id/images_formatted"
+                layout="@layout/review_data_row"/>
+
+            <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+                      android:id="@+id/locations_formatted_view">
+            <include
+                android:id="@+id/locations_formatted"
+                layout="@layout/review_data_row"/>
+
+            <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
+
+        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+                      android:id="@+id/facts_formatted_view">
+            <include
+                android:id="@+id/facts_formatted"
+                layout="@layout/review_data_row"/>
+
+            <View style="@style/HorizontalDivider"/>
+        </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

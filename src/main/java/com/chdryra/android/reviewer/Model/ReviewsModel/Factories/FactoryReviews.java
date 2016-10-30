@@ -216,7 +216,7 @@ public class FactoryReviews implements ReviewMaker {
     private IdableList<DataFact> getFacts(ReviewId id, Iterable<? extends DataFact> facts) {
         IdableList<DataFact> mdFacts = new IdableDataList<>(id);
         for (DataFact datum : facts) {
-            mdFacts.add(new DatumFact(id, datum.getValue(), datum.getLabel(), datum.isUrl()));
+            mdFacts.add(new DatumFact(id, datum.getLabel(), datum.getValue(), datum.isUrl()));
         }
         return mdFacts;
     }

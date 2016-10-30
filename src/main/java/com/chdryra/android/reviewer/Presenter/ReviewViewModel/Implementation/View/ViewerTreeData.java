@@ -38,7 +38,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
     public ViewerTreeData(RefDataList<Value> reference,
                           GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
                           FactoryReviewViewAdapter adapterFactory) {
-        super(reference, converter);
+        super(reference, converter, null);
         mAdapterFactory = adapterFactory;
     }
 
@@ -90,7 +90,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
                                GvConverterReferences<DataComment, GvComment.Reference, RefComment> converter,
                                FactoryReviewViewAdapter adapterFactory,
                                FactoryReference referenceFactory) {
-            super(reference, converter, referenceFactory);
+            super(reference, converter, null, referenceFactory);
             mAdapterFactory = adapterFactory;
         }
 

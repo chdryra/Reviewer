@@ -72,6 +72,7 @@ public class Strings {
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
         public static final String ADD = "add";
+        public static final String SUMMARY = "summary";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

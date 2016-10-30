@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
@@ -69,7 +70,9 @@ public class FactoryGridDataViewer {
     }
 
     ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node, ConverterGv converter) {
-        return new ViewerReviewData.CommentList(node.getComments(), converter.newConverterComments().getReferencesConverter(), mReferenceFactory);
+        ReviewStamp stamp = ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());
+        return new ViewerReviewData.CommentList(node.getComments(),
+                converter.newConverterComments().getReferencesConverter(), stamp, mReferenceFactory);
     }
 
     ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node, ConverterGv converter) {
@@ -86,24 +89,25 @@ public class FactoryGridDataViewer {
     GridDataWrapper<?> newReviewDataViewer(ReviewNode node,
                                            GvDataType<?> dataType,
                                            ConverterGv converter) {
+        ReviewStamp stamp = ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());
         GridDataWrapper<?> viewer = null;
         if (dataType.equals(GvTag.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getTags(),
-                    converter.newConverterTags().getReferencesConverter());
+                    converter.newConverterTags().getReferencesConverter(), stamp);
         } else if (dataType.equals(GvCriterion.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getCriteria(),
-                    converter.newConverterCriteria().getReferencesConverter());
+                    converter.newConverterCriteria().getReferencesConverter(), stamp);
         } else if (dataType.equals(GvImage.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getImages(),
-                    converter.newConverterImages().getReferencesConverter());
+                    converter.newConverterImages().getReferencesConverter(), stamp);
         } else if (dataType.equals(GvComment.TYPE)) {
             viewer = newReviewCommentsViewer(node, converter);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getLocations(),
-                    converter.newConverterLocations().getReferencesConverter());
+                    converter.newConverterLocations().getReferencesConverter(), stamp);
         } else if (dataType.equals(GvFact.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getFacts(),
-                    converter.newConverterFacts().getReferencesConverter());
+                    converter.newConverterFacts().getReferencesConverter(), stamp);
         }
 
         return viewer;

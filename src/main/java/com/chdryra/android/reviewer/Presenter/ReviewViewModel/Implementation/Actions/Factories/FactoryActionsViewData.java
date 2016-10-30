@@ -8,11 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
-import android.support.annotation.Nullable;
-
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -20,13 +19,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ContextButtonStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarFormatReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -70,22 +70,23 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public MenuAction<T> newMenu() {
         return newMenu(getDataType().getDataName());
     }
-
+    
     @Override
     public RatingBarAction<T> newRatingBar() {
-        return new RatingBarExpandGrid<>(mLauncher, mFactory);
+        return mStamp.isValid() ? new RatingBarFormatReview<T>(mStamp, mLauncher.getReviewLauncher()) :
+                super.newRatingBar();
+    }
+
+    @Override
+    public BannerButtonAction<T> newBannerButton() {
+        return mStamp.isValid() ? new BannerButtonLaunchAuthorReviews<T>(mLauncher.getReviewLauncher(),
+                mStamp, mRepo) : new BannerButtonActionNone<T>(Strings.Buttons.SUMMARY);
     }
 
     @Override
     public GridItemAction<T> newGridItem() {
         return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactory,
                 new ParcelablePacker<GvDataParcelable>());
-    }
-
-    @Nullable
-    @Override
-    public ContextualButtonAction<T> newContextButton() {
-        return mStamp.isValid() ? new ContextButtonStamp<T>(mLauncher.getReviewLauncher(), mStamp, mRepo) : null;
     }
 
     /**

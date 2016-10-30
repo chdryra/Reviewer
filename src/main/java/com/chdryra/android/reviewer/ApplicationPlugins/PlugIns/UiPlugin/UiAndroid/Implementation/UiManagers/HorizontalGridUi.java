@@ -29,12 +29,12 @@ public class HorizontalGridUi<T extends GvData> extends ViewUi<RecyclerView, GvD
 
     public HorizontalGridUi(Context context,
                             RecyclerView view,
-                            ViewHolderFactory<?> viewholderFactory,
+                            ViewHolderFactory<?> vhFactory,
                             ValueGetter<GvDataList<T>> getter,
                             int span,
                             CellDimensionsCalculator.Dimensions dims) {
         super(view, getter);
-        mAdapter = new HorizontalAdapter<>(getValue(), viewholderFactory, dims.getCellWidth(), dims.getCellHeight());
+        mAdapter = new HorizontalAdapter<>(getValue(), vhFactory, dims.getCellWidth(), dims.getCellHeight());
         getView().setHasFixedSize(true);
         GridLayoutManager layout
                 = new GridLayoutManager(context, span, GridLayoutManager.HORIZONTAL, false);

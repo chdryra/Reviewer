@@ -32,6 +32,6 @@ public class GridItemFeed extends GridItemReviewsList{
 
     @Override
     public void onGridItemClick(GvNode item, int position, View v) {
-        mLauncher.launchReviews(item.getAuthorId());
+        mLauncher.launchReview(item.getReviewId());
     }
 }

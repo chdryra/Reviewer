@@ -17,11 +17,13 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ViewUi<V extends View, W> {
+public abstract class ViewUi<V extends View, Value> {
     private final V mView;
-    private final ValueGetter<W> mGetter;
+    private final ValueGetter<Value> mGetter;
 
-    public ViewUi(V view, ValueGetter<W> getter) {
+    public abstract void update();
+
+    public ViewUi(V view, ValueGetter<Value> getter) {
         mView = view;
         mGetter = getter;
     }
@@ -30,7 +32,7 @@ public class ViewUi<V extends View, W> {
         return mView;
     }
 
-    public W getValue() {
+    public Value getValue() {
         return mGetter.getValue();
     }
 

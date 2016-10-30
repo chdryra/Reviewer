@@ -12,29 +12,28 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/10/2016
+ * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-
-public class BannerButtonLaunchFormatted extends BannerButtonActionNone<GvSize.Reference> {
-    private final ReviewId mReview;
+public class RatingBarFormatReview<T extends GvData> extends RatingBarActionNone<T> {
+    private final ReviewId mReviewId;
     private final ReviewLauncher mLauncher;
 
-    public BannerButtonLaunchFormatted(ReviewId review, ReviewLauncher launcher) {
-        super("Click to view");
-        mReview = review;
+    public RatingBarFormatReview(ReviewId reviewId, ReviewLauncher launcher) {
+        mReviewId = reviewId;
         mLauncher = launcher;
     }
 
     @Override
     public void onClick(View v) {
-        mLauncher.launchReviewFormatted(mReview);
-        notifyListeners();
+        getCurrentScreen().showToast(Strings.LOADING);
+        mLauncher.launchReviewFormatted(mReviewId);
     }
 }

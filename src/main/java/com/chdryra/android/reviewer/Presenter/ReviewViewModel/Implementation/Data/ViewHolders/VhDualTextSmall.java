@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VHDDualString;
 import com.chdryra.android.mygenerallibrary.Viewholder.VHDualString;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.R;
@@ -25,20 +24,12 @@ import com.chdryra.android.reviewer.R;
  * purposes.
  * </p>
  */
-class VhDualText extends VHDualString {
-    private static final int LAYOUT = R.layout.grid_cell_text_dual;
-    private static final int UPPER = R.id.upper_text;
-    private static final int LOWER = R.id.lower_text;
+class VhDualTextSmall extends VhDualText {
+    private static final int LAYOUT = R.layout.grid_cell_text_dual_small;
+    private static final int UPPER = R.id.upper_text_small;
+    private static final int LOWER = R.id.lower_text_small;
 
-    VhDualText() {
-        this(LAYOUT, UPPER, LOWER);
-    }
-
-    VhDualText(int layout, int upper, int lower) {
-        super(layout, upper, lower);
-    }
-
-    void updateView(String upper, String lower) {
-        super.updateView(new VHDDualString(upper, lower));
+    VhDualTextSmall() {
+        super(LAYOUT, UPPER, LOWER);
     }
 }

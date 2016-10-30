@@ -18,7 +18,6 @@ import android.widget.TextView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUi<T extends TextView> extends ViewUi<T, String> {
-
     public TextUi(T view, ValueGetter<String> getter) {
         super(view, getter);
     }
@@ -31,6 +30,7 @@ public class TextUi<T extends TextView> extends ViewUi<T, String> {
         return getView().getTextColors().getDefaultColor();
     }
 
+    @Override
     public void update() {
         getView().setText(getValue());
     }
