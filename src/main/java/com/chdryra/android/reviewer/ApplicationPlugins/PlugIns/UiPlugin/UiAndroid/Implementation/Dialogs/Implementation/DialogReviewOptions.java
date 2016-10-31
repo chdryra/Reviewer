@@ -93,9 +93,9 @@ public class DialogReviewOptions extends DialogOneButtonFragment implements
 
         PublisherAndroid sharer = new PublisherAndroid(activity, new ReviewSummariser(), new ReviewFormatterTwitter());
 
-        FactoryCommands factory = new FactoryCommands();
+        FactoryCommands factory = ui.getCommandsFactory();
         final Command deleteCommand = factory.newDeleteCommand(repo.newReviewDeleter(reviewId), screen);
-        final Command shareCommand = factory.newShareCommand(repo, reviewId, screen, sharer, app.getRepository().getTagsManager());
+        final Command shareCommand = factory.newShareCommand(reviewId, repo, screen, sharer, app.getRepository().getTagsManager());
         final Command copyCommand = factory.newCopyCommand(ui.getLauncher(), reviewId, screen);
 
         share.setOnClickListener(new View.OnClickListener() {

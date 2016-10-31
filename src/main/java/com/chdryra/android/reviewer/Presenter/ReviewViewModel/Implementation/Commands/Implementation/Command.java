@@ -23,7 +23,7 @@ public abstract class Command {
         void onCommandExecuted(int requestCode);
     }
 
-    abstract void execute();
+    public abstract void execute();
 
     public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;

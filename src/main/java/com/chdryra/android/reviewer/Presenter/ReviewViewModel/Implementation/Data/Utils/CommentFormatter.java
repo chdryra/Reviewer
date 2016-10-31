@@ -75,7 +75,7 @@ public class CommentFormatter {
         String formatted = "";
         String bullet = comments.size() == 1 ? "" : "- ";
         for(DataComment comment : comments) {
-            formatted += bullet + comment + "\n\n";
+            formatted += bullet + format(comment.getComment()) + "\n\n";
         }
 
         return formatted.trim();

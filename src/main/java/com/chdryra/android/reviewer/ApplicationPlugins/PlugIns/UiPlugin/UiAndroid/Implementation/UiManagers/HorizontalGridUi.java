@@ -14,10 +14,12 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.HorizontalAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,6 +28,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class HorizontalGridUi<T extends GvData> extends ViewUi<RecyclerView, GvDataList<T>>{
     private HorizontalAdapter<T,?> mAdapter;
+
+    public HorizontalGridUi(Context context,
+                            RecyclerView view,
+                            ViewHolderFactory<?> vhFactory,
+                            ValueGetter<GvDataList<T>> getter,
+                            int span,
+                            CellDimensionsCalculator.Dimensions dims,
+                            Command onClick) {
+        this(context, view, vhFactory, getter, span, dims);
+        getView().addOnItemTouchListener(new TouchIsClickListener(onClick));
+    }
 
     public HorizontalGridUi(Context context,
                             RecyclerView view,

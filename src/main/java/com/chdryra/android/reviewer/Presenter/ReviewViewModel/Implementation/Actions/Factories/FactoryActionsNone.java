@@ -22,10 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,11 +31,9 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewActions<T> {
     private GvDataType<T> mDataType;
-    private FactoryCommands mCommandsFactory;
 
     public FactoryActionsNone(GvDataType<T> dataType) {
         mDataType = dataType;
-        mCommandsFactory = new FactoryCommands();
     }
 
     protected GvDataType<T> getDataType() {
@@ -78,9 +73,5 @@ public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewAc
 
     MenuAction<T> newMenu(@Nullable String title) {
         return new MenuActionNone<>(title);
-    }
-
-    LaunchOptionsCommand newOptionsCommand(LaunchableConfig optionsUi) {
-        return mCommandsFactory.newLaunchOptionsCommand(optionsUi);
     }
 }

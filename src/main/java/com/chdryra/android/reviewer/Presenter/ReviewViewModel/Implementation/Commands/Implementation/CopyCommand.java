@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
  */
 public class CopyCommand extends Command {
     private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class, "Launch");
-    private NewReviewCommand mCommand;
-    private CurrentScreen mScreen;
+    private final NewReviewCommand mCommand;
+    private final CurrentScreen mScreen;
 
     public CopyCommand(NewReviewCommand command, CurrentScreen screen) {
         mScreen = screen;
@@ -28,7 +28,7 @@ public class CopyCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         mScreen.showToast(Strings.Toasts.COPYING);
         mCommand.execute(LAUNCH, new ExecutionListener() {
             @Override

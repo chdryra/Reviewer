@@ -24,13 +24,14 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ShareCommand extends Command {
-    private RepositorySuite mRepo;
-    private CurrentScreen mScreen;
-    private ReviewId mReviewId;
-    private SocialPublisher mSharer;
-    private TagsManager mTagsManager;
+    private final ReviewId mReviewId;
+    private final RepositorySuite mRepo;
+    private final CurrentScreen mScreen;
+    private final SocialPublisher mSharer;
+    private final TagsManager mTagsManager;
 
-    public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen, SocialPublisher sharer, TagsManager tagsManager) {
+    public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
+                        SocialPublisher sharer, TagsManager tagsManager) {
         mRepo = repo;
         mScreen = screen;
         mReviewId = reviewId;
@@ -39,7 +40,7 @@ public class ShareCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         mRepo.getReview(mReviewId, fetchAndShare());
     }
 

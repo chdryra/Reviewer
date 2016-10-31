@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -37,7 +39,7 @@ public interface UiSuite {
 
     UiLauncher getLauncher();
 
-    ReviewView<?> newDataView(Review review, TagsManager tagsManager, GvDataType<?> type);
+    ReviewView<?> newDataView(Review review, GvDataType<?> type, TagsManager tagsManager);
 
     ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile);
 
@@ -48,4 +50,6 @@ public interface UiSuite {
                                  PublishAction.PublishCallback callback);
 
     ConverterGv getGvConverter();
+
+    FactoryCommands getCommandsFactory();
 }

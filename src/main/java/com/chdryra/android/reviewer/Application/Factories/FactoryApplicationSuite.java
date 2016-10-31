@@ -122,7 +122,8 @@ public class FactoryApplicationSuite {
                 viewFactory, persistence.getReviewsRepository(), uiConfig.getBuildReview(),
                 uiConfig.getFormattedReview());
 
-        return new UiSuiteAndroid(uiConfig, uiLauncher, viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
+        return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),
+                viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
     }
 
     private ReviewBuilderSuiteAndroid newReviewBuilderSuite(PresenterContext context) {

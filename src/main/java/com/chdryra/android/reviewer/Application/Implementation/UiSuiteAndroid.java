@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -31,6 +30,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
@@ -41,8 +42,6 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
-import static android.R.attr.type;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2016
@@ -52,6 +51,7 @@ import static android.R.attr.type;
 public class UiSuiteAndroid implements UiSuite{
     private final UiConfig mUiConfig;
     private final UiLauncherAndroid mUiLauncher;
+    private final FactoryCommands mCommandsFactory;
     private final FactoryReviewView mViewFactory;
     private final FactoryReviews mReviewsFactory;
     private final ConverterGv mConverter;
@@ -59,19 +59,23 @@ public class UiSuiteAndroid implements UiSuite{
     private CurrentScreen mCurrentScreen;
     private AuthorId mSessionUser;
 
-    public UiSuiteAndroid(UiConfig uiConfig, UiLauncherAndroid uiLauncher,
-                          FactoryReviewView viewFactory, FactoryReviews reviewsFactory,
+    public UiSuiteAndroid(UiConfig uiConfig,
+                          UiLauncherAndroid uiLauncher,
+                          FactoryCommands commandsFactory,
+                          FactoryReviewView viewFactory,
+                          FactoryReviews reviewsFactory,
                           ConverterGv converter) {
         mUiConfig = uiConfig;
         mUiLauncher = uiLauncher;
         mUiConfig.setUiLauncher(mUiLauncher);
+        mCommandsFactory = commandsFactory;
         mViewFactory = viewFactory;
         mReviewsFactory = reviewsFactory;
         mConverter = converter;
     }
 
     @Override
-    public ReviewView<?> newDataView(Review review, TagsManager manager, GvDataType<?> type) {
+    public ReviewView<?> newDataView(Review review, GvDataType<?> type, TagsManager manager) {
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(mReviewsFactory.asReference
                 (review, manager));
         ReviewViewAdapter<?> adapter = mViewFactory.getAdapterFactory()
@@ -115,6 +119,11 @@ public class UiSuiteAndroid implements UiSuite{
     @Override
     public ConverterGv getGvConverter() {
         return mConverter;
+    }
+
+    @Override
+    public FactoryCommands getCommandsFactory() {
+        return mCommandsFactory;
     }
 
     public void setActivity(Activity activity) {

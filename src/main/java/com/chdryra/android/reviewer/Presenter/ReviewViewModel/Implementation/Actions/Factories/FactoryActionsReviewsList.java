@@ -23,7 +23,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -36,17 +38,20 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private UiLauncher mLauncher;
     private FactoryReviewView mFactoryReviewView;
-    private LaunchableConfig mOptionsUi;
+    private FactoryCommands mFactoryCommands;
+    private LaunchableConfig mOptionsConfig;
     private AuthorId mAuthorId;
 
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
-                                     LaunchableConfig optionsUi,
+                                     FactoryCommands factoryCommands,
+                                     LaunchableConfig optionsConfig,
                                      @Nullable AuthorId followAuthorId) {
         super(GvNode.TYPE);
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
-        mOptionsUi = optionsUi;
+        mFactoryCommands = factoryCommands;
+        mOptionsConfig = optionsConfig;
         mAuthorId = followAuthorId;
     }
 
@@ -71,16 +76,14 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
-        return new GridItemReviewsList(mLauncher, mFactoryReviewView, newOptionsCommand());
-    }
-
-    LaunchOptionsCommand newOptionsCommand() {
-        return newOptionsCommand(mOptionsUi);
+        return new GridItemReviewsList(mLauncher, mFactoryReviewView,
+                mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig));
     }
 
     public static class Feed extends FactoryActionsReviewsList {
-        public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView, LaunchableConfig optionsUi) {
-            super(launcher, factoryReviewView, optionsUi, null);
+        public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView,
+                    FactoryCommands factoryCommands, LaunchableConfig optionsUi) {
+            super(launcher, factoryReviewView, factoryCommands, optionsUi, null);
         }
 
         @Override

@@ -23,13 +23,14 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 
 public class LaunchOptionsCommand extends Command {
-    public static final String AUTHOR_ID = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "AuthorId");
+    public static final String AUTHOR_ID
+            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "AuthorId");
 
-    private final LaunchableConfig mOptionsUi;
+    private final LaunchableConfig mOptionsConfig;
     private DataAuthorId mAuthorId;
 
-    public LaunchOptionsCommand(LaunchableConfig optionsUi) {
-        mOptionsUi = optionsUi;
+    public LaunchOptionsCommand(LaunchableConfig optionsConfig) {
+        mOptionsConfig = optionsConfig;
     }
 
     public void execute(DataAuthorId authorId) {
@@ -38,12 +39,14 @@ public class LaunchOptionsCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         if(mAuthorId == null) return;
 
         Bundle args = new Bundle();
         DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
         args.putParcelable(AUTHOR_ID, data);
-        mOptionsUi.launch(new UiLauncherArgs(mOptionsUi.getDefaultRequestCode()).setBundle(args));
+        int code = mOptionsConfig.getDefaultRequestCode();
+        mOptionsConfig.launch(new UiLauncherArgs(code).setBundle(args));
+        onExecutionComplete();
     }
 }

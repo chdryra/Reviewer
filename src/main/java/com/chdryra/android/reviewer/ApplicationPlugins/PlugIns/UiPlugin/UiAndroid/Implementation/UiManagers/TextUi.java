@@ -10,7 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
+import android.view.View;
 import android.widget.TextView;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,6 +22,17 @@ import android.widget.TextView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUi<T extends TextView> extends ViewUi<T, String> {
+    public TextUi(T view, ValueGetter<String> getter, final Command onClick) {
+        this(view, getter);
+        getView().setClickable(true);
+        getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClick.execute();
+            }
+        });
+    }
+
     public TextUi(T view, ValueGetter<String> getter) {
         super(view, getter);
     }

@@ -33,7 +33,7 @@ public class DeleteCommand extends Command implements AlertListener {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         mScreen.showDeleteConfirm(Strings.Alerts.DELETE_REVIEW, getRequestCode(), this);
     }
 

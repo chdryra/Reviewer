@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
 
@@ -19,10 +21,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PresenterContextBasic implements PresenterContext {
+    private FactoryCommands mFactoryCommands;
     private FactoryReviewView mFactoryReviewView;
     private ConverterGv mConverter;
 
     protected PresenterContextBasic() {
+    }
+
+    protected void setFactoryCommands(FactoryCommands factoryCommands) {
+        mFactoryCommands = factoryCommands;
     }
 
     protected void setFactoryReviewView(FactoryReviewView factoryReviewView) {
@@ -36,6 +43,11 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     protected void setConverter(ConverterGv converter) {
         mConverter = converter;
+    }
+
+    @Override
+    public FactoryCommands getCommandsFactory() {
+        return mFactoryCommands;
     }
 
     @Override

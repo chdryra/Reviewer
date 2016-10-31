@@ -36,6 +36,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
@@ -56,6 +58,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    DataAggregatorsPlugin aggregatorsPlugin,
                                    DataValidator validator) {
         setConverter(new ConverterGv());
+
+        setFactoryCommands(new FactoryCommands());
 
         setFactoryReviewView(context,
                 modelContext, deviceContext, viewContext, persistenceContext,
@@ -97,7 +101,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
-                factoryReviewViewAdapter, editorFactory, paramsFactory, authorRepo);
+                factoryReviewViewAdapter, editorFactory, paramsFactory, getCommandsFactory(), authorRepo);
 
         setFactoryReviewView(factoryReviewView);
     }

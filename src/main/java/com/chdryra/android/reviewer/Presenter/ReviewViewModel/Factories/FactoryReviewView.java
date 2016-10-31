@@ -42,6 +42,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.SubjectBannerFilter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -51,19 +53,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatformList;
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -75,18 +76,21 @@ public class FactoryReviewView {
     private final FactoryReviewViewAdapter mAdapterFactory;
     private final FactoryReviewEditor<?> mFactoryReviewEditor;
     private final FactoryReviewViewParams mParamsFactory;
+    private final FactoryCommands mCommandsFactory;
     private final AuthorsRepository mAuthorsRepo;
 
     public FactoryReviewView(UiConfig config,
                              FactoryReviewViewAdapter adapterFactory,
                              FactoryReviewEditor<?> factoryReviewEditor,
                              FactoryReviewViewParams paramsFactory,
+                             FactoryCommands commandsFactory,
                              AuthorsRepository authorsRepo) {
         mConfig = config;
         mAdapterFactory = adapterFactory;
         mFactoryReviewEditor = factoryReviewEditor;
-        mAuthorsRepo = authorsRepo;
         mParamsFactory = paramsFactory;
+        mCommandsFactory = commandsFactory;
+        mAuthorsRepo = authorsRepo;
     }
 
     public FactoryReviewViewAdapter getAdapterFactory() {
@@ -102,7 +106,8 @@ public class FactoryReviewView {
 
     public ReviewViewNode newFeedView(ReviewNode node) {
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node),
-                new FactoryActionsReviewsList.Feed(getUiLauncher(), this, getOptionsConfig()));
+                new FactoryActionsReviewsList.Feed(getUiLauncher(), this, mCommandsFactory,
+                        getOptionsConfig()));
     }
 
     public ReviewViewNode newReviewsListView(ReviewNode node, boolean followMenu) {
@@ -165,8 +170,8 @@ public class FactoryReviewView {
                                                      ReviewViewAdapter<GvNode> adapter,
                                                      @Nullable AuthorId followAuthorId) {
         return newReviewsListView(node, adapter,
-                new FactoryActionsReviewsList(getUiLauncher(), this, getOptionsConfig(),
-                        followAuthorId));
+                new FactoryActionsReviewsList(getUiLauncher(), this, mCommandsFactory,
+                        getOptionsConfig(), followAuthorId));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -216,8 +221,8 @@ public class FactoryReviewView {
         ReviewStamp stamp = adapter.getStamp();
 
         if (dataType.equals(GvSize.Reference.TYPE)) {
-            factory = new FactoryActionsReviewSummary(this, getUiLauncher(), getOptionsConfig(),
-                    stamp, mAuthorsRepo);
+            factory = new FactoryActionsReviewSummary(this, getUiLauncher(), mCommandsFactory,
+                    getOptionsConfig(), stamp, mAuthorsRepo);
         } else {
             LaunchableConfig viewer = mConfig.getViewer(dataType.getDatumName());
             if (dataType.equals(GvComment.Reference.TYPE)) {
