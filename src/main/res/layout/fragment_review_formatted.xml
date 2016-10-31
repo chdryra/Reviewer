@@ -51,7 +51,10 @@
     <ScrollView android:id="@+id/scroll_formatted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#50000000">
+                android:background="#50000000"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
 
         <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical">
             <include
