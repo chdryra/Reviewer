@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+
 
 
 import android.graphics.Bitmap;
@@ -36,8 +36,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CoverRefUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.CoverUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.HideableViewUi;
@@ -63,8 +61,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -115,7 +112,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FragmentFormatReview extends Fragment {
+public class FragmentFormatReview2 extends Fragment {
     private static final int LAYOUT = R.layout.fragment_review_formatted;
     private static final int IMAGE = R.id.image_formatted;
     private static final int SUBJECT = R.id.subject_formatted;
@@ -138,7 +135,7 @@ public class FragmentFormatReview extends Fragment {
     private static final ReviewViewParams.CellDimension QUARTER = ReviewViewParams.CellDimension
             .QUARTER;
 
-    private ReviewNode mNode;
+    private Review mReview;
     private NamedAuthor mAuthor;
     private UiSuite mUi;
     private RepositorySuite mRepo;
@@ -151,8 +148,8 @@ public class FragmentFormatReview extends Fragment {
 
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         Bundle args = getArguments();
-        if (args != null) mNode = app.unpackReview(args);
-        if (mNode == null) throw new RuntimeException("No review found");
+        if (args != null) mReview = app.unpackReview(args);
+        if (mReview == null) throw new RuntimeException("No review found");
 
         mUi = app.getUi();
         mRepo = app.getRepository();
@@ -213,7 +210,7 @@ public class FragmentFormatReview extends Fragment {
     }
 
     private GvDataList<GvTag> getTags() {
-        ReviewId reviewId = mNode.getReviewId();
+        ReviewId reviewId = mReview.getReviewId();
         ItemTagCollection tags = getTagsManager().getTags(reviewId.toString());
         return getConverter().newConverterItemTags().convert(tags, reviewId);
     }
@@ -221,7 +218,7 @@ public class FragmentFormatReview extends Fragment {
     private void setMenu() {
         LaunchOptionsCommand command
                 = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig().getReviewOptions());
-        MaiReviewOptions<GvData> mai = new MaiReviewOptions<>(command, mNode.getAuthorId());
+        MaiReviewOptions<GvData> mai = new MaiReviewOptions<>(command, mReview.getAuthorId());
         mMenu = new MenuUi(new MenuReviewFormatted(mai, Strings.Screens.REVIEW,
                 AppInstanceAndroid.getInstance(getActivity())));
     }
@@ -257,7 +254,8 @@ public class FragmentFormatReview extends Fragment {
     }
 
     private void setCover(View v) {
-        new CoverRefUi(v.findViewById(IMAGE), cover(), getActivity()).update();
+        CoverUi cover = new CoverUi(v.findViewById(IMAGE), cover(), getActivity());
+        cover.update();
     }
 
     private void setComment(View v) {
@@ -275,14 +273,14 @@ public class FragmentFormatReview extends Fragment {
 
     private void setBannerButton(View v, ReviewLauncher launcher, int textColour) {
         mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), textColour,
-                mNode.getAuthorId(), launcher);
+                mReview.getAuthorId(), launcher);
         mStamp.update();
-        mRepo.getName(mNode.getAuthorId()).dereference(dereference());
+        mRepo.getName(mReview.getAuthorId()).dereference(dereference());
     }
 
     private void setRating(View v, ReviewLauncher launcher) {
         RatingBarUi ratingBar = new RatingBarSummaryUi((RatingBar) v.findViewById(RATING), rating
-                (), mNode.getReviewId(), launcher);
+                (), mReview.getReviewId(), launcher);
         ratingBar.update();
     }
 
@@ -318,7 +316,7 @@ public class FragmentFormatReview extends Fragment {
     }
 
     private LaunchViewCommand newLaunchViewCommand(GvDataType<?> dataType) {
-        ReviewView<?> dataView = mUi.newDataView(mNode, dataType);
+        ReviewView<?> dataView = mUi.newDataView(mReview, dataType, getTagsManager());
         return getCommandsFactory().newLaunchViewCommand(dataView, mUi.getLauncher());
     }
 
@@ -340,12 +338,13 @@ public class FragmentFormatReview extends Fragment {
     }
 
     @NonNull
-    private ViewUi.ValueGetter<ReviewItemReference<DataImage>> cover() {
-        return new ViewUi.ValueGetter<ReviewItemReference<DataImage>>() {
+    private ViewUi.ValueGetter<Bitmap> cover() {
+        return new ViewUi.ValueGetter<Bitmap>() {
             @Override
             @Nullable
-            public ReviewItemReference<DataImage> getValue() {
-                return mNode.getCover();
+            public Bitmap getValue() {
+                IdableList<? extends DataImage> images = mReview.getImages();
+                return images.size() > 0 ? images.getItem(0).getBitmap() : null;
             }
         };
     }
@@ -365,7 +364,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<GvDataList<GvCriterion>>() {
             @Override
             public GvDataList<GvCriterion> getValue() {
-                return getConverter().newConverterCriteria().convert(mNode.getCriteria());
+                return getConverter().newConverterCriteria().convert(mReview.getCriteria());
             }
         };
     }
@@ -375,7 +374,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<GvDataList<GvImage>>() {
             @Override
             public GvDataList<GvImage> getValue() {
-                return getConverter().newConverterImages().convert(mNode.getImages());
+                return getConverter().newConverterImages().convert(mReview.getImages());
             }
         };
     }
@@ -385,7 +384,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<GvDataList<GvFact>>() {
             @Override
             public GvDataList<GvFact> getValue() {
-                return getConverter().newConverterFacts().convert(mNode.getFacts());
+                return getConverter().newConverterFacts().convert(mReview.getFacts());
             }
         };
     }
@@ -397,7 +396,7 @@ public class FragmentFormatReview extends Fragment {
             public String getValue() {
                 String author = mAuthor != null ? mAuthor.getName() : "";
                 String date = DateFormat.getDateInstance(DateFormat.SHORT).format(new Date
-                        (mNode.getPublishDate().getTime()));
+                        (mReview.getPublishDate().getTime()));
                 return mAuthor != null ? author + " " + date : date;
             }
         };
@@ -408,7 +407,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<Float>() {
             @Override
             public Float getValue() {
-                return mNode.getRating().getRating();
+                return mReview.getRating().getRating();
             }
         };
     }
@@ -418,7 +417,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<String>() {
             @Override
             public String getValue() {
-                return mNode.getSubject().getSubject();
+                return mReview.getSubject().getSubject();
             }
         };
     }
@@ -428,7 +427,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<String>() {
             @Override
             public String getValue() {
-                return CommentFormatter.formatComments(mNode.getComments());
+                return CommentFormatter.formatComments(mReview.getComments());
             }
         };
     }
@@ -438,7 +437,7 @@ public class FragmentFormatReview extends Fragment {
         return new ViewUi.ValueGetter<GvDataList<GvLocation>>() {
             @Override
             public GvDataList<GvLocation> getValue() {
-                return getConverter().newConverterLocations().convert(mNode.getLocations());
+                return getConverter().newConverterLocations().convert(mReview.getLocations());
             }
         };
     }

@@ -9,8 +9,7 @@
 package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
@@ -39,7 +38,7 @@ public interface UiSuite {
 
     UiLauncher getLauncher();
 
-    ReviewView<?> newDataView(Review review, GvDataType<?> type, TagsManager tagsManager);
+    ReviewView<?> newDataView(ReviewNode review, GvDataType<?> type);
 
     ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile);
 
