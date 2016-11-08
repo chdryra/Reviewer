@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
@@ -128,8 +129,13 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Nullable
-    Review unpackReview(Bundle args) {
-        return mUi.unpackReview(args);
+    Review unpackTemplate(Bundle args) {
+        return mUi.unpackTemplate(args);
+    }
+
+    @Nullable
+    ReviewNode unpackNode(Bundle args) {
+        return mUi.unpackNode(args);
     }
 
     @Nullable

@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -26,39 +27,28 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsPublish;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsReviewSummary;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsReviewsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsSearch;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsViewData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.SubjectBannerFilter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsSearch;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectBannerFilter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeFollowable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -91,10 +81,6 @@ public class FactoryReviewView {
         mParamsFactory = paramsFactory;
         mCommandsFactory = commandsFactory;
         mAuthorsRepo = authorsRepo;
-    }
-
-    public FactoryReviewViewAdapter getAdapterFactory() {
-        return mAdapterFactory;
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
@@ -133,13 +119,20 @@ public class FactoryReviewView {
         return newReviewView(mAdapterFactory.newPublishAdapter(list, toPublish.getAdapter()),
                 new ReviewViewActions<>(factory), mParamsFactory.newPublishParams());
     }
+    public ReviewView<?> newDataView(ReviewNode node, GvDataType<?> dataType) {
+        return newDefaultView(mAdapterFactory.newReviewDataAdapter(node, dataType));
+    }
+
+    public ReviewView<?> newSummaryView(ReviewNode node) {
+        return newDefaultView(mAdapterFactory.newSummaryAdapter(node));
+    }
 
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter) {
         ReviewView view;
         try {
-            AdapterNodeList listAdapter = (AdapterNodeList) adapter;
-            view = newDefaultReviewsListView(listAdapter.getNode(), listAdapter,
-                    listAdapter.getFollowAuthorId());
+            AdapterNodeFollowable followable = (AdapterNodeFollowable) adapter;
+            view = newDefaultReviewsListView(followable.getNode(), followable,
+                    followable.getFollowAuthorId());
         } catch (ClassCastException e) {
             view = newReviewView(adapter, newViewActions(adapter),
                     mParamsFactory.newViewParams(getDataType(adapter)));
@@ -149,7 +142,13 @@ public class FactoryReviewView {
         return (ReviewView<T>) view;
     }
 
-    public <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter,
+    public ReviewView<?> newFollowSearchView(AuthorId sessionAuthor) {
+        ReviewViewAdapter.Filterable<GvAuthor> adapter = mAdapterFactory
+                .newFollowSearchAdapter(sessionAuthor);
+        return newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
+    }
+
+    private <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter,
                                                           String hint) {
         GvDataType<T> dataType = getDataType(adapter);
         return newReviewView(adapter, newSearchActions(dataType, getUiLauncher()),
@@ -220,17 +219,25 @@ public class FactoryReviewView {
         FactoryReviewViewActions<?> factory;
         ReviewStamp stamp = adapter.getStamp();
 
+        ReviewNode node = null;
+        try {
+            AdapterReviewNode<?> nodeAdapter = (AdapterReviewNode<?>) adapter;
+            node = nodeAdapter.getNode();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+
         if (dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsReviewSummary(this, getUiLauncher(), mCommandsFactory,
-                    getOptionsConfig(), stamp, mAuthorsRepo);
+                    getOptionsConfig(), stamp, mAuthorsRepo, node);
         } else {
             LaunchableConfig viewer = mConfig.getViewer(dataType.getDatumName());
             if (dataType.equals(GvComment.Reference.TYPE)) {
                 factory = new FactoryActionsViewData.Comments(this, getUiLauncher(), viewer,
-                        stamp, mAuthorsRepo);
+                        stamp, mAuthorsRepo, node);
             } else {
                 factory = new FactoryActionsViewData<>(dataType, this, getUiLauncher(), viewer,
-                        stamp, mAuthorsRepo);
+                        stamp, mAuthorsRepo, node);
             }
         }
 

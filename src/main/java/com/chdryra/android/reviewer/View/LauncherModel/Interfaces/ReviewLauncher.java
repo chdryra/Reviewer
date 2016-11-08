@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +24,7 @@ public interface ReviewLauncher {
 
     void launchSummary(ReviewId reviewId);
 
-    void launchFormatted(ReviewId reviewId);
+    void launchFormatted(ReviewNode node);
 
     void launchReviewsList(AuthorId authorId);
 }

@@ -27,8 +27,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUiLauncher {
-    public static final String REVIEW_ID = "ReviewId";
-
     private final LaunchableConfig mUi;
     private final RepositorySuite mRepository;
     private final ItemPacker<Review> mPacker;
@@ -62,7 +60,7 @@ public class ReviewUiLauncher {
     }
 
     @Nullable
-    Review unpackReview(Bundle args) {
+    Review unpackTemplate(Bundle args) {
         return mPacker.unpack(args);
     }
 

@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -74,9 +73,7 @@ public class UiSuiteAndroid implements UiSuite{
 
     @Override
     public ReviewView<?> newDataView(ReviewNode node, GvDataType<?> type) {
-        ReviewViewAdapter<?> adapter = mViewFactory.getAdapterFactory()
-                .newReviewDataAdapter(node, type);
-        return mViewFactory.newDefaultView(adapter);
+        return mViewFactory.newDataView(node, type);
 
     }
 
@@ -133,8 +130,13 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Nullable
-    Review unpackReview(Bundle args) {
-        return mUiLauncher.unpackReview(args);
+    Review unpackTemplate(Bundle args) {
+        return mUiLauncher.unpackTemplate(args);
+    }
+
+    @Nullable
+    ReviewNode unpackNode(Bundle args) {
+        return mUiLauncher.unpackNode(args);
     }
 
     @Nullable

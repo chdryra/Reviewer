@@ -16,10 +16,13 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
@@ -44,20 +47,20 @@ public class UiLauncherAndroid implements UiLauncher {
     private UserSession mSession;
 
     private final ReviewUiLauncher mBuildUiLauncher;
-    private final ReviewUiLauncher mReviewUiLauncher;
+    private final NodeUiLauncher mNodeUiLauncher;
     private final ReviewLauncher mReviewLauncher;
     private final Class<? extends Activity> mDefaultActivity;
 
     private final ItemPacker<ReviewView<?>> mViewPacker;
 
     public UiLauncherAndroid(ReviewUiLauncher buildUiLauncher,
-                             ReviewUiLauncher reviewUiLauncher,
+                             NodeUiLauncher nodeUiLauncher,
                              FactoryReviewLauncher reviewLauncherFactory,
                              Class<? extends Activity> defaultActivity,
                              ItemPacker<ReviewView<?>> viewPacker) {
         mBuildUiLauncher = buildUiLauncher;
-        mReviewUiLauncher = reviewUiLauncher;
-        mReviewLauncher = reviewLauncherFactory.newReviewLauncher(this, mReviewUiLauncher);
+        mNodeUiLauncher = nodeUiLauncher;
+        mReviewLauncher = reviewLauncherFactory.newReviewLauncher(this, mNodeUiLauncher);
         mDefaultActivity = defaultActivity;
         mViewPacker = viewPacker;
     }
@@ -97,9 +100,13 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Nullable
-    public Review unpackReview(Bundle args) {
-        Review review = mBuildUiLauncher.unpackReview(args);
-        return review != null ? review : mReviewUiLauncher.unpackReview(args);
+    public Review unpackTemplate(Bundle args) {
+        return mBuildUiLauncher.unpackTemplate(args);
+    }
+
+    @Nullable
+    public ReviewNode unpackNode(Bundle args) {
+        return mNodeUiLauncher.unpackNode(args);
     }
 
     @Nullable

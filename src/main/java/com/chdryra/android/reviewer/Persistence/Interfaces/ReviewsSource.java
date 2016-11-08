@@ -23,11 +23,13 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 public interface ReviewsSource extends ReviewsRepository {
     void asMetaReview(ReviewId id, ReviewsSourceCallback callback);
 
+    ReviewNode asMetaReview(ReviewId id);
+
     ReviewNode asMetaReview(AuthorId id);
 
-    void asMetaReview(VerboseDataReview datum, String subject, ReviewsSourceCallback callback);
+    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
-    void getMetaReview(IdableCollection<?> data, String subject, ReviewsSourceCallback callback);
+    ReviewNode getMetaReview(IdableCollection<?> data, String subject);
 
     //As review node in result
     interface ReviewsSourceCallback {

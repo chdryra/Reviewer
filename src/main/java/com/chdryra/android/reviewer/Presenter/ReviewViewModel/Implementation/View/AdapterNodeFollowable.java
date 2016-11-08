@@ -31,20 +31,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * {@link ReviewViewAdapter} for a {@link ReviewNode}.
  */
 
-public class AdapterNodeList extends AdapterReviewNode<GvNode> {
+public class AdapterNodeFollowable extends AdapterReviewNode<GvNode> {
     private final AuthorId mFollowAuthorId;
 
-    public AdapterNodeList(ReviewNode node,
-                           DataConverter<DataImage, GvImage, GvImageList> coversConverter,
-                           GridDataWrapper<GvNode> viewer,
-                           @Nullable AuthorId followAuthorId) {
+    public AdapterNodeFollowable(ReviewNode node,
+                                 DataConverter<DataImage, GvImage, GvImageList> coversConverter,
+                                 GridDataWrapper<GvNode> viewer,
+                                 @Nullable AuthorId followAuthorId) {
         super(node, coversConverter, viewer);
         mFollowAuthorId = followAuthorId;
-    }
-
-    @Override
-    public ReviewNode getNode() {
-        return super.getNode();
     }
 
     @Nullable

@@ -8,8 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -19,14 +22,22 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarReviewFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonLaunchAuthorReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiSplitCommentRefs;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.RatingBarReviewFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -43,15 +54,17 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final LaunchableConfig mConfig;
     private final ReviewStamp mStamp;
     private final AuthorsRepository mRepo;
+    private final ReviewNode mNode;
 
     public FactoryActionsViewData(GvDataType<T> dataType, FactoryReviewView factory, UiLauncher
-            launcher, LaunchableConfig config, ReviewStamp stamp, AuthorsRepository repo) {
+            launcher, LaunchableConfig config, ReviewStamp stamp, AuthorsRepository repo, @Nullable ReviewNode node) {
         super(dataType);
         mFactory = factory;
         mLauncher = launcher;
         mConfig = config;
         mStamp = stamp;
         mRepo = repo;
+        mNode = node;
     }
 
     protected FactoryReviewView getFactory() {
@@ -73,7 +86,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     
     @Override
     public RatingBarAction<T> newRatingBar() {
-        return mStamp.isValid() ? new RatingBarReviewFormatted<T>(mStamp, mLauncher.getReviewLauncher()) :
+        return mNode != null ? new RatingBarReviewFormatted<T>(mNode, mLauncher.getReviewLauncher()) :
                 super.newRatingBar();
     }
 
@@ -99,8 +112,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
                         UiLauncher launcher,
                         LaunchableConfig config,
                         ReviewStamp stamp,
-                        AuthorsRepository repo) {
-            super(GvComment.Reference.TYPE, factory, launcher, config, stamp, repo);
+                        AuthorsRepository repo,
+                        @Nullable ReviewNode node) {
+            super(GvComment.Reference.TYPE, factory, launcher, config, stamp, repo, node);
         }
 
         @Override

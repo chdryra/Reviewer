@@ -8,23 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -51,17 +41,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeFollowable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AuthorSearchAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeFlat;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeSourceCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerFeed;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -96,17 +84,14 @@ public class FactoryReviewViewAdapter {
                                                                             @Nullable String title,
                                                                             @Nullable AuthorId toFollow) {
         HasReviewId dataValue = datum.getDataValue();
-        ReviewTreeSourceCallback node = newAsyncNode();
         if(title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
-        mReviewSource.asMetaReview(datum, title, node);
-        return newReviewsListAdapter(node, toFollow);
+        return newReviewsListAdapter(mReviewSource.asMetaReview(datum, title), toFollow);
     }
 
     //List reviews generating this data
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(GvDataCollection<T> data) {
-        ReviewTreeSourceCallback node = newAsyncNode();
-        mReviewSource.getMetaReview(data, data.toString(), node);
-        return newReviewsListAdapter(node, null);
+
+        return newReviewsListAdapter(mReviewSource.getMetaReview(data, data.toString()), null);
     }
 
     //List reviews for this author
@@ -152,7 +137,6 @@ public class FactoryReviewViewAdapter {
     //View specific data for this review as if it was a meta review
     public <T extends GvData> ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node,
                                                                       GvDataType<T> dataType) {
-
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
                     .newTreeCommentsViewer(node, mConverter));
@@ -182,7 +166,7 @@ public class FactoryReviewViewAdapter {
         GvDataType<T> type = data.getGvDataType();
 
         if (type.equals(GvComment.TYPE)) {
-            ReviewTreeSourceCallback node = newFlattenedMetaReview(data, subject);
+            ReviewNode node = newFlattenedMetaReview(data, subject);
             //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.newConverterImages(),
                     (GvCanonicalCollection<GvComment>) data, mViewerFactory, mAggregator);
@@ -219,7 +203,7 @@ public class FactoryReviewViewAdapter {
     //adapter shows child nodes
     ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node,
                                                     @Nullable AuthorId followAuthorId) {
-        return new AdapterNodeList(node, mConverter.newConverterImages(),
+        return new AdapterNodeFollowable(node, mConverter.newConverterImages(),
                 new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), this),
                 followAuthorId);
     }
@@ -228,12 +212,10 @@ public class FactoryReviewViewAdapter {
                                                                          String subject,
                                                                          GridDataWrapper<T>
                                                                                  viewer) {
-        ReviewTreeSourceCallback node = newAsyncNode();
-        mReviewSource.getMetaReview(data, subject, node);
-        return newNodeAdapter(node, viewer);
+        return newNodeAdapter(mReviewSource.getMetaReview(data, subject), viewer);
     }
 
-    private <T extends GvData> ReviewTreeSourceCallback newFlattenedMetaReview
+    private <T extends GvData> ReviewNode newFlattenedMetaReview
             (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> gvDataType = data.getGvDataType();
         GvDataListImpl<T> allData = new GvDataListImpl<>(gvDataType, data.getGvReviewId());
@@ -242,10 +224,7 @@ public class FactoryReviewViewAdapter {
             allData.addAll(canonical.toList());
         }
 
-        ReviewTreeSourceCallback asyncNode = newAsyncNode();
-        mReviewSource.getMetaReview(allData, subject, asyncNode);
-
-        return asyncNode;
+        return mReviewSource.getMetaReview(allData, subject);
     }
 
     @Nullable
@@ -255,24 +234,10 @@ public class FactoryReviewViewAdapter {
                 new AdapterReviewNode<>(node, mConverter.newConverterImages(), viewer) : null;
     }
 
-    @NonNull
-    private ReviewTreeSourceCallback newAsyncNode() {
-        Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f,
-                new ArrayList<DataCriterion>(), new ArrayList<DataComment>(),
-                new ArrayList<DataImage>(), new ArrayList<DataFact>(),
-                new ArrayList<DataLocation>(), true);
-
-        ReviewReference reference = mReviewsFactory.asReference(fetching, mReviewSource.getTagsManager());
-        ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);
-
-        return new ReviewTreeSourceCallback(node);
-    }
-
-
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter
             (GvCanonicalCollection<T> data, String subject, GridDataWrapper<GvCanonical> viewer) {
 
-        ReviewTreeSourceCallback node = newFlattenedMetaReview(data, subject);
+        ReviewNode node = newFlattenedMetaReview(data, subject);
         return data.size() == 1 ? newReviewsListAdapter(node, null) : newNodeAdapter(node, viewer);
     }
 }

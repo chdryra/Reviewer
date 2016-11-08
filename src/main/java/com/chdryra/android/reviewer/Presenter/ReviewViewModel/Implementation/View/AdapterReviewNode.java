@@ -40,7 +40,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
         mCoversConverter = coversConverter;
     }
 
-    ReviewNode getNode() {
+    public ReviewNode getNode() {
         return mNode;
     }
 

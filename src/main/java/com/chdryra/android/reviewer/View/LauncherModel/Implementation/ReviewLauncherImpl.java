@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -30,11 +29,11 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
     private final UiLauncher mLauncher;
-    private final ReviewUiLauncher mFormattedLauncher;
+    private final NodeUiLauncher mFormattedLauncher;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
                               UiLauncher launcher,
-                              ReviewUiLauncher formattedLauncher,
+                              NodeUiLauncher formattedLauncher,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
@@ -68,17 +67,15 @@ public class ReviewLauncherImpl implements ReviewLauncher {
                 ReviewNode node = result.getReviewNode();
                 if (!result.isError() && node != null) {
                     ReviewNode review = node.getChildren().getItem(0);
-                    ReviewViewAdapter<?> adapter = mViewFactory.getAdapterFactory()
-                            .newSummaryAdapter(review);
-                    launchView(mViewFactory.newDefaultView(adapter), getRequestCode(review));
+                    launchView(mViewFactory.newSummaryView(node), getRequestCode(review));
                 }
             }
         });
     }
 
     @Override
-    public void launchFormatted(ReviewId reviewId) {
-        mFormattedLauncher.launch(reviewId);
+    public void launchFormatted(ReviewNode node) {
+        mFormattedLauncher.launch(node);
     }
 
     @Override

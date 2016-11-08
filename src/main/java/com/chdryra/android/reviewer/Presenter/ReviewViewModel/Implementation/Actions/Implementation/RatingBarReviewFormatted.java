@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
@@ -23,17 +23,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarReviewFormatted<T extends GvData> extends RatingBarActionNone<T> {
-    private final ReviewId mReviewId;
+    private final ReviewNode mNode;
     private final ReviewLauncher mLauncher;
 
-    public RatingBarReviewFormatted(ReviewId reviewId, ReviewLauncher launcher) {
-        mReviewId = reviewId;
+    public RatingBarReviewFormatted(ReviewNode node, ReviewLauncher launcher) {
+        mNode = node;
         mLauncher = launcher;
     }
 
     @Override
     public void onClick(View v) {
         getCurrentScreen().showToast(Strings.LOADING);
-        mLauncher.launchFormatted(mReviewId);
+        mLauncher.launchFormatted(mNode);
     }
 }

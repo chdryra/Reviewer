@@ -6,26 +6,24 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodePagerAdapter;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
+
+import static com.chdryra.android.reviewer.R.id.pager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,19 +35,23 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     private static final String RETAIN_VIEW
             = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
     private static final int LAYOUT = R.layout.view_pager;
+    private static final int PAGER = pager;
 
-    private ReviewNode mNode;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private NodePagerAdapter mAdapter;
+
+    public ReviewNode getNode(ReviewId id) {
+        return mAdapter.getNode(id);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
-        AppInstanceAndroid.setActivity(this);
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+        Bundle args = getIntent().getBundleExtra(getLaunchTag());
+        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        if (node == null) throw new RuntimeException("No review found");
+        mAdapter = new NodePagerAdapter(node, getSupportFragmentManager());
+        ((ViewPager) findViewById(PAGER)).setAdapter(mAdapter);
     }
 
     @Override
@@ -72,24 +74,5 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
-    }
-
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            ReviewNode item = mNode.getChildren().getItem(position);
-            FragmentFormatReview fragment = new FragmentFormatReview();
-            fragment.setArguments(getIntent().getBundleExtra(getLaunchTag()));
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return mNode.getChildren().size();
-        }
     }
 }

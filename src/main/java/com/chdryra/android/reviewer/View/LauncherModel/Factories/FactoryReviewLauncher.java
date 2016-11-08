@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -30,7 +30,7 @@ public class FactoryReviewLauncher {
         mMasterRepo = masterRepo;
     }
 
-    public ReviewLauncher newReviewLauncher(UiLauncher launcher, ReviewUiLauncher formattedLauncher) {
+    public ReviewLauncher newReviewLauncher(UiLauncher launcher, NodeUiLauncher formattedLauncher) {
         return new ReviewLauncherImpl(mMasterRepo, launcher, formattedLauncher, mFactoryReviewView);
     }
 
