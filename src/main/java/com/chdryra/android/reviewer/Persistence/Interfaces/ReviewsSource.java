@@ -13,7 +13,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollec
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,18 +20,11 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsSource extends ReviewsRepository {
-    void asMetaReview(ReviewId id, ReviewsSourceCallback callback);
-
-    ReviewNode asMetaReview(ReviewId id);
+    ReviewNode asReviewNode(ReviewId id);
 
     ReviewNode asMetaReview(AuthorId id);
 
     ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     ReviewNode getMetaReview(IdableCollection<?> data, String subject);
-
-    //As review node in result
-    interface ReviewsSourceCallback {
-        void onMetaReviewCallback(RepositoryResult result);
-    }
 }

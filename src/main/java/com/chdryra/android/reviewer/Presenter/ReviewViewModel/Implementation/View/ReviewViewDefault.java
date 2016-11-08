@@ -150,11 +150,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     }
 
     @Override
-    public void updateContextButton() {
-        mContainer.updateContextButton();
-    }
-
-    @Override
     public void onDataChanged() {
         mGridViewData = null;
         notifyDataObservers();

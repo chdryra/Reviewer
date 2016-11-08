@@ -171,7 +171,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     @Override
     public void onDataChanged() {
-        updateUi(false);
+        updateUi(true);
     }
 
     private void extractReviewView() {

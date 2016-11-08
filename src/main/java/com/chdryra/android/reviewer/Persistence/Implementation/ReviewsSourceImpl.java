@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -37,8 +38,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewTreeSourceCallback;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,40 +77,31 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
-        asMetaReviewNullable(id, callback);
-    }
-
-    @Override
-    public ReviewNode asMetaReview(ReviewId id) {
-        ReviewTreeSourceCallback fetchingNode = newFetchingNode();
-        asMetaReview(id, fetchingNode);
-        return fetchingNode;
+    public ReviewNode asReviewNode(ReviewId id) {
+        return newAsyncReview(id);
     }
 
     @Override
     public ReviewNode asMetaReview(AuthorId id) {
-        ReferencesRepository repo = getRepositoryForAuthor(id);
-        return mReviewsFactory.createAuthorsTree(id, repo, mAuthorsRepo);
+        return mReviewsFactory.createAuthorsTree(id, getRepositoryForAuthor(id), mAuthorsRepo);
     }
 
     @Override
-    public ReviewNode asMetaReview(final VerboseDataReview datum, final String
-            subjectIfMetaOfItems) {
+    public ReviewNode asMetaReview(final VerboseDataReview datum, final String subject) {
         if (!datum.isCollection()) {
             IdableCollection<VerboseDataReview> data = new IdableDataCollection<>();
             data.add(datum);
-            return getMetaReview(data, subjectIfMetaOfItems);
+            return getMetaReview(data, subject);
         } else {
             return getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
-                    subjectIfMetaOfItems);
+                    subject);
         }
 //        ReviewId id = getSingleSourceId(datum);
 //        if (id != null) {
 //            asMetaReviewNullable(id, callback);
 //        } else {
 //            getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
-//                    subjectIfMetaOfItems, callback);
+//                    subject, callback);
 //        }
     }
 
@@ -137,13 +127,52 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public ReviewNode getMetaReview(IdableCollection<?> data, String subject) {
-        ReviewTreeSourceCallback fetchingNode = newFetchingNode();
-        getMetaReview(data, subject, newFetchingNode());
-        return fetchingNode;
+        return newAsyncMetaReview(data, subject);
     }
 
     @NonNull
-    private ReviewTreeSourceCallback newFetchingNode() {
+    private ReviewNode newAsyncMetaReview(IdableCollection<?> data, final String subject) {
+        final NodeAsync asyncNode = newAsyncNode();
+        getUniqueReviews(data, new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                if (!result.isError()) {
+                    Collection<ReviewReference> reviews = result.getReferences();
+                    ReviewNode meta = mReviewsFactory.createTree(reviews, subject);
+                    result = new RepositoryResult(meta, result.getMessage());
+                }
+
+                asyncNode.onCallback(result);
+            }
+        });
+
+        return asyncNode;
+    }
+
+    private ReviewNode newAsyncReview(ReviewId id) {
+        final NodeAsync asyncNode = newAsyncNode();
+        mReviewsRepo.getReference(id, new RepositoryCallback() {
+
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                ReviewReference review = result.getReference();
+                RepositoryResult repoResult;
+                if (result.isError() || review == null) {
+                    repoResult = result;
+                } else {
+                    ReviewNode node = mReviewsFactory.createLeafNode(review);
+                    repoResult = new RepositoryResult(node, result.getMessage());
+                }
+
+                asyncNode.onCallback(repoResult);
+            }
+        });
+
+        return asyncNode;
+    }
+
+    @NonNull
+    private NodeAsync newAsyncNode() {
         Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f,
                 new ArrayList<DataCriterion>(), new ArrayList<DataComment>(),
                 new ArrayList<DataImage>(), new ArrayList<DataFact>(),
@@ -152,8 +181,9 @@ public class ReviewsSourceImpl implements ReviewsSource {
         ReviewReference reference = mReviewsFactory.asReference(fetching, getTagsManager());
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);
 
-        return new ReviewTreeSourceCallback(node);
+        return new NodeAsync(node);
     }
+
 //
 //    @Nullable
 //    private ReviewId getSingleSourceId(VerboseDataReview datum) {
@@ -172,47 +202,42 @@ public class ReviewsSourceImpl implements ReviewsSource {
 //
 //        return id;
 //    }
-
-    private void getMetaReview(final IdableCollection<?> data, final String subject,
-                               final ReviewsSourceCallback callback) {
-        getUniqueReviews(data, new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                if (!result.isError()) {
-                    Collection<ReviewReference> reviews = result.getReferences();
-                    ReviewNode meta = mReviewsFactory.createTree(reviews, subject);
-                    result = new RepositoryResult(meta, result.getMessage());
-                }
-
-                callback.onMetaReviewCallback(result);
-            }
-        });
-    }
-
-    private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
-        mReviewsRepo.getReference(id, new RepositoryCallback() {
-
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                ReviewReference review = result.getReference();
-                RepositoryResult repoResult;
-                if (result.isError() || review == null) {
-                    repoResult = result;
-                } else {
-                    ReviewNode node = mReviewsFactory.createTree(review);
-                    repoResult = new RepositoryResult(node, result.getMessage());
-                }
-
-                callback.onMetaReviewCallback(repoResult);
-            }
-        });
-    }
+//
+//    private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
+//        mReviewsRepo.getReference(id, new RepositoryCallback() {
+//
+//            @Override
+//            public void onRepositoryCallback(RepositoryResult result) {
+//                ReviewReference review = result.getReference();
+//                RepositoryResult repoResult;
+//                if (result.isError() || review == null) {
+//                    repoResult = result;
+//                } else {
+//                    ReviewNode node = mReviewsFactory.createTree(review);
+//                    repoResult = new RepositoryResult(node, result.getMessage());
+//                }
+//
+//                callback.onMetaReviewCallback(repoResult);
+//            }
+//        });
+//    }
 
     private void getUniqueReviews(final IdableCollection<?> data,
                                   final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
             getReference(data.getItem(i).getReviewId(), uniqueCallback);
+        }
+    }
+
+    private static class NodeAsync extends ReviewTree {
+        private NodeAsync(ReviewNodeComponent initial) {
+            super(initial);
+        }
+
+        private void onCallback(RepositoryResult result) {
+            ReviewNode node = result.getReviewNode();
+            if (!result.isError() && node != null) setNode(node);
         }
     }
 

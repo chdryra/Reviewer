@@ -31,6 +31,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T> implements ReviewNode.NodeObserver {
     private final ReviewNode mNode;
     private final DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
+    private GvImage mCover;
+    private boolean mFindingCover = false;
 
     public AdapterReviewNode(ReviewNode node,
                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
@@ -38,6 +40,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
         super(viewer);
         mNode = node;
         mCoversConverter = coversConverter;
+        mCover = new GvImage();
     }
 
     public ReviewNode getNode() {
@@ -86,13 +89,19 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
 
     @Override
     public void getCover(final CoverCallback callback) {
-        mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
-            @Override
-            public void onDereferenced(DataValue<DataImage> value) {
-                GvImage image = value.hasValue() ?
-                        mCoversConverter.convert(value.getData()) : new GvImage();
-                callback.onAdapterCover(image);
-            }
-        });
+        if(!mFindingCover && mCover.getBitmap() == null) {
+            mFindingCover = true;
+            mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
+                @Override
+                public void onDereferenced(DataValue<DataImage> value) {
+                    mCover = value.hasValue() ?
+                            mCoversConverter.convert(value.getData()) : new GvImage();
+                    callback.onAdapterCover(mCover);
+                    mFindingCover = false;
+                }
+            });
+        } else {
+            callback.onAdapterCover(mCover);
+        }
     }
 }

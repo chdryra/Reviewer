@@ -153,6 +153,11 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
+    public boolean isLeaf() {
+        return mChildren.size() == 0;
+    }
+
+    @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(this);
     }

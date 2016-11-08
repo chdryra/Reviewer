@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarReviewFormatted<T extends GvData> extends RatingBarActionNone<T> {
+public class RatingBarLaunchFormatted<T extends GvData> extends RatingBarActionNone<T> {
     private final ReviewNode mNode;
     private final ReviewLauncher mLauncher;
 
-    public RatingBarReviewFormatted(ReviewNode node, ReviewLauncher launcher) {
+    public RatingBarLaunchFormatted(ReviewNode node, ReviewLauncher launcher) {
         mNode = node;
         mLauncher = launcher;
     }

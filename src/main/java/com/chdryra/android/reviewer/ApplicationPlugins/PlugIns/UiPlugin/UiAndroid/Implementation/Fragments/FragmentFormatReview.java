@@ -184,7 +184,6 @@ public class FragmentFormatReview extends Fragment {
         ReviewLauncher launcher = mUi.getLauncher().getReviewLauncher();
 
         View v = inflater.inflate(LAYOUT, container, false);
-        //setMenu();
         setCover(v);
         int textColour = setSubject(v);
         setRating(v, launcher);

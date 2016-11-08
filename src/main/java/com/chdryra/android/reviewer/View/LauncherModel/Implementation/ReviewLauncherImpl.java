@@ -12,7 +12,6 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -48,29 +47,14 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchAsList(ReviewId reviewId) {
-        mReviewsSource.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
-            @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
-                ReviewNode node = result.getReviewNode();
-                if (!result.isError() && node != null) {
-                    launchView(newListView(node), getRequestCode(node));
-                }
-            }
-        });
+        ReviewNode node = mReviewsSource.asReviewNode(reviewId);
+        launchView(newListView(node), getRequestCode(node));
     }
 
     @Override
     public void launchSummary(final ReviewId reviewId) {
-        mReviewsSource.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
-            @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
-                ReviewNode node = result.getReviewNode();
-                if (!result.isError() && node != null) {
-                    ReviewNode review = node.getChildren().getItem(0);
-                    launchView(mViewFactory.newSummaryView(node), getRequestCode(review));
-                }
-            }
-        });
+        ReviewNode node = mReviewsSource.asReviewNode(reviewId);
+        launchView(mViewFactory.newSummaryView(node), getRequestCode(node));
     }
 
     @Override

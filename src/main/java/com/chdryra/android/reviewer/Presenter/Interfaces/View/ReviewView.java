@@ -42,8 +42,6 @@ public interface ReviewView<T extends GvData>
 
     float getContainerRating();
 
-    void updateContextButton();
-
     void updateCover();
 
     CurrentScreen getCurrentScreen();
