@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 public interface ReviewsSource extends ReviewsRepository {
     ReviewNode asReviewNode(ReviewId id);
 
-    ReviewNode asMetaReview(AuthorId id);
+    ReviewNode getMetaReview(AuthorId id);
 
-    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
+    ReviewNode getMetaReview(VerboseDataReview datum, String subject);
 
     ReviewNode getMetaReview(IdableCollection<?> data, String subject);
 }

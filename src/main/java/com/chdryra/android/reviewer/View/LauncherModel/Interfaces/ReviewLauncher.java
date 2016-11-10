@@ -17,9 +17,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 12/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewLauncher {
-    void setSessionAuthor(AuthorId authorId);
-
+public interface ReviewLauncher extends UiLauncherWrapper {
     void launchAsList(ReviewId reviewId);
 
     void launchSummary(ReviewId reviewId);

@@ -22,7 +22,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarRvUi extends RatingBarUi {
-
     public RatingBarRvUi(final ReviewView<?> reviewView, RatingBar view) {
         super(view, new ValueGetter<Float>() {
             @Override

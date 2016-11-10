@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.PackingLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -21,27 +21,38 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * On: 29/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodeUiLauncher {
+public class PackingLauncherImpl<T> implements PackingLauncher<T> {
     private final LaunchableConfig mUi;
-    private final ItemPacker<ReviewNode> mNodePacker;
+    private final ItemPacker<T> mPacker;
 
-    public NodeUiLauncher(LaunchableConfig ui) {
+    public PackingLauncherImpl(LaunchableConfig ui) {
         mUi = ui;
-        mNodePacker = new ItemPacker<>();
+        mPacker = new ItemPacker<>();
     }
 
+    @Override
+    public void launch(@Nullable T item) {
+        onPrelaunch();
+        Bundle args = new Bundle();
+        if (item != null) mPacker.pack(item, args);
+        launchUi(args);
+    }
+
+    @Override
     public void setUiLauncher(UiLauncher uiLauncher) {
         mUi.setLauncher(uiLauncher);
     }
 
-    public void launch(ReviewNode node) {
-        Bundle args = new Bundle();
-        mNodePacker.pack(node, args);
-        mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
+    @Override
+    public T unpack(Bundle args) {
+        return mPacker.unpack(args);
     }
 
-    @Nullable
-    ReviewNode unpackNode(Bundle args) {
-        return mNodePacker.unpack(args);
+    void onPrelaunch() {
+
+    }
+
+    private void launchUi(Bundle args) {
+        mUi.launch(new UiLauncherArgs(mUi.getDefaultRequestCode()).setBundle(args));
     }
 }

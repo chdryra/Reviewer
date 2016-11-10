@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -15,6 +18,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.PackingLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -24,25 +28,30 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLauncherImpl implements ReviewLauncher {
-    private AuthorId mSessionAuthor;
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
-    private final UiLauncher mLauncher;
-    private final NodeUiLauncher mFormattedLauncher;
+    private final PackingLauncher<ReviewNode> mFormattedLauncher;
+
+    private UiLauncher mLauncher;
+    private AuthorId mSessionAuthor;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              UiLauncher launcher,
-                              NodeUiLauncher formattedLauncher,
+                              PackingLauncher<ReviewNode> formattedLauncher,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
-        mLauncher = launcher;
         mFormattedLauncher = formattedLauncher;
     }
 
+    @Nullable
+    public ReviewNode unpack(Bundle args) {
+        return mFormattedLauncher.unpack(args);
+    }
+
     @Override
-    public void setSessionAuthor(AuthorId authorId) {
-        mSessionAuthor = authorId;
+    public void setUiLauncher(UiLauncher launcher) {
+        mLauncher = launcher;
+        mFormattedLauncher.setUiLauncher(launcher);
     }
 
     @Override
@@ -64,8 +73,12 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchReviewsList(AuthorId authorId) {
-        ReviewNode node = mReviewsSource.asMetaReview(authorId);
+        ReviewNode node = mReviewsSource.getMetaReview(authorId);
         launchView(newListView(node), getRequestCode(node));
+    }
+
+    void setSessionAuthor(AuthorId authorId) {
+        mSessionAuthor = authorId;
     }
 
     private int getRequestCode(ReviewNode node) {

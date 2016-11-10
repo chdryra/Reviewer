@@ -33,7 +33,7 @@ public class NewReviewCommand extends Command {
 
     @Override
     public void execute() {
-        if(mLauncher != null) mLauncher.launchBuildUi(mTemplate);
+        if(mLauncher != null) mLauncher.launchEditUi(mTemplate);
         onExecutionComplete();
     }
 }

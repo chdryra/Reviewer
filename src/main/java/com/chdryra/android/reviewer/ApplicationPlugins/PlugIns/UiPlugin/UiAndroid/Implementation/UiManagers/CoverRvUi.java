@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverRvUi extends CoverUi{
+public class CoverRvUi extends CoverUi<Bitmap>{
     private final ReviewView mReviewView;
     private final GridViewUi mGridView;
 

@@ -136,7 +136,6 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
             }
 
             String email = mEmail.getText().toString();
-            boolean emailSignup = true;
             mPresenter.signUpNewAuthor(email, password, name);
         }
     }

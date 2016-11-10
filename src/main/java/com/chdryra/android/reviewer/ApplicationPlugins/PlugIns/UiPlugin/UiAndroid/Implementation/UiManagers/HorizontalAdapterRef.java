@@ -32,7 +32,6 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
         extends HorizontalAdapter<Gv, Vh> implements ViewUi.ValueGetter<RefDataList<Value>>{
     private final RefDataList<Value> mReference;
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
-    private final CellDimensionsCalculator.Dimensions mDims;
 
     private boolean mDereferenced = false;
 
@@ -44,7 +43,6 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
                 factory, dims.getCellWidth(), dims.getCellHeight());
         mReference = reference;
         mConverter = converter;
-        mDims = dims;
     }
 
     @Override

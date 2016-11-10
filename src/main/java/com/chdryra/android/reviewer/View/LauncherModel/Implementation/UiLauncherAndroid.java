@@ -16,10 +16,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Implementation.DialogShower;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -27,7 +25,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -44,25 +41,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
 
 public class UiLauncherAndroid implements UiLauncher {
     private Activity mCommissioner;
-    private UserSession mSession;
 
-    private final ReviewUiLauncher mBuildUiLauncher;
-    private final NodeUiLauncher mNodeUiLauncher;
-    private final ReviewLauncher mReviewLauncher;
+    private final EditUiLauncher mEditUiLauncher;
+    private final ReviewLauncherImpl mReviewLauncher;
     private final Class<? extends Activity> mDefaultActivity;
-
     private final ItemPacker<ReviewView<?>> mViewPacker;
 
-    public UiLauncherAndroid(ReviewUiLauncher buildUiLauncher,
-                             NodeUiLauncher nodeUiLauncher,
-                             FactoryReviewLauncher reviewLauncherFactory,
-                             Class<? extends Activity> defaultActivity,
-                             ItemPacker<ReviewView<?>> viewPacker) {
-        mBuildUiLauncher = buildUiLauncher;
-        mNodeUiLauncher = nodeUiLauncher;
-        mReviewLauncher = reviewLauncherFactory.newReviewLauncher(this, mNodeUiLauncher);
+    public UiLauncherAndroid(EditUiLauncher editUiLauncher,
+                             ReviewLauncherImpl reviewLauncher,
+                             Class<? extends Activity> defaultActivity) {
+        mEditUiLauncher = editUiLauncher;
+        mReviewLauncher = reviewLauncher;
+
+        mEditUiLauncher.setUiLauncher(this);
+        mReviewLauncher.setUiLauncher(this);
+
         mDefaultActivity = defaultActivity;
-        mViewPacker = viewPacker;
+
+        mViewPacker = new ItemPacker<>();
     }
 
     public void setActivity(Activity activity) {
@@ -70,7 +66,7 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     public void setSession(UserSession session) {
-        mSession = session;
+        mReviewLauncher.setSessionAuthor(session.getAuthorId());
     }
 
     @Override
@@ -79,8 +75,8 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Override
-    public void launchBuildUi(@Nullable ReviewId template) {
-        mBuildUiLauncher.launch(template);
+    public void launchEditUi(@Nullable ReviewId template) {
+        mEditUiLauncher.launch(template);
     }
 
     @Override
@@ -95,18 +91,17 @@ public class UiLauncherAndroid implements UiLauncher {
 
     @Override
     public ReviewLauncher getReviewLauncher() {
-        mReviewLauncher.setSessionAuthor(mSession.getAuthorId());
         return mReviewLauncher;
     }
 
     @Nullable
     public Review unpackTemplate(Bundle args) {
-        return mBuildUiLauncher.unpackTemplate(args);
+        return mEditUiLauncher.unpack(args);
     }
 
     @Nullable
     public ReviewNode unpackNode(Bundle args) {
-        return mNodeUiLauncher.unpackNode(args);
+        return mReviewLauncher.unpack(args);
     }
 
     @Nullable

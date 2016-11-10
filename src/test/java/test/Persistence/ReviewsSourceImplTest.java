@@ -87,7 +87,7 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void asMetaReview_ReviewId_ReturnsErrorIfNoReviewFound() {
-        mSource.asMetaReview(RandomReviewId.nextReviewId(), new ReviewsSource.ReviewsSourceCallback() {
+        mSource.getMetaReview(RandomReviewId.nextReviewId(), new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
                 assertThat(result.isError(), is(true));
@@ -98,7 +98,7 @@ public class ReviewsSourceImplTest {
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithOneChildOnly() {
         Review review = getRandomReview();
-        mSource.asMetaReview(review.getReviewId(), new ReviewsSource.ReviewsSourceCallback() {
+        mSource.getMetaReview(review.getReviewId(), new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
                 assertNumChildren(getNode(result), 1);
@@ -116,7 +116,7 @@ public class ReviewsSourceImplTest {
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithCorrectChildNode() {
         final Review expectedReview = getRandomReview();
-        mSource.asMetaReview(expectedReview.getReviewId(), new ReviewsSource.ReviewsSourceCallback() {
+        mSource.getMetaReview(expectedReview.getReviewId(), new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
                 assertCorrectReview(getNode(result).getChildren().getItem(0), expectedReview);

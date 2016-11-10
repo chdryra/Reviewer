@@ -10,16 +10,17 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import android.app.Activity;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.BuildUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.EditUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.PackingLauncherImpl;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.PackingLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,21 +36,15 @@ public class FactoryUiLauncher {
 
     public UiLauncherAndroid newLauncher(RepositorySuite repository,
                                          ReviewBuilderSuite builder,
-                                         FactoryReviewView factoryReviewView,
+                                         FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
                                          LaunchableConfig buildConfig,
-                                         LaunchableConfig formatted) {
+                                         LaunchableConfig formattedConfig) {
 
-        NodeUiLauncher formattedLauncher = new NodeUiLauncher(formatted);
-        FactoryReviewLauncher factoryReviewLauncher = new FactoryReviewLauncher(factoryReviewView, masterRepo);
+        EditUiLauncher buildUi = new EditUiLauncher(buildConfig, builder, repository);
+        PackingLauncher<ReviewNode> formatted = new PackingLauncherImpl<>(formattedConfig);
+        ReviewLauncherImpl reviewLauncher = new ReviewLauncherImpl(masterRepo, formatted, viewFactory);
 
-        BuildUiLauncher buildScreenLauncher
-                = new BuildUiLauncher(buildConfig, repository, builder);
-        UiLauncherAndroid uiLauncher = new UiLauncherAndroid(buildScreenLauncher, formattedLauncher,
-                factoryReviewLauncher, mDefaultActivity, new ItemPacker<ReviewView<?>>());
-        formattedLauncher.setUiLauncher(uiLauncher);
-        buildScreenLauncher.setUiLauncher(uiLauncher);
-
-        return uiLauncher;
+        return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
     }
 }

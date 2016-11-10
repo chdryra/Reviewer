@@ -24,17 +24,12 @@ import android.view.View;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverUi extends ViewUi<View, Bitmap>{
+public abstract class CoverUi<T> extends ViewUi<View, T>{
     private final Activity mActivity;
 
-    public CoverUi(View view, ValueGetter<Bitmap> getter, Activity activity) {
+    public CoverUi(View view, ValueGetter<T> getter, Activity activity) {
         super(view, getter);
         mActivity = activity;
-    }
-
-    @Override
-    public void update() {
-        setCover(getValue());
     }
 
     @SuppressWarnings("deprecation")

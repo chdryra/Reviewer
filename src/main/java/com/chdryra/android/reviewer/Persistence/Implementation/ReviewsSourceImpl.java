@@ -82,12 +82,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReviewNode asMetaReview(AuthorId id) {
+    public ReviewNode getMetaReview(AuthorId id) {
         return mReviewsFactory.createAuthorsTree(id, getRepositoryForAuthor(id), mAuthorsRepo);
     }
 
     @Override
-    public ReviewNode asMetaReview(final VerboseDataReview datum, final String subject) {
+    public ReviewNode getMetaReview(final VerboseDataReview datum, final String subject) {
         if (!datum.isCollection()) {
             IdableCollection<VerboseDataReview> data = new IdableDataCollection<>();
             data.add(datum);
