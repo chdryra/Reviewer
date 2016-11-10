@@ -85,12 +85,11 @@ public class FactoryReviewViewAdapter {
                                                                             @Nullable AuthorId toFollow) {
         HasReviewId dataValue = datum.getDataValue();
         if(title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
-        return newReviewsListAdapter(mReviewSource.getMetaReview(datum, title), toFollow);
+        return newReviewsListAdapter(mReviewSource.asMetaReview(datum, title), toFollow);
     }
 
     //List reviews generating this data
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(GvDataCollection<T> data) {
-
         return newReviewsListAdapter(mReviewSource.getMetaReview(data, data.toString()), null);
     }
 

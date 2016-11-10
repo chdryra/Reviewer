@@ -83,13 +83,14 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public Review createUserReview(String subject, float rating,
+                                   Iterable<? extends DataTag> tags,
                                    Iterable<? extends DataCriterion> criteria,
                                    Iterable<? extends DataComment> comments,
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
                                    boolean ratingIsAverage) {
-        return newReviewUser(subject, rating, criteria, comments,
+        return newReviewUser(subject, rating, tags, criteria, comments,
                 images, facts, locations, ratingIsAverage);
     }
 
@@ -135,7 +136,8 @@ public class FactoryReviews implements ReviewMaker {
     public Review makeReview(ReviewDataHolder reviewData) {
         return newReviewUser(reviewData.getReviewId(), reviewData.getAuthorId(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
-                reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
+                reviewData.getTags(), reviewData.getCriteria(), reviewData.getComments(),
+                reviewData.getImages(),
                 reviewData.getFacts(), reviewData.getLocations());
     }
 
@@ -156,10 +158,9 @@ public class FactoryReviews implements ReviewMaker {
                 new DatumDate(stamp, stamp.getDate().getTime()));
     }
 
-    /********************************************************/
-    //private methods
-    private Review createUserReview(String subject, float rating) {
+    public Review createUserReview(String subject, float rating) {
         return newReviewUser(subject, rating,
+                new ArrayList<DataTag>(),
                 new ArrayList<DataCriterion>(),
                 new ArrayList<DataComment>(),
                 new ArrayList<DataImage>(),
@@ -167,7 +168,10 @@ public class FactoryReviews implements ReviewMaker {
                 new ArrayList<DataLocation>(), false);
     }
 
+    /********************************************************/
+    //private methods
     private Review newReviewUser(String subject, float rating,
+                                 Iterable<? extends DataTag> tags,
                                  Iterable<? extends DataCriterion> criteria,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
@@ -180,7 +184,7 @@ public class FactoryReviews implements ReviewMaker {
 
         if (ratingIsAverage) rating = getAverageRating(criteria);
 
-        return newReviewUser(stamp, author, date, subject, rating, criteria, comments, images,
+        return newReviewUser(stamp, author, date, subject, rating, tags, criteria, comments, images,
                 facts, locations);
     }
 
@@ -201,6 +205,7 @@ public class FactoryReviews implements ReviewMaker {
                                  DateTime publishDate,
                                  String subject,
                                  float rating,
+                                 Iterable<? extends DataTag> tags,
                                  Iterable<? extends DataCriterion> criteria,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
@@ -211,14 +216,24 @@ public class FactoryReviews implements ReviewMaker {
         DataSubject mdSubject = new DatumSubject(id, subject);
         DataRating mdRating = new DatumRating(id, rating, 1);
 
+        IdableList<DataTag> mdTags = getTags(id, tags);
         IdableList<DataComment> mdComments = getComments(id, comments);
         IdableList<DataCriterion> mdCriteria = getCriteria(id, criteria);
         IdableList<DataLocation> mdLocations = getLocations(id, locations);
         IdableList<DataImage> mdImages = getImages(id, images, mdDate, mdLocations);
         IdableList<DataFact> mdFacts = getFacts(id, facts);
 
-        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria);
+        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdTags, mdComments,
+                mdImages, mdCriteria, mdFacts, mdLocations);
+    }
+
+    @NonNull
+    private IdableList<DataTag> getTags(ReviewId id, Iterable<? extends DataTag> tags) {
+        IdableList<DataTag> mdTags = new IdableDataList<>(id);
+        for (DataTag datum : tags) {
+            mdTags.add(new DatumTag(id, datum.getTag()));
+        }
+        return mdTags;
     }
 
     @NonNull

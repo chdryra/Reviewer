@@ -48,7 +48,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryReviewDataEditor mEditorFactory;
     private final BannerButtonReviewBuild<GC> mBannerButton;
     private final GridItemBuildReview<GC> mGridItem;
-    private final ArrayList<BuildListener> mBuildListeners;
     private final ArrayList<ModeListener> mModeListeners;
     private final FactoryFileIncrementor mIncrementorFactory;
     private final FactoryImageChooser mImageChooserFactory;
@@ -73,7 +72,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mBannerButton = (BannerButtonReviewBuild<GC>) actions.getBannerButtonAction();
         mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
 
-        mBuildListeners = new ArrayList<>();
         mModeListeners = new ArrayList<>();
 
         mCurrentSubject = mAdapter.getSubject();
@@ -171,15 +169,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public Review buildReview() {
-        Review review = mAdapter.buildReview();
-        notifyBuildListeners();
-        return review;
-    }
-
-    private void notifyBuildListeners() {
-        for(BuildListener listener : mBuildListeners) {
-            listener.onReviewBuilt();
-        }
+        return mAdapter.buildReview();
     }
 
     private void notifyModeListeners() {
@@ -191,16 +181,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mGridItem.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void registerListener(BuildListener listener) {
-        if(!mBuildListeners.contains(listener)) mBuildListeners.add(listener);
-    }
-
-    @Override
-    public void unregisterListener(BuildListener listener) {
-        if(mBuildListeners.contains(listener)) mBuildListeners.remove(listener);
     }
 
     @Override

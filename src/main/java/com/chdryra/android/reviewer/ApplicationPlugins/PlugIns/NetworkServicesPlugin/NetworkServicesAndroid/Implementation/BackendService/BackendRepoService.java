@@ -141,7 +141,6 @@ public class BackendRepoService extends IntentService {
             broadcastDeleteComplete(message);
         }
 
-
         @Override
         public void onAddedToQueue(ReviewId id, CallbackMessage message) {
 

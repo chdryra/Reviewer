@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -41,9 +42,10 @@ public class ReviewUser extends ReviewStatic {
     private final DataSubject mSubject;
     private final DataRating mRating;
 
-    private final IdableList<? extends DataCriterion> mCriteria;
+    private final IdableList<? extends DataTag> mTags;
     private final IdableList<? extends DataComment> mComments;
     private final IdableList<? extends DataImage> mImages;
+    private final IdableList<? extends DataCriterion> mCriteria;
     private final IdableList<? extends DataFact> mFacts;
     private final IdableList<? extends DataLocation> mLocations;
 
@@ -52,17 +54,19 @@ public class ReviewUser extends ReviewStatic {
                       DataDate publishDate,
                       DataSubject subject,
                       DataRating rating,
+                      IdableList<? extends DataTag> tags,
                       IdableList<? extends DataComment> comments,
                       IdableList<? extends DataImage>  images,
+                      IdableList<? extends DataCriterion> criteria,
                       IdableList<? extends DataFact> facts,
-                      IdableList<? extends DataLocation> locations,
-                      IdableList<? extends DataCriterion> criteria) {
+                      IdableList<? extends DataLocation> locations) {
         mId = id;
 
         checkId(author);
         checkId(publishDate);
         checkId(subject);
         checkId(rating);
+        checkId(tags);
         checkId(comments);
         checkId(images);
         checkId(facts);
@@ -74,6 +78,7 @@ public class ReviewUser extends ReviewStatic {
         mSubject = subject;
 
         mRating = rating;
+        mTags = tags;
         mComments = comments;
         mImages = images;
         mFacts = facts;
@@ -113,6 +118,11 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
+    public IdableList<? extends DataTag> getTags() {
+        return mTags;
+    }
+
+    @Override
     public IdableList<? extends DataCriterion> getCriteria() {
         return mCriteria;
     }
@@ -136,7 +146,10 @@ public class ReviewUser extends ReviewStatic {
     public DataImage getCover() {
         DataImage cover = new DatumImage(mId);
         for (DataImage image : getImages()) {
-            if (image.isCover()) cover = image;
+            if (image.isCover()) {
+                cover = image;
+                break;
+            }
         }
 
         return cover;
@@ -159,9 +172,10 @@ public class ReviewUser extends ReviewStatic {
         if (!mPublishDate.equals(that.mPublishDate)) return false;
         if (!mSubject.equals(that.mSubject)) return false;
         if (!mRating.equals(that.mRating)) return false;
-        if (!mCriteria.equals(that.mCriteria)) return false;
+        if (!mTags.equals(that.mTags)) return false;
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
+        if (!mCriteria.equals(that.mCriteria)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
         return mLocations.equals(that.mLocations);
 
@@ -174,9 +188,10 @@ public class ReviewUser extends ReviewStatic {
         result = 31 * result + mPublishDate.hashCode();
         result = 31 * result + mSubject.hashCode();
         result = 31 * result + mRating.hashCode();
-        result = 31 * result + mCriteria.hashCode();
+        result = 31 * result + mTags.hashCode();
         result = 31 * result + mComments.hashCode();
         result = 31 * result + mImages.hashCode();
+        result = 31 * result + mCriteria.hashCode();
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
         return result;

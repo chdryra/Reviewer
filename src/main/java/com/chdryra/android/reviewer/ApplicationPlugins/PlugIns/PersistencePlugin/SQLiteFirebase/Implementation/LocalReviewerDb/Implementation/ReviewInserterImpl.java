@@ -10,19 +10,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewInserter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewInserter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -47,8 +42,7 @@ public class ReviewInserterImpl implements ReviewInserter {
         addToTable(review.getFacts(), db.getFactsTable(), transactor, true);
         addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
         addToTable(review.getImages(), db.getImagesTable(), transactor, true);
-        addToTagsTable(tagsManager.getTags(review.getReviewId().toString()), db.getTagsTable(), transactor);
-        //addToAuthorsTableIfNecessary(review.getAuthorId(), db.getAuthorsTable(), transactor);
+        addToTable(review.getTags(), db.getTagsTable(), transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(T data,
@@ -65,22 +59,6 @@ public class ReviewInserterImpl implements ReviewInserter {
             DbRow row = indexed ? mRowFactory.newRow(table.getRowClass(), datum, i++) :
                     mRowFactory.newRow(table.getRowClass(), datum);
             insertIntoTable(row, table, transactor);
-        }
-    }
-
-    private void addToAuthorsTableIfNecessary(NamedAuthor author,
-                                              DbTable<RowAuthor> table,
-                                              TableTransactor transactor) {
-        transactor.insertOrReplaceRow(mRowFactory.newRow(table.getRowClass(), author), table);
-//        String userId = author.getAuthorId().toString();
-//        if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.AUTHOR_ID.getName()), table)) {
-//            insertIntoTable(mRowFactory.newRow(table.getRowClass(), author), table, transactor);
-//        }
-    }
-
-    private void addToTagsTable(ItemTagCollection tags, DbTable<RowTag> table, TableTransactor transactor) {
-        for (ItemTag tag : tags) {
-            transactor.insertOrReplaceRow(mRowFactory.newRow(table.getRowClass(), tag), table);
         }
     }
 

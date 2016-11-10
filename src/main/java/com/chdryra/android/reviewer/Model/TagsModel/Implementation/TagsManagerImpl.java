@@ -57,11 +57,6 @@ public class TagsManagerImpl implements TagsManager {
     }
 
     @Override
-    public ItemTagCollection getTags() {
-        return new ItemTagList(mTags);
-    }
-
-    @Override
     public ItemTagCollection getTags(String id) {
         ItemTagList tags = new ItemTagList();
         for (ItemTag tag : mTags) {

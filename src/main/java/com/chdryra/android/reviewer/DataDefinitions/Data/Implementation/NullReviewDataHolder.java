@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterio
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -54,6 +55,11 @@ public class NullReviewDataHolder implements ReviewDataHolder {
     @Override
     public int getRatingWeight() {
         return 0;
+    }
+
+    @Override
+    public Iterable<? extends DataTag> getTags() {
+        return new ArrayList<>();
     }
 
     @Override

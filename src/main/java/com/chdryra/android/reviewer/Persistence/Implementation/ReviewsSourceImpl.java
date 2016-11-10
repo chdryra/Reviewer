@@ -15,11 +15,6 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
@@ -87,7 +82,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReviewNode getMetaReview(final VerboseDataReview datum, final String subject) {
+    public ReviewNode asMetaReview(final VerboseDataReview datum, final String subject) {
         if (!datum.isCollection()) {
             IdableCollection<VerboseDataReview> data = new IdableDataCollection<>();
             data.add(datum);
@@ -173,10 +168,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @NonNull
     private NodeAsync newAsyncNode() {
-        Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f,
-                new ArrayList<DataCriterion>(), new ArrayList<DataComment>(),
-                new ArrayList<DataImage>(), new ArrayList<DataFact>(),
-                new ArrayList<DataLocation>(), true);
+        Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f);
 
         ReviewReference reference = mReviewsFactory.asReference(fetching, getTagsManager());
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);

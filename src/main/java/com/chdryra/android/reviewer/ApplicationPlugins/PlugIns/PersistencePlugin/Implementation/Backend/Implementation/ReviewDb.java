@@ -8,11 +8,13 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class ReviewDb {
         return 4 + Rating.size() + 6;
     }
 
-    public ReviewDb(Review review, List<String> reviewTags) {
+    public ReviewDb(Review review) {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
         rating = new Rating(review.getRating());
@@ -88,7 +90,10 @@ public class ReviewDb {
             locations.add(new Location(location));
         }
 
-        tags = reviewTags;
+        tags = new ArrayList<>();
+        for(DataTag tag : review.getTags()) {
+            tags.add(tag.getTag());
+        }
     }
 
     public void setReviewId(String reviewId) {

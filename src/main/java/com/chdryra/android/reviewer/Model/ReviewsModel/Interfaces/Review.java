@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -35,6 +36,8 @@ public interface Review extends DataReviewInfo {
     DataDate getPublishDate();
 
     DataImage getCover();
+
+    IdableList<? extends DataTag> getTags();
 
     IdableList<? extends DataCriterion> getCriteria();
 

@@ -49,6 +49,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FbReviews mStructure;
     private final FactoryFbReviewReference mReferencer;
+    private final TagsManager mTagsManager;
     private final Map<String, ChildEventListener> mSubscribers;
 
     protected abstract Firebase getAggregatesDb(ReviewListEntry entry);
@@ -58,16 +59,18 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     FbReferencesRepositoryBasic(Firebase dataBase,
                                 FbReviews structure,
                                 SnapshotConverter<ReviewListEntry> entryConverter,
-                                FactoryFbReviewReference referencer) {
+                                FactoryFbReviewReference referencer,
+                                TagsManager tagsManager) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
         mSubscribers = new HashMap<>();
         mReferencer = referencer;
+        mTagsManager = tagsManager;
     }
 
     public TagsManager getTagsManager() {
-        return mReferencer.getTagsManager();
+        return mTagsManager;
     }
 
     protected Query getQuery(Firebase entriesDb) {

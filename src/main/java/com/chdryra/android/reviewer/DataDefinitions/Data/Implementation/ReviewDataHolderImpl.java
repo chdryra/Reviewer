@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterio
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -30,6 +31,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     private final String mSubject;
     private final float mRating;
     private final int mRatingWeight;
+    private final Iterable<? extends DataTag> mTags;
     private final Iterable<? extends DataComment> mComments;
     private final Iterable<? extends DataImage> mImages;
     private final Iterable<? extends DataFact> mFacts;
@@ -38,6 +40,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
 
     public ReviewDataHolderImpl(ReviewId id, AuthorId authorId, DateTime publishDate,
                                 String subject, float rating, int ratingWeight,
+                                Iterable<? extends DataTag> tags,
                                 Iterable<? extends DataComment> comments,
                                 Iterable<? extends DataImage> images,
                                 Iterable<? extends DataFact> facts,
@@ -49,6 +52,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
         mSubject = subject;
         mRating = rating;
         mRatingWeight = ratingWeight;
+        mTags = tags;
         mComments = comments;
         mImages = images;
         mFacts = facts;
@@ -84,6 +88,11 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     @Override
     public int getRatingWeight() {
         return mRatingWeight;
+    }
+
+    @Override
+    public Iterable<? extends DataTag> getTags() {
+        return mTags;
     }
 
     @Override

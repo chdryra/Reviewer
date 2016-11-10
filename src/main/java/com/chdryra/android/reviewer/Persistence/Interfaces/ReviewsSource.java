@@ -24,7 +24,7 @@ public interface ReviewsSource extends ReviewsRepository {
 
     ReviewNode getMetaReview(AuthorId id);
 
-    ReviewNode getMetaReview(VerboseDataReview datum, String subject);
+    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     ReviewNode getMetaReview(IdableCollection<?> data, String subject);
 }

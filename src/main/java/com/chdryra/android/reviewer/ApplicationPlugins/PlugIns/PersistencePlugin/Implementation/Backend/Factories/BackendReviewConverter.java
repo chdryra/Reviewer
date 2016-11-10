@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
@@ -27,7 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumFac
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.NullReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -36,12 +37,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterio
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -55,38 +56,18 @@ public class BackendReviewConverter {
     private static final ReviewDataHolder NULL_REVIEW = new NullReviewDataHolder();
     private final BackendValidator mValidator;
     private final ReviewMaker mMaker;
-    private final TagsManager mTagsManager;
 
-    public BackendReviewConverter(BackendValidator validator, ReviewMaker maker, TagsManager tagsManager) {
+    public BackendReviewConverter(BackendValidator validator, ReviewMaker maker) {
         mValidator = validator;
         mMaker = maker;
-        mTagsManager = tagsManager;
-    }
-
-    public TagsManager getTagsManager() {
-        return mTagsManager;
     }
 
     public ReviewDb convert(Review review) {
-        return new ReviewDb(review, mTagsManager.getTags(review.getReviewId().toString()).toStringArray());
+        return new ReviewDb(review);
     }
 
     public Review convert(ReviewDb reviewDb) {
-        ReviewDataHolder data = newReviewDataHolder(reviewDb, mTagsManager);
-        mTagsManager.tagItem(reviewDb.getReviewId(), new ArrayList<>(reviewDb.getTags()));
-        return mMaker.makeReview(data);
-    }
-
-    private ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
-        if(!mValidator.isValid(reviewDb)) return NULL_REVIEW;
-
-        ReviewDataHolder reviewDataHolder = toReviewDataHolder(reviewDb);
-        String reviewId = reviewDb.getReviewId();
-        for(String tag : reviewDb.getTags()) {
-            if(!tagsManager.tagsItem(reviewId, tag)) tagsManager.tagItem(reviewId, tag);
-        }
-
-        return reviewDataHolder;
+        return mMaker.makeReview(toReviewDataHolder(reviewDb));
     }
 
     public boolean isValid(ReviewDb review) {
@@ -94,6 +75,8 @@ public class BackendReviewConverter {
     }
 
     private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
+        if(!mValidator.isValid(review)) return NULL_REVIEW;
+
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
         AuthorId authorId = new AuthorIdParcelable(review.getAuthorId());
 
@@ -133,7 +116,12 @@ public class BackendReviewConverter {
                     new LatLng(latLng.getLatitude(), latLng.getLongitude()), location.getName()));
         }
 
+        ArrayList<DataTag> tags = new ArrayList<>();
+        for(String tag : review.getTags()) {
+            tags.add(new DatumTag(reviewId, tag));
+        }
+
         return new ReviewDataHolderImpl(reviewId, authorId, date, subject,rating, ratingWeight,
-                comments, images, facts, locations, criteria);
+                tags, comments, images, facts, locations, criteria);
     }
 }

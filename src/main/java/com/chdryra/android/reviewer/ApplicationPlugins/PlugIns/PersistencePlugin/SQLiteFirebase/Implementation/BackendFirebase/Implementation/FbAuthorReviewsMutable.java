@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
@@ -56,8 +57,9 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                                   SnapshotConverter<ReviewListEntry> entryConverter,
                                   BackendReviewConverter converter,
                                   BackendValidator validator,
-                                  FactoryFbReviewReference referencer) {
-        super(dataBase, structure, entryConverter, referencer);
+                                  FactoryFbReviewReference referencer,
+                                  TagsManager tagsManager) {
+        super(dataBase, structure, entryConverter, referencer, tagsManager);
         mConverter = converter;
         mValidator = validator;
     }

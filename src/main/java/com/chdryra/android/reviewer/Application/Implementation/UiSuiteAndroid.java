@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -103,10 +104,12 @@ public class UiSuiteAndroid implements UiSuite{
 
     @Override
     public ReviewView<?> newPublishView(ReviewEditor<?> editor,
-                                        ReviewPublisher publisher, SocialPlatformList platforms,
+                                        ReviewPublisher publisher,
+                                        TagsManager tagsManager,
+                                        SocialPlatformList platforms,
                                         PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
-        return mViewFactory.newPublishView(editor, publisher, platforms, authoriser, callback);
+        return mViewFactory.newPublishView(editor, publisher, tagsManager, platforms, authoriser, callback);
     }
 
     @Override

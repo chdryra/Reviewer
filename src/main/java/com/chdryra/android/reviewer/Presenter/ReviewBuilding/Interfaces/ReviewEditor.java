@@ -54,10 +54,6 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         }
     }
 
-    interface BuildListener {
-        void onReviewBuilt();
-    }
-
     interface ModeListener {
         void onEditMode(EditMode mode);
     }
@@ -81,10 +77,6 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     Review buildReview();
 
     EditMode getEditMode();
-
-    void registerListener(BuildListener listener);
-
-    void unregisterListener(BuildListener listener);
 
     void registerListener(ModeListener listener);
 

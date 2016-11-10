@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
@@ -46,14 +44,5 @@ public class GvTextList<T extends GvText> extends GvDataListParcelable<T> {
 
     <T2 extends GvTextList<T>> GvTextList(T2 data) {
         super(data);
-    }
-
-    public ArrayList<String> toStringArray() {
-        ArrayList<String> strings = new ArrayList<>();
-        for (T tag : this) {
-            strings.add(tag.getString());
-        }
-
-        return strings;
     }
 }

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEditor.BuildListener {
+public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite {
     private final FactoryReviewView mViewFactory;
     private ReviewEditor<?> mReviewEditor;
 
@@ -39,11 +39,6 @@ public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite, ReviewEdit
     @Override
     public ReviewEditor<?> getReviewEditor() {
         return mReviewEditor;
-    }
-
-    @Override
-    public void onReviewBuilt() {
-        discardReviewEditor();
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewSt
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -104,6 +105,7 @@ public class FactoryReviewView {
 
     public ReviewView<?> newPublishView(ReviewEditor<?> toPublish,
                                         ReviewPublisher publisher,
+                                        TagsManager tagsManager,
                                         SocialPlatformList platforms,
                                         PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
@@ -112,7 +114,7 @@ public class FactoryReviewView {
             list.add(new GvSocialPlatform(platform));
         }
 
-        PublishAction publishAction = new PublishAction(publisher, callback);
+        PublishAction publishAction = new PublishAction(publisher, tagsManager, callback);
         FactoryActionsPublish factory = new FactoryActionsPublish(toPublish, publishAction, list,
                 authoriser);
 

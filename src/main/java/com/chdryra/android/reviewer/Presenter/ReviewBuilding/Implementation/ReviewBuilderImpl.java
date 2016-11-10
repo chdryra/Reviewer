@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
@@ -26,7 +25,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.DataObservableDefault;
 
 import java.util.HashMap;
@@ -38,7 +36,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBuilder, DataObservable.DataObserver {
-    private final TagsManager mTagsManager;
     private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
     private final DataValidator mDataValidator;
@@ -48,11 +45,9 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     private float mRating;
     private boolean mIsAverage = false;
 
-    public ReviewBuilderImpl(TagsManager tagsManager,
-                             FactoryReviews reviewFactory,
+    public ReviewBuilderImpl(FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
                              DataValidator dataValidator) {
-        mTagsManager = tagsManager;
         mReviewFactory = reviewFactory;
         mDataValidator = dataValidator;
 
@@ -141,18 +136,14 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        Review review = mReviewFactory.createUserReview(getSubject(), getRating(),
+        return  mReviewFactory.createUserReview(getSubject(), getRating(),
+                getData(GvTag.TYPE),
                 getData(GvCriterion.TYPE),
                 getData(GvComment.TYPE),
                 getData(GvImage.TYPE),
                 getData(GvFact.TYPE),
                 getData(GvLocation.TYPE),
                 mIsAverage);
-
-        GvTagList tags = (GvTagList) getData(GvTag.TYPE);
-        mTagsManager.tagItem(review.getReviewId().toString(), tags.toStringArray());
-
-        return review;
     }
 
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {

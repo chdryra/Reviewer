@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
@@ -45,8 +46,9 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
                                FbReviewsStructure structure,
                                ConverterEntry entryConverter,
                                FactoryFbReviewReference referencer,
+                               TagsManager tagsManager,
                                FactoryAuthorsRepo authorsDbFactory) {
-        super(dataBase, structure, entryConverter, referencer);
+        super(dataBase, structure, entryConverter, referencer, tagsManager);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }

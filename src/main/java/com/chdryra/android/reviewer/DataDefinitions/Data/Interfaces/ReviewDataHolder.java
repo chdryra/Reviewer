@@ -28,6 +28,8 @@ public interface ReviewDataHolder {
 
     int getRatingWeight();
 
+    Iterable<? extends DataTag> getTags();
+
     Iterable<? extends DataComment> getComments();
 
     Iterable<? extends DataImage> getImages();

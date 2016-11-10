@@ -24,7 +24,5 @@ public interface TagsManager {
 
     void clearTags(String id);
 
-    ItemTagCollection getTags();
-
     ItemTagCollection getTags(String id);
 }

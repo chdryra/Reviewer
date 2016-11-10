@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
@@ -27,8 +28,16 @@ public class ReviewSummariser {
     public ReviewSummary summarise(Review review, TagsManager tagsManager) {
         return new ReviewSummary(review.getSubject().getSubject(),
                 review.getRating().getRating(), getHeadlines(review),
-                tagsManager.getTags(review.getReviewId().toString()).toStringArray(),
+                getTags(review),
                 getLocationNames(review));
+    }
+
+    private ArrayList<String> getTags(Review review) {
+        ArrayList<String> tags = new ArrayList<>();
+        for(DataTag tag : review.getTags()) {
+            tags.add(tag.getTag());
+        }
+        return tags;
     }
 
     private ArrayList<String> getHeadlines(Review review) {
