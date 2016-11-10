@@ -7,10 +7,15 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_preview"
+        android:icon="@drawable/ic_menu_view"
+        android:showAsAction="always|withText"
+        android:title="@string/menu_average_rating"/>
 
     <item
         android:id="@+id/menu_item_average_rating"
         android:icon="@drawable/ic_action_add_to_queue"
-        android:showAsAction="always|withText"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/menu_average_rating"/>
 </menu>

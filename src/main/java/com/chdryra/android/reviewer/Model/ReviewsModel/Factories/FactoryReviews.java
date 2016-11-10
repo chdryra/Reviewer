@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
@@ -48,6 +50,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -115,7 +118,17 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {
-        return new ReviewReferenceWrapper(review, manager, mReferenceFactory.getReferenceFactory());
+        ReviewId reviewId = review.getReviewId();
+        IdableList<DataTag> tags = new IdableDataList<>(reviewId);
+        for(ItemTag tag : manager.getTags(reviewId.toString())) {
+            tags.add(new DatumTag(reviewId, tag.getTag()));
+        }
+
+        return asReference(review, tags);
+    }
+
+    public ReviewReference asReference(Review review, IdableList<DataTag> tags) {
+        return new ReviewReferenceWrapper(review, tags, mReferenceFactory.getReferenceFactory());
     }
 
     @Override

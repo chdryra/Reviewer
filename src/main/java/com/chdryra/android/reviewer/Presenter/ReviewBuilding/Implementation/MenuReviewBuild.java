@@ -24,10 +24,12 @@ import com.chdryra.android.reviewer.R;
  */
 public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         extends MenuActionNone<GC> implements ReviewEditor.ModeListener{
+    private static final int MENU_PREVIEW_ID = R.id.menu_item_average_rating;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
+    private MenuActionItem<GC> mPreview;
     private MenuActionItem<GC> mAverageRating;
 
     public MenuReviewBuild(String title) {
@@ -37,6 +39,7 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
     @Override
     protected void addMenuItems() {
+        bindMenuActionItem(mPreview, MENU_PREVIEW_ID, false);
         bindMenuActionItem(mAverageRating, MENU_AVERAGE_ID, false);
     }
 

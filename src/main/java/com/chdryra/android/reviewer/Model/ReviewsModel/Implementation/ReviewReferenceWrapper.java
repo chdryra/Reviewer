@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -30,8 +28,6 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,14 +36,15 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  */
 public class ReviewReferenceWrapper extends WrapperItemReference<Review> implements ReviewReference {
     private final Review mReview;
-    private final TagsManager mTagsManager;
+    private final IdableList<DataTag> mTags;
     private final FactoryReference mReferenceFactory;
 
-    public ReviewReferenceWrapper(Review review, TagsManager tagsManager, FactoryReference
-            referenceFactory) {
+    public ReviewReferenceWrapper(Review review,
+                                  IdableList<DataTag> tags,
+                                  FactoryReference referenceFactory) {
         super(review);
         mReview = review;
-        mTagsManager = tagsManager;
+        mTags = tags;
         mReferenceFactory = referenceFactory;
     }
 
@@ -108,11 +105,7 @@ public class ReviewReferenceWrapper extends WrapperItemReference<Review> impleme
 
     @Override
     public RefDataList<DataTag> getTags() {
-        IdableList<DataTag> tags = new IdableDataList<>(getReviewId());
-        for(ItemTag tag : mTagsManager.getTags(getReviewId().toString())) {
-            tags.add(new DatumTag(getReviewId(), tag.getTag()));
-        }
-        return mReferenceFactory.newWrapper(tags);
+        return newWrapper(mTags);
     }
 
     private <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<? extends T> data) {

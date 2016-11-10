@@ -77,10 +77,6 @@ public class BackendReviewConverter {
         return mMaker.makeReview(data);
     }
 
-    public Review getNullReview() {
-        return mMaker.makeReview(NULL_REVIEW);
-    }
-
     private ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
         if(!mValidator.isValid(reviewDb)) return NULL_REVIEW;
 
