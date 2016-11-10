@@ -14,12 +14,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,14 +23,16 @@ import java.util.Arrays;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
-    private static final String SEPARATOR = ",";
+    private static final String SEPARATOR = ":";
 
+    private String mTagId;
+    private String mReviewId;
     private String mTag;
-    private String mReviews;
 
-    public RowTagImpl(ItemTag tag) {
+    public RowTagImpl(DataTag tag, int index) {
+        mReviewId = tag.getReviewId().toString();
+        mTagId = mReviewId + SEPARATOR + "t" + String.valueOf(index);
         mTag = tag.getTag();
-        mReviews = StringUtils.join(tag.getItemIds().toArray(), SEPARATOR);
     }
 
     //Via reflection
@@ -42,8 +40,14 @@ public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
     }
 
     public RowTagImpl(RowValues values) {
+        mTagId = values.getValue(TAG_ID.getName(), TAG_ID.getType());
+        mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
         mTag = values.getValue(TAG.getName(), TAG.getType());
-        mReviews = values.getValue(REVIEWS.getName(), REVIEWS.getType());
+    }
+
+    @Override
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override
@@ -52,36 +56,33 @@ public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
     }
 
     @Override
-    public ArrayList<String> getReviewIds() {
-        return new ArrayList<>(Arrays.asList(mReviews.split(SEPARATOR)));
-    }
-
-    @Override
     public String getRowId() {
-        return mTag;
+        return mTagId;
     }
 
     @Override
     public String getRowIdColumnName() {
-        return TAG.getName();
+        return TAG_ID.getName();
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(getRowId()) && validator.validateString(mReviews);
+        return validator.validateString(getRowId()) && validator.validateString(mTag);
     }
 
     @Override
     protected int size() {
-        return 2;
+        return 3;
     }
 
     @Override
     protected RowEntry<RowTag, ?> getEntry(int position) {
         if(position == 0) {
+            return new RowEntryImpl<>(RowTag.class, TAG_ID, mTagId);
+        } else if(position == 1) {
+            return new RowEntryImpl<>(RowTag.class, REVIEW_ID, mReviewId);
+        } else if(position == 2) {
             return new RowEntryImpl<>(RowTag.class, TAG, mTag);
-        } else if(position == 1){
-            return new RowEntryImpl<>(RowTag.class, REVIEWS, mReviews);
         } else {
             throw noElement();
         }
@@ -94,15 +95,17 @@ public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
 
         RowTagImpl that = (RowTagImpl) o;
 
-        if (mTag != null ? !mTag.equals(that.mTag) : that.mTag != null) return false;
-        return !(mReviews != null ? !mReviews.equals(that.mReviews) : that.mReviews != null);
+        if (!mTagId.equals(that.mTagId)) return false;
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        return mTag.equals(that.mTag);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mTag != null ? mTag.hashCode() : 0;
-        result = 31 * result + (mReviews != null ? mReviews.hashCode() : 0);
+        int result = mTagId.hashCode();
+        result = 31 * result + mReviewId.hashCode();
+        result = 31 * result + mTag.hashCode();
         return result;
     }
 }

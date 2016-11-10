@@ -10,25 +10,27 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowTag extends DbTableRow<RowTag> {
+public interface RowTag extends ReviewDataRow<RowTag>, DataTag {
+    ColumnInfo<String> TAG_ID = new ColumnInfo<>("tag_id", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<String> TAG = new ColumnInfo<>("tag", DbEntryType.TEXT);
-    ColumnInfo<String> REVIEWS = new ColumnInfo<>("reviews", DbEntryType.TEXT);
 
+    @Override
+    ReviewId getReviewId();
+
+    @Override
     String getTag();
-
-    ArrayList<String> getReviewIds();
 
     @Override
     String getRowId();
