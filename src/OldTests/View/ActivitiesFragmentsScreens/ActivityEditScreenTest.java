@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;

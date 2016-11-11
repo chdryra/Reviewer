@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 /**
@@ -20,5 +19,5 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 public interface SocialPublisher {
     String getPlatformName();
 
-    PublishResults publish(Review review, TagsManager tagsManager);
+    PublishResults publish(Review review);
 }

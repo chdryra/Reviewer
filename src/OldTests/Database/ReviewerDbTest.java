@@ -41,9 +41,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;

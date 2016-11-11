@@ -13,20 +13,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
@@ -46,9 +40,8 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
                                FbReviewsStructure structure,
                                ConverterEntry entryConverter,
                                FactoryFbReviewReference referencer,
-                               TagsManager tagsManager,
                                FactoryAuthorsRepo authorsDbFactory) {
-        super(dataBase, structure, entryConverter, referencer, tagsManager);
+        super(dataBase, structure, entryConverter, referencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }

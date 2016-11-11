@@ -41,8 +41,8 @@ public class FactoryReviewerDbContract {
 
     public ReviewerDbContract newContract() {
         TableAuthors authors = new TableAuthors(mColumnFactory);
-        TableTags tags = new TableTags(mColumnFactory);
         TableReviews reviews = new TableReviews(mColumnFactory, authors, mFkFactory);
+        TableTags tags = new TableTags(mColumnFactory, reviews, mFkFactory);
         TableCriteria criteria = new TableCriteria(mColumnFactory, reviews, mFkFactory);
         TableComments comments = new TableComments(mColumnFactory, reviews, mFkFactory);
         TableFacts facts = new TableFacts(mColumnFactory, reviews, mFkFactory);

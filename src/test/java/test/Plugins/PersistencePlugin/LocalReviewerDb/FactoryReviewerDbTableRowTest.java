@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 

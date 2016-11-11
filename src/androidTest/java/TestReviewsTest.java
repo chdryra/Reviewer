@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;

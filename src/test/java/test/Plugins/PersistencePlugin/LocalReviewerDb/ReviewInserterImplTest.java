@@ -63,10 +63,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagList;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.ItemTagList;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

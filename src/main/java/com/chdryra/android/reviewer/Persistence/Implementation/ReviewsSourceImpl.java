@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -54,11 +53,6 @@ public class ReviewsSourceImpl implements ReviewsSource {
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mReviewsFactory = reviewsFactory;
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mReviewsRepo.getTagsManager();
     }
 
     @Override
@@ -170,7 +164,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     private NodeAsync newAsyncNode() {
         Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f);
 
-        ReviewReference reference = mReviewsFactory.asReference(fetching, getTagsManager());
+        ReviewReference reference = mReviewsFactory.asReference(fetching);
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);
 
         return new NodeAsync(node);

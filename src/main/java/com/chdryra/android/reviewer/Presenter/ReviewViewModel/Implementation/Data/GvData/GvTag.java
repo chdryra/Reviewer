@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringPa
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
 
 /**

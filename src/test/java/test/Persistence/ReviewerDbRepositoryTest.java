@@ -25,11 +25,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;

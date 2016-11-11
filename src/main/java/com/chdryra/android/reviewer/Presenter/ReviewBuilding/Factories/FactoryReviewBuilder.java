@@ -16,16 +16,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewBuilderImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .ConverterGv;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -39,23 +36,21 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class FactoryReviewBuilder {
     private final ConverterGv mConverterGv;
-    private final TagsManager mTagsManager;
     private final FactoryReviews mFactoryReviews;
     private final DataValidator mValidator;
     private final FactoryDataBuilder mBuilderFactory;
 
     public FactoryReviewBuilder(ConverterGv converterGv,
-                                DataValidator validator, TagsManager tagsManager,
+                                DataValidator validator,
                                 FactoryReviews factoryReviews,
                                 FactoryDataBuilder builderfactory) {
         mConverterGv = converterGv;
-        mTagsManager = tagsManager;
         mFactoryReviews = factoryReviews;
         mValidator = validator;
         mBuilderFactory = builderfactory;
     }
 
-    public ReviewBuilder newBuilder(@Nullable Review template) {
+    ReviewBuilder newBuilder(@Nullable Review template) {
         ReviewBuilder builder = new ReviewBuilderImpl(mFactoryReviews, mBuilderFactory, mValidator);
 
         if (template != null) {

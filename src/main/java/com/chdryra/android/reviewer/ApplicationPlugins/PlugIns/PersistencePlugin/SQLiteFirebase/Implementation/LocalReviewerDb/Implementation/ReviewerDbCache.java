@@ -11,17 +11,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -31,15 +27,10 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 class ReviewerDbCache implements QueueCache.Cache<Review> {
-    private final ReviewerDb mDatabase;
-    private final TagsManager mTagsManager;
-    private final DbTable<RowReview> mTable;
-    private boolean mTagsLoaded = false;
+    private final ReviewerDb mDb;
 
-    public ReviewerDbCache(ReviewerDb database, TagsManager tagsManager) {
-        mDatabase = database;
-        mTagsManager = tagsManager;
-        mTable = mDatabase.getReviewsTable();
+    ReviewerDbCache(ReviewerDb db) {
+        mDb = db;
     }
 
     @Override
@@ -48,27 +39,27 @@ class ReviewerDbCache implements QueueCache.Cache<Review> {
             throw new IllegalArgumentException("Id must be ReviewId");
         }
 
-        TableTransactor db = mDatabase.beginWriteTransaction();
-        mDatabase.addReviewToDb(review, mTagsManager, db);
+        TableTransactor db = mDb.beginWriteTransaction();
+        mDb.addReviewToDb(review, db);
         getReview(id, db);
-        mDatabase.endTransaction(db);
+        mDb.endTransaction(db);
     }
 
     @Override
     public Review get(String id) {
-        TableTransactor transactor = mDatabase.beginReadTransaction();
+        TableTransactor transactor = mDb.beginReadTransaction();
         Review review = getReview(id, transactor);
-        mDatabase.endTransaction(transactor);
+        mDb.endTransaction(transactor);
 
         return review;
     }
 
     @Override
     public Review remove(String id) {
-        TableTransactor transactor = mDatabase.beginWriteTransaction();
+        TableTransactor transactor = mDb.beginWriteTransaction();
         Review review = getReview(id, transactor);
-        mDatabase.deleteReviewFromDb(new DatumReviewId(id), mTagsManager, transactor);
-        mDatabase.endTransaction(transactor);
+        mDb.deleteReviewFromDb(new DatumReviewId(id), transactor);
+        mDb.endTransaction(transactor);
 
         return review;
     }
@@ -77,8 +68,7 @@ class ReviewerDbCache implements QueueCache.Cache<Review> {
         RowEntry<RowReview, String> clause
                 = new RowEntryImpl<>(RowReview.class, RowReview.REVIEW_ID, id);
 
-        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
-        loadTagsIfNecessary(transactor);
+        Collection<Review> reviews = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause, transactor);
 
         Iterator<Review> iterator = reviews.iterator();
 
@@ -90,20 +80,5 @@ class ReviewerDbCache implements QueueCache.Cache<Review> {
         }
 
         return review;
-    }
-
-    private void loadTagsIfNecessary(TableTransactor transactor) {
-        if (mTagsLoaded) return;
-        TableRowList<RowTag> rows = mDatabase.loadTable(mDatabase.getTagsTable(), transactor);
-        for (RowTag row : rows) {
-            ArrayList<String> reviewIds = row.getReviewIds();
-            for (String reviewId : reviewIds) {
-                if (!mTagsManager.tagsItem(reviewId, row.getTag())) {
-                    mTagsManager.tagItem(reviewId, row.getTag());
-                }
-            }
-        }
-
-        mTagsLoaded = true;
     }
 }

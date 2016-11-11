@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;

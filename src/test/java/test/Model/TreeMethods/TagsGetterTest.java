@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TagsGetter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

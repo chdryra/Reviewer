@@ -12,9 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
 
 import java.util.ArrayList;
 
@@ -25,7 +23,7 @@ import java.util.ArrayList;
  */
 public class ReviewSummariser {
 
-    public ReviewSummary summarise(Review review, TagsManager tagsManager) {
+    public ReviewSummary summarise(Review review) {
         return new ReviewSummary(review.getSubject().getSubject(),
                 review.getRating().getRating(), getHeadlines(review),
                 getTags(review),

@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,9 +34,9 @@ public class FactoryReviewerDbCache implements FactoryPersistentCache {
     }
 
     @Override
-    public QueueCache.Cache<Review> newReviewsCache(TagsManager tagsManager, ReviewMaker recreater, DataValidator validator) {
+    public QueueCache.Cache<Review> newReviewsCache(ReviewMaker recreater, DataValidator validator) {
         String name = CACHE_NAME + mIndex++;
         ReviewerDb db = mDbFactory.newReviewerDb(name, CACHE_VER, recreater, validator);
-        return new ReviewerDbCache(db, tagsManager);
+        return new ReviewerDbCache(db);
     }
 }

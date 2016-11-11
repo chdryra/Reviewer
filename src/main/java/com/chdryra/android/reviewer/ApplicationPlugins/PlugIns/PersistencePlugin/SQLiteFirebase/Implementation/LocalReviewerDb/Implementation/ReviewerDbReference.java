@@ -13,17 +13,27 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -39,15 +49,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 
@@ -149,13 +157,13 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
 
     @Override
     public RefDataList<DataTag> getTags() {
-        //TODO need something more optimal and sophisticated.
-        ItemTagCollection tags = mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
-        IdableList<DataTag> list = new IdableDataList<>(getReviewId());
-        for(ItemTag tag : tags) {
-            list.add(new DatumTag(getReviewId(), tag.getTag()));
-        }
-        return mReferenceFactory.newStaticReference(list);
+        return newListReference(getDb().getTagsTable(), RowTag.REVIEW_ID,
+                new DbRefDataList.Converter<RowTag, DataTag>() {
+                    @Override
+                    public IdableList<DataTag> convert(IdableList<RowTag> data) {
+                        return newList(DataTag.class, data);
+                    }
+                });
     }
 
     private ReviewerDbReadable getDb() {
@@ -192,7 +200,7 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
         private final ReviewId mId;
         private final ReviewerDbRepository mRepo;
 
-        public ReviewDereferencer(ReviewId id, ReviewerDbRepository repo) {
+        private ReviewDereferencer(ReviewId id, ReviewerDbRepository repo) {
             mId = id;
             mRepo = repo;
         }

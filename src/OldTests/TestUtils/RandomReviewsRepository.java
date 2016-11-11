@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.
         .ReviewNodeRepository;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

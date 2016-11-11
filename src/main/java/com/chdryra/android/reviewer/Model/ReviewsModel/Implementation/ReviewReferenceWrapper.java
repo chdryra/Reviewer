@@ -36,15 +36,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  */
 public class ReviewReferenceWrapper extends WrapperItemReference<Review> implements ReviewReference {
     private final Review mReview;
-    private final IdableList<DataTag> mTags;
     private final FactoryReference mReferenceFactory;
 
     public ReviewReferenceWrapper(Review review,
-                                  IdableList<DataTag> tags,
                                   FactoryReference referenceFactory) {
         super(review);
         mReview = review;
-        mTags = tags;
         mReferenceFactory = referenceFactory;
     }
 
@@ -105,7 +102,7 @@ public class ReviewReferenceWrapper extends WrapperItemReference<Review> impleme
 
     @Override
     public RefDataList<DataTag> getTags() {
-        return newWrapper(mTags);
+        return newWrapper(mReview.getTags());
     }
 
     private <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<? extends T> data) {

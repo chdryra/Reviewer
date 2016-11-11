@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
@@ -44,9 +43,8 @@ public class FactoryReviewsRepository {
 
     public ReviewsRepository newCachedRepo(ReviewsRepository archive,
                                               ReviewsCache cache,
-                                              FactoryReviews reviewsFactory,
-                                              TagsManager tagsManager) {
-        return new ReviewsRepositoryCached<>(cache, archive, reviewsFactory, tagsManager);
+                                              FactoryReviews reviewsFactory) {
+        return new ReviewsRepositoryCached<>(cache, archive, reviewsFactory);
     }
 
     public ReviewsCache newCache() {

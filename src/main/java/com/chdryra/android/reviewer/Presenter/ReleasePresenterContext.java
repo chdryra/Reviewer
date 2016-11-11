@@ -127,10 +127,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                                 FactoryGvData dataFactory,
                                                 DataValidator validator) {
         FactoryReviewBuilder builder
-                = new FactoryReviewBuilder(converter,
-                validator,
-                modelContext.getTagsManager(),
-                modelContext.getReviewsFactory(),
+                = new FactoryReviewBuilder(converter, validator, modelContext.getReviewsFactory(),
                 new FactoryDataBuilder(dataFactory));
 
         //TODO make type safe

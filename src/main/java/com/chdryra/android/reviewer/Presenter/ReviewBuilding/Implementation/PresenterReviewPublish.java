@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -108,9 +107,8 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
             ReviewEditor<?> editor = app.getReviewBuilder().getReviewEditor();
             SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
-            TagsManager tagsManager = app.getRepository().getTagsManager();
 
-            ReviewView<?> reviewView = ui.newPublishView(editor, publisher, tagsManager, platforms,
+            ReviewView<?> reviewView = ui.newPublishView(editor, publisher, platforms,
                     presenter, presenter);
 
             presenter.setView(reviewView);

@@ -88,7 +88,7 @@ public class SocialPublishingService extends IntentService {
         }
 
         BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, batchListener());
-        publisher.publishReview(review, repo.getTagsManager());
+        publisher.publishReview(review);
     }
 
     private void broadcastPublishingStatus(double percentage, PublishResults results) {

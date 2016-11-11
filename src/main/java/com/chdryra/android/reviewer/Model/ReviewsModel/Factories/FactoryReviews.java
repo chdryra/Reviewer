@@ -11,9 +11,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
@@ -23,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumIma
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -36,11 +34,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
@@ -50,8 +50,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
@@ -118,18 +116,8 @@ public class FactoryReviews implements ReviewMaker {
                 new NodeTitler.UsersFeed(ownerName));
     }
 
-    public ReviewReference asReference(Review review, TagsManager manager) {
-        ReviewId reviewId = review.getReviewId();
-        IdableList<DataTag> tags = new IdableDataList<>(reviewId);
-        for(ItemTag tag : manager.getTags(reviewId.toString())) {
-            tags.add(new DatumTag(reviewId, tag.getTag()));
-        }
-
-        return asReference(review, tags);
-    }
-
-    public ReviewReference asReference(Review review, IdableList<DataTag> tags) {
-        return new ReviewReferenceWrapper(review, tags, mReferenceFactory.getReferenceFactory());
+    public ReviewReference asReference(Review review) {
+        return new ReviewReferenceWrapper(review, mReferenceFactory.getReferenceFactory());
     }
 
     @Override

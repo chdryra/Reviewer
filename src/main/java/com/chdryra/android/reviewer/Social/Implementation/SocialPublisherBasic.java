@@ -9,10 +9,9 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
@@ -40,16 +39,15 @@ public abstract class SocialPublisherBasic implements SocialPublisherAsync,
     }
 
     @Override
-    public PublishResults publish(Review review, TagsManager tagsManager) {
-        ReviewSummary summary = mSummariser.summarise(review, tagsManager);
+    public PublishResults publish(Review review) {
+        ReviewSummary summary = mSummariser.summarise(review);
         FormattedReview formatted = mFormatter.format(summary);
 
         return publish(formatted);
     }
 
     @Override
-    public void publishAsync(Review review, TagsManager tagsManager, SocialPublisherListener
-            listener) {
-        new AsyncSocialPublisher(this).publish(review, tagsManager, listener);
+    public void publishAsync(Review review, SocialPublisherListener listener) {
+        new AsyncSocialPublisher(this).publish(review, listener);
     }
 }

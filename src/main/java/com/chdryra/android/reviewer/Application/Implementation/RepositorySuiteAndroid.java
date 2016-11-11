@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories.FactoryReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -44,20 +43,17 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     private final FactoryReviewsRepository mRepoFactory;
     private final FactoryReviewDeleter mDeleterFactory;
     private final ReviewPublisher mPublisher;
-    private final TagsManager mManager;
 
     public RepositorySuiteAndroid(ReviewsSource reviewsRepo,
                                   AuthorsRepository authorsRepo,
                                   FactoryReviewsRepository repoFactory,
                                   FactoryReviewDeleter deleterFactory,
-                                  ReviewPublisher publisher,
-                                  TagsManager manager) {
+                                  ReviewPublisher publisher) {
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mRepoFactory = repoFactory;
         mDeleterFactory = deleterFactory;
         mPublisher = publisher;
-        mManager = manager;
     }
 
     @Override
@@ -82,7 +78,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
 
     @Override
     public ReviewDeleter newReviewDeleter(ReviewId id) {
-        return mDeleterFactory.newDeleter(id, mManager);
+        return mDeleterFactory.newDeleter(id);
     }
 
     @Override
@@ -93,11 +89,6 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     @Override
     public ReviewPublisher getReviewPublisher() {
         return mPublisher;
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mManager;
     }
 
     @NonNull

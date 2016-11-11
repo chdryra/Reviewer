@@ -21,17 +21,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -46,8 +41,7 @@ public class ReviewDeleterImpl implements ReviewDeleterDb {
     }
 
     @Override
-    public boolean deleteReviewFromDb(RowReview row, TagsManager tagsManager,
-                                      ReviewerDb db, TableTransactor transactor) {
+    public boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor) {
         String idString = row.getReviewId().toString();
 
         deleteFromTable(db.getImagesTable(),
@@ -60,24 +54,13 @@ public class ReviewDeleterImpl implements ReviewDeleterDb {
                 asClause(RowComment.class, RowComment.REVIEW_ID, idString), transactor);
         deleteFromTable(db.getCriteriaTable(),
                 asClause(RowCriterion.class, RowCriterion.REVIEW_ID, idString), transactor);
+        deleteFromTable(db.getTagsTable(),
+                asClause(RowTag.class, RowTag.REVIEW_ID, idString), transactor);
         deleteFromTable(db.getReviewsTable(),
                 asClause(RowReview.class, RowReview.REVIEW_ID, idString), transactor);
-        deleteTagsIfNecessary(db.getTagsTable(), idString, tagsManager, transactor);
         deleteAuthorIfNecessary(db, row, transactor);
 
         return true;
-    }
-
-    private void deleteTagsIfNecessary(DbTable<RowTag> tagsTable, String reviewId,
-                                       TagsManager tagsManager, TableTransactor transactor) {
-        ItemTagCollection tags = tagsManager.getTags(reviewId);
-        for (ItemTag tag : tags) {
-            if (tag.getNumberTagged() == 1) {
-                RowEntry<RowTag, String> tagClause
-                        = asClause(RowTag.class, RowTag.TAG, tag.getTag());
-                deleteFromTable(tagsTable, tagClause, transactor);
-            }
-        }
     }
 
     private void deleteAuthorIfNecessary(ReviewerDb db, RowReview row,

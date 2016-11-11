@@ -68,7 +68,7 @@ public class FactoryApplicationSuite {
 
         AuthenticationSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         LocationServicesSuiteAndroid location = newLocationServicesSuite(locationApi);
-        RepositorySuiteAndroid repo = newRepositorySuite(model, persistence, network);
+        RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         ReviewBuilderSuiteAndroid builder = newReviewBuilderSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(model, persistence, view, presenter, repo, builder);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
@@ -95,15 +95,13 @@ public class FactoryApplicationSuite {
         return new LocationServicesSuiteAndroid(services);
     }
 
-    private RepositorySuiteAndroid newRepositorySuite(ModelContext model,
-                                                      PersistenceContext persistence,
+    private RepositorySuiteAndroid newRepositorySuite(PersistenceContext persistence,
                                                       NetworkContext network) {
         return new RepositorySuiteAndroid(persistence.getReviewsRepository(),
                 persistence.getAuthorsRepository(),
                 persistence.getRepoFactory(),
                 network.getDeleterFactory(),
-                network.getPublisherFactory().newPublisher(persistence.getLocalRepository()),
-                model.getTagsManager());
+                network.getPublisherFactory().newPublisher(persistence.getLocalRepository()));
     }
 
     private SocialSuiteAndroid newSocialSuite(SocialContext social) {

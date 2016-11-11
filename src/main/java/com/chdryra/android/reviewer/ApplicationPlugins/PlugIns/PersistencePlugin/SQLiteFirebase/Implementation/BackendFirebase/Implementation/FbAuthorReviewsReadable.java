@@ -14,11 +14,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 
@@ -33,9 +30,8 @@ public class FbAuthorReviewsReadable extends FbReferencesRepositoryBasic {
     public FbAuthorReviewsReadable(Firebase dataBase,
                                    FbAuthorsReviews structure,
                                    SnapshotConverter<ReviewListEntry> entryConverter,
-                                   FactoryFbReviewReference referencer,
-                                   TagsManager tagsManager) {
-        super(dataBase, structure, entryConverter, referencer, tagsManager);
+                                   FactoryFbReviewReference referencer) {
+        super(dataBase, structure, entryConverter, referencer);
         mStructure = structure;
     }
 
@@ -62,9 +58,8 @@ public class FbAuthorReviewsReadable extends FbReferencesRepositoryBasic {
         public MostRecent(Firebase dataBase,
                           FbAuthorsReviews structure,
                           SnapshotConverter<ReviewListEntry> entryConverter,
-                          FactoryFbReviewReference referencer,
-                          TagsManager tagsManager) {
-            super(dataBase, structure, entryConverter, referencer, tagsManager);
+                          FactoryFbReviewReference referencer) {
+            super(dataBase, structure, entryConverter, referencer);
         }
 
         @Override

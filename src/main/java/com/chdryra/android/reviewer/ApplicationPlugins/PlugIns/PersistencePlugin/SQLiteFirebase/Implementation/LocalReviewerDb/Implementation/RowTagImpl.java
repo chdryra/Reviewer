@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -29,13 +30,13 @@ public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
     private String mReviewId;
     private String mTag;
 
+    //Via reflection
     public RowTagImpl(DataTag tag, int index) {
         mReviewId = tag.getReviewId().toString();
         mTagId = mReviewId + SEPARATOR + "t" + String.valueOf(index);
         mTag = tag.getTag();
     }
 
-    //Via reflection
     public RowTagImpl() {
     }
 
@@ -47,7 +48,7 @@ public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override

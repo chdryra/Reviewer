@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
@@ -61,8 +60,8 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener) {
-        mPublisher.publishAsync(review, tagsManager, listener);
+    public void publish(Review review, SocialPublisherListener listener) {
+        mPublisher.publishAsync(review, listener);
     }
 
     @Nullable

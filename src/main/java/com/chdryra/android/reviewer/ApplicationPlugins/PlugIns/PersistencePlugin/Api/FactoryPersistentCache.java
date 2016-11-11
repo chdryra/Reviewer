@@ -12,7 +12,6 @@ import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,5 +19,5 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryPersistentCache {
-    QueueCache.Cache<Review> newReviewsCache(TagsManager tagsManager, ReviewMaker recreater, DataValidator validator);
+    QueueCache.Cache<Review> newReviewsCache(ReviewMaker recreater, DataValidator validator);
 }

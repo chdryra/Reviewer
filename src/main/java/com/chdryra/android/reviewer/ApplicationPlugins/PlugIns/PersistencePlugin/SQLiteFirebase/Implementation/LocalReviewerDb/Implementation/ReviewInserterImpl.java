@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewInserter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,37 +32,33 @@ public class ReviewInserterImpl implements ReviewInserter {
 
     @Override
     public void addReviewToDb(Review review,
-                              TagsManager tagsManager,
                               ReviewerDb db,
                               TableTransactor transactor) {
         addToTable(review, db.getReviewsTable(), transactor);
-        addToTable(review.getCriteria(), db.getCriteriaTable(), transactor, true);
-        addToTable(review.getComments(), db.getCommentsTable(), transactor, true);
-        addToTable(review.getFacts(), db.getFactsTable(), transactor, true);
-        addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
-        addToTable(review.getImages(), db.getImagesTable(), transactor, true);
+        addToTable(review.getCriteria(), db.getCriteriaTable(), transactor);
+        addToTable(review.getComments(), db.getCommentsTable(), transactor);
+        addToTable(review.getFacts(), db.getFactsTable(), transactor);
+        addToTable(review.getLocations(), db.getLocationsTable(), transactor);
+        addToTable(review.getImages(), db.getImagesTable(), transactor);
         addToTable(review.getTags(), db.getTagsTable(), transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(T data,
                                                           DbTable<DbRow> table,
                                                           TableTransactor transactor) {
-        insertIntoTable(mRowFactory.newRow(table.getRowClass(), data), table, transactor);
+        insert(mRowFactory.newRow(table.getRowClass(), data), table, transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(Iterable<? extends T> data,
                             DbTable<DbRow> table,
-                            TableTransactor transactor, boolean indexed) {
+                            TableTransactor transactor) {
         int i = 1;
         for (T datum : data) {
-            DbRow row = indexed ? mRowFactory.newRow(table.getRowClass(), datum, i++) :
-                    mRowFactory.newRow(table.getRowClass(), datum);
-            insertIntoTable(row, table, transactor);
+            insert(mRowFactory.newRow(table.getRowClass(), datum, i++), table, transactor);
         }
     }
 
-    private <T extends DbTableRow> void insertIntoTable(T row, DbTable<T> table, TableTransactor
-            transactor) {
+    private <T extends DbTableRow> void insert(T row, DbTable<T> table, TableTransactor transactor) {
         transactor.insertRow(row, table);
     }
 }

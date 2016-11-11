@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
@@ -38,8 +37,7 @@ public class PublisherGoogle implements SocialPublisherAsync {
     }
 
     @Override
-    public void publishAsync(Review review, TagsManager tagsManager,
-                             final SocialPublisherListener listener) {
+    public void publishAsync(Review review, SocialPublisherListener listener) {
 
     }
 }

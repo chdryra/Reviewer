@@ -22,5 +22,4 @@ public interface LocationServicesSuite {
     LocationServicesApi getApi();
 
     LocationClient newLocationClient();
-
 }

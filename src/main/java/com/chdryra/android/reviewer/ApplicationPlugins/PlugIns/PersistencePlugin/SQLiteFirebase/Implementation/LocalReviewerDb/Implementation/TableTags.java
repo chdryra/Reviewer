@@ -9,8 +9,14 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryDbColumnDef;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +26,17 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public class TableTags extends ReviewerDbTableImpl<RowTag> {
     public static final String NAME = "Tags";
 
-    public TableTags(FactoryDbColumnDef columnFactory) {
+    public TableTags(FactoryDbColumnDef columnFactory,
+                     DbTable<? extends RowReview> reviewsTable,
+                     FactoryForeignKeyConstraint constraintFactory) {
         super(NAME, RowTag.class, columnFactory);
 
-        addPkColumn(RowTag.TAG);
-        addNotNullableColumn(RowTag.REVIEWS);
-    }
+        addPkColumn(RowTag.TAG_ID);
+        addNotNullableColumn(RowTag.REVIEW_ID);
+        addNotNullableColumn(RowTag.TAG);
 
+        ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
+        fkCols.add(getColumn(RowTag.REVIEW_ID.getName()));
+        addForeignKeyConstraint(constraintFactory.newConstraint(fkCols, reviewsTable));
+    }
 }

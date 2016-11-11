@@ -10,9 +10,7 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendDeleter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Implementation.ReviewDeleterImpl;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +24,7 @@ public class FactoryReviewDeleter {
         mBackendDeleter = backendDeleter;
     }
 
-    public ReviewDeleter newDeleter(ReviewId id, TagsManager tagsManager) {
-        return new ReviewDeleterImpl(mBackendDeleter.newDeleter(id), tagsManager);
+    public ReviewDeleter newDeleter(ReviewId id) {
+        return mBackendDeleter.newDeleter(id);
     }
 }

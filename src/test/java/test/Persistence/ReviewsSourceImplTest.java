@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNo
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;

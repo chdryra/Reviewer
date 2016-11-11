@@ -13,7 +13,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -28,15 +27,13 @@ public class ShareCommand extends Command {
     private final RepositorySuite mRepo;
     private final CurrentScreen mScreen;
     private final SocialPublisher mSharer;
-    private final TagsManager mTagsManager;
 
     public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
-                        SocialPublisher sharer, TagsManager tagsManager) {
+                        SocialPublisher sharer) {
         mRepo = repo;
         mScreen = screen;
         mReviewId = reviewId;
         mSharer = sharer;
-        mTagsManager = tagsManager;
     }
 
     @Override
@@ -50,7 +47,7 @@ public class ShareCommand extends Command {
             public void onRepositoryCallback(RepositoryResult result) {
                 Review review = result.getReview();
                 if (!result.isError() && review != null) {
-                    mSharer.publish(review, mTagsManager);
+                    mSharer.publish(review);
                 } else {
                     String message = Strings.Toasts.REVIEW_NOT_FOUND;
                     if (result.isError()) message += ": " + result.getMessage();

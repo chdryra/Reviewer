@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
@@ -31,25 +30,22 @@ class AsyncSocialPublisher {
         return mPublisher.getPlatformName();
     }
 
-    public void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener) {
-        new PublisherTask(review, tagsManager, listener).execute();
+    public void publish(Review review, SocialPublisherListener listener) {
+        new PublisherTask(review, listener).execute();
     }
 
     private class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
         private final Review mReview;
-        private final TagsManager mTagsManager;
         private final SocialPublisherListener mListener;
 
-        public PublisherTask(Review review, TagsManager tagsManager,
-                             SocialPublisherListener listener) {
+        public PublisherTask(Review review, SocialPublisherListener listener) {
             mReview = review;
-            mTagsManager = tagsManager;
             mListener = listener;
         }
 
         @Override
         protected PublishResults doInBackground(Void... params) {
-            return mPublisher.publish(mReview, mTagsManager);
+            return mPublisher.publish(mReview);
         }
 
         @Override

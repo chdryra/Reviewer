@@ -16,19 +16,16 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
@@ -50,26 +47,20 @@ import java.util.List;
  */
 public class ReviewerDbRepository implements LocalRepository {
     private final ReviewerDb mDatabase;
-    private final TagsManager mTagsManager;
-    private final DbTable<RowReview> mTable;
     private final List<ReviewsSubscriber> mSubscribers;
     private final FactoryDbReference mReferenceFactory;
     private final FactoryReviewsRepository mRepoFactory;
-    private boolean mTagsLoaded = false;
 
     public ReviewerDbRepository(ReviewerDb database,
-                                TagsManager tagsManager,
                                 FactoryReviewsRepository repoFactory,
                                 FactoryDbReference referenceFactory) {
         mDatabase = database;
-        mTagsManager = tagsManager;
         mRepoFactory = repoFactory;
         mReferenceFactory = referenceFactory;
-        mTable = mDatabase.getReviewsTable();
         mSubscribers = new ArrayList<>();
     }
 
-    public ReviewerDbReadable getReadableDatabase() {
+    ReviewerDbReadable getReadableDatabase() {
         return mDatabase;
     }
 
@@ -85,15 +76,9 @@ public class ReviewerDbRepository implements LocalRepository {
     }
 
     @Override
-    public TagsManager getTagsManager() {
-        if(!mTagsLoaded) loadTagsIfNecessary();
-        return mTagsManager;
-    }
-
-    @Override
     public void addReview(Review review, MutableRepoCallback callback) {
         TableTransactor db = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
+        boolean success = mDatabase.addReviewToDb(review, db);
         mDatabase.endTransaction(db);
 
         String subject = review.getSubject().getSubject();
@@ -169,7 +154,7 @@ public class ReviewerDbRepository implements LocalRepository {
         boolean success = false;
         if (iterator.hasNext()) {
             review = iterator.next();
-            success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
+            success = mDatabase.deleteReviewFromDb(reviewId, transactor);
         }
         mDatabase.endTransaction(transactor);
 
@@ -198,7 +183,6 @@ public class ReviewerDbRepository implements LocalRepository {
     private Collection<Review> getAllReviews() {
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviews(transactor);
-        loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
         return reviews;
     }
@@ -209,14 +193,14 @@ public class ReviewerDbRepository implements LocalRepository {
                 = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
 
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
-        loadTagsIfNecessary(transactor);
+        Collection<Review> reviews
+                = mDatabase.loadReviewsWhere(mDatabase.getReviewsTable(), clause, transactor);
         mDatabase.endTransaction(transactor);
 
         return reviews.iterator();
     }
 
-    public void getReferences(ReviewsSubscriber subscriber, @Nullable AuthorId authorId) {
+    void getReferences(ReviewsSubscriber subscriber, @Nullable AuthorId authorId) {
         RowEntry<RowReview, String> authorClause = authorId == null ? null :
                 asClause(RowReview.class, RowReview.AUTHOR_ID, authorId.toString());
 
@@ -240,26 +224,6 @@ public class ReviewerDbRepository implements LocalRepository {
         return mReferenceFactory.newReference(review, this);
     }
 
-    private void loadTagsIfNecessary() {
-        TableTransactor transactor = mDatabase.beginReadTransaction();
-        loadTagsIfNecessary(transactor);
-        mDatabase.endTransaction(transactor);
-    }
-
-    private void loadTagsIfNecessary(TableTransactor transactor) {
-        if (mTagsLoaded) return;
-        TableRowList<RowTag> rows = mDatabase.loadTable(mDatabase.getTagsTable(), transactor);
-        for (RowTag row : rows) {
-            ArrayList<String> reviewIds = row.getReviewIds();
-            for (String reviewId : reviewIds) {
-                if (!mTagsManager.tagsItem(reviewId, row.getTag())) {
-                    mTagsManager.tagItem(reviewId, row.getTag());
-                }
-            }
-        }
-
-        mTagsLoaded = true;
-    }
 
     private void notifyOnAddReview(Review review) {
         for (ReviewsSubscriber subscriber : mSubscribers) {

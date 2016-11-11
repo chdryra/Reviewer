@@ -33,12 +33,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceAuthored;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;

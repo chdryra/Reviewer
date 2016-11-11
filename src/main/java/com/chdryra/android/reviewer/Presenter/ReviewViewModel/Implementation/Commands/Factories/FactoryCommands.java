@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -47,8 +46,8 @@ public class FactoryCommands {
     }
 
     public Command newShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
-                                   SocialPublisher publisher, TagsManager tagsManager) {
-        return new ShareCommand(reviewId, repo, screen, publisher, tagsManager);
+                                   SocialPublisher publisher) {
+        return new ShareCommand(reviewId, repo, screen, publisher);
     }
 
     public Command newDeleteCommand(ReviewDeleter deleter, CurrentScreen screen) {

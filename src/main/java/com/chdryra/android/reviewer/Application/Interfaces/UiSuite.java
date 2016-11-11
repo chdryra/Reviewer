@@ -10,15 +10,12 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -45,7 +42,6 @@ public interface UiSuite {
 
     ReviewView<?> newPublishView(ReviewEditor<?> editor,
                                  ReviewPublisher publisher,
-                                 TagsManager tagsManager,
                                  SocialPlatformList platforms,
                                  PlatformAuthoriser authoriser,
                                  PublishAction.PublishCallback callback);

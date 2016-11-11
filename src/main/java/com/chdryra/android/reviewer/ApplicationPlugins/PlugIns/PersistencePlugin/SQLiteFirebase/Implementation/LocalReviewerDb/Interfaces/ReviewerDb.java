@@ -10,14 +10,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 import java.util.Collection;
 
@@ -27,9 +26,9 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewerDb extends ReviewerDbReadable {
-    boolean addReviewToDb(Review review, TagsManager tagsManager, TableTransactor transactor);
+    boolean addReviewToDb(Review review, TableTransactor transactor);
 
-    boolean deleteReviewFromDb(ReviewId id, TagsManager tagsManager, TableTransactor transactor);
+    boolean deleteReviewFromDb(ReviewId id, TableTransactor transactor);
 
     TableTransactor beginWriteTransaction();
 

@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
@@ -46,9 +45,8 @@ public class PublisherFacebook implements SocialPublisherAsync {
     }
 
     @Override
-    public void publishAsync(Review review, TagsManager tagsManager,
-                             final SocialPublisherListener listener) {
-        ReviewSummary summary = mSummariser.summarise(review, tagsManager);
+    public void publishAsync(Review review, SocialPublisherListener listener) {
+        ReviewSummary summary = mSummariser.summarise(review);
         FormattedReview formatted = mFormatter.format(summary);
 
         ShareLinkContent content = new ShareLinkContent.Builder()

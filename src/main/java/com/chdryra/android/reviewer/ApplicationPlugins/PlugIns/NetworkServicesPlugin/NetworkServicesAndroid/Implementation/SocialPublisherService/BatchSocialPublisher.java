@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
@@ -40,11 +39,11 @@ public class BatchSocialPublisher implements SocialPublisherListener {
         mPlatforms = platforms;
     }
 
-    public void publishReview(Review review, TagsManager tagsManager) {
+    public void publishReview(Review review) {
         if (mPlatforms.size() == 0) return;
         mResults = new ArrayList<>();
         for (SocialPlatform<?> platform : mPlatforms) {
-            platform.publish(review, tagsManager, this);
+            platform.publish(review, this);
         }
     }
 

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,8 +17,6 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository extends ReferencesRepository {
-    TagsManager getTagsManager();
-
     ReferencesRepository getLatestForAuthor(AuthorId authorId);
 
     ReferencesRepository getRepositoryForAuthor(AuthorId authorId);

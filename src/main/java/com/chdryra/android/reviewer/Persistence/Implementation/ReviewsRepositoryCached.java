@@ -13,7 +13,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
@@ -31,21 +30,13 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     private final ReviewsCache mCache;
     private final T mArchive;
     private final FactoryReviews mReviewsFactory;
-    private final TagsManager mTagsManager;
 
     public ReviewsRepositoryCached(ReviewsCache cache,
                                    T archive,
-                                   FactoryReviews reviewsFactory,
-                                   TagsManager tagsManager) {
+                                   FactoryReviews reviewsFactory) {
         mCache = cache;
         mArchive = archive;
         mReviewsFactory = reviewsFactory;
-        mTagsManager = tagsManager;
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mArchive.getTagsManager();
     }
 
     @Override
@@ -76,7 +67,7 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         if(mCache.contains(reviewId)) {
-            ReviewReference reference = mReviewsFactory.asReference(mCache.get(reviewId), mTagsManager);
+            ReviewReference reference = mReviewsFactory.asReference(mCache.get(reviewId));
             callback.onRepositoryCallback(new RepositoryResult(reference));
         } else {
             mArchive.getReference(reviewId, callback);

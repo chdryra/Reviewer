@@ -33,7 +33,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -136,26 +135,25 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public boolean addReviewToDb(Review review, TagsManager tagsManager,
-                                 TableTransactor transactor) {
+    public boolean addReviewToDb(Review review, TableTransactor transactor) {
         DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(RowReview.REVIEW_ID.getName());
         String reviewId = review.getReviewId().toString();
         if (transactor.isIdInTable(reviewId, reviewIdCol, getReviewsTable())) return false;
 
-        mReviewTransactor.addReviewToDb(review, tagsManager, this, transactor);
+        mReviewTransactor.addReviewToDb(review, this, transactor);
 
         return true;
     }
 
     @Override
-    public boolean deleteReviewFromDb(ReviewId reviewId, TagsManager tagsManager, TableTransactor
+    public boolean deleteReviewFromDb(ReviewId reviewId, TableTransactor
             transactor) {
         RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID,
                 reviewId.toString());
         RowReview row = getUniqueRowWhere(getReviewsTable(), clause, transactor);
         if (!row.hasData(mDataValidator)) return false;
 
-        mReviewTransactor.deleteReviewFromDb(row, tagsManager, this, transactor);
+        mReviewTransactor.deleteReviewFromDb(row, this, transactor);
 
         return true;
     }
@@ -221,19 +219,16 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    //TODO make type safe
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<RowReview, ?>>
     findReviewTableClauses(DbTable<DbRow> table, RowEntry<DbRow, Type> clause,
                            TableTransactor transactor) {
         HashSet<RowEntry<RowReview, ?>> reviewClauses;
-
+        //TODO make type safe
         if (table.equals(getReviewsTable())) {
             reviewClauses = new HashSet<>();
             reviewClauses.add((RowEntry<RowReview, ?>) clause);
         } else if (table.equals(getAuthorsTable())) {
             reviewClauses = resolveAsAuthorsConstraint((RowEntry<RowAuthor, ?>) clause, transactor);
-        } else if (table.equals(getTagsTable())) {
-            reviewClauses = resolveAsTagsConstraint((RowEntry<RowTag, ?>) clause, transactor);
         } else {
             reviewClauses = resolveAsDataConstraint(table, clause, transactor);
         }
@@ -257,24 +252,6 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsTagsConstraint(RowEntry<RowTag, Type>
-                                                                                       clause,
-                                                                           TableTransactor
-                                                                                   transactor) {
-        HashSet<String> reviewIds = new HashSet<>();
-        for (RowTag row : getRowsWhere(getTagsTable(), clause, transactor)) {
-            reviewIds.addAll(row.getReviewIds());
-        }
-
-        HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
-        for (String id : reviewIds) {
-            entries.add(asClause(RowReview.class, RowReview.REVIEW_ID, id));
-        }
-
-        return entries;
-    }
-
-    @NonNull
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<RowReview, ?>> resolveAsDataConstraint
             (DbTable<DbRow> table, RowEntry<DbRow, Type> clause, TableTransactor transactor) {
         HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
@@ -288,6 +265,8 @@ public class ReviewerDbImpl implements ReviewerDb {
             reviewIdCol = RowImage.REVIEW_ID;
         } else if (table.equals(getLocationsTable())) {
             reviewIdCol = RowLocation.REVIEW_ID;
+        } else if (table.equals(getTagsTable())) {
+            reviewIdCol = RowTag.REVIEW_ID;
         } else {
             return entries;
         }
