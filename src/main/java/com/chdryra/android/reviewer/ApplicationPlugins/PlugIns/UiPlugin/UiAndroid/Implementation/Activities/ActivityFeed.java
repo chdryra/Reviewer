@@ -42,7 +42,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     protected void onResume() {
-        AppInstanceAndroid.getInstance(this).getReviewBuilder().discardReviewEditor();
+        AppInstanceAndroid.getInstance(this).getReviewEditor().discardEditor();
         super.onResume();
     }
 

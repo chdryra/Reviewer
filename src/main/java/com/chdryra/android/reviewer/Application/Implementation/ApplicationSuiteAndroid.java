@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
@@ -40,7 +40,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private final LocationServicesSuiteAndroid mLocation;
     private final UiSuiteAndroid mUi;
     private final RepositorySuiteAndroid mRepository;
-    private final ReviewBuilderSuiteAndroid mBuilder;
+    private final ReviewEditorSuiteAndroid mBuilder;
     private final SocialSuiteAndroid mSocial;
 
     private Activity mActivity;
@@ -49,7 +49,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
                                    LocationServicesSuiteAndroid location,
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
-                                   ReviewBuilderSuiteAndroid builder,
+                                   ReviewEditorSuiteAndroid builder,
                                    SocialSuiteAndroid social) {
         mAuth = auth;
         mLocation = location;
@@ -104,7 +104,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Override
-    public ReviewBuilderSuite getReviewBuilder() {
+    public ReviewEditorSuite getReviewEditor() {
         return mBuilder;
     }
 

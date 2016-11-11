@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -24,10 +24,10 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
-    private final ReviewBuilderSuite mBuilder;
+    private final ReviewEditorSuite mBuilder;
     private final RepositorySuite mRepo;
 
-    public EditUiLauncher(LaunchableConfig ui, ReviewBuilderSuite builder, RepositorySuite repo) {
+    public EditUiLauncher(LaunchableConfig ui, ReviewEditorSuite builder, RepositorySuite repo) {
         super(ui);
         mBuilder = builder;
         mRepo = repo;
@@ -37,17 +37,21 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
         if (template == null) {
             super.launch(null);
         } else {
-            mRepo.getReview(template, new RepositoryCallback() {
-                @Override
-                public void onRepositoryCallback(RepositoryResult result) {
-                    EditUiLauncher.super.launch(result.getReview());
-                }
-            });
+            fetchAndLaunch(template);
         }
+    }
+
+    private void fetchAndLaunch(ReviewId template) {
+        mRepo.getReview(template, new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                EditUiLauncher.super.launch(result.getReview());
+            }
+        });
     }
 
     @Override
     protected void onPrelaunch() {
-        mBuilder.discardReviewEditor();
+        mBuilder.discardEditor();
     }
 }

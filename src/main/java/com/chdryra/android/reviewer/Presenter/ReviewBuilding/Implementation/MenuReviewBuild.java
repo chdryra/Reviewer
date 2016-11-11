@@ -63,7 +63,7 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
     @Override
     protected void doUpSelected() {
-        getReviewView().getApp().getReviewBuilder().discardReviewEditor();
+        getReviewView().getApp().getReviewEditor().discardEditor();
         super.doUpSelected();
     }
 

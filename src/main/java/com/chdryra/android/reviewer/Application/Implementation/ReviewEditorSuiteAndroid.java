@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -22,27 +22,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewBuilderSuiteAndroid implements ReviewBuilderSuite {
+public class ReviewEditorSuiteAndroid implements ReviewEditorSuite {
     private final FactoryReviewView mViewFactory;
     private ReviewEditor<?> mReviewEditor;
 
-    public ReviewBuilderSuiteAndroid(FactoryReviewView viewFactory) {
+    public ReviewEditorSuiteAndroid(FactoryReviewView viewFactory) {
         mViewFactory = viewFactory;
     }
 
     @Override
-    public ReviewEditor<?> createReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
+    public ReviewEditor<?> createEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
         mReviewEditor = mViewFactory.newEditor(editMode, client, template);
         return mReviewEditor;
     }
 
     @Override
-    public ReviewEditor<?> getReviewEditor() {
+    public ReviewEditor<?> getEditor() {
         return mReviewEditor;
     }
 
     @Override
-    public void discardReviewEditor() {
+    public void discardEditor() {
         mReviewEditor = null;
     }
 }

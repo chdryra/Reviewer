@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -35,7 +35,7 @@ public class FactoryUiLauncher {
     }
 
     public UiLauncherAndroid newLauncher(RepositorySuite repository,
-                                         ReviewBuilderSuite builder,
+                                         ReviewEditorSuite builder,
                                          FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
                                          LaunchableConfig buildConfig,

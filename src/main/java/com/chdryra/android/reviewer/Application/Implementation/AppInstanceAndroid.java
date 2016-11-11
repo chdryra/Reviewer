@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
@@ -84,8 +84,8 @@ public class AppInstanceAndroid implements ApplicationInstance {
     }
 
     @Override
-    public ReviewBuilderSuite getReviewBuilder() {
-        return mApp.getReviewBuilder();
+    public ReviewEditorSuite getReviewEditor() {
+        return mApp.getReviewEditor();
     }
 
     @Override

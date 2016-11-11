@@ -16,9 +16,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -116,8 +114,7 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Aler
         }
 
         public PresenterReviewDataEdit<T> build(ApplicationInstance app) {
-            ReviewEditor<?> editor = app.getReviewBuilder().getReviewEditor();
-            mEditor = editor.newDataEditor(mDataType);
+            mEditor = app.getReviewEditor().getEditor().newDataEditor(mDataType);
             return new PresenterReviewDataEdit<>(mEditor);
         }
     }

@@ -15,12 +15,12 @@ import com.chdryra.android.reviewer.Application.Implementation.AuthenticationSui
 import com.chdryra.android.reviewer.Application.Implementation.InSessionStamper;
 import com.chdryra.android.reviewer.Application.Implementation.LocationServicesSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.ReviewBuilderSuiteAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.ReviewEditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UiSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
@@ -69,11 +69,11 @@ public class FactoryApplicationSuite {
         AuthenticationSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         LocationServicesSuiteAndroid location = newLocationServicesSuite(locationApi);
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
-        ReviewBuilderSuiteAndroid builder = newReviewBuilderSuite(presenter);
-        UiSuiteAndroid ui = newUiSuite(model, persistence, view, presenter, repo, builder);
+        ReviewEditorSuiteAndroid editor = newReviewEditorSuite(presenter);
+        UiSuiteAndroid ui = newUiSuite(model, persistence, view, presenter, repo, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
 
-        return new ApplicationSuiteAndroid(auth, location, ui, repo, builder, socialSuite);
+        return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite);
     }
 
     private AuthenticationSuiteAndroid newAuthenticationSuite(ModelContext model,
@@ -113,7 +113,7 @@ public class FactoryApplicationSuite {
                                       ViewContext view,
                                       PresenterContext presenter,
                                       RepositorySuite repo,
-                                      ReviewBuilderSuite builder) {
+                                      ReviewEditorSuite builder) {
         FactoryReviewView viewFactory = presenter.getReviewViewFactory();
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
@@ -124,7 +124,7 @@ public class FactoryApplicationSuite {
                 viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
     }
 
-    private ReviewBuilderSuiteAndroid newReviewBuilderSuite(PresenterContext context) {
-        return new ReviewBuilderSuiteAndroid(context.getReviewViewFactory());
+    private ReviewEditorSuiteAndroid newReviewEditorSuite(PresenterContext context) {
+        return new ReviewEditorSuiteAndroid(context.getReviewViewFactory());
     }
 }

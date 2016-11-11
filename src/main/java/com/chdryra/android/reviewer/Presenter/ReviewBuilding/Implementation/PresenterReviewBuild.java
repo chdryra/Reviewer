@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -52,10 +52,10 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
         }
 
         public PresenterReviewBuild<?> build(ApplicationInstance app) {
-            ReviewBuilderSuite builder = app.getReviewBuilder();
-            ReviewEditor<?> editor = builder.getReviewEditor();
+            ReviewEditorSuite suite = app.getReviewEditor();
+            ReviewEditor<?> editor = suite.getEditor();
             if (editor == null) {
-                editor = builder.createReviewEditor(Settings.BuildReview.DEFAULT_EDIT_MODE,
+                editor = suite.createEditor(Settings.BuildReview.DEFAULT_EDIT_MODE,
                         app.getLocationServices().newLocationClient(), mTemplate);
             }
 

@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReviewBuilderSuite {
-    String QUICK_ADD = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickAdd");
-    String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewBuilderSuite.class, "QuickReview");
+public interface ReviewEditorSuite {
+    String QUICK_ADD = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickAdd");
+    String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickReview");
 
-    ReviewEditor<?> createReviewEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+    ReviewEditor<?> createEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
 
-    ReviewEditor<?> getReviewEditor();
+    ReviewEditor<?> getEditor();
 
-    void discardReviewEditor();
+    void discardEditor();
 }

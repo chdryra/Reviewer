@@ -18,7 +18,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewBuilderSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -150,9 +150,9 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     @NonNull
     private <T extends GvDataParcelable> Bundle packData(@Nullable T datum, boolean packLatLng) {
         Bundle args = new Bundle();
-        args.putBoolean(ReviewBuilderSuite.QUICK_ADD, true);
+        args.putBoolean(ReviewEditorSuite.QUICK_ADD, true);
 
-        if(isQuickReview()) args.putBoolean(ReviewBuilderSuite.QUICK_REVIEW, true);
+        if(isQuickReview()) args.putBoolean(ReviewEditorSuite.QUICK_REVIEW, true);
         if(datum != null) {
             ParcelablePacker<T> packer = new ParcelablePacker<>();
             packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, datum, args);
