@@ -32,11 +32,13 @@ import java.util.Comparator;
 public class NodePagerAdapter extends FragmentStatePagerAdapter implements ReviewNode.NodeObserver {
     private static final Comparator<ReviewNode> RECENT_FIRST = new NodeComparator();
     private boolean mIsSorted = false;
-    private ReviewNode mNode;
+    private final ReviewNode mNode;
+    private final boolean mIsClickable;
 
-    public NodePagerAdapter(ReviewNode node, FragmentManager manager) {
+    public NodePagerAdapter(ReviewNode node, FragmentManager manager, boolean isClickable) {
         super(manager);
         mNode = node;
+        mIsClickable = isClickable;
         mNode.registerObserver(this);
     }
 
@@ -55,7 +57,7 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
         }
         int size = nodes.size();
         ReviewNode item = size > 0 ? nodes.get(position) : mNode;
-        return FragmentFormatReview.newInstance(item.getReviewId());
+        return FragmentFormatReview.newInstance(item.getReviewId(), mIsClickable);
     }
 
     @Override

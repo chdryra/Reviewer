@@ -20,6 +20,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -35,17 +38,20 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryReviewDataEditor mFactoryDataEditor;
     private final FactoryFileIncrementor mFactoryFileIncrementor;
     private final FactoryImageChooser mFactoryImageChooser;
+    private final FactoryCommands mFactoryCommands;
 
     public FactoryReviewEditor(FactoryReviewBuilderAdapter<GC> factoryAdapter,
                                FactoryReviewViewParams paramsFactory,
                                FactoryReviewDataEditor factoryDataEditor,
                                FactoryFileIncrementor factoryFileIncrementor,
-                               FactoryImageChooser factoryImageChooser) {
+                               FactoryImageChooser factoryImageChooser,
+                               FactoryCommands factoryCommands) {
         mFactoryAdapter = factoryAdapter;
         mParamsFactory = paramsFactory;
         mFactoryDataEditor = factoryDataEditor;
         mFactoryFileIncrementor = factoryFileIncrementor;
         mFactoryImageChooser = factoryImageChooser;
+        mFactoryCommands = factoryCommands;
     }
 
     public ReviewEditor<GC> newEditor(UiConfig config,
@@ -59,7 +65,8 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
             editMode = ReviewEditor.EditMode.FULL;
         }
         FactoryActionsBuild<GC> factory
-                = new FactoryActionsBuild<>(adapter.getGvDataType(), config, launcher, editMode, locationClient);
+                = new FactoryActionsBuild<>(adapter.getGvDataType(), config, launcher,
+                mFactoryCommands, editMode, locationClient);
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 

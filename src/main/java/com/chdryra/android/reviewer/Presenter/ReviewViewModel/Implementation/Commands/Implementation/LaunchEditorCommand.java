@@ -18,22 +18,18 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NewReviewCommand extends Command {
-    private UiLauncher mLauncher;
-    private ReviewId mTemplate;
+public class LaunchEditorCommand extends Command {
+    private final UiLauncher mLauncher;
+    private final ReviewId mTemplate;
 
-    public NewReviewCommand(UiLauncher launcher, @Nullable ReviewId template) {
+    public LaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
         mLauncher = launcher;
         mTemplate = template;
     }
 
-    public void setLauncher(UiLauncher launcher) {
-        mLauncher = launcher;
-    }
-
     @Override
     public void execute() {
-        if(mLauncher != null) mLauncher.launchEditUi(mTemplate);
+        mLauncher.launchEditUi(mTemplate);
         onExecutionComplete();
     }
 }

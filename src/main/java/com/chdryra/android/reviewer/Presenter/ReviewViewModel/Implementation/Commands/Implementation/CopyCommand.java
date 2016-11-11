@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 public class CopyCommand extends Command {
     private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class);
 
-    private final NewReviewCommand mCommand;
+    private final LaunchEditorCommand mCommand;
     private final CurrentScreen mScreen;
 
-    public CopyCommand(NewReviewCommand command, CurrentScreen screen) {
+    public CopyCommand(LaunchEditorCommand command, CurrentScreen screen) {
         mScreen = screen;
         mCommand = command;
     }

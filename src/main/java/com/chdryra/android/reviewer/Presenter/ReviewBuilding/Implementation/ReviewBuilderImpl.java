@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
@@ -35,7 +36,8 @@ import java.util.Map;
  * On: 10/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBuilder, DataObservable.DataObserver {
+public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBuilder,
+        DataObservable.DataObserver {
     private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
     private final DataValidator mDataValidator;
@@ -107,19 +109,15 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
         //TODO make type safe
         DataBuilder<T> builder = (DataBuilder<T>) mDataBuilders.get(dataType);
-        if(builder == null) builder = createDataBuilder(dataType);
+        if (builder == null) builder = createDataBuilder(dataType);
         return builder;
-    }
-
-    private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        return getDataBuilder(dataType).getData();
     }
 
     @Override
     public GvImage getCover() {
         GvDataList<GvImage> images = getData(GvImage.TYPE);
-        for(GvImage image : images) {
-            if(image.isCover()) return image;
+        for (GvImage image : images) {
+            if (image.isCover()) return image;
         }
 
         return new GvImage();
@@ -136,7 +134,24 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        return  mReviewFactory.createUserReview(getSubject(), getRating(),
+        return build();
+    }
+
+    @Override
+    public ReviewNode buildPreview() {
+        return mReviewFactory.createLeafNode(mReviewFactory.asReference(build()));
+    }
+
+    private boolean isValidForPublication() {
+        return mDataValidator.validateString(mSubject) && hasTags();
+    }
+
+    private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
+        return getDataBuilder(dataType).getData();
+    }
+
+    private Review build() {
+        return mReviewFactory.createUserReview(getSubject(), getRating(),
                 getData(GvTag.TYPE),
                 getData(GvCriterion.TYPE),
                 getData(GvComment.TYPE),
@@ -152,9 +167,5 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
         mDataBuilders.put(dataType, db);
 
         return db;
-    }
-
-    private boolean isValidForPublication() {
-        return mDataValidator.validateString(mSubject) && hasTags();
     }
 }

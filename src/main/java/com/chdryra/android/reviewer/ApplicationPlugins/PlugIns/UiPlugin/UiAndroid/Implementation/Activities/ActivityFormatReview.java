@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FormattedUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -47,10 +48,13 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(LAYOUT);
+
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
         ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        boolean clickable = args.getBoolean(FormattedUiLauncher.CLICKABLE);
         if (node == null) throw new RuntimeException("No review found");
-        mAdapter = new NodePagerAdapter(node, getSupportFragmentManager());
+
+        mAdapter = new NodePagerAdapter(node, getSupportFragmentManager(), clickable);
         ((ViewPager) findViewById(PAGER)).setAdapter(mAdapter);
     }
 

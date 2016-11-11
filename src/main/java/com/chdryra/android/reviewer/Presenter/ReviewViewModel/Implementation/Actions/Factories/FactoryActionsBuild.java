@@ -27,6 +27,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Menu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -37,19 +39,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
-    private UiConfig mConfig;
-    private UiLauncher mLauncher;
-    private LocationClient mLocationClient;
-    private ReviewEditor.EditMode mDefaultEditMode;
+    private final UiConfig mConfig;
+    private final UiLauncher mLauncher;
+    private final FactoryCommands mFactoryCommands;
+    private final LocationClient mLocationClient;
+    private final ReviewEditor.EditMode mDefaultEditMode;
 
     public FactoryActionsBuild(GvDataType<GC> dataType,
                                UiConfig config,
                                UiLauncher launcher,
+                               FactoryCommands factoryCommands,
                                ReviewEditor.EditMode defaultEditMode,
                                LocationClient locationClient) {
         super(dataType);
         mConfig = config;
         mLauncher = launcher;
+        mFactoryCommands = factoryCommands;
         mLocationClient = locationClient;
         mDefaultEditMode = defaultEditMode;
     }
@@ -76,7 +81,8 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public MenuAction<GC> newMenu() {
-        return new MenuReviewBuild<>(Strings.Screens.BUILD);
+        return new MenuReviewBuild<>(Strings.Screens.BUILD,
+                mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher()));
     }
 
     @Nullable

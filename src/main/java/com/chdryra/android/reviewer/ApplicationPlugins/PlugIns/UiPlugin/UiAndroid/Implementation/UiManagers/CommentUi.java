@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,24 +28,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class CommentUi extends ViewUi<TextView, RefCommentList> {
-    public CommentUi(TextView view, RefCommentList reference, final Command onClick) {
-        this(view, reference);
-        getView().setClickable(true);
-        getView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClick.execute();
-            }
-        });
-    }
-
-    public CommentUi(TextView view, final RefCommentList reference) {
+    public CommentUi(TextView view, final RefCommentList reference, @Nullable final Command onClick) {
         super(view, new ValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
                 return reference;
             }
         });
+        if(onClick != null) {
+            getView().setClickable(true);
+            getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.execute();
+                }
+            });
+        }
     }
 
     public String getText() {

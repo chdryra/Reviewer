@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.PackingLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -30,28 +29,28 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class ReviewLauncherImpl implements ReviewLauncher {
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
-    private final PackingLauncher<ReviewNode> mFormattedLauncher;
+    private final FormattedUiLauncher mFormattedUiLauncher;
 
     private UiLauncher mLauncher;
     private AuthorId mSessionAuthor;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              PackingLauncher<ReviewNode> formattedLauncher,
+                              FormattedUiLauncher formattedUiLauncher,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
-        mFormattedLauncher = formattedLauncher;
+        mFormattedUiLauncher = formattedUiLauncher;
     }
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
-        return mFormattedLauncher.unpack(args);
+        return mFormattedUiLauncher.unpack(args);
     }
 
     @Override
     public void setUiLauncher(UiLauncher launcher) {
         mLauncher = launcher;
-        mFormattedLauncher.setUiLauncher(launcher);
+        mFormattedUiLauncher.setUiLauncher(launcher);
     }
 
     @Override
@@ -67,8 +66,8 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchFormatted(ReviewNode node) {
-        mFormattedLauncher.launch(node);
+    public void launchFormatted(ReviewNode node, boolean isPreview) {
+        mFormattedUiLauncher.launch(node, !isPreview);
     }
 
     @Override

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -75,6 +76,8 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     ReadyToBuildResult isReviewBuildable();
 
     Review buildReview();
+
+    ReviewNode buildPreview();
 
     EditMode getEditMode();
 

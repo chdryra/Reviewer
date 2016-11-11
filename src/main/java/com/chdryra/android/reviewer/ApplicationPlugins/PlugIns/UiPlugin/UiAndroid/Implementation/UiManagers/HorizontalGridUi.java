@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -28,15 +29,7 @@ public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView
                             RecyclerView view,
                             HorizontalAdapterRef<T, ?, ?> adapter,
                             int span,
-                            Command onClick) {
-        this(context, view, adapter, span);
-        getView().addOnItemTouchListener(new TouchIsClickListener(onClick));
-    }
-
-    public HorizontalGridUi(Context context,
-                            RecyclerView view,
-                            HorizontalAdapterRef<T, ?, ?> adapter,
-                            int span) {
+                            @Nullable Command onClick) {
         super(view, adapter);
         getView().setHasFixedSize(true);
         GridLayoutManager layout
@@ -44,6 +37,7 @@ public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView
 
         getView().setLayoutManager(layout);
         getView().setAdapter(adapter);
+        if(onClick != null) getView().addOnItemTouchListener(new TouchIsClickListener(onClick));
     }
 
     @Override

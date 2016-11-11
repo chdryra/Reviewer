@@ -92,7 +92,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         FactoryReviewEditor<?> editorFactory
                 = new FactoryReviewEditor<>(builderFactory, paramsFactory, dataEditorFactory,
-                incrementorFactory, new FactoryImageChooser(context));
+                incrementorFactory, new FactoryImageChooser(context), getCommandsFactory());
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,

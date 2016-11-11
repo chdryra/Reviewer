@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
@@ -45,6 +46,8 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
     <T extends GvDataParcelable> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
     Review buildReview();
+
+    ReviewNode buildPreview();
 
     @Override
     GvDataType<GC> getGvDataType();

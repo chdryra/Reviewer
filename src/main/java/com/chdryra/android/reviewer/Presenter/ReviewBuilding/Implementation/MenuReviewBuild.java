@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -24,7 +25,7 @@ import com.chdryra.android.reviewer.R;
  */
 public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         extends MenuActionNone<GC> implements ReviewEditor.ModeListener{
-    private static final int MENU_PREVIEW_ID = R.id.menu_item_average_rating;
+    private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_build_review;
 
@@ -32,9 +33,10 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
     private MenuActionItem<GC> mPreview;
     private MenuActionItem<GC> mAverageRating;
 
-    public MenuReviewBuild(String title) {
+    public MenuReviewBuild(String title, LaunchFormattedCommand command) {
         super(MENU, title, true);
         mAverageRating = new DoAverageRating();
+        mPreview = new PreviewReview(command);
     }
 
     @Override
@@ -85,6 +87,19 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         @Override
         public void doAction(MenuItem item) {
             mEditor.setRatingIsAverage(true);
+        }
+    }
+
+    private class PreviewReview extends MenuActionItemBasic<GC> {
+        private LaunchFormattedCommand mCommand;
+
+        private PreviewReview(LaunchFormattedCommand command) {
+            mCommand = command;
+        }
+
+        @Override
+        public void doAction(MenuItem item) {
+            mCommand.execute(mEditor.buildPreview(), true);
         }
     }
 }

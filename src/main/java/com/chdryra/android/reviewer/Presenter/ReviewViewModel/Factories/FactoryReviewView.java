@@ -228,16 +228,16 @@ public class FactoryReviewView {
         }
 
         if (dataType.equals(GvSize.Reference.TYPE)) {
-            factory = new FactoryActionsReviewSummary(this, getUiLauncher(), mCommandsFactory,
+            factory = new FactoryActionsReviewSummary(this, mCommandsFactory, getUiLauncher(),
                     getOptionsConfig(), stamp, mAuthorsRepo, node);
         } else {
             LaunchableConfig viewer = mConfig.getViewer(dataType.getDatumName());
             if (dataType.equals(GvComment.Reference.TYPE)) {
-                factory = new FactoryActionsViewData.Comments(this, getUiLauncher(), viewer,
-                        stamp, mAuthorsRepo, node);
+                factory = new FactoryActionsViewData.Comments(this, mCommandsFactory,
+                        getUiLauncher(), viewer, stamp, mAuthorsRepo, node);
             } else {
-                factory = new FactoryActionsViewData<>(dataType, this, getUiLauncher(), viewer,
-                        stamp, mAuthorsRepo, node);
+                factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory,
+                        getUiLauncher(), viewer, stamp, mAuthorsRepo, node);
             }
         }
 

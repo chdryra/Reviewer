@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.os.Handler;
+
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
@@ -63,8 +65,22 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
             public void onDereferenced(DataValue<IdableList<Value>> value) {
                 if(value.hasValue()) {
                     setData(mConverter.convert(value.getData()));
+                    notifyChange();
                 }
             }
         });
+    }
+
+    private void notifyChange() {
+        Handler handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                notifyDataSetChanged();
+            }
+        };
+
+        handler.post(r);
     }
 }

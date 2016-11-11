@@ -22,7 +22,7 @@ public interface ReviewLauncher extends UiLauncherWrapper {
 
     void launchSummary(ReviewId reviewId);
 
-    void launchFormatted(ReviewNode node);
+    void launchFormatted(ReviewNode node, boolean isPreview);
 
     void launchReviewsList(AuthorId authorId);
 }

@@ -39,12 +39,13 @@ public class DeleteCommand extends Command implements AlertListener {
 
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
-
+        onExecutionComplete();
     }
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == getRequestCode()) deleteReview();
+        onExecutionComplete();
     }
 
     private void deleteReview() {
@@ -55,6 +56,5 @@ public class DeleteCommand extends Command implements AlertListener {
                 mScreen.showToast(result.getMessage());
             }
         });
-        onExecutionComplete();
     }
 }

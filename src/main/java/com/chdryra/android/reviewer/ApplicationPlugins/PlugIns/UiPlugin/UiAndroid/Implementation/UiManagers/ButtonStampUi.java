@@ -22,19 +22,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 public class ButtonStampUi extends ButtonUi{
-    public ButtonStampUi(Button button, ValueGetter<String> getter, int textColor, final AuthorId authorId, final ReviewLauncher launcher) {
+    public ButtonStampUi(Button button, ValueGetter<String> getter, int textColor,
+                         final AuthorId authorId, final ReviewLauncher launcher,
+                         final boolean clickable) {
         super(button, getter, textColor);
+
         getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launcher.launchReviewsList(authorId);
+                if(clickable) launcher.launchReviewsList(authorId);
             }
         });
 
         getView().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                launcher.launchReviewsList(authorId);
+                if(clickable) launcher.launchReviewsList(authorId);
                 return true;
             }
         });

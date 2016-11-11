@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -85,6 +86,11 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     @Override
     public Review buildReview() {
         return mBuilder.buildReview();
+    }
+
+    @Override
+    public ReviewNode buildPreview() {
+        return mBuilder.buildPreview();
     }
 
     @Override

@@ -36,7 +36,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarLaunchFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExecuteCommand;
+
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -48,17 +54,25 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
-    private final FactoryReviewView mFactory;
+    private final FactoryReviewView mFactoryView;
+    private final FactoryCommands mFactoryCommands;
     private final UiLauncher mLauncher;
     private final LaunchableConfig mConfig;
     private final ReviewStamp mStamp;
     private final AuthorsRepository mRepo;
     private final ReviewNode mNode;
 
-    public FactoryActionsViewData(GvDataType<T> dataType, FactoryReviewView factory, UiLauncher
-            launcher, LaunchableConfig config, ReviewStamp stamp, AuthorsRepository repo, @Nullable ReviewNode node) {
+    public FactoryActionsViewData(GvDataType<T> dataType,
+                                  FactoryReviewView factoryView,
+                                  FactoryCommands factoryCommands,
+                                  UiLauncher launcher,
+                                  LaunchableConfig config,
+                                  ReviewStamp stamp,
+                                  AuthorsRepository repo,
+                                  @Nullable ReviewNode node) {
         super(dataType);
-        mFactory = factory;
+        mFactoryView = factoryView;
+        mFactoryCommands = factoryCommands;
         mLauncher = launcher;
         mConfig = config;
         mStamp = stamp;
@@ -66,8 +80,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         mNode = node;
     }
 
-    protected FactoryReviewView getFactory() {
-        return mFactory;
+    protected FactoryReviewView getViewFactory() {
+        return mFactoryView;
     }
 
     protected LaunchableConfig getConfig() {
@@ -85,8 +99,11 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     
     @Override
     public RatingBarAction<T> newRatingBar() {
-        return mNode != null ? new RatingBarLaunchFormatted<T>(mNode, mLauncher.getReviewLauncher()) :
-                super.newRatingBar();
+        if(mNode == null) return super.newRatingBar();
+
+        LaunchFormattedCommand command
+                = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
+        return new RatingBarExecuteCommand<>(command, Strings.LOADING);
     }
 
     @Override
@@ -97,28 +114,24 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public GridItemAction<T> newGridItem() {
-        return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactory,
+        return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactoryView,
                 new ParcelablePacker<GvDataParcelable>());
     }
 
-    /**
-     * Created by: Rizwan Choudrey
-     * On: 27/09/2016
-     * Email: rizwan.choudrey@gmail.com
-     */
     public static class Comments extends FactoryActionsViewData<GvComment.Reference> {
-        public Comments(FactoryReviewView factory,
+        public Comments(FactoryReviewView factoryView,
+                        FactoryCommands factoryCommands,
                         UiLauncher launcher,
                         LaunchableConfig config,
                         ReviewStamp stamp,
                         AuthorsRepository repo,
                         @Nullable ReviewNode node) {
-            super(GvComment.Reference.TYPE, factory, launcher, config, stamp, repo, node);
+            super(GvComment.Reference.TYPE, factoryView, factoryCommands, launcher, config, stamp, repo, node);
         }
 
         @Override
         public GridItemLauncher<GvComment.Reference> newGridItem() {
-            return new GridItemComments(getLauncher(), getConfig(), getFactory(),
+            return new GridItemComments(getLauncher(), getConfig(), getViewFactory(),
                     new ParcelablePacker<GvDataParcelable>());
         }
 

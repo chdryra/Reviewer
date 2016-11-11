@@ -24,7 +24,7 @@ public class LaunchViewCommand extends Command {
     private final ReviewView<?> mView;
     private final UiLauncher mLauncher;
 
-    public LaunchViewCommand(ReviewView<?> view, UiLauncher launcher) {
+    public LaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
         mView = view;
         mLauncher = launcher;
     }

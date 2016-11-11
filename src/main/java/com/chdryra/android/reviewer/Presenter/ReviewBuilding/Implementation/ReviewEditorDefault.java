@@ -13,6 +13,7 @@ import android.content.Intent;
 import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -170,6 +171,11 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public Review buildReview() {
         return mAdapter.buildReview();
+    }
+
+    @Override
+    public ReviewNode buildPreview() {
+        return mAdapter.buildPreview();
     }
 
     private void notifyModeListeners() {

@@ -32,8 +32,11 @@ public class PackingLauncherImpl<T> implements PackingLauncher<T> {
 
     @Override
     public void launch(@Nullable T item) {
+        launch(item, new Bundle());
+    }
+
+    void launch(@Nullable T item, Bundle args) {
         onPrelaunch();
-        Bundle args = new Bundle();
         if (item != null) mPacker.pack(item, args);
         launchUi(args);
     }

@@ -88,7 +88,8 @@ import java.util.Date;
  */
 
 public class FragmentFormatReview extends Fragment {
-    private static final String TAG = TagKeyGenerator.getTag(FragmentFormatReview.class);
+    private static final String ID = TagKeyGenerator.getTag(FragmentFormatReview.class, "ReviewId");
+    private static final String CLICKABLE = TagKeyGenerator.getTag(FragmentFormatReview.class, "Preview");
 
     private static final int LAYOUT = R.layout.fragment_review_formatted;
     private static final int IMAGE = R.id.image_formatted;
@@ -114,6 +115,7 @@ public class FragmentFormatReview extends Fragment {
     private static final ReviewViewParams.CellDimension QUARTER = ReviewViewParams.CellDimension
             .QUARTER;
 
+    private boolean mIsClickable = true;
     private ReviewNode mNode;
     private NamedAuthor mAuthor;
     private UiSuite mUi;
@@ -121,10 +123,11 @@ public class FragmentFormatReview extends Fragment {
     private ButtonUi mStamp;
     private MenuUi mMenu;
 
-    public static FragmentFormatReview newInstance(ReviewId nodeId) {
+    public static FragmentFormatReview newInstance(ReviewId nodeId, boolean isClickable) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
         Bundle args = new Bundle();
-        args.putString(TAG, nodeId.toString());
+        args.putString(ID, nodeId.toString());
+        args.putBoolean(CLICKABLE, isClickable);
         FragmentFormatReview fragment = new FragmentFormatReview();
         fragment.setArguments(args);
 
@@ -134,6 +137,10 @@ public class FragmentFormatReview extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args == null) throwNoReview();
+        mIsClickable = args.getBoolean(CLICKABLE);
+
         setNode();
 
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
@@ -141,7 +148,7 @@ public class FragmentFormatReview extends Fragment {
         mRepo = app.getRepository();
 
         setMenu();
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(mIsClickable);
         setRetainInstance(true);
     }
 
@@ -195,7 +202,7 @@ public class FragmentFormatReview extends Fragment {
     private void setNode() {
         Bundle args = getArguments();
         if (args == null) throwNoReview();
-        String reviewId = args.getString(TAG);
+        String reviewId = args.getString(ID);
         if (reviewId == null) throwNoReview();
         try {
             ActivityFormatReview activity = (ActivityFormatReview) getActivity();
@@ -264,8 +271,9 @@ public class FragmentFormatReview extends Fragment {
     }
 
     private void setComment(View v) {
+        LaunchViewCommand onClick = !mIsClickable ? null : newLaunchViewCommand(GvComment.TYPE);
         CommentUi commentUi = new CommentUi((TextView) v.findViewById(COMMENT), mNode.getComments(),
-                newLaunchViewCommand(GvComment.TYPE));
+                onClick);
         ViewUi<?, ?> comment = new HideableViewUi<>(commentUi, v.findViewById(COMMENT_VIEW));
         comment.update();
     }
@@ -273,14 +281,14 @@ public class FragmentFormatReview extends Fragment {
     private void setBannerButton(View v, ReviewLauncher launcher, int textColour) {
         DataAuthorId authorId = mNode.getAuthorId();
         mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), textColour,
-                authorId, launcher);
+                authorId, launcher, mIsClickable);
         mStamp.update();
         mRepo.getName(authorId).dereference(setAuthorAndUpdateStamp());
     }
 
     private void setRating(View v, ReviewLauncher launcher) {
         RatingBarUi ratingBar = new RatingBarSummaryUi((RatingBar) v.findViewById(RATING), rating
-                (), mNode.getReviewId(), launcher);
+                (), mNode.getReviewId(), launcher, mIsClickable);
         ratingBar.update();
     }
 
@@ -304,13 +312,14 @@ public class FragmentFormatReview extends Fragment {
         HorizontalAdapterRef<T1, T2, Vh> adapter = new HorizontalAdapterRef<>(reference,
                 converter, new VhFactory<>(vhClass), dims);
 
+        LaunchViewCommand onClick = !mIsClickable ? null : newLaunchViewCommand(dataType);
         return new HideableViewUi<>(new HorizontalGridUi<>(getActivity(), view, adapter, span,
-                newLaunchViewCommand(dataType)), v);
+                onClick), v);
     }
 
     private LaunchViewCommand newLaunchViewCommand(GvDataType<?> dataType) {
         ReviewView<?> dataView = mUi.newDataView(mNode, dataType);
-        return getCommandsFactory().newLaunchViewCommand(dataView, mUi.getLauncher());
+        return getCommandsFactory().newLaunchViewCommand(mUi.getLauncher(), dataView);
     }
 
     @NonNull

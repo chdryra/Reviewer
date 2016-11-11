@@ -31,9 +31,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.MenuReviewOptions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarLaunchFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExecuteCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
@@ -55,8 +57,8 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
     private final ReviewNode mNode;
 
     public FactoryActionsReviewSummary(FactoryReviewView factoryView,
-                                       UiLauncher launcher,
                                        FactoryCommands factoryCommands,
+                                       UiLauncher launcher,
                                        LaunchableConfig optionsConfig,
                                        ReviewStamp stamp,
                                        AuthorsRepository repo,
@@ -94,8 +96,11 @@ public class FactoryActionsReviewSummary extends FactoryActionsNone<GvSize.Refer
 
     @Override
     public RatingBarAction<GvSize.Reference> newRatingBar() {
-        return mNode != null ? new RatingBarLaunchFormatted<GvSize.Reference>(mNode, mLauncher.getReviewLauncher()) :
-                super.newRatingBar();
+        if(mNode == null) return super.newRatingBar();
+
+        LaunchFormattedCommand command
+                = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
+        return new RatingBarExecuteCommand<>(command, Strings.LOADING);
     }
 
     @Override

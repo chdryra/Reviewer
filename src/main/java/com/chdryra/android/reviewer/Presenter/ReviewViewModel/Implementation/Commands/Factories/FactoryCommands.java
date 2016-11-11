@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -22,15 +23,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.DeleteCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchEditorCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.NewReviewCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.ShareCommand;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -42,7 +46,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryCommands {
     public Command newCopyCommand(UiLauncher launcher, @Nullable ReviewId template,
                                   CurrentScreen screen) {
-        return new CopyCommand(newNewReviewCommand(launcher, template), screen);
+        return new CopyCommand(newLaunchEditorCommand(launcher, template), screen);
     }
 
     public Command newShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
@@ -58,11 +62,19 @@ public class FactoryCommands {
         return new LaunchOptionsCommand(optionsUi);
     }
 
-    public LaunchViewCommand newLaunchViewCommand(ReviewView<?> view, UiLauncher launcher) {
-        return new LaunchViewCommand(view, launcher);
+    public LaunchViewCommand newLaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
+        return new LaunchViewCommand(launcher, view);
     }
 
-    private NewReviewCommand newNewReviewCommand(UiLauncher launcher, @Nullable ReviewId template) {
-        return new NewReviewCommand(launcher, template);
+    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher) {
+        return new LaunchFormattedCommand(launcher, null);
+    }
+
+    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher, ReviewNode node) {
+        return new LaunchFormattedCommand(launcher, node);
+    }
+
+    private LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
+        return new LaunchEditorCommand(launcher, template);
     }
 }

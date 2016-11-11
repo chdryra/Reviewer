@@ -12,15 +12,13 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.EditUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.PackingLauncherImpl;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FormattedUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.PackingLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -42,7 +40,7 @@ public class FactoryUiLauncher {
                                          LaunchableConfig formattedConfig) {
 
         EditUiLauncher buildUi = new EditUiLauncher(buildConfig, builder, repository);
-        PackingLauncher<ReviewNode> formatted = new PackingLauncherImpl<>(formattedConfig);
+        FormattedUiLauncher formatted = new FormattedUiLauncher(formattedConfig);
         ReviewLauncherImpl reviewLauncher = new ReviewLauncherImpl(masterRepo, formatted, viewFactory);
 
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);

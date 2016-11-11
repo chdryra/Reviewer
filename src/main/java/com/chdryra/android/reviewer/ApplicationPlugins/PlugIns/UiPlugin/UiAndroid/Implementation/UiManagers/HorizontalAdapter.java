@@ -38,9 +38,8 @@ public class HorizontalAdapter<T extends GvData, V extends ViewHolder>
         mCellHeight = cellHeight;
     }
 
-    public void setData(GvDataList<T> data) {
+    protected void setData(GvDataList<T> data) {
         mData = data;
-        notifyDataSetChanged();
     }
 
     @Override
