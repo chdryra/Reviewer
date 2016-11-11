@@ -46,7 +46,9 @@ public class LaunchOptionsCommand extends Command {
         DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
         args.putParcelable(AUTHOR_ID, data);
         int code = mOptionsConfig.getDefaultRequestCode();
+
         mOptionsConfig.launch(new UiLauncherArgs(code).setBundle(args));
+
         onExecutionComplete();
     }
 }

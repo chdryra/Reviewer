@@ -53,8 +53,8 @@ public class DeleteCommand extends Command implements AlertListener {
             @Override
             public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
                 mScreen.showToast(result.getMessage());
-                onExecutionComplete();
             }
         });
+        onExecutionComplete();
     }
 }

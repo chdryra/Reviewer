@@ -18,7 +18,8 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CopyCommand extends Command {
-    private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class, "Launch");
+    private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class);
+
     private final NewReviewCommand mCommand;
     private final CurrentScreen mScreen;
 
