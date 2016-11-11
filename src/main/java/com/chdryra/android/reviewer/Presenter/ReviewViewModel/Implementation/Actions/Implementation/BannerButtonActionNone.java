@@ -78,7 +78,7 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
 
     protected void notifyListeners() {
         for(ClickListener listener : mListeners) {
-            listener.onClick();
+            listener.onBannerClick();
         }
     }
 }

@@ -73,8 +73,8 @@
     <!-- Menus -->
     <string name="menu_options">options</string>
     <string name="menu_search">search</string>
-    <string name="menu_preview">preview review</string>
-    <string name="menu_average_rating">average rating</string>
+    <string name="menu_average_rating">average of criteria</string>
+    <string name="menu_preview_review">preview review</string>
     <string name="menu_new_review">new review</string>
     <string name="menu_delete_review">delete review</string>
     <string name="menu_copy_review">use as template</string>

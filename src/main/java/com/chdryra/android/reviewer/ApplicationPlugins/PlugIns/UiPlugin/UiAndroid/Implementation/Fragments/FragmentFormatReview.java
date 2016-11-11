@@ -207,7 +207,7 @@ public class FragmentFormatReview extends Fragment {
             ActivityFormatReview activity = (ActivityFormatReview) getActivity();
             mNode = activity.getNode(new DatumReviewId(reviewId));
         } catch (ClassCastException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -264,7 +264,6 @@ public class FragmentFormatReview extends Fragment {
                         mNode.getTags(), getConverter().newConverterTags()).update();
             }
         });
-
     }
 
     private void setCover(View v) {

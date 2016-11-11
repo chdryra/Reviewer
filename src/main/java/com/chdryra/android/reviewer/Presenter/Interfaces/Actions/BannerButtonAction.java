@@ -23,7 +23,7 @@ public interface BannerButtonAction<T extends GvData> extends ReviewViewAction<T
     }
 
     interface ClickListener {
-        void onClick();
+        void onBannerClick();
     }
 
     boolean onLongClick(View v);

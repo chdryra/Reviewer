@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
@@ -44,29 +44,19 @@ public class FactoryEditActions {
         mDataFactory = dataFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvComment.TYPE,
-                new FactoryEditActionsComments(mConfig, mDataFactory,
-                        new ParcelablePacker<GvComment>()));
+        addFactory(GvComment.TYPE, new FactoryEditActionsComments(mConfig, mDataFactory));
 
-        addFactory(GvCriterion.TYPE,
-                new FactoryEditActionsCriteria(mConfig, mDataFactory,
-                        new ParcelablePacker<GvCriterion>()));
+        addFactory(GvCriterion.TYPE, new FactoryEditActionsCriteria(mConfig, mDataFactory));
 
-        addFactory(GvFact.TYPE,
-                new FactoryEditActionsFacts(mConfig, mDataFactory,
-                        new ParcelablePacker<GvFact>()));
+        addFactory(GvFact.TYPE, new FactoryEditActionsFacts(mConfig, mDataFactory));
+
+        addFactory(GvLocation.TYPE, new FactoryEditActionsLocations(mConfig, mDataFactory));
 
         addFactory(GvImage.TYPE,
-                new FactoryEditActionsImages(mConfig, mDataFactory,
-                        new ParcelablePacker<GvImage>(), launcher, imageChooser));
-
-        addFactory(GvLocation.TYPE,
-                new FactoryEditActionsLocations(mConfig, mDataFactory,
-                        new ParcelablePacker<GvLocation>()));
+                new FactoryEditActionsImages(mConfig, mDataFactory, launcher, imageChooser));
 
         addFactory(GvTag.TYPE,
-                new FactoryEditActionsTags(mConfig, mDataFactory,
-                        new ParcelablePacker<GvTag>()));
+                new FactoryEditActionsTags(mConfig, mDataFactory, new TagAdjuster()));
     }
 
     public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
@@ -77,8 +67,7 @@ public class FactoryEditActions {
         //TODO make type safe
         FactoryEditActionsDefault<T> factory = (FactoryEditActionsDefault<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
-            factory = new FactoryEditActionsDefault<>(dataType, mConfig, mDataFactory,
-                    new ParcelablePacker<T>());
+            factory = new FactoryEditActionsDefault<>(dataType, mConfig, mDataFactory);
         }
 
         return factory;

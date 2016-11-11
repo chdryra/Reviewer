@@ -40,12 +40,11 @@ class FactoryEditActionsDefault<T extends GvDataParcelable> {
 
     public FactoryEditActionsDefault(GvDataType<T> dataType,
                                      UiConfig config,
-                                     FactoryGvData dataFactory,
-                                     ParcelablePacker<T> packer) {
+                                     FactoryGvData dataFactory) {
         mDataType = dataType;
         mConfig = config;
         mDataFactory = dataFactory;
-        mPacker = packer;
+        mPacker = new ParcelablePacker<>();
     }
 
     public ReviewViewActions<T> newActions() {

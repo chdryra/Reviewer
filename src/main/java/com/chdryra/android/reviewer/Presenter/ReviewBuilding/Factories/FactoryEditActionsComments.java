@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditComment;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditComments;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -27,10 +26,8 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
 
-    public FactoryEditActionsComments(UiConfig config,
-                                      FactoryGvData dataFactory,
-                                      ParcelablePacker<GvComment> packer) {
-        super(TYPE, config, dataFactory, packer);
+    public FactoryEditActionsComments(UiConfig config, FactoryGvData dataFactory) {
+        super(TYPE, config, dataFactory);
     }
 
     @Override

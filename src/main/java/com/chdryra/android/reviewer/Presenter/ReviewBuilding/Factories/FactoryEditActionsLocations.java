@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditLocation;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -27,10 +26,8 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLocation> {
     private static final GvDataType<GvLocation> TYPE = GvLocation.TYPE;
 
-    public FactoryEditActionsLocations(UiConfig config,
-                                       FactoryGvData dataFactory,
-                                       ParcelablePacker<GvLocation> packer) {
-        super(TYPE, config, dataFactory, packer);
+    public FactoryEditActionsLocations(UiConfig config, FactoryGvData dataFactory) {
+        super(TYPE, config, dataFactory);
     }
 
     @Override

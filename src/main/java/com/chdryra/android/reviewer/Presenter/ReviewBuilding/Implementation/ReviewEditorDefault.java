@@ -54,7 +54,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final FactoryImageChooser mImageChooserFactory;
 
     private String mCurrentSubject;
-    private ReviewViewContainer mContainer;
     private EditMode mEditMode = EditMode.QUICK;
     private FileIncrementor mIncrementor;
 
@@ -105,15 +104,14 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     public void setRating(float rating, boolean fromUser) {
         if (fromUser) {
             mAdapter.setRating(rating);
-        } else {
-            mContainer.setRating(rating);
+        } else if(getContainer() != null) {
+            getContainer().setRating(rating);
         }
     }
 
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         super.attachEnvironment(container, app);
-        mContainer = container;
         mBannerButton.registerListener(this);
         setView();
     }
@@ -121,7 +119,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void detachEnvironment() {
         super.detachEnvironment();
-        mContainer = null;
         mBannerButton.unregisterListener(this);
     }
 
@@ -200,7 +197,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void onClick() {
+    public void onBannerClick() {
         setView();
         notifyModeListeners();
     }
