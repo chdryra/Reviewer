@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEdit;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;

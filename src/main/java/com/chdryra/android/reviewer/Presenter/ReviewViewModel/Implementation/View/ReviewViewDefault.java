@@ -103,6 +103,10 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         if (mContainer != null) mContainer.onDataChanged();
     }
 
+    protected ReviewViewContainer getContainer() {
+        return mContainer;
+    }
+
     @Override
     public ReviewViewActions<T> getActions() {
         return mPerspective.getActions();

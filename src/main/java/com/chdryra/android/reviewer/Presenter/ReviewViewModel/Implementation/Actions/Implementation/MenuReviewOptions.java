@@ -17,19 +17,19 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuReviewOptions<T extends GvData> extends MenuActionNone<T> {
-    private static final int COPY_REVIEW = R.id.menu_item_options;
+    private static final int OPTIONS = R.id.menu_item_options;
     private static final int MENU = R.menu.menu_review_options;
 
     private final MenuActionItem<T> mReviewOptions;
 
     public MenuReviewOptions(MenuActionItem<T> reviewOptions, String title) {
-        super(MENU, title, false);
+        super(MENU, title, true);
         mReviewOptions = reviewOptions;
         mReviewOptions.setParent(this);
     }
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(mReviewOptions, COPY_REVIEW, false);
+        bindMenuActionItem(mReviewOptions, OPTIONS, false);
     }
 }

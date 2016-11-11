@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentSocialLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;

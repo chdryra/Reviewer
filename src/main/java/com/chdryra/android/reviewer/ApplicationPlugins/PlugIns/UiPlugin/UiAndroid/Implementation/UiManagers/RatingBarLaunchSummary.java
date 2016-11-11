@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 24/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarSummaryUi extends RatingBarUi {
-    public RatingBarSummaryUi(RatingBar view, ValueGetter<Float> rating, final ReviewId reviewId,
-                              final ReviewLauncher launcher, boolean clickable) {
+public class RatingBarLaunchSummary extends RatingBarUi {
+    public RatingBarLaunchSummary(RatingBar view, ValueGetter<Float> rating, final ReviewId reviewId,
+                                  final ReviewLauncher launcher, boolean clickable) {
         super(view, rating);
         if(clickable) {
             getView().setOnTouchListener(new View.OnTouchListener() {

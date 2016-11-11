@@ -99,7 +99,7 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
         @Override
         public void doAction(MenuItem item) {
-            mCommand.execute(mEditor.buildPreview(), true);
+            mCommand.execute(mEditor.buildPreview(), false);
         }
     }
 }

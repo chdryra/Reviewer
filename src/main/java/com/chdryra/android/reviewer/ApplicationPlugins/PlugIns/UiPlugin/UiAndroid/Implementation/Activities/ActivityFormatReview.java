@@ -16,6 +16,8 @@ import android.support.v4.view.ViewPager;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.NodeComparatorMostRecent;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodePagerAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -23,8 +25,6 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FormattedUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
-
-import static com.chdryra.android.reviewer.R.id.pager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +36,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     private static final String RETAIN_VIEW
             = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
     private static final int LAYOUT = R.layout.view_pager;
-    private static final int PAGER = pager;
+    private static final int PAGER = R.id.pager;
 
     private NodePagerAdapter mAdapter;
 
@@ -51,10 +51,11 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
         ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        boolean clickable = args.getBoolean(FormattedUiLauncher.CLICKABLE);
         if (node == null) throw new RuntimeException("No review found");
+        boolean isPublished = args.getBoolean(FormattedUiLauncher.PUBLISHED);
 
-        mAdapter = new NodePagerAdapter(node, getSupportFragmentManager(), clickable);
+        mAdapter = new NodePagerAdapter(node, new NodeComparatorMostRecent(),
+                getSupportFragmentManager(), isPublished);
         ((ViewPager) findViewById(PAGER)).setAdapter(mAdapter);
     }
 

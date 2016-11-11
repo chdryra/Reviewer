@@ -29,13 +29,13 @@ public class LaunchFormattedCommand extends Command {
         mNode = node;
     }
 
-    public void execute(@Nullable ReviewNode node, boolean isPreview) {
-        if(node != null) mLauncher.launchFormatted(node, isPreview);
+    public void execute(@Nullable ReviewNode node, boolean isPublished) {
+        if(node != null) mLauncher.launchFormatted(node, isPublished);
         onExecutionComplete();
     }
 
     @Override
     public void execute() {
-        execute(mNode, false);
+        execute(mNode, true);
     }
 }

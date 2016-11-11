@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
@@ -21,7 +22,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 
 public class FormattedUiLauncher extends PackingLauncherImpl<ReviewNode> {
-    public static final String CLICKABLE = "clickable";
+    public static final String PUBLISHED = TagKeyGenerator.getTag(FormattedUiLauncher.class);
 
     public FormattedUiLauncher(LaunchableConfig ui) {
         super(ui);
@@ -32,9 +33,9 @@ public class FormattedUiLauncher extends PackingLauncherImpl<ReviewNode> {
         launch(item, true);
     }
 
-    public void launch(@Nullable ReviewNode item, boolean clickable) {
+    public void launch(@Nullable ReviewNode item, boolean published) {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(CLICKABLE, clickable);
+        bundle.putBoolean(PUBLISHED, published);
         launch(item, bundle);
     }
 }

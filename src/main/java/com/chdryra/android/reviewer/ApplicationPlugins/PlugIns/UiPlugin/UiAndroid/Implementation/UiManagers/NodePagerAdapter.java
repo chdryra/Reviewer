@@ -30,14 +30,16 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodePagerAdapter extends FragmentStatePagerAdapter implements ReviewNode.NodeObserver {
-    private static final Comparator<ReviewNode> RECENT_FIRST = new NodeComparator();
-    private boolean mIsSorted = false;
+    private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
     private final boolean mIsClickable;
+    private boolean mIsSorted = false;
 
-    public NodePagerAdapter(ReviewNode node, FragmentManager manager, boolean isClickable) {
+    public NodePagerAdapter(ReviewNode node, Comparator<ReviewNode> comparator,
+                            FragmentManager manager, boolean isClickable) {
         super(manager);
         mNode = node;
+        mComparator = comparator;
         mIsClickable = isClickable;
         mNode.registerObserver(this);
     }
@@ -52,11 +54,12 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
         IdableList<ReviewNode> children = mNode.getChildren();
         ArrayList<ReviewNode> nodes = new ArrayList<>(children);
         if (!mIsSorted) {
-            Collections.sort(nodes, RECENT_FIRST);
+            Collections.sort(nodes, mComparator);
             sorted();
         }
         int size = nodes.size();
         ReviewNode item = size > 0 ? nodes.get(position) : mNode;
+
         return FragmentFormatReview.newInstance(item.getReviewId(), mIsClickable);
     }
 
@@ -93,20 +96,5 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     private void notifyChanged() {
         mIsSorted = false;
         notifyDataSetChanged();
-    }
-
-    private static class NodeComparator implements Comparator<ReviewNode> {
-        @Override
-        public int compare(ReviewNode lhs, ReviewNode rhs) {
-            long lTime = lhs.getPublishDate().getTime();
-            long rTime = rhs.getPublishDate().getTime();
-            if (lTime > rTime) {
-                return -1;
-            } else if (lTime < rTime) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
     }
 }

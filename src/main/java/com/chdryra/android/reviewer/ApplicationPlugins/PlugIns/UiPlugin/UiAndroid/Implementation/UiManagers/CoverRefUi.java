@@ -24,8 +24,13 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  * Email: rizwan.choudrey@gmail.com
  */
 public class CoverRefUi extends CoverUi<ReviewItemReference<DataImage>>{
-    public CoverRefUi(View view, ValueGetter<ReviewItemReference<DataImage>> getter, Activity activity) {
-        super(view, getter, activity);
+    public CoverRefUi(View view, final ReviewItemReference<DataImage> cover, Activity activity) {
+        super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
+            @Override
+            public ReviewItemReference<DataImage> getValue() {
+                return cover;
+            }
+        }, activity);
     }
 
     @Override

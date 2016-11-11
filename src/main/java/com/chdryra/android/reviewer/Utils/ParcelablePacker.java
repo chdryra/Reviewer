@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
+package com.chdryra.android.reviewer.Utils;
 
 import android.content.Intent;
 import android.os.Bundle;

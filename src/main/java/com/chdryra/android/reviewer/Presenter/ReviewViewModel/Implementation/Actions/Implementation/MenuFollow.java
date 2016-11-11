@@ -23,7 +23,7 @@ public class MenuFollow<T extends GvData> extends MenuActionNone<T> {
     private final MenuActionItem<T> mFollow;
 
     public MenuFollow(MenuActionItem<T> follow) {
-        super(MENU, null, false);
+        super(MENU, null, true);
         mFollow = follow;
         mFollow.setParent(this);
     }

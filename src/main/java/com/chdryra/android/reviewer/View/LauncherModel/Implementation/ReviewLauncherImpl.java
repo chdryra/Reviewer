@@ -66,8 +66,8 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchFormatted(ReviewNode node, boolean isPreview) {
-        mFormattedUiLauncher.launch(node, !isPreview);
+    public void launchFormatted(ReviewNode node, boolean published) {
+        mFormattedUiLauncher.launch(node, published);
     }
 
     @Override

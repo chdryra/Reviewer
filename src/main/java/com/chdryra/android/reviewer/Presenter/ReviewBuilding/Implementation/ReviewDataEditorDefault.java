@@ -8,9 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
@@ -31,16 +29,16 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     private boolean mRatingIsAverage;
 
     private final DataBuilderAdapter<T> mBuilder;
-    private ReviewViewContainer mContainer;
 
     public ReviewDataEditorDefault(DataBuilderAdapter<T> builder,
-                                   ReviewViewActions<T> actions, ReviewViewParams params) {
+                                   ReviewViewActions<T> actions,
+                                   ReviewViewParams params) {
         super(new ReviewViewPerspective<>(builder, actions, params));
         mBuilder = builder;
         mSubject = builder.getSubject();
         mRating = builder.getRating();
         mRatingIsAverage = builder.isRatingAverage();
-        attachToAdapter();
+        //attachToAdapter();
     }
 
     @Override
@@ -64,21 +62,9 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         mRating = rating;
         if(fromUser) {
             setRatingIsAverage(false);
-        } else {
-            mContainer.setRating(mRating);
+        } else if(getContainer() != null) {
+            getContainer().setRating(mRating);
         }
-    }
-
-    @Override
-    public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
-        super.attachEnvironment(container, app);
-        mContainer = container;
-    }
-
-    @Override
-    public void detachEnvironment() {
-        super.detachEnvironment();
-        mContainer = null;
     }
 
     @Override
@@ -143,5 +129,4 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     public void update() {
         notifyDataObservers();
     }
-
 }
