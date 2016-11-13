@@ -38,7 +38,6 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         mSubject = builder.getSubject();
         mRating = builder.getRating();
         mRatingIsAverage = builder.isRatingAverage();
-        //attachToAdapter();
     }
 
     @Override
@@ -54,7 +53,11 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     @Override
     public void setRatingIsAverage(boolean isAverage) {
         mRatingIsAverage = isAverage;
-        if(isAverage) setRating(mBuilder.getCriteriaAverage(), false);
+        updateRating();
+    }
+
+    private void updateRating() {
+        if(mRatingIsAverage) setRating(mBuilder.getCriteriaAverage(), false);
     }
 
     @Override
@@ -92,7 +95,7 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         mBuilder.setSubject(getContainerSubject());
         mBuilder.setRatingIsAverage(mRatingIsAverage);
         mBuilder.setRating(mRatingIsAverage ? mBuilder.getCriteriaAverage() : getContainerRating());
-        mBuilder.commitData();
+        commitData();
     }
 
     @Override
@@ -127,6 +130,7 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
 
     @Override
     public void update() {
+        updateRating();
         notifyDataObservers();
     }
 }

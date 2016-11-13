@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -31,7 +29,6 @@ import java.util.Map;
 public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         implements MenuAction<T> {
     private static final int MENU_UP_ID = android.R.id.home;
-    private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
 
     private final String mTitle;
     private final Map<Integer, MenuActionItemInfo> mActionItems;
@@ -52,22 +49,10 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;
         mActionItems = new HashMap<>();
-        if (mDisplayHomeAsUp) bindMenuActionItem(new MaiUp(), MENU_UP_ID, true);
+        if (mDisplayHomeAsUp) bindMenuActionItem(new MaiPreviousScreen<T>(), MENU_UP_ID, true);
     }
 
     protected void addMenuItems() {
-    }
-
-    protected void sendResult(ActivityResultCode result) {
-        getApp().setReturnResult(result);
-    }
-
-    protected ApplicationInstance getApp() {
-        return getReviewView().getApp();
-    }
-
-    protected void doUpSelected() {
-        getCurrentScreen().returnToPrevious();
     }
 
     @Nullable
@@ -164,14 +149,6 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         private MenuActionItemInfo(MenuActionItem<?> item, boolean closeScreen) {
             mItem = item;
             mCloseScreen = closeScreen;
-        }
-    }
-
-    private class MaiUp extends MenuActionItemBasic<T> {
-        @Override
-        public void doAction(MenuItem item) {
-            doUpSelected();
-            sendResult(RESULT_UP);
         }
     }
 }

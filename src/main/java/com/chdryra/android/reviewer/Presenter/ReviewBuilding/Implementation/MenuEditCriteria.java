@@ -8,14 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.view.MenuItem;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionItemBasic;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterionList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
 
@@ -24,28 +18,36 @@ import com.chdryra.android.reviewer.R;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MenuEditCriteria extends MenuEdit<GvCriterion>
+public class MenuEditCriteria extends MenuEditData<GvCriterion>
         implements DataObservable.DataObserver {
     private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
+    private static final int MENU = R.menu.menu_edit_criteria;
+    private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
-    private static final int MENU = R.menu.menu_edit_criteria;
 
-    public MenuEditCriteria() {
-        super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+    private MaiDataEditor<GvCriterion> mAverageAction;
+
+    public MenuEditCriteria(MaiDataEditor<GvCriterion> deleteAction,
+                            MaiDataEditor<GvCriterion> doneAction,
+                            MaiDataEditor<GvCriterion> previewAction,
+                            MaiDataEditor<GvCriterion> averageAction) {
+        super(MENU, TYPE.getDataName(), deleteAction, doneAction, previewAction);
+        mAverageAction = averageAction;
     }
 
     @Override
     public void onDataChanged() {
-        if (getEditor().isRatingAverage()) setAverageRating();
+        getEditor().update();
     }
 
     @Override
     protected void addMenuItems() {
-        bindDefaultDeleteActionItem(MENU_DELETE_ID);
-        bindDefaultDoneActionItem(MENU_DONE_ID);
-        bindMenuActionItem(new RatingAverage(), MENU_AVERAGE_ID, false);
+        bindDeleteActionItem(MENU_DELETE_ID);
+        bindDoneActionItem(MENU_DONE_ID);
+        bindPreviewActionItem(MENU_PREVIEW_ID);
+        bindMenuActionItem(mAverageAction, MENU_AVERAGE_ID, false);
     }
 
     @Override
@@ -58,22 +60,5 @@ public class MenuEditCriteria extends MenuEdit<GvCriterion>
     public void onDetachReviewView() {
         getReviewView().unregisterObserver(this);
         super.onDetachReviewView();
-    }
-
-    private void setAverageRating() {
-        float rating = 0;
-        GvCriterionList children = (GvCriterionList) getGridData();
-        for (GvCriterion child : children) {
-            rating += child.getRating() / children.size();
-        }
-
-        getEditor().setRating(rating, false);
-    }
-
-    public class RatingAverage extends MenuActionItemBasic<GvCriterion>{
-        @Override
-        public void doAction(MenuItem item) {
-            getEditor().setRatingIsAverage(true);
-        }
     }
 }

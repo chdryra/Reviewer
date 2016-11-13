@@ -23,20 +23,20 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
+public class FactoryActionsEditComments extends FactoryActionsEditData<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
 
-    public FactoryEditActionsComments(UiConfig config, FactoryGvData dataFactory) {
+    public FactoryActionsEditComments(UiConfig config, FactoryGvData dataFactory) {
         super(TYPE, config, dataFactory);
     }
 
     @Override
-    protected GridItemAction<GvComment> newGridItemEdit() {
+    public GridItemAction<GvComment> newGridItem() {
         return new GridItemEditComment(getEditorConfig(), getPacker());
     }
 
     @Override
-    protected MenuAction<GvComment> newMenuEdit() {
+    public MenuAction<GvComment> newMenu() {
         return new MenuEditComments(new MaiSplitCommentVals());
     }
 }

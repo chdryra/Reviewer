@@ -10,12 +10,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.MenuItem;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionItemBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -30,13 +29,16 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
-    private MenuActionItem<GC> mPreview;
-    private MenuActionItem<GC> mAverageRating;
+    private MaiEditor<GC> mPreview;
+    private MaiEditor<GC> mAverageRating;
 
-    public MenuReviewBuild(String title, LaunchFormattedCommand command) {
-        super(MENU, title, true);
-        mAverageRating = new DoAverageRating();
-        mPreview = new PreviewReview(command);
+    public MenuReviewBuild(MaiPreviewReview<GC> preview, MaiAverageRating<GC> averageRating) {
+        super(MENU, Strings.Screens.BUILD, true);
+        mPreview = preview;
+        mAverageRating = averageRating;
+
+        mPreview.setParent(this);
+        mAverageRating.setParent(this);
     }
 
     @Override
@@ -54,12 +56,16 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
 
+        mPreview.onAttachReviewView();
+        mAverageRating.onAttachReviewView();
         mEditor.registerListener(this);
     }
 
     @Override
     public void onDetachReviewView() {
         super.onDetachReviewView();
+        mPreview.onDetachReviewView();
+        mAverageRating.onDetachReviewView();
         mEditor.unregisterListener(this);
     }
 
@@ -80,26 +86,6 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         if(item != null) {
             //item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-        }
-    }
-
-    private class DoAverageRating extends MenuActionItemBasic<GC> {
-        @Override
-        public void doAction(MenuItem item) {
-            mEditor.setRatingIsAverage(true);
-        }
-    }
-
-    private class PreviewReview extends MenuActionItemBasic<GC> {
-        private LaunchFormattedCommand mCommand;
-
-        private PreviewReview(LaunchFormattedCommand command) {
-            mCommand = command;
-        }
-
-        @Override
-        public void doAction(MenuItem item) {
-            mCommand.execute(mEditor.buildPreview(), false);
         }
     }
 }

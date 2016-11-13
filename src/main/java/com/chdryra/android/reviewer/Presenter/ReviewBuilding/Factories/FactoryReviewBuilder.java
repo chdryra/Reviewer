@@ -80,12 +80,12 @@ public class FactoryReviewBuilder {
             dataBuilder.add(datum);
         }
 
-        dataBuilder.buildData();
+        dataBuilder.commitData();
     }
 
     private void setCover(Review template, ReviewBuilder builder) {
         DataBuilder<GvImage> dataBuilder = builder.getDataBuilder(GvImage.TYPE);
         dataBuilder.add(mConverterGv.newConverterImages().convert(template.getCover()));
-        dataBuilder.buildData();
+        dataBuilder.commitData();
     }
 }

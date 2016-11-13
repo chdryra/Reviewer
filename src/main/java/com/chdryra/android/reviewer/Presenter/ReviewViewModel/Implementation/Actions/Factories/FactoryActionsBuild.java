@@ -23,12 +23,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewReview;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -81,8 +85,9 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public MenuAction<GC> newMenu() {
-        return new MenuReviewBuild<>(Strings.Screens.BUILD,
-                mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher()));
+        LaunchFormattedCommand command = mFactoryCommands
+                .newLaunchFormattedCommand(mLauncher.getReviewLauncher());
+        return new MenuReviewBuild<>(new MaiPreviewReview<GC>(command), new MaiAverageRating<GC>());
     }
 
     @Nullable

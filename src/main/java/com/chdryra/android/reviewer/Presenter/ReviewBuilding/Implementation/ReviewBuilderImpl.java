@@ -134,30 +134,50 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        return build();
+        return build(getDataFinal(GvTag.TYPE),
+                getDataFinal(GvCriterion.TYPE),
+                getDataFinal(GvComment.TYPE),
+                getDataFinal(GvImage.TYPE),
+                getDataFinal(GvFact.TYPE),
+                getDataFinal(GvLocation.TYPE));
     }
 
     @Override
     public ReviewNode buildPreview() {
-        return mReviewFactory.createLeafNode(mReviewFactory.asReference(build()));
+        Review current = build(getData(GvTag.TYPE),
+                getData(GvCriterion.TYPE),
+                getData(GvComment.TYPE),
+                getData(GvImage.TYPE),
+                getData(GvFact.TYPE),
+                getData(GvLocation.TYPE));
+
+        return mReviewFactory.createLeafNode(mReviewFactory.asReference(current));
     }
 
     private boolean isValidForPublication() {
         return mDataValidator.validateString(mSubject) && hasTags();
     }
 
+    private <T extends GvData> GvDataList<T> getDataFinal(GvDataType<T> dataType) {
+        DataBuilder<T> dataBuilder = getDataBuilder(dataType);
+        dataBuilder.commitData();
+        return dataBuilder.getData();
+    }
+    
     private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return getDataBuilder(dataType).getData();
     }
 
-    private Review build() {
+    private Review build(GvDataList<GvTag> tags, GvDataList<GvCriterion> criteria,
+                         GvDataList<GvComment> comments, GvDataList<GvImage> images,
+                         GvDataList<GvFact> facts, GvDataList<GvLocation> locations) {
         return mReviewFactory.createUserReview(getSubject(), getRating(),
-                getData(GvTag.TYPE),
-                getData(GvCriterion.TYPE),
-                getData(GvComment.TYPE),
-                getData(GvImage.TYPE),
-                getData(GvFact.TYPE),
-                getData(GvLocation.TYPE),
+                tags,
+                criteria,
+                comments,
+                images,
+                facts,
+                locations,
                 mIsAverage);
     }
 

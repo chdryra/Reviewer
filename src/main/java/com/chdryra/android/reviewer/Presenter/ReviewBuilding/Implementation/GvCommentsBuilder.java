@@ -56,7 +56,7 @@ public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
     }
 
     @Override
-    public void buildData() {
+    public void commitData() {
         for(GvComment comment : getOriginalData()) {
             mParser.delete(comment);
         }
@@ -66,6 +66,6 @@ public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
         }
 
         mParser.commit();
-        super.buildData();
+        super.commitData();
     }
 }

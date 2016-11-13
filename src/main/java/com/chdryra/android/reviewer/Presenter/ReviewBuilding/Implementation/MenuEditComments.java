@@ -19,18 +19,21 @@ import com.chdryra.android.reviewer.R;
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuEditComments extends MenuEdit<GvComment>
+public class MenuEditComments extends MenuEditData<GvComment>
         implements DataObservable.DataObserver {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
+    private static final int MENU = R.menu.menu_edit_comments;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
+    private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
-    private static final int MENU = R.menu.menu_edit_comments;
 
     private final MaiSplitCommentVals mSplitter;
 
-    public MenuEditComments(MaiSplitCommentVals splitter) {
-        super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+    public MenuEditComments(MaiDataEditor<GvComment>
+            deleteAction, MaiDataEditor<GvComment> doneAction, MaiDataEditor<GvComment>
+            previewAction, MaiSplitCommentVals splitter) {
+        super(MENU, TYPE.getDataName(), deleteAction, doneAction, previewAction);
         mSplitter = splitter;
         mSplitter.setParent(this);
     }
@@ -42,8 +45,9 @@ public class MenuEditComments extends MenuEdit<GvComment>
 
     @Override
     protected void addMenuItems() {
-        bindDefaultDeleteActionItem(MENU_DELETE_ID);
-        bindDefaultDoneActionItem(MENU_DONE_ID);
+        bindDeleteActionItem(MENU_DELETE_ID);
+        bindDoneActionItem(MENU_DONE_ID);
+        bindPreviewActionItem(MENU_PREVIEW_ID);
         bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
     }
 

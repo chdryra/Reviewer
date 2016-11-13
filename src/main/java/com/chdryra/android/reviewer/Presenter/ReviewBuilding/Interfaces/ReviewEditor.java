@@ -23,7 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewView<GC>, ActivityResultListener {
+public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ReviewView<GC>, ActivityResultListener {
     enum ReadyToBuildResult {
         YES("yes"),
         NoSubject(Strings.Toasts.ENTER_SUBJECT),
@@ -77,11 +78,11 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
 
     Review buildReview();
 
-    ReviewNode buildPreview();
-
     EditMode getEditMode();
 
     void registerListener(ModeListener listener);
 
     void unregisterListener(ModeListener listener);
+
+    ReviewNode buildPreview();
 }

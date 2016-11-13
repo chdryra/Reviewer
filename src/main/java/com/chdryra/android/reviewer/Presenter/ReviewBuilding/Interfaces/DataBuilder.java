@@ -39,7 +39,7 @@ public interface DataBuilder<T extends GvData> extends DataObservable{
 
     void resetData();
 
-    void buildData();
+    void commitData();
 
     interface AddConstraint<G extends GvData> {
         ConstraintResult passes(GvDataList<G> data, G datum);

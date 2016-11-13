@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -39,6 +40,11 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         mType = type;
         mParentBuilder = parentBuilder;
         getDataBuilder().registerObserver(this);
+    }
+
+    @Override
+    public ReviewNode buildPreview() {
+        return mParentBuilder.buildPreview();
     }
 
     void attach() {
@@ -100,7 +106,7 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     @Override
     public void commitData() {
-        getDataBuilder().buildData();
+        getDataBuilder().commitData();
     }
 
     @Override

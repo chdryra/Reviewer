@@ -61,9 +61,9 @@ public class CommentsDataParser {
     }
 
     void commit() {
-        mBuilder.getDataBuilder(GvTag.TYPE).buildData();
-        mBuilder.getDataBuilder(GvCriterion.TYPE).buildData();
-        mBuilder.getDataBuilder(GvFact.TYPE).buildData();
+        mBuilder.getDataBuilder(GvTag.TYPE).commitData();
+        mBuilder.getDataBuilder(GvCriterion.TYPE).commitData();
+        mBuilder.getDataBuilder(GvFact.TYPE).commitData();
     }
 
     private void addTags(GvComment newDatum) {

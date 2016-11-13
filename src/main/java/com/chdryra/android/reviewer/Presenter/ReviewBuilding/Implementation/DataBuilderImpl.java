@@ -121,7 +121,7 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
     }
 
     @Override
-    public void buildData() {
+    public void commitData() {
         mOriginalData = mData;
         resetData();
     }

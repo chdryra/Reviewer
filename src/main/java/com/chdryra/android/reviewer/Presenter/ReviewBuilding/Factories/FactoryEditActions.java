@@ -32,7 +32,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryEditActions {
-    private final Map<GvDataType<?>, FactoryEditActionsDefault<?>> mFactoriesMap;
+    private final Map<GvDataType<?>, FactoryActionsEditData<?>> mFactoriesMap;
     private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
 
@@ -44,9 +44,9 @@ public class FactoryEditActions {
         mDataFactory = dataFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvComment.TYPE, new FactoryEditActionsComments(mConfig, mDataFactory));
+        addFactory(GvComment.TYPE, new FactoryActionsEditComments(mConfig, mDataFactory));
 
-        addFactory(GvCriterion.TYPE, new FactoryEditActionsCriteria(mConfig, mDataFactory));
+        addFactory(GvCriterion.TYPE, new FactoryActionsEditCriteria(mConfig, mDataFactory));
 
         addFactory(GvFact.TYPE, new FactoryEditActionsFacts(mConfig, mDataFactory));
 
@@ -60,20 +60,20 @@ public class FactoryEditActions {
     }
 
     public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
-        return getFactory(dataType).newActions();
+        return new ReviewViewActions<>(getFactory(dataType));
     }
 
-    private <T extends GvDataParcelable> FactoryEditActionsDefault<T> getFactory(GvDataType<T> dataType) {
+    private <T extends GvDataParcelable> FactoryActionsEditData<T> getFactory(GvDataType<T> dataType) {
         //TODO make type safe
-        FactoryEditActionsDefault<T> factory = (FactoryEditActionsDefault<T>) mFactoriesMap.get(dataType);
+        FactoryActionsEditData<T> factory = (FactoryActionsEditData<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
-            factory = new FactoryEditActionsDefault<>(dataType, mConfig, mDataFactory);
+            factory = new FactoryActionsEditData<>(dataType, mConfig, mDataFactory);
         }
 
         return factory;
     }
 
-    private <T extends GvDataParcelable> void addFactory(GvDataType<T> dataType, FactoryEditActionsDefault<T> factory) {
+    private <T extends GvDataParcelable> void addFactory(GvDataType<T> dataType, FactoryActionsEditData<T> factory) {
         mFactoriesMap.put(dataType, factory);
     }
 }

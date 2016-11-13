@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage> {
+public class FactoryEditActionsImages extends FactoryActionsEditData<GvImage> {
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private final UiLauncher mLauncher;
     private final ImageChooser mImageChooser;
@@ -39,13 +39,13 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
     }
 
     @Override
-    protected BannerButtonAction<GvImage> newBannerButtonAdd() {
+    public BannerButtonAction<GvImage> newBannerButton() {
         return new BannerButtonAddImage(getAdderConfig(), getBannerButtonTitle(),
                 getDataFactory().newDataList(TYPE), getPacker(), mLauncher, mImageChooser);
     }
 
     @Override
-    protected GridItemAction<GvImage> newGridItemEdit() {
+    public GridItemAction<GvImage> newGridItem() {
         return new GridItemEditImage(getEditorConfig(), getPacker());
     }
 

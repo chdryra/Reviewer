@@ -20,16 +20,16 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCriterion> {
+public class FactoryActionsEditCriteria extends FactoryActionsEditData<GvCriterion> {
     private static final GvDataType<GvCriterion> TYPE
             = GvCriterion.TYPE;
 
-    public FactoryEditActionsCriteria(UiConfig config, FactoryGvData dataFactory) {
+    public FactoryActionsEditCriteria(UiConfig config, FactoryGvData dataFactory) {
         super(TYPE, config, dataFactory);
     }
 
     @Override
-    protected MenuAction<GvCriterion> newMenuEdit() {
+    public MenuAction<GvCriterion> newMenu() {
         return new MenuEditCriteria();
     }
 }

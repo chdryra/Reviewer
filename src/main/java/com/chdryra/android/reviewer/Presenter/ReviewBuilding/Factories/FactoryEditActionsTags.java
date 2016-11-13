@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
+public class FactoryEditActionsTags extends FactoryActionsEditData<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private final TagAdjuster mTagAdjuster;
 
@@ -31,7 +31,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     }
 
     @Override
-    protected SubjectAction<GvTag> newSubjectEdit() {
+    public SubjectAction<GvTag> newSubject() {
         return new SubjectEditTags(mTagAdjuster);
     }
 }

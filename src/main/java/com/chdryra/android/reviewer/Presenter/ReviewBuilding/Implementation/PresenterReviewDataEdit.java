@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class PresenterReviewDataEdit<T extends GvDataParcelable> implements AlertListener,
         ActivityResultListener {
-    private final MenuEdit<T> mMenu;
+    private final MenuEditData<T> mMenu;
     private final BannerButtonAdd<T> mBannerButton;
     private final GridItemEdit<T> mGridItem;
 
     private PresenterReviewDataEdit(ReviewDataEditor<T> editor) {
         ReviewViewActions<T> actions = editor.getActions();
-        mMenu = (MenuEdit<T>) actions.getMenuAction();
+        mMenu = (MenuEditData<T>) actions.getMenuAction();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
         mGridItem = (GridItemEdit<T>) actions.getGridItemAction();
     }

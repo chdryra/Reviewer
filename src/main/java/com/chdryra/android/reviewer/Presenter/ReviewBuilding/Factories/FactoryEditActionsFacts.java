@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
+public class FactoryEditActionsFacts extends FactoryActionsEditData<GvFact> {
     private static final GvDataType<GvFact> TYPE = GvFact.TYPE;
 
 
@@ -33,15 +33,15 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
     }
 
     @Override
-    protected BannerButtonAction<GvFact> newBannerButtonAdd() {
-        LaunchableConfig urlConfig = getConfig().getAdder(GvUrl.TYPE.getDatumName());
+    public BannerButtonAction<GvFact> newBannerButton() {
+        LaunchableConfig urlConfig = getUiConfig().getAdder(GvUrl.TYPE.getDatumName());
         return new BannerButtonAddFacts(getBannerButtonTitle(), getAdderConfig(), urlConfig,
                 getDataFactory().newDataList(TYPE), getPacker());
     }
 
     @Override
-    protected GridItemAction<GvFact> newGridItemEdit() {
-        LaunchableConfig urlConfig = getConfig().getEditor(GvUrl.TYPE.getDatumName());
+    public GridItemAction<GvFact> newGridItem() {
+        LaunchableConfig urlConfig = getUiConfig().getEditor(GvUrl.TYPE.getDatumName());
         return new GridItemEditFact(getEditorConfig(), urlConfig, getPacker());
     }
 

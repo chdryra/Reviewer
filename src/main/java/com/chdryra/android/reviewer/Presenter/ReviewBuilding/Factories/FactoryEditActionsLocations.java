@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLocation> {
+public class FactoryEditActionsLocations extends FactoryActionsEditData<GvLocation> {
     private static final GvDataType<GvLocation> TYPE = GvLocation.TYPE;
 
     public FactoryEditActionsLocations(UiConfig config, FactoryGvData dataFactory) {
@@ -31,15 +31,15 @@ public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLoc
     }
 
     @Override
-    protected BannerButtonAction<GvLocation> newBannerButtonAdd() {
-        return new BannerButtonAddLocation(getAdderConfig(), getConfig().getMapEditor(),
+    public BannerButtonAction<GvLocation> newBannerButton() {
+        return new BannerButtonAddLocation(getAdderConfig(), getUiConfig().getMapEditor(),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE),
                 getPacker());
     }
 
     @Override
-    protected GridItemAction<GvLocation> newGridItemEdit() {
-        return new GridItemEditLocation(getEditorConfig(), getConfig().getMapEditor(),
+    public GridItemAction<GvLocation> newGridItem() {
+        return new GridItemEditLocation(getEditorConfig(), getUiConfig().getMapEditor(),
                 getPacker());
     }
 
