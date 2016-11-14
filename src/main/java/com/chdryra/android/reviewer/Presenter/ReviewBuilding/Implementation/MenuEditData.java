@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
-import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,20 +19,6 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuEditData<T extends GvData> extends MenuActionNone<T> {
-    private static final int MENU = R.menu.menu_edit_data;
-    private static final int MENU_DELETE_ID = R.id.menu_item_delete;
-    private static final int MENU_DONE_ID = R.id.menu_item_done;
-    private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
-
-    public MenuEditData(String title,
-                        MenuActionItem<T> upAction,
-                        MenuActionItem<T> doneAction,
-                        MenuActionItem<T> deleteAction,
-                        MenuActionItem<T> previewAction) {
-        this(title, MENU, new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
-                upAction, doneAction, deleteAction, previewAction);
-    }
-
     MenuEditData(String title,
                  int menuId, int[] itemIds,
                  MenuActionItem<T> upAction,

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiD
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiUpDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditData;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -103,7 +103,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @Override
     public MenuAction<T> newMenu() {
-        return new MenuEditData<>(geDataName(), newUpAction(),
+        return new MenuEditDataDefault<>(geDataName(), newUpAction(),
                 newDoneAction(), newDeleteAction(), newPreviewAction());
     }
 
