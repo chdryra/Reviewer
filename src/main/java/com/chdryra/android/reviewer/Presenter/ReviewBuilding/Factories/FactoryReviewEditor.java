@@ -70,7 +70,7 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
         ReviewViewActions<GC> actions = new ReviewViewActions<>(factory);
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 
-        return new ReviewEditorDefault<>(adapter, actions, params, mFactoryDataEditor,
+        return new ReviewEditorDefault<>(adapter, actions, params, launcher, mFactoryDataEditor,
                 mFactoryFileIncrementor, mFactoryImageChooser);
     }
 }

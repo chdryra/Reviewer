@@ -41,7 +41,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsNone<T>{
+class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsNone<T> {
     private final UiConfig mUiConfig;
     private final ReviewLauncher mLauncher;
     private final FactoryGvData mDataFactory;
@@ -58,26 +58,6 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
         mDataFactory = dataFactory;
         mCommandsFactory = commandsFactory;
         mPacker = new ParcelablePacker<>();
-    }
-
-    LaunchableConfig getAdderConfig() {
-        return mUiConfig.getAdder(getDataType().getDatumName());
-    }
-
-    LaunchableConfig getEditorConfig() {
-        return mUiConfig.getEditor(getDataType().getDatumName());
-    }
-
-    UiConfig getUiConfig() {
-        return mUiConfig;
-    }
-
-    FactoryGvData getDataFactory() {
-        return mDataFactory;
-    }
-
-    ParcelablePacker<T> getPacker() {
-        return mPacker;
     }
 
     @Override
@@ -107,9 +87,35 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
                 newDoneAction(), newDeleteAction(), newPreviewAction());
     }
 
+    LaunchableConfig getAdderConfig() {
+        return mUiConfig.getAdder(getDataType().getDatumName());
+    }
+
+    LaunchableConfig getEditorConfig() {
+        return mUiConfig.getEditor(getDataType().getDatumName());
+    }
+
+    UiConfig getUiConfig() {
+        return mUiConfig;
+    }
+
+    FactoryGvData getDataFactory() {
+        return mDataFactory;
+    }
+
+    ParcelablePacker<T> getPacker() {
+        return mPacker;
+    }
+
+    String getBannerButtonTitle() {
+        String title = Strings.Buttons.ADD;
+        title += " " + geDataName();
+        return title;
+    }
+
     @NonNull
-    MaiUpDataEditor<T> newUpAction() {
-        return new MaiUpDataEditor<T>();
+    MenuActionItem<T> newUpAction() {
+        return new MaiUpDataEditor<>();
     }
 
     @NonNull
@@ -122,18 +128,12 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
         return new MaiDoneAction<>();
     }
 
-    private String geDataName() {
-        return getDataType().getDataName();
-    }
-
     @NonNull
     MenuActionItem<T> newDeleteAction() {
         return new MaiDeleteAction<>(geDataName());
     }
 
-    String getBannerButtonTitle() {
-        String title = Strings.Buttons.ADD;
-        title += " " + geDataName();
-        return title;
+    private String geDataName() {
+        return getDataType().getDataName();
     }
 }

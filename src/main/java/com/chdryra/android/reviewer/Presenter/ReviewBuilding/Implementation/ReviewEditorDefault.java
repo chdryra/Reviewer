@@ -35,6 +35,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC>, BannerButtonAction.ClickListener {
     private final ReviewBuilderAdapter<?> mAdapter;
+    private final UiLauncher mLauncher;
     private final FactoryReviewDataEditor mEditorFactory;
     private final BannerButtonReviewBuild<GC> mBannerButton;
     private final GridItemBuildReview<GC> mGridItem;
@@ -60,11 +62,13 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,
                                ReviewViewParams params,
+                               UiLauncher launcher,
                                FactoryReviewDataEditor editorFactory,
                                FactoryFileIncrementor incrementorFactory,
                                FactoryImageChooser imageChooserFactory) {
         super(new ReviewViewPerspective<>(adapter, actions, params));
         mAdapter = adapter;
+        mLauncher = launcher;
         mEditorFactory = editorFactory;
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
@@ -141,7 +145,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public <T extends GvDataParcelable> ReviewDataEditor<T> newDataEditor(GvDataType<T> dataType) {
         DataBuilderAdapter<T> adapter = mAdapter.getDataBuilderAdapter(dataType);
-        return mEditorFactory.newEditor(adapter, getApp().getUi().getLauncher(), newImageChooser());
+        return mEditorFactory.newEditor(adapter, mLauncher, newImageChooser());
     }
 
     @Override
