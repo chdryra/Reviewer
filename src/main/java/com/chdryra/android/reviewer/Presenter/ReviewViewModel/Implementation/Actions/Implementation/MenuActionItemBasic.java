@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
@@ -22,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class MenuActionItemBasic<T extends GvData> implements MenuAction.MenuActionItem<T> {
+public abstract class MenuActionItemBasic<T extends GvData> implements MenuActionItem<T> {
     private MenuAction<T> mParent;
 
     @Override

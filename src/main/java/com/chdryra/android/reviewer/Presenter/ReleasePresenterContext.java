@@ -83,7 +83,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
         UiConfig uiConfig = viewContext.getUiConfig();
-        FactoryReviewDataEditor dataEditorFactory = new FactoryReviewDataEditor(uiConfig, dataFactory, paramsFactory);
+        FactoryReviewDataEditor dataEditorFactory
+                = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(), paramsFactory);
 
         String dir = deviceContext.getImageStorageDirectory();
         FactoryFileIncrementor incrementorFactory

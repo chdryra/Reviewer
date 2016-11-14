@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -29,16 +30,13 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
-    private MaiEditor<GC> mPreview;
-    private MaiEditor<GC> mAverageRating;
+    private MenuActionItem<GC> mPreview;
+    private MenuActionItem<GC> mAverageRating;
 
-    public MenuReviewBuild(MaiPreviewReview<GC> preview, MaiAverageRating<GC> averageRating) {
-        super(MENU, Strings.Screens.BUILD, true);
+    public MenuReviewBuild(MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
+        super(MENU, Strings.Screens.BUILD, upAction);
         mPreview = preview;
         mAverageRating = averageRating;
-
-        mPreview.setParent(this);
-        mAverageRating.setParent(this);
     }
 
     @Override
@@ -55,24 +53,13 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
-
-        mPreview.onAttachReviewView();
-        mAverageRating.onAttachReviewView();
         mEditor.registerListener(this);
     }
 
     @Override
     public void onDetachReviewView() {
         super.onDetachReviewView();
-        mPreview.onDetachReviewView();
-        mAverageRating.onDetachReviewView();
         mEditor.unregisterListener(this);
-    }
-
-    @Override
-    protected void doUpSelected() {
-        getReviewView().getApp().getReviewEditor().discardEditor();
-        super.doUpSelected();
     }
 
     @Override

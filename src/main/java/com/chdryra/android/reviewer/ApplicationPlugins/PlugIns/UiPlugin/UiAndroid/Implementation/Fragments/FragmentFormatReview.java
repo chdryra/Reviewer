@@ -58,10 +58,14 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiReviewOptions;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUpFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
@@ -217,16 +221,19 @@ public class FragmentFormatReview extends Fragment {
 
     private void setMenu() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        UiSuite ui = app.getUi();
+        MenuActionItem<GvData> upAction = new MaiUpFormatted<>(app);
 
         MenuAction<?> action;
         if (mIsPublished) {
             LaunchOptionsCommand command
                     = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig()
                     .getReviewOptions());
-            MaiReviewOptions<GvData> mai = new MaiReviewOptions<>(command, mNode.getAuthorId());
-            action = new MenuReviewFormatted(mai, Strings.Screens.REVIEW, app);
+            MaiReviewOptions<GvData> optionsAction
+                    = new MaiReviewOptions<>(command, mNode.getAuthorId());
+            action = new MenuReviewFormatted(Strings.Screens.REVIEW, upAction, optionsAction, ui);
         } else {
-            action = new MenuReviewPreview(Strings.Screens.PREVIEW, app);
+            action = new MenuReviewPreview(Strings.Screens.PREVIEW, upAction, ui);
         }
 
         mMenu = new MenuUi(action);

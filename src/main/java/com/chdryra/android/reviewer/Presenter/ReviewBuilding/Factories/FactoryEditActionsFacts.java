@@ -13,11 +13,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddFacts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,8 +31,11 @@ public class FactoryEditActionsFacts extends FactoryActionsEditData<GvFact> {
     private static final GvDataType<GvFact> TYPE = GvFact.TYPE;
 
 
-    public FactoryEditActionsFacts(UiConfig config, FactoryGvData dataFactory) {
-        super(TYPE, config, dataFactory);
+    public FactoryEditActionsFacts(UiConfig config,
+                                   FactoryGvData dataFactory,
+                                   ReviewLauncher launcher,
+                                   FactoryCommands commandsFactory) {
+        super(TYPE, config, dataFactory, launcher, commandsFactory);
     }
 
     @Override

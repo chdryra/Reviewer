@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * On: 13/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiPreviewReviewData<T extends GvData> extends MaiDataEditor<T> {
+public class MaiPreviewDataEditor<T extends GvData> extends MaiDataEditor<T> {
     private LaunchFormattedCommand mCommand;
 
-    public MaiPreviewReviewData(LaunchFormattedCommand command) {
+    public MaiPreviewDataEditor(LaunchFormattedCommand command) {
         mCommand = command;
     }
 

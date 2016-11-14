@@ -21,17 +21,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface MenuAction<T extends GvData> extends ReviewViewAction<T> {
-    interface MenuActionItem<T extends GvData> {
-        void setParent(MenuAction<T> parent);
-
-        void doAction(MenuItem item);
-
-        void onAttachReviewView();
-
-        void onDetachReviewView();
-
-        void onInflateMenu();
-    }
 
     boolean hasOptionsMenu();
 

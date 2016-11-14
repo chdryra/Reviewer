@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -27,27 +28,20 @@ public class MenuEditCriteria extends MenuEditData<GvCriterion>
     private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
 
-    private MaiDataEditor<GvCriterion> mAverageAction;
-
-    public MenuEditCriteria(MaiDataEditor<GvCriterion> deleteAction,
-                            MaiDataEditor<GvCriterion> doneAction,
-                            MaiDataEditor<GvCriterion> previewAction,
-                            MaiDataEditor<GvCriterion> averageAction) {
-        super(MENU, TYPE.getDataName(), deleteAction, doneAction, previewAction);
-        mAverageAction = averageAction;
+    public MenuEditCriteria(MenuActionItem<GvCriterion> upAction,
+                            MenuActionItem<GvCriterion> doneAction,
+                            MenuActionItem<GvCriterion> deleteAction,
+                            MenuActionItem<GvCriterion> previewAction,
+                            MenuActionItem<GvCriterion> averageAction) {
+        super(TYPE.getDataName(), MENU,
+                new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
+                upAction, deleteAction, doneAction, previewAction);
+        addActionItem(averageAction, MENU_AVERAGE_ID, false);
     }
 
     @Override
     public void onDataChanged() {
         getEditor().update();
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindDeleteActionItem(MENU_DELETE_ID);
-        bindDoneActionItem(MENU_DONE_ID);
-        bindPreviewActionItem(MENU_PREVIEW_ID);
-        bindMenuActionItem(mAverageAction, MENU_AVERAGE_ID, false);
     }
 
     @Override

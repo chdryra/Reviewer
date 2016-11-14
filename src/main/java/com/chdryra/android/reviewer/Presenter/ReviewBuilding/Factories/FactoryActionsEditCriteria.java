@@ -9,11 +9,15 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiRatingAverage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,12 +28,16 @@ public class FactoryActionsEditCriteria extends FactoryActionsEditData<GvCriteri
     private static final GvDataType<GvCriterion> TYPE
             = GvCriterion.TYPE;
 
-    public FactoryActionsEditCriteria(UiConfig config, FactoryGvData dataFactory) {
-        super(TYPE, config, dataFactory);
+    public FactoryActionsEditCriteria(UiConfig config,
+                                      FactoryGvData dataFactory,
+                                      ReviewLauncher launcher,
+                                      FactoryCommands commandsFactory) {
+        super(TYPE, config, dataFactory, launcher, commandsFactory);
     }
 
     @Override
     public MenuAction<GvCriterion> newMenu() {
-        return new MenuEditCriteria();
+        return new MenuEditCriteria(newUpAction(), newDoneAction(), newDeleteAction(),
+                newPreviewAction(), new MaiRatingAverage<GvCriterion>());
     }
 }

@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -24,7 +23,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Bann
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewReview;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiUpEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
@@ -87,7 +87,8 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     public MenuAction<GC> newMenu() {
         LaunchFormattedCommand command = mFactoryCommands
                 .newLaunchFormattedCommand(mLauncher.getReviewLauncher());
-        return new MenuReviewBuild<>(new MaiPreviewReview<GC>(command), new MaiAverageRating<GC>());
+        return new MenuReviewBuild<>(new MaiUpEditor<GC>(),
+                new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
     }
 
     @Nullable

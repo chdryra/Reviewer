@@ -313,7 +313,7 @@ public class FactoryReviews implements ReviewMaker {
         if (headline != null) mdComments.add(new DatumComment(id, headline.getComment(), true));
         int index = 0;
         for (DataComment datum : comments) {
-            if (index == headlineIndex) continue;
+            if (index++ == headlineIndex) continue;
             mdComments.add(new DatumComment(id, datum.getComment(), datum.isHeadline()));
         }
 

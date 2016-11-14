@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Bann
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditImage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -32,8 +33,9 @@ public class FactoryEditActionsImages extends FactoryActionsEditData<GvImage> {
     public FactoryEditActionsImages(UiConfig config,
                                     FactoryGvData dataFactory,
                                     UiLauncher launcher,
+                                    FactoryCommands commandsFactory,
                                     ImageChooser imageChooser) {
-        super(TYPE, config, dataFactory);
+        super(TYPE, config, dataFactory, launcher.getReviewLauncher(), commandsFactory);
         mLauncher = launcher;
         mImageChooser = imageChooser;
     }

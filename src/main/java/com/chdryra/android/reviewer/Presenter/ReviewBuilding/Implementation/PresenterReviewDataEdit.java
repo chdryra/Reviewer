@@ -9,9 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
-import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -24,15 +22,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewDataEdit<T extends GvDataParcelable> implements AlertListener,
-        ActivityResultListener {
-    private final MenuEditData<T> mMenu;
+public class PresenterReviewDataEdit<T extends GvDataParcelable> implements ActivityResultListener {
     private final BannerButtonAdd<T> mBannerButton;
     private final GridItemEdit<T> mGridItem;
 
     private PresenterReviewDataEdit(ReviewDataEditor<T> editor) {
         ReviewViewActions<T> actions = editor.getActions();
-        mMenu = (MenuEditData<T>) actions.getMenuAction();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
         mGridItem = (GridItemEdit<T>) actions.getGridItemAction();
     }
@@ -76,28 +71,6 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Aler
             mBannerButton.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == mGridItem.getLaunchableRequestCode()) {
             mGridItem.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-        if (requestCode == mMenu.getAlertRequestCode()) {
-            mMenu.onAlertNegative(requestCode, args);
-        } else if (requestCode == mBannerButton.getAlertRequestCode()) {
-            mBannerButton.onAlertNegative(requestCode, args);
-        } else if (requestCode == mGridItem.getAlertRequestCode()) {
-            mGridItem.onAlertNegative(requestCode, args);
-        }
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == mMenu.getAlertRequestCode()) {
-            mMenu.onAlertPositive(requestCode, args);
-        } else if (requestCode == mBannerButton.getAlertRequestCode()) {
-            mBannerButton.onAlertPositive(requestCode, args);
-        } else if (requestCode == mGridItem.getAlertRequestCode()) {
-            mGridItem.onAlertPositive(requestCode, args);
         }
     }
 

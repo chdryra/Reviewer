@@ -31,7 +31,6 @@ public class MaiReviewOptions<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        if(!isAttached()) return;
         mCommand.execute(mAuthorId);
     }
 }

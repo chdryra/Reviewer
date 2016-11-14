@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -30,25 +31,21 @@ public class MenuEditComments extends MenuEditData<GvComment>
 
     private final MaiSplitCommentVals mSplitter;
 
-    public MenuEditComments(MaiDataEditor<GvComment>
-            deleteAction, MaiDataEditor<GvComment> doneAction, MaiDataEditor<GvComment>
-            previewAction, MaiSplitCommentVals splitter) {
-        super(MENU, TYPE.getDataName(), deleteAction, doneAction, previewAction);
+    public MenuEditComments(MenuActionItem<GvComment> upAction,
+                            MenuActionItem<GvComment> doneAction,
+                            MenuActionItem<GvComment> deleteAction,
+                            MenuActionItem<GvComment> previewAction,
+                            MaiSplitCommentVals splitter) {
+        super(TYPE.getDataName(), MENU,
+                new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
+                upAction, doneAction, deleteAction, previewAction);
         mSplitter = splitter;
-        mSplitter.setParent(this);
+        addActionItem(mSplitter, MENU_SPLIT_ID, false);
     }
 
     @Override
     public void onDataChanged() {
         mSplitter.updateGridData();
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindDeleteActionItem(MENU_DELETE_ID);
-        bindDoneActionItem(MENU_DONE_ID);
-        bindPreviewActionItem(MENU_PREVIEW_ID);
-        bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
     }
 
     @Override

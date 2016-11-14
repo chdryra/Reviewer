@@ -13,6 +13,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagA
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -21,6 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 import java.util.HashMap;
@@ -34,29 +38,34 @@ import java.util.Map;
 public class FactoryEditActions {
     private final Map<GvDataType<?>, FactoryActionsEditData<?>> mFactoriesMap;
     private final UiConfig mConfig;
+    private final ReviewLauncher mLauncher;
     private final FactoryGvData mDataFactory;
+    private final FactoryCommands mCommandsFactory;
 
     public FactoryEditActions(UiConfig config,
                               FactoryGvData dataFactory,
                               UiLauncher launcher,
+                              FactoryCommands commandsFactory,
                               ImageChooser imageChooser) {
         mConfig = config;
         mDataFactory = dataFactory;
+        mLauncher = launcher.getReviewLauncher();
+        mCommandsFactory = commandsFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvComment.TYPE, new FactoryActionsEditComments(mConfig, mDataFactory));
+        addFactory(GvComment.TYPE, new FactoryActionsEditComments(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvCriterion.TYPE, new FactoryActionsEditCriteria(mConfig, mDataFactory));
+        addFactory(GvCriterion.TYPE, new FactoryActionsEditCriteria(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvFact.TYPE, new FactoryEditActionsFacts(mConfig, mDataFactory));
+        addFactory(GvFact.TYPE, new FactoryEditActionsFacts(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvLocation.TYPE, new FactoryEditActionsLocations(mConfig, mDataFactory));
+        addFactory(GvLocation.TYPE, new FactoryEditActionsLocations(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
         addFactory(GvImage.TYPE,
-                new FactoryEditActionsImages(mConfig, mDataFactory, launcher, imageChooser));
+                new FactoryEditActionsImages(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser));
 
         addFactory(GvTag.TYPE,
-                new FactoryEditActionsTags(mConfig, mDataFactory, new TagAdjuster()));
+                new FactoryEditActionsTags(mConfig, mDataFactory, mLauncher, mCommandsFactory, new TagAdjuster()));
     }
 
     public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
@@ -67,7 +76,7 @@ public class FactoryEditActions {
         //TODO make type safe
         FactoryActionsEditData<T> factory = (FactoryActionsEditData<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
-            factory = new FactoryActionsEditData<>(dataType, mConfig, mDataFactory);
+            factory = new FactoryActionsEditData<>(dataType, mConfig, mDataFactory, mLauncher, mCommandsFactory);
         }
 
         return factory;

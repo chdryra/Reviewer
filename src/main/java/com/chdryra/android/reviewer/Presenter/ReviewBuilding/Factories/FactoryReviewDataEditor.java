@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -32,13 +34,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryReviewDataEditor {
     private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
+    private final FactoryCommands mCommandsFactory;
     private final FactoryReviewViewParams mParamsFactory;
 
     public FactoryReviewDataEditor(UiConfig config,
                                    FactoryGvData dataFactory,
+                                   FactoryCommands commandsFactory,
                                    FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mDataFactory = dataFactory;
+        mCommandsFactory = commandsFactory;
         mParamsFactory = paramsFactory;
     }
 
@@ -48,7 +53,7 @@ public class FactoryReviewDataEditor {
         GvDataType<T> type = adapter.getGvDataType();
 
         FactoryEditActions actionsFactory
-                = new FactoryEditActions(mConfig, mDataFactory, launcher, imageChooser);
+                = new FactoryEditActions(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser);
 
         ReviewViewActions<T> actions = actionsFactory.newActions(type);
         ReviewViewParams params = mParamsFactory.newEditorParams(type);

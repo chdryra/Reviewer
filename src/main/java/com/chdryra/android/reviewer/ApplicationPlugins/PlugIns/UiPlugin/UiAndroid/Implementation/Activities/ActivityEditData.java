@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -30,7 +29,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityEditData<T extends GvDataParcelable> extends ActivityReviewView implements
-        AlertListener,
         DataEditListener<T>,
         DataAddListener<T> {
 
@@ -66,16 +64,6 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
         PresenterReviewDataEdit.Builder<T> builder = new PresenterReviewDataEdit.Builder<>(mDataType);
         mPresenter = builder.build(AppInstanceAndroid.getInstance(this));
         return builder.getEditor();
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-        mPresenter.onAlertNegative(requestCode, args);
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        mPresenter.onAlertPositive(requestCode, args);
     }
 
     @Override

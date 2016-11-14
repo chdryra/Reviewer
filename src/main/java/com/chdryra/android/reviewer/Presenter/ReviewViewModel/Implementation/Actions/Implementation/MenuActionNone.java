@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.util.HashMap;
@@ -36,20 +37,24 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     private boolean mDisplayHomeAsUp = true;
     private Menu mMenu;
 
-    public MenuActionNone(@Nullable String title) {
+    public MenuActionNone(String title) {
         this(-1, title, true);
     }
 
-    protected MenuActionNone() {
-        this(-1, null, true);
+    public MenuActionNone(String title, MenuActionItem<T> upAction) {
+        this(-1, title, upAction);
     }
 
     protected MenuActionNone(int menuId, @Nullable String title, boolean displayHomeAsUp) {
+        this(menuId, title, displayHomeAsUp ? new MaiUp<T>() : null);
+    }
+
+    protected MenuActionNone(int menuId, @Nullable String title, @Nullable MenuActionItem<T> upAction) {
         mMenuId = menuId;
         mTitle = title;
-        mDisplayHomeAsUp = displayHomeAsUp;
+        mDisplayHomeAsUp = upAction != null;
         mActionItems = new HashMap<>();
-        if (mDisplayHomeAsUp) bindMenuActionItem(new MaiPreviousScreen<T>(), MENU_UP_ID, true);
+        if (upAction != null) bindMenuActionItem(upAction, MENU_UP_ID, true);
     }
 
     protected void addMenuItems() {
@@ -86,6 +91,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void bindMenuActionItem(MenuActionItem<T> item, int itemId, boolean finishActivity) {
+        item.setParent(this);
         mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivity));
     }
 

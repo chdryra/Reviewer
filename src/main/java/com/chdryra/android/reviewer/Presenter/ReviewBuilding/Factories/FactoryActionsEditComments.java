@@ -14,9 +14,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Grid
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,8 +30,11 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 public class FactoryActionsEditComments extends FactoryActionsEditData<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
 
-    public FactoryActionsEditComments(UiConfig config, FactoryGvData dataFactory) {
-        super(TYPE, config, dataFactory);
+    FactoryActionsEditComments(UiConfig config,
+                               FactoryGvData dataFactory,
+                               ReviewLauncher launcher,
+                               FactoryCommands commandsFactory) {
+        super(TYPE, config, dataFactory, launcher, commandsFactory);
     }
 
     @Override
@@ -37,6 +44,7 @@ public class FactoryActionsEditComments extends FactoryActionsEditData<GvComment
 
     @Override
     public MenuAction<GvComment> newMenu() {
-        return new MenuEditComments(new MaiSplitCommentVals());
+        return new MenuEditComments(newUpAction(), newDoneAction(), newDeleteAction(),
+                newPreviewAction(), new MaiSplitCommentVals());
     }
 }

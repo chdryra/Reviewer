@@ -8,10 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
@@ -28,77 +25,37 @@ public class MenuEditData<T extends GvData> extends MenuActionNone<T> {
     private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
 
-    private static final ActivityResultCode RESULT_PREVIEW = ActivityResultCode.OTHER;
-
-    private static final int ALERT_DIALOG = RequestCodeGenerator.getCode("DeleteConfirm");
-
-    private final MaiDataEditor<T> mDeleteAction;
-    private final MaiDataEditor<T> mDoneAction;
-    private final MaiDataEditor<T> mPreviewAction;
-
-    private ReviewDataEditor<T> mEditor;
-
     public MenuEditData(String title,
-                        MaiDataEditor<T> deleteAction,
-                        MaiDataEditor<T> doneAction,
-                        MaiDataEditor<T> previewAction) {
-        this(MENU, title, deleteAction, doneAction, previewAction);
+                        MenuActionItem<T> upAction,
+                        MenuActionItem<T> doneAction,
+                        MenuActionItem<T> deleteAction,
+                        MenuActionItem<T> previewAction) {
+        this(title, MENU, new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
+                upAction, doneAction, deleteAction, previewAction);
     }
 
-    public MenuEditData(int menuId, @Nullable String title,
-                        MaiDataEditor<T> deleteAction,
-                        MaiDataEditor<T> doneAction,
-                        MaiDataEditor<T> previewAction) {
-        super(menuId, title, true);
-        mDeleteAction = deleteAction;
-        mDoneAction = doneAction;
-        mPreviewAction = previewAction;
+    MenuEditData(String title,
+                 int menuId, int[] itemIds,
+                 MenuActionItem<T> upAction,
+                 MenuActionItem<T> doneAction,
+                 MenuActionItem<T> deleteAction,
+                 MenuActionItem<T> previewAction) {
 
-        addMenuItems();
+        super(menuId, title, upAction);
+        if(itemIds.length != 3) {
+            throw new IllegalArgumentException("itemIds should be length 3");
+        }
+
+        addActionItem(doneAction, itemIds[0], true);
+        addActionItem(deleteAction, itemIds[1], false);
+        addActionItem(previewAction, itemIds[2], false);
     }
 
-    public int getAlertRequestCode() {
-        return ALERT_DIALOG;
+    void addActionItem(MenuActionItem<T> actionItem, int itemId, boolean finishActivity) {
+        bindMenuActionItem(actionItem, itemId, finishActivity);
     }
 
-    //protected methods
     ReviewDataEditor<T> getEditor() {
-        return mEditor;
-    }
-
-    void bindDeleteActionItem(int deleteId) {
-        bindMenuActionItem(mDeleteAction, deleteId, false);
-    }
-
-    void bindDoneActionItem(int doneId) {
-        bindMenuActionItem(mDoneAction, doneId, true);
-    }
-
-    void bindPreviewActionItem(int previewId) {
-        bindMenuActionItem(mPreviewAction, previewId, false);
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindDeleteActionItem(MENU_DELETE_ID);
-        bindDoneActionItem(MENU_DONE_ID);
-        bindPreviewActionItem(MENU_PREVIEW_ID);
-    }
-
-    @Override
-    public void onAttachReviewView() {
-        super.onAttachReviewView();
-        mEditor = (ReviewDataEditor<T>) getReviewView();
-        mDeleteAction.onAttachReviewView();
-        mDoneAction.onAttachReviewView();
-        mPreviewAction.onAttachReviewView();
-    }
-
-    @Override
-    public void onDetachReviewView() {
-        mDeleteAction.onDetachReviewView();
-        mDoneAction.onDetachReviewView();
-        mPreviewAction.onDetachReviewView();
-        super.onDetachReviewView();
+        return (ReviewDataEditor<T>) getReviewView();
     }
 }

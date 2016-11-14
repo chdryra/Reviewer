@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewEdit;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
@@ -26,14 +26,14 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = TagKeyGenerator.getTag(ActivityBuildReview.class);
 
-    private PresenterReviewBuild mPresenter;
+    private PresenterReviewEdit mPresenter;
 
     @Override
     protected ReviewView createReviewView() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         Review template = app.unpackTemplate(getIntent().getBundleExtra(getLaunchTag()));
 
-        mPresenter = new PresenterReviewBuild.Builder().setTemplate(template).build(app);
+        mPresenter = new PresenterReviewEdit.Builder().setTemplate(template).build(app);
 
         return mPresenter.getEditor();
     }

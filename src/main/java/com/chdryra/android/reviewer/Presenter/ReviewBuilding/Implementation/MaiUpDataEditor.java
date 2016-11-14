@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 13/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiPreviousScreenEdit<T extends GvData> extends MaiDataEditor<T> {
+public class MaiUpDataEditor<T extends GvData> extends MaiDataEditor<T> {
     private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
 
     @Override

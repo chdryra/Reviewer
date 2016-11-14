@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 
@@ -21,21 +21,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuReviewPreview extends MenuActionNone<GvData> {
-    private AppInstanceAndroid mApp;
+    private UiSuite mUi;
 
-    public MenuReviewPreview(String title, AppInstanceAndroid app) {
-        super(title);
-        mApp = app;
+    public MenuReviewPreview(String title, MenuActionItem<GvData> upAction, UiSuite ui) {
+        super(title, upAction);
+        mUi = ui;
         setupActionBar();
     }
 
     @Override
     public CurrentScreen getCurrentScreen() {
-        return mApp.getUi().getCurrentScreen();
-    }
-
-    @Override
-    protected ApplicationInstance getApp() {
-        return mApp;
+        return mUi.getCurrentScreen();
     }
 }

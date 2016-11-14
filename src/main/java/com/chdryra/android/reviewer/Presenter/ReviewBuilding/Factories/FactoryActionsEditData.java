@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -21,7 +22,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Bann
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDeleteAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewReviewData;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiUpDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEdit;
@@ -48,8 +50,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     public FactoryActionsEditData(GvDataType<T> dataType,
                                   UiConfig uiConfig,
-                                  ReviewLauncher launcher,
-                                  FactoryGvData dataFactory,
+                                  FactoryGvData dataFactory, ReviewLauncher launcher,
                                   FactoryCommands commandsFactory) {
         super(dataType);
         mUiConfig = uiConfig;
@@ -102,17 +103,22 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @Override
     public MenuAction<T> newMenu() {
-        return new MenuEditData<>(geDataName(), newDeleteAction(), newDoneAction(),
-                newPreviewAction());
+        return new MenuEditData<>(geDataName(), newUpAction(),
+                newDoneAction(), newDeleteAction(), newPreviewAction());
     }
 
     @NonNull
-    public MaiPreviewReviewData<T> newPreviewAction() {
-        return new MaiPreviewReviewData<>(mCommandsFactory.newLaunchFormattedCommand(mLauncher));
+    MaiUpDataEditor<T> newUpAction() {
+        return new MaiUpDataEditor<T>();
     }
 
     @NonNull
-    private MaiDoneAction<T> newDoneAction() {
+    MenuActionItem<T> newPreviewAction() {
+        return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchFormattedCommand(mLauncher));
+    }
+
+    @NonNull
+    MenuActionItem<T> newDoneAction() {
         return new MaiDoneAction<>();
     }
 
@@ -121,7 +127,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
     }
 
     @NonNull
-    MaiDeleteAction<T> newDeleteAction() {
+    MenuActionItem<T> newDeleteAction() {
         return new MaiDeleteAction<>(geDataName());
     }
 
