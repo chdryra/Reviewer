@@ -101,6 +101,12 @@ public class Strings {
         public static final String PLEASE_WAIT = "Please wait...";
     }
 
+    public static class Menu {
+        public static final String SHOW_SENTENCES = "show sentences";
+        public static final String SHOW_HEADLINES = "show headlines";
+        public static final String MAP_LOCATIONS = "map locations";
+    }
+
     public static final String LOADING = "loading...";
     public static final String FETCHING = "fetching...";
     public static final String SEARCHING = "searching...";

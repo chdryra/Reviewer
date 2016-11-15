@@ -34,7 +34,6 @@ public class MaiSearchAuthors<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        if(!isAttached()) return;
         LaunchableUi authorSearch
                 = mFactory.newFollowSearchView(getApp().getAuthentication().getUserSession().getAuthorId());
         mLauncher.launch(authorSearch, new UiLauncherArgs(REQUEST_CODE));

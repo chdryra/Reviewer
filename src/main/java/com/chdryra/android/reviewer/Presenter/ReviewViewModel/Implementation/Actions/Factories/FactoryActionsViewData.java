@@ -20,31 +20,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonLaunchAuthorReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiSplitCommentRefs;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MenuComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExecuteCommand;
-
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -80,7 +64,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         mNode = node;
     }
 
-    protected FactoryReviewView getViewFactory() {
+    FactoryReviewView getViewFactory() {
         return mFactoryView;
     }
 
@@ -116,28 +100,5 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public GridItemAction<T> newGridItem() {
         return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactoryView,
                 new ParcelablePacker<GvDataParcelable>());
-    }
-
-    public static class Comments extends FactoryActionsViewData<GvComment.Reference> {
-        public Comments(FactoryReviewView factoryView,
-                        FactoryCommands factoryCommands,
-                        UiLauncher launcher,
-                        LaunchableConfig config,
-                        ReviewStamp stamp,
-                        AuthorsRepository repo,
-                        @Nullable ReviewNode node) {
-            super(GvComment.Reference.TYPE, factoryView, factoryCommands, launcher, config, stamp, repo, node);
-        }
-
-        @Override
-        public GridItemLauncher<GvComment.Reference> newGridItem() {
-            return new GridItemComments(getLauncher(), getConfig(), getViewFactory(),
-                    new ParcelablePacker<GvDataParcelable>());
-        }
-
-        @Override
-        public MenuAction<GvComment.Reference> newMenu() {
-            return new MenuComments(new MaiSplitCommentRefs());
-        }
     }
 }

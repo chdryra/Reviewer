@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -22,10 +22,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 public class MaiSettings<T extends GvData> extends MenuActionItemBasic<T>{
     @Override
     public void doAction(MenuItem item) {
-        if(isAttached()) {
-            ApplicationInstance app = getApp();
-            app.getUi().getCurrentScreen().showToast(Strings.Toasts.LOGGING_OUT);
-            app.logout();
-        }
+        ApplicationInstance app = getApp();
+        app.getUi().getCurrentScreen().showToast(Strings.Toasts.LOGGING_OUT);
+        app.logout();
     }
 }

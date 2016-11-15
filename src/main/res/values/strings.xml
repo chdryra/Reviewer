@@ -72,6 +72,9 @@
 
     <!-- Menus -->
     <string name="menu_options">options</string>
+    <string name="menu_locations">map locations</string>
+    <string name="menu_sentences">show sentences</string>
+    <string name="menu_headlines">show headlines</string>
     <string name="menu_search">search</string>
     <string name="menu_average_rating">average of criteria</string>
     <string name="menu_preview_review">preview review</string>

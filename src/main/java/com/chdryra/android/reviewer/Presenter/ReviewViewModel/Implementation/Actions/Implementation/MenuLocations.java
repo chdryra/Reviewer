@@ -8,8 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -17,12 +18,12 @@ import com.chdryra.android.reviewer.R;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuComments extends MenuActionNone<GvComment.Reference> {
-    private static final int MENU = R.menu.menu_view_comments;
-    private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
+public class MenuLocations extends MenuActionNone<GvLocation.Reference> {
+    private static final int MENU_MAP_ID = R.id.menu_item_map_locations;
+    private static final int MENU = R.menu.menu_view_locations;
 
-    public MenuComments(MenuActionItem<GvComment.Reference> splitter) {
-        super(MENU, GvComment.TYPE.getDataName(), true);
-        bindMenuActionItem(splitter, MENU_SPLIT_ID, false);
+    public MenuLocations(MenuActionItem<GvLocation.Reference> mapLocations) {
+        super(MENU, GvLocation.TYPE.getDataName(), true);
+        bindMenuActionItem(mapLocations, MENU_MAP_ID, false);
     }
 }

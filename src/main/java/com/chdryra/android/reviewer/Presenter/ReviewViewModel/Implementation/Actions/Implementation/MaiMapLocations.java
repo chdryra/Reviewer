@@ -8,21 +8,24 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import android.view.MenuItem;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 18/10/2015
+ * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuFollow<T extends GvData> extends MenuActionNone<T> {
-    private static final int FOLLOW = R.id.menu_item_follow;
-    private static final int MENU = R.menu.menu_follow;
+public class MaiMapLocations<T extends GvData> extends MenuActionItemBasic<T> {
+    private UiLauncher mLauncher;
 
-    public MenuFollow(MenuActionItem<T> follow) {
-        super(MENU, "", true);
-        bindMenuActionItem(follow, FOLLOW, false);
+    public MaiMapLocations(UiLauncher launcher) {
+        mLauncher = launcher;
+    }
+
+    @Override
+    public void doAction(MenuItem item) {
     }
 }

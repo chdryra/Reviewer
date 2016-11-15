@@ -30,19 +30,11 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
-    private MenuActionItem<GC> mPreview;
-    private MenuActionItem<GC> mAverageRating;
 
     public MenuReviewBuild(MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
         super(MENU, Strings.Screens.BUILD, upAction);
-        mPreview = preview;
-        mAverageRating = averageRating;
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindMenuActionItem(mPreview, MENU_PREVIEW_ID, false);
-        bindMenuActionItem(mAverageRating, MENU_AVERAGE_ID, false);
+        bindMenuActionItem(preview, MENU_PREVIEW_ID, false);
+        bindMenuActionItem(averageRating, MENU_AVERAGE_ID, false);
     }
 
     @Override
@@ -69,7 +61,7 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
     @Override
     public void onEditMode(ReviewEditor.EditMode mode) {
-        MenuItem item = getItem(mAverageRating);
+        MenuItem item = getItem(MENU_AVERAGE_ID);
         if(item != null) {
             //item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
             item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);

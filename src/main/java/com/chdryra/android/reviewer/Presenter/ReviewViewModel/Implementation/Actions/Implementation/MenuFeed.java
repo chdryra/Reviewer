@@ -23,24 +23,10 @@ public class MenuFeed<T extends GvData> extends MenuActionNone<T> {
     private static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
-    private final MenuActionItem<T> mNewReview;
-    private final MenuActionItem<T> mFollow;
-    private final MenuActionItem<T> mSettings;
-
     public MenuFeed(MenuActionItem<T> newReview, MenuActionItem<T> follow, MenuActionItem<T> settings) {
-        super(MENU, null, false);
-        mNewReview = newReview;
-        mFollow = follow;
-        mSettings = settings;
-        mNewReview.setParent(this);
-        mFollow.setParent(this);
-        mSettings.setParent(this);
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindMenuActionItem(mNewReview, NEW_REVIEW, false);
-        bindMenuActionItem(mFollow, FOLLOW, false);
-        bindMenuActionItem(mSettings, SETTINGS, false);
+        super(MENU, "", false);
+        bindMenuActionItem(newReview, NEW_REVIEW, false);
+        bindMenuActionItem(follow, FOLLOW, false);
+        bindMenuActionItem(settings, SETTINGS, false);
     }
 }

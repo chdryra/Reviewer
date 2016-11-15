@@ -56,7 +56,7 @@ public abstract class MenuActionItemBasic<T extends GvData> implements MenuActio
         return mParent.getItem(this);
     }
 
-    protected boolean isAttached() {
+    boolean isAttached() {
         return mParent != null;
     }
 

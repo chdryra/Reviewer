@@ -36,7 +36,7 @@ public class MenuEditCriteria extends MenuEditData<GvCriterion>
         super(TYPE.getDataName(), MENU,
                 new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
                 upAction, deleteAction, doneAction, previewAction);
-        addActionItem(averageAction, MENU_AVERAGE_ID, false);
+        bindMenuActionItem(averageAction, MENU_AVERAGE_ID, false);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
         try {
             ((ReviewCommentsEditor) getReviewView()).setSplit(mSplit);
         } catch (ClassCastException e) {
-
+            e.printStackTrace();
         }
     }
 }

@@ -40,7 +40,7 @@ public class MenuEditComments extends MenuEditData<GvComment>
                 new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
                 upAction, doneAction, deleteAction, previewAction);
         mSplitter = splitter;
-        addActionItem(mSplitter, MENU_SPLIT_ID, false);
+        bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
     }
 
     @Override

@@ -23,20 +23,27 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
     private static final int UNSPLIT_ICON = R.drawable.ic_action_return_from_full_screen;
     private static final int SPLIT_ICON = R.drawable.ic_action_full_screen;
 
-    private boolean mCommentsAreSplit = false;
+    private boolean mIsSplit = false;
 
     protected abstract void doSplit(boolean doSplit);
 
     @Override
+    public void onInflateMenu() {
+        MenuItem menuItem = getMenuItem();
+        if(menuItem != null) updateMenuUi(menuItem);
+    }
+
+    @Override
     public void doAction(MenuItem item) {
-        if(!isAttached() || getReviewView() == null) return;
+        mIsSplit = !mIsSplit;
+        updateMenuUi(item);
+        doSplit(mIsSplit);
+    }
 
-        mCommentsAreSplit = !mCommentsAreSplit;
-
-        item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
-        getCurrentScreen().showToast(mCommentsAreSplit ?
+    private void updateMenuUi(MenuItem item) {
+        item.setIcon(mIsSplit ? UNSPLIT_ICON : SPLIT_ICON);
+        item.setTitle(mIsSplit ? Strings.Menu.SHOW_HEADLINES : Strings.Menu.SHOW_SENTENCES);
+        getCurrentScreen().showToast(mIsSplit ?
                 Strings.Toasts.SPLIT_COMMENT : Strings.Toasts.UNSPLIT_COMMENT);
-
-        doSplit(mCommentsAreSplit);
     }
 }

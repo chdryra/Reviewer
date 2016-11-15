@@ -41,8 +41,6 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        if(!isAttached()) return;
-
         String toast = mActionType == SocialProfile.FollowUnfollow.FOLLOW ?
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
         getCurrentScreen().showToast(toast);

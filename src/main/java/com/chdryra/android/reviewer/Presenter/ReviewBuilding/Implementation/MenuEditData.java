@@ -31,13 +31,9 @@ public class MenuEditData<T extends GvData> extends MenuActionNone<T> {
             throw new IllegalArgumentException("itemIds should be length 3");
         }
 
-        addActionItem(doneAction, itemIds[0], true);
-        addActionItem(deleteAction, itemIds[1], false);
-        addActionItem(previewAction, itemIds[2], false);
-    }
-
-    void addActionItem(MenuActionItem<T> actionItem, int itemId, boolean finishActivity) {
-        bindMenuActionItem(actionItem, itemId, finishActivity);
+        bindMenuActionItem(doneAction, itemIds[0], true);
+        bindMenuActionItem(deleteAction, itemIds[1], false);
+        bindMenuActionItem(previewAction, itemIds[2], false);
     }
 
     ReviewDataEditor<T> getEditor() {

@@ -21,20 +21,13 @@ public class MenuReviewOptions<T extends GvData> extends MenuActionNone<T> {
     private static final int OPTIONS = R.id.menu_item_options;
     private static final int MENU = R.menu.menu_review_options;
 
-    private final MenuActionItem<T> mReviewOptions;
-
     public MenuReviewOptions(String title, MenuActionItem<T> reviewOptions) {
         super(MENU, title, true);
-        mReviewOptions = reviewOptions;
+        bindMenuActionItem(reviewOptions, OPTIONS, false);
     }
 
     protected MenuReviewOptions(String title, MenuActionItem<T> upAction, MenuActionItem<T> reviewOptions) {
         super(MENU, title, upAction);
-        mReviewOptions = reviewOptions;
-    }
-
-    @Override
-    protected void addMenuItems() {
-        bindMenuActionItem(mReviewOptions, OPTIONS, false);
+        bindMenuActionItem(reviewOptions, OPTIONS, false);
     }
 }

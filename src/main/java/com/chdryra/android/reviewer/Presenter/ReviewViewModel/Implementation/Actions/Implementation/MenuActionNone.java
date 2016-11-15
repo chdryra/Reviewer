@@ -45,19 +45,16 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         this(-1, title, upAction);
     }
 
-    protected MenuActionNone(int menuId, @Nullable String title, boolean displayHomeAsUp) {
+    protected MenuActionNone(int menuId, String title, boolean displayHomeAsUp) {
         this(menuId, title, displayHomeAsUp ? new MaiUp<T>() : null);
     }
 
-    protected MenuActionNone(int menuId, @Nullable String title, @Nullable MenuActionItem<T> upAction) {
+    protected MenuActionNone(int menuId, String title, @Nullable MenuActionItem<T> upAction) {
         mMenuId = menuId;
         mTitle = title;
         mDisplayHomeAsUp = upAction != null;
         mActionItems = new HashMap<>();
         if (upAction != null) bindMenuActionItem(upAction, MENU_UP_ID, true);
-    }
-
-    protected void addMenuItems() {
     }
 
     @Nullable
@@ -121,7 +118,6 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         if (screen.hasActionBar()) {
             screen.setHomeAsUp(mDisplayHomeAsUp);
             screen.setTitle(mTitle);
-            addMenuItems();
         }
     }
 

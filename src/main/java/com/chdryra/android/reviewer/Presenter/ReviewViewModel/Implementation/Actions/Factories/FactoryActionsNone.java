@@ -42,7 +42,7 @@ public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewAc
 
     @Override
     public MenuAction<T> newMenu() {
-        return newMenu(null);
+        return newMenu("");
     }
 
     @Override
@@ -71,7 +71,7 @@ public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewAc
         return null;
     }
 
-    MenuAction<T> newMenu(@Nullable String title) {
+    MenuAction<T> newMenu(String title) {
         return new MenuActionNone<>(title);
     }
 }
