@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuReviewOptions<T extends GvData> extends MenuActionNone<T> {
-    private static final int OPTIONS = R.id.menu_item_options;
-    private static final int MENU = R.menu.menu_review_options;
+    public static final int OPTIONS = R.id.menu_item_options;
+    public static final int MENU = R.menu.menu_review_options;
 
     public MenuReviewOptions(String title, MenuActionItem<T> reviewOptions) {
         super(MENU, title, true);

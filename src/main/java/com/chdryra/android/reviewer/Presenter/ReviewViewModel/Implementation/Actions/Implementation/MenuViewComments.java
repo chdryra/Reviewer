@@ -17,12 +17,14 @@ import com.chdryra.android.reviewer.R;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuComments extends MenuActionNone<GvComment.Reference> {
+public class MenuViewComments extends MenuViewData<GvComment.Reference> {
     private static final int MENU = R.menu.menu_view_comments;
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
+    private static final int MENU_OPTIONS_ID = R.id.menu_item_options_comment;
 
-    public MenuComments(MenuActionItem<GvComment.Reference> splitter) {
-        super(MENU, GvComment.TYPE.getDataName(), true);
+    public MenuViewComments(MenuActionItem<GvComment.Reference> options,
+                            MenuActionItem<GvComment.Reference> splitter) {
+        super(GvComment.Reference.TYPE, MENU, MENU_OPTIONS_ID, options);
         bindMenuActionItem(splitter, MENU_SPLIT_ID, false);
     }
 }

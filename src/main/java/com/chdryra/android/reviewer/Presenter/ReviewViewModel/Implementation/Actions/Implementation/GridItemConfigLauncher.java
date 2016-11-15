@@ -35,12 +35,12 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     private final ParcelablePacker<GvDataParcelable> mPacker;
     private final int mLaunchCode;
 
-    public GridItemConfigLauncher(UiLauncher launcher, LaunchableConfig dataConfig,
+    public GridItemConfigLauncher(UiLauncher launcher,
                                   FactoryReviewView launchableFactory,
-                                  ParcelablePacker<GvDataParcelable> packer) {
+                                  LaunchableConfig dataConfig) {
         super(launcher, launchableFactory);
         mDataConfig = dataConfig;
-        mPacker = packer;
+        mPacker = new ParcelablePacker<>();
         mLaunchCode = RequestCodeGenerator.getCode(TAG + String.valueOf(mDataConfig.getDefaultRequestCode()));
     }
 

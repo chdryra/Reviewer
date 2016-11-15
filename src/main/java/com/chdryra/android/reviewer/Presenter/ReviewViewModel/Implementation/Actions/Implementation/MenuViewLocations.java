@@ -18,12 +18,14 @@ import com.chdryra.android.reviewer.R;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuLocations extends MenuActionNone<GvLocation.Reference> {
-    private static final int MENU_MAP_ID = R.id.menu_item_map_locations;
+public class MenuViewLocations extends MenuViewData<GvLocation.Reference> {
     private static final int MENU = R.menu.menu_view_locations;
+    private static final int MENU_MAP_ID = R.id.menu_item_map_locations;
+    private static final int MENU_OPTIONS_ID = R.id.menu_item_options_locations;
 
-    public MenuLocations(MenuActionItem<GvLocation.Reference> mapLocations) {
-        super(MENU, GvLocation.TYPE.getDataName(), true);
+    public MenuViewLocations(MenuActionItem<GvLocation.Reference> options,
+                             MenuActionItem<GvLocation.Reference> mapLocations) {
+        super(GvLocation.Reference.TYPE, MENU, MENU_OPTIONS_ID, options);
         bindMenuActionItem(mapLocations, MENU_MAP_ID, false);
     }
 }

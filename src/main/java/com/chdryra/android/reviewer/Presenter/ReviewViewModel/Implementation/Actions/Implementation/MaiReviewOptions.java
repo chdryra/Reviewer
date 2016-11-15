@@ -24,9 +24,9 @@ public class MaiReviewOptions<T extends GvData> extends MenuActionItemBasic<T> {
     private final LaunchOptionsCommand mCommand;
     private final DataAuthorId mAuthorId;
 
-    public MaiReviewOptions(LaunchOptionsCommand command, DataAuthorId authorId) {
+    public MaiReviewOptions(LaunchOptionsCommand command, DataAuthorId reviewAuthorId) {
         mCommand = command;
-        mAuthorId = authorId;
+        mAuthorId = reviewAuthorId;
     }
 
     @Override

@@ -27,12 +27,14 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
-    private ReviewId mId;
+    private StampId mId;
     private AuthorId mAuthorId;
     private DateTime mDate;
 
     private ReviewStamp() {
-
+        mAuthorId = new DatumAuthorId();
+        mDate = new DatumDate();
+        mId = new StampId();
     }
 
     private ReviewStamp(AuthorId authorId, DateTime date) {
@@ -71,7 +73,7 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
     }
 
     public boolean isValid() {
-        return mId != null;
+        return mId.isValid();
     }
 
     public String toReadableDate(){
@@ -123,6 +125,10 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time";
 
         private String mId = ":";
+
+        public StampId() {
+
+        }
 
         public StampId(@NotNull String userId, long time) {
             if(userId.length() == 0) throwException();
@@ -185,6 +191,10 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
 
         public String toString() {
             return mId;
+        }
+
+        public boolean isValid() {
+            return mId.length() > 1;
         }
     }
 }

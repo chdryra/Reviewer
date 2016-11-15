@@ -62,7 +62,7 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
 
     @Override
     public MenuAction<GvSocialPlatform> newMenu() {
-        return newMenu(TITLE);
+        return newDefaultMenu(TITLE);
     }
 
     @Nullable

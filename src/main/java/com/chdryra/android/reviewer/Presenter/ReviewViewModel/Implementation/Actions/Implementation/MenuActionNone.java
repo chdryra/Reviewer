@@ -63,14 +63,14 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     }
 
     @Override
-    public boolean hasOptionsMenu() {
+    public boolean hasMenu() {
         return mMenuId != -1;
     }
 
     @Override
     public void inflateMenu(Menu menu, MenuInflater inflater) {
         mMenu = menu;
-        if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
+        if (hasMenu()) inflater.inflate(mMenuId, menu);
         for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onInflateMenu();
         }

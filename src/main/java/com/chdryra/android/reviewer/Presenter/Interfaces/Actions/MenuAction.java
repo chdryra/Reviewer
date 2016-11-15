@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public interface MenuAction<T extends GvData> extends ReviewViewAction<T> {
 
-    boolean hasOptionsMenu();
+    boolean hasMenu();
 
     void inflateMenu(Menu menu, MenuInflater inflater);
 

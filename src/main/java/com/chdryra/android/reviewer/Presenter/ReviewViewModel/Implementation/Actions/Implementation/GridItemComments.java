@@ -31,7 +31,7 @@ public class GridItemComments extends GridItemConfigLauncher<GvComment.Reference
     public GridItemComments(UiLauncher launcher, LaunchableConfig commentsViewConfig,
                             FactoryReviewView launchableFactory,
                             ParcelablePacker<GvDataParcelable> packer) {
-        super(launcher, commentsViewConfig, launchableFactory, packer);
+        super(launcher, launchableFactory, commentsViewConfig, packer);
     }
 
     @Override

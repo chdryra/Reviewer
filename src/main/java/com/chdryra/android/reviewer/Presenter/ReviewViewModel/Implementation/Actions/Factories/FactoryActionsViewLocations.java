@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.MaiMapLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -31,16 +31,19 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocation.Reference> {
     public FactoryActionsViewLocations(FactoryReviewView factoryView,
                                        FactoryCommands factoryCommands,
-                                       UiLauncher launcher,
-                                       LaunchableConfig config,
-                                       ReviewStamp stamp,
-                                       AuthorsRepository repo,
+                                       ReviewStamp stamp, AuthorsRepository repo, UiLauncher launcher,
+
+                                       LaunchableConfig optionsConfig, LaunchableConfig
+                                               gridItemConfig,
                                        @Nullable ReviewNode node) {
-        super(GvLocation.Reference.TYPE, factoryView, factoryCommands, launcher, config, stamp, repo, node);
+        super(GvLocation.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher, optionsConfig, gridItemConfig,
+
+                node);
     }
 
     @Override
     public MenuAction<GvLocation.Reference> newMenu() {
-        return new MenuLocations(new MaiMapLocations<GvLocation.Reference>(getLauncher()));
+        return new MenuViewLocations(newOptionsMenuItem(),
+                new MaiMapLocations<GvLocation.Reference>(getLauncher()));
     }
 }

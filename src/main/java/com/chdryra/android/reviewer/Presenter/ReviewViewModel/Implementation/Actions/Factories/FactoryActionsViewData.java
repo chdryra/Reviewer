@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -17,18 +18,21 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExecuteCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -41,7 +45,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final FactoryReviewView mFactoryView;
     private final FactoryCommands mFactoryCommands;
     private final UiLauncher mLauncher;
-    private final LaunchableConfig mConfig;
+    private final LaunchableConfig mGridItemConfig;
+    private final LaunchableConfig mOptionsConfig;
     private final ReviewStamp mStamp;
     private final AuthorsRepository mRepo;
     private final ReviewNode mNode;
@@ -49,27 +54,19 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public FactoryActionsViewData(GvDataType<T> dataType,
                                   FactoryReviewView factoryView,
                                   FactoryCommands factoryCommands,
-                                  UiLauncher launcher,
-                                  LaunchableConfig config,
-                                  ReviewStamp stamp,
-                                  AuthorsRepository repo,
+                                  ReviewStamp stamp, AuthorsRepository repo, UiLauncher launcher,
+                                  LaunchableConfig optionsConfig,
+                                  @Nullable LaunchableConfig gridItemConfig,
                                   @Nullable ReviewNode node) {
         super(dataType);
         mFactoryView = factoryView;
         mFactoryCommands = factoryCommands;
         mLauncher = launcher;
-        mConfig = config;
+        mGridItemConfig = gridItemConfig;
+        mOptionsConfig = optionsConfig;
         mStamp = stamp;
         mRepo = repo;
         mNode = node;
-    }
-
-    FactoryReviewView getViewFactory() {
-        return mFactoryView;
-    }
-
-    protected LaunchableConfig getConfig() {
-        return mConfig;
     }
 
     protected UiLauncher getLauncher() {
@@ -78,13 +75,14 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public MenuAction<T> newMenu() {
-        return newMenu(getDataType().getDataName());
+        return isSummary() ?
+                new MenuViewDataDefault<>(Strings.Screens.SUMMARY, newOptionsMenuItem())
+                : new MenuViewDataDefault<>(getDataType(), newOptionsMenuItem());
     }
-    
+
     @Override
     public RatingBarAction<T> newRatingBar() {
-        if(mNode == null) return super.newRatingBar();
-
+        if (mNode == null) return super.newRatingBar();
         LaunchFormattedCommand command
                 = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
         return new RatingBarExecuteCommand<>(command, Strings.LOADING);
@@ -92,13 +90,33 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public BannerButtonAction<T> newBannerButton() {
-        return mStamp.isValid() ? new BannerButtonLaunchAuthorReviews<T>(mLauncher.getReviewLauncher(),
-                mStamp, mRepo) : new BannerButtonActionNone<T>(Strings.Buttons.SUMMARY);
+        return mStamp.isValid() ?
+                new BannerButtonLaunchAuthorReviews<T>(mLauncher.getReviewLauncher(), mStamp, mRepo)
+                : new BannerButtonActionNone<T>(Strings.Buttons.SUMMARY);
     }
 
     @Override
     public GridItemAction<T> newGridItem() {
-        return new GridItemConfigLauncher<>(mLauncher, mConfig, mFactoryView,
-                new ParcelablePacker<GvDataParcelable>());
+        return isSummary() ?
+                new GridItemLauncher<T>(mLauncher, mFactoryView)
+                : new GridItemConfigLauncher<T>(mLauncher, mFactoryView, mGridItemConfig);
+    }
+
+    private boolean isSummary() {
+        return mGridItemConfig == null;
+    }
+
+    FactoryReviewView getViewFactory() {
+        return mFactoryView;
+    }
+
+    LaunchableConfig getGridItemConfig() {
+        return mGridItemConfig;
+    }
+
+    @NonNull
+    MenuActionItem<T> newOptionsMenuItem() {
+        LaunchOptionsCommand command = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig);
+        return new MaiReviewOptions<>(command, mStamp.getDataAuthorId());
     }
 }

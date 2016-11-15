@@ -36,6 +36,7 @@ public class DatumAuthorId implements DataAuthorId, Parcelable {
     private String mAuthorId;
 
     public DatumAuthorId() {
+        this(new DatumReviewId(), "");
     }
 
     public DatumAuthorId(ReviewId reviewId, String authorId) {

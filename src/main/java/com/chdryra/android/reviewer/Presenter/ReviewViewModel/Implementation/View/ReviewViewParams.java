@@ -114,7 +114,7 @@ public class ReviewViewParams {
     }
 
     public static class GridViewParams {
-        private GridViewAlpha mGridAlpha = GridViewAlpha.TRANSPARENT;
+        private GridViewAlpha mGridAlpha = GridViewAlpha.MEDIUM;
         private CellDimension mCellWidth = CellDimension.HALF;
         private CellDimension mCellHeight = CellDimension.QUARTER;
 
