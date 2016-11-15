@@ -29,31 +29,34 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class ReviewLauncherImpl implements ReviewLauncher {
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
-    private final NodeLauncher mFormattedLauncher;
-    private final NodeLauncher mNodeMapLauncher;
+    private final NodeLauncher mFormatter;
+    private final NodeLauncher mNodeMapper;
 
     private UiLauncher mLauncher;
     private AuthorId mSessionAuthor;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              NodeLauncher formattedLauncher,
-                              NodeLauncher nodeMapLauncher,
+                              NodeLauncher formatter,
+                              NodeLauncher nodeMapper,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
-        mFormattedLauncher = formattedLauncher;
-        mNodeMapLauncher = nodeMapLauncher;
+        mFormatter = formatter;
+        mNodeMapper = nodeMapper;
     }
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
-        return mFormattedLauncher.unpack(args);
+        ReviewNode formatted = mFormatter.unpack(args);
+        if(formatted == null) return mNodeMapper.unpack(args);
+        return formatted;
     }
 
     @Override
     public void setUiLauncher(UiLauncher launcher) {
         mLauncher = launcher;
-        mFormattedLauncher.setUiLauncher(launcher);
+        mFormatter.setUiLauncher(launcher);
+        mNodeMapper.setUiLauncher(launcher);
     }
 
     @Override
@@ -67,25 +70,25 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchMap(ReviewNode node) {
-
-    }
-
-    @Override
     public void launchSummary(final ReviewId reviewId) {
         ReviewNode node = mReviewsSource.asReviewNode(reviewId);
         launchView(mViewFactory.newSummaryView(node), getRequestCode(node));
     }
 
     @Override
-    public void launchFormatted(ReviewNode node, boolean published) {
-        mFormattedLauncher.launch(node, published);
-    }
-
-    @Override
     public void launchReviewsList(AuthorId authorId) {
         ReviewNode node = mReviewsSource.getMetaReview(authorId);
         launchView(newListView(node), getRequestCode(node));
+    }
+
+    @Override
+    public void launchFormatted(ReviewNode node, boolean published) {
+        mFormatter.launch(node, published);
+    }
+
+    @Override
+    public void launchMap(ReviewNode node, boolean isPublished) {
+        mNodeMapper.launch(node, isPublished);
     }
 
     void setSessionAuthor(AuthorId authorId) {

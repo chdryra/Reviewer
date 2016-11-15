@@ -37,11 +37,14 @@ public class FactoryUiLauncher {
                                          FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
                                          LaunchableConfig buildConfig,
-                                         LaunchableConfig formattedConfig) {
+                                         LaunchableConfig formatter,
+                                         LaunchableConfig nodeMapper) {
 
         EditUiLauncher buildUi = new EditUiLauncher(buildConfig, builder, repository);
-        NodeLauncher formatted = new NodeLauncher(formattedConfig);
-        ReviewLauncherImpl reviewLauncher = new ReviewLauncherImpl(masterRepo, formatted, viewFactory);
+        NodeLauncher formatted = new NodeLauncher(formatter);
+        NodeLauncher mapped = new NodeLauncher(nodeMapper);
+        ReviewLauncherImpl reviewLauncher
+                = new ReviewLauncherImpl(masterRepo, formatted, mapped, viewFactory);
 
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
     }

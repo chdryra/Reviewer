@@ -22,11 +22,11 @@ public interface ReviewLauncher extends UiLauncherWrapper {
 
     void launchAsList(ReviewNode node);
 
-    void launchMap(ReviewNode node);
-
     void launchSummary(ReviewId reviewId);
+
+    void launchReviewsList(AuthorId authorId);
 
     void launchFormatted(ReviewNode node, boolean isPublished);
 
-    void launchReviewsList(AuthorId authorId);
+    void launchMap(ReviewNode node, boolean isPublished);
 }

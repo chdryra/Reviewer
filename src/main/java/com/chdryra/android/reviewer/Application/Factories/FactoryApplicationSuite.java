@@ -118,7 +118,7 @@ public class FactoryApplicationSuite {
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
                 viewFactory, persistence.getReviewsRepository(), uiConfig.getBuildReview(),
-                uiConfig.getFormattedReview());
+                uiConfig.getFormattedReview(), uiConfig.getNodeMapper());
 
         return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),
                 viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
