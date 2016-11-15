@@ -29,7 +29,8 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mFeed;
     private final Class<? extends LaunchableUi> mReviewBuild;
     private final Class<? extends LaunchableUi> mReviewFormatted;
-    private final Class<? extends LaunchableUi> mMapEdit;
+    private final Class<? extends LaunchableUi> mMapperEdit;
+    private final Class<? extends LaunchableUi> mMapperNode;
     private final Class<? extends LaunchableUi> mPublish;
     private final Class<? extends LaunchableUi> mOptions;
 
@@ -41,7 +42,8 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> feed,
                              Class<? extends LaunchableUi> reviewBuild,
                              Class<? extends LaunchableUi> reviewFormatted,
-                             Class<? extends LaunchableUi> mapEdit,
+                             Class<? extends LaunchableUi> mapperEdit,
+                             Class<? extends LaunchableUi> mapperNode,
                              Class<? extends LaunchableUi> publish,
                              Class<? extends LaunchableUi> options,
                              Class<? extends Activity> defaultActivity) {
@@ -50,7 +52,8 @@ public class LaunchablesHolder implements LaunchablesList {
         mFeed = feed;
         mReviewBuild = reviewBuild;
         mReviewFormatted = reviewFormatted;
-        mMapEdit = mapEdit;
+        mMapperEdit = mapperEdit;
+        mMapperNode = mapperNode;
         mPublish = publish;
         mOptions = options;
         mDefaultActivity = defaultActivity;
@@ -87,8 +90,13 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUi> getMapEdit() {
-        return mMapEdit;
+    public Class<? extends LaunchableUi> getMapperEdit() {
+        return mMapperEdit;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getMapperNode() {
+        return mMapperNode;
     }
 
     @Override

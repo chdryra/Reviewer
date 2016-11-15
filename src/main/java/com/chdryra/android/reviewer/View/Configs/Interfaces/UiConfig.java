@@ -34,6 +34,8 @@ public interface UiConfig {
 
     LaunchableConfig getMapEditor();
 
+    LaunchableConfig getNodeMapper();
+
     LaunchableConfig getPublish();
 
     LaunchableConfig getReviewOptions();

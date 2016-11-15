@@ -20,6 +20,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 public interface ReviewLauncher extends UiLauncherWrapper {
     void launchAsList(ReviewId reviewId);
 
+    void launchAsList(ReviewNode node);
+
+    void launchMap(ReviewNode node);
+
     void launchSummary(ReviewId reviewId);
 
     void launchFormatted(ReviewNode node, boolean isPublished);

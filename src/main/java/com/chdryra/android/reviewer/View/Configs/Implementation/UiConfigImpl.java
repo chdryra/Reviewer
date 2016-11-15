@@ -35,6 +35,7 @@ public final class UiConfigImpl implements UiConfig {
     private final LaunchableConfig mBuildReview;
     private final LaunchableConfig mFormattedReview;
     private final LaunchableConfig mEditOnMap;
+    private final LaunchableConfig mNodeMapper;
     private final LaunchableConfig mPublish;
     private final LaunchableConfig mOptions;
 
@@ -47,6 +48,7 @@ public final class UiConfigImpl implements UiConfig {
                         LaunchableConfig buildReview,
                         LaunchableConfig formattedReview,
                         LaunchableConfig editOnMap,
+                        LaunchableConfig nodeMapper,
                         LaunchableConfig publish,
                         LaunchableConfig options) {
         mConfigsMap = new HashMap<>();
@@ -60,6 +62,7 @@ public final class UiConfigImpl implements UiConfig {
         mBuildReview = buildReview;
         mFormattedReview = formattedReview;
         mEditOnMap = editOnMap;
+        mNodeMapper = nodeMapper;
         mPublish = publish;
         mOptions = options;
     }
@@ -107,6 +110,11 @@ public final class UiConfigImpl implements UiConfig {
     @Override
     public LaunchableConfig getMapEditor() {
         return mEditOnMap;
+    }
+
+    @Override
+    public LaunchableConfig getNodeMapper() {
+        return mNodeMapper;
     }
 
     @Override

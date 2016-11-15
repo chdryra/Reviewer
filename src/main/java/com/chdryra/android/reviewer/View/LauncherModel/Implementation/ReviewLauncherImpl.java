@@ -29,34 +29,46 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class ReviewLauncherImpl implements ReviewLauncher {
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
-    private final FormattedUiLauncher mFormattedUiLauncher;
+    private final NodeLauncher mFormattedLauncher;
+    private final NodeLauncher mNodeMapLauncher;
 
     private UiLauncher mLauncher;
     private AuthorId mSessionAuthor;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              FormattedUiLauncher formattedUiLauncher,
+                              NodeLauncher formattedLauncher,
+                              NodeLauncher nodeMapLauncher,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
-        mFormattedUiLauncher = formattedUiLauncher;
+        mFormattedLauncher = formattedLauncher;
+        mNodeMapLauncher = nodeMapLauncher;
     }
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
-        return mFormattedUiLauncher.unpack(args);
+        return mFormattedLauncher.unpack(args);
     }
 
     @Override
     public void setUiLauncher(UiLauncher launcher) {
         mLauncher = launcher;
-        mFormattedUiLauncher.setUiLauncher(launcher);
+        mFormattedLauncher.setUiLauncher(launcher);
     }
 
     @Override
     public void launchAsList(ReviewId reviewId) {
-        ReviewNode node = mReviewsSource.asReviewNode(reviewId);
+        launchAsList(mReviewsSource.asReviewNode(reviewId));
+    }
+
+    @Override
+    public void launchAsList(ReviewNode node) {
         launchView(newListView(node), getRequestCode(node));
+    }
+
+    @Override
+    public void launchMap(ReviewNode node) {
+
     }
 
     @Override
@@ -67,7 +79,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchFormatted(ReviewNode node, boolean published) {
-        mFormattedUiLauncher.launch(node, published);
+        mFormattedLauncher.launch(node, published);
     }
 
     @Override

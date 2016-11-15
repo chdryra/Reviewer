@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.EditUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FormattedUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 
@@ -40,7 +40,7 @@ public class FactoryUiLauncher {
                                          LaunchableConfig formattedConfig) {
 
         EditUiLauncher buildUi = new EditUiLauncher(buildConfig, builder, repository);
-        FormattedUiLauncher formatted = new FormattedUiLauncher(formattedConfig);
+        NodeLauncher formatted = new NodeLauncher(formattedConfig);
         ReviewLauncherImpl reviewLauncher = new ReviewLauncherImpl(masterRepo, formatted, viewFactory);
 
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);

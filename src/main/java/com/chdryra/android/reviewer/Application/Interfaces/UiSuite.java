@@ -38,6 +38,8 @@ public interface UiSuite {
 
     ReviewView<?> newDataView(ReviewNode review, GvDataType<?> type);
 
+    ReviewView<?> newMapView(ReviewNode review);
+
     ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile);
 
     ReviewView<?> newPublishView(ReviewEditor<?> editor,

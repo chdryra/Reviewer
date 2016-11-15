@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FormattedUiLauncher extends PackingLauncherImpl<ReviewNode> {
-    public static final String PUBLISHED = TagKeyGenerator.getTag(FormattedUiLauncher.class);
+public class NodeLauncher extends PackingLauncherImpl<ReviewNode> {
+    public static final String PUBLISHED = TagKeyGenerator.getTag(NodeLauncher.class);
 
-    public FormattedUiLauncher(LaunchableConfig ui) {
+    public NodeLauncher(LaunchableConfig ui) {
         super(ui);
     }
 
