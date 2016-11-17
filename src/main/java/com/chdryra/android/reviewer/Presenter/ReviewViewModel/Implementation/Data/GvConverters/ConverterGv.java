@@ -11,6 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +31,9 @@ public class ConverterGv {
     }
 
     public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
-        return new GvConverterReviewNode(repository, newConverterComments(), newConverterLocations());
+        GvConverterLocations locations = newConverterLocations();
+        GvConverterComments comments = newConverterComments();
+        return newConverterNodes(new VhMostRecentFactory(repository, comments, locations));
     }
 
     public GvConverterComments newConverterComments() {
@@ -40,10 +46,6 @@ public class ConverterGv {
 
     public GvConverterLocations newConverterLocations() {
         return new GvConverterLocations();
-    }
-
-    private GvConverterUrls newConverterUrls() {
-        return new GvConverterUrls();
     }
 
     public GvConverterCriteria newConverterCriteria() {
@@ -70,15 +72,23 @@ public class ConverterGv {
         return new GvConverterDateReviews();
     }
 
-    private GvConverterDates newConverterDates() {
-        return new GvConverterDates();
-    }
-
     public GvConverterItemTags newConverterItemTags() {
         return new GvConverterItemTags();
     }
 
     public GvConverterDataTags newConverterTags() {
         return new GvConverterDataTags();
+    }
+
+    private GvConverterReviewNode newConverterNodes(ViewHolderFactory<VhNode> factory) {
+        return new GvConverterReviewNode(factory);
+    }
+
+    private GvConverterUrls newConverterUrls() {
+        return new GvConverterUrls();
+    }
+
+    private GvConverterDates newConverterDates() {
+        return new GvConverterDates();
     }
 }

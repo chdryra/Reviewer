@@ -14,19 +14,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverte
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNodeList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ReviewSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .SelectorMostRecent;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhReviewSelected;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 
 /**
@@ -40,11 +31,9 @@ public class GvConverterReviewNode
 
     private final ViewHolderFactory<VhNode> mFactory;
 
-    public GvConverterReviewNode(AuthorsRepository repository,
-                                 GvConverterComments converterComments,
-                                 GvConverterLocations converterLocations) {
+    public GvConverterReviewNode(ViewHolderFactory<VhNode> factory) {
         super(GvNodeList.class);
-        mFactory = new VhMostRecentFactory(repository, converterComments, converterLocations);
+        mFactory = factory;
     }
 
     @Override
@@ -67,22 +56,4 @@ public class GvConverterReviewNode
         return list;
     }
 
-    private static class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
-        private final AuthorsRepository mRepository;
-        private final GvConverterComments mConverterComments;
-        private final GvConverterLocations mConverterLocations;
-
-        public VhMostRecentFactory(AuthorsRepository repository, GvConverterComments
-                converterComments, GvConverterLocations converterLocations) {
-            mRepository = repository;
-            mConverterComments = converterComments;
-            mConverterLocations = converterLocations;
-        }
-
-        @Override
-        public VhNode newViewHolder() {
-            return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
-                    mConverterComments, mConverterLocations);
-        }
-    }
 }

@@ -34,22 +34,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * UI Fragment: location map. Google Map of location passed in the arguments, or current location
- * if null.
- * <p/>
- * <p>
- * In addition:
- * <ul>
- * <li>Text entry for location name. Autocompletes with nearby suggestions.</li>
- * <li>Search icon in ActionBar to perform search.</li>
- * <li>If location passed to Fragment, then also a revert button to revert back to
- * passed location.</li>
- * </ul>
- * </p>
- */
 public abstract class FragmentMapLocation extends Fragment implements
-        LocationClientGoogle.Locatable {
+        LocationClientGoogle.Locatable, GoogleMap.OnMarkerClickListener, OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
@@ -166,7 +152,9 @@ public abstract class FragmentMapLocation extends Fragment implements
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        mGoogleMap.setOnInfoWindowClickListener(newHideMarkerInfoListener());
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnInfoWindowLongClickListener(this);
         mGoogleMap.clear();
         onMapReady();
     }
@@ -175,14 +163,24 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     }
 
-    @NonNull
-    private OnInfoWindowClickListener newHideMarkerInfoListener() {
-        return new OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        };
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        onMarkerClick(marker);
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        onMarkerClick(marker);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(marker.isInfoWindowShown()) {
+            marker.hideInfoWindow();
+        } else {
+            marker.showInfoWindow();
+        }
+        return false;
     }
 
     @NonNull

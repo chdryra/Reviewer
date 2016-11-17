@@ -82,6 +82,11 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
+    public void launchFormatted(ReviewId reviewId) {
+        mFormatter.launch(mReviewsSource.asReviewNode(reviewId));
+    }
+
+    @Override
     public void launchFormatted(ReviewNode node, boolean isPublished) {
         mFormatter.launch(node, isPublished);
     }

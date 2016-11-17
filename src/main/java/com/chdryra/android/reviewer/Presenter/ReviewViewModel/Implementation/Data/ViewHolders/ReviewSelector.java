@@ -38,6 +38,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     private boolean mInProgress = false;
 
     public interface Selector {
+        @Nullable
         ReviewReference select(ReviewReference lhs, @Nullable ReviewReference rhs);
     }
 

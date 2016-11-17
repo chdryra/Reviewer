@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
@@ -53,7 +52,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
         }
     }
 
-    public void setViewHolder(VhReviewSelected viewHolder) {
+    public void setViewHolder(VhNode viewHolder) {
         mViewHolder = viewHolder;
     }
 

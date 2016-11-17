@@ -9,18 +9,14 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -32,143 +28,108 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback, VhNode {
-    private static final int LAYOUT = R.layout.grid_cell_review_abstract;
+public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback {
+    private static final int LAYOUT = R.layout.review_map_info_window;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
-    private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
+    public static final int IMAGE = R.id.review_image;
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
     private final GvConverterComments mConverterComments;
-    private final GvConverterLocations mConverterLocations;
+    private final InfoUpdateListener mListener;
 
     private TextView mSubject;
     private TextView mRating;
-    private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
     private TextView mPublishDate;
 
     private ReviewId mNodeId;
     private ReviewReference mReview;
-    private final CoverBinder mCoverBinder;
     private final TagsBinder mTagsBinder;
     private final CommentsBinder mCommentsBinder;
-    private final LocationsBinder mLocationsBinder;
     private final NameBinder mNameBinder;
 
     private NamedAuthor mAuthor;
-    private String mLocation;
 
-    public VhReviewSelected(AuthorsRepository authorsRepo,
-                            ReviewSelector selector,
-                            GvConverterComments converterComments,
-                            GvConverterLocations converterLocations) {
-        super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
+    public interface InfoUpdateListener {
+        void onInfoUpdated();
+    }
+
+    public VhMapInfoWindow(AuthorsRepository authorsRepo,
+                           ReviewSelector selector,
+                           GvConverterComments converterComments,
+                           InfoUpdateListener listener) {
+        super(LAYOUT, new int[]{LAYOUT, IMAGE, SUBJECT, RATING, HEADLINE, TAGS, STAMP});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
-
-        mCoverBinder = new CoverBinder();
+        mListener = listener;
         mCommentsBinder = new CommentsBinder();
         mTagsBinder = new TagsBinder();
-        mLocationsBinder = new LocationsBinder();
         mNameBinder = new NameBinder();
     }
 
-    @Override
-    public boolean isBoundTo(ReviewNode node) {
-        return mNodeId != null && mNodeId.equals(node.getReviewId());
+    protected ReviewReference getReview() {
+        return mReview;
     }
 
-    @Override
-    public void unbindFromNode() {
+    public void unbindFromReview() {
         if (mReview == null) return;
-        mReview.getCover().unbindFromValue(mCoverBinder);
         mReview.getComments().unbindFromValue(mCommentsBinder);
-        mReview.getLocations().unbindFromValue(mLocationsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
         mAuthorsRepo.getName(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNodeId);
-        mReview = null;
     }
 
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
-        setNode(((GvNode) data));
+        ReviewNode node = ((GvNode)data).getNode();
+        mNodeId = node.getReviewId();
+        initialiseData(node);
+        mSelector.select(node, this);
     }
-
 
     private void setViewsIfNecessary() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (TextView) getView(RATING);
-        if (mImage == null) mImage = (ImageView) getView(IMAGE);
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(STAMP);
     }
 
-    private void setNode(GvNode gvNode) {
-        ReviewNode node = gvNode.getNode();
-        if (isBoundTo(node)) return;
-
-        unbindFromNode();
-
-        mNodeId = node.getReviewId();
-
-        initialiseData(node);
-        mSelector.select(node, this);
-        gvNode.setViewHolder(this);
-    }
-
     private void initialiseData(ReviewNode node) {
         mSubject.setText(node.getSubject().getSubject());
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
-        mImage.setImageBitmap(null);
         mHeadline.setText(null);
         mTags.setText(null);
         mPublishDate.setText(null);
         mAuthor = null;
-        mLocation = null;
     }
 
     @Override
     public void onReviewSelected(@Nullable ReviewReference review) {
         if(review != null) {
-            bindToReview(review);
-        } else {
-            unbindFromNode();
+            mReview = review;
+            mReview.getComments().bindToValue(mCommentsBinder);
+            mReview.getTags().bindToValue(mTagsBinder);
+            mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
         }
-    }
-
-    private void bindToReview(ReviewReference review) {
-        mReview = review;
-        mReview.getCover().bindToValue(mCoverBinder);
-        mReview.getComments().bindToValue(mCommentsBinder);
-        mReview.getLocations().bindToValue(mLocationsBinder);
-        mReview.getTags().bindToValue(mTagsBinder);
-        mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
     }
 
     private void newFooter() {
@@ -176,28 +137,14 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
             ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
-            String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
+            String text = name + " " + date;
             mPublishDate.setText(text);
+            notifyListener();
         }
     }
 
-    private String getLocationString(IdableList<? extends DataLocation> value) {
-        GvLocationList locations = mConverterLocations.convert(value);
-        ArrayList<String> locationNames = new ArrayList<>();
-        for (GvLocation location : locations) {
-            locationNames.add(location.getShortenedName());
-        }
-        String location = "";
-        int locs = locationNames.size();
-        if (locs > 0) {
-            location = locationNames.get(0);
-            if (locs > 1) {
-                String loc = locs == 2 ? " loc" : " locs";
-                location += " +" + String.valueOf(locationNames.size() - 1) + loc;
-            }
-        }
-
-        return location.trim();
+    private void notifyListener() {
+        mListener.onInfoUpdated();
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
@@ -219,10 +166,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         return string != null && string.length() > 0;
     }
 
-    private void setCover(DataImage cover) {
-        mImage.setImageBitmap(cover.getBitmap());
-    }
-
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
         newFooter();
@@ -238,6 +181,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         } else {
             mHeadline.setText("");
         }
+        notifyListener();
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
@@ -248,24 +192,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         }
 
         mTags.setText(tagsString);
-    }
-
-    private void setLocation(IdableList<? extends DataLocation> value) {
-        mLocation = getLocationString(value);
-        newFooter();
-    }
-
-
-    private class CoverBinder implements ReferenceBinder<DataImage> {
-        @Override
-        public void onInvalidated(DataReference<DataImage> reference) {
-            setCover(new DatumImage(mNodeId));
-        }
-
-        @Override
-        public void onReferenceValue(DataImage value) {
-            setCover(value);
-        }
+        notifyListener();
     }
 
     private class NameBinder implements ReferenceBinder<NamedAuthor> {
@@ -284,13 +211,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         @Override
         protected void onList(IdableList<DataTag> data) {
             setTags(data);
-        }
-    }
-
-    private class LocationsBinder extends ListBinder<DataLocation> {
-        @Override
-        protected void onList(IdableList<DataLocation> data) {
-            setLocation(data);
         }
     }
 

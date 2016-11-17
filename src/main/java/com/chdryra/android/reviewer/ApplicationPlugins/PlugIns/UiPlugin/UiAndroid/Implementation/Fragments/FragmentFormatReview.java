@@ -286,7 +286,7 @@ public class FragmentFormatReview extends Fragment {
         mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), textColour,
                 authorId, launcher, mIsPublished);
         mStamp.update();
-        mRepo.getName(authorId).dereference(setAuthorAndUpdateStamp());
+        mRepo.getAuthorsRepository().getName(authorId).dereference(setAuthorAndUpdateStamp());
     }
 
     private void setRating(View v, ReviewLauncher launcher) {

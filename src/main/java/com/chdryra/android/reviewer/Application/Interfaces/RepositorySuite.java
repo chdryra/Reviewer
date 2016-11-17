@@ -10,11 +10,10 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
@@ -28,7 +27,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 public interface RepositorySuite {
     void getReview(ReviewId id, RepositoryCallback callback);
 
-    DataReference<NamedAuthor> getName(AuthorId authorId);
+    AuthorsRepository getAuthorsRepository();
 
     ReferencesRepository getReviews(AuthorId authorId);
 

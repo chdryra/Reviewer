@@ -16,16 +16,27 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 
-import java.util.Collection;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FragmentNodeMapper extends FragmentMapLocation {
     private ReviewNode mNode;
+    private Map<Marker, DataLocation> mMarkersMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,42 +47,58 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         } catch (ClassCastException e) {
             throw new RuntimeException(e);
         }
+
+        mMarkersMap = new HashMap<>();
     }
 
     @Override
     void onMapReady() {
+        AuthorsRepository repo = getApp().getRepository().getAuthorsRepository();
+        ConverterGv converter = getApp().getUi().getGvConverter();
+        getMap().setInfoWindowAdapter(new ReviewInfoAdapter(getActivity(), mNode, repo, converter, mMarkersMap));
         RefDataList<DataLocation> locations = mNode.getLocations();
-        locations.bindToItems(new ListItemBinder<DataLocation>() {
+        locations.dereference(new DataReference.DereferenceCallback<IdableList<DataLocation>>() {
             @Override
-            public void onItemAdded(DataLocation value) {
-                addMarker(value);
-            }
-
-            @Override
-            public void onItemRemoved(DataLocation value) {
-
-            }
-
-            @Override
-            public void onListChanged(Collection<DataLocation> newItems) {
-
-            }
-
-            @Override
-            public void onInvalidated(ListReference<DataLocation, ?> reference) {
-
+            public void onDereferenced(DataValue<IdableList<DataLocation>> value) {
+                if(value.hasValue()) plotLocations(value.getData());
             }
         });
     }
 
+    private void plotLocations(IdableList<DataLocation> data) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (DataLocation location : data) {
+            Marker marker = addMarker(location);
+            mMarkersMap.put(marker, location);
+            builder.include(marker.getPosition());
+        }
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(builder.build(), 0);
+        GoogleMap map = getMap();
+        map.moveCamera(cu);
+        map.animateCamera(cu);
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        getReviewLauncher().launchFormatted(mMarkersMap.get(marker).getReviewId());
+    }
+
     @Override
     void onGotoReviewSelected() {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        ReviewLauncher launcher = app.getUi().getLauncher().getReviewLauncher();
         if(mNode.getChildren().size() > 0) {
-            launcher.launchAsList(mNode);
+            getReviewLauncher().launchAsList(mNode);
         } else {
-            launcher.launchAsList(mNode.getReviewId());
+            getReviewLauncher().launchAsList(mNode.getReviewId());
         }
     }
+
+    private ReviewLauncher getReviewLauncher() {
+        return getApp().getUi().getLauncher().getReviewLauncher();
+    }
+
+    private ApplicationInstance getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
 }
