@@ -71,6 +71,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
+    public ReviewNode asMetaReview(ReviewId id) {
+        return newAsyncTree(id);
+    }
+
+    @Override
     public ReviewNode getMetaReview(AuthorId id) {
         return mReviewsFactory.createAuthorsTree(id, getRepositoryForAuthor(id), mAuthorsRepo);
     }
@@ -150,6 +155,28 @@ public class ReviewsSourceImpl implements ReviewsSource {
                     repoResult = result;
                 } else {
                     ReviewNode node = mReviewsFactory.createLeafNode(review);
+                    repoResult = new RepositoryResult(node, result.getMessage());
+                }
+
+                asyncNode.onCallback(repoResult);
+            }
+        });
+
+        return asyncNode;
+    }
+
+    private ReviewNode newAsyncTree(ReviewId id) {
+        final NodeAsync asyncNode = newAsyncNode();
+        mReviewsRepo.getReference(id, new RepositoryCallback() {
+
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                ReviewReference review = result.getReference();
+                RepositoryResult repoResult;
+                if (result.isError() || review == null) {
+                    repoResult = result;
+                } else {
+                    ReviewNode node = mReviewsFactory.createTree(review);
                     repoResult = new RepositoryResult(node, result.getMessage());
                 }
 

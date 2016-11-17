@@ -139,7 +139,7 @@
                 android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
-        <!-- Map choose location -->
+        <!-- Map and Edit location -->
         <activity
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap"
             android:configChanges="orientation"
@@ -161,7 +161,7 @@
                 android:resource="@xml/searchable_location_map" />
         </activity>
 
-        <!-- Browser choose link -->
+        <!-- Map location -->
         <activity
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation"
             android:configChanges="orientation"
@@ -174,7 +174,20 @@
                 android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
-        <!-- Facebook login -->
+        <!-- Map locations -->
+        <activity
+            android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_locations"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
+        </activity>
+
+        <!-- Social login -->
         <activity
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi"
             android:configChanges="orientation"

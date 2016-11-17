@@ -17,17 +17,11 @@ import com.chdryra.android.reviewer.R;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuReviewOptions<T extends GvData> extends MenuActionNone<T> {
+public class MenuReviewOptions<T extends GvData> extends MenuActionsSome<T> {
     public static final int OPTIONS = R.id.menu_item_options;
     public static final int MENU = R.menu.menu_review_options;
 
-    public MenuReviewOptions(String title, MenuActionItem<T> reviewOptions) {
-        super(MENU, title, true);
-        bindMenuActionItem(reviewOptions, OPTIONS, false);
-    }
-
     protected MenuReviewOptions(String title, MenuActionItem<T> upAction, MenuActionItem<T> reviewOptions) {
-        super(MENU, title, upAction);
-        bindMenuActionItem(reviewOptions, OPTIONS, false);
+        super(title, MENU, new int[]{OPTIONS}, toArrayList(reviewOptions), upAction);
     }
 }

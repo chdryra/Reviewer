@@ -16,16 +16,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemReviewsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiNewReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearchAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSettings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -63,6 +61,10 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         return mLauncher;
     }
 
+    FactoryCommands getFactoryCommands() {
+        return mFactoryCommands;
+    }
+
     @Override
     public MenuAction<GvNode> newMenu() {
         return mAuthorId != null ?
@@ -88,9 +90,14 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
         @Override
         public MenuAction<GvNode> newMenu() {
-            return new MenuFeed<>(new MaiNewReview<GvNode>(getUiLauncher()),
-                    new MaiSearchAuthors<GvNode>(getUiLauncher(), getFactoryReviewView()),
-                    new MaiSettings<GvNode>());
+            UiLauncher launcher = getUiLauncher();
+            MaiCommand<GvNode> newReview = new MaiCommand<>
+                    (getFactoryCommands().newLaunchEditorCommand(launcher, null));
+            MaiSearchAuthors<GvNode> searchAuthors = new MaiSearchAuthors<>(launcher,
+                    getFactoryReviewView());
+            MaiSettings<GvNode> settings = new MaiSettings<>();
+
+            return new MenuFeed<>(newReview, searchAuthors, settings);
         }
     }
 }

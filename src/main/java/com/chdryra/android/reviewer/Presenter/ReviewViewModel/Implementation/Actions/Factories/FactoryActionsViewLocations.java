@@ -15,10 +15,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiMapLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchMappedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -31,19 +31,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocation.Reference> {
     public FactoryActionsViewLocations(FactoryReviewView factoryView,
                                        FactoryCommands factoryCommands,
-                                       ReviewStamp stamp, AuthorsRepository repo, UiLauncher launcher,
-
-                                       LaunchableConfig optionsConfig, LaunchableConfig
-                                               gridItemConfig,
+                                       ReviewStamp stamp,
+                                       AuthorsRepository repo,
+                                       UiLauncher launcher,
+                                       LaunchableConfig optionsConfig,
+                                       LaunchableConfig gridItemConfig,
                                        @Nullable ReviewNode node) {
-        super(GvLocation.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher, optionsConfig, gridItemConfig,
-
-                node);
+        super(GvLocation.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
+                optionsConfig, gridItemConfig, node);
     }
 
     @Override
     public MenuAction<GvLocation.Reference> newMenu() {
-        return new MenuViewLocations(newOptionsMenuItem(),
-                new MaiMapLocations<GvLocation.Reference>(getLauncher()));
+        if (getNode() == null) return super.newMenu();
+        LaunchMappedCommand command
+                = getCommandsFactory().newLaunchMappedCommand(getLauncher().getReviewLauncher(), getNode());
+        return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>(command));
     }
 }

@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListIt
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 import java.util.Collection;
 
@@ -66,6 +67,11 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     @Override
     void onGotoReviewSelected() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        app.getUi().getLauncher().getReviewLauncher().launchAsList(mNode);
+        ReviewLauncher launcher = app.getUi().getLauncher().getReviewLauncher();
+        if(mNode.getChildren().size() > 0) {
+            launcher.launchAsList(mNode);
+        } else {
+            launcher.launchAsList(mNode.getReviewId());
+        }
     }
 }

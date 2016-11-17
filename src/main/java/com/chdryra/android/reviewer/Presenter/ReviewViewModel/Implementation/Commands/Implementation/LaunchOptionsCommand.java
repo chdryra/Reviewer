@@ -33,6 +33,11 @@ public class LaunchOptionsCommand extends Command {
         mOptionsConfig = optionsConfig;
     }
 
+    public LaunchOptionsCommand(LaunchableConfig optionsConfig, DataAuthorId authorId) {
+        mOptionsConfig = optionsConfig;
+        mAuthorId = authorId;
+    }
+
     public void execute(DataAuthorId authorId) {
         mAuthorId = authorId;
         execute();

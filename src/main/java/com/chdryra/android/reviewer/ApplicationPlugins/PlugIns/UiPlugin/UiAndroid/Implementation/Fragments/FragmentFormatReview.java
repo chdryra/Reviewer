@@ -62,10 +62,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiReviewOptions;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiUpFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
@@ -228,10 +226,9 @@ public class FragmentFormatReview extends Fragment {
         if (mIsPublished) {
             LaunchOptionsCommand command
                     = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig()
-                    .getReviewOptions());
-            MaiReviewOptions<GvData> optionsAction
-                    = new MaiReviewOptions<>(command, mNode.getAuthorId());
-            action = new MenuReviewFormatted(Strings.Screens.REVIEW, upAction, optionsAction, ui);
+                    .getReviewOptions(), mNode.getAuthorId());
+            MaiCommand<GvData> mai = new MaiCommand<>(command);
+            action = new MenuReviewFormatted(Strings.Screens.REVIEW, upAction, mai, ui);
         } else {
             action = new MenuReviewPreview(Strings.Screens.PREVIEW, upAction, ui);
         }

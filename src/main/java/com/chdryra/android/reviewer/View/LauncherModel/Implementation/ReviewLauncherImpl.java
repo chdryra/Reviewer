@@ -61,7 +61,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchAsList(ReviewId reviewId) {
-        launchAsList(mReviewsSource.asReviewNode(reviewId));
+        launchAsList(mReviewsSource.asMetaReview(reviewId));
     }
 
     @Override
@@ -82,8 +82,8 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchFormatted(ReviewNode node, boolean published) {
-        mFormatter.launch(node, published);
+    public void launchFormatted(ReviewNode node, boolean isPublished) {
+        mFormatter.launch(node, isPublished);
     }
 
     @Override

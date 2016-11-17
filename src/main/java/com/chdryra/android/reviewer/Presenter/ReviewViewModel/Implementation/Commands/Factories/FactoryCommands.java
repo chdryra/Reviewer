@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
@@ -26,6 +27,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
         .Implementation.LaunchEditorCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchMappedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -62,6 +65,10 @@ public class FactoryCommands {
         return new LaunchOptionsCommand(optionsUi);
     }
 
+    public LaunchOptionsCommand newLaunchOptionsCommand(LaunchableConfig optionsUi, DataAuthorId authorId) {
+        return new LaunchOptionsCommand(optionsUi, authorId);
+    }
+
     public LaunchViewCommand newLaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
         return new LaunchViewCommand(launcher, view);
     }
@@ -74,7 +81,15 @@ public class FactoryCommands {
         return new LaunchFormattedCommand(launcher, node);
     }
 
-    private LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
+    public LaunchMappedCommand newLaunchMappedCommand(ReviewLauncher launcher) {
+        return new LaunchMappedCommand(launcher, null);
+    }
+
+    public LaunchMappedCommand newLaunchMappedCommand(ReviewLauncher launcher, ReviewNode node) {
+        return new LaunchMappedCommand(launcher, node);
+    }
+
+    public LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
         return new LaunchEditorCommand(launcher, template);
     }
 }

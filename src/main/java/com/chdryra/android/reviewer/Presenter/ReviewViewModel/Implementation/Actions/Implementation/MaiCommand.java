@@ -8,29 +8,35 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+
+
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 26/09/2016
+ * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
+public class MaiCommand<T extends GvData> extends MenuActionItemBasic<T> {
+    private final Command mCommand;
+    private final String mToast;
 
-public class MaiReviewOptions<T extends GvData> extends MenuActionItemBasic<T> {
-    private final LaunchOptionsCommand mCommand;
-    private final DataAuthorId mAuthorId;
+    public MaiCommand(Command command) {
+        this(command, null);
+    }
 
-    public MaiReviewOptions(LaunchOptionsCommand command, DataAuthorId reviewAuthorId) {
+    public MaiCommand(Command command, @Nullable String toast) {
         mCommand = command;
-        mAuthorId = reviewAuthorId;
+        mToast = toast;
     }
 
     @Override
     public void doAction(MenuItem item) {
-        mCommand.execute(mAuthorId);
+        if(mToast != null) getCurrentScreen().showToast(mToast);
+        mCommand.execute();
     }
 }

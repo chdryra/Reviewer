@@ -22,7 +22,6 @@
     <View style="@style/HorizontalDivider"/>
 
     <include
-        layout="@layout/dialog_three_button_layout"
-        />
+        layout="@layout/dialog_two_button_layout"/>
 
 </LinearLayout>

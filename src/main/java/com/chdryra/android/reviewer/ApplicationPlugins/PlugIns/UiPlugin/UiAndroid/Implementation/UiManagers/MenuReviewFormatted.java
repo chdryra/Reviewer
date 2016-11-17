@@ -22,8 +22,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 public class MenuReviewFormatted extends MenuReviewOptions<GvData> {
     private UiSuite mUi;
 
-    public MenuReviewFormatted(String title, MenuActionItem<GvData> upAction,
-                               MenuActionItem<GvData> reviewOptions, UiSuite ui) {
+    public MenuReviewFormatted(String title,
+                               MenuActionItem<GvData> upAction,
+                               MenuActionItem<GvData> reviewOptions,
+                               UiSuite ui) {
         super(title, upAction, reviewOptions);
         mUi = ui;
         setupActionBar();

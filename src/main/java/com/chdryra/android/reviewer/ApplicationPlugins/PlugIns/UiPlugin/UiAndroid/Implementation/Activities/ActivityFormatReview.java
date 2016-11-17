@@ -50,13 +50,19 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         setContentView(LAYOUT);
 
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
+        if (args == null) throwNoReview();
         ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (node == null) throw new RuntimeException("No review found");
+        if (node == null) throwNoReview();
+
         boolean isPublished = args.getBoolean(NodeLauncher.PUBLISHED);
 
         mAdapter = new NodePagerAdapter(node, new NodeComparatorMostRecent(),
                 getSupportFragmentManager(), isPublished);
         ((ViewPager) findViewById(PAGER)).setAdapter(mAdapter);
+    }
+
+    private void throwNoReview() {
+        throw new RuntimeException("No review found");
     }
 
     @Override

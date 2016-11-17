@@ -23,6 +23,7 @@
 
     <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
+    <string name="activity_title_locations">locations</string>
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
     <string name="activity_title_login">login</string>

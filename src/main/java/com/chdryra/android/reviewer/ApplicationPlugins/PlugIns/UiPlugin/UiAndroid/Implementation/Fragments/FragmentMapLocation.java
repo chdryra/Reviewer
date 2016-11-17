@@ -53,14 +53,12 @@ public abstract class FragmentMapLocation extends Fragment implements
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
-    private static final int GMAPS_BUTTON = R.id.button_middle;
     private static final int DONE_BUTTON = R.id.button_right;
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
 
     private Button mGotoReviewButton;
-    private Button mGotoMapsButton;
     private Button mDoneButton;
 
     private LocationClient mLocationClient;
@@ -156,7 +154,6 @@ public abstract class FragmentMapLocation extends Fragment implements
             }
         });
         mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
-        mGotoMapsButton = (Button) v.findViewById(GMAPS_BUTTON);
         mDoneButton = (Button) v.findViewById(DONE_BUTTON);
 
         return v;
@@ -208,13 +205,6 @@ public abstract class FragmentMapLocation extends Fragment implements
                 onGotoReviewSelected();
             }
         });
-        mGotoMapsButton.setOnClickListener(new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                onGotoMapsSelected();
-            }
-        });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             //Overridden
             @Override
@@ -226,16 +216,11 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     private void setButtonTexts() {
         mGotoReviewButton.setText(getResources().getString(R.string.button_goto_review));
-        mGotoMapsButton.setText(getResources().getString(R.string.button_goto_google_maps));
         mDoneButton.setText(getResources().getString(R.string.gl_action_done_text));
     }
 
     private void onDoneSelected() {
         getActivity().finish();
-    }
-
-    private void onGotoMapsSelected() {
-
     }
 
     abstract void onGotoReviewSelected();

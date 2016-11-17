@@ -74,7 +74,6 @@ public class UiSuiteAndroid implements UiSuite{
     @Override
     public ReviewView<?> newDataView(ReviewNode node, GvDataType<?> type) {
         return mViewFactory.newDataView(node, type);
-
     }
 
     @Override
