@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -21,11 +23,13 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
@@ -35,30 +39,75 @@ import java.util.Map;
 public class FragmentNodeMapper extends FragmentMapLocation {
     private ReviewNode mNode;
     private Map<Marker, DataLocation> mMarkersMap;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mMarkersMap = new HashMap<>();
-        setRetainInstance(true);
-    }
+    private Marker mCurrentMarker;
 
     public void setNode(ReviewNode node) {
         mNode = node;
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMarkersMap = new HashMap<>();
+    }
+
+    @Override
     void onMapReady() {
         AuthorsRepository repo = getApp().getRepository().getAuthorsRepository();
         ConverterGv converter = getApp().getUi().getGvConverter();
-        getMap().setInfoWindowAdapter(new ReviewInfoAdapter(getActivity(), mNode, repo, converter, mMarkersMap));
+        getMap().setInfoWindowAdapter(new ReviewInfoAdapter(getActivity(), mNode, repo,
+                converter, mMarkersMap));
         RefDataList<DataLocation> locations = mNode.getLocations();
         locations.dereference(new DataReference.DereferenceCallback<IdableList<DataLocation>>() {
             @Override
             public void onDereferenced(DataValue<IdableList<DataLocation>> value) {
-                if(value.hasValue()) plotLocations(value.getData());
+                if (value.hasValue()) plotLocations(value.getData());
             }
         });
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        setMarker(marker);
+        return super.onMarkerClick(marker);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        super.onMapClick(latLng);
+        setMarker(null);
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        getReviewLauncher().launchFormatted(mMarkersMap.get(marker).getReviewId());
+    }
+
+    @Override
+    void onGotoReviewSelected() {
+        if (mCurrentMarker != null) {
+            getApp().getUi().getCurrentScreen().showToast(Strings.LOADING);
+            getReviewLauncher().launchFormatted(mMarkersMap.get(mCurrentMarker).getReviewId());
+        }
+    }
+
+    @Override
+    protected void initButtonUI() {
+        super.initButtonUI();
+        setMarker(null);
+    }
+
+    private ReviewLauncher getReviewLauncher() {
+        return getApp().getUi().getLauncher().getReviewLauncher();
+    }
+
+    private ApplicationInstance getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    private void setMarker(@Nullable Marker marker) {
+        getGotoReviewButton().setEnabled(marker != null);
+        mCurrentMarker = marker;
     }
 
     private void plotLocations(IdableList<DataLocation> data) {
@@ -73,28 +122,6 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         GoogleMap map = getMap();
         map.moveCamera(cu);
         map.animateCamera(cu);
-    }
-
-    @Override
-    public void onInfoWindowLongClick(Marker marker) {
-        getReviewLauncher().launchFormatted(mMarkersMap.get(marker).getReviewId());
-    }
-
-    @Override
-    void onGotoReviewSelected() {
-        if(mNode.getChildren().size() > 0) {
-            getReviewLauncher().launchAsList(mNode);
-        } else {
-            getReviewLauncher().launchAsList(mNode.getReviewId());
-        }
-    }
-
-    private ReviewLauncher getReviewLauncher() {
-        return getApp().getUi().getLauncher().getReviewLauncher();
-    }
-
-    private ApplicationInstance getApp() {
-        return AppInstanceAndroid.getInstance(getActivity());
     }
 
 }

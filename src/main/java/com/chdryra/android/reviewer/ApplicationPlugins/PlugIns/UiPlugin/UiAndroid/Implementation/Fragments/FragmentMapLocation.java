@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments;
 
 
 import android.app.Fragment;
@@ -29,13 +30,18 @@ import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
 public abstract class FragmentMapLocation extends Fragment implements
-        LocationClientGoogle.Locatable, GoogleMap.OnMarkerClickListener, OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
+        LocationClientGoogle.Locatable,
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnMapClickListener,
+        OnInfoWindowClickListener, GoogleMap.
+        OnInfoWindowLongClickListener {
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
@@ -49,9 +55,36 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     private LocationClient mLocationClient;
 
+    public GoogleMap getMap() {
+        return mGoogleMap;
+    }
+
+    protected Button getGotoReviewButton() {
+        return mGotoReviewButton;
+    }
+
+    protected void initButtonUI() {
+        setButtonTexts();
+        mGotoReviewButton.setOnClickListener(new View.OnClickListener() {
+            //Overridden
+            @Override
+            public void onClick(View v) {
+                onGotoReviewSelected();
+            }
+        });
+        mDoneButton.setOnClickListener(new View.OnClickListener() {
+            //Overridden
+            @Override
+            public void onClick(View v) {
+                onDoneSelected();
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         MapsInitializer.initialize(getActivity());
     }
 
@@ -67,10 +100,6 @@ public abstract class FragmentMapLocation extends Fragment implements
         return v;
     }
 
-    public GoogleMap getMap() {
-        return mGoogleMap;
-    }
-
     @Override
     public void onLocated(Location location, CallbackMessage message) {
 
@@ -84,7 +113,8 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getLocationServices().newLocationClient();
+        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getLocationServices()
+                .newLocationClient();
         mLocationClient.connect(this);
     }
 
@@ -125,6 +155,45 @@ public abstract class FragmentMapLocation extends Fragment implements
         if (mMapView != null) mMapView.onDestroy();
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        onMarkerClick(marker);
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        onMarkerClick(marker);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (marker.isInfoWindowShown()) {
+            marker.hideInfoWindow();
+        } else {
+            marker.showInfoWindow();
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+    }
+
+    void onMapReady() {
+
+    }
+
+    abstract void onGotoReviewSelected();
+
+    Marker addMarker(DataLocation location) {
+        MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
+        markerOptions.title(location.getShortenedName());
+        markerOptions.draggable(false);
+        return mGoogleMap.addMarker(markerOptions);
+    }
+
     @NonNull
     private View extractViews(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -152,35 +221,17 @@ public abstract class FragmentMapLocation extends Fragment implements
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        mGoogleMap.setOnMarkerClickListener(this);
-        mGoogleMap.setOnInfoWindowClickListener(this);
-        mGoogleMap.setOnInfoWindowLongClickListener(this);
+
         mGoogleMap.clear();
+        setMapListeners();
         onMapReady();
     }
 
-    void onMapReady() {
-
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        onMarkerClick(marker);
-    }
-
-    @Override
-    public void onInfoWindowLongClick(Marker marker) {
-        onMarkerClick(marker);
-    }
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if(marker.isInfoWindowShown()) {
-            marker.hideInfoWindow();
-        } else {
-            marker.showInfoWindow();
-        }
-        return false;
+    private void setMapListeners() {
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMapClickListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnInfoWindowLongClickListener(this);
     }
 
     @NonNull
@@ -194,24 +245,6 @@ public abstract class FragmentMapLocation extends Fragment implements
         };
     }
 
-    private void initButtonUI() {
-        setButtonTexts();
-        mGotoReviewButton.setOnClickListener(new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                onGotoReviewSelected();
-            }
-        });
-        mDoneButton.setOnClickListener(new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                onDoneSelected();
-            }
-        });
-    }
-
     private void setButtonTexts() {
         mGotoReviewButton.setText(getResources().getString(R.string.button_goto_review));
         mDoneButton.setText(getResources().getString(R.string.gl_action_done_text));
@@ -219,14 +252,5 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     private void onDoneSelected() {
         getActivity().finish();
-    }
-
-    abstract void onGotoReviewSelected();
-
-    Marker addMarker(DataLocation location) {
-        MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
-        markerOptions.title(location.getShortenedName());
-        markerOptions.draggable(false);
-        return mGoogleMap.addMarker(markerOptions);
     }
 }
