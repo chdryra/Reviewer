@@ -116,10 +116,11 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        if (mReviewView == null) extractReviewView();
-        if (mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
 
         View v = inflater.inflate(LAYOUT, container, false);
+
+        if (mReviewView == null) extractReviewView();
+        if (mReviewView == null) return v;
 
         ReviewViewActions<?> actions = mReviewView.getActions();
 

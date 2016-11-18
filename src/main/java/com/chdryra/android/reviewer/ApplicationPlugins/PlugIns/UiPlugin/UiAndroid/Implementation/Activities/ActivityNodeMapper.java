@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -30,24 +31,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  */
 public class ActivityNodeMapper extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityNodeMapper.class);
-    private static final String NODE = TagKeyGenerator.getKey(ActivityNodeMapper.class,
-            "Node");
-
-    private ReviewNode mNode;
-
-    public ReviewNode getNode() {
-        return mNode;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle args = getIntent().getBundleExtra(NODE);
-        if (args == null) throwNoReview();
-        mNode = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (mNode == null) throwNoReview();
-    }
+    private static final String NODE = TagKeyGenerator.getKey(ActivityNodeMapper.class, "Node");
 
     @Override
     public String getLaunchTag() {
@@ -61,12 +45,23 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentNodeMapper();
+        FragmentNodeMapper fragment = new FragmentNodeMapper();
+        fragment.setNode(getReviewNode());
+        return fragment;
+    }
+
+    @NonNull
+    private ReviewNode getReviewNode() {
+        Bundle args = getIntent().getBundleExtra(NODE);
+        if (args == null) throwNoReview();
+        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        if (node == null) throwNoReview();
+        return node;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         AppInstanceAndroid.setActivity(this);
     }
 

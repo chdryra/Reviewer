@@ -14,7 +14,6 @@ import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
@@ -23,7 +22,6 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,14 +39,12 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            ActivityNodeMapper activity = (ActivityNodeMapper)getActivity();
-            mNode = activity.getNode();
-        } catch (ClassCastException e) {
-            throw new RuntimeException(e);
-        }
-
         mMarkersMap = new HashMap<>();
+        setRetainInstance(true);
+    }
+
+    public void setNode(ReviewNode node) {
+        mNode = node;
     }
 
     @Override
