@@ -31,16 +31,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -58,8 +52,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
-    private final GvConverterComments mConverterComments;
-    private final GvConverterLocations mConverterLocations;
 
     private TextView mSubject;
     private TextView mRating;
@@ -79,15 +71,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private NamedAuthor mAuthor;
     private String mLocation;
 
-    public VhReviewSelected(AuthorsRepository authorsRepo,
-                            ReviewSelector selector,
-                            GvConverterComments converterComments,
-                            GvConverterLocations converterLocations) {
+    public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
-        mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
 
         mCoverBinder = new CoverBinder();
         mCommentsBinder = new CommentsBinder();
@@ -181,38 +168,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         }
     }
 
-    private String getLocationString(IdableList<? extends DataLocation> value) {
-        GvLocationList locations = mConverterLocations.convert(value);
-        ArrayList<String> locationNames = new ArrayList<>();
-        for (GvLocation location : locations) {
-            locationNames.add(location.getShortenedName());
-        }
-        String location = "";
-        int locs = locationNames.size();
-        if (locs > 0) {
-            location = locationNames.get(0);
-            if (locs > 1) {
-                String loc = locs == 2 ? " loc" : " locs";
-                location += " +" + String.valueOf(locationNames.size() - 1) + loc;
-            }
-        }
-
-        return location.trim();
-    }
-
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        String tagsString = "";
-        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
-        int diff = tags.size() - size;
-        int i = 0;
-        while (i < size) {
-            tagsString += "#" + tags.getItem(i).getTag() + " ";
-            ++i;
-        }
-
-        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
-
-        return tagsString.trim();
+        return DataFormatter.formatTags(tags, maxTags, mSubject.getText().toString());
     }
 
     private boolean validateString(@Nullable String string) {
@@ -229,15 +186,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setHeadline(IdableList<DataComment> value) {
-        GvCommentList comments = mConverterComments.convert(value);
-        GvCommentList headlines = comments.getHeadlines();
-        String headline = headlines.size() > 0 ? headlines.getItem(0).getFirstSentence() : null;
-        if (validateString(headline)) {
-            String text = "\"" + headline + "\"";
-            mHeadline.setText(text);
-        } else {
-            mHeadline.setText("");
-        }
+        mHeadline.setText(DataFormatter.getHeadlineQuote(value));
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
@@ -251,7 +200,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setLocation(IdableList<? extends DataLocation> value) {
-        mLocation = getLocationString(value);
+        mLocation = DataFormatter.formatLocations(value);
         newFooter();
     }
 

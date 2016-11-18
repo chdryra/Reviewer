@@ -21,7 +21,9 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTrave
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeRefDataList<Value extends HasReviewId> extends TreeListReferences<Value, ReviewItemReference<Value>, RefDataList<Value>> implements RefDataList<Value> {
+public class TreeRefDataList<Value extends HasReviewId>
+        extends TreeListReferences<Value, ReviewItemReference<Value>, RefDataList<Value>>
+        implements RefDataList<Value> {
     public TreeRefDataList(ReviewNode root, FactoryMdReference referenceFactory,
                            FactoryNodeTraverser traverserFactory, VisitorFactory
                                    .ListVisitor<RefDataList<Value>> visitorFactory) {

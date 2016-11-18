@@ -19,7 +19,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+
 
 
 /**
@@ -64,7 +65,7 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
             public void onDereferenced(DataValue<DataComment> value) {
                 IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
                 if(value.hasValue()) {
-                    for(String string : CommentFormatter.split(value.getData().getComment(), true)) {
+                    for(String string : DataFormatter.split(value.getData(), true)) {
                         sentences.add(newSentence(string));
                     }
                 }

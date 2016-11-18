@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+
+
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class Comment {
     public Comment(DataComment comment) {
         String commentString = comment.getComment();
         string = commentString.replaceAll("\n", "<\n>");
-        sentences = CommentFormatter.split(commentString, false);
+        sentences = DataFormatter.split(new DatumComment(comment.getReviewId(), string, comment.isHeadline()), false);
         numSentences = sentences.size();
         headline = comment.isHeadline();
     }

@@ -10,26 +10,28 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemReviewsList extends GridItemLauncher<GvNode> {
-    private final LaunchOptionsCommand mCommand;
+public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
+    public GridItemLaunchFormatted(LaunchFormattedCommand click, LaunchOptionsCommand longClick) {
+        super(click, longClick, Strings.LOADING);
+    }
 
-    public GridItemReviewsList(UiLauncher launcher, FactoryReviewView reviewViewFactory, LaunchOptionsCommand command) {
-        super(launcher, reviewViewFactory);
-        mCommand = command;
+    @Override
+    public void onGridItemClick(GvNode item, int position, View v) {
+        ((LaunchFormattedCommand)getClick()).execute(item.getNode(), true);
     }
 
     @Override
     public void onGridItemLongClick(GvNode item, int position, View v) {
-        mCommand.execute(item.getAuthorId());
+        ((LaunchOptionsCommand)getLongClick()).execute(item.getAuthorId());
     }
 }

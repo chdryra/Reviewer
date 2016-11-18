@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExecuteCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
@@ -85,7 +85,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         if (mNode == null) return super.newRatingBar();
         LaunchFormattedCommand command
                 = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
-        return new RatingBarExecuteCommand<>(command, Strings.LOADING);
+        return new RatingBarCommand<>(command, Strings.LOADING);
     }
 
     @Override

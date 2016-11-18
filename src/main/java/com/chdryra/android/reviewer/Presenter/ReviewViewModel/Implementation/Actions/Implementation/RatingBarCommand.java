@@ -21,11 +21,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarExecuteCommand<T extends GvData> extends RatingBarActionNone<T> {
+public class RatingBarCommand<T extends GvData> extends RatingBarActionNone<T> {
     private final Command mCommand;
     private final String mToast;
 
-    public RatingBarExecuteCommand(Command command, @Nullable String toast) {
+    public RatingBarCommand(Command command, @Nullable String toast) {
         mCommand = command;
         mToast = toast;
     }

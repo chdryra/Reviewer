@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,9 +37,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FragmentNodeMapper extends FragmentMapLocation {
+    private static final int PADDING = 10;
     private ReviewNode mNode;
     private Map<Marker, DataLocation> mMarkersMap;
     private Marker mCurrentMarker;
+    private ReviewInfoAdapter mAdapter;
 
     public void setNode(ReviewNode node) {
         mNode = node;
@@ -49,14 +51,23 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMarkersMap = new HashMap<>();
+        setHasOptionsMenu(true);
+    }
+
+
+    @Override
+    public String getMenuTitle() {
+        return mNode.getSubject().toString() + " " +
+                RatingFormatter.upToTwoSignificantDigits(mNode.getRating().getRating()) + "*";
     }
 
     @Override
     void onMapReady() {
         AuthorsRepository repo = getApp().getRepository().getAuthorsRepository();
         ConverterGv converter = getApp().getUi().getGvConverter();
-        getMap().setInfoWindowAdapter(new ReviewInfoAdapter(getActivity(), mNode, repo,
-                converter, mMarkersMap));
+        mAdapter = new ReviewInfoAdapter(getActivity(), mNode, repo, converter, mMarkersMap);
+        getMap().setInfoWindowAdapter(mAdapter);
+
         RefDataList<DataLocation> locations = mNode.getLocations();
         locations.dereference(new DataReference.DereferenceCallback<IdableList<DataLocation>>() {
             @Override
@@ -79,6 +90,11 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     }
 
     @Override
+    public void onInfoWindowClick(Marker marker) {
+        mAdapter.onInfoWindowClick(marker);
+    }
+
+    @Override
     public void onInfoWindowLongClick(Marker marker) {
         getReviewLauncher().launchFormatted(mMarkersMap.get(marker).getReviewId());
     }
@@ -95,6 +111,12 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     protected void initButtonUI() {
         super.initButtonUI();
         setMarker(null);
+    }
+
+    @Override
+    public void onDestroy() {
+        mAdapter.unbind();
+        super.onDestroy();
     }
 
     private ReviewLauncher getReviewLauncher() {
@@ -116,12 +138,12 @@ public class FragmentNodeMapper extends FragmentMapLocation {
             Marker marker = addMarker(location);
             mMarkersMap.put(marker, location);
             builder.include(marker.getPosition());
+            marker.showInfoWindow();
         }
 
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(builder.build(), 0);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING);
         GoogleMap map = getMap();
         map.moveCamera(cu);
         map.animateCamera(cu);
     }
-
 }

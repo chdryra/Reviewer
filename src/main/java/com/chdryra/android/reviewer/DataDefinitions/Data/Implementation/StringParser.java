@@ -91,7 +91,7 @@ public class StringParser {
     }
 
     public static String parse(DataRating rating) {
-        return RatingFormatter.outOfFive(rating.getRating());
+        return RatingFormatter.upToTwoSignificantDigits(rating.getRating());
     }
 
     public static String parse(DataSize size) {

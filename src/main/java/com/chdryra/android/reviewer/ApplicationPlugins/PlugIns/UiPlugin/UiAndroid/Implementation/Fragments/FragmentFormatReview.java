@@ -37,8 +37,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HideableViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalAdapterRef;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuReviewFormatted;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuReviewPreview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuReviewOptionsAppLevel;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarLaunchSummary;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
@@ -63,7 +63,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
@@ -111,11 +111,12 @@ public class FragmentFormatReview extends Fragment {
     private static final int FACTS_VIEW = R.id.facts_formatted_view;
     private static final int FACTS = R.id.facts_formatted;
 
-    private static final ReviewViewParams.CellDimension HALF = ReviewViewParams.CellDimension.HALF;
-    private static final ReviewViewParams.CellDimension EIGHTH = ReviewViewParams.CellDimension
-            .EIGHTH;
-    private static final ReviewViewParams.CellDimension QUARTER = ReviewViewParams.CellDimension
-            .QUARTER;
+    private static final ReviewViewParams.CellDimension HALF
+            = ReviewViewParams.CellDimension.HALF;
+    private static final ReviewViewParams.CellDimension EIGHTH
+            = ReviewViewParams.CellDimension.EIGHTH;
+    private static final ReviewViewParams.CellDimension QUARTER
+            = ReviewViewParams.CellDimension.QUARTER;
 
     private boolean mIsPublished = true;
     private ReviewNode mNode;
@@ -220,7 +221,7 @@ public class FragmentFormatReview extends Fragment {
     private void setMenu() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         UiSuite ui = app.getUi();
-        MenuActionItem<GvData> upAction = new MaiUpFormatted<>(app);
+        MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
 
         MenuAction<?> action;
         if (mIsPublished) {
@@ -228,9 +229,9 @@ public class FragmentFormatReview extends Fragment {
                     = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig()
                     .getReviewOptions(), mNode.getAuthorId());
             MaiCommand<GvData> mai = new MaiCommand<>(command);
-            action = new MenuReviewFormatted(Strings.Screens.REVIEW, upAction, mai, ui);
+            action = new MenuReviewOptionsAppLevel(Strings.Screens.REVIEW, upAction, mai, ui);
         } else {
-            action = new MenuReviewPreview(Strings.Screens.PREVIEW, upAction, ui);
+            action = new MenuUpAppLevel(Strings.Screens.PREVIEW, upAction, ui);
         }
 
         mMenu = new MenuUi(action);

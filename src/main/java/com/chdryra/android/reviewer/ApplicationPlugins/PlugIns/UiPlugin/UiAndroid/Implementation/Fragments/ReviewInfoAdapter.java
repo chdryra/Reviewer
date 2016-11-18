@@ -13,19 +13,14 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ReviewSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .SelectorEqualsReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhMapInfoWindow;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorEqualsReviewId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhMapInfoWindow;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
@@ -42,7 +37,7 @@ public class ReviewInfoAdapter implements GoogleMap.InfoWindowAdapter {
     private final ReviewNode mNode;
     private final AuthorsRepository mRepo;
     private final ConverterGv mConverter;
-    private final Map<Marker, View> mInflated;
+    private final Map<Marker, VhMapInfoWindow> mInflated;
     private final Map<Marker, DataLocation> mMarkersMap;
 
     public ReviewInfoAdapter(Activity activity,
@@ -72,14 +67,25 @@ public class ReviewInfoAdapter implements GoogleMap.InfoWindowAdapter {
             GvConverterReviewNode converter = mConverter.newConverterNodes(mRepo);
             SelectorEqualsReviewId selector = new SelectorEqualsReviewId(location.getReviewId());
 
-            ViewHolder viewHolder = new VhMapInfoWindow(mRepo, new ReviewSelector(selector),
-                    mConverter.newConverterComments(), new UpdateListener(marker));
+            VhMapInfoWindow viewHolder = new VhMapInfoWindow(location, new ReviewSelector(selector),
+                    mRepo, new UpdateListener(marker));
             viewHolder.inflate(mActivity, null);
             viewHolder.updateView(converter.convert(mNode));
-            mInflated.put(marker, viewHolder.getView());
+            mInflated.put(marker, viewHolder);
         }
 
-        return mInflated.get(marker);
+        return mInflated.get(marker).getView();
+    }
+
+    void onInfoWindowClick(Marker marker) {
+        VhMapInfoWindow info = mInflated.get(marker);
+        if(info != null) info.onClick();
+    }
+
+    void unbind() {
+        for(VhMapInfoWindow window : mInflated.values()) {
+            window.unbindFromReview();
+        }
     }
 
     private class UpdateListener implements VhMapInfoWindow.InfoUpdateListener {

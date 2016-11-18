@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Factories.Factory
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleRefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 import java.util.ArrayList;
 
@@ -64,8 +63,7 @@ public class SimpleRefFirstSentence extends SimpleRefComment {
                 public void onDereferenced(DataValue<DataComment> value) {
                     DataValue<DataComment> sentence = value;
                     if (value.hasValue()) {
-                        String comment = value.getData().getComment();
-                        ArrayList<String> split = CommentFormatter.split(comment, true);
+                        ArrayList<String> split = DataFormatter.split(value.getData(), true);
                         sentence = new DataValue<DataComment>(new DatumComment(getReviewId(),
                                 split.get(0), mParent.isHeadline()));
                     }

@@ -15,6 +15,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +24,15 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -49,14 +58,17 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
-
     private Button mGotoReviewButton;
     private Button mDoneButton;
-
     private LocationClient mLocationClient;
+    private MenuUi mMenu;
 
     public GoogleMap getMap() {
         return mGoogleMap;
+    }
+
+    String getMenuTitle() {
+        return Strings.Screens.LOCATION;
     }
 
     protected Button getGotoReviewButton() {
@@ -86,6 +98,27 @@ public abstract class FragmentMapLocation extends Fragment implements
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         MapsInitializer.initialize(getActivity());
+        setMenu();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mMenu.inflate(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        return mMenu.onItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    private void setMenu() {
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        UiSuite ui = app.getUi();
+        MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
+
+        MenuAction<GvData> action = new MenuUpAppLevel(getMenuTitle(), upAction, ui);
+        mMenu = new MenuUi(action);
     }
 
     @Override
@@ -96,6 +129,8 @@ public abstract class FragmentMapLocation extends Fragment implements
         View v = extractViews(inflater, container, savedInstanceState);
 
         initButtonUI();
+
+        setMenu();
 
         return v;
     }

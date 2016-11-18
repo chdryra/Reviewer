@@ -26,19 +26,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
     private final AuthorsRepository mRepository;
-    private final GvConverterComments mConverterComments;
-    private final GvConverterLocations mConverterLocations;
 
-    public VhMostRecentFactory(AuthorsRepository repository, GvConverterComments
-            converterComments, GvConverterLocations converterLocations) {
+    public VhMostRecentFactory(AuthorsRepository repository) {
         mRepository = repository;
-        mConverterComments = converterComments;
-        mConverterLocations = converterLocations;
     }
 
     @Override
     public VhNode newViewHolder() {
-        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
-                mConverterComments, mConverterLocations);
+        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()));
     }
 }

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -56,7 +56,7 @@ public class CommentUi extends ViewUi<TextView, RefCommentList> {
             @Override
             public void onDereferenced(DataValue<IdableList<DataComment>> value) {
                 if(value.hasValue()) {
-                    getView().setText(CommentFormatter.formatComments(value.getData()));
+                    getView().setText(DataFormatter.formatComments(value.getData()));
                 }
             }
         });

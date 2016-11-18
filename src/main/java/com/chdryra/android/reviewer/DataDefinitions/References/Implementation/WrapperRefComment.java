@@ -16,8 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDa
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 import java.util.ArrayList;
 
@@ -60,7 +59,7 @@ public class WrapperRefComment extends WrapperItemReference<DataComment> impleme
     }
 
     private ArrayList<String> getSplit() {
-        return CommentFormatter.split(getData().getComment());
+        return DataFormatter.split(getData());
     }
 
 

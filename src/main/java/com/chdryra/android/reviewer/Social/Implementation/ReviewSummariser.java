@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,7 @@ public class ReviewSummariser {
         ArrayList<String> headlines = new ArrayList<>();
         for(DataComment comment : review.getComments()) {
             if(comment.isHeadline()) {
-                headlines.add(CommentFormatter.getFirstSentence(comment.getComment()));
+                headlines.add(DataFormatter.getFirstSentence(comment));
             }
         }
 

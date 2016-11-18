@@ -19,7 +19,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverte
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+
+
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
 
 /**
@@ -84,7 +86,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
 
     //public methods
     public String getFirstSentence() {
-        return CommentFormatter.getFirstSentence(mComment);
+        return DataFormatter.getFirstSentence(this);
     }
 
     public GvComment getUnsplitComment() {
@@ -93,7 +95,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
 
     public GvCommentList getSplitComments() {
         GvCommentList splitComments = new GvCommentList(getGvReviewId());
-        for (String comment : CommentFormatter.split(mComment)) {
+        for (String comment : DataFormatter.split(this)) {
             splitComments.add(new GvComment(getGvReviewId(), comment, this));
         }
 
@@ -101,7 +103,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
     }
 
     public String getFormattedComment() {
-        return CommentFormatter.format(getComment());
+        return DataFormatter.format(this);
     }
 
     public void setIsHeadline(boolean isHeadline) {

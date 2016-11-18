@@ -8,25 +8,23 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
+
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuReviewFormatted extends MenuReviewOptions<GvData> {
+public class MenuUpAppLevel extends MenuActionNone<GvData> {
     private UiSuite mUi;
 
-    public MenuReviewFormatted(String title,
-                               MenuActionItem<GvData> upAction,
-                               MenuActionItem<GvData> reviewOptions,
-                               UiSuite ui) {
-        super(title, upAction, reviewOptions);
+    public MenuUpAppLevel(String title, MenuActionItem<GvData> upAction, UiSuite ui) {
+        super(title, upAction);
         mUi = ui;
         setupActionBar();
     }

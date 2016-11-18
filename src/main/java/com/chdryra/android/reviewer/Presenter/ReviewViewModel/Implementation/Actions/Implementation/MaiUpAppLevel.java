@@ -18,10 +18,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 13/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiUpFormatted<T extends GvData> extends MaiUp<T> {
+public class MaiUpAppLevel<T extends GvData> extends MaiUp<T> {
     private final ApplicationInstance mApp;
 
-    public MaiUpFormatted(ApplicationInstance app) {
+    public MaiUpAppLevel(ApplicationInstance app) {
         mApp = app;
     }
 

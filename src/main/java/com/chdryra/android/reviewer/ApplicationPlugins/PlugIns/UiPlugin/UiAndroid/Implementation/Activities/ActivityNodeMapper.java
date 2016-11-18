@@ -44,6 +44,12 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AppInstanceAndroid.setActivity(this);
+    }
+
+    @Override
     protected Fragment createFragment() {
         FragmentNodeMapper fragment = new FragmentNodeMapper();
         fragment.setNode(getReviewNode());

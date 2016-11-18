@@ -20,20 +20,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 
-/**
- * UI Fragment: location map. Google Map of location passed in the arguments, or current location
- * if null.
- * <p/>
- * <p>
- * In addition:
- * <ul>
- * <li>Text entry for location name. Autocompletes with nearby suggestions.</li>
- * <li>Search icon in ActionBar to perform search.</li>
- * <li>If location passed to Fragment, then also a revert button to revert back to
- * passed location.</li>
- * </ul>
- * </p>
- */
 public class FragmentViewLocation extends FragmentMapLocation {
     private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
     private static final float DEFAULT_ZOOM = 15;

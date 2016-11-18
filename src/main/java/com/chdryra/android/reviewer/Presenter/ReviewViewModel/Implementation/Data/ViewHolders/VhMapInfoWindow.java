@@ -9,14 +9,18 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -27,11 +31,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,44 +42,51 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  */
 public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback {
     private static final int LAYOUT = R.layout.review_map_info_window;
+    private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
+    private static final int LOCATION = R.id.review_location_name;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
-    public static final int IMAGE = R.id.review_image;
+    private static final int IMAGE = R.id.review_image;
 
+    private final DataLocation mLocationName;
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
-    private final GvConverterComments mConverterComments;
     private final InfoUpdateListener mListener;
 
+    private final TagsBinder mTagsBinder;
+    private final CommentsBinder mCommentsBinder;
+    private final NameBinder mNameBinder;
+
+    private LinearLayout mAbstract;
     private TextView mSubject;
     private TextView mRating;
+    private TextView mLocation;
     private TextView mHeadline;
     private TextView mTags;
     private TextView mPublishDate;
 
     private ReviewId mNodeId;
     private ReviewReference mReview;
-    private final TagsBinder mTagsBinder;
-    private final CommentsBinder mCommentsBinder;
-    private final NameBinder mNameBinder;
-
     private NamedAuthor mAuthor;
+    private int mCallbacks;
+
+    private boolean mShowAbstract = false;
 
     public interface InfoUpdateListener {
         void onInfoUpdated();
     }
 
-    public VhMapInfoWindow(AuthorsRepository authorsRepo,
+    public VhMapInfoWindow(DataLocation locationName,
                            ReviewSelector selector,
-                           GvConverterComments converterComments,
+                           AuthorsRepository authorsRepo,
                            InfoUpdateListener listener) {
-        super(LAYOUT, new int[]{LAYOUT, IMAGE, SUBJECT, RATING, HEADLINE, TAGS, STAMP});
+        super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE, TAGS, STAMP});
+        mLocationName = locationName;
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
-        mConverterComments = converterComments;
         mListener = listener;
         mCommentsBinder = new CommentsBinder();
         mTagsBinder = new TagsBinder();
@@ -96,36 +105,54 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
         mSelector.unregister(mNodeId);
     }
 
+    public void onClick() {
+        mShowAbstract = !mShowAbstract;
+        setAbstractVisibility();
+    }
+
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
         ReviewNode node = ((GvNode)data).getNode();
         mNodeId = node.getReviewId();
-        initialiseData(node);
+        initialiseData();
         mSelector.select(node, this);
     }
 
     private void setViewsIfNecessary() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (TextView) getView(RATING);
+        if (mAbstract == null) mAbstract = (LinearLayout) getView(ABSTRACT);
+        if (mLocation == null) mLocation = (TextView) getView(LOCATION);
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(STAMP);
     }
 
-    private void initialiseData(ReviewNode node) {
-        mSubject.setText(node.getSubject().getSubject());
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
+    private void initialiseData() {
+        mShowAbstract = false;
+        setAbstractVisibility();
+        mSubject.setText(Strings.FETCHING);
+        mRating.setText("");
+        mLocation.setText(mLocationName.toString());
         mHeadline.setText(null);
         mTags.setText(null);
         mPublishDate.setText(null);
         mAuthor = null;
     }
 
+    private void setAbstractVisibility() {
+        mAbstract.setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
+        notifyListener();
+    }
+
     @Override
     public void onReviewSelected(@Nullable ReviewReference review) {
         if(review != null) {
+            mCallbacks = 0;
             mReview = review;
+            mSubject.setText(mReview.getSubject().toString());
+            mRating.setText(mReview.getRating().toString());
             mReview.getComments().bindToValue(mCommentsBinder);
             mReview.getTags().bindToValue(mTagsBinder);
             mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
@@ -148,22 +175,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        String tagsString = "";
-        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
-        int diff = tags.size() - size;
-        int i = 0;
-        while (i < size) {
-            tagsString += "#" + tags.getItem(i).getTag() + " ";
-            ++i;
-        }
-
-        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
-
-        return tagsString.trim();
-    }
-
-    private boolean validateString(@Nullable String string) {
-        return string != null && string.length() > 0;
+        return DataFormatter.formatTags(tags, maxTags, mSubject.getText().toString());
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {
@@ -172,15 +184,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
     }
 
     private void setHeadline(IdableList<DataComment> value) {
-        GvCommentList comments = mConverterComments.convert(value);
-        GvCommentList headlines = comments.getHeadlines();
-        String headline = headlines.size() > 0 ? headlines.getItem(0).getFirstSentence() : null;
-        if (validateString(headline)) {
-            String text = "\"" + headline + "\"";
-            mHeadline.setText(text);
-        } else {
-            mHeadline.setText("");
-        }
+        mHeadline.setText(DataFormatter.getHeadlineQuote(value));
         notifyListener();
     }
 
