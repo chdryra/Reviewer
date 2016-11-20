@@ -32,7 +32,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -40,7 +41,8 @@ import com.chdryra.android.reviewer.R;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback {
+public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
+        .ReviewSelectorCallback {
     private static final int LAYOUT = R.layout.review_map_info_window;
     private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
@@ -50,6 +52,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
     private static final int IMAGE = R.id.review_image;
+    private static final int CALLBACKS = 3;
 
     private final DataLocation mLocationName;
     private final AuthorsRepository mAuthorsRepo;
@@ -74,6 +77,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
     private int mCallbacks;
 
     private boolean mShowAbstract = false;
+    private boolean mBound = false;
 
     public interface InfoUpdateListener {
         void onInfoUpdated();
@@ -83,7 +87,8 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
                            ReviewSelector selector,
                            AuthorsRepository authorsRepo,
                            InfoUpdateListener listener) {
-        super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE, TAGS, STAMP});
+        super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE,
+                TAGS, STAMP});
         mLocationName = locationName;
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
@@ -91,10 +96,6 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
         mCommentsBinder = new CommentsBinder();
         mTagsBinder = new TagsBinder();
         mNameBinder = new NameBinder();
-    }
-
-    protected ReviewReference getReview() {
-        return mReview;
     }
 
     public void unbindFromReview() {
@@ -108,15 +109,40 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
     public void onClick() {
         mShowAbstract = !mShowAbstract;
         setAbstractVisibility();
+        bindIfNecessary();
+    }
+
+    protected ReviewReference getReview() {
+        return mReview;
     }
 
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
-        ReviewNode node = ((GvNode)data).getNode();
+        ReviewNode node = ((GvNode) data).getNode();
         mNodeId = node.getReviewId();
         initialiseData();
         mSelector.select(node, this);
+    }
+
+    @Override
+    public void onReviewSelected(@Nullable ReviewReference review) {
+        if(review == null) return;
+        mCallbacks = 0;
+        mReview = review;
+        mSubject.setText(mReview.getSubject().toString());
+        mRating.setText(mReview.getRating().toString());
+        notifyListener(true);
+        bindIfNecessary();
+    }
+
+    private void bindIfNecessary() {
+        if(!mBound && mShowAbstract) {
+            mCallbacks = 0;
+            mReview.getComments().bindToValue(mCommentsBinder);
+            mReview.getTags().bindToValue(mTagsBinder);
+            mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
+        }
     }
 
     private void setViewsIfNecessary() {
@@ -143,35 +169,28 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
 
     private void setAbstractVisibility() {
         mAbstract.setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
-        notifyListener();
-    }
-
-    @Override
-    public void onReviewSelected(@Nullable ReviewReference review) {
-        if(review != null) {
-            mCallbacks = 0;
-            mReview = review;
-            mSubject.setText(mReview.getSubject().toString());
-            mRating.setText(mReview.getRating().toString());
-            mReview.getComments().bindToValue(mCommentsBinder);
-            mReview.getTags().bindToValue(mTagsBinder);
-            mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
-        }
+        notifyListener(true);
     }
 
     private void newFooter() {
-        if(mReview != null) {
-            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
+        if (mReview != null) {
+            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview
+                    .getPublishDate());
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
             String text = name + " " + date;
             mPublishDate.setText(text);
-            notifyListener();
+            notifyListener(false);
         }
     }
 
-    private void notifyListener() {
-        mListener.onInfoUpdated();
+    private void notifyListener(boolean force) {
+        if(force) {
+            mListener.onInfoUpdated();
+        } else if(++mCallbacks == CALLBACKS) {
+            mBound = true;
+            mListener.onInfoUpdated();
+        }
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
@@ -185,7 +204,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
 
     private void setHeadline(IdableList<DataComment> value) {
         mHeadline.setText(DataFormatter.getHeadlineQuote(value));
-        notifyListener();
+        notifyListener(false);
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
@@ -196,7 +215,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector.R
         }
 
         mTags.setText(tagsString);
-        notifyListener();
+        notifyListener(false);
     }
 
     private class NameBinder implements ReferenceBinder<NamedAuthor> {
