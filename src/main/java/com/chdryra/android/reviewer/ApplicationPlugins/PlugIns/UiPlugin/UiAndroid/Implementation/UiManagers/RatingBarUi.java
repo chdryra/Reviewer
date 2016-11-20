@@ -26,11 +26,13 @@ public class RatingBarUi extends ViewUi<RatingBar, Float>{
         return getView().getRating();
     }
 
+    @Override
     public void update() {
         setRating(getValue());
     }
 
     public void setRating(float rating) {
         getView().setRating(rating);
+        float r = getView().getRating();
     }
 }

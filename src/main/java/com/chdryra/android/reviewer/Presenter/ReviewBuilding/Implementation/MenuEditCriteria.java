@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
@@ -19,8 +18,7 @@ import com.chdryra.android.reviewer.R;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MenuEditCriteria extends MenuEditData<GvCriterion>
-        implements DataObservable.DataObserver {
+public class MenuEditCriteria extends MenuEditData<GvCriterion> {
     private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
     private static final int MENU = R.menu.menu_edit_criteria;
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
@@ -37,22 +35,5 @@ public class MenuEditCriteria extends MenuEditData<GvCriterion>
                 new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
                 upAction, deleteAction, doneAction, previewAction);
         bindMenuActionItem(averageAction, MENU_AVERAGE_ID, false);
-    }
-
-    @Override
-    public void onDataChanged() {
-        getEditor().update();
-    }
-
-    @Override
-    public void onAttachReviewView() {
-        super.onAttachReviewView();
-        getReviewView().registerObserver(this);
-    }
-
-    @Override
-    public void onDetachReviewView() {
-        getReviewView().unregisterObserver(this);
-        super.onDetachReviewView();
     }
 }

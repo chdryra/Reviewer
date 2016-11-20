@@ -32,7 +32,8 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
         DataEditListener<T>,
         DataAddListener<T> {
 
-    private static final String DATA_TYPE = TagKeyGenerator.getKey(ActivityEditData.class, "DataType");
+    private static final String DATA_TYPE
+            = TagKeyGenerator.getKey(ActivityEditData.class, "DataType");
 
     private GvDataType<T> mDataType;
     private PresenterReviewDataEdit<T> mPresenter;
@@ -42,7 +43,7 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
     }
 
     private ActivityEditData(GvDataType<T> dataType) {
-
+        mDataType = dataType;
     }
 
     public static <T extends GvDataParcelable> void start(Activity launcher, GvDataType<T> dataType) {

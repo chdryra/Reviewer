@@ -62,7 +62,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
         this(location.getGvReviewId(), location.getLatLng(), location.getName());
     }
 
-    GvLocation(Parcel in) {
+    public GvLocation(Parcel in) {
         super(in);
         mLatLng = in.readParcelable(LatLng.class.getClassLoader());
         mName = in.readString();

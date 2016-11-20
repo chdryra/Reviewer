@@ -53,7 +53,7 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     @Override
     public void setRatingIsAverage(boolean isAverage) {
         mRatingIsAverage = isAverage;
-        updateRating();
+        update();
     }
 
     private void updateRating() {

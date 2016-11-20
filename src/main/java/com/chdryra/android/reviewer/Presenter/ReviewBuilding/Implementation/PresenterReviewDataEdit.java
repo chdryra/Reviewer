@@ -11,9 +11,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
@@ -87,7 +89,9 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
         }
 
         public PresenterReviewDataEdit<T> build(ApplicationInstance app) {
-            mEditor = app.getReviewEditor().getEditor().newDataEditor(mDataType);
+            ReviewEditorSuite reviewEditor = app.getReviewEditor();
+            ReviewEditor<?> editor = reviewEditor.getEditor();
+            mEditor = editor.newDataEditor(mDataType);
             return new PresenterReviewDataEdit<>(mEditor);
         }
     }

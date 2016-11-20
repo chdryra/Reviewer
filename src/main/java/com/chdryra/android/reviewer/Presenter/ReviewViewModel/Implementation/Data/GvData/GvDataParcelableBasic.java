@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends GvDataBasic<T> implements GvDataParcelable{
     GvDataParcelableBasic(Parcel in) {
         //TODO make type safe
-        super((GvDataType<T>) in.readParcelable(GvDataType.class.getClassLoader()),
+        super((GvDataType<T>) GvDataType.loadFromParcel(in),
                 (GvReviewId) in.readParcelable(GvReviewId.class.getClassLoader()));
     }
 
@@ -40,7 +40,7 @@ public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends 
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(mType, i);
+        GvDataType.writeToParcel(getGvDataType(), parcel);
         parcel.writeParcelable(mReviewId, i);
     }
 

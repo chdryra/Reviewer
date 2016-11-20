@@ -62,7 +62,7 @@ public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements D
         this(criterion.getGvReviewId(), criterion.getSubject(), criterion.getRating());
     }
 
-    GvCriterion(Parcel in) {
+    public GvCriterion(Parcel in) {
         super(in);
         mSubject = in.readString();
         mRating = in.readFloat();
