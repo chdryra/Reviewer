@@ -18,11 +18,9 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.google.android.gms.maps.CameraUpdateFactory;
 
 public class FragmentViewLocation extends FragmentMapLocation {
     private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
-    private static final float DEFAULT_ZOOM = 15;
 
     private DataLocation mCurrent;
 
@@ -39,18 +37,13 @@ public class FragmentViewLocation extends FragmentMapLocation {
 
     @Override
     void onMapReady() {
-        zoomToLatLng(mCurrent);
+        zoomToLatLng(mCurrent.getLatLng());
+        addMarker(mCurrent).showInfoWindow();
     }
 
     @Override
     void onGotoReviewSelected() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         app.getUi().getLauncher().getReviewLauncher().launchAsList(mCurrent.getReviewId());
-    }
-
-    private void zoomToLatLng(DataLocation location) {
-        getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(location.getLatLng(),
-                DEFAULT_ZOOM));
-        addMarker(location).showInfoWindow();
     }
 }

@@ -34,6 +34,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
@@ -55,6 +56,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
     private static final int DONE_BUTTON = R.id.button_right;
+    private static final float DEFAULT_ZOOM = 15;
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -91,6 +93,10 @@ public abstract class FragmentMapLocation extends Fragment implements
                 onDoneSelected();
             }
         });
+    }
+
+    protected void zoomToLatLng(LatLng latLng) {
+        getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
     }
 
     @Override

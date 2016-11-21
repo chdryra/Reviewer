@@ -17,18 +17,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverRefUi extends CoverUi<ReviewItemReference<DataImage>>{
-    public CoverRefUi(View view, final ReviewItemReference<DataImage> cover, Activity activity) {
+public class CoverNodeUi extends CoverUi<ReviewItemReference<DataImage>>{
+    public CoverNodeUi(View view, final ReviewNode node, Activity activity) {
         super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
             @Override
             public ReviewItemReference<DataImage> getValue() {
-                return cover;
+                return node.getCover();
             }
         }, activity);
     }

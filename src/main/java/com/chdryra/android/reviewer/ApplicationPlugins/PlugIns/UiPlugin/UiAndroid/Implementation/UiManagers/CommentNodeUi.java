@@ -19,20 +19,23 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentUi extends ViewUi<TextView, RefCommentList> {
-    public CommentUi(TextView view, final RefCommentList reference, @Nullable final Command onClick) {
+public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
+    public CommentNodeUi(TextView view, final ReviewNode node, @Nullable final Command onClick) {
         super(view, new ValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
-                return reference;
+                return node.getComments();
             }
         });
         if(onClick != null) {

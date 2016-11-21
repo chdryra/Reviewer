@@ -14,8 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -60,7 +59,8 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
         int size = nodes.size();
         ReviewNode item = size > 0 ? nodes.get(position) : mNode;
 
-        return FragmentFormatReview.newInstance(item.getReviewId(), mIsClickable);
+        FragmentFormatReview fragment = FragmentFormatReview.newInstance(item.getReviewId(), mIsClickable);
+        return fragment;
     }
 
     @Override

@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,16 +31,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
         extends HorizontalAdapter<Gv, Vh> implements ViewUi.ValueGetter<RefDataList<Value>>{
-    private final RefDataList<Value> mReference;
+    private final ViewUi.ValueGetter<RefDataList<Value>> mReference;
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
 
     private boolean mDereferenced = false;
 
-    public HorizontalAdapterRef(RefDataList<Value> reference,
+    public HorizontalAdapterRef(ViewUi.ValueGetter<RefDataList<Value>> reference,
                                 DataConverter<Value, Gv, ? extends GvDataList<Gv>> converter,
                                 ViewHolderFactory<Vh> factory,
                                 CellDimensionsCalculator.Dimensions dims) {
-        super(converter.convert(new IdableDataList<Value>(reference.getReviewId())),
+        super(converter.convert(new IdableDataList<Value>(reference.getValue().getReviewId())),
                 factory, dims.getCellWidth(), dims.getCellHeight());
         mReference = reference;
         mConverter = converter;
@@ -49,7 +48,7 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
 
     @Override
     public RefDataList<Value> getValue() {
-        return mReference;
+        return mReference.getValue();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
 
     private void dereference() {
         mDereferenced = true;
-        mReference.dereference(new DataReference.DereferenceCallback<IdableList<Value>>() {
+        mReference.getValue().dereference(new DataReference.DereferenceCallback<IdableList<Value>>() {
             @Override
             public void onDereferenced(DataValue<IdableList<Value>> value) {
                 if(value.hasValue()) {

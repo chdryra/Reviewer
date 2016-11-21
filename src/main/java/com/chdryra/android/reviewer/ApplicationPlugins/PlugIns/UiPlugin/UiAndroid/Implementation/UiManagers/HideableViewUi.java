@@ -34,6 +34,7 @@ public class HideableViewUi<V extends View, Value extends ReviewListReference> e
                     @Override
                     public void onDereferenced(DataValue<DataSize> value) {
                         if(value.hasValue() && value.getData().getSize() > 0) {
+                            view.setVisibility(View.VISIBLE);
                             ui.update();
                         } else {
                             view.setVisibility(visibility);

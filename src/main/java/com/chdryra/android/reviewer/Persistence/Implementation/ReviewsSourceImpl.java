@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -126,7 +127,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @NonNull
     private ReviewNode newAsyncMetaReview(IdableCollection<?> data, final String subject) {
-        final NodeAsync asyncNode = newAsyncNode();
+        final NodeAsync asyncNode = newAsyncNode(null);
         getUniqueReviews(data, new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
@@ -144,7 +145,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private ReviewNode newAsyncReview(ReviewId id) {
-        final NodeAsync asyncNode = newAsyncNode();
+        final NodeAsync asyncNode = newAsyncNode(id);
         mReviewsRepo.getReference(id, new RepositoryCallback() {
 
             @Override
@@ -166,7 +167,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private ReviewNode newAsyncTree(ReviewId id) {
-        final NodeAsync asyncNode = newAsyncNode();
+        final NodeAsync asyncNode = newAsyncNode(id);
         mReviewsRepo.getReference(id, new RepositoryCallback() {
 
             @Override
@@ -188,13 +189,13 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @NonNull
-    private NodeAsync newAsyncNode() {
+    private NodeAsync newAsyncNode(@Nullable ReviewId id) {
         Review fetching = mReviewsFactory.createUserReview(Strings.FETCHING, 0f);
 
         ReviewReference reference = mReviewsFactory.asReference(fetching);
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);
 
-        return new NodeAsync(node);
+        return new NodeAsync(id, node);
     }
 
 //
@@ -244,13 +245,21 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private static class NodeAsync extends ReviewTree {
-        private NodeAsync(ReviewNodeComponent initial) {
-            super(initial);
+        private ReviewId mId;
+
+        private NodeAsync(@Nullable ReviewId id, ReviewNodeComponent fetchingNode) {
+            super(fetchingNode);
+            mId = id;
         }
 
         private void onCallback(RepositoryResult result) {
             ReviewNode node = result.getReviewNode();
             if (!result.isError() && node != null) setNode(node);
+        }
+
+        @Override
+        public ReviewId getReviewId() {
+            return mId != null ? mId : super.getReviewId();
         }
     }
 

@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
@@ -23,14 +23,23 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarLaunchSummary extends RatingBarUi {
-    public RatingBarLaunchSummary(RatingBar view, ValueGetter<Float> rating, final ReviewId reviewId,
+    private ReviewNode mNode;
+
+    public RatingBarLaunchSummary(RatingBar view, final ReviewNode node,
                                   final ReviewLauncher launcher, boolean clickable) {
-        super(view, rating);
+        super(view, new ValueGetter<Float>() {
+            @Override
+            public Float getValue() {
+                return node.getRating().getRating();
+            }
+        });
+
+        mNode = node;
         if(clickable) {
             getView().setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    launcher.launchSummary(reviewId);
+                    launcher.launchSummary(mNode.getReviewId());
                     return false;
                 }
             });
