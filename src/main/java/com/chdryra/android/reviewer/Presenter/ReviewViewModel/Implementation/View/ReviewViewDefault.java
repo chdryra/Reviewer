@@ -138,7 +138,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         detachFromAdapter();
         unregisterObserver(mContainer);
         mContainer = null;
-        mGridViewData = null;
+        nullifyGridData();
     }
 
     @Override
@@ -155,8 +155,12 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public void onDataChanged() {
-        mGridViewData = null;
+        nullifyGridData();
         notifyDataObservers();
+    }
+
+    protected void nullifyGridData() {
+        mGridViewData = null;
     }
 
     @Override

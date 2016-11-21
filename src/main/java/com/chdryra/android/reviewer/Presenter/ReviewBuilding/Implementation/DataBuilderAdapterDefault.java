@@ -174,30 +174,7 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         detach();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DataBuilderAdapterDefault)) return false;
-
-        DataBuilderAdapterDefault<?> that = (DataBuilderAdapterDefault<?>) o;
-
-        if (!mParentBuilder.equals(that.mParentBuilder)) return false;
-        if (!getBuilder().equals(that.getBuilder())) return false;
-        if (!getDataBuilder().equals(that.getDataBuilder())) return false;
-        return mType.equals(that.mType);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mParentBuilder.hashCode();
-        result = 31 * result + getBuilder().hashCode();
-        result = 31 * result + getDataBuilder().hashCode();
-        result = 31 * result + mType.hashCode();
-        return result;
-    }
-
-    protected DataBuilder<T> getDataBuilder() {
+    private DataBuilder<T> getDataBuilder() {
         return getBuilder().getDataBuilder(mType);
     }
 

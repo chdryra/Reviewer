@@ -133,4 +133,29 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
     private boolean isValid(T datum) {
         return datum != null && datum.isValidForDisplay();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataBuilderImpl)) return false;
+
+        DataBuilderImpl<?> that = (DataBuilderImpl<?>) o;
+
+        if (!mAddConstraint.equals(that.mAddConstraint)) return false;
+        if (!mReplaceConstraint.equals(that.mReplaceConstraint)) return false;
+        if (!mCopier.equals(that.mCopier)) return false;
+        if (!mOriginalData.equals(that.mOriginalData)) return false;
+        return mData.equals(that.mData);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mAddConstraint.hashCode();
+        result = 31 * result + mReplaceConstraint.hashCode();
+        result = 31 * result + mCopier.hashCode();
+        result = 31 * result + mOriginalData.hashCode();
+        result = 31 * result + mData.hashCode();
+        return result;
+    }
 }

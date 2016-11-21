@@ -45,7 +45,7 @@ public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         return FragmentOAuthUrlBrowser.newInstance(getBundledRequest());
     }
 

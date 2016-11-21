@@ -169,7 +169,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        return DataFormatter.formatTags(tags, maxTags, mSubject.getText().toString());
+        String ignoreTag = TextUtils.toTag(mSubject.getText().toString());
+        return DataFormatter.formatTags(tags, maxTags, ignoreTag);
     }
 
     private boolean validateString(@Nullable String string) {

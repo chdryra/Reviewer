@@ -46,7 +46,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         GvUrl bundledUrl = getBundledUrl();
         return FragmentEditUrlBrowser.newInstance(bundledUrl != null ? bundledUrl : new GvUrl());
     }

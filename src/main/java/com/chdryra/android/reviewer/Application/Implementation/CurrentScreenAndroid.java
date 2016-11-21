@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.SparseArray;
@@ -65,8 +64,9 @@ class CurrentScreenAndroid implements CurrentScreen {
     @Override
     public void returnToPrevious() {
         if (NavUtils.getParentActivityName(mActivity) != null) {
-            Intent i = NavUtils.getParentActivityIntent(mActivity);
-            NavUtils.navigateUpTo(mActivity, i);
+            NavUtils.navigateUpFromSameTask(mActivity);
+        } else {
+            close();
         }
     }
 

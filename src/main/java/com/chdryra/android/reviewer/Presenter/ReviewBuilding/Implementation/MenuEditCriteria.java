@@ -33,7 +33,7 @@ public class MenuEditCriteria extends MenuEditData<GvCriterion> {
                             MenuActionItem<GvCriterion> averageAction) {
         super(TYPE.getDataName(), MENU,
                 new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
-                upAction, deleteAction, doneAction, previewAction);
+                upAction, doneAction, deleteAction, previewAction);
         bindMenuActionItem(averageAction, MENU_AVERAGE_ID, false);
     }
 }

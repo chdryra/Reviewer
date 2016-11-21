@@ -10,8 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Fragments;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -23,15 +27,21 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -138,12 +148,26 @@ public class FragmentNodeMapper extends FragmentMapLocation {
             Marker marker = addMarker(location);
             mMarkersMap.put(marker, location);
             builder.include(marker.getPosition());
-            marker.showInfoWindow();
         }
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING);
         GoogleMap map = getMap();
         map.moveCamera(cu);
         map.animateCamera(cu);
+    }
+
+    @NonNull
+    @Override
+    protected MarkerOptions newMarkerOptions(DataLocation location) {
+        TextView text = new TextView(getActivity());
+        text.setText(location.getShortenedName());
+        IconGenerator generator = new IconGenerator(getActivity());
+        generator.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bubble_mask));
+        generator.setContentView(text);
+        Bitmap icon = generator.makeIcon();
+        BitmapDescriptor iconBm = BitmapDescriptorFactory.fromBitmap(icon);
+
+        MarkerOptions marker = super.newMarkerOptions(location);
+        return marker.position(location.getLatLng()).icon(iconBm);
     }
 }

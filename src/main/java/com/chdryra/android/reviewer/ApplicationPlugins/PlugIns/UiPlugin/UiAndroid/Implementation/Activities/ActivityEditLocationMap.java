@@ -52,7 +52,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         mDataPacker = new ParcelablePacker<>();
         mFragment = FragmentEditLocationMap.newInstance(getBundledLocation());
         return mFragment;

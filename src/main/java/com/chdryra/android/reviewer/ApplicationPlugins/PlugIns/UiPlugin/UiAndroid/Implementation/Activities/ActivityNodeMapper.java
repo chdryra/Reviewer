@@ -50,7 +50,7 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         FragmentNodeMapper fragment = new FragmentNodeMapper();
         fragment.setNode(getReviewNode());
         return fragment;

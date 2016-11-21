@@ -47,7 +47,7 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         return FragmentViewLocation.newInstance(getBundledLocation());
     }
 

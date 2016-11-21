@@ -32,8 +32,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -194,7 +193,8 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        return DataFormatter.formatTags(tags, maxTags, mSubject.getText().toString());
+        String ignoreTag = TextUtils.toTag(mSubject.getText().toString());
+        return DataFormatter.formatTags(tags, maxTags, ignoreTag);
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {

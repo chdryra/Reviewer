@@ -46,11 +46,6 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public boolean isRatingAverage() {
-        return mRatingIsAverage;
-    }
-
-    @Override
     public void setRatingIsAverage(boolean isAverage) {
         mRatingIsAverage = isAverage;
         update();
@@ -126,6 +121,12 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     @Override
     public void detachFromBuilder() {
         detachFromAdapter();
+    }
+
+    @Override
+    public void onDataChanged() {
+        nullifyGridData();
+        update();
     }
 
     @Override

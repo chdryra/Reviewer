@@ -24,7 +24,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
@@ -111,15 +110,17 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         setRetainInstance(true);
     }
 
+    public void setReviewView(ReviewView<?> reviewView) {
+        mReviewView = reviewView;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-
         View v = inflater.inflate(LAYOUT, container, false);
 
-        if (mReviewView == null) extractReviewView();
         if (mReviewView == null) return v;
 
         ReviewViewActions<?> actions = mReviewView.getActions();
@@ -173,17 +174,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public void onDataChanged() {
         updateUi(true);
-    }
-
-    private void extractReviewView() {
-        ActivityReviewView activity;
-        try {
-            activity = (ActivityReviewView) getActivity();
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Activity must be an ActivityReviewView", e);
-        }
-
-        mReviewView = activity.getReviewView();
     }
 
     private void attachToReviewViewIfNecessary() {

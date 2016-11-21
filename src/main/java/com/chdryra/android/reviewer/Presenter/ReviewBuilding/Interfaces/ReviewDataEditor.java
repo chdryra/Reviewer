@@ -18,8 +18,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
-    boolean isRatingAverage();
-
     boolean add(T datum);
 
     void replace(T oldDatum, T newDatum);

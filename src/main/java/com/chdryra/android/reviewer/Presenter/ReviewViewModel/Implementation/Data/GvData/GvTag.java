@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
 
 /**
@@ -47,15 +47,11 @@ public class GvTag extends GvText<GvTag> implements DataTag {
     }
 
     public GvTag(String tag) {
-        super(TYPE, process(tag));
-    }
-
-    private static String process(String string) {
-        return TextUtils.toCamelCase(string.replaceAll("[^A-Za-z0-9 ]", ""));
+        super(TYPE, TextUtils.toTag(tag));
     }
 
     public GvTag(@Nullable GvReviewId id, String tag) {
-        super(TYPE, id, process(tag));
+        super(TYPE, id, TextUtils.toTag(tag));
     }
 
     public GvTag(GvTag tag) {

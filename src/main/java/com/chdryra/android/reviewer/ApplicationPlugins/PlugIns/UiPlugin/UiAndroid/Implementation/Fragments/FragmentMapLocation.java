@@ -223,10 +223,15 @@ public abstract class FragmentMapLocation extends Fragment implements
     abstract void onGotoReviewSelected();
 
     Marker addMarker(DataLocation location) {
+        return mGoogleMap.addMarker(newMarkerOptions(location));
+    }
+
+    @NonNull
+    protected MarkerOptions newMarkerOptions(DataLocation location) {
         MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
         markerOptions.title(location.getShortenedName());
         markerOptions.draggable(false);
-        return mGoogleMap.addMarker(markerOptions);
+        return markerOptions;
     }
 
     @NonNull

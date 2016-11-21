@@ -54,7 +54,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         mTitle = title;
         mDisplayHomeAsUp = upAction != null;
         mActionItems = new HashMap<>();
-        if (upAction != null) bindMenuActionItem(upAction, MENU_UP_ID, true);
+        if (upAction != null) bindMenuActionItem(upAction, MENU_UP_ID, false);
     }
 
     @Nullable

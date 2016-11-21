@@ -46,7 +46,7 @@ public class ActivitySignUp extends ActivitySingleFragment implements Launchable
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle bundleArgs = getIntent().getBundleExtra(KEY);
         ParcelablePacker<SignUpArgs> unpacker = new ParcelablePacker<>();
         SignUpArgs args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);

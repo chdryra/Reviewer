@@ -22,6 +22,13 @@
         <item name="viewHolderStyle">@style/Widget.GridCell.SlateSmoke</item>
         <item name="android:alertDialogTheme">@style/Theme.Dialog.SlateSmoke</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.SlateSmoke</item>
+        <item name="android:itemTextAppearance">@style/MenuItem.Slate</item>
+    </style>
+
+    <style name="MenuItem.Slate" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/Slate</item>
+        <item name="android:textColorPrimaryInverse">@color/Smoke</item>
+        <item name="android:background">@drawable/selector_smoke_slate</item>
     </style>
 
     <style name="Widget.AutoCompleteTextView.SlateSmoke">

@@ -10,16 +10,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -30,36 +29,41 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  */
 public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
-    private static final String RETAIN_VIEW
-            = TagKeyGenerator.getKey(ActivityReviewView.class, "RetainView");
 
-    private ReviewView mView;
+    private ReviewView<?> mView;
 
-    public ReviewView getReviewView() {
-        return mView;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppInstanceAndroid.setActivity(this);
-
-        if (savedInstanceState != null) {
-            mView = ((ReviewViewContainer) getFragment()).getReviewView();
-        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(RETAIN_VIEW, true);
+        AppInstanceAndroid.getInstance(this).retainView(mView, outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
+        //Get retained to remove from memory but prefer new retained over retained retained
+        ReviewView<?> retained = null;
+        if(savedInstanceState != null) {
+            retained = AppInstanceAndroid.getInstance(this).getRetainedView(savedInstanceState);
+        }
+
         mView = createReviewView();
-        throwIfNull(mView);
-        return new FragmentReviewView();
+        if (mView == null) mView = retained;
+        if (mView == null) throw new RuntimeException("View is null!");
+        FragmentReviewView fragment = new FragmentReviewView();
+        fragment.setReviewView(mView);
+
+        return fragment;
     }
 
     @Override
@@ -78,13 +82,8 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         AppInstanceAndroid.setActivity(this);
     }
 
+    @Nullable
     ReviewView<?> createReviewView() {
-        ReviewView<?> view = AppInstanceAndroid.getInstance(this).unpackView(getIntent());
-        throwIfNull(view);
-        return view;
-    }
-
-    private void throwIfNull(@Nullable ReviewView<?> view) {
-        if (view == null) throw new RuntimeException("View is null!");
+        return AppInstanceAndroid.getInstance(this).unpackView(getIntent());
     }
 }

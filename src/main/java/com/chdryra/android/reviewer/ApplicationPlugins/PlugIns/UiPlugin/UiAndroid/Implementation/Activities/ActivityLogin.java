@@ -56,7 +56,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         if(mFragment == null) mFragment = FragmentLogin.newInstance();
         return mFragment;
     }

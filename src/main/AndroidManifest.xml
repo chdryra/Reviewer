@@ -120,9 +120,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reviewer"
             android:windowSoftInputMode="adjustPan" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
         <!-- Browser View link -->
@@ -134,9 +131,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reviewer"
             android:windowSoftInputMode="adjustPan" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
         <!-- Map and Edit location -->
@@ -154,9 +148,6 @@
             </intent-filter>
 
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
-            <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_location_map" />
         </activity>
@@ -169,9 +160,6 @@
             android:label="@string/activity_title_location"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reviewer" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
         <!-- Map locations -->
@@ -182,9 +170,6 @@
             android:label="@string/activity_title_locations"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reviewer" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView" />
         </activity>
 
         <!-- Social login -->

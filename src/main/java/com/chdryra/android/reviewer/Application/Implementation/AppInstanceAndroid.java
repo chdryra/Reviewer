@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuite;
@@ -41,6 +42,7 @@ public class AppInstanceAndroid implements ApplicationInstance {
             = RequestCodeGenerator.getCode(AppInstanceAndroid.class, "GoogleApiCheck");
 
     private static AppInstanceAndroid sSingleton;
+    private static ItemPacker<ReviewView<?>> mViewPacker;
 
     private ApplicationSuiteAndroid mApp;
     private boolean mGoogleApiOk = false;
@@ -49,6 +51,7 @@ public class AppInstanceAndroid implements ApplicationInstance {
 
     private AppInstanceAndroid(Context app) {
         instantiate(app, LaunchState.TEST);
+        mViewPacker = new ItemPacker<>();
     }
 
     public static AppInstanceAndroid getInstance(Context context) {
@@ -116,6 +119,15 @@ public class AppInstanceAndroid implements ApplicationInstance {
     @Nullable
     public ReviewView<?> unpackView(Intent i) {
             return mApp.unpackView(i);
+    }
+
+    public void retainView(ReviewView<?> reviewView, Bundle args) {
+        mViewPacker.pack(reviewView, args);
+    }
+
+    @Nullable
+    public ReviewView<?> getRetainedView(Bundle args) {
+        return mViewPacker.unpack(args);
     }
 
     private void instantiate(Context context, LaunchState launchState) {

@@ -40,7 +40,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     private BinaryResultCallback mHandler;
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createFragment(Bundle savedInstanceState) {
         OAuthRequest request = getBundledRequest();
         if(request != null) return FragmentOAuthLogin.newInstance(request);
 

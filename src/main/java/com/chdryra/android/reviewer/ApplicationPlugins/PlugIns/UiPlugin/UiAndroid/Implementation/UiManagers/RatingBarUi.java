@@ -33,6 +33,5 @@ public class RatingBarUi extends ViewUi<RatingBar, Float>{
 
     public void setRating(float rating) {
         getView().setRating(rating);
-        float r = getView().getRating();
     }
 }
