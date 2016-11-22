@@ -52,13 +52,12 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setNode();
         mMarkersMap = new HashMap<>();
-        setHasOptionsMenu(true);
     }
 
     @Override
     public String getMenuTitle() {
+        setNode();
         return mNode.getSubject().toString() + " " +
                 RatingFormatter.upToTwoSignificantDigits(mNode.getRating().getRating()) + "*";
     }

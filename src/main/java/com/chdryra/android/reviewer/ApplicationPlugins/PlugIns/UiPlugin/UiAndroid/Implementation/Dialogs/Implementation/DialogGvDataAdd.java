@@ -64,8 +64,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     @Override
     public void setKeyboardAction(EditText editText) {
-        setKeyboardDoActionOnEditText(editText);
-        editText.setImeActionLabel(add(), KEYBOARD_DO_ACTION);
+        editText.setImeActionLabel(add(), setKeyboardDoActionOnEditText(editText));
     }
 
     @Override
@@ -139,8 +138,7 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     }
 
     private void setDialogTitle() {
-        //setDialogTitle(add() + " " + mDataType.getDatumName());
-        setDialogTitle(null);
+        setDialogTitle(add() + " " + mDataType.getDatumName());
     }
 
     private String add() {

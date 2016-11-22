@@ -191,10 +191,10 @@
     <style name="EditTextCapSentences">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:inputType">textCapSentences|textAutoCorrect</item>
+        <item name="android:inputType">textCapSentences</item>
     </style>
 
-    <style name="EditTextCapSentences.Go">
+    <style name="EditTextCapSentences.Add">
         <item name="android:imeOptions">actionGo</item>
     </style>
 
@@ -219,7 +219,7 @@
         <item name="android:completionThreshold">2</item>
     </style>
 
-    <style name="EditTextCapSentences.AutoComplete.Go">
+    <style name="EditTextCapSentences.AutoComplete.Add">
         <item name="android:imeOptions">actionGo</item>
     </style>
 

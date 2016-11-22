@@ -102,6 +102,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         setRetainInstance(true);
         MapsInitializer.initialize(getActivity());
         setMenu();

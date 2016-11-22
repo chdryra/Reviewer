@@ -104,6 +104,6 @@ public class StringParser {
 
     @NonNull
     private static String getSubjectRating(DataSubject subject, DataRating rating) {
-        return parse(subject) + ": " + parse(rating);
+        return parse(subject) + ": " + parse(rating) + "*";
     }
 }

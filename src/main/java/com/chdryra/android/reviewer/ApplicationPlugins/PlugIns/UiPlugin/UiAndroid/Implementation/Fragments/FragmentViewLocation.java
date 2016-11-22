@@ -37,8 +37,8 @@ public class FragmentViewLocation extends FragmentMapLocation {
 
     @Override
     void onMapReady() {
+        onMarkerClick(addMarker(mCurrent));
         zoomToLatLng(mCurrent.getLatLng());
-        addMarker(mCurrent).showInfoWindow();
     }
 
     @Override

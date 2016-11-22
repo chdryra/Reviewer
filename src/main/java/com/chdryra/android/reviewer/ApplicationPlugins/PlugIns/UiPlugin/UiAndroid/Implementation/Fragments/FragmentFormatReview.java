@@ -356,7 +356,6 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private void setTags(final View v, final CellDimensionsCalculator.Dimensions dims) {
-        getTags(v, dims, 1).update();
         ReviewItemReference<DataSize> sizeRef = mNode.getTags().getSize();
         sizeRef.dereference(new DataReference.DereferenceCallback<DataSize>() {
             @Override
