@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -33,6 +32,7 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     private final ReviewNode mNode;
     private final boolean mIsClickable;
     private boolean mIsSorted = false;
+    private ArrayList<ReviewNode> mSortedNodes;
 
     public NodePagerAdapter(ReviewNode node, Comparator<ReviewNode> comparator,
                             FragmentManager manager, boolean isClickable) {
@@ -50,17 +50,23 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
 
     @Override
     public Fragment getItem(int position) {
-        IdableList<ReviewNode> children = mNode.getChildren();
-        ArrayList<ReviewNode> nodes = new ArrayList<>(children);
-        if (!mIsSorted) {
-            Collections.sort(nodes, mComparator);
-            sorted();
-        }
-        int size = nodes.size();
-        ReviewNode item = size > 0 ? nodes.get(position) : mNode;
+        return FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
+    }
 
-        FragmentFormatReview fragment = FragmentFormatReview.newInstance(item.getReviewId(), mIsClickable);
-        return fragment;
+    @Override
+    public int getItemPosition(Object object) {
+        FragmentFormatReview fragment = (FragmentFormatReview) object;
+        ReviewId nodeId = fragment.getNodeId();
+        int position = POSITION_UNCHANGED;
+        int i;
+        for(i = 0; i < getCount(); i++) {
+            if(getNodeId(i).equals(nodeId)) {
+                position = i;
+                break;
+            }
+        }
+
+        return position;
     }
 
     @Override
@@ -87,6 +93,17 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     @Override
     public void onTreeChanged() {
         notifyChanged();
+    }
+
+    private ReviewId getNodeId(int position) {
+        if (!mIsSorted) {
+            mSortedNodes = new ArrayList<>(mNode.getChildren());
+            Collections.sort(mSortedNodes, mComparator);
+            sorted();
+        }
+
+        return mSortedNodes.size() > 0 ?
+                mSortedNodes.get(position).getReviewId() : mNode.getReviewId();
     }
 
     private void sorted() {

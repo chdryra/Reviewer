@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -32,6 +31,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
 public class ActivityNodeMapper extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityNodeMapper.class);
     private static final String NODE = TagKeyGenerator.getKey(ActivityNodeMapper.class, "Node");
+    private ReviewNode mNode;
 
     @Override
     public String getLaunchTag() {
@@ -51,24 +51,26 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
-        FragmentNodeMapper fragment = new FragmentNodeMapper();
-        fragment.setNode(getReviewNode());
-        return fragment;
-    }
-
-    @NonNull
-    private ReviewNode getReviewNode() {
-        Bundle args = getIntent().getBundleExtra(NODE);
-        if (args == null) throwNoReview();
-        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (node == null) throwNoReview();
-        return node;
+        setReviewNode();
+        return new FragmentNodeMapper();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         AppInstanceAndroid.setActivity(this);
+    }
+
+    public ReviewNode getReviewNode() {
+        return mNode;
+    }
+
+    private void setReviewNode() {
+        Bundle args = getIntent().getBundleExtra(NODE);
+        if (args == null) throwNoReview();
+        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        if (node == null) throwNoReview();
+        mNode = node;
     }
 
     private void throwNoReview() {

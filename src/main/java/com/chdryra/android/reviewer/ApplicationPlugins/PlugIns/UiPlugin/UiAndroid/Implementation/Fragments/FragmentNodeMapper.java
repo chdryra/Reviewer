@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
@@ -39,17 +40,22 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     private Marker mCurrentMarker;
     private ReviewInfoAdapter mAdapter;
 
-    public void setNode(ReviewNode node) {
-        mNode = node;
+    private void setNode() {
+        try {
+            ActivityNodeMapper activity = (ActivityNodeMapper) getActivity();
+            mNode = activity.getReviewNode();
+        } catch (ClassCastException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setNode();
         mMarkersMap = new HashMap<>();
         setHasOptionsMenu(true);
     }
-
 
     @Override
     public String getMenuTitle() {

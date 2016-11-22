@@ -281,6 +281,10 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         }
     }
 
+    public ReviewId getNodeId() {
+        return mNode.getReviewId();
+    }
+
     private void throwNoReview() {
         throw new RuntimeException("No review found");
     }
