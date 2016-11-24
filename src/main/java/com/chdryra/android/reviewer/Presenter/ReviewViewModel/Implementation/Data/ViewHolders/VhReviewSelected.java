@@ -95,7 +95,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getLocations().unbindFromValue(mLocationsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
-        mAuthorsRepo.getName(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNodeId);
         mReview = null;
     }
@@ -155,7 +155,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mReview.getComments().bindToValue(mCommentsBinder);
         mReview.getLocations().bindToValue(mLocationsBinder);
         mReview.getTags().bindToValue(mTagsBinder);
-        mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
     }
 
     private void newFooter() {

@@ -95,8 +95,7 @@ public class UiSuiteAndroid implements UiSuite{
     public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile) {
         ReferencesRepository feed = repository.getFeed(profile);
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
-        ReviewNodeRepo node = mReviewsFactory.createFeed(user,
-                repository.getAuthorsRepository().getName(user), feed);
+        ReviewNodeRepo node = mReviewsFactory.createFeed(repository.getAuthorsRepository().getReference(user), feed);
 
         return mViewFactory.newFeedView(node);
     }

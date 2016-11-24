@@ -15,6 +15,7 @@ import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -170,9 +171,10 @@ public class FactoryReviewView {
     private ReviewViewNode newDefaultReviewsListView(ReviewNode node,
                                                      ReviewViewAdapter<GvNode> adapter,
                                                      @Nullable AuthorId followAuthorId) {
+        AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference(followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(getUiLauncher(), this, mCommandsFactory,
-                        getOptionsConfig(), followAuthorId));
+                        getOptionsConfig(), name));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,

@@ -38,7 +38,7 @@ implements DataReference.DereferenceCallback<NamedAuthor>{
         mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();
         mDate = stamp.toReadableDate();
-        repo.getName(mAuthorId).dereference(this);
+        repo.getReference(mAuthorId).dereference(this);
     }
 
     @Override

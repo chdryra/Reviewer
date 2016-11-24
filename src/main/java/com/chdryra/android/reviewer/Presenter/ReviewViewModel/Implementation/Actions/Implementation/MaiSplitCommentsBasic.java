@@ -30,7 +30,7 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
     @Override
     public void onInflateMenu() {
         MenuItem menuItem = getMenuItem();
-        if(menuItem != null) updateMenuUi(menuItem);
+        if(menuItem != null) updateMenuItem(menuItem);
     }
 
     @Override
@@ -41,9 +41,13 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
     }
 
     private void updateMenuUi(MenuItem item) {
-        item.setIcon(mIsSplit ? UNSPLIT_ICON : SPLIT_ICON);
-        item.setTitle(mIsSplit ? Strings.Menu.SHOW_HEADLINES : Strings.Menu.SHOW_SENTENCES);
+        updateMenuItem(item);
         getCurrentScreen().showToast(mIsSplit ?
                 Strings.Toasts.SPLIT_COMMENT : Strings.Toasts.UNSPLIT_COMMENT);
+    }
+
+    private void updateMenuItem(MenuItem item) {
+        item.setIcon(mIsSplit ? UNSPLIT_ICON : SPLIT_ICON);
+        item.setTitle(mIsSplit ? Strings.Menu.SHOW_HEADLINES : Strings.Menu.SHOW_SENTENCES);
     }
 }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -36,23 +36,23 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
-    private UiLauncher mLauncher;
-    private FactoryReviewView mFactoryReviewView;
-    private FactoryCommands mFactoryCommands;
-    private LaunchableConfig mOptionsConfig;
-    private AuthorId mAuthorId;
+    private final UiLauncher mLauncher;
+    private final FactoryReviewView mFactoryReviewView;
+    private final FactoryCommands mFactoryCommands;
+    private final LaunchableConfig mOptionsConfig;
+    private AuthorReference mAuthorRef;
 
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
                                      FactoryCommands factoryCommands,
                                      LaunchableConfig optionsConfig,
-                                     @Nullable AuthorId followAuthorId) {
+                                     @Nullable AuthorReference authorRef) {
         super(GvNode.TYPE);
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
         mFactoryCommands = factoryCommands;
         mOptionsConfig = optionsConfig;
-        mAuthorId = followAuthorId;
+        mAuthorRef = authorRef;
     }
 
     FactoryReviewView getFactoryReviewView() {
@@ -69,8 +69,9 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public MenuAction<GvNode> newMenu() {
-        return mAuthorId != null ?
-                new MenuFollow<>(new MaiFollow<GvNode>(mAuthorId)) : super.newMenu();
+        return mAuthorRef != null ?
+                new MenuFollow<>(new MaiFollow<GvNode>(mAuthorRef.getAuthorId()), mAuthorRef) :
+                super.newDefaultMenu(getDataType().getDataName());
     }
 
     @Override

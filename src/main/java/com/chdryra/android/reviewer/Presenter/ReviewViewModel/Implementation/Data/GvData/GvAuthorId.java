@@ -17,15 +17,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthorId;
-
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhDataRef;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataRef;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,7 +45,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         }
     };
 
-    private DataReference<NamedAuthor> mReference;
+    private AuthorReference mReference;
     private GvReviewId mReviewId;
     private final String mAuthorId;
 
@@ -56,14 +53,14 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         mAuthorId = authorId;
     }
 
-    public GvAuthorId(String authorId, AuthorsRepository repo) {
-        this(null, authorId, repo);
+    public GvAuthorId(AuthorReference reference) {
+        this(null, reference);
     }
 
-    public GvAuthorId(@Nullable GvReviewId reviewId, String authorId, AuthorsRepository repo) {
+    public GvAuthorId(@Nullable GvReviewId reviewId, AuthorReference reference) {
         mReviewId = reviewId;
-        mAuthorId = authorId;
-        mReference = repo.getName(this);
+        mAuthorId = reference.getAuthorId().toString();
+        mReference = reference;
     }
 
     public GvAuthorId(Parcel in) {

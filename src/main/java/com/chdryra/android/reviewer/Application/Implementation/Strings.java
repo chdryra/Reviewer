@@ -64,7 +64,7 @@ public class Strings {
         public static final String LOGIN = "login";
         public static final String SIGN_UP = "sign up";
         public static final String SUMMARY = "summary";
-        public static final String REVIEW = "review";
+        public static final String FORMATTED = "formatted";
         public static final String PREVIEW = "preview";
     }
 

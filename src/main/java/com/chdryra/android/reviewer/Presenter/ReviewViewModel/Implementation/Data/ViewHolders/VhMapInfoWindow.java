@@ -101,7 +101,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
         if (mReview == null) return;
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
-        mAuthorsRepo.getName(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNodeId);
     }
 
@@ -140,7 +140,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
             mCallbacks = 0;
             mReview.getComments().bindToValue(mCommentsBinder);
             mReview.getTags().bindToValue(mTagsBinder);
-            mAuthorsRepo.getName(mReview.getAuthorId()).bindToValue(mNameBinder);
+            mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
         }
     }
 

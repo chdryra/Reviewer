@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Persistence.Interfaces;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public interface AuthorsRepository {
         void onAuthorId(DataReference<AuthorId> authorId, CallbackMessage message);
     }
 
-    DataReference<NamedAuthor> getName(AuthorId authorId);
+    AuthorReference getReference(AuthorId authorId);
 
     void getAuthorId(String name, GetAuthorIdCallback callback);
 

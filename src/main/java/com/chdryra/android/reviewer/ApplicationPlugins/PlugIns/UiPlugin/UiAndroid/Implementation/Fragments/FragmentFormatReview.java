@@ -214,6 +214,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         View v = inflater.inflate(LAYOUT, container, false);
 
         ReviewLauncher launcher = mUi.getLauncher().getReviewLauncher();
+
         setCover(v);
         int textColour = setSubject(v);
         setRating(v, launcher);
@@ -298,9 +299,9 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         if (mIsPublished) {
             LaunchOptionsCommand command
                     = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig()
-                    .getReviewOptions(), new DynamicAuthorId(mNode));
+                    .getReviewOptions(), new NodeAuthorId(mNode));
             MaiCommand<GvData> mai = new MaiCommand<>(command);
-            action = new MenuReviewOptionsAppLevel(Strings.Screens.REVIEW, upAction, mai, ui);
+            action = new MenuReviewOptionsAppLevel(Strings.Screens.FORMATTED, upAction, mai, ui);
         } else {
             action = new MenuUpAppLevel(Strings.Screens.PREVIEW, upAction, ui);
         }
@@ -411,7 +412,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         DataAuthorId authorId = mNode.getAuthorId();
         mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), textColour,
                 authorId, launcher, mIsPublished);
-        mRepo.getAuthorsRepository().getName(authorId).dereference(setAuthorAndUpdateStamp());
+        mRepo.getAuthorsRepository().getReference(authorId).dereference(setAuthorAndUpdateStamp());
     }
 
     private void setRating(View v, ReviewLauncher launcher) {
@@ -485,10 +486,10 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         };
     }
 
-    private static class DynamicAuthorId extends DatumAuthorId {
+    private static class NodeAuthorId extends DatumAuthorId {
         private ReviewNode mNode;
 
-        public DynamicAuthorId(ReviewNode node) {
+        public NodeAuthorId(ReviewNode node) {
             super(node.getReviewId(), node.getAuthorId().toString());
             mNode = node;
         }
