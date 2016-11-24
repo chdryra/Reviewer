@@ -67,8 +67,9 @@ public class ReviewInfoAdapter implements GoogleMap.InfoWindowAdapter {
             GvConverterReviewNode converter = mConverter.newConverterNodes(mRepo);
             SelectorEqualsReviewId selector = new SelectorEqualsReviewId(location.getReviewId());
 
-            VhMapInfoWindow viewHolder = new VhMapInfoWindow(location, new ReviewSelector(selector),
-                    mRepo, new UpdateListener(marker));
+            VhMapInfoWindow viewHolder
+                    = new VhMapInfoWindow(location, new ReviewSelector(selector), mRepo,
+                    new UpdateListener(marker));
             viewHolder.inflate(mActivity, null);
             viewHolder.updateView(converter.convert(mNode));
             mInflated.put(marker, viewHolder);

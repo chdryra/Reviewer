@@ -10,8 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Fragments;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -19,17 +22,23 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +48,7 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     private Map<Marker, DataLocation> mMarkersMap;
     private Marker mCurrentMarker;
     private ReviewInfoAdapter mAdapter;
+    private IdableList<ReviewReference> mReviews;
 
     private void setNode() {
         try {
@@ -69,11 +79,19 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         mAdapter = new ReviewInfoAdapter(getActivity(), mNode, repo, converter, mMarkersMap);
         getMap().setInfoWindowAdapter(mAdapter);
 
-        RefDataList<DataLocation> locations = mNode.getLocations();
-        locations.dereference(new DataReference.DereferenceCallback<IdableList<DataLocation>>() {
+        final RefDataList<DataLocation> locations = mNode.getLocations();
+        mNode.getReviews().dereference(new DataReference.DereferenceCallback<IdableList<ReviewReference>>() {
             @Override
-            public void onDereferenced(DataValue<IdableList<DataLocation>> value) {
-                if (value.hasValue()) plotLocations(value.getData());
+            public void onDereferenced(DataValue<IdableList<ReviewReference>> value) {
+                if(value.hasValue()) {
+                    mReviews = value.getData();
+                    locations.dereference(new DataReference.DereferenceCallback<IdableList<DataLocation>>() {
+                        @Override
+                        public void onDereferenced(DataValue<IdableList<DataLocation>> value) {
+                            if (value.hasValue()) plotLocations(value.getData());
+                        }
+                    });
+                }
             }
         });
     }
@@ -133,9 +151,9 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         mCurrentMarker = marker;
     }
 
-    private void plotLocations(IdableList<DataLocation> data) {
+    private void plotLocations(IdableList<DataLocation> locations) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (DataLocation location : data) {
+        for (DataLocation location : locations) {
             Marker marker = addMarker(location);
             mMarkersMap.put(marker, location);
             builder.include(marker.getPosition());
@@ -144,18 +162,29 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         zoomToLatLng(builder.build().getCenter());
     }
 
-//    @NonNull
-//    @Override
-//    protected MarkerOptions newMarkerOptions(DataLocation location) {
-//        TextView text = new TextView(getActivity());
-//        text.setText(location.getShortenedName());
-//        IconGenerator generator = new IconGenerator(getActivity());
-//        generator.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.bubble_mask));
-//        generator.setContentView(text);
-//        Bitmap icon = generator.makeIcon();
-//        BitmapDescriptor iconBm = BitmapDescriptorFactory.fromBitmap(icon);
-//
-//        MarkerOptions marker = super.newMarkerOptions(location);
-//        return marker.position(location.getLatLng()).icon(iconBm);
-//    }
+    @NonNull
+    @Override
+    protected MarkerOptions newMarkerOptions(DataLocation location) {
+        TextView text = new TextView(getActivity());
+        String rating = String.valueOf(getRating(location.getReviewId())) + "*";
+        text.setText(rating);
+
+        IconGenerator generator = new IconGenerator(getActivity());
+        generator.setContentView(text);
+        Bitmap icon = generator.makeIcon();
+        BitmapDescriptor iconBm = BitmapDescriptorFactory.fromBitmap(icon);
+
+        MarkerOptions marker = super.newMarkerOptions(location);
+        return marker.position(location.getLatLng()).icon(iconBm);
+    }
+
+    private float getRating(ReviewId reviewId) {
+        for(ReviewReference review : mReviews) {
+            if(review.getReviewId().equals(reviewId)) {
+                return review.getRating().getRating();
+            }
+        }
+
+        return 0f;
+    }
 }
