@@ -7,7 +7,7 @@
   -->
 
 <LinearLayout
-    style="@style/LineaLayoutVertical"
+    style="@style/LinearLayoutVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include

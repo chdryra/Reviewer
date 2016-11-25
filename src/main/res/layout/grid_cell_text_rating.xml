@@ -10,14 +10,14 @@
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout style="@style/LineaLayoutVertical.GridCell">
+    <LinearLayout style="@style/LinearLayoutVertical.GridCell">
 
         <TextView
             android:id="@+id/string_text_view"
             style="@style/TextViewGridCell"
             android:layout_weight="1"/>
 
-    <LinearLayout style="@style/LineaLayoutHorizontal.GridCell"
+    <LinearLayout style="@style/LinearLayoutHorizontal.GridCell"
                   android:layout_weight="1">
 
         <TextView

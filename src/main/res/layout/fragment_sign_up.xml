@@ -8,12 +8,12 @@
   -->
 
 <LinearLayout
-    style="@style/LineaLayoutVertical"
+    style="@style/LinearLayoutVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:id="@+id/email_sign_up"
-        style="@style/LineaLayoutVertical.WrappedVertical"
+        style="@style/LinearLayoutVertical.WrappedVertical"
         android:layout_gravity="top">
 
         <EditText

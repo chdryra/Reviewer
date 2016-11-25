@@ -10,7 +10,7 @@
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout style="@style/LineaLayoutVertical.GridCell">
+    <LinearLayout style="@style/LinearLayoutVertical.GridCell">
 
         <TextView
             android:id="@+id/upper_text"

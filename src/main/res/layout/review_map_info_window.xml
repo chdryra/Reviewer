@@ -7,44 +7,16 @@
   ~
   -->
 
-<LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+<LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
               xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout style="@style/LineaLayoutHorizontal.WrappedVertical" >
+    <include
+        android:id="@+id/info_window_subject_rating"
+        layout="@layout/map_window_subject_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/review_subject"
-            style="@style/TextViewGridCell.Bold.Small"
-            android:padding="@dimen/grid_item_text_padding"
-            android:layout_height="wrap_content"
-            android:gravity="start|center"
-            android:layout_weight="5"/>
-
-        <LinearLayout style="@style/LineaLayoutHorizontal.WrappedVertical"
-                      android:layout_weight="1"
-                      android:layout_width="wrap_content"
-                      android:padding="@dimen/grid_item_text_padding">
-            <TextView
-                android:id="@+id/review_rating_number"
-                style="@style/TextViewGridCell.Bold.Small"
-                android:layout_height="match_parent"
-                android:padding="2dp"
-                android:gravity="end|top"
-                android:layout_gravity="top"
-                android:layout_weight="1"/>
-
-            <ToggleButton
-                android:button="@android:drawable/btn_star"
-                style="@style/ToggleButtonStar"
-                android:layout_height="match_parent"
-                android:gravity="start|top"
-                android:layout_gravity="top"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+    <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                   android:id="@+id/review_abstract">
         <TextView
             android:id="@+id/review_location_name"

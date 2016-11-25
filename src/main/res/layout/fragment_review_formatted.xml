@@ -21,11 +21,11 @@
         android:scaleType="centerCrop"/>
 
     <LinearLayout
-    style="@style/LineaLayoutVertical">
+    style="@style/LinearLayoutVertical">
 
         <LinearLayout
             android:id="@+id/header_formatted"
-            style="@style/LineaLayoutVertical.WrappedVertical" >
+            style="@style/LinearLayoutVertical.WrappedVertical" >
 
             <include
                 android:id="@+id/subject_formatted"
@@ -56,9 +56,9 @@
         android:focusable="false"
         android:focusableInTouchMode="false">
 
-        <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical">
+        <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical">
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                       android:id="@+id/tags_formatted_view">
                 <include
                     android:id="@+id/tags_formatted"
@@ -67,7 +67,7 @@
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                 android:id="@+id/criteria_formatted_view">
                 <include
                     android:id="@+id/criteria_formatted"
@@ -76,7 +76,7 @@
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                           android:id="@+id/comment_formatted_view">
                 <include
                     android:id="@+id/comment_formatted"
@@ -85,7 +85,7 @@
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                           android:id="@+id/images_formatted_view">
                 <include
                     android:id="@+id/images_formatted"
@@ -94,7 +94,7 @@
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                           android:id="@+id/locations_formatted_view">
                 <include
                     android:id="@+id/locations_formatted"
@@ -103,7 +103,7 @@
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
 
-            <LinearLayout style="@style/LineaLayoutVertical.WrappedVertical"
+            <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                           android:id="@+id/facts_formatted_view">
                 <include
                     android:id="@+id/facts_formatted"

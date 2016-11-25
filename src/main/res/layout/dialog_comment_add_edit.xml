@@ -6,7 +6,7 @@
   ~
   -->
 <LinearLayout
-    style="@style/LineaLayoutVertical.WrappedVertical"
+    style="@style/LinearLayoutVertical.WrappedVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
@@ -20,7 +20,7 @@
 
 
     <LinearLayout
-        style="@style/LineaLayoutHorizontal.WrappedVertical"
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:id="@+id/comment_edit_buttons">
 
         <Button

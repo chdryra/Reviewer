@@ -289,35 +289,35 @@
     </style>
     
     <!-- Linear Layouts -->
-    <style name="LineaLayoutVertical">
+    <style name="LinearLayoutVertical">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="LineaLayoutHorizontal">
+    <style name="LinearLayoutHorizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="LineaLayoutVertical.GridCell">
+    <style name="LinearLayoutVertical.GridCell">
         <item name="android:layout_gravity">center</item>
     </style>
 
-    <style name="LineaLayoutHorizontal.GridCell">
+    <style name="LinearLayoutHorizontal.GridCell">
         <item name="android:layout_gravity">center</item>
     </style>
 
-    <style name="LineaLayoutHorizontal.GridCell.WrappedVertical">
+    <style name="LinearLayoutHorizontal.GridCell.WrappedVertical">
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="LineaLayoutVertical.WrappedVertical">
+    <style name="LinearLayoutVertical.WrappedVertical">
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="LineaLayoutHorizontal.WrappedVertical">
+    <style name="LinearLayoutHorizontal.WrappedVertical">
         <item name="android:layout_height">wrap_content</item>
     </style>
 

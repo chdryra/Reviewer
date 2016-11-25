@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
@@ -25,14 +23,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -40,8 +37,7 @@ import com.chdryra.android.reviewer.R;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
-        .ReviewSelectorCallback {
+public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.ReviewSelectorCallback {
     private static final int LAYOUT = R.layout.review_map_info_window;
     private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
@@ -53,6 +49,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
     private static final int IMAGE = R.id.review_image;
     private static final int CALLBACKS = 3;
 
+    private final ReviewNode mNode;
     private final DataLocation mLocationName;
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
@@ -70,7 +67,6 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
     private TextView mTags;
     private TextView mPublishDate;
 
-    private ReviewId mNodeId;
     private ReviewReference mReview;
     private NamedAuthor mAuthor;
     private int mCallbacks;
@@ -78,17 +74,15 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
     private boolean mShowAbstract = false;
     private boolean mBound = false;
 
-    public interface InfoUpdateListener {
-        void onInfoUpdated();
-    }
-
     public VhMapInfoWindow(DataLocation locationName,
+                           ReviewNode node,
                            ReviewSelector selector,
                            AuthorsRepository authorsRepo,
                            InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE,
                 TAGS, STAMP});
         mLocationName = locationName;
+        mNode = node;
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mListener = listener;
@@ -97,14 +91,16 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
         mNameBinder = new NameBinder();
     }
 
+    @Override
     public void unbindFromReview() {
         if (mReview == null) return;
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
         mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
-        mSelector.unregister(mNodeId);
+        mSelector.unregister(mNode.getReviewId());
     }
 
+    @Override
     public void onClick() {
         mShowAbstract = !mShowAbstract;
         setAbstractVisibility();
@@ -116,12 +112,10 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
     }
 
     @Override
-    public void updateView(ViewHolderData data) {
+    public void updateView() {
         setViewsIfNecessary();
-        ReviewNode node = ((GvNode) data).getNode();
-        mNodeId = node.getReviewId();
         initialiseData();
-        mSelector.select(node, this);
+        mSelector.select(mNode, this);
     }
 
     @Override
@@ -255,7 +249,7 @@ public class VhMapInfoWindow extends ViewHolderBasic implements ReviewSelector
 
         @Override
         public void onInvalidated(DataReference<IdableList<T>> reference) {
-            onList(new IdableDataList<T>(mNodeId));
+            onList(new IdableDataList<T>(mNode.getReviewId()));
         }
     }
 }

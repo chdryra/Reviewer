@@ -7,7 +7,7 @@
   -->
 
 <LinearLayout
-    style="@style/LineaLayoutVertical.WrappedVertical"
+    style="@style/LinearLayoutVertical.WrappedVertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 

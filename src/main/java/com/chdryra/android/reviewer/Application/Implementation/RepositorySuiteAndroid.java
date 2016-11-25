@@ -66,6 +66,11 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
+    public ReviewsSource getReviewsRepository() {
+        return mReviewsRepo;
+    }
+
+    @Override
     public ReferencesRepository getReviews(AuthorId authorId) {
         return mReviewsRepo.getRepositoryForAuthor(authorId);
     }

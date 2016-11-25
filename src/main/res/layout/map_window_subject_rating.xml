@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
+              xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/review_subject"
+        style="@style/TextViewGridCell.Bold.Small"
+        android:padding="@dimen/grid_item_text_padding"
+        android:layout_height="wrap_content"
+        android:gravity="start|center"
+        android:layout_weight="5"/>
+
+    <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
+                  android:layout_weight="1"
+                  android:layout_width="wrap_content"
+                  android:padding="@dimen/grid_item_text_padding">
+        <TextView
+            android:id="@+id/review_rating_number"
+            style="@style/TextViewGridCell.Bold.Small"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:gravity="end|top"
+            android:layout_gravity="top"
+            android:layout_weight="1"/>
+
+        <ToggleButton
+            android:button="@android:drawable/btn_star"
+            style="@style/ToggleButtonStar"
+            android:layout_height="match_parent"
+            android:gravity="start|top"
+            android:layout_gravity="top"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>

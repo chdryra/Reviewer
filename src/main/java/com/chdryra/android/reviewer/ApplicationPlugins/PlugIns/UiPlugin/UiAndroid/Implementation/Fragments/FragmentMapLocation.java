@@ -69,10 +69,6 @@ public abstract class FragmentMapLocation extends Fragment implements
         return mGoogleMap;
     }
 
-    String getMenuTitle() {
-        return Strings.Screens.LOCATION;
-    }
-
     protected Button getGotoReviewButton() {
         return mGotoReviewButton;
     }
@@ -96,7 +92,19 @@ public abstract class FragmentMapLocation extends Fragment implements
     }
 
     protected void zoomToLatLng(LatLng latLng) {
-        getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+    }
+
+    @NonNull
+    protected MarkerOptions newMarkerOptions(DataLocation location) {
+        MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
+        markerOptions.title(location.getShortenedName());
+        markerOptions.draggable(false);
+        return markerOptions;
+    }
+
+    protected void locateHere() {
+        mLocationClient.locate();
     }
 
     @Override
@@ -117,15 +125,6 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         return mMenu.onItemSelected(item) || super.onOptionsItemSelected(item);
-    }
-
-    private void setMenu() {
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
-        UiSuite ui = app.getUi();
-        MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
-
-        MenuAction<GvData> action = new MenuUpAppLevel(getMenuTitle(), upAction, ui);
-        mMenu = new MenuUi(action);
     }
 
     @Override
@@ -223,8 +222,19 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     }
 
-    void onMapReady() {
+    String getMenuTitle() {
+        return Strings.Screens.LOCATION;
+    }
 
+    void onMapReady() {
+        locateHere();
+    }
+
+    protected void setMapListeners() {
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMapClickListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnInfoWindowLongClickListener(this);
     }
 
     abstract void onGotoReviewSelected();
@@ -233,12 +243,13 @@ public abstract class FragmentMapLocation extends Fragment implements
         return mGoogleMap.addMarker(newMarkerOptions(location));
     }
 
-    @NonNull
-    protected MarkerOptions newMarkerOptions(DataLocation location) {
-        MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
-        markerOptions.title(location.getShortenedName());
-        markerOptions.draggable(false);
-        return markerOptions;
+    private void setMenu() {
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        UiSuite ui = app.getUi();
+        MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
+
+        MenuAction<GvData> action = new MenuUpAppLevel(getMenuTitle(), upAction, ui);
+        mMenu = new MenuUi(action);
     }
 
     @NonNull
@@ -251,17 +262,18 @@ public abstract class FragmentMapLocation extends Fragment implements
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                mGoogleMap = googleMap;
-                initGoogleMapUi();
+                initGoogleMapUi(googleMap);
             }
         });
+
         mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
         mDoneButton = (Button) v.findViewById(DONE_BUTTON);
 
         return v;
     }
 
-    private void initGoogleMapUi() {
+    private void initGoogleMapUi(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
         try {
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
@@ -274,19 +286,12 @@ public abstract class FragmentMapLocation extends Fragment implements
         onMapReady();
     }
 
-    private void setMapListeners() {
-        mGoogleMap.setOnMarkerClickListener(this);
-        mGoogleMap.setOnMapClickListener(this);
-        mGoogleMap.setOnInfoWindowClickListener(this);
-        mGoogleMap.setOnInfoWindowLongClickListener(this);
-    }
-
     @NonNull
     private GoogleMap.OnMyLocationButtonClickListener newLocateMeListener() {
         return new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                mLocationClient.locate();
+                locateHere();
                 return false;
             }
         };

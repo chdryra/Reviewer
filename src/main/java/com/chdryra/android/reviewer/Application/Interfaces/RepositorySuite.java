@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +29,8 @@ public interface RepositorySuite {
     void getReview(ReviewId id, RepositoryCallback callback);
 
     AuthorsRepository getAuthorsRepository();
+
+    ReviewsSource getReviewsRepository();
 
     ReferencesRepository getReviews(AuthorId authorId);
 
