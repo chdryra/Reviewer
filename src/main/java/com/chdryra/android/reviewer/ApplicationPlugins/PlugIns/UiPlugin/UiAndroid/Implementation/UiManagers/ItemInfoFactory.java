@@ -12,13 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ReviewSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .SelectorEqualsReviewId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorEqualsReviewId;
 import com.google.android.gms.maps.model.Marker;
-
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,19 +24,19 @@ import java.util.Map;
 public class ItemInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactory {
     private final ReviewNode mNode;
     private final AuthorsRepository mRepo;
-    private final Map<Marker, ReviewClusterItem> mMarkersMap;
+    private final ReviewClusterRenderer mRenderer;
 
     public ItemInfoFactory(ReviewNode node,
                            AuthorsRepository repo,
-                           Map<Marker, ReviewClusterItem> markersMap) {
+                           ReviewClusterRenderer renderer) {
         mNode = node;
         mRepo = repo;
-        mMarkersMap = markersMap;
+        mRenderer = renderer;
     }
 
     @Override
     public MapInfoWindow newInfoWindow(Marker marker) {
-        DataLocation location = mMarkersMap.get(marker).getLocation();
+        DataLocation location = mRenderer.getClusterItem(marker).getLocation();
         SelectorEqualsReviewId selector = new SelectorEqualsReviewId(location.getReviewId());
 
         return new VhMapInfoWindow(location, mNode, new ReviewSelector(selector), mRepo,

@@ -104,7 +104,7 @@ public class FactoryReviewViewAdapter {
                                                   Set<AuthorId> reviewAuthors) {
         RepositoryCollection<AuthorId> collection = new RepositoryCollection<>();
         for (AuthorId author : reviewAuthors) {
-            collection.add(author, mReviewSource.getRepositoryForAuthor(author));
+            collection.add(author, mReviewSource.getReviewsForAuthor(author));
         }
 
         ReviewNode node = mReviewsFactory.createFeed(mAuthorsRepository.getReference(summaryOwner), collection);

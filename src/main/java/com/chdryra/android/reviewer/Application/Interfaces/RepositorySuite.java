@@ -9,12 +9,10 @@
 package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -32,13 +30,9 @@ public interface RepositorySuite {
 
     ReviewsSource getReviewsRepository();
 
-    ReferencesRepository getReviews(AuthorId authorId);
-
     ReferencesRepository getFeed(SocialProfile profile);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
-
-    MutableRepository getMutableRepository(UserSession session);
 
     ReviewPublisher getReviewPublisher();
 }

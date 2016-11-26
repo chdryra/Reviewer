@@ -52,7 +52,7 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
     }
 
     @Override
-    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
+    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 

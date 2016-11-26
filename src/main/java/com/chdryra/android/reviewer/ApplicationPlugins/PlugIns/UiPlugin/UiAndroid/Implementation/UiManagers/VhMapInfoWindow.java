@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -28,8 +29,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ReviewSelector;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -37,7 +40,8 @@ import com.chdryra.android.reviewer.R;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.ReviewSelectorCallback {
+public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
+        .ReviewSelectorCallback {
     private static final int LAYOUT = R.layout.review_map_info_window;
     private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
@@ -91,6 +95,10 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.Rev
         mNameBinder = new NameBinder();
     }
 
+    protected ReviewReference getReview() {
+        return mReview;
+    }
+
     @Override
     public void unbindFromReview() {
         if (mReview == null) return;
@@ -98,17 +106,6 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.Rev
         mReview.getTags().unbindFromValue(mTagsBinder);
         mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNode.getReviewId());
-    }
-
-    @Override
-    public void onClick() {
-        mShowAbstract = !mShowAbstract;
-        setAbstractVisibility();
-        bindIfNecessary();
-    }
-
-    protected ReviewReference getReview() {
-        return mReview;
     }
 
     @Override
@@ -120,7 +117,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.Rev
 
     @Override
     public void onReviewSelected(@Nullable ReviewReference review) {
-        if(review == null) return;
+        if (review == null) return;
         mCallbacks = 0;
         mReview = review;
         mSubject.setText(mReview.getSubject().toString());
@@ -129,8 +126,15 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.Rev
         bindIfNecessary();
     }
 
+    @Override
+    public void onClick() {
+        mShowAbstract = !mShowAbstract;
+        setAbstractVisibility();
+        bindIfNecessary();
+    }
+
     private void bindIfNecessary() {
-        if(!mBound && mShowAbstract) {
+        if (!mBound && mShowAbstract) {
             mCallbacks = 0;
             mReview.getComments().bindToValue(mCommentsBinder);
             mReview.getTags().bindToValue(mTagsBinder);
@@ -178,9 +182,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector.Rev
     }
 
     private void notifyListener(boolean force) {
-        if(force) {
+        if (force) {
             mListener.onInfoUpdated();
-        } else if(++mCallbacks == CALLBACKS) {
+        } else if (++mCallbacks == CALLBACKS) {
             mBound = true;
             mListener.onInfoUpdated();
         }

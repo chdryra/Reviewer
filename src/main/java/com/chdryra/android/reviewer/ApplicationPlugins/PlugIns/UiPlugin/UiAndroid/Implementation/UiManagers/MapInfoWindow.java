@@ -17,7 +17,14 @@ import com.google.android.gms.maps.model.Marker;
  * On: 25/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class MapInfoWindow extends ViewHolderBasic {
+public class MapInfoWindow extends ViewHolderBasic {
+    public interface OnClickListener {
+        void onClick();
+    }
+
+    public interface OnLongClickListener {
+        void onLongClick();
+    }
 
     public MapInfoWindow(int layoutId, int[] viewIds) {
         super(layoutId, viewIds);

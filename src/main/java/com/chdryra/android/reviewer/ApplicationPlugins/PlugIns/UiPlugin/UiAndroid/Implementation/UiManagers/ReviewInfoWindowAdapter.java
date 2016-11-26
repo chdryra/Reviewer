@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.app.Activity;
@@ -25,7 +25,8 @@ import java.util.Map;
  * On: 17/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, GoogleMap.OnInfoWindowClickListener {
+public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, GoogleMap
+        .OnInfoWindowClickListener {
     private final Activity mActivity;
     private final InfoWindowFactory mFactory;
     private final Map<Marker, MapInfoWindow> mInflated;
@@ -40,6 +41,12 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
         mInflated = new HashMap<>();
     }
 
+    public void unbind() {
+        for (MapInfoWindow window : mInflated.values()) {
+            window.unbindFromReview();
+        }
+    }
+
     @Override
     @Nullable
     public View getInfoWindow(Marker marker) {
@@ -48,7 +55,7 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
 
     @Override
     @Nullable
-    public View getInfoContents(Marker marker) {
+    public View getInfoContents(final Marker marker) {
         if (!mInflated.containsKey(marker)) {
             MapInfoWindow viewHolder = mFactory.newInfoWindow(marker);
             viewHolder.inflate(mActivity, null);
@@ -62,14 +69,6 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
     @Override
     public void onInfoWindowClick(Marker marker) {
         MapInfoWindow info = mInflated.get(marker);
-        if(info != null) info.onClick();
+        if (info != null) info.onClick();
     }
-
-    public void unbind() {
-        for(MapInfoWindow window : mInflated.values()) {
-            window.unbindFromReview();
-        }
-    }
-
-
 }

@@ -11,9 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.clustering.Cluster;
-
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,15 +18,15 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ClusterInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactory {
-    private final Map<Marker, Cluster<ReviewClusterItem>> mMarkersMap;
+    private final ReviewClusterRenderer mRenderer;
 
-    public ClusterInfoFactory(Map<Marker, Cluster<ReviewClusterItem>> markersMap) {
-        mMarkersMap = markersMap;
+    public ClusterInfoFactory(ReviewClusterRenderer renderer) {
+        mRenderer = renderer;
     }
 
     @Override
     public MapInfoWindow newInfoWindow(Marker marker) {
-        return new VhMapClusterWindow(mMarkersMap.get(marker),
+        return new VhMapClusterWindow(mRenderer.getCluster(marker),
                 new MapInfoWindow.InfoUpdateListener(marker));
     }
 }

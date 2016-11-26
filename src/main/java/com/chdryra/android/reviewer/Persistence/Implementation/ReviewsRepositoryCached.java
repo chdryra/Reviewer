@@ -45,8 +45,8 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
-        return mArchive.getRepositoryForAuthor(authorId);
+    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
+        return mArchive.getReviewsForAuthor(authorId);
     }
 
     @Override

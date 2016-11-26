@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.R;
 import com.google.maps.android.clustering.Cluster;
@@ -38,20 +37,6 @@ public class VhMapClusterWindow extends MapInfoWindow {
     }
 
     @Override
-    public void unbindFromReview() {
-
-    }
-
-    @Override
-    public void onClick() {
-
-    }
-
-    @Override
-    public void updateView(ViewHolderData data) {
-        updateView();
-    }
-
     public void updateView() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (TextView) getView(RATING);

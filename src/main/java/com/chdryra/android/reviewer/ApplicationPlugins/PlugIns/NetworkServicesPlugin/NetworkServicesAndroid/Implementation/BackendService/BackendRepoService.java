@@ -76,7 +76,7 @@ public class BackendRepoService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getApplicationContext());
         RepositorySuite repository = app.getRepository();
-        mRepo = repository.getMutableRepository(app.getAuthentication().getUserSession());
+        mRepo = repository.getReviewsRepository().getMutableRepository(app.getAuthentication().getUserSession());
         mPublisher = repository.getReviewPublisher();
 
         mReviewId = intent.getStringExtra(REVIEW_ID);

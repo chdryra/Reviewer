@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 public interface ReviewsRepository extends ReferencesRepository {
     ReferencesRepository getLatestForAuthor(AuthorId authorId);
 
-    ReferencesRepository getRepositoryForAuthor(AuthorId authorId);
+    ReferencesRepository getReviewsForAuthor(AuthorId authorId);
 
     MutableRepository getMutableRepository(UserSession session);
 }

@@ -11,9 +11,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -25,7 +23,6 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -71,11 +68,6 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public ReferencesRepository getReviews(AuthorId authorId) {
-        return mReviewsRepo.getRepositoryForAuthor(authorId);
-    }
-
-    @Override
     public ReferencesRepository getFeed(SocialProfile profile) {
         return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
@@ -83,11 +75,6 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     @Override
     public ReviewDeleter newReviewDeleter(ReviewId id) {
         return mDeleterFactory.newDeleter(id);
-    }
-
-    @Override
-    public MutableRepository getMutableRepository(UserSession session) {
-        return mReviewsRepo.getMutableRepository(session);
     }
 
     @Override

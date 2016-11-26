@@ -294,7 +294,7 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void getReviewsReturnsReviewsInRepository() {
-        mSource.getRepositoryForAuthor(new RepositoryCallback() {
+        mSource.getReviewsForAuthor(new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(final RepositoryResult fromSource) {
                 mRepo.getRepository(new RepositoryCallback() {

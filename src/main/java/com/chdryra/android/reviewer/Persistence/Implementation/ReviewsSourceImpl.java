@@ -78,7 +78,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public ReviewNode getMetaReview(AuthorId id) {
-        return mReviewsFactory.createAuthorsTree(id, getRepositoryForAuthor(id), mAuthorsRepo);
+        return mReviewsFactory.createAuthorsTree(id, getReviewsForAuthor(id), mAuthorsRepo);
     }
 
     @Override
@@ -116,8 +116,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReferencesRepository getRepositoryForAuthor(AuthorId authorId) {
-        return mReviewsRepo.getRepositoryForAuthor(authorId);
+    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
+        return mReviewsRepo.getReviewsForAuthor(authorId);
     }
 
     @Override
