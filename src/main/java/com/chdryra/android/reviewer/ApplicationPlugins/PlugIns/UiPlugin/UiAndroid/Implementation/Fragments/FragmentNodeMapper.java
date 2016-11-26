@@ -17,21 +17,13 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityNodeMapper;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ClusterInfoFactory;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ItemInfoFactory;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.LongClickClusterManager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewClusterItem;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewClusterRenderer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewInfoWindowAdapter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ClusterInfoFactory;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ItemInfoFactory;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.LongClickClusterManager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewClusterItem;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewClusterRenderer;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewInfoWindowAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
@@ -56,7 +48,6 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     private ReviewInfoWindowAdapter mItemAdapter;
     private ReviewInfoWindowAdapter mClusterAdapter;
     private ReviewClusterRenderer mRenderer;
-    private LongClickClusterManager<ReviewClusterItem> mClusterManager;
 
     @Override
     public String getMenuTitle() {
@@ -168,32 +159,33 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     }
 
     private void plotLocations(IdableList<DataLocation> locations) {
-        setClusterManager();
+        LongClickClusterManager<ReviewClusterItem> clusterManager = newClusterManager();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (DataLocation location : locations) {
             ReviewClusterItem item = new ReviewClusterItem(getReference(location), location);
-            mClusterManager.addItem(item);
+            clusterManager.addItem(item);
             builder.include(item.getPosition());
         }
 
         zoomToLatLng(builder.build().getCenter());
     }
 
-    private void setClusterManager() {
+    private LongClickClusterManager<ReviewClusterItem> newClusterManager() {
         Activity activity = getActivity();
         GoogleMap map = getMap();
 
-        mClusterManager = new LongClickClusterManager<>(activity, map, this);
-        mRenderer = new ReviewClusterRenderer(activity, map, mClusterManager, mReviews);
-        mClusterManager.setRenderer(mRenderer);
+        LongClickClusterManager<ReviewClusterItem> clusterManager
+                = new LongClickClusterManager<>(activity, map, this);
+        mRenderer = new ReviewClusterRenderer(activity, map, clusterManager, mReviews);
+        clusterManager.setRenderer(mRenderer);
 
         AuthorsRepository repo = getApp().getRepository().getAuthorsRepository();
         mItemAdapter = new ReviewInfoWindowAdapter(activity, new ItemInfoFactory(mNode, repo,
                 mRenderer));
         mClusterAdapter = new ReviewInfoWindowAdapter(activity, new ClusterInfoFactory(mRenderer));
 
-        MarkerManager.Collection items = mClusterManager.getMarkerCollection();
-        MarkerManager.Collection clusters = mClusterManager.getClusterMarkerCollection();
+        MarkerManager.Collection items = clusterManager.getMarkerCollection();
+        MarkerManager.Collection clusters = clusterManager.getClusterMarkerCollection();
         items.setOnInfoWindowAdapter(mItemAdapter);
         items.setOnInfoWindowClickListener(mItemAdapter);
         items.setOnMarkerClickListener(this);
@@ -201,11 +193,13 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         clusters.setOnInfoWindowClickListener(mClusterAdapter);
         clusters.setOnMarkerClickListener(this);
 
-        map.setOnCameraIdleListener(mClusterManager);
-        map.setOnMarkerClickListener(mClusterManager);
-        map.setOnInfoWindowClickListener(mClusterManager);
-        map.setOnInfoWindowLongClickListener(mClusterManager);
-        map.setInfoWindowAdapter(mClusterManager.getMarkerManager());
+        map.setOnCameraIdleListener(clusterManager);
+        map.setOnMarkerClickListener(clusterManager);
+        map.setOnInfoWindowClickListener(clusterManager);
+        map.setOnInfoWindowLongClickListener(clusterManager);
+        map.setInfoWindowAdapter(clusterManager.getMarkerManager());
+
+        return clusterManager;
     }
 
     private ReviewReference getReference(DataLocation location) {
@@ -217,5 +211,4 @@ public class FragmentNodeMapper extends FragmentMapLocation {
 
         throw new RuntimeException("Review not found!");
     }
-
 }
