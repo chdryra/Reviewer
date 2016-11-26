@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
+
+
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.R;
-import com.google.maps.android.clustering.Cluster;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,13 +25,13 @@ public class VhMapClusterWindow extends MapInfoWindow {
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
 
-    private final Cluster<ReviewClusterItem> mCluster;
+    private final ReviewCluster mCluster;
     private final InfoUpdateListener mListener;
 
     private TextView mSubject;
     private TextView mRating;
 
-    public VhMapClusterWindow(Cluster<ReviewClusterItem> cluster, InfoUpdateListener listener) {
+    public VhMapClusterWindow(ReviewCluster cluster, InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING});
         mCluster = cluster;
         mListener = listener;
@@ -40,8 +41,10 @@ public class VhMapClusterWindow extends MapInfoWindow {
     public void updateView() {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (TextView) getView(RATING);
-        mSubject.setText(String.valueOf(mCluster.getSize()) + " " + Strings.REVIEWS);
-        mRating.setText(String.valueOf(ReviewClusterItem.getAverage(mCluster)));
+
+        ReviewCluster.ClusterAverage average = mCluster.getAverage();
+        mSubject.setText(String.valueOf(average.getNumberReviews()) + " " + Strings.REVIEWS);
+        mRating.setText(String.valueOf(average.getAverage()));
         mListener.onInfoUpdated();
     }
 }

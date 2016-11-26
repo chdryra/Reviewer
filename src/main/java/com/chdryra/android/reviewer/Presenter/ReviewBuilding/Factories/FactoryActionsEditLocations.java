@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiMapLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -26,10 +28,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsLocations extends FactoryActionsEditData<GvLocation> {
+public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocation> {
     private static final GvDataType<GvLocation> TYPE = GvLocation.TYPE;
 
-    public FactoryEditActionsLocations(UiConfig config,
+    public FactoryActionsEditLocations(UiConfig config,
                                        FactoryGvData dataFactory,
                                        ReviewLauncher launcher,
                                        FactoryCommands commandsFactory) {
@@ -49,4 +51,10 @@ public class FactoryEditActionsLocations extends FactoryActionsEditData<GvLocati
                 getPacker());
     }
 
+    @Override
+    public MenuAction<GvLocation> newMenu() {
+        return new MenuEditLocations(newUpAction(), newDoneAction(), newDeleteAction(),
+                newPreviewAction(),
+                new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand(getLauncher())));
+    }
 }

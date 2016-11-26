@@ -136,4 +136,12 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
     private String geDataName() {
         return getDataType().getDataName();
     }
+
+    ReviewLauncher getLauncher() {
+        return mLauncher;
+    }
+
+    FactoryCommands getCommandsFactory() {
+        return mCommandsFactory;
+    }
 }

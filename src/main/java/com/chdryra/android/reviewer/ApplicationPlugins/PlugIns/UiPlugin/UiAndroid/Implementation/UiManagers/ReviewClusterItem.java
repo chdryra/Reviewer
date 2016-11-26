@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 
 /**
@@ -27,7 +26,7 @@ public class ReviewClusterItem implements ClusterItem {
 
     public ReviewClusterItem(ReviewReference reference, DataLocation location) {
         if(!reference.getReviewId().equals(location.getReviewId())) {
-            throw new IllegalArgumentException("Reference and location must have same Reviewid");
+            throw new IllegalArgumentException("Reference and location must have same ReviewId");
         }
 
         mReference = reference;
@@ -47,14 +46,4 @@ public class ReviewClusterItem implements ClusterItem {
         return mLocation.getLatLng();
     }
 
-    public static float getAverage(Cluster<ReviewClusterItem> cluster) {
-        float average = 0f;
-        int size = cluster.getSize();
-        if(size > 0) {
-            for(ReviewClusterItem item : cluster.getItems()) {
-                average += item.getReference().getRating().getRating() / size;
-            }
-        }
-        return average;
-    }
 }

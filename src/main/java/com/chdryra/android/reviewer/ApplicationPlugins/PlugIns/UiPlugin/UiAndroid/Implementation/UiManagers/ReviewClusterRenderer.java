@@ -72,9 +72,11 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
 
     @NonNull
     private BitmapDescriptor getIcon(Cluster<ReviewClusterItem> cluster) {
-        String rating = String.valueOf(ReviewClusterItem.getAverage(cluster)) + "*";
+        ReviewCluster reviews = new ReviewCluster(cluster);
+        ReviewCluster.ClusterAverage average = reviews.getAverage();
+        String rating = String.valueOf(average.getAverage()) + "*";
         TextView text = new TextView(mContext);
-        text.setText(rating + " (" + String.valueOf(cluster.getSize()) + ")");
+        text.setText(rating + " (" + String.valueOf(average.getNumberReviews()) + ")");
 
         return getBitmapDescriptor(text);
     }

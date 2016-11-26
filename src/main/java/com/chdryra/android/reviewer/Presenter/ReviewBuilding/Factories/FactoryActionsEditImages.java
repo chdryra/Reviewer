@@ -25,12 +25,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsImages extends FactoryActionsEditData<GvImage> {
+public class FactoryActionsEditImages extends FactoryActionsEditData<GvImage> {
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private final UiLauncher mLauncher;
     private final ImageChooser mImageChooser;
 
-    public FactoryEditActionsImages(UiConfig config,
+    public FactoryActionsEditImages(UiConfig config,
                                     FactoryGvData dataFactory,
                                     UiLauncher launcher,
                                     FactoryCommands commandsFactory,

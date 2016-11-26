@@ -27,11 +27,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsFacts extends FactoryActionsEditData<GvFact> {
+public class FactoryActionsFactsEdit extends FactoryActionsEditData<GvFact> {
     private static final GvDataType<GvFact> TYPE = GvFact.TYPE;
 
 
-    public FactoryEditActionsFacts(UiConfig config,
+    public FactoryActionsFactsEdit(UiConfig config,
                                    FactoryGvData dataFactory,
                                    ReviewLauncher launcher,
                                    FactoryCommands commandsFactory) {

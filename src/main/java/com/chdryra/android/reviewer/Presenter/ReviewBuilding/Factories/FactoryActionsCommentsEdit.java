@@ -27,10 +27,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsEditComments extends FactoryActionsEditData<GvComment> {
+public class FactoryActionsCommentsEdit extends FactoryActionsEditData<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
 
-    FactoryActionsEditComments(UiConfig config,
+    FactoryActionsCommentsEdit(UiConfig config,
                                FactoryGvData dataFactory,
                                ReviewLauncher launcher,
                                FactoryCommands commandsFactory) {

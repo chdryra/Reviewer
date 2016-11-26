@@ -24,11 +24,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryEditActionsTags extends FactoryActionsEditData<GvTag> {
+public class FactoryActionsEditTags extends FactoryActionsEditData<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private final TagAdjuster mTagAdjuster;
 
-    public FactoryEditActionsTags(UiConfig config,
+    public FactoryActionsEditTags(UiConfig config,
                                   FactoryGvData dataFactory,
                                   ReviewLauncher launcher,
                                   FactoryCommands commandsFactory,

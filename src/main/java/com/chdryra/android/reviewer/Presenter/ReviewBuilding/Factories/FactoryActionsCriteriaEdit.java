@@ -24,11 +24,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsEditCriteria extends FactoryActionsEditData<GvCriterion> {
+public class FactoryActionsCriteriaEdit extends FactoryActionsEditData<GvCriterion> {
     private static final GvDataType<GvCriterion> TYPE
             = GvCriterion.TYPE;
 
-    public FactoryActionsEditCriteria(UiConfig config,
+    public FactoryActionsCriteriaEdit(UiConfig config,
                                       FactoryGvData dataFactory,
                                       ReviewLauncher launcher,
                                       FactoryCommands commandsFactory) {

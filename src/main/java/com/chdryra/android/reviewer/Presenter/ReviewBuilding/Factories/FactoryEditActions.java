@@ -53,19 +53,19 @@ public class FactoryEditActions {
         mCommandsFactory = commandsFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvComment.TYPE, new FactoryActionsEditComments(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvComment.TYPE, new FactoryActionsCommentsEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvCriterion.TYPE, new FactoryActionsEditCriteria(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvCriterion.TYPE, new FactoryActionsCriteriaEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvFact.TYPE, new FactoryEditActionsFacts(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvFact.TYPE, new FactoryActionsFactsEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
-        addFactory(GvLocation.TYPE, new FactoryEditActionsLocations(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvLocation.TYPE, new FactoryActionsEditLocations(mConfig, mDataFactory, mLauncher, mCommandsFactory));
 
         addFactory(GvImage.TYPE,
-                new FactoryEditActionsImages(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser));
+                new FactoryActionsEditImages(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser));
 
         addFactory(GvTag.TYPE,
-                new FactoryEditActionsTags(mConfig, mDataFactory, mLauncher, mCommandsFactory, new TagAdjuster()));
+                new FactoryActionsEditTags(mConfig, mDataFactory, mLauncher, mCommandsFactory, new TagAdjuster()));
     }
 
     public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
