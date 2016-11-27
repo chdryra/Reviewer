@@ -37,7 +37,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     private final Stack<ReviewNode> mPending;
     private boolean mInProgress = false;
 
-    public interface Selector {
+    interface Selector {
         @Nullable
         ReviewReference select(ReviewReference lhs, @Nullable ReviewReference rhs);
     }
@@ -132,13 +132,14 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mInProgress = true;
         mNumReviews = 0;
         mCount = 0;
-        if(node.isLeaf()) {
-            mNumReviews = 1;
-            ReviewReference reference = node.getReference();
-            onDereferenced(reference != null ? new DataValue<>(reference) : new DataValue
-                    <ReviewReference>());
-        } else {
-            node.getReviews().toItemReferences(this);
-        }
+        node.getReviews().toItemReferences(this);
+//        if(node.isLeaf()) {
+//            mNumReviews = 1;
+//            ReviewReference reference = node.getReference();
+//            onDereferenced(reference != null ? new DataValue<>(reference) : new DataValue
+//                    <ReviewReference>());
+//        } else {
+//            node.getReviews().toItemReferences(this);
+//        }
     }
 }

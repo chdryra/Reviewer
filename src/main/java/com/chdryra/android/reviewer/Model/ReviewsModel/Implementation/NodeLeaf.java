@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
@@ -52,22 +51,22 @@ public class NodeLeaf extends ReviewNodeComponentBasic
 
     @Override
     public RefDataList<ReviewReference> getReviews() {
-        return newEmptyReference();
+        return newRefDataList(mReview);
     }
 
     @Override
     public RefDataList<DataSubject> getSubjects() {
-        return newEmptyReference();
+        return newRefDataList(mReview.getSubject());
     }
 
     @Override
     public RefDataList<DataAuthorId> getAuthorIds() {
-        return newEmptyReference();
+        return newRefDataList(mReview.getAuthorId());
     }
 
     @Override
     public RefDataList<DataDate> getDates() {
-        return newEmptyReference();
+        return newRefDataList(mReview.getPublishDate());
     }
 
     @Override
@@ -190,8 +189,9 @@ public class NodeLeaf extends ReviewNodeComponentBasic
         return result;
     }
 
-    @NonNull
-    private <T extends HasReviewId> RefDataList<T> newEmptyReference() {
-        return mReferenceFactory.newWrapper(new IdableDataList<T>(mReview.getReviewId()));
+    private <T extends HasReviewId> RefDataList<T> newRefDataList(T datum) {
+        IdableList<T> references = new IdableDataList<>(getReviewId());
+        references.add(datum);
+        return mReferenceFactory.newWrapper(references);
     }
 }

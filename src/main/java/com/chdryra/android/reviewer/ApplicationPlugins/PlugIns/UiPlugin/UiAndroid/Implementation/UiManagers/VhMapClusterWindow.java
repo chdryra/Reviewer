@@ -43,7 +43,9 @@ public class VhMapClusterWindow extends MapInfoWindow {
         if (mRating == null) mRating = (TextView) getView(RATING);
 
         ReviewCluster.ClusterAverage average = mCluster.getAverage();
-        mSubject.setText(String.valueOf(average.getNumberReviews()) + " " + Strings.REVIEWS);
+        int numReviews = average.getNumberReviews();
+        String stem = numReviews == 1 ? Strings.REVIEW : Strings.REVIEWS;
+        mSubject.setText(String.valueOf(numReviews) + " " + stem);
         mRating.setText(String.valueOf(average.getAverage()));
         mListener.onInfoUpdated();
     }

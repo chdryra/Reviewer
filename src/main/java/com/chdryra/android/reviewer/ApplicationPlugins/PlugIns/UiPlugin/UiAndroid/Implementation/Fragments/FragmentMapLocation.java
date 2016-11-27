@@ -12,12 +12,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -46,6 +48,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import static com.chdryra.android.reviewer.R.id.mapView;
+
 public abstract class FragmentMapLocation extends Fragment implements
         LocationClientGoogle.Locatable,
         GoogleMap.OnMarkerClickListener,
@@ -53,7 +57,7 @@ public abstract class FragmentMapLocation extends Fragment implements
         OnInfoWindowClickListener, GoogleMap.
         OnInfoWindowLongClickListener {
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
-    private static final int MAP_VIEW = R.id.mapView;
+    private static final int MAP_VIEW = mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
     private static final int DONE_BUTTON = R.id.button_right;
     private static final float DEFAULT_ZOOM = 15;
@@ -107,6 +111,13 @@ public abstract class FragmentMapLocation extends Fragment implements
         mLocationClient.locate();
     }
 
+    private void setMapListeners() {
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMapClickListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnInfoWindowLongClickListener(this);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,11 +142,21 @@ public abstract class FragmentMapLocation extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(LAYOUT, container, false);
 
-        View v = extractViews(inflater, container, savedInstanceState);
+        mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
+        mDoneButton = (Button) v.findViewById(DONE_BUTTON);
+        mMapView = (MapView) v.findViewById(MAP_VIEW);
+
+        mMapView.onCreate(savedInstanceState);
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                initGoogleMapUi(googleMap);
+            }
+        });
 
         initButtonUI();
-
         setMenu();
 
         return v;
@@ -230,13 +251,6 @@ public abstract class FragmentMapLocation extends Fragment implements
         locateHere();
     }
 
-    protected void setMapListeners() {
-        mGoogleMap.setOnMarkerClickListener(this);
-        mGoogleMap.setOnMapClickListener(this);
-        mGoogleMap.setOnInfoWindowClickListener(this);
-        mGoogleMap.setOnInfoWindowLongClickListener(this);
-    }
-
     abstract void onGotoReviewSelected();
 
     Marker addMarker(DataLocation location) {
@@ -252,26 +266,6 @@ public abstract class FragmentMapLocation extends Fragment implements
         mMenu = new MenuUi(action);
     }
 
-    @NonNull
-    private View extractViews(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        View v = inflater.inflate(LAYOUT, container, false);
-
-        mMapView = (MapView) v.findViewById(MAP_VIEW);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                initGoogleMapUi(googleMap);
-            }
-        });
-
-        mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
-        mDoneButton = (Button) v.findViewById(DONE_BUTTON);
-
-        return v;
-    }
-
     private void initGoogleMapUi(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         try {
@@ -283,7 +277,22 @@ public abstract class FragmentMapLocation extends Fragment implements
 
         mGoogleMap.clear();
         setMapListeners();
-        onMapReady();
+
+        //Any map camera manipulation in onMapReady() can only be done post layout
+        if (mMapView.getViewTreeObserver().isAlive()) {
+            mMapView.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            onMapReady();
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                                mMapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            } else {
+                                mMapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            }
+                        }
+                    });
+        }
     }
 
     @NonNull

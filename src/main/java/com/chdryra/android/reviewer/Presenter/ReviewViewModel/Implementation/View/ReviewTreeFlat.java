@@ -21,21 +21,16 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeFlat extends ReviewTree
-        implements DataReference.DereferenceCallback<IdableList<ReviewReference>> {
-
-    private final FactoryReviews mReviewsFactory;
-
-    public ReviewTreeFlat(ReviewNode toFlatten, FactoryReviews reviewsFactory) {
+public class ReviewTreeFlat extends ReviewTree {
+    public ReviewTreeFlat(ReviewNode toFlatten, final FactoryReviews reviewsFactory) {
         super(toFlatten);
-        mReviewsFactory = reviewsFactory;
-        toFlatten.getReviews().dereference(this);
-    }
-
-    @Override
-    public void onDereferenced(DataValue<IdableList<ReviewReference>> value) {
-        if(value.hasValue()) {
-            setNode(mReviewsFactory.createTree(value.getData(), getSubject().getSubject()));
-        }
+        toFlatten.getReviews().dereference(new DataReference.DereferenceCallback<IdableList<ReviewReference>>() {
+            @Override
+            public void onDereferenced(DataValue<IdableList<ReviewReference>> value) {
+                if(value.hasValue()) {
+                    setNode(reviewsFactory.createTree(value.getData(), getSubject().getSubject()));
+                }
+            }
+        });
     }
 }

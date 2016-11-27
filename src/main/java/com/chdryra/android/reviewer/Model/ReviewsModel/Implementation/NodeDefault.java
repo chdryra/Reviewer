@@ -34,12 +34,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
+public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
     private DataReviewInfo mMeta;
     private final FactoryMdReference mReferenceFactory;
     private final IdableList<ReviewNodeComponent> mChildren;
 
-    public NodeInternal(DataReviewInfo meta, FactoryMdReference referenceFactory) {
+    public NodeDefault(DataReviewInfo meta, FactoryMdReference referenceFactory) {
         mMeta = meta;
         mReferenceFactory = referenceFactory;
         mChildren = new IdableDataList<>(getReviewId());

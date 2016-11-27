@@ -16,11 +16,10 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentEditLocationMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentNodeMapper;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentNodeMapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -52,7 +51,9 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         setReviewNode();
-        return new FragmentNodeMapper();
+        Bundle args = getIntent().getBundleExtra(getLaunchTag());
+        boolean isPublished = args != null && args.getBoolean(NodeLauncher.PUBLISHED);
+        return FragmentNodeMapper.newInstance(isPublished);
     }
 
     @Override

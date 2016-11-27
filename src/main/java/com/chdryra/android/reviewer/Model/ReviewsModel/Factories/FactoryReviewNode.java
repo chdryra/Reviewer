@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -35,7 +35,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {
-        return new NodeInternal(meta, mReferenceFactory);
+        return new NodeDefault(meta, mReferenceFactory);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {

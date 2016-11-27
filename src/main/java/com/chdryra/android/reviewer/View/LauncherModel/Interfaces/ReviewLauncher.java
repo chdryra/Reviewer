@@ -26,8 +26,6 @@ public interface ReviewLauncher extends UiLauncherWrapper {
 
     void launchReviewsList(AuthorId authorId);
 
-    void launchFormatted(ReviewId reviewId);
-
     void launchFormatted(ReviewNode node, boolean isPublished);
 
     void launchMap(ReviewNode node, boolean isPublished);

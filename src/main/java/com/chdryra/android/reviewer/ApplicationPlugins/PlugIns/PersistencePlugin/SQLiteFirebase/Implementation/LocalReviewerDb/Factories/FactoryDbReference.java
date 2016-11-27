@@ -26,11 +26,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAut
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperRefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -99,9 +97,5 @@ public class FactoryDbReference {
 
     public <T extends HasReviewId> ReviewItemReference<T> newItemReference(SimpleItemReference.Dereferencer<T> dereferencer) {
         return new SimpleItemReference<>(dereferencer);
-    }
-
-    public <T extends HasReviewId> RefDataList<T> newStaticReference(IdableList<T> data) {
-        return new WrapperRefDataList<>(data, mReferenceFactory);
     }
 }

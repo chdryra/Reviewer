@@ -11,28 +11,22 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityNodeMapper;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ClusterInfoFactory;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ItemInfoFactory;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.LongClickClusterManager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewCluster;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewClusterItem;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewClusterRenderer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewInfoWindowAdapter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ClusterInfoFactory;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ItemInfoFactory;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.LongClickClusterManager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewCluster;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewClusterItem;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewClusterRenderer;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewInfoWindowAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -42,6 +36,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -50,12 +45,27 @@ import com.google.maps.android.MarkerManager;
 import com.google.maps.android.clustering.Cluster;
 
 public class FragmentNodeMapper extends FragmentMapLocation {
+    private static final String PUBLISHED = TagKeyGenerator.getKey(FragmentNodeMapper.class,
+            "published");
+    private static final int PADDING = 100;
+
     private ReviewNode mNode;
     private IdableList<ReviewReference> mReviews;
     private Marker mCurrentMarker;
     private ReviewInfoWindowAdapter mItemAdapter;
     private ReviewInfoWindowAdapter mClusterAdapter;
     private ReviewClusterRenderer mRenderer;
+    private boolean mIsPublished;
+
+    public static FragmentNodeMapper newInstance(boolean isPublished) {
+        //Can't use FactoryFragment as Support fragment rather than normal fragment
+        Bundle args = new Bundle();
+        args.putBoolean(PUBLISHED, isPublished);
+        FragmentNodeMapper fragment = new FragmentNodeMapper();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public String getMenuTitle() {
@@ -66,6 +76,8 @@ public class FragmentNodeMapper extends FragmentMapLocation {
 
     @Override
     void onMapReady() {
+        Bundle args = getArguments();
+        mIsPublished = args != null && args.getBoolean(PUBLISHED);
         mNode.getReviews().dereference(new DataReference
                 .DereferenceCallback<IdableList<ReviewReference>>() {
             @Override
@@ -110,10 +122,12 @@ public class FragmentNodeMapper extends FragmentMapLocation {
 
     @Override
     public void onInfoWindowLongClick(Marker marker) {
-        if (mRenderer.getClusterItem(marker) != null) {
-            launchReview(mRenderer.getClusterItem(marker));
-        } else if (mRenderer.getCluster(marker) != null) {
-            launchMetaReview(mRenderer.getCluster(marker));
+        if(mIsPublished) {
+            if (mRenderer.getClusterItem(marker) != null) {
+                launchReview(mRenderer.getClusterItem(marker));
+            } else if (mRenderer.getCluster(marker) != null) {
+                launchMetaReview(mRenderer.getCluster(marker));
+            }
         }
     }
 
@@ -130,7 +144,9 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     private void launchMetaReview(Cluster<ReviewClusterItem> cluster) {
         IdableCollection<ReviewReference> reviews = new ReviewCluster(cluster).getUniqueReviews();
 
-        String subject = String.valueOf(reviews.size()) + " " + Strings.REVIEWS;
+        int size = reviews.size();
+        String stem = size == 1? Strings.REVIEW : Strings.REVIEWS;
+        String subject = String.valueOf(size) + " " + stem;
         ReviewNode node
                 = getApp().getRepository().getReviewsRepository().getMetaReview(reviews, subject);
 
@@ -149,7 +165,7 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     }
 
     private void setMarker(@Nullable Marker marker) {
-        getGotoReviewButton().setEnabled(marker != null);
+        getGotoReviewButton().setEnabled(mIsPublished && marker != null);
         mCurrentMarker = marker;
     }
 
@@ -172,7 +188,7 @@ public class FragmentNodeMapper extends FragmentMapLocation {
             builder.include(item.getPosition());
         }
 
-        zoomToLatLng(builder.build().getCenter());
+        getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING));
     }
 
     private LongClickClusterManager<ReviewClusterItem> newClusterManager() {

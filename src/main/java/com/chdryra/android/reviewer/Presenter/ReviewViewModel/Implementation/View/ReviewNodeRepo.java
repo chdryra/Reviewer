@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdRefere
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
+public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, ReviewNode {
     private ReferencesRepository mRepo;
     private final FactoryReviewNode mNodeFactory;
 
