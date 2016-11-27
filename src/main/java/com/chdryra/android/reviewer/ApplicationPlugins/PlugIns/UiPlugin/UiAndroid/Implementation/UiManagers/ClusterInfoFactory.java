@@ -26,7 +26,7 @@ public class ClusterInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFac
 
     @Override
     public MapInfoWindow newInfoWindow(Marker marker) {
-        return new VhMapClusterWindow(new ReviewCluster(mRenderer.getCluster(marker)),
+        return new VhMapClusterWindow(mRenderer.getCluster(marker),
                 new MapInfoWindow.InfoUpdateListener(marker));
     }
 }

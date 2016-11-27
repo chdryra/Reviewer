@@ -26,6 +26,7 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;
+
     private boolean mRatingIsAverage;
 
     private final DataBuilderAdapter<T> mBuilder;

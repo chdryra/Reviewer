@@ -46,7 +46,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
-    private static final int LOCATION = R.id.review_location_name;
+    private static final int LOCATION = R.id.cluster_num_locations;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
@@ -133,6 +133,14 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         bindIfNecessary();
     }
 
+    private void setGone(View view) {
+        view.setVisibility(View.GONE);
+    }
+
+    private void setVisible(View view) {
+        view.setVisibility(View.VISIBLE);
+    }
+
     private void bindIfNecessary() {
         if (!mBound && mShowAbstract) {
             mCallbacks = 0;
@@ -150,6 +158,8 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(STAMP);
+        setGone(mHeadline);
+        setGone(mTags);
     }
 
     private void initialiseData() {
@@ -201,18 +211,25 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     }
 
     private void setHeadline(IdableList<DataComment> value) {
-        mHeadline.setText(DataFormatter.getHeadlineQuote(value));
+        if (value.size() > 0) {
+            setVisible(mHeadline);
+            mHeadline.setText(DataFormatter.getHeadlineQuote(value));
+        }
+
         notifyListener(false);
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
         int i = tags.size();
-        String tagsString = getTagString(tags, i--);
-        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
-            tagsString = getTagString(tags, i--);
+        if (i > 0) {
+            setVisible(mTags);
+            String tagsString = getTagString(tags, i--);
+            while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+                tagsString = getTagString(tags, i--);
+            }
+            mTags.setText(tagsString);
         }
 
-        mTags.setText(tagsString);
         notifyListener(false);
     }
 

@@ -90,7 +90,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public ReviewNode buildPreview() {
-        return mBuilder.buildPreview();
+        return buildPreview(getSubject(), getRating());
+    }
+
+    @Override
+    public ReviewNode buildPreview(String subject, float rating) {
+        return mBuilder.buildPreview(subject, rating);
     }
 
     @Override

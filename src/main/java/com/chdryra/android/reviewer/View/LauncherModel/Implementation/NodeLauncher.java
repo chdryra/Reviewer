@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 
 public class NodeLauncher extends PackingLauncherImpl<ReviewNode> {
-    public static final String PUBLISHED = TagKeyGenerator.getTag(NodeLauncher.class);
+    private static final String PUBLISHED = TagKeyGenerator.getTag(NodeLauncher.class);
 
     public NodeLauncher(LaunchableConfig ui) {
         super(ui);
@@ -37,5 +37,9 @@ public class NodeLauncher extends PackingLauncherImpl<ReviewNode> {
         Bundle bundle = new Bundle();
         bundle.putBoolean(PUBLISHED, published);
         launch(item, bundle);
+    }
+
+    public static boolean isPublished(Bundle args) {
+        return args.getBoolean(PUBLISHED);
     }
 }

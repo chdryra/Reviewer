@@ -50,7 +50,7 @@ public class SubjectUi extends TextUi<EditText> {
     private void initialise(ReviewView<?> reviewView) {
         ReviewViewParams.SubjectParams params = reviewView.getParams().getSubjectParams();
         boolean isEditable = params.isEditable();
-        mSubjectRefresh = params.isUpdateOnRefresh();
+        mSubjectRefresh = !isEditable && params.isUpdateOnRefresh();
         if(isEditable) getView().setHint(params.getHint());
 
         getView().setFocusable(isEditable);

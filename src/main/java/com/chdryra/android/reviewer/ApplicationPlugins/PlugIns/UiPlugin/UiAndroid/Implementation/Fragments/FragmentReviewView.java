@@ -92,11 +92,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @Override
-    public void updateContextButton() {
-        mContextual.update();
-    }
-
-    @Override
     public void setCellDimension(ReviewViewParams.CellDimension width,
                                  ReviewViewParams.CellDimension height) {
         mGridView.setCellDimension(width, height);

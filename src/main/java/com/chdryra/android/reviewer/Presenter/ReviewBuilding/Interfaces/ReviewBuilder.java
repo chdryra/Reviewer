@@ -42,5 +42,5 @@ public interface ReviewBuilder {
 
     Review buildReview();
 
-    ReviewNode buildPreview();
+    ReviewNode buildPreview(String subject, float rating);
 }

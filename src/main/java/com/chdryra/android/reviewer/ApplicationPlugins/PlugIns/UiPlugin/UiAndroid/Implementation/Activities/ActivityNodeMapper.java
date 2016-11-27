@@ -29,7 +29,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  */
 public class ActivityNodeMapper extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityNodeMapper.class);
-    private static final String NODE = TagKeyGenerator.getKey(ActivityNodeMapper.class, "Node");
     private ReviewNode mNode;
 
     @Override
@@ -39,7 +38,7 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     @Override
     public void launch(UiTypeLauncher launcher) {
-        launcher.launch(getClass(), NODE);
+        launcher.launch(getClass(), getLaunchTag());
     }
 
     @Override
@@ -50,9 +49,12 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
-        setReviewNode();
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
-        boolean isPublished = args != null && args.getBoolean(NodeLauncher.PUBLISHED);
+        if (args == null) throwNoReview();
+        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        if (node == null) throwNoReview();
+        mNode = node;
+        boolean isPublished = NodeLauncher.isPublished(args);
         return FragmentNodeMapper.newInstance(isPublished);
     }
 
@@ -64,14 +66,6 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     public ReviewNode getReviewNode() {
         return mNode;
-    }
-
-    private void setReviewNode() {
-        Bundle args = getIntent().getBundleExtra(NODE);
-        if (args == null) throwNoReview();
-        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (node == null) throwNoReview();
-        mNode = node;
     }
 
     private void throwNoReview() {

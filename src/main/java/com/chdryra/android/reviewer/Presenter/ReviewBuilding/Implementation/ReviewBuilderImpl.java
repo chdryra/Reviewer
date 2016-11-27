@@ -134,7 +134,7 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        return build(getDataFinal(GvTag.TYPE),
+        return build(getSubject(), getRating(), getDataFinal(GvTag.TYPE),
                 getDataFinal(GvCriterion.TYPE),
                 getDataFinal(GvComment.TYPE),
                 getDataFinal(GvImage.TYPE),
@@ -143,8 +143,8 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     }
 
     @Override
-    public ReviewNode buildPreview() {
-        Review current = build(getData(GvTag.TYPE),
+    public ReviewNode buildPreview(String subject, float rating) {
+        Review current = build(subject, rating, getData(GvTag.TYPE),
                 getData(GvCriterion.TYPE),
                 getData(GvComment.TYPE),
                 getData(GvImage.TYPE),
@@ -168,10 +168,11 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
         return getDataBuilder(dataType).getData();
     }
 
-    private Review build(GvDataList<GvTag> tags, GvDataList<GvCriterion> criteria,
+    private Review build(String subject, float rating,
+                         GvDataList<GvTag> tags, GvDataList<GvCriterion> criteria,
                          GvDataList<GvComment> comments, GvDataList<GvImage> images,
                          GvDataList<GvFact> facts, GvDataList<GvLocation> locations) {
-        return mReviewFactory.createUserReview(getSubject(), getRating(),
+        return mReviewFactory.createUserReview(subject, rating,
                 tags,
                 criteria,
                 comments,

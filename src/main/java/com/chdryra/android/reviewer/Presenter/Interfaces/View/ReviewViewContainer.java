@@ -34,8 +34,6 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     void setCover(@Nullable DataImage cover);
 
-    void updateContextButton();
-
     void setCellDimension(ReviewViewParams.CellDimension width,
                           ReviewViewParams.CellDimension height);
 }

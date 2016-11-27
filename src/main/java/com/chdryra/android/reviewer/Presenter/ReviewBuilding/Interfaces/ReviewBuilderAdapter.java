@@ -49,6 +49,8 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
 
     ReviewNode buildPreview();
 
+    ReviewNode buildPreview(String subject, float rating);
+
     @Override
     GvDataType<GC> getGvDataType();
 }

@@ -54,7 +54,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
         if (node == null) throwNoReview();
 
-        boolean isPublished = args.getBoolean(NodeLauncher.PUBLISHED);
+        boolean isPublished = NodeLauncher.isPublished(args);
 
         mAdapter = new NodePagerAdapter(node, new NodeComparatorMostRecent(),
                 getSupportFragmentManager(), isPublished);

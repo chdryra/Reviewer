@@ -11,7 +11,7 @@
               xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
-        android:id="@+id/info_window_subject_rating"
+        android:id="@+id/cluster_num_reviews_rating"
         layout="@layout/map_window_subject_rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -19,7 +19,7 @@
     <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
                   android:id="@+id/review_abstract">
         <TextView
-            android:id="@+id/review_location_name"
+            android:id="@+id/cluster_num_locations"
             style="@style/TextViewGridCell.Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

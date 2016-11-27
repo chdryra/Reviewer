@@ -44,7 +44,10 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     @Override
     public ReviewNode buildPreview() {
-        return mParentBuilder.buildPreview();
+        String subject = getReviewView().getContainerSubject();
+        if(subject.length() == 0) subject = Strings.NO_SUBJECT;
+        return mParentBuilder.buildPreview(subject,
+                getReviewView().getContainerRating());
     }
 
     void attach() {
