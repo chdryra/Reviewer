@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SubjectAlphabetical;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SubjectComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.testutils.RandomString;
@@ -24,7 +24,7 @@ import test.TestUtils.RandomReviewId;
  */
 public class SubjectAlphabeticalTest extends ComparatorTest<DataSubject>{
     public SubjectAlphabeticalTest() {
-        super(new SubjectAlphabetical());
+        super(new SubjectComparator());
     }
 
     @Test

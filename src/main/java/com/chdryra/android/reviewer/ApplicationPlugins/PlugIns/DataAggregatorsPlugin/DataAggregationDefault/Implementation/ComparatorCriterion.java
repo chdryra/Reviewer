@@ -12,15 +12,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 29/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorCriterion implements DifferenceComparitor<DataCriterion, DifferenceBoolean> {
+public class ComparatorCriterion implements DifferenceComparator<DataCriterion, DifferenceBoolean> {
     @Override
     public DifferenceBoolean compare(DataCriterion lhs, DataCriterion rhs) {
         boolean sameSubject = lhs.getSubject().equalsIgnoreCase(rhs.getSubject());

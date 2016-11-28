@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.TagAlphabetical;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.TagComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.testutils.RandomString;
@@ -24,7 +24,7 @@ import test.TestUtils.RandomReviewId;
  */
 public class TagAlphabeticalTest extends ComparatorTest<DataTag>{
     public TagAlphabeticalTest() {
-        super(new TagAlphabetical());
+        super(new TagComparator());
     }
 
     @Test

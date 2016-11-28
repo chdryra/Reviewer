@@ -11,8 +11,7 @@ package test.Plugins.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorDate;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorDate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +29,7 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorDateTest {
-    private ComparitorDate mComparitor;
+    private ComparatorDate mComparitor;
     private static final DifferenceDate DAY = new DifferenceDate(DifferenceDate.DateBucket.DAY);
     private static final DifferenceDate MONTH = new DifferenceDate(DifferenceDate.DateBucket.MONTH);
     private static final DifferenceDate YEAR= new DifferenceDate(DifferenceDate.DateBucket.YEAR);
@@ -39,7 +38,7 @@ public class ComparitorDateTest {
 
     @Before
     public void setUp() {
-        mComparitor = new ComparitorDate();
+        mComparitor = new ComparatorDate();
     }
 
     @Test

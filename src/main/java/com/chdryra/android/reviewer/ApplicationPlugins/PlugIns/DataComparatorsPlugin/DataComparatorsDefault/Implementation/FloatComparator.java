@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
-
 import java.util.Comparator;
 
 /**
@@ -17,9 +15,17 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagAlphabetical implements Comparator<DataTag> {
+public class FloatComparator implements Comparator<Float> {
+    private final Ordering mOrdering;
+
+    public FloatComparator(Ordering ordering) {
+        mOrdering = ordering;
+    }
+
     @Override
-    public int compare(DataTag lhs, DataTag rhs) {
-        return lhs.getTag().compareToIgnoreCase(rhs.getTag());
+    public int compare(Float lhs, Float rhs) {
+        if(lhs < rhs) return -mOrdering.getFactor();
+        if(rhs > lhs) return mOrdering.getFactor();
+        return 0;
     }
 }

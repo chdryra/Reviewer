@@ -8,25 +8,30 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 
 import java.util.Comparator;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 27/11/2015
+ * On: 28/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentHeadlineThenAlphabetical implements Comparator<DataComment> {
+
+public class BooleanComparator implements Comparator<Boolean> {
+    private final Ordering mOrdering;
+
+    public BooleanComparator(Ordering ordering) {
+        mOrdering = ordering;
+    }
+
     @Override
-    public int compare(DataComment lhs, DataComment rhs) {
-        int comp;
-        if (lhs.isHeadline() && !rhs.isHeadline()) {
-            comp = -1;
-        } else if (!lhs.isHeadline() && rhs.isHeadline()) {
+    public int compare(Boolean lhs, Boolean rhs) {
+        //false then true if ascending
+        int comp = 0;
+        if (!lhs && rhs) {
+            comp = -mOrdering.getFactor();
+        } else if (!rhs && lhs) {
             comp = 1;
-        } else {
-            comp = lhs.getComment().compareToIgnoreCase(rhs.getComment());
         }
 
         return comp;

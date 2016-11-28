@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
@@ -33,7 +33,7 @@ public class ImageCoversThenMostRecentTest extends ComparatorTest<DataImage> {
     private static final Random RAND = new Random();
 
     public ImageCoversThenMostRecentTest() {
-        super(new ImageCoversThenMostRecent(new DateMostRecentFirst()));
+        super(new ImageCoversThenMostRecent(new DateComparator()));
     }
 
     @Test

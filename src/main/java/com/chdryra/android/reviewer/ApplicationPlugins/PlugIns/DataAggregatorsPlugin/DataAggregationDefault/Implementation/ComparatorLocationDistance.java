@@ -12,8 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngDistance;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -22,7 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorLocationDistance implements DifferenceComparitor<DataLocation, DifferenceFloat> {
+public class ComparatorLocationDistance implements DifferenceComparator<DataLocation, DifferenceFloat> {
     @Override
     public DifferenceFloat compare(DataLocation lhs, DataLocation rhs) {
         float[] res = new float[1];

@@ -43,29 +43,20 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
         .Implementation.CanonicalSubjectMode;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalTagMode;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorCriterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorCriterionSubject;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorDate;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorFactLabel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparitorImageBitmap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparitorLocationDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLocationName;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorSubject;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparitorTag;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterionSubject;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorDate;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorFactLabel;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorImageBitmap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationName;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorSubject;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorTag;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.DataAggregatorImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 
 /**
  * Created by: Rizwan Choudrey
@@ -73,72 +64,72 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataAggregatorsApiDefault implements DataAggregatorsApi {
-    private final ComparitorString mStringComparitor;
+    private final ComparatorString mStringComparitor;
     
-    public DataAggregatorsApiDefault(ComparitorString stringComparitor) {
+    public DataAggregatorsApiDefault(ComparatorString stringComparitor) {
         mStringComparitor = stringComparitor;
     }
 
     @Override
     public DataAggregator<DataAuthor> newAuthorsAggregator(DifferenceBoolean threshold) {
-        return new DataAggregatorImpl<>(new ComparitorAuthor(), threshold,
-                new CanonicalAuthor(new ComparitorAuthor()));
+        return new DataAggregatorImpl<>(new ComparatorAuthor(), threshold,
+                new CanonicalAuthor(new ComparatorAuthor()));
     }
 
     @Override
     public DataAggregator<DataSubject> newSubjectsAggregator(DifferencePercentage threshold) {
-        return new DataAggregatorImpl<>(new ComparitorSubject(mStringComparitor), threshold,
+        return new DataAggregatorImpl<>(new ComparatorSubject(mStringComparitor), threshold,
                 new CanonicalSubjectMode());
 
     }
 
     @Override
     public DataAggregator<DataTag> newTagsAggregator(DifferencePercentage threshold) {
-        return new DataAggregatorImpl<>(new ComparitorTag(mStringComparitor), threshold,
+        return new DataAggregatorImpl<>(new ComparatorTag(mStringComparitor), threshold,
                 new CanonicalTagMode());
     }
 
     @Override
     public DataAggregator<DataComment> newCommentsAggregator(DifferencePercentage threshold) {
-        return new DataAggregatorImpl<>(new ComparitorComment(mStringComparitor), threshold,
+        return new DataAggregatorImpl<>(new ComparatorComment(mStringComparitor), threshold,
                 new CanonicalCommentMode());
     }
 
     @Override
     public DataAggregator<DataDate> newDatesAggregator(DifferenceDate threshold) {
-        return new DataAggregatorImpl<>(new ComparitorDate(), threshold, new CanonicalDate());
+        return new DataAggregatorImpl<>(new ComparatorDate(), threshold, new CanonicalDate());
     }
 
     @Override
     public DataAggregator<DataImage> newImagesAggregator(DifferenceBoolean threshold) {
-        return new DataAggregatorImpl<>(new ComparitorImageBitmap(), threshold,
+        return new DataAggregatorImpl<>(new ComparatorImageBitmap(), threshold,
                 new CanonicalImage());
     }
 
     @Override
     public DataAggregator<DataLocation> newLocationsAggregator(DifferenceLocation threshold) {
-        ComparitorLocation comparitorLocation
-                = new ComparitorLocation(new ComparitorLocationDistance(),
-                new ComparitorLocationName(mStringComparitor));
+        ComparatorLocation comparitorLocation
+                = new ComparatorLocation(new ComparatorLocationDistance(),
+                new ComparatorLocationName(mStringComparitor));
         return new DataAggregatorImpl<>(comparitorLocation, threshold, new CanonicalLocation());
     }
 
     @Override
     public DataAggregator<DataCriterion> newCriteriaAggregatorSameSubjectRating(DifferenceBoolean
                                                                                         threshold) {
-        return new DataAggregatorImpl<>(new ComparitorCriterion(), threshold,
+        return new DataAggregatorImpl<>(new ComparatorCriterion(), threshold,
                 new CanonicalCriterionMode());
     }
 
     @Override
     public DataAggregator<DataCriterion> newCriteriaAggregatorSameSubject(DifferencePercentage threshold) {
-        return new DataAggregatorImpl<>(new ComparitorCriterionSubject(mStringComparitor),
+        return new DataAggregatorImpl<>(new ComparatorCriterionSubject(mStringComparitor),
                 threshold, new CanonicalCriterionAverage());
     }
 
     @Override
     public DataAggregator<DataFact> newFactsAggregator(DifferencePercentage threshold) {
-        return new DataAggregatorImpl<>(new ComparitorFactLabel(mStringComparitor), threshold,
+        return new DataAggregatorImpl<>(new ComparatorFactLabel(mStringComparitor), threshold,
                 new CanonicalFact());
     }
 }

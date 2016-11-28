@@ -10,24 +10,22 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.ItemGetter;
-
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorCriterionSubject extends ComparitorStringable<DataCriterion> {
-    public ComparitorCriterionSubject(ComparitorString comparitor) {
-        super(comparitor, new ItemGetter<DataCriterion, String>() {
+public class ComparatorLocationName extends ComparatorStringable<DataLocation> {
+    public ComparatorLocationName(ComparatorString comparitor) {
+        super(comparitor, new ItemGetter<DataLocation, String>() {
             @Override
-            public String getItem(DataCriterion datum) {
-                return datum.getSubject().toLowerCase();
+            public String getItem(DataLocation datum) {
+                return datum.getName().toLowerCase();
             }
         });
     }

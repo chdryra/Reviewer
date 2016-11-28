@@ -63,7 +63,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
 
     private DataImage getLastImage(IdableList<? extends DataImage> data, DataImage nullImage) {
         DataImage reference = data.getItem(0);
-        ComparitorImageBitmap comparitor = new ComparitorImageBitmap();
+        ComparatorImageBitmap comparitor = new ComparatorImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
 
         DataImage lastImage = null;

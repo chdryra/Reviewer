@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,9 +26,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthor> {
-    private final DifferenceComparitor<? super DataAuthor, DifferenceBoolean> mComparitor;
+    private final DifferenceComparator<? super DataAuthor, DifferenceBoolean> mComparitor;
 
-    public CanonicalAuthor(DifferenceComparitor<? super DataAuthor, DifferenceBoolean> comparitor) {
+    public CanonicalAuthor(DifferenceComparator<? super DataAuthor, DifferenceBoolean> comparitor) {
         mComparitor = comparitor;
     }
 

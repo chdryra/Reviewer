@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLevenshteinDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +19,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  */
 public class DataAggregatorsDefault implements DataAggregatorsPlugin {
     private static final DataAggregatorsApi API
-            = new DataAggregatorsApiDefault(new ComparitorLevenshteinDistance());
+            = new DataAggregatorsApiDefault(new ComparatorLevenshteinDistance());
 
     @Override
     public DataAggregatorsApi getAggregatorsApi() {

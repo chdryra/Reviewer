@@ -11,10 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.ItemGetter;
 
@@ -24,11 +22,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * On: 07/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorStringable<T> implements DifferenceComparitor<T, DifferencePercentage> {
-    private final ComparitorString mComparitor;
+public class ComparatorStringable<T> implements DifferenceComparator<T, DifferencePercentage> {
+    private final ComparatorString mComparitor;
     private final ItemGetter<T, String> mGetter;
 
-    ComparitorStringable(ComparitorString comparitor, ItemGetter<T, String> getter) {
+    ComparatorStringable(ComparatorString comparitor, ItemGetter<T, String> getter) {
         mComparitor = comparitor;
         mGetter = getter;
     }

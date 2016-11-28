@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 
 import java.util.Comparator;
@@ -18,15 +19,15 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewMostRecentPublished<T extends DataReviewInfo> implements Comparator<T> {
-    private final Comparator<DateTime> mDateComparator;
+public class ReviewRating<T extends DataReviewInfo> implements Comparator<T> {
+    private final Comparator<DataRating> mRatingComparator;
 
-    public ReviewMostRecentPublished(Comparator<DateTime> dateComparator) {
-        mDateComparator = dateComparator;
+    public ReviewRating(Comparator<DataRating> ratingComparator) {
+        mRatingComparator = ratingComparator;
     }
 
     @Override
     public int compare(DataReviewInfo lhs, DataReviewInfo rhs) {
-        return mDateComparator.compare(lhs.getPublishDate(), rhs.getPublishDate());
+        return mRatingComparator.compare(lhs.getRating(), rhs.getRating());
     }
 }

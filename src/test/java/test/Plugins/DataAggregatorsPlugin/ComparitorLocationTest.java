@@ -15,16 +15,11 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLocationDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLocationName;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationName;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -43,16 +38,16 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorLocationTest {
-    private ComparitorString mNameComparitor;
-    private ComparitorLocationDistance mDistComparitor;
-    private ComparitorLocation mComparitor;
+    private ComparatorString mNameComparitor;
+    private ComparatorLocationDistance mDistComparitor;
+    private ComparatorLocation mComparitor;
 
     @Before
     public void setUp() {
-        mNameComparitor = new ComparitorLevenshteinDistance();
-        ComparitorLocationName nameComparitor = new ComparitorLocationName(mNameComparitor);
-        mDistComparitor = new ComparitorLocationDistance();
-        mComparitor = new ComparitorLocation(mDistComparitor, nameComparitor);
+        mNameComparitor = new ComparatorLevenshteinDistance();
+        ComparatorLocationName nameComparitor = new ComparatorLocationName(mNameComparitor);
+        mDistComparitor = new ComparatorLocationDistance();
+        mComparitor = new ComparatorLocation(mDistComparitor, nameComparitor);
     }
 
     @Test

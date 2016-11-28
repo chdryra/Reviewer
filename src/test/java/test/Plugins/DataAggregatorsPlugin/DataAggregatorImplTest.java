@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
         .Implementation.DataAggregatorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -44,12 +43,12 @@ public class DataAggregatorImplTest {
     private static final int MIN_INT = 1;
     private static final int MAX_INT = 10;
     private static final int NUM_DATA = 100;
-    private IntegerComparitor mComparitor;
+    private IntegerComparator mComparitor;
     private CanonicalInt mCanonical;
 
     @Before
     public void setUp() {
-        mComparitor = new IntegerComparitor();
+        mComparitor = new IntegerComparator();
         mCanonical = new CanonicalInt();
     }
 
@@ -200,8 +199,8 @@ public class DataAggregatorImplTest {
         }
     }
 
-    private class IntegerComparitor implements DifferenceComparitor<ReviewInteger,
-                IntegerDifference> {
+    private class IntegerComparator implements DifferenceComparator<ReviewInteger,
+                    IntegerDifference> {
         @Override
         public IntegerDifference compare(ReviewInteger lhs, ReviewInteger rhs) {
             return new IntegerDifference(Math.abs(lhs.getInt() - rhs.getInt()));

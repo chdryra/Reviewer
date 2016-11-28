@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
+
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 
 import java.util.Comparator;
@@ -17,9 +19,15 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectAlphabetical implements Comparator<DataSubject> {
+public class ReviewSubject<T extends DataReviewInfo> implements Comparator<T> {
+    private final Comparator<DataSubject> mRatingComparator;
+
+    public ReviewSubject(Comparator<DataSubject> ratingComparator) {
+        mRatingComparator = ratingComparator;
+    }
+
     @Override
-    public int compare(DataSubject lhs, DataSubject rhs) {
-        return lhs.getSubject().compareToIgnoreCase(rhs.getSubject());
+    public int compare(DataReviewInfo lhs, DataReviewInfo rhs) {
+        return mRatingComparator.compare(lhs.getSubject(), rhs.getSubject());
     }
 }

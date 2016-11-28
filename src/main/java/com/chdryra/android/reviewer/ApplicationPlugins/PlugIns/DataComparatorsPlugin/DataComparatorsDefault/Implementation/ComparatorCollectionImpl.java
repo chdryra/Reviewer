@@ -46,7 +46,7 @@ public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
         return mComparators.size();
     }
 
-    protected void add(Comparator<T> comparator) {
+    public void add(Comparator<T> comparator) {
         mComparators.add(comparator);
     }
 }

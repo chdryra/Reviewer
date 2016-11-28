@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 
 /**
@@ -33,11 +32,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  */
 public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel<D>>
         implements DataAggregator<T> {
-    private final DifferenceComparitor<? super T, D> mComparitor;
+    private final DifferenceComparator<? super T, D> mComparitor;
     private final D mSimilarityThreshold;
     private final CanonicalDatumMaker<T> mCanonical;
 
-    public DataAggregatorImpl(DifferenceComparitor<? super T, D> comparitor,
+    public DataAggregatorImpl(DifferenceComparator<? super T, D> comparitor,
                               D similarityThreshold,
                               CanonicalDatumMaker<T> canonical) {
         mComparitor = comparitor;

@@ -34,7 +34,7 @@ public class GvDataComparators {
         mMap.put(GvAuthor.TYPE, comparatorsFactory.getAuthorComparators());
         mMap.put(GvCriterion.TYPE, comparatorsFactory.getCriterionComparators());
         mMap.put(GvComment.TYPE, comparatorsFactory.getCommentComparators());
-        mMap.put(GvDate.TYPE, comparatorsFactory.getDateComparators());
+        mMap.put(GvDate.TYPE, comparatorsFactory.getDateTimeComparators());
         mMap.put(GvFact.TYPE, comparatorsFactory.getFactComparators());
         mMap.put(GvImage.TYPE, comparatorsFactory.getImageComparators());
         mMap.put(GvLocation.TYPE, comparatorsFactory.getLocationComparators());

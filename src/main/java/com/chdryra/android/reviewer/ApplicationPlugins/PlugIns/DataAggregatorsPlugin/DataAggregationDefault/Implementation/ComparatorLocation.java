@@ -14,21 +14,20 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorLocation implements
-        DifferenceComparitor<DataLocation, DifferenceLocation> {
-    private final ComparitorLocationName mNameComparitor;
-    private final ComparitorLocationDistance mLocationComparitor;
+public class ComparatorLocation implements
+        DifferenceComparator<DataLocation, DifferenceLocation> {
+    private final ComparatorLocationName mNameComparitor;
+    private final ComparatorLocationDistance mLocationComparitor;
 
-    public ComparitorLocation(ComparitorLocationDistance locationComparitor,
-                              ComparitorLocationName nameComparitor) {
+    public ComparatorLocation(ComparatorLocationDistance locationComparitor,
+                              ComparatorLocationName nameComparitor) {
         mLocationComparitor = locationComparitor;
         mNameComparitor = nameComparitor;
     }

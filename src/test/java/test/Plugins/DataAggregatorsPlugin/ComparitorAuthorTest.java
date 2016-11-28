@@ -11,8 +11,7 @@ package test.Plugins.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorAuthor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,11 +31,11 @@ import static org.hamcrest.MatcherAssert.*;
 public class ComparitorAuthorTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    private ComparitorAuthor mComparitor;
+    private ComparatorAuthor mComparitor;
 
     @Before
     public void setUp() {
-        mComparitor = new ComparitorAuthor();
+        mComparitor = new ComparatorAuthor();
     }
 
     @Test

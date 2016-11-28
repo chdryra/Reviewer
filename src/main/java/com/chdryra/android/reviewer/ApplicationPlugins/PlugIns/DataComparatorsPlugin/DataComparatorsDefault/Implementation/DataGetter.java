@@ -8,18 +8,12 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-
-import java.util.Comparator;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 27/11/2015
+ * On: 28/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationNameAlphabetical implements Comparator<DataLocation> {
-    @Override
-    public int compare(DataLocation lhs, DataLocation rhs) {
-        return lhs.getName().compareToIgnoreCase(rhs.getName());
-    }
+public interface DataGetter<ObjectType, DataType> {
+    DataType getData(ObjectType item);
 }

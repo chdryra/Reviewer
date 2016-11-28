@@ -8,14 +8,17 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces;
 
+import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DifferenceLevel;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
+        .DifferencePercentage;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/06/2015
+ * On: 05/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DifferenceComparitor<T, S extends DifferenceLevel<?>> {
-    S compare(T lhs, T rhs);
+public interface ComparatorString extends DifferenceComparator<String, DifferencePercentage> {
+    @Override
+    DifferencePercentage compare(@NonNull String lhs, @NonNull String rhs);
 }

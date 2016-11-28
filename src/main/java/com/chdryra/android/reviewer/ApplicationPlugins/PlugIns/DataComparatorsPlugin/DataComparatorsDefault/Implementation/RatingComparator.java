@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSocialPlatform;
+
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 
 import java.util.Comparator;
 
@@ -17,9 +18,15 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialAlphabetical implements Comparator<DataSocialPlatform> {
+public class RatingComparator implements Comparator<DataRating> {
+    private final FloatComparator mComparator;
+
+    public RatingComparator(FloatComparator comparator) {
+        mComparator = comparator;
+    }
+
     @Override
-    public int compare(DataSocialPlatform lhs, DataSocialPlatform rhs) {
-        return lhs.getName().compareToIgnoreCase(rhs.getName());
+    public int compare(DataRating lhs, DataRating rhs) {
+        return mComparator.compare(lhs.getRating(), rhs.getRating());
     }
 }

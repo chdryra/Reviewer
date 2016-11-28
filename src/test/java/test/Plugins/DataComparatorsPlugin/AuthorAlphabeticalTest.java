@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.AuthorAlphabetical;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.AuthorComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
@@ -24,7 +24,7 @@ import org.junit.Test;
 public class AuthorAlphabeticalTest extends ComparatorTest<NamedAuthor> {
 
     public AuthorAlphabeticalTest() {
-        super(new AuthorAlphabetical());
+        super(new AuthorComparator());
     }
 
     @Test

@@ -13,8 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorLevenshteinDistance implements ComparitorString {
+public class ComparatorLevenshteinDistance implements ComparatorString {
 
     @Override
     public DifferencePercentage compare(@NonNull String lhs, @NonNull String rhs) {

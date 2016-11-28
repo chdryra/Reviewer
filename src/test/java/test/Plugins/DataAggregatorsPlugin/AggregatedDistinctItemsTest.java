@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLevenshteinDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
 
 import org.junit.Before;
@@ -70,7 +69,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams defaultParams = paramsFactory.getDefaultParams();
-        mAggregator = newAggregator(new DataAggregatorsApiDefault(new ComparitorLevenshteinDistance()), defaultParams);
+        mAggregator = newAggregator(new DataAggregatorsApiDefault(new ComparatorLevenshteinDistance()), defaultParams);
         mCanonicalsMap = new HashMap<>();
     }
 

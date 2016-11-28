@@ -9,10 +9,8 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,11 +30,11 @@ import static org.hamcrest.MatcherAssert.*;
  * StringUtils.getLevenshteinDistance("hello", "hallo")    = 1
  */
 public class ComparitorLevenshteinDistanceTest {
-    private ComparitorString mComparitor;
+    private ComparatorString mComparitor;
 
     @Before
     public void setUp() {
-        mComparitor = new ComparitorLevenshteinDistance();
+        mComparitor = new ComparatorLevenshteinDistance();
     }
 
     @Test

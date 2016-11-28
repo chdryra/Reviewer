@@ -10,8 +10,8 @@ package test.Plugins.DataComparatorsPlugin;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewMostRecentPublished;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
@@ -36,7 +36,7 @@ import test.TestUtils.RandomReviewId;
  */
 public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSummary> {
     public ReviewMostRecentPublishedTest() {
-        super(new ReviewMostRecentPublished(new DateMostRecentFirst()));
+        super(new ReviewDate(new DateComparator()));
     }
 
     @Test

@@ -10,9 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.ItemGetter;
 
@@ -21,12 +20,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorSubject extends ComparitorStringable<DataSubject> {
-    public ComparitorSubject(ComparitorString comparitor) {
-        super(comparitor, new ItemGetter<DataSubject, String>() {
+public class ComparatorFactLabel extends ComparatorStringable<DataFact> {
+    public ComparatorFactLabel(ComparatorString comparitor) {
+        super(comparitor, new ItemGetter<DataFact, String>() {
             @Override
-            public String getItem(DataSubject datum) {
-                return datum.getSubject().toLowerCase();
+            public String getItem(DataFact datum) {
+                return datum.getLabel().toLowerCase();
             }
         });
     }

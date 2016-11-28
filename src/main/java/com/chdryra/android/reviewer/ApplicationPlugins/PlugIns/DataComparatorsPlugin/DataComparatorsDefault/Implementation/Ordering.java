@@ -8,18 +8,22 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-
-import java.util.Comparator;
-
 /**
  * Created by: Rizwan Choudrey
- * On: 27/11/2015
+ * On: 28/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorAlphabetical implements Comparator<NamedAuthor> {
-    @Override
-    public int compare(NamedAuthor lhs, NamedAuthor rhs) {
-        return lhs.getName().compareToIgnoreCase(rhs.getName());
+public enum Ordering {
+    ASCENDING(1),
+    DESCENDING(-1);
+
+    private int mFactor;
+
+    Ordering(int factor) {
+        mFactor = factor;
+    }
+
+    public int getFactor() {
+        return mFactor;
     }
 }

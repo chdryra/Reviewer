@@ -34,7 +34,7 @@ public interface DataComparatorsApi {
 
     ComparatorCollection<DataCriterion> getCriterionComparators();
 
-    ComparatorCollection<DateTime> getDateComparators();
+    ComparatorCollection<DateTime> getDateTimeComparators();
 
     ComparatorCollection<DataFact> getFactComparators();
 

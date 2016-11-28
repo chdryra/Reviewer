@@ -14,15 +14,14 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorAuthor implements DifferenceComparitor<NamedAuthor, DifferenceBoolean> {
+public class ComparatorAuthor implements DifferenceComparator<NamedAuthor, DifferenceBoolean> {
     @Override
     public DifferenceBoolean compare(@NonNull NamedAuthor lhs, @NonNull NamedAuthor rhs) {
         boolean sameId = lhs.getAuthorId().equals(rhs.getAuthorId());

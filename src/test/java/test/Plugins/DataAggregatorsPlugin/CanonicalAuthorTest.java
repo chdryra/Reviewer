@@ -20,8 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorAuthor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -46,7 +45,7 @@ public class CanonicalAuthorTest {
 
     @Before
     public void setUp() {
-        mCanonical = new CanonicalAuthor(new ComparitorAuthor());
+        mCanonical = new CanonicalAuthor(new ComparatorAuthor());
         mAuthorName = RandomString.nextWord();
         mAuthorId = new AuthorIdParcelable(RandomString.nextWord());
     }

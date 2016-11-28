@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CriterionSubjectThenRating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CriterionComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.testutils.RandomString;
@@ -26,7 +26,7 @@ import test.TestUtils.RandomReviewId;
 public class CriterionSubjectThenRatingTest extends ComparatorTest<DataCriterion> {
 
     public CriterionSubjectThenRatingTest() {
-        super(new CriterionSubjectThenRating());
+        super(new CriterionComparator());
     }
 
     @Test

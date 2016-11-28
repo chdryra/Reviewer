@@ -9,20 +9,24 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 
 import java.util.Comparator;
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DateMostRecentFirst implements Comparator<DateTime> {
+public class ReviewDate<T extends DataReviewInfo> implements Comparator<T> {
+    private final Comparator<DateTime> mDateComparator;
+
+    public ReviewDate(Comparator<DateTime> dateComparator) {
+        mDateComparator = dateComparator;
+    }
+
     @Override
-    public int compare(DateTime lhs, DateTime rhs) {
-        Date lhsDate = new Date(lhs.getTime());
-        Date rhsDate = new Date(rhs.getTime());
-        return rhsDate.compareTo(lhsDate);
+    public int compare(DataReviewInfo lhs, DataReviewInfo rhs) {
+        return mDateComparator.compare(lhs.getPublishDate(), rhs.getPublishDate());
     }
 }

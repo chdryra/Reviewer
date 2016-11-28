@@ -12,8 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +22,7 @@ import java.util.Date;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorDate implements DifferenceComparitor<DateTime, DifferenceDate> {
+public class ComparatorDate implements DifferenceComparator<DateTime, DifferenceDate> {
     @Override
     public DifferenceDate compare(DateTime lhs, DateTime rhs) {
         Calendar cal1 = Calendar.getInstance();

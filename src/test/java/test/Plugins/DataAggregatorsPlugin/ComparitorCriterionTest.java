@@ -12,8 +12,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -31,7 +30,7 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorCriterionTest {
-    private ComparitorCriterion mComparitor;
+    private ComparatorCriterion mComparitor;
     private String mSubjectLhs;
     private String mSubjectRhs;
     private float mRatingLhs;
@@ -39,7 +38,7 @@ public class ComparitorCriterionTest {
 
     @Before
     public void setUp() {
-        mComparitor = new ComparitorCriterion();
+        mComparitor = new ComparatorCriterion();
         mSubjectLhs = RandomString.nextWord();
         mSubjectRhs = RandomString.nextWord();
         mRatingLhs = RandomRating.nextRating();

@@ -11,10 +11,8 @@ package test.Plugins.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.ComparitorSubject;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorSubject;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -31,11 +29,11 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorSubjectTest {
-    private ComparitorSubject mComparitor;
+    private ComparatorSubject mComparitor;
 
     @Before
     public void setUp() {
-        mComparitor = new ComparitorSubject(new ComparitorLevenshteinDistance());
+        mComparitor = new ComparatorSubject(new ComparatorLevenshteinDistance());
     }
 
     @Test

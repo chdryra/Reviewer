@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 
@@ -28,7 +28,7 @@ public class DateMostRecentFirstTest extends ComparatorTest<DateTime>{
     private static final Random RAND = new Random();
 
     public DateMostRecentFirstTest() {
-        super(new DateMostRecentFirst());
+        super(new DateComparator());
     }
 
     @Test

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
-
 import java.util.Comparator;
 
 /**
@@ -17,14 +15,15 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactLabelThenValue implements Comparator<DataFact> {
-    @Override
-    public int compare(DataFact lhs, DataFact rhs) {
-        int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
-        if (comp == 0) {
-            comp = lhs.getValue().compareToIgnoreCase(rhs.getValue());
-        }
+public class StringComparator implements Comparator<String> {
+    private final Ordering mOrdering;
 
-        return comp;
+    public StringComparator(Ordering ordering) {
+        mOrdering = ordering;
+    }
+
+    @Override
+    public int compare(String lhs, String rhs) {
+        return lhs.compareToIgnoreCase(rhs) * mOrdering.getFactor();
     }
 }

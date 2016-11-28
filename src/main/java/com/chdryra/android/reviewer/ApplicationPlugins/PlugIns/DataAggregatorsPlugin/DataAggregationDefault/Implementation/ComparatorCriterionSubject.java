@@ -10,23 +10,23 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.ItemGetter;
 
+
 /**
  * Created by: Rizwan Choudrey
- * On: 07/07/2015
+ * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorComment extends ComparitorStringable<DataComment> {
-    public ComparitorComment(ComparitorString comparitor) {
-        super(comparitor, new ItemGetter<DataComment, String>() {
+public class ComparatorCriterionSubject extends ComparatorStringable<DataCriterion> {
+    public ComparatorCriterionSubject(ComparatorString comparitor) {
+        super(comparitor, new ItemGetter<DataCriterion, String>() {
             @Override
-            public String getItem(DataComment datum) {
-                return datum.getComment().toLowerCase();
+            public String getItem(DataCriterion datum) {
+                return datum.getSubject().toLowerCase();
             }
         });
     }
