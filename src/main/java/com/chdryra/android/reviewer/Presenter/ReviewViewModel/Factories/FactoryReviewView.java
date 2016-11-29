@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -71,19 +72,22 @@ public class FactoryReviewView {
     private final FactoryReviewViewParams mParamsFactory;
     private final FactoryCommands mCommandsFactory;
     private final AuthorsRepository mAuthorsRepo;
+    private final DataComparatorsApi mComparators;
 
     public FactoryReviewView(UiConfig config,
                              FactoryReviewViewAdapter adapterFactory,
                              FactoryReviewEditor<?> factoryReviewEditor,
                              FactoryReviewViewParams paramsFactory,
                              FactoryCommands commandsFactory,
-                             AuthorsRepository authorsRepo) {
+                             AuthorsRepository authorsRepo,
+                             DataComparatorsApi comparators) {
         mConfig = config;
         mAdapterFactory = adapterFactory;
         mFactoryReviewEditor = factoryReviewEditor;
         mParamsFactory = paramsFactory;
         mCommandsFactory = commandsFactory;
         mAuthorsRepo = authorsRepo;
+        mComparators = comparators;
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
@@ -96,7 +100,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node),
                 new FactoryActionsReviewsList.Feed(getUiLauncher(), this, mCommandsFactory,
-                        getOptionsConfig()));
+                        getOptionsConfig(), mComparators));
     }
 
     public ReviewViewNode newReviewsListView(ReviewNode node, boolean followMenu) {
@@ -174,7 +178,7 @@ public class FactoryReviewView {
         AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference(followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(getUiLauncher(), this, mCommandsFactory,
-                        getOptionsConfig(), name));
+                        getOptionsConfig(), mComparators, name));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -240,7 +244,7 @@ public class FactoryReviewView {
                 factory = new FactoryActionsViewLocations(this, mCommandsFactory, stamp,
                         mAuthorsRepo, getUiLauncher(), getOptionsConfig(), viewer, node);
         } else {
-                factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory, stamp,
+            factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory, stamp,
                         mAuthorsRepo, getUiLauncher(), getOptionsConfig(), viewer, node);
         }
 

@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
@@ -24,14 +26,25 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T>
         implements ReviewNode.NodeObserver {
     private final ReviewNode mNode;
-    private GvDataList<T> mCache;
     private final GvDataType<?> mType;
+
+    private GvDataList<T> mCache;
+    private Comparator<? super T> mComparator;
 
     protected abstract GvDataList<T> makeGridData();
 
     ViewerNodeBasic(ReviewNode node, GvDataType<?> type) {
         mNode = node;
         mType = type;
+    }
+
+    protected void nullifyCacheAndNotify() {
+        nullifyCache();
+        notifyDataObservers();
+    }
+
+    protected void onNullifyCache() {
+
     }
 
     @Override
@@ -73,30 +86,21 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         nullifyCacheAndNotify();
     }
 
-    protected void nullifyCacheAndNotify() {
-        nullifyCache();
-        notifyDataObservers();
-    }
-
-    private void nullifyCache() {
-        onNullifyCache();
-        mCache = null;
-    }
-
-    protected void onNullifyCache() {
-
-    }
-
     @Override
     public GvDataList<T> getGridData() {
-        if(mCache == null) mCache = makeGridData();
+        if (mCache == null) {
+            mCache = makeGridData();
+            sortCache();
+        }
 
         return mCache;
     }
 
-    protected void setCache(GvDataList<T> cache) {
-        mCache = cache;
-        notifyDataObservers();;
+    @Override
+    public void sort(Comparator<? super T> comparator) {
+        mComparator = comparator;
+        sortCache();
+        notifyDataObservers();
     }
 
     ReviewNode getReviewNode() {
@@ -106,5 +110,20 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     @Nullable
     GvDataList<T> getCache() {
         return mCache;
+    }
+
+    protected void setCache(GvDataList<T> cache) {
+        mCache = cache;
+        sortCache();
+        notifyDataObservers();
+    }
+
+    private void nullifyCache() {
+        onNullifyCache();
+        mCache = null;
+    }
+
+    private void sortCache() {
+        if (mComparator != null && mCache != null) mCache.sort(mComparator);
     }
 }

@@ -30,18 +30,18 @@ public class GvDataComparators {
 
     private GvDataComparators(DataComparatorsApi comparatorsFactory) {
         mMap = new ComparatorMappings();
-        mMap.put(GvSubject.TYPE, comparatorsFactory.getSubjectComparators());
-        mMap.put(GvAuthor.TYPE, comparatorsFactory.getAuthorComparators());
-        mMap.put(GvCriterion.TYPE, comparatorsFactory.getCriterionComparators());
-        mMap.put(GvComment.TYPE, comparatorsFactory.getCommentComparators());
-        mMap.put(GvDate.TYPE, comparatorsFactory.getDateTimeComparators());
-        mMap.put(GvFact.TYPE, comparatorsFactory.getFactComparators());
-        mMap.put(GvImage.TYPE, comparatorsFactory.getImageComparators());
-        mMap.put(GvLocation.TYPE, comparatorsFactory.getLocationComparators());
-        mMap.put(GvNode.TYPE, comparatorsFactory.getReviewInfoComparators());
-        mMap.put(GvSocialPlatform.TYPE, comparatorsFactory.getSocialPlatformComparators());
-        mMap.put(GvTag.TYPE, comparatorsFactory.getTagComparators());
-        mMap.put(GvUrl.TYPE, comparatorsFactory.getUrlComparators());
+        mMap.put(GvSubject.TYPE, comparatorsFactory.newSubjectComparators().getDefault());
+        mMap.put(GvAuthor.TYPE, comparatorsFactory.newAuthorComparators().getDefault());
+        mMap.put(GvCriterion.TYPE, comparatorsFactory.newCriterionComparators().getDefault());
+        mMap.put(GvComment.TYPE, comparatorsFactory.newCommentComparators().getDefault());
+        mMap.put(GvDate.TYPE, comparatorsFactory.newDateTimeComparators().getDefault());
+        mMap.put(GvFact.TYPE, comparatorsFactory.newFactComparators().getDefault());
+        mMap.put(GvImage.TYPE, comparatorsFactory.newImageComparators().getDefault());
+        mMap.put(GvLocation.TYPE, comparatorsFactory.newLocationComparators().getDefault());
+        mMap.put(GvNode.TYPE, comparatorsFactory.newReviewComparators().getDefault());
+        mMap.put(GvSocialPlatform.TYPE, comparatorsFactory.newSocialPlatformComparators().getDefault());
+        mMap.put(GvTag.TYPE, comparatorsFactory.newTagComparators().getDefault());
+        mMap.put(GvUrl.TYPE, comparatorsFactory.newUrlComparators().getDefault());
     }
 
     //Static methods
@@ -49,17 +49,21 @@ public class GvDataComparators {
         if (sComparator == null) sComparator = new GvDataComparators(comparators);
     }
 
+    public static GvDataComparators getInstance() {
+        return sComparator;
+    }
+
     public static <T extends GvData> Comparator<? super T> getDefaultComparator(GvDataType<T> elementType) {
         ComparatorCollection<? super T> sorters = sComparator.mMap.get(elementType);
         if(sorters != null) {
             return sorters.getDefault();
         } else {
-            return getComparator(elementType);
+            return newBasicComparator(elementType);
         }
     }
 
     @NonNull
-    private static <T extends GvData> Comparator<T> getComparator(GvDataType<T> elementType) {
+    private static <T extends GvData> Comparator<T> newBasicComparator(GvDataType<T> elementType) {
         return new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
@@ -68,14 +72,12 @@ public class GvDataComparators {
         };
     }
 
-    //To help with type safety
     private class ComparatorMappings {
-        private final Map<GvDataType<? extends GvData>, ComparatorCollection<?>> mMap =
-                new HashMap<>();
+        private final Map<GvDataType<? extends GvData>, Comparator<?>> mMap = new HashMap<>();
 
-        private <T extends GvData> void put(GvDataType<T> dataType, ComparatorCollection<? super T>
-                sorters) {
-            mMap.put(dataType, sorters);
+
+        private <T extends GvData> void put(GvDataType<T> dataType, Comparator<? super T> factory) {
+            mMap.put(dataType, factory);
         }
 
         //TODO make type safe (although it kind of is really...)

@@ -28,27 +28,27 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataUrl;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComparatorsApi {
-    ComparatorCollection<NamedAuthor> getAuthorComparators();
+    ComparatorCollection<NamedAuthor> newAuthorComparators();
 
-    ComparatorCollection<DataComment> getCommentComparators();
+    ComparatorCollection<DataComment> newCommentComparators();
 
-    ComparatorCollection<DataCriterion> getCriterionComparators();
+    ComparatorCollection<DataCriterion> newCriterionComparators();
 
-    ComparatorCollection<DateTime> getDateTimeComparators();
+    ComparatorCollection<DateTime> newDateTimeComparators();
 
-    ComparatorCollection<DataFact> getFactComparators();
+    ComparatorCollection<DataFact> newFactComparators();
 
-    ComparatorCollection<DataImage> getImageComparators();
+    ComparatorCollection<DataImage> newImageComparators();
 
-    ComparatorCollection<DataLocation> getLocationComparators();
+    ComparatorCollection<DataLocation> newLocationComparators();
 
-    ComparatorCollection<DataReviewInfo> getReviewInfoComparators();
+    ComparatorCollection<DataReviewInfo> newReviewComparators();
 
-    ComparatorCollection<DataSocialPlatform> getSocialPlatformComparators();
+    ComparatorCollection<DataSocialPlatform> newSocialPlatformComparators();
 
-    ComparatorCollection<DataSubject> getSubjectComparators();
+    ComparatorCollection<DataSubject> newSubjectComparators();
 
-    ComparatorCollection<DataTag> getTagComparators();
+    ComparatorCollection<DataTag> newTagComparators();
 
-    ComparatorCollection<DataUrl> getUrlComparators();
+    ComparatorCollection<DataUrl> newUrlComparators();
 }

@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 05/06/2016
@@ -44,5 +46,11 @@ public abstract class GridDataWrapperBasic<T extends GvData> extends DataObserva
     @Override
     public ReviewStamp getStamp() {
         return ReviewStamp.noStamp();
+    }
+
+
+    @Override
+    public void sort(Comparator<? super T> comparator) {
+
     }
 }

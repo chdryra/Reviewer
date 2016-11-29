@@ -19,6 +19,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
@@ -61,11 +64,13 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryCommands(new FactoryCommands());
 
+
+        DataComparatorsApi comparators = comparatorsPlugin.getComparatorsApi();
+        GvDataComparators.initialise(comparators);
+
         setFactoryReviewView(context,
                 modelContext, deviceContext, viewContext, persistenceContext,
-                aggregatorsPlugin, getGvConverter(), validator);
-
-        GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
+                aggregatorsPlugin, getGvConverter(), comparators, validator);
     }
 
     private void setFactoryReviewView(Context context,
@@ -75,6 +80,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                       PersistenceContext persistenceContext,
                                       DataAggregatorsPlugin aggregatorsPlugin,
                                       ConverterGv gvConverter,
+                                      DataComparatorsApi comparators,
                                       DataValidator validator) {
         FactoryGvData dataFactory = new FactoryGvData();
 
@@ -102,7 +108,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
-                factoryReviewViewAdapter, editorFactory, paramsFactory, getCommandsFactory(), authorRepo);
+                factoryReviewViewAdapter, editorFactory, paramsFactory, getCommandsFactory(),
+                authorRepo, comparators);
 
         setFactoryReviewView(factoryReviewView);
     }

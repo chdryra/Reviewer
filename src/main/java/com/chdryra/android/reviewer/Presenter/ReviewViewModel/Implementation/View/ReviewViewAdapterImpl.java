@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 23/02/2015
@@ -26,7 +28,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefault implements ReviewViewAdapter<T>, DataObservable.DataObserver{
+public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefault
+        implements ReviewViewAdapter<T>, DataObservable.DataObserver{
 
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
@@ -132,6 +135,11 @@ public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefau
     @Override
     public ReviewStamp getStamp() {
         return mWrapper != null ? mWrapper.getStamp() : ReviewStamp.noStamp();
+    }
+
+    @Override
+    public void sort(Comparator<? super T> comparator) {
+        if(mWrapper != null) mWrapper.sort(comparator);
     }
 
     private void attachToViewer(GridDataWrapper<T> wrapper) {

@@ -10,11 +10,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
@@ -40,18 +43,22 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private final FactoryReviewView mFactoryReviewView;
     private final FactoryCommands mFactoryCommands;
     private final LaunchableConfig mOptionsConfig;
+    private final DataComparatorsApi mComparators;
+
     private AuthorReference mAuthorRef;
 
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
                                      FactoryCommands factoryCommands,
                                      LaunchableConfig optionsConfig,
+                                     DataComparatorsApi comparators,
                                      @Nullable AuthorReference authorRef) {
         super(GvNode.TYPE);
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
         mFactoryCommands = factoryCommands;
         mOptionsConfig = optionsConfig;
+        mComparators = comparators;
         mAuthorRef = authorRef;
     }
 
@@ -80,18 +87,22 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     @Override
+    public BannerButtonAction<GvNode> newBannerButton() {
+        return new BannerButtonSorter<>(mComparators.newReviewComparators());
+    }
+
+    @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher());
         LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig);
         return new GridItemLaunchFormatted(click, longClick);
-//        return new GridItemReviewsList(mLauncher, mFactoryReviewView,
-//                longClick);
     }
 
     public static class Feed extends FactoryActionsReviewsList {
         public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView,
-                    FactoryCommands factoryCommands, LaunchableConfig optionsUi) {
-            super(launcher, factoryReviewView, factoryCommands, optionsUi, null);
+                    FactoryCommands factoryCommands, LaunchableConfig optionsUi,
+                    DataComparatorsApi comparators) {
+            super(launcher, factoryReviewView, factoryCommands, optionsUi, comparators, null);
         }
 
         @Override

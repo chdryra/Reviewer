@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
@@ -24,6 +26,8 @@ public interface GridDataViewer<T extends GvData> extends DataObservable{
     GvDataType<? extends GvData> getGvDataType();
 
     GvDataList<T> getGridData();
+
+    void sort(Comparator<? super T> comparator);
 
     boolean isExpandable(T datum);
 

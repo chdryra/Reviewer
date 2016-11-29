@@ -79,11 +79,6 @@ public class FactoryComparators {
     }
 
     @NonNull
-    private <T> ReverseComparator<T> reverse(Comparator<T> comparator) {
-        return new ReverseComparator<>(comparator);
-    }
-
-    @NonNull
     private StringComparator newAtoZ() {
         return new StringComparator();
     }
