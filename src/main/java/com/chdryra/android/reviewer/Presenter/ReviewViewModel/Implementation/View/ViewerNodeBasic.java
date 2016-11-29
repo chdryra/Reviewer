@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataCache;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 import java.util.Comparator;
@@ -28,7 +31,7 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     private final ReviewNode mNode;
     private final GvDataType<?> mType;
 
-    private GvDataList<T> mCache;
+    private GvDataCache<T> mCache;
     private Comparator<? super T> mComparator;
 
     protected abstract GvDataList<T> makeGridData();
@@ -89,18 +92,17 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     @Override
     public GvDataList<T> getGridData() {
         if (mCache == null) {
-            mCache = makeGridData();
-            sortCache();
+            mCache = new GvDataCache<>(makeGridData());
+            sortAndNotify(null);
         }
 
-        return mCache;
+        return mCache.getData();
     }
 
     @Override
-    public void sort(Comparator<? super T> comparator) {
+    public void sort(Comparator<? super T> comparator, OnSortedCallback callback) {
         mComparator = comparator;
-        sortCache();
-        notifyDataObservers();
+        sortAndNotify(callback);
     }
 
     ReviewNode getReviewNode() {
@@ -109,13 +111,22 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
 
     @Nullable
     GvDataList<T> getCache() {
-        return mCache;
+        return mCache.getData();
     }
 
     protected void setCache(GvDataList<T> cache) {
-        mCache = cache;
-        sortCache();
-        notifyDataObservers();
+        mCache = new GvDataCache<>(cache);
+        sortAndNotify(null);
+    }
+
+    private void sortAndNotify(@Nullable final OnSortedCallback callback) {
+        sortCache(new OnSortedCallback() {
+            @Override
+            public void onSorted(CallbackMessage message) {
+                if(callback != null) callback.onSorted(message);
+                if(!message.isError()) notifyDataObservers();
+            }
+        });
     }
 
     private void nullifyCache() {
@@ -123,7 +134,12 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         mCache = null;
     }
 
-    private void sortCache() {
-        if (mComparator != null && mCache != null) mCache.sort(mComparator);
+    private void sortCache(OnSortedCallback callback) {
+        if (mComparator != null && mCache != null) {
+            mCache.sort(mComparator, callback);
+        } else {
+            callback.onSorted(CallbackMessage.error(
+                    mComparator == null ? "No comparator" : "No cache"));
+        }
     }
 }

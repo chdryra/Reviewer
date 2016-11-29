@@ -12,8 +12,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,6 +26,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone<T> {
     private final ComparatorCollection<? super T> mComparators;
     private NamedComparator<? super T> mCurrentComparator;
+    private boolean mLocked = false;
 
     public BannerButtonSorter(ComparatorCollection<? super T> comparators) {
         mComparators = comparators;
@@ -38,12 +41,19 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     @Override
     public void onClick(View v) {
-        sort(mComparators.next());
+        if(!mLocked) sort(mComparators.next());
     }
 
     private void sort(NamedComparator<? super T> comparator) {
+        mLocked = true;
         mCurrentComparator = comparator;
-        getAdapter().sort(comparator);
-        setTitle(comparator.getName());
+        setTitle(Strings.Buttons.SORTING);
+        getAdapter().sort(comparator, new AsyncSortable.OnSortedCallback() {
+            @Override
+            public void onSorted() {
+                setTitle(mCurrentComparator.getName());
+                mLocked = false;
+            }
+        });
     }
 }

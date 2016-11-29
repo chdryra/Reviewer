@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -48,9 +49,8 @@ public abstract class GridDataWrapperBasic<T extends GvData> extends DataObserva
         return ReviewStamp.noStamp();
     }
 
-
     @Override
-    public void sort(Comparator<? super T> comparator) {
-
+    public void sort(Comparator<? super T> comparator, OnSortedCallback callback) {
+        callback.onSorted(CallbackMessage.ok());
     }
 }

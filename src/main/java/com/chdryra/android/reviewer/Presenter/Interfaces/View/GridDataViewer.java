@@ -15,19 +15,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
-import java.util.Comparator;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridDataViewer<T extends GvData> extends DataObservable{
+public interface GridDataViewer<T extends GvData> extends DataObservable, AsyncSortable<T>{
     GvDataType<? extends GvData> getGvDataType();
 
     GvDataList<T> getGridData();
-
-    void sort(Comparator<? super T> comparator);
 
     boolean isExpandable(T datum);
 
