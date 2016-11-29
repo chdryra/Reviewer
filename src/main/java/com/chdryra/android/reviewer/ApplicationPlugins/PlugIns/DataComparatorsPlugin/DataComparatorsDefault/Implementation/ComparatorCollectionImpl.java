@@ -13,7 +13,6 @@ import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,22 +20,22 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
-    private final ArrayList<Comparator<T>> mComparators;
+    private final ArrayList<NamedComparator<T>> mComparators;
     private int mIndex = 0;
 
-    public ComparatorCollectionImpl(@NotNull Comparator<T> defaultComparator) {
+    public ComparatorCollectionImpl(@NotNull NamedComparator<T> defaultComparator) {
         mComparators = new ArrayList<>();
         add(defaultComparator);
     }
 
     @Override
-    public Comparator<T> getDefault() {
+    public NamedComparator<T> getDefault() {
         return mComparators.get(0);
     }
 
     @Override
-    public Comparator<T> next() {
-        Comparator<T> comparator = mComparators.get(mIndex++);
+    public NamedComparator<T> next() {
+        NamedComparator<T> comparator = mComparators.get(mIndex++);
         if (mIndex == mComparators.size()) mIndex = 0;
         return comparator;
     }
@@ -46,7 +45,7 @@ public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
         return mComparators.size();
     }
 
-    public void add(Comparator<T> comparator) {
+    public void add(NamedComparator<T> comparator) {
         mComparators.add(comparator);
     }
 }

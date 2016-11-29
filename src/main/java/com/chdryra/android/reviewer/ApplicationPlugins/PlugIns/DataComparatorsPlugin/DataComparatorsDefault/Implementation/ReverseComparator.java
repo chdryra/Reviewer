@@ -8,22 +8,23 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 28/11/2016
+ * On: 29/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public enum Ordering {
-    ASCENDING(1),
-    DESCENDING(-1);
 
-    private int mFactor;
+public class ReverseComparator<T> implements Comparator<T> {
+    private final Comparator<T> mComparator;
 
-    Ordering(int factor) {
-        mFactor = factor;
+    public ReverseComparator(Comparator<T> comparator) {
+        mComparator = comparator;
     }
 
-    public int getFactor() {
-        return mFactor;
+    @Override
+    public int compare(T lhs, T rhs) {
+        return -mComparator.compare(lhs, rhs);
     }
 }

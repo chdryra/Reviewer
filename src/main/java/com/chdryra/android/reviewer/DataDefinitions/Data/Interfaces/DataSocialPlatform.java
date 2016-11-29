@@ -16,6 +16,9 @@ import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataSocialPlatform {
+    String DATUM_NAME = "share";
+    String DATA_NAME = "share";
+
     String getName();
 
     void getFollowers(FollowersListener listener);

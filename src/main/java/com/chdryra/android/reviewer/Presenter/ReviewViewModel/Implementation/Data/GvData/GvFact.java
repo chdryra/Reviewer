@@ -31,6 +31,8 @@ import java.net.URL;
  */
 
 public class GvFact extends GvDualText implements DataFact {
+    public static final GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, DATUM_NAME);
+
     public static final Creator<GvFact> CREATOR = new Creator<GvFact>() {
         @Override
         public GvFact createFromParcel(Parcel in) {
@@ -42,7 +44,7 @@ public class GvFact extends GvDualText implements DataFact {
             return new GvFact[size];
         }
     };
-    public static final GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
+
 
     public GvFact() {
         super();

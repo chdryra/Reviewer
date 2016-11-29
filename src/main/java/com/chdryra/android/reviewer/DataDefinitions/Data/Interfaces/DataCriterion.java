@@ -14,6 +14,11 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataCriterion extends HasReviewId, Validatable {
+    String DATUM_NAME = "criterion";
+    String DATA_NAME = "criteria";
+    String RATING = DataRating.DATUM_NAME;
+    String SUBJECT = DataSubject.DATUM_NAME;
+
     String getSubject();
 
     float getRating();

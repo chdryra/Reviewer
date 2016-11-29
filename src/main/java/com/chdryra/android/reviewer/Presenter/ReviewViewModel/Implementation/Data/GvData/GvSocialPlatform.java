@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
  */
 public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     public static final GvDataType<GvSocialPlatform> TYPE =
-            new GvDataType<>(GvSocialPlatform.class, "share", "share");
+            new GvDataType<>(GvSocialPlatform.class, DATUM_NAME, DATA_NAME);
     public static final Creator<GvSocialPlatform> CREATOR = new Creator<GvSocialPlatform>() {
         @Override
         public GvSocialPlatform createFromParcel(Parcel in) {

@@ -16,6 +16,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataFact extends HasReviewId, Validatable{
+    String DATUM_NAME = "fact";
+    String LABEL = "label";
+    String VALUE = "value";
+
     String getLabel();
 
     String getValue();

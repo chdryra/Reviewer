@@ -28,8 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
  * {@link ViewHolder}: {@link VhLocation}
  */
 public class GvLocation extends GvDataParcelableBasic<GvLocation> implements DataLocation {
-    public static final GvDataType<GvLocation> TYPE = new GvDataType<>(GvLocation.class,
-            "location");
+    public static final GvDataType<GvLocation> TYPE
+            = new GvDataType<>(GvLocation.class, DATUM_NAME);
+
     public static final Creator<GvLocation> CREATOR = new Creator<GvLocation>() {
         @Override
         public GvLocation createFromParcel(Parcel in) {

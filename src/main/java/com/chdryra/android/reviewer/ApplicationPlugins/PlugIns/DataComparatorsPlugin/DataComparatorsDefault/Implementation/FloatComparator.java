@@ -16,16 +16,8 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FloatComparator implements Comparator<Float> {
-    private final Ordering mOrdering;
-
-    public FloatComparator(Ordering ordering) {
-        mOrdering = ordering;
-    }
-
     @Override
     public int compare(Float lhs, Float rhs) {
-        if(lhs < rhs) return -mOrdering.getFactor();
-        if(rhs > lhs) return mOrdering.getFactor();
-        return 0;
+        return lhs < rhs ? -1 : lhs > rhs ? 1 : 0;
     }
 }

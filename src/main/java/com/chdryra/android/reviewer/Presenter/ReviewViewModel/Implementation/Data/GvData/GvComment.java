@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvComment extends GvDataParcelableBasic<GvComment> implements DataComment {
     public static final GvDataType<GvComment> TYPE =
-            new GvDataType<>(GvComment.class, "comment");
+            new GvDataType<>(GvComment.class, DATUM_NAME);
     public static final Creator<GvComment> CREATOR = new Creator<GvComment>() {
         @Override
         public GvComment createFromParcel(Parcel in) {

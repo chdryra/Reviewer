@@ -14,6 +14,8 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewId {
+    String DATUM_NAME = "reviewId";
+
     @Override
     String toString();
 

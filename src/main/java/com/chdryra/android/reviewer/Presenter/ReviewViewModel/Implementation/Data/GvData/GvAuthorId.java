@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     public static final GvDataType<GvAuthorId> TYPE =
-            new GvDataType<>(GvAuthorId.class, "author");
+            new GvDataType<>(GvAuthorId.class, DATUM_NAME);
 
     public static final Creator<GvAuthorId> CREATOR = new Creator<GvAuthorId>() {
         @Override

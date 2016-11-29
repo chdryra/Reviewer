@@ -18,22 +18,8 @@ import java.util.Comparator;
  */
 
 public class BooleanComparator implements Comparator<Boolean> {
-    private final Ordering mOrdering;
-
-    public BooleanComparator(Ordering ordering) {
-        mOrdering = ordering;
-    }
-
     @Override
     public int compare(Boolean lhs, Boolean rhs) {
-        //false then true if ascending
-        int comp = 0;
-        if (!lhs && rhs) {
-            comp = -mOrdering.getFactor();
-        } else if (!rhs && lhs) {
-            comp = 1;
-        }
-
-        return comp;
+        return lhs && !rhs ? -1 : !lhs && rhs ? 1 : 0;
     }
 }

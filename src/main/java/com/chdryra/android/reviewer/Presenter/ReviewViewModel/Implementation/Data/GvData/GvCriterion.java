@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements DataCriterion {
     public static final GvDataType<GvCriterion> TYPE =
-            new GvDataType<>(GvCriterion.class, "criterion", "criteria");
+            new GvDataType<>(GvCriterion.class, DATUM_NAME, DATA_NAME);
     public static final Creator<GvCriterion> CREATOR = new Creator<GvCriterion>() {
         @Override
         public GvCriterion createFromParcel(Parcel in) {

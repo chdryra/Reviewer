@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Algorithms.DataSorting;
 
-import java.util.Comparator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,7 +18,7 @@ import java.util.Comparator;
 public interface ComparatorCollection<T> {
     int size();
 
-    Comparator<T> next();
+    NamedComparator<T> next();
 
-    Comparator<T> getDefault();
+    NamedComparator<T> getDefault();
 }

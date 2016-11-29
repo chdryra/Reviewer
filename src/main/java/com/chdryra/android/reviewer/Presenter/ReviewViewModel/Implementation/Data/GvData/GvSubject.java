@@ -23,8 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class GvSubject extends GvText<GvSubject> implements DataSubject {
-    public static final GvDataType<GvSubject> TYPE =
-            new GvDataType<>(GvSubject.class, "subject");
+    public static final GvDataType<GvSubject> TYPE = new GvDataType<>(GvSubject.class, DATUM_NAME);
     public static final Creator<GvSubject> CREATOR = new Creator<GvSubject>() {
         @Override
         public GvSubject createFromParcel(Parcel in) {

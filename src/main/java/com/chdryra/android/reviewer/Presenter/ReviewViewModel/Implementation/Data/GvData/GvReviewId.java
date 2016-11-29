@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvReviewId implements GvDataParcelable, ReviewId {
     private static final GvDataType<GvReviewId> TYPE =
-            new GvDataType<>(GvReviewId.class, "ReviewId");
+            new GvDataType<>(GvReviewId.class, DATUM_NAME);
 
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {

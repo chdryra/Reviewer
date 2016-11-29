@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * </p>
  */
 public class GvTag extends GvText<GvTag> implements DataTag {
-    public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, "tag");
+    public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, DATUM_NAME);
     public static final Creator<GvTag> CREATOR = new Creator<GvTag>() {
         @Override
         public GvTag createFromParcel(Parcel in) {

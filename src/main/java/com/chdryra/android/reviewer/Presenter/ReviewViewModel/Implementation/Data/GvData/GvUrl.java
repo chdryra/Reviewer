@@ -29,7 +29,7 @@ import java.net.URL;
  * </p>
  */
 public class GvUrl extends GvFact implements DataUrl {
-    public static final GvDataType<GvUrl> TYPE = new GvDataType<>(GvUrl.class, "link");
+    public static final GvDataType<GvUrl> TYPE = new GvDataType<>(GvUrl.class, DataUrl.DATUM_NAME);
     public static final Creator<GvUrl> CREATOR = new Creator<GvUrl>() {
         @Override
         public GvUrl createFromParcel(Parcel in) {

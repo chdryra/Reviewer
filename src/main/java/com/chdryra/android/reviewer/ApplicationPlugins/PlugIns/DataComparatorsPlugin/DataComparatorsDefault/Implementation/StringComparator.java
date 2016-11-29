@@ -16,14 +16,8 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StringComparator implements Comparator<String> {
-    private final Ordering mOrdering;
-
-    public StringComparator(Ordering ordering) {
-        mOrdering = ordering;
-    }
-
     @Override
     public int compare(String lhs, String rhs) {
-        return lhs.compareToIgnoreCase(rhs) * mOrdering.getFactor();
+        return lhs.compareToIgnoreCase(rhs);
     }
 }

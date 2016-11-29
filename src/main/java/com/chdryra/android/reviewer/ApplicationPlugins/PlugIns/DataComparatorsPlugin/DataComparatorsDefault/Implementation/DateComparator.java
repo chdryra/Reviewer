@@ -19,16 +19,10 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DateComparator implements Comparator<DateTime> {
-    private final Ordering mOrdering;
-
-    public DateComparator(Ordering ordering) {
-        mOrdering = ordering;
-    }
-
     @Override
     public int compare(DateTime lhs, DateTime rhs) {
         Date lhsDate = new Date(lhs.getTime());
         Date rhsDate = new Date(rhs.getTime());
-        return lhsDate.compareTo(rhsDate)*mOrdering.getFactor();
+        return lhsDate.compareTo(rhsDate);
     }
 }

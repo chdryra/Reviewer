@@ -14,6 +14,8 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataSubject extends HasReviewId, Validatable{
+    String DATUM_NAME = "subject";
+
     String getSubject();
 
     @Override
