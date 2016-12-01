@@ -15,15 +15,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentLogin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
-public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi, AlertListener {
+public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityLogin.class);
     private static final String KEY = TagKeyGenerator.getKey(ActivityLogin.class, "Key");
     private static final String RETAIN_VIEW
@@ -64,16 +62,6 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFragment.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-        mFragment.onAlertNegative(requestCode, args);
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        mFragment.onAlertPositive(requestCode, args);
     }
 
     @Override

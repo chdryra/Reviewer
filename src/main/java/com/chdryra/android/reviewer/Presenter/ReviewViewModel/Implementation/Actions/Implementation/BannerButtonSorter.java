@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
@@ -44,13 +45,17 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
         if(!mLocked) sort(mComparators.next());
     }
 
-    private void sort(NamedComparator<? super T> comparator) {
+    private void sort(final NamedComparator<? super T> comparator) {
         mLocked = true;
-        mCurrentComparator = comparator;
         setTitle(Strings.Buttons.SORTING);
         getAdapter().sort(comparator, new AsyncSortable.OnSortedCallback() {
             @Override
-            public void onSorted() {
+            public void onSorted(CallbackMessage message) {
+                if(!message.isError()){
+                    mCurrentComparator = comparator;
+                } else {
+                    getCurrentScreen().showToast("Problems sorting: " + message.getMessage());
+                }
                 setTitle(mCurrentComparator.getName());
                 mLocked = false;
             }

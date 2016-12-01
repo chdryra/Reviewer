@@ -45,6 +45,7 @@ public class DialogAlert extends DialogAlertFragment {
     @Override
     protected AlertListener getTargetListener() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        return app.getUi().getCurrentScreen().getAlertListener(getRequestCode());
+        AlertListener listener = app.getUi().getCurrentScreen().getAlertListener(getRequestCode());
+        return listener != null ? listener : super.getTargetListener();
     }
 }

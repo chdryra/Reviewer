@@ -138,8 +138,8 @@ public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefau
     }
 
     @Override
-    public void sort(Comparator<? super T> comparator) {
-        if(mWrapper != null) mWrapper.sort(comparator);
+    public void sort(Comparator<? super T> comparator, OnSortedCallback callback) {
+        if(mWrapper != null) mWrapper.sort(comparator, callback);
     }
 
     private void attachToViewer(GridDataWrapper<T> wrapper) {

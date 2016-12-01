@@ -9,7 +9,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_item_search_authors"
-        android:icon="@drawable/ic_menu_allfriends"
+        android:icon="@drawable/ic_menu_search"
         android:showAsAction="ifRoom|withText"
         android:title="@string/menu_search_authors"/>
 

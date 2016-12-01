@@ -24,13 +24,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .CredentialProviders.FactorySessionProviders;
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
@@ -115,7 +114,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     public void onSignUpRequested(@Nullable AuthenticatedUser user, String message) {
         closeLoggingInDialog();
         mUser = user;
-        DialogShower.showAlert(message, getActivity(), SIGN_UP, new Bundle());
+        UiSuite ui = AppInstanceAndroid.getInstance(getActivity()).getUi();
+        ui.getCurrentScreen().showAlert(message, SIGN_UP, this, new Bundle());
     }
 
     @Override

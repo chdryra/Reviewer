@@ -91,23 +91,21 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @Override
-    public void authenticateUser(EmailPassword emailPassword, final
-    AuthenticatorCallback callback) {
+    public void authenticateUser(EmailPassword emailPassword,
+                                 final AuthenticatorCallback callback) {
         String email = emailPassword.getEmail().toString();
         String password = emailPassword.getPassword().toString();
         mRoot.authWithPassword(email, password, getResultHandler(callback, EMAIL));
     }
 
     @Override
-    public void authenticateUser(AccessToken token, final AuthenticatorCallback
-            callback) {
+    public void authenticateUser(AccessToken token, final AuthenticatorCallback callback) {
         final String facebook = FACEBOOK;
         mRoot.authWithOAuthToken(facebook, token.getToken(), getResultHandler(callback, facebook));
     }
 
     @Override
-    public void authenticateUser(TwitterSession session, final
-    AuthenticatorCallback callback) {
+    public void authenticateUser(TwitterSession session, final AuthenticatorCallback callback) {
         TwitterAuthToken authToken = session.getAuthToken();
         Map<String, String> options = new HashMap<>();
         options.put("oauth_token", authToken.token);
@@ -117,8 +115,8 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @Override
-    public void authenticateUser(final GoogleSignInAccount account, final AuthenticatorCallback
-            callback) {
+    public void authenticateUser(final GoogleSignInAccount account,
+                                 final AuthenticatorCallback callback) {
         final String email = account.getEmail();
         final String id = account.getId();
         if (email == null || id == null) {
