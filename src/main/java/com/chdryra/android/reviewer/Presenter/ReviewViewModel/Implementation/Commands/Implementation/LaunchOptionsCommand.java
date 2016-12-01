@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +27,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchOptionsCommand extends Command {
+public class LaunchOptionsCommand extends Command implements OptionSelectListener{
     public static final String OPTIONS
             = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Options");
     public static final String CURRENTLY_SELECTED
@@ -33,18 +35,18 @@ public class LaunchOptionsCommand extends Command {
 
     private final LaunchableConfig mOptionsConfig;
     private int mCode;
-    private ArrayList<String> mOptions;
-    private String mSelected;
+    private List<NamedCommand> mOptions;
+    private String mCurrentlySelected;
 
     public LaunchOptionsCommand(LaunchableConfig optionsConfig) {
         mOptionsConfig = optionsConfig;
         mCode = mOptionsConfig.getDefaultRequestCode();
     }
 
-    public void execute(int requestCode, ArrayList<String> options, @Nullable String selected) {
+    public void execute(int requestCode, List<NamedCommand> options, @Nullable String currentlySelected) {
         mCode= requestCode;
         mOptions = options;
-        mSelected = selected;
+        mCurrentlySelected = currentlySelected;
         execute();
     }
 
@@ -53,9 +55,34 @@ public class LaunchOptionsCommand extends Command {
         if(mOptions == null) return;
 
         Bundle args = new Bundle();
-        args.putStringArrayList(OPTIONS, mOptions);
-        args.putString(CURRENTLY_SELECTED, mSelected);
+        args.putStringArrayList(OPTIONS, getOptionNames());
+        args.putString(CURRENTLY_SELECTED, mCurrentlySelected);
         mOptionsConfig.launch(new UiLauncherArgs(mCode).setBundle(args));
         onExecutionComplete();
+    }
+
+    private ArrayList<String> getOptionNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for(NamedCommand option : mOptions) {
+            names.add(option.getName());
+        }
+
+        return names;
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        if(requestCode == mCode) {
+            for (NamedCommand command : mOptions) {
+                if(command.getName().equals(option)) {
+                    command.execute();
+                    break;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -8,15 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
+
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,26 +23,19 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchReviewOptionsCommand extends Command {
+public class LaunchReviewOptionsCommand2 extends Command {
     public static final String AUTHOR_ID
-            = TagKeyGenerator.getKey(LaunchReviewOptionsCommand.class, "AuthorId");
+            = TagKeyGenerator.getKey(LaunchReviewOptionsCommand2.class, "AuthorId");
 
-    private final LaunchOptionsCommand mOptionsCommand;
-    private final Command mShare;
-    private final Command mCopy;
-    private final Command mDelete;
-
+    private final LaunchableConfig mOptionsConfig;
     private DataAuthorId mAuthorId;
 
-    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand, Command share, Command copy, Command delete) {
-        mOptionsCommand = optionsCommand;
-        mShare = share;
-        mCopy = copy;
-        mDelete = delete;
+    public LaunchReviewOptionsCommand2(LaunchableConfig optionsConfig) {
+        mOptionsConfig = optionsConfig;
     }
 
-    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand, Command share, Command copy, Command delete, DataAuthorId authorId) {
-        mOptionsCommand = optionsCommand;
+    public LaunchReviewOptionsCommand2(LaunchableConfig optionsConfig, DataAuthorId authorId) {
+        mOptionsConfig = optionsConfig;
         mAuthorId = authorId;
     }
 
@@ -55,7 +47,14 @@ public class LaunchReviewOptionsCommand extends Command {
     @Override
     public void execute() {
         if(mAuthorId == null) return;
-        ArrayList<String> options = new ArrayList<>();
 
+        Bundle args = new Bundle();
+        DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
+        args.putParcelable(AUTHOR_ID, data);
+        int code = mOptionsConfig.getDefaultRequestCode();
+
+        mOptionsConfig.launch(new UiLauncherArgs(code).setBundle(args));
+
+        onExecutionComplete();
     }
 }

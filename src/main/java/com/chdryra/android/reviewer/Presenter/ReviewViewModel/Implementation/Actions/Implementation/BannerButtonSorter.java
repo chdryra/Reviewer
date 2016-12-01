@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 
+
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -19,6 +20,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.NamedCommand;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,15 +58,19 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     @Override
     public boolean onLongClick(View v) {
-        mOptionsCommand.execute(OPTIONS, mComparators.getComparatorNames(), mCurrentComparator.getName());
+        ArrayList<NamedCommand> commands = new ArrayList<>();
+        for(NamedComparator<? super T> comparator : mComparators.asList()) {
+            commands.add(new ComparatorCommand(comparator));
+        }
+
+        mOptionsCommand.execute(OPTIONS, commands, mCurrentComparator.getName());
         return true;
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         if(requestCode == OPTIONS && !mLocked) {
-            sort(mComparators.moveToComparator(option));
-            return true;
+            return mOptionsCommand.onOptionSelected(requestCode, option);
         } else {
             return super.onOptionSelected(requestCode, option);
         }
@@ -79,5 +87,19 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
                 mLocked = false;
             }
         });
+    }
+
+    private class ComparatorCommand extends NamedCommand {
+        private NamedComparator<? super T> mComparator;
+
+        private ComparatorCommand(NamedComparator<? super T> comparator) {
+            super(comparator.getName());
+            mComparator = comparator;
+        }
+
+        @Override
+        public void execute() {
+            sort(mComparators.moveToComparator(mComparator.getName()));
+        }
     }
 }

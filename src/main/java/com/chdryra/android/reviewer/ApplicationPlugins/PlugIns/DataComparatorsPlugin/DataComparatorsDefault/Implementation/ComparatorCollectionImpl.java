@@ -47,13 +47,8 @@ public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
     }
 
     @Override
-    public ArrayList<String> getComparatorNames() {
-        ArrayList<String> names = new ArrayList<>();
-        for(NamedComparator<T> comparator : mComparators) {
-            names.add(comparator.getName());
-        }
-
-        return names;
+    public ArrayList<NamedComparator<T>> asList() {
+        return mComparators;
     }
 
     @Override
