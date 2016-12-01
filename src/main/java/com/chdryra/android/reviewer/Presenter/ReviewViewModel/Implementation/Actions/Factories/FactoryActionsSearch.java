@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectBannerFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -51,7 +53,7 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
     }
 
     public SubjectBannerFilter<T> newSubjectBannerFilter() {
-        return new SubjectBannerFilter<>(Strings.Buttons.SEARCH, Strings.SEARCHING);
+        return new SubjectBannerFilter<>(Strings.Buttons.AUTHORS, Strings.SEARCHING);
     }
 
     @Override
@@ -62,6 +64,11 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
     @Override
     public GridItemAction<T> newGridItem() {
         return new GridItemLauncher<>(mLauncher, mFactory);
+    }
+
+    @Override
+    public MenuAction<T> newMenu() {
+        return new MenuActionNone<>(Strings.Screens.SEARCH);
     }
 
     public static class Author extends FactoryActionsSearch<GvAuthor> {

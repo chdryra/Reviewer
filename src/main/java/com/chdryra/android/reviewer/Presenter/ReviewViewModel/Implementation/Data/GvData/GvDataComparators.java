@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -54,9 +53,9 @@ public class GvDataComparators {
     }
 
     public static <T extends GvData> Comparator<? super T> getDefaultComparator(GvDataType<T> elementType) {
-        ComparatorCollection<? super T> sorters = sComparator.mMap.get(elementType);
-        if(sorters != null) {
-            return sorters.getDefault();
+        Comparator<? super T> sorter = sComparator.mMap.get(elementType);
+        if(sorter != null) {
+            return sorter;
         } else {
             return newBasicComparator(elementType);
         }
@@ -76,13 +75,13 @@ public class GvDataComparators {
         private final Map<GvDataType<? extends GvData>, Comparator<?>> mMap = new HashMap<>();
 
 
-        private <T extends GvData> void put(GvDataType<T> dataType, Comparator<? super T> factory) {
-            mMap.put(dataType, factory);
+        private <T extends GvData> void put(GvDataType<T> dataType, Comparator<? super T> comparator) {
+            mMap.put(dataType, comparator);
         }
 
         //TODO make type safe (although it kind of is really...)
-        private <T extends GvData> ComparatorCollection<? super T> get(GvDataType<T> dataType) {
-            return (ComparatorCollection<? super T>) mMap.get(dataType);
+        private <T extends GvData> Comparator<? super T> get(GvDataType<T> dataType) {
+            return (Comparator<? super T>) mMap.get(dataType);
         }
     }
 }

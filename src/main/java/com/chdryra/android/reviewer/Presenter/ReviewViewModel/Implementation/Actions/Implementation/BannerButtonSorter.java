@@ -51,11 +51,7 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
         getAdapter().sort(comparator, new AsyncSortable.OnSortedCallback() {
             @Override
             public void onSorted(CallbackMessage message) {
-                if(!message.isError()){
-                    mCurrentComparator = comparator;
-                } else {
-                    getCurrentScreen().showToast("Problems sorting: " + message.getMessage());
-                }
+                if(!message.isError())mCurrentComparator = comparator;
                 setTitle(mCurrentComparator.getName());
                 mLocked = false;
             }

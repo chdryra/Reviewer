@@ -66,6 +66,7 @@ public class Strings {
         public static final String SUMMARY = "summary";
         public static final String FORMATTED = "formatted";
         public static final String PREVIEW = "preview";
+        public static final String SEARCH = "search";
     }
 
     public static class Buttons {
@@ -75,6 +76,7 @@ public class Strings {
         public static final String ADD = "add";
         public static final String SUMMARY = "summary";
         public static final String SORTING = "sorting...";
+        public static final String AUTHORS = "authors";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

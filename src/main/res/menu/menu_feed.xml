@@ -8,9 +8,20 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_item_search_authors"
+        android:icon="@drawable/perm_group_app_info"
+        android:showAsAction="never|withText"
+        android:title="@string/menu_settings">
+        <menu>
+            <item
+                android:id="@+id/menu_item_logout"
+                android:title="@string/menu_logout"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_item_search"
         android:icon="@drawable/ic_menu_search"
-        android:showAsAction="ifRoom|withText"
+        android:showAsAction="always|withText"
         android:title="@string/menu_search_authors"/>
 
     <item
@@ -18,16 +29,5 @@
         android:icon="@drawable/ic_action_new"
         android:showAsAction="always|withText"
         android:title="@string/menu_new_review"/>
-
-    <item
-        android:icon="@drawable/perm_group_app_info"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_settings">
-        <menu>
-            <item
-                android:id="@+id/menu_item_settings"
-                android:title="@string/menu_logout"/>
-        </menu>
-    </item>
 
 </menu>

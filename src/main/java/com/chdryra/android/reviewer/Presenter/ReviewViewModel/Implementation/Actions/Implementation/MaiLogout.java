@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiSettings<T extends GvData> extends MenuActionItemBasic<T>{
+public class MaiLogout<T extends GvData> extends MenuActionItemBasic<T>{
     @Override
     public void doAction(MenuItem item) {
         ApplicationInstance app = getApp();

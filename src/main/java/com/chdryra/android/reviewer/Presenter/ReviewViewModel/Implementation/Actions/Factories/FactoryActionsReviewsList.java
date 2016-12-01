@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearchAuthors;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSettings;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
@@ -110,11 +110,10 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
             UiLauncher launcher = getUiLauncher();
             MaiCommand<GvNode> newReview = new MaiCommand<>
                     (getFactoryCommands().newLaunchEditorCommand(launcher, null));
-            MaiSearchAuthors<GvNode> searchAuthors = new MaiSearchAuthors<>(launcher,
-                    getFactoryReviewView());
-            MaiSettings<GvNode> settings = new MaiSettings<>();
+            MaiSearch<GvNode> search = new MaiSearch<>(launcher, getFactoryReviewView());
+            MaiLogout<GvNode> logout = new MaiLogout<>();
 
-            return new MenuFeed<>(newReview, searchAuthors, settings);
+            return new MenuFeed<>(newReview, search, logout);
         }
     }
 }

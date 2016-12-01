@@ -149,9 +149,8 @@ public class FactoryReviewView {
         return (ReviewView<T>) view;
     }
 
-    public ReviewView<?> newFollowSearchView(AuthorId sessionAuthor) {
-        ReviewViewAdapter.Filterable<GvAuthor> adapter = mAdapterFactory
-                .newFollowSearchAdapter(sessionAuthor);
+    public ReviewView<?> newSearchView() {
+        ReviewViewAdapter.Filterable<GvAuthor> adapter = mAdapterFactory.newFollowSearchAdapter();
         return newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
     }
 

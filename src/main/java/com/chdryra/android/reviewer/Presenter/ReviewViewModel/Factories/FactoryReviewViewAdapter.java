@@ -149,8 +149,8 @@ public class FactoryReviewViewAdapter {
     }
 
     //View for search screen
-    public ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter(AuthorId sessionUser) {
-        return new AuthorSearchAdapter(new ViewerAuthors(sessionUser, new GvAuthorList(), this),
+    public ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
+        return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
                 mAuthorsRepository, mConverter.newConverterAuthors());
     }
 
