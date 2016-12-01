@@ -30,8 +30,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
@@ -50,9 +49,9 @@ public class DialogReviewOptions extends DialogOneButtonFragment implements
     private static final int SHARE = RequestCodeGenerator.getCode(DialogReviewOptions.class, "Share");
     private static final int COPY = RequestCodeGenerator.getCode(DialogReviewOptions.class, "Copy");
     private static final String TAG = TagKeyGenerator.getTag(DialogReviewOptions.class);
-    private static final String ARGS = LaunchOptionsCommand.AUTHOR_ID;
+    private static final String ARGS = LaunchReviewOptionsCommand.AUTHOR_ID;
 
-    private static final int LAYOUT = R.layout.dialog_share_edit_review;
+    private static final int LAYOUT = R.layout.dialog_review_options;
     private static final int SHARE_BUTTON = R.id.button_share_review;
     private static final int COPY_BUTTON = R.id.button_another_review;
     private static final int DELETE_BUTTON = R.id.button_delete_review;
@@ -130,7 +129,7 @@ public class DialogReviewOptions extends DialogOneButtonFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLeftButtonAction(ActionType.DONE);
+        setLeftButtonAction(ActionType.CANCEL);
         setDialogTitle(null);
         hideKeyboardOnLaunch();
     }

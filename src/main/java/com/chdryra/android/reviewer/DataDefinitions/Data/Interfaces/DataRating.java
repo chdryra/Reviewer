@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataRating extends HasReviewId, Validatable {
-    String DATUM_NAME = "rating";
+    String TYPE_NAME = "rating";
 
     float getRating();
 

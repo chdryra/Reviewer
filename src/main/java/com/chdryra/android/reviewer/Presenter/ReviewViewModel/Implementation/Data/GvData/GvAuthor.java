@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvAuthor extends GvDataParcelableBasic<GvAuthor> implements DataAuthor {
     public static final GvDataType<GvAuthor> TYPE =
-            new GvDataType<>(GvAuthor.class, NamedAuthor.DATUM_NAME);
+            new GvDataType<>(GvAuthor.class, NamedAuthor.TYPE_NAME);
     public static final Creator<GvAuthor> CREATOR = new Creator<GvAuthor>() {
         @Override
         public GvAuthor createFromParcel(Parcel in) {

@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 
 /**
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
-    public GridItemLaunchFormatted(LaunchFormattedCommand click, LaunchOptionsCommand longClick) {
+    public GridItemLaunchFormatted(LaunchFormattedCommand click, LaunchReviewOptionsCommand longClick) {
         super(click, longClick, Strings.LOADING);
     }
 
@@ -32,6 +32,6 @@ public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
 
     @Override
     public void onGridItemLongClick(GvNode item, int position, View v) {
-        ((LaunchOptionsCommand)getLongClick()).execute(item.getAuthorId());
+        ((LaunchReviewOptionsCommand)getLongClick()).execute(item.getAuthorId());
     }
 }

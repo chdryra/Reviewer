@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvSize extends GvDualText implements DataSize{
-    public static final GvDataType<GvSize> TYPE = new GvDataType<>(GvSize.class, DATUM_NAME);
+    public static final GvDataType<GvSize> TYPE = new GvDataType<>(GvSize.class, TYPE_NAME);
 
     public static final Creator<GvSize> CREATOR = new Creator<GvSize>() {
         @Override

@@ -70,6 +70,11 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return false;
+    }
+
     private void throwIfNoReviewViewAttached() {
         if (mReviewView == null) {
             throw new UnattachedReviewViewException("   No ReviewView Attached");

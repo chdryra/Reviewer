@@ -172,4 +172,9 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     public void launch(UiTypeLauncher launcher) {
         launcher.launch(this);
     }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mPerspective.getActions().onOptionSelected(requestCode, option);
+    }
 }

@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class GvLocation extends GvDataParcelableBasic<GvLocation> implements DataLocation {
     public static final GvDataType<GvLocation> TYPE
-            = new GvDataType<>(GvLocation.class, DATUM_NAME);
+            = new GvDataType<>(GvLocation.class, TYPE_NAME);
 
     public static final Creator<GvLocation> CREATOR = new Creator<GvLocation>() {
         @Override

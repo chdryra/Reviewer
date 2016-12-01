@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DateTime extends Validatable{
-    String DATUM_NAME = "date";
+    String TYPE_NAME = "date";
 
     long getTime();
 }

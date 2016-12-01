@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
-    public static final GvDataType<GvNode> TYPE = new GvDataType<>(GvNode.class, DATUM_NAME);
+    public static final GvDataType<GvNode> TYPE = new GvDataType<>(GvNode.class, TYPE_NAME);
 
     private ReviewNode mNode;
     private ViewHolderFactory<VhNode> mViewHolderFactory;

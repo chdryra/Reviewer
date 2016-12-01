@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComment extends HasReviewId, Validatable{
-    String DATUM_NAME = "comment";
+    String TYPE_NAME = "comment";
 
     String getComment();
 

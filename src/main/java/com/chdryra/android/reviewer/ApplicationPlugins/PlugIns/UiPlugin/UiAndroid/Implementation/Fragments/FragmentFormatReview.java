@@ -92,8 +92,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
@@ -297,8 +296,8 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
 
         MenuAction<?> action;
         if (mIsPublished) {
-            LaunchOptionsCommand command
-                    = getCommandsFactory().newLaunchOptionsCommand(mUi.getConfig()
+            LaunchReviewOptionsCommand command
+                    = getCommandsFactory().newLaunchReviewOptionsCommand(mUi.getConfig()
                     .getReviewOptions(), new NodeAuthorId(mNode));
             MaiCommand<GvData> mai = new MaiCommand<>(command);
             action = new MenuReviewOptionsAppLevel(Strings.Screens.FORMATTED, upAction, mai, ui);

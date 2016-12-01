@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -27,7 +28,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi, OptionSelectListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
 
     private ReviewView<?> mView;
@@ -74,6 +75,11 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     @Override
     public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), getLaunchTag());
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mView.onOptionSelected(requestCode, option);
     }
 
     @Override

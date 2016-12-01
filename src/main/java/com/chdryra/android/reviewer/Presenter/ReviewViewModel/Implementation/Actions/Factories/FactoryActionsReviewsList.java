@@ -28,7 +28,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -42,6 +45,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private final UiLauncher mLauncher;
     private final FactoryReviewView mFactoryReviewView;
     private final FactoryCommands mFactoryCommands;
+    private final LaunchableConfig mReviewOptionsConfig;
     private final LaunchableConfig mOptionsConfig;
     private final DataComparatorsApi mComparators;
 
@@ -50,6 +54,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
                                      FactoryCommands factoryCommands,
+                                     LaunchableConfig reviewOptionsConfig,
                                      LaunchableConfig optionsConfig,
                                      DataComparatorsApi comparators,
                                      @Nullable AuthorReference authorRef) {
@@ -57,6 +62,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
         mFactoryCommands = factoryCommands;
+        mReviewOptionsConfig = reviewOptionsConfig;
         mOptionsConfig = optionsConfig;
         mComparators = comparators;
         mAuthorRef = authorRef;
@@ -88,21 +94,23 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public BannerButtonAction<GvNode> newBannerButton() {
-        return new BannerButtonSorter<>(mComparators.newReviewComparators());
+        LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig);
+        return new BannerButtonSorter<>(mComparators.newReviewComparators(), longClick);
     }
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher());
-        LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig);
+        LaunchReviewOptionsCommand longClick = mFactoryCommands.newLaunchReviewOptionsCommand(mReviewOptionsConfig);
         return new GridItemLaunchFormatted(click, longClick);
     }
 
     public static class Feed extends FactoryActionsReviewsList {
         public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView,
-                    FactoryCommands factoryCommands, LaunchableConfig optionsUi,
-                    DataComparatorsApi comparators) {
-            super(launcher, factoryReviewView, factoryCommands, optionsUi, comparators, null);
+                    FactoryCommands factoryCommands, LaunchableConfig reviewOptionsUi,
+                    LaunchableConfig optionsUi, DataComparatorsApi comparators) {
+            super(launcher, factoryReviewView, factoryCommands, reviewOptionsUi, optionsUi,
+                    comparators, null);
         }
 
         @Override

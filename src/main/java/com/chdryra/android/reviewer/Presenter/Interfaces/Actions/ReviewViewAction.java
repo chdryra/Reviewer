@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.Actions;
 
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 
@@ -18,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewViewAction<T extends GvData> {
+public interface ReviewViewAction<T extends GvData> extends OptionSelectListener{
     void onAttachReviewView();
 
     void onDetachReviewView();

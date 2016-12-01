@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NamedAuthor extends Validatable{
-    String DATUM_NAME = "author";
+    String TYPE_NAME = "author";
 
     String getName();
 

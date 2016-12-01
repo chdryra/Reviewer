@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataAuthorId extends HasReviewId, AuthorId, Validatable {
-    String DATUM_NAME = NamedAuthor.DATUM_NAME;
+    String TYPE_NAME = NamedAuthor.TYPE_NAME;
 
     @Override
     boolean hasData(DataValidator dataValidator);

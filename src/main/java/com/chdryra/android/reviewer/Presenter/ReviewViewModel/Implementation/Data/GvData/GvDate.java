@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * </p>
  */
 public class GvDate extends GvDataParcelableBasic<GvDate> implements DataDate {
-    public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, DATUM_NAME);
+    public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, TYPE_NAME);
 
     public static final Creator<GvDate> CREATOR = new Creator<GvDate>() {
         @Override

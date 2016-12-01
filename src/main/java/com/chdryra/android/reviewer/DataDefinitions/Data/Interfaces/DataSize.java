@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataSize extends HasReviewId {
-    String DATUM_NAME = "size";
+    String TYPE_NAME = "size";
 
     int getSize();
 

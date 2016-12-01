@@ -50,7 +50,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     @Override
     public ComparatorCollection<NamedAuthor> newAuthorComparators() {
         NamedComparator<NamedAuthor> aToZ
-                = aToZ(upper(NamedAuthor.DATUM_NAME), new DataGetters.NamedAuthorName());
+                = aToZ(upper(NamedAuthor.TYPE_NAME), new DataGetters.NamedAuthorName());
         ComparatorCollectionImpl<NamedAuthor> comparators = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse(false));
 
@@ -62,7 +62,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         NamedComparator<DataComment> isHeadline 
                 = trueThenFalse("Headlines first", new DataGetters.CommentIsHeadline());
         NamedComparator<DataComment> aToZ 
-                = aToZ(upper(DataComment.DATUM_NAME), new DataGetters.CommentString());
+                = aToZ(upper(DataComment.TYPE_NAME), new DataGetters.CommentString());
         
         NamedComparator.Builder<DataComment> builder 
                 = newBuilder(isHeadline.getName(), isHeadline)
@@ -128,7 +128,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     @Override
     public ComparatorCollection<DataLocation> newLocationComparators() {
         NamedComparator<DataLocation> locations 
-                = aToZ(upper(DataLocation.DATUM_NAME), new DataGetters.LocationName());
+                = aToZ(upper(DataLocation.TYPE_NAME), new DataGetters.LocationName());
         
         ComparatorCollectionImpl<DataLocation> comparator
                 = new ComparatorCollectionImpl<>(locations);
@@ -190,7 +190,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     @Override
     public ComparatorCollection<DataSocialPlatform> newSocialPlatformComparators() {
         NamedComparator<DataSocialPlatform> platformNames 
-                = aToZ(upper(DataSocialPlatform.DATUM_NAME), new DataGetters.PlatformName());
+                = aToZ(upper(DataSocialPlatform.TYPE_NAME), new DataGetters.PlatformName());
         return new ComparatorCollectionImpl<>(platformNames);
     }
 
@@ -205,7 +205,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     @Override
     public ComparatorCollection<DataTag> newTagComparators() {
         NamedComparator<DataTag> aToZ 
-                = aToZ(upper(DataTag.DATUM_NAME), new DataGetters.TagString());
+                = aToZ(upper(DataTag.TYPE_NAME), new DataGetters.TagString());
         ComparatorCollectionImpl<DataTag> comparators
                 = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse());
@@ -229,11 +229,11 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     private NamedComparator<DataSubject> aToZSubject() {
-        return aToZ(upper(DataSubject.DATUM_NAME), new DataGetters.SubjectString());
+        return aToZ(upper(DataSubject.TYPE_NAME), new DataGetters.SubjectString());
     }
 
     private NamedComparator<DataRating> ascRating() {
-        return ascRating(upper(DataRating.DATUM_NAME), new DataGetters.RatingFloat());
+        return ascRating(upper(DataRating.TYPE_NAME), new DataGetters.RatingFloat());
     }
 
     private <T> Comparator<T> newest(String name, DataGetter<T, DateTime> getter) {

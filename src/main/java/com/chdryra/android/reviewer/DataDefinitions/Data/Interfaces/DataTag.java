@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataTag extends HasReviewId, Validatable{
-    String DATUM_NAME = "tag";
+    String TYPE_NAME = "tag";
 
     String getTag();
 

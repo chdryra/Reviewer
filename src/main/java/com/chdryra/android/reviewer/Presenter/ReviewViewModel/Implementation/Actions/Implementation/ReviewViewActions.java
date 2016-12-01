@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 
@@ -25,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewActions<T extends GvData> {
+public class ReviewViewActions<T extends GvData> implements OptionSelectListener{
     private final SubjectAction<T> mSubjectAction;
     private final RatingBarAction<T> mRatingBarAction;
     private final BannerButtonAction<T> mBannerButtonAction;
@@ -98,5 +99,19 @@ public class ReviewViewActions<T extends GvData> {
         mBannerButtonAction.detachReviewView();
         mGridItemAction.detachReviewView();
         if(mContextualAction != null ) mContextualAction.detachReviewView();
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        boolean consumed = mMenuAction.onOptionSelected(requestCode, option);
+        if(!consumed) consumed = mSubjectAction.onOptionSelected(requestCode, option);
+        if(!consumed) consumed = mRatingBarAction.onOptionSelected(requestCode, option);
+        if(!consumed) consumed = mBannerButtonAction.onOptionSelected(requestCode, option);
+        if(!consumed) consumed = mGridItemAction.onOptionSelected(requestCode, option);
+        if(!consumed && mContextualAction != null ) {
+            consumed = mContextualAction.onOptionSelected(requestCode, option);
+        }
+
+        return consumed;
     }
 }

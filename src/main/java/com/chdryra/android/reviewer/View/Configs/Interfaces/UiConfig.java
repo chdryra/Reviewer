@@ -40,6 +40,8 @@ public interface UiConfig {
 
     LaunchableConfig getReviewOptions();
 
+    LaunchableConfig getOptions();
+
     UiLauncher getUiLauncher();
 
     void setUiLauncher(UiLauncher launcher);

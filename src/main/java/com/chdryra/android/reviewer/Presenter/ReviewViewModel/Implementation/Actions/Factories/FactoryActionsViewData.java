@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -126,8 +126,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @NonNull
     MenuActionItem<T> newOptionsMenuItem() {
-        LaunchOptionsCommand command
-                = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig, mStamp.getDataAuthorId());
+        LaunchReviewOptionsCommand command
+                = mFactoryCommands.newLaunchReviewOptionsCommand(mOptionsConfig, mStamp.getDataAuthorId());
         return new MaiCommand<>(command);
     }
 }

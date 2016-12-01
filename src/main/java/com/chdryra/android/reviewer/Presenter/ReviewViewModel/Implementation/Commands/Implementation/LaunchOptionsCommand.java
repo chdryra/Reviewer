@@ -8,13 +8,16 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
+
+
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,37 +26,36 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 
 public class LaunchOptionsCommand extends Command {
-    public static final String AUTHOR_ID
-            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "AuthorId");
+    public static final String OPTIONS
+            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Options");
+    public static final String CURRENTLY_SELECTED
+            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Selected");
 
     private final LaunchableConfig mOptionsConfig;
-    private DataAuthorId mAuthorId;
+    private int mCode;
+    private ArrayList<String> mOptions;
+    private String mSelected;
 
     public LaunchOptionsCommand(LaunchableConfig optionsConfig) {
         mOptionsConfig = optionsConfig;
+        mCode = mOptionsConfig.getDefaultRequestCode();
     }
 
-    public LaunchOptionsCommand(LaunchableConfig optionsConfig, DataAuthorId authorId) {
-        mOptionsConfig = optionsConfig;
-        mAuthorId = authorId;
-    }
-
-    public void execute(DataAuthorId authorId) {
-        mAuthorId = authorId;
+    public void execute(int requestCode, ArrayList<String> options, @Nullable String selected) {
+        mCode= requestCode;
+        mOptions = options;
+        mSelected = selected;
         execute();
     }
 
     @Override
     public void execute() {
-        if(mAuthorId == null) return;
+        if(mOptions == null) return;
 
         Bundle args = new Bundle();
-        DatumAuthorId data = new DatumAuthorId(mAuthorId.getReviewId(), mAuthorId.toString());
-        args.putParcelable(AUTHOR_ID, data);
-        int code = mOptionsConfig.getDefaultRequestCode();
-
-        mOptionsConfig.launch(new UiLauncherArgs(code).setBundle(args));
-
+        args.putStringArrayList(OPTIONS, mOptions);
+        args.putString(CURRENTLY_SELECTED, mSelected);
+        mOptionsConfig.launch(new UiLauncherArgs(mCode).setBundle(args));
         onExecutionComplete();
     }
 }

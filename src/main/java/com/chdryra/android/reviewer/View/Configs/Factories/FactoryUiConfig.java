@@ -33,6 +33,7 @@ public class FactoryUiConfig {
     private static final int EDIT_MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "EditMap");
     private static final int NODE_MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "NodeMap");
     private static final int PUBLISH = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Publish");
+    private static final int REVIEW_OPTIONS = RequestCodeGenerator.getCode(FactoryUiConfig.class, "ReviewOptions");
     private static final int OPTIONS = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Options");
 
     public UiConfig newUiConfig(LaunchablesList classes) {
@@ -50,9 +51,10 @@ public class FactoryUiConfig {
         LaunchableConfig editMap = new LaunchableConfigImpl(classes.getMapperEdit(), EDIT_MAP);
         LaunchableConfig nodeMap = new LaunchableConfigImpl(classes.getMapperNode(), NODE_MAP);
         LaunchableConfig publish = new LaunchableConfigImpl(classes.getPublish(), PUBLISH);
-        LaunchableConfig options = new LaunchableConfigImpl(classes.getReviewOptions(), OPTIONS);
+        LaunchableConfig reviewOptions = new LaunchableConfigImpl(classes.getReviewOptions(), REVIEW_OPTIONS);
+        LaunchableConfig options = new LaunchableConfigImpl(classes.getOptions(), OPTIONS);
 
         return new UiConfigImpl(dataConfigs, login, signUp, feed, build, formatted, editMap,
-                nodeMap, publish, options);
+                nodeMap, publish, reviewOptions, options);
     }
 }

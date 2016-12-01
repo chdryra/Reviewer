@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataReviewInfo extends HasReviewId {
-    String DATUM_NAME = "review";
+    String TYPE_NAME = "review";
 
     @Override
     ReviewId getReviewId();

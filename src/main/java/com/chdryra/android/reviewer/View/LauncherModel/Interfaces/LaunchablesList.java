@@ -39,5 +39,7 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getReviewOptions();
 
+    Class<? extends LaunchableUi> getOptions();
+
     Iterable<DataLaunchables<?>> getDataLaunchables();
 }

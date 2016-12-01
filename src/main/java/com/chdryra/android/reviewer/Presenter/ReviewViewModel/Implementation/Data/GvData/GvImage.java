@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
  * {@link ViewHolder}: {@link VhImage}
  */
 public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage {
-    public static final GvDataType<GvImage> TYPE = new GvDataType<>(GvImage.class, DATUM_NAME);
+    public static final GvDataType<GvImage> TYPE = new GvDataType<>(GvImage.class, TYPE_NAME);
 
     public static final Creator<GvImage> CREATOR = new Creator<GvImage>() {
         @Override

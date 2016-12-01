@@ -72,7 +72,7 @@
     <string name="image_review_cd">review image</string>
 
     <!-- Menus -->
-    <string name="menu_options">options</string>
+    <string name="menu_options">reviewOptions</string>
     <string name="menu_locations">map locations</string>
     <string name="menu_sentences">show sentences</string>
     <string name="menu_headlines">show headlines</string>
@@ -82,7 +82,7 @@
     <string name="menu_new_review">new review</string>
     <string name="menu_delete_review">delete review</string>
     <string name="menu_copy_review">use as template</string>
-    <string name="menu_review_options">options</string>
+    <string name="menu_review_options">reviewOptions</string>
     <string name="menu_follow">follow</string>
     <string name="menu_search_authors">search authors</string>
     <string name="menu_settings">settings</string>

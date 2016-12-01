@@ -6,22 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
+package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 12/12/2015
+ * On: 01/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewId {
-    String TYPE_NAME = "reviewId";
-
-    @Override
-    String toString();
-
-    @Override
-    boolean equals(Object o);
-
-    @Override
-    int hashCode();
+public interface OptionSelectListener {
+    boolean onOptionSelected(int requestCode, String option);
 }

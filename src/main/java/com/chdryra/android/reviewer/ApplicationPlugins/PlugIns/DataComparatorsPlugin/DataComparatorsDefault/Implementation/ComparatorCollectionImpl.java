@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
+
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,30 @@ public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
     @Override
     public int size() {
         return mComparators.size();
+    }
+
+    @Override
+    public ArrayList<String> getComparatorNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for(NamedComparator<T> comparator : mComparators) {
+            names.add(comparator.getName());
+        }
+
+        return names;
+    }
+
+    @Override
+    public NamedComparator<T> moveToComparator(String name) {
+        int newIndex;
+        for(newIndex = 0; newIndex < mComparators.size(); ++newIndex) {
+            NamedComparator<T> comparator = mComparators.get(newIndex);
+            if(comparator.getName().equals(name)) {
+                mIndex = newIndex;
+                break;
+            }
+        }
+
+        return next();
     }
 
     public void add(NamedComparator<T> comparator) {

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewView<T extends GvData>
-        extends DataObservable, DataObservable.DataObserver, LaunchableUi {
+        extends DataObservable, DataObservable.DataObserver, LaunchableUi, OptionSelectListener {
 
     String getSubject();
 

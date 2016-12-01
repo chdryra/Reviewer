@@ -18,7 +18,7 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataUrl extends DataFact {
-    String DATUM_NAME = "link";
+    String TYPE_NAME = "link";
 
     URL getUrl();
 
