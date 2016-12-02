@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,36 +29,35 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchOptionsCommand extends OptionsCommand {
+public class OptionsSelector extends Command {
     public static final String OPTIONS
-            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Options");
+            = TagKeyGenerator.getKey(OptionsSelector.class, "Options");
     public static final String CURRENTLY_SELECTED
-            = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Selected");
+            = TagKeyGenerator.getKey(OptionsSelector.class, "Selected");
 
     private final LaunchableConfig mOptionsConfig;
     private int mCode;
-    private CommandsList mOptions;
+    private ArrayList<String> mOptions;
     private String mCurrentlySelected;
 
-    public LaunchOptionsCommand(LaunchableConfig optionsConfig) {
+    public OptionsSelector(LaunchableConfig optionsConfig) {
         super(Strings.Commands.OPTIONS);
         mOptionsConfig = optionsConfig;
         mCode = optionsConfig.getDefaultRequestCode();
     }
 
-    public void execute(CommandsList options,
-                        @Nullable String currentlySelected,
-                        int requestCode,
-                        @Nullable ExecutionListener listener) {
-        mOptions = options;
+    public void execute(Collection<String> options, @Nullable String currentlySelected,
+                        int requestCode, @Nullable ExecutionListener listener) {
+        mOptions = new ArrayList<>(options);
         mCurrentlySelected = currentlySelected;
-        execute(requestCode, listener);
+        mCode = requestCode;
+        execute(mCode, listener);
     }
 
-    public void execute(CommandsList options,
-                        @Nullable String currentlySelected) {
-        mOptions = options;
+    public void execute(Collection<String> options, @Nullable String currentlySelected) {
+        mOptions = new ArrayList<>(options);
         mCurrentlySelected = currentlySelected;
+        mCode = RequestCodeGenerator.getCode(OptionsSelector.class, TextUtils.commaDelimited(mOptions));
         execute();
     }
 
@@ -66,24 +66,11 @@ public class LaunchOptionsCommand extends OptionsCommand {
         if(mOptions == null) return;
 
         Bundle args = new Bundle();
-        ArrayList<String> options = mOptions.getCommandNames();
-        args.putStringArrayList(OPTIONS, options);
+        args.putStringArrayList(OPTIONS, mOptions);
         args.putString(CURRENTLY_SELECTED, mCurrentlySelected);
 
-        mCode = RequestCodeGenerator.getCode(LaunchOptionsCommand.class,
-                TextUtils.commaDelimited(mOptions.getCommandNames()));
         mOptionsConfig.launch(new UiLauncherArgs(mCode).setBundle(args));
 
         onExecutionComplete();
-    }
-
-    @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        if(requestCode == mCode) {
-            mOptions.execute(option);
-            return true;
-        }
-
-        return false;
     }
 }

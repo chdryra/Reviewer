@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchEditorCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchMappedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -56,16 +56,16 @@ public class FactoryCommands {
         return new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen());
     }
 
-    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand() {
-        return new LaunchReviewOptionsCommand(newLaunchOptionsCommand(), this, getSession());
+    public ReviewOptionsSelector newReviewOptionsSelector() {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession());
     }
 
-    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand(DataAuthorId authorId) {
-        return new LaunchReviewOptionsCommand(newLaunchOptionsCommand(), this, getSession(), authorId);
+    public ReviewOptionsSelector newReviewOptionsSelector(DataAuthorId authorId) {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), authorId);
     }
 
-    public LaunchOptionsCommand newLaunchOptionsCommand() {
-        return new LaunchOptionsCommand(mApp.getUi().getConfig().getOptions());
+    public OptionsSelector newOptionsSelector() {
+        return new OptionsSelector(mApp.getUi().getConfig().getOptions());
     }
 
     public LaunchViewCommand newLaunchViewCommand(ReviewView<?> view) {

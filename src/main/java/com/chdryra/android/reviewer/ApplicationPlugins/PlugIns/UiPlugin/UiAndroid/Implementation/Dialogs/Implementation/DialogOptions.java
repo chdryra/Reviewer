@@ -23,8 +23,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -39,8 +38,8 @@ import java.util.List;
 public class DialogOptions extends DialogOneButtonFragment implements
         LaunchableUi, Command.ExecutionListener {
     private static final String TAG = TagKeyGenerator.getTag(DialogOptions.class);
-    private static final String OPTIONS = LaunchOptionsCommand.OPTIONS;
-    private static final String SELECTED = LaunchOptionsCommand.CURRENTLY_SELECTED;
+    private static final String OPTIONS = OptionsSelector.OPTIONS;
+    private static final String SELECTED = OptionsSelector.CURRENTLY_SELECTED;
 
     private Button mSelected;
 

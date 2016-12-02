@@ -31,7 +31,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelectAndExecute;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -123,8 +125,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @NonNull
     MenuOptionsItem<T> newOptionsMenuItem() {
-        LaunchReviewOptionsCommand command
-                = mFactoryCommands.newLaunchReviewOptionsCommand(mStamp.getDataAuthorId());
+        OptionsSelectAndExecute command
+                = mFactoryCommands.newReviewOptionsSelector(mStamp.getDataAuthorId());
         return new MaiOptionsCommand<>(command);
     }
 }

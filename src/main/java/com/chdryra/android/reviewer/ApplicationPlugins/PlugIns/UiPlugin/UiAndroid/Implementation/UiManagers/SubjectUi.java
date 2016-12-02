@@ -47,18 +47,21 @@ public class SubjectUi extends TextUi<EditText> {
     }
     
     private void initialise(ReviewView<?> reviewView) {
+        EditText editText = getView();
+
+        editText.setText(reviewView.getSubject());
+
         ReviewViewParams.SubjectParams params = reviewView.getParams().getSubjectParams();
         boolean isEditable = params.isEditable();
-        getView().setText(reviewView.getSubject());
         mSubjectRefresh = !isEditable && params.isUpdateOnRefresh();
-        if(isEditable) getView().setHint(params.getHint());
+        if(isEditable) editText.setHint(params.getHint());
 
-        getView().setFocusable(isEditable);
-        ((ClearableEditText) getView()).makeClearable(isEditable);
+        editText.setFocusable(isEditable);
+        ((ClearableEditText) editText).makeClearable(isEditable);
         if (isEditable) {
             final SubjectAction<?> action = reviewView.getActions().getSubjectAction();
-            getView().setOnEditorActionListener(newSubjectActionListener(action));
-            getView().addTextChangedListener(newSubjectChangeListener(action));
+            editText.setOnEditorActionListener(newSubjectActionListener(action));
+            editText.addTextChangedListener(newSubjectChangeListener(action));
         }
 
         update();

@@ -14,22 +14,21 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MenuReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuOptions;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuReviewOptionsAppLevel extends MenuReviewOptions<GvData> {
+public class MenuOptionsAppLevel extends MenuOptions<GvData> {
     private UiSuite mUi;
 
-    public MenuReviewOptionsAppLevel(String title,
-                                     MenuActionItem<GvData> upAction,
-                                     MenuOptionsItem<GvData> reviewOptions,
-                                     UiSuite ui) {
-        super(title, upAction, reviewOptions);
+    public MenuOptionsAppLevel(String title,
+                               MenuActionItem<GvData> upAction,
+                               MenuOptionsItem<GvData> options,
+                               UiSuite ui) {
+        super(title, upAction, options);
         mUi = ui;
         setupActionBar();
     }

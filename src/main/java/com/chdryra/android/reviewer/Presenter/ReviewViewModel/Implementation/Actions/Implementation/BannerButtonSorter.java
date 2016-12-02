@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,15 +33,21 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
     private static final int OPTIONS = RequestCodeGenerator.getCode(BannerButtonSorter.class);
 
     private final ComparatorCollection<? super T> mComparators;
-    private final LaunchOptionsCommand mOptionsCommand;
+    private final OptionsSelector mSelector;
+    private final CommandsList mOptions;
     private NamedComparator<? super T> mCurrentComparator;
     private boolean mLocked = false;
 
     public BannerButtonSorter(ComparatorCollection<? super T> comparators,
-                              LaunchOptionsCommand command) {
+                              OptionsSelector selector) {
         mComparators = comparators;
-        mOptionsCommand = command;
+        mSelector = selector;
         mCurrentComparator = mComparators.next();
+        mOptions = new CommandsList();
+        for(NamedComparator<? super T> comparator : mComparators.asList()) {
+            mOptions.add(new ComparatorCommand(comparator));
+        }
+
     }
 
     @Override
@@ -57,20 +63,15 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     @Override
     public boolean onLongClick(View v) {
-        CommandsList commands = new CommandsList();
-        for(NamedComparator<? super T> comparator : mComparators.asList()) {
-            commands.add(new ComparatorCommand(comparator));
-        }
-
-        mOptionsCommand.execute(commands, mCurrentComparator.getName());
-
+        mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
         return true;
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        if(requestCode == OPTIONS && !mLocked) {
-            return mOptionsCommand.onOptionSelected(requestCode, option);
+        if(requestCode == OPTIONS) {
+            mOptions.execute(option);
+            return true;
         } else {
             return super.onOptionSelected(requestCode, option);
         }

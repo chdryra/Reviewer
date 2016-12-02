@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
@@ -26,10 +24,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 public class MaiOptionsCommand<T extends GvData> extends MaiCommand<T> implements MenuOptionsItem<T> {
     public MaiOptionsCommand(OptionsCommand command) {
         super(command);
-    }
-
-    public MaiOptionsCommand(OptionsCommand command, @Nullable String toast) {
-        super(command, toast);
     }
 
     @Override

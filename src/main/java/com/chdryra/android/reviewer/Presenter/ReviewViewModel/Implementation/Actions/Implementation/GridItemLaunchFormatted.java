@@ -12,10 +12,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchReviewOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 
 /**
@@ -25,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
     public GridItemLaunchFormatted(LaunchFormattedCommand click,
-                                   LaunchReviewOptionsCommand longClick) {
+                                   ReviewOptionsSelector longClick) {
         super(click, longClick, Strings.Progress.LOADING);
     }
 
@@ -44,7 +42,7 @@ public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
         return getOptionsCommand().onOptionSelected(requestCode, option);
     }
 
-    private LaunchReviewOptionsCommand getOptionsCommand() {
-        return (LaunchReviewOptionsCommand) getLongClick();
+    private ReviewOptionsSelector getOptionsCommand() {
+        return (ReviewOptionsSelector) getLongClick();
     }
 }

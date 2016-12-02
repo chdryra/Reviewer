@@ -18,19 +18,19 @@ import com.chdryra.android.reviewer.R;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuReviewOptions<T extends GvData> extends MenuActionsSome<T> {
+public class MenuOptions<T extends GvData> extends MenuActionsSome<T> {
     public static final int OPTIONS = R.id.menu_item_options;
     public static final int MENU = R.menu.menu_review_options;
 
-    private MenuOptionsItem<T> mReviewOptions;
+    private MenuOptionsItem<T> mOptions;
 
-    protected MenuReviewOptions(String title, MenuActionItem<T> upAction, MenuOptionsItem<T> reviewOptions) {
-        super(title, MENU, new int[]{OPTIONS}, toArrayList(reviewOptions), upAction);
-        mReviewOptions = reviewOptions;
+    protected MenuOptions(String title, MenuActionItem<T> upAction, MenuOptionsItem<T> options) {
+        super(title, MENU, new int[]{OPTIONS}, toArrayList(options), upAction);
+        mOptions = options;
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        return mReviewOptions.onOptionSelected(requestCode, option);
+        return mOptions.onOptionSelected(requestCode, option);
     }
 }

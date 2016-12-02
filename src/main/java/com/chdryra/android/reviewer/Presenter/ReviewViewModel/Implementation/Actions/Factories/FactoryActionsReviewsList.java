@@ -28,8 +28,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelectAndExecute;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -85,14 +91,14 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public BannerButtonAction<GvNode> newBannerButton() {
-        LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand();
+        OptionsSelector longClick = mFactoryCommands.newOptionsSelector();
         return new BannerButtonSorter<>(mComparators.newReviewComparators(), longClick);
     }
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand();
-        LaunchReviewOptionsCommand longClick = mFactoryCommands.newLaunchReviewOptionsCommand();
+        ReviewOptionsSelector longClick = mFactoryCommands.newReviewOptionsSelector();
         return new GridItemLaunchFormatted(click, longClick);
     }
 

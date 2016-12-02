@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuViewDataDefault<T extends GvData> extends MenuViewData<T> {
-    private static final int OPTIONS = MenuReviewOptions.OPTIONS;
-    private static final int MENU = MenuReviewOptions.MENU;
+    private static final int OPTIONS = MenuOptions.OPTIONS;
+    private static final int MENU = MenuOptions.MENU;
 
     public MenuViewDataDefault(GvDataType<T> dataType, MenuOptionsItem<T> options) {
         super(dataType, MENU, OPTIONS, options);

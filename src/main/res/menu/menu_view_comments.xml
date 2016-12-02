@@ -19,5 +19,5 @@
         android:id="@+id/menu_item_options_comment"
         android:icon="@drawable/ic_menu"
         android:showAsAction="always|withText"
-        android:title="@string/menu_review_options"/>
+        android:title="@string/menu_options"/>
 </menu>
