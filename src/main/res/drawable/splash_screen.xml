@@ -11,12 +11,12 @@
             android:opacity="opaque">
 
     <item
-        android:drawable="@color/gray"/>
+        android:drawable="@color/white"/>
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/startouch_smaller"/>
     </item>
 
 </layer-list>
