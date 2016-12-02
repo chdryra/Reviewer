@@ -77,6 +77,8 @@ public class Strings {
         public static final String SUMMARY = "summary";
         public static final String SORTING = "sorting...";
         public static final String AUTHORS = "authors";
+        public static final String FULL_REVIEW = "Full review";
+        public static final String QUICK_REVIEW = "Quick review";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";
@@ -110,14 +112,47 @@ public class Strings {
         public static final String MAP_LOCATIONS = "map locations";
     }
 
-    public static final String LOADING = "loading...";
-    public static final String LOCATIONS = "locations";
-    public static final String FETCHING = "fetching...";
-    public static final String SEARCHING = "searching...";
-    public static final String REVIEWS = "reviews";
-    public static final String REVIEW = "review";
-    public static final String FULL_REVIEW = "Full review";
-    public static final String QUICK_REVIEW = "Quick review";
-    public static final String LINK = "Link";
-    public static final String NO_SUBJECT = "(no subject)";
+    public static class Mapping {
+        public static final String LOCATIONS = "locations";
+        public static final String REVIEWS = "reviews";
+        public static final String REVIEW = "review";
+    }
+    
+    public static class Placeholders {
+        public static final String NO_SUBJECT = "(no subject)";
+    }
+
+    public static class Progress {
+        public static final String LOADING = "loading...";
+        public static final String FETCHING = "fetching...";
+        public static final String SEARCHING = "searching...";
+    }
+
+    public static class Web {
+        public static final String LINK = "Link";
+    }
+
+    public static class Commands {
+        public static final String SHARE = "Share";
+        public static final String COPY = "Use as template";
+        public static final String DELETE = "Delete";
+        public static final String VIEW = "View";
+        public static final String OPTIONS = "Options";
+        public static final String REVIEW_OPTIONS = "Review options";
+        public static final String EDITOR = "Editor";
+        public static final String FORMATTED = "Formatted";
+        public static final String MAPPED = "Mapped";
+    }
+    
+    public static class Comparators {
+        public static final String A_TO_Z = "A to Z";
+        public static final String Z_TO_A = "Z to A";
+        public static final String HIGH_TO_LOW = "High To Low";
+        public static final String LOW_TO_HIGH = "Low To High";
+        public static final String NEWEST = "Newest";
+        public static final String OLDEST = "Oldest";
+        public static final String TRUE = "True";
+        public static final String FALSE = "False";
+        public static final String SEPARATOR = ":";
+    }
 }

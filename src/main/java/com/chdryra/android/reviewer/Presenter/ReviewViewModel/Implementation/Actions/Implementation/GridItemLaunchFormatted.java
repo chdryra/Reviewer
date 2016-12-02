@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 
 /**
@@ -21,17 +24,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
-    public GridItemLaunchFormatted(LaunchFormattedCommand click, LaunchReviewOptionsCommand longClick) {
-        super(click, longClick, Strings.LOADING);
+    public GridItemLaunchFormatted(LaunchFormattedCommand click,
+                                   LaunchReviewOptionsCommand longClick) {
+        super(click, longClick, Strings.Progress.LOADING);
     }
 
     @Override
     public void onGridItemClick(GvNode item, int position, View v) {
-        ((LaunchFormattedCommand)getClick()).execute(item.getNode(), true);
+        ((LaunchFormattedCommand) getClick()).execute(item.getNode(), true);
     }
 
     @Override
     public void onGridItemLongClick(GvNode item, int position, View v) {
-        ((LaunchReviewOptionsCommand)getLongClick()).execute(item.getAuthorId());
+        getOptionsCommand().execute(item.getAuthorId());
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return getOptionsCommand().onOptionSelected(requestCode, option);
+    }
+
+    private LaunchReviewOptionsCommand getOptionsCommand() {
+        return (LaunchReviewOptionsCommand) getLongClick();
     }
 }

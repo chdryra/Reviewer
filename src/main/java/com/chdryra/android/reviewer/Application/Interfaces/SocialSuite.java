@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,4 +22,6 @@ public interface SocialSuite {
     SocialPlatformList getSocialPlatformList();
 
     SocialProfile getSocialProfile();
+
+    SocialPublisher newPublisher();
 }

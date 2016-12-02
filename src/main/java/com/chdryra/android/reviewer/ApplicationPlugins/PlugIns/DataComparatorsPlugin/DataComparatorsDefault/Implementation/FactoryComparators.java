@@ -16,6 +16,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 
 import java.util.Comparator;
 
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.A_TO_Z;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.FALSE;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators
+        .HIGH_TO_LOW;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators
+        .LOW_TO_HIGH;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.NEWEST;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.OLDEST;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.SEPARATOR;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.TRUE;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.Z_TO_A;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 28/11/2016
@@ -23,16 +35,6 @@ import java.util.Comparator;
  */
 
 public class FactoryComparators {
-    private static final String A_TO_Z = "A to Z";
-    private static final String Z_TO_A = "Z to A";
-    private static final String HIGH_TO_LOW = "High To Low";
-    private static final String LOW_TO_HIGH = "Low To High";
-    private static final String NEWEST = "Newest";
-    private static final String OLDEST = "Oldest";
-    private static final String TRUE = "True";
-    private static final String FALSE = "False";
-    private static final String SEPARATOR = ":";
-
     public <ObjectType, DataType> Comparator<ObjectType>
     newDataComparator(Comparator<DataType> comparator, DataGetter<ObjectType, ? extends DataType>
             getter) {

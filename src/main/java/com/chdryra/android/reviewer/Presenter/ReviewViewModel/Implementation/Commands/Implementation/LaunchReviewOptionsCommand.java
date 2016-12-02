@@ -8,15 +8,18 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
-import android.os.Bundle;
 
+
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,26 +27,32 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchReviewOptionsCommand extends Command {
+public class LaunchReviewOptionsCommand extends Command implements OptionSelectListener {
     public static final String AUTHOR_ID
             = TagKeyGenerator.getKey(LaunchReviewOptionsCommand.class, "AuthorId");
 
     private final LaunchOptionsCommand mOptionsCommand;
-    private final Command mShare;
-    private final Command mCopy;
-    private final Command mDelete;
+    private final FactoryCommands mCommandsFactory;
+    private final UserSession mSession;
 
     private DataAuthorId mAuthorId;
+    private CommandsList mCommands;
 
-    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand, Command share, Command copy, Command delete) {
+    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand,
+                                      FactoryCommands commandsFactory,
+                                      UserSession Session) {
+        super(Strings.Commands.REVIEW_OPTIONS);
         mOptionsCommand = optionsCommand;
-        mShare = share;
-        mCopy = copy;
-        mDelete = delete;
+        mCommandsFactory = commandsFactory;
+        mSession = Session;
+        mCommands = new CommandsList();
     }
 
-    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand, Command share, Command copy, Command delete, DataAuthorId authorId) {
-        mOptionsCommand = optionsCommand;
+    public LaunchReviewOptionsCommand(LaunchOptionsCommand optionsCommand,
+                                      FactoryCommands commandsFactory,
+                                      UserSession session,
+                                      DataAuthorId authorId) {
+        this(optionsCommand, commandsFactory, session);
         mAuthorId = authorId;
     }
 
@@ -55,7 +64,28 @@ public class LaunchReviewOptionsCommand extends Command {
     @Override
     public void execute() {
         if(mAuthorId == null) return;
-        ArrayList<String> options = new ArrayList<>();
 
+        boolean hasDelete = mAuthorId.toString().equals(mSession.getAuthorId().toString());
+        ReviewId reviewId = mAuthorId.getReviewId();
+
+        mCommands = new CommandsList();
+        mCommands.add(mCommandsFactory.newShareCommand(reviewId));
+        mCommands.add(mCommandsFactory.newCopyCommand(reviewId));
+        if(hasDelete) mCommands.add(mCommandsFactory.newDeleteCommand(reviewId));
+
+        if(mAuthorId == null || mCommands.size() == 0) return;
+        final int code = RequestCodeGenerator.getCode(LaunchReviewOptionsCommand.class,
+                TextUtils.commaDelimited(mCommands.getCommandNames()));
+        mOptionsCommand.execute(mCommands, null, code, new ExecutionListener() {
+            @Override
+            public void onCommandExecuted(int requestCode) {
+                if(code == requestCode) onExecutionComplete();
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mOptionsCommand.onOptionSelected(requestCode, option);
     }
 }

@@ -49,10 +49,10 @@ public class VhMapClusterWindow extends MapInfoWindow {
         ReviewCluster cluster = new ReviewCluster(mCluster);
         ReviewCluster.ClusterAverage average = cluster.getAverage();
         int numReviews = average.getNumberReviews();
-        String stem = numReviews == 1 ? Strings.REVIEW : Strings.REVIEWS;
+        String stem = numReviews == 1 ? Strings.Mapping.REVIEW : Strings.Mapping.REVIEWS;
         mSubject.setText(String.valueOf(numReviews) + " " + stem);
         mRating.setText(String.valueOf(average.getAverage()));
-        mLocations.setText(mCluster.getSize() + " " + Strings.LOCATIONS);
+        mLocations.setText(mCluster.getSize() + " " + Strings.Mapping.LOCATIONS);
 
         mListener.onInfoUpdated();
     }

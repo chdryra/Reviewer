@@ -19,10 +19,9 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.NamedCommand;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -58,12 +57,13 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     @Override
     public boolean onLongClick(View v) {
-        ArrayList<NamedCommand> commands = new ArrayList<>();
+        CommandsList commands = new CommandsList();
         for(NamedComparator<? super T> comparator : mComparators.asList()) {
             commands.add(new ComparatorCommand(comparator));
         }
 
-        mOptionsCommand.execute(OPTIONS, commands, mCurrentComparator.getName());
+        mOptionsCommand.execute(commands, mCurrentComparator.getName());
+
         return true;
     }
 
@@ -89,7 +89,7 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
         });
     }
 
-    private class ComparatorCommand extends NamedCommand {
+    private class ComparatorCommand extends Command {
         private NamedComparator<? super T> mComparator;
 
         private ComparatorCommand(NamedComparator<? super T> comparator) {

@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
@@ -25,6 +26,7 @@ public class LaunchMappedCommand extends Command {
     private final ReviewNode mNode;
 
     public LaunchMappedCommand(ReviewLauncher launcher, @Nullable ReviewNode node) {
+        super(Strings.Commands.MAPPED);
         mLauncher = launcher;
         mNode = node;
     }

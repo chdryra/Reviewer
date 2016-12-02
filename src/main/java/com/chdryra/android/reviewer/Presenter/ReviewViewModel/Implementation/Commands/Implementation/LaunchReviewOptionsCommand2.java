@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -31,10 +32,12 @@ public class LaunchReviewOptionsCommand2 extends Command {
     private DataAuthorId mAuthorId;
 
     public LaunchReviewOptionsCommand2(LaunchableConfig optionsConfig) {
+        super(Strings.Commands.REVIEW_OPTIONS);
         mOptionsConfig = optionsConfig;
     }
 
     public LaunchReviewOptionsCommand2(LaunchableConfig optionsConfig, DataAuthorId authorId) {
+        super(Strings.Commands.REVIEW_OPTIONS);
         mOptionsConfig = optionsConfig;
         mAuthorId = authorId;
     }

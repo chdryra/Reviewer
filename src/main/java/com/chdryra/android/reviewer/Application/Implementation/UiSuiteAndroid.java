@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
@@ -127,6 +128,10 @@ public class UiSuiteAndroid implements UiSuite{
     public void setSession(UserSession session) {
         mUiLauncher.setSession(session);
         mSessionUser = session.getAuthorId();
+    }
+
+    public void setApplication(ApplicationSuite app) {
+        mCommandsFactory.setApp(app);
     }
 
     @Nullable

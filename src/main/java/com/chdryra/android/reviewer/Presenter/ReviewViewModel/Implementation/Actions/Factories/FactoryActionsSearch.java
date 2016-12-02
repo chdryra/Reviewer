@@ -53,7 +53,7 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
     }
 
     public SubjectBannerFilter<T> newSubjectBannerFilter() {
-        return new SubjectBannerFilter<>(Strings.Buttons.AUTHORS, Strings.SEARCHING);
+        return new SubjectBannerFilter<>(Strings.Buttons.AUTHORS, Strings.Progress.SEARCHING);
     }
 
     @Override

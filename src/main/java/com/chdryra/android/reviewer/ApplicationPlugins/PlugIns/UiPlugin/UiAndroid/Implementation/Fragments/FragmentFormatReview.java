@@ -297,8 +297,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         MenuAction<?> action;
         if (mIsPublished) {
             LaunchReviewOptionsCommand command
-                    = getCommandsFactory().newLaunchReviewOptionsCommand(mUi.getConfig()
-                    .getReviewOptions(), new NodeAuthorId(mNode));
+                    = getCommandsFactory().newLaunchReviewOptionsCommand(new NodeAuthorId(mNode));
             MaiCommand<GvData> mai = new MaiCommand<>(command);
             action = new MenuReviewOptionsAppLevel(Strings.Screens.FORMATTED, upAction, mai, ui);
         } else {

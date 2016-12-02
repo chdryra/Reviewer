@@ -137,7 +137,7 @@ public class FragmentNodeMapper extends FragmentMapLocation {
 
     private void launchReview(ReviewClusterItem item) {
         UiSuite ui = getApp().getUi();
-        ui.getCurrentScreen().showToast(Strings.LOADING);
+        ui.getCurrentScreen().showToast(Strings.Progress.LOADING);
         ui.getLauncher().getReviewLauncher().launchAsList(item.getReference().getReviewId());
     }
 
@@ -145,13 +145,13 @@ public class FragmentNodeMapper extends FragmentMapLocation {
         IdableCollection<ReviewReference> reviews = new ReviewCluster(cluster).getUniqueReviews();
 
         int size = reviews.size();
-        String stem = size == 1? Strings.REVIEW : Strings.REVIEWS;
+        String stem = size == 1? Strings.Mapping.REVIEW : Strings.Mapping.REVIEWS;
         String subject = String.valueOf(size) + " " + stem;
         ReviewNode node
                 = getApp().getRepository().getReviewsRepository().getMetaReview(reviews, subject);
 
         UiSuite ui = getApp().getUi();
-        ui.getCurrentScreen().showToast(Strings.LOADING);
+        ui.getCurrentScreen().showToast(Strings.Progress.LOADING);
         ui.getLauncher().getReviewLauncher().launchAsList(node);
     }
 

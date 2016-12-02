@@ -24,6 +24,7 @@ public class CopyCommand extends Command {
     private final CurrentScreen mScreen;
 
     public CopyCommand(LaunchEditorCommand command, CurrentScreen screen) {
+        super(Strings.Commands.COPY);
         mScreen = screen;
         mCommand = command;
     }

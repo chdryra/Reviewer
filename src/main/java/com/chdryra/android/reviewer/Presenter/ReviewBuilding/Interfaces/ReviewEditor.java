@@ -42,8 +42,8 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     }
 
     enum EditMode {
-        FULL(Strings.FULL_REVIEW),
-        QUICK(Strings.QUICK_REVIEW);
+        FULL(Strings.Buttons.FULL_REVIEW),
+        QUICK(Strings.Buttons.QUICK_REVIEW);
 
         private String mLabel;
 

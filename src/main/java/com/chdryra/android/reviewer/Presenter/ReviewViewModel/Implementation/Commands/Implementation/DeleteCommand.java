@@ -28,6 +28,7 @@ public class DeleteCommand extends Command implements AlertListener {
     private ReviewDeleter mDeleter;
 
     public DeleteCommand(ReviewDeleter deleter, CurrentScreen screen) {
+        super(Strings.Commands.DELETE);
         mScreen = screen;
         mDeleter = deleter;
     }

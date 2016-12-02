@@ -100,7 +100,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node),
                 new FactoryActionsReviewsList.Feed(getUiLauncher(), this, mCommandsFactory,
-                        getReviewOptionsConfig(), getOptionsConfig(), mComparators));
+                        mComparators));
     }
 
     public ReviewViewNode newReviewsListView(ReviewNode node, boolean followMenu) {
@@ -181,7 +181,7 @@ public class FactoryReviewView {
         AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference(followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(getUiLauncher(), this, mCommandsFactory,
-                        getReviewOptionsConfig(), getOptionsConfig(), mComparators, name));
+                        mComparators, name));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -242,13 +242,13 @@ public class FactoryReviewView {
                 mConfig.getViewer(dataType.getDatumName());
         if (viewer != null && dataType.equals(GvComment.Reference.TYPE)) {
                 factory = new FactoryActionsViewComments(this, mCommandsFactory, stamp,
-                        mAuthorsRepo, getUiLauncher(), getReviewOptionsConfig(), viewer, node);
+                        mAuthorsRepo, getUiLauncher(), viewer, node);
         } else if (viewer != null && dataType.equals(GvLocation.Reference.TYPE)) {
                 factory = new FactoryActionsViewLocations(this, mCommandsFactory, stamp,
-                        mAuthorsRepo, getUiLauncher(), getReviewOptionsConfig(), viewer, node);
+                        mAuthorsRepo, getUiLauncher(), viewer, node);
         } else {
             factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory, stamp,
-                        mAuthorsRepo, getUiLauncher(), getReviewOptionsConfig(), viewer, node);
+                        mAuthorsRepo, getUiLauncher(), viewer, node);
         }
 
         //TODO make type safe

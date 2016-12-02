@@ -33,7 +33,7 @@ public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
             if (mReference != null) mReference.unbindFromValue(this);
             mReference = datum.getReference();
             mReference.bindToValue(this);
-            updateView(Strings.LOADING);
+            updateView(Strings.Progress.LOADING);
         }
     }
 

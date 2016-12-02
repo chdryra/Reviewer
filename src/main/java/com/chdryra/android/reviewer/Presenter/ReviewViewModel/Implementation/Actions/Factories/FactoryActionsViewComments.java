@@ -34,11 +34,10 @@ public class FactoryActionsViewComments extends FactoryActionsViewData<GvComment
                                       FactoryCommands factoryCommands,
                                       ReviewStamp stamp, AuthorsRepository repo,
                                       UiLauncher launcher,
-                                      LaunchableConfig optionsConfig,
                                       LaunchableConfig gridItemConfig,
                                       @Nullable ReviewNode node) {
         super(GvComment.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
-                optionsConfig, gridItemConfig, node);
+                gridItemConfig, node);
     }
 
     @Override

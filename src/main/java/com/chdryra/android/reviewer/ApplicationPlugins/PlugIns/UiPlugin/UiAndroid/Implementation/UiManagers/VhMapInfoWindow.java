@@ -165,7 +165,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private void initialiseData() {
         mShowAbstract = false;
         setAbstractVisibility();
-        mSubject.setText(Strings.FETCHING);
+        mSubject.setText(Strings.Progress.FETCHING);
         mRating.setText("");
         mLocation.setText(mLocationName.toString());
         mHeadline.setText(null);

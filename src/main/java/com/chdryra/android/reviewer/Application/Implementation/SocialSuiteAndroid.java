@@ -8,11 +8,17 @@
 
 package com.chdryra.android.reviewer.Application.Implementation;
 
+import android.app.Activity;
+
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +29,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 public class SocialSuiteAndroid implements SocialSuite {
     private SocialPlatformList mList;
     private UserSession mSession;
+    private Activity mActivity;
 
     public SocialSuiteAndroid(SocialPlatformList list) {
         mList = list;
@@ -38,7 +45,16 @@ public class SocialSuiteAndroid implements SocialSuite {
         return mSession != null ? mSession.getSocialProfile() : new NullSocialProfile();
     }
 
+    @Override
+    public SocialPublisher newPublisher() {
+        return new PublisherAndroid(mActivity, new ReviewSummariser(), new ReviewFormatterTwitter());
+    }
+
     public void setSession(UserSession session) {
         mSession = session;
+    }
+
+    public void setActivity(Activity activity) {
+        mActivity = activity;
     }
 }

@@ -160,7 +160,7 @@ public class CommentsDataParser {
         }
 
         for(int i = 0; i < links.size(); ++i) {
-            facts.add(newUrl(Strings.LINK + " " + String.valueOf(i + 1), links.get(i)));
+            facts.add(newUrl(Strings.Web.LINK + " " + String.valueOf(i + 1), links.get(i)));
         }
 
         return facts;

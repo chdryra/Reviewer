@@ -9,8 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
 
+
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -25,6 +28,7 @@ public class LaunchViewCommand extends Command {
     private final UiLauncher mLauncher;
 
     public LaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
+        super(Strings.Commands.VIEW);
         mView = view;
         mLauncher = launcher;
     }

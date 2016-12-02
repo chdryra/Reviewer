@@ -34,11 +34,10 @@ public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocati
                                        ReviewStamp stamp,
                                        AuthorsRepository repo,
                                        UiLauncher launcher,
-                                       LaunchableConfig optionsConfig,
                                        LaunchableConfig gridItemConfig,
                                        @Nullable ReviewNode node) {
         super(GvLocation.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
-                optionsConfig, gridItemConfig, node);
+                gridItemConfig, node);
     }
 
     @Override

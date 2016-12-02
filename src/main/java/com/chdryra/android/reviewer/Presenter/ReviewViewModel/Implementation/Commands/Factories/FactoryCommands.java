@@ -10,12 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
+import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CopyCommand;
@@ -27,8 +28,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -39,30 +38,34 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 
 public class FactoryCommands {
-    public Command newCopyCommand(UiLauncher launcher, @Nullable ReviewId template,
-                                  CurrentScreen screen) {
-        return new CopyCommand(newLaunchEditorCommand(launcher, template), screen);
+    private ApplicationSuite mApp;
+
+    public void setApp(ApplicationSuite app) {
+        mApp = app;
     }
 
-    public Command newShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
-                                   SocialPublisher publisher) {
-        return new ShareCommand(reviewId, repo, screen, publisher);
+    public Command newCopyCommand(@Nullable ReviewId template) {
+        return new CopyCommand(newLaunchEditorCommand(getLauncher(), template), getScreen());
     }
 
-    public Command newDeleteCommand(ReviewDeleter deleter, CurrentScreen screen) {
-        return new DeleteCommand(deleter, screen);
+    public Command newShareCommand(ReviewId reviewId) {
+        return new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher());
     }
 
-    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand(LaunchableConfig optionsUi) {
-        return new LaunchReviewOptionsCommand(optionsUi);
+    public Command newDeleteCommand(ReviewId reviewId) {
+        return new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen());
     }
 
-    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand(LaunchableConfig optionsUi, DataAuthorId authorId) {
-        return new LaunchReviewOptionsCommand(optionsUi, authorId);
+    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand() {
+        return new LaunchReviewOptionsCommand(newLaunchOptionsCommand(), this, getSession());
     }
 
-    public LaunchOptionsCommand newLaunchOptionsCommand(LaunchableConfig optionsUi) {
-        return new LaunchOptionsCommand(optionsUi);
+    public LaunchReviewOptionsCommand newLaunchReviewOptionsCommand(DataAuthorId authorId) {
+        return new LaunchReviewOptionsCommand(newLaunchOptionsCommand(), this, getSession(), authorId);
+    }
+
+    public LaunchOptionsCommand newLaunchOptionsCommand() {
+        return new LaunchOptionsCommand(mApp.getUi().getConfig().getOptions());
     }
 
     public LaunchViewCommand newLaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
@@ -73,7 +76,8 @@ public class FactoryCommands {
         return new LaunchFormattedCommand(launcher, null);
     }
 
-    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher, ReviewNode node) {
+    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher, ReviewNode
+            node) {
         return new LaunchFormattedCommand(launcher, node);
     }
 
@@ -85,7 +89,24 @@ public class FactoryCommands {
         return new LaunchMappedCommand(launcher, node);
     }
 
-    public LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
+    public LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId
+            template) {
         return new LaunchEditorCommand(launcher, template);
+    }
+
+    private UserSession getSession() {
+        return mApp.getAuthentication().getUserSession();
+    }
+
+    private RepositorySuite getRepo() {
+        return mApp.getRepository();
+    }
+
+    private CurrentScreen getScreen() {
+        return mApp.getUi().getCurrentScreen();
+    }
+
+    private UiLauncher getLauncher() {
+        return mApp.getUi().getLauncher();
     }
 }

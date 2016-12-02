@@ -21,19 +21,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchFormatted;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchReviewOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -45,8 +42,6 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private final UiLauncher mLauncher;
     private final FactoryReviewView mFactoryReviewView;
     private final FactoryCommands mFactoryCommands;
-    private final LaunchableConfig mReviewOptionsConfig;
-    private final LaunchableConfig mOptionsConfig;
     private final DataComparatorsApi mComparators;
 
     private AuthorReference mAuthorRef;
@@ -54,16 +49,12 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
                                      FactoryCommands factoryCommands,
-                                     LaunchableConfig reviewOptionsConfig,
-                                     LaunchableConfig optionsConfig,
                                      DataComparatorsApi comparators,
                                      @Nullable AuthorReference authorRef) {
         super(GvNode.TYPE);
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
         mFactoryCommands = factoryCommands;
-        mReviewOptionsConfig = reviewOptionsConfig;
-        mOptionsConfig = optionsConfig;
         mComparators = comparators;
         mAuthorRef = authorRef;
     }
@@ -94,23 +85,21 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public BannerButtonAction<GvNode> newBannerButton() {
-        LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand(mOptionsConfig);
+        LaunchOptionsCommand longClick = mFactoryCommands.newLaunchOptionsCommand();
         return new BannerButtonSorter<>(mComparators.newReviewComparators(), longClick);
     }
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher());
-        LaunchReviewOptionsCommand longClick = mFactoryCommands.newLaunchReviewOptionsCommand(mReviewOptionsConfig);
+        LaunchReviewOptionsCommand longClick = mFactoryCommands.newLaunchReviewOptionsCommand();
         return new GridItemLaunchFormatted(click, longClick);
     }
 
     public static class Feed extends FactoryActionsReviewsList {
         public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView,
-                    FactoryCommands factoryCommands, LaunchableConfig reviewOptionsUi,
-                    LaunchableConfig optionsUi, DataComparatorsApi comparators) {
-            super(launcher, factoryReviewView, factoryCommands, reviewOptionsUi, optionsUi,
-                    comparators, null);
+                    FactoryCommands factoryCommands, DataComparatorsApi comparators) {
+            super(launcher, factoryReviewView, factoryCommands, comparators, null);
         }
 
         @Override

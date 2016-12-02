@@ -25,11 +25,22 @@ public abstract class Command {
 
     public abstract void execute();
 
+    private final String mName;
+
+    public Command(String name) {
+        mName = name;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
     public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;
         mListener = listener;
         execute();
     }
+
 
     int getRequestCode() {
         return mRequestCode;

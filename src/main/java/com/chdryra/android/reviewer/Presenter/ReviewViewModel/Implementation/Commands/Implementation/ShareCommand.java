@@ -30,6 +30,7 @@ public class ShareCommand extends Command {
 
     public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
                         SocialPublisher sharer) {
+        super(Strings.Commands.SHARE);
         mRepo = repo;
         mScreen = screen;
         mReviewId = reviewId;

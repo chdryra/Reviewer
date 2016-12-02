@@ -59,6 +59,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mSocial = social;
 
         mAuth.getUserSession().registerSessionObserver(this);
+        mUi.setApplication(this);
     }
 
     public void setActivity(Activity activity) {
@@ -66,6 +67,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mAuth.setActivity(mActivity);
         mLocation.setActivity(mActivity);
         mUi.setActivity(mActivity);
+        mSocial.setActivity(mActivity);
     }
 
     private void setSession() {

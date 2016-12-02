@@ -138,7 +138,7 @@ public class FactoryReviews implements ReviewMaker {
     private DataReviewInfo getMetaForAuthor(AuthorId authorId) {
         ReviewStamp stamp = ReviewStamp.newStamp(authorId);
         return new ReviewInfo(stamp,
-                new DatumSubject(stamp, Strings.FETCHING),
+                new DatumSubject(stamp, Strings.Progress.FETCHING),
                 new DatumRating(stamp, 0f, 1),
                 new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
                 new DatumDate(stamp, stamp.getDate().getTime()));

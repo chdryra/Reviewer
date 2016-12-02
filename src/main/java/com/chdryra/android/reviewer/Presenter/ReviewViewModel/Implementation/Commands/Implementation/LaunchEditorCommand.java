@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -23,6 +24,7 @@ public class LaunchEditorCommand extends Command {
     private final ReviewId mTemplate;
 
     public LaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId template) {
+        super(Strings.Commands.EDITOR);
         mLauncher = launcher;
         mTemplate = template;
     }

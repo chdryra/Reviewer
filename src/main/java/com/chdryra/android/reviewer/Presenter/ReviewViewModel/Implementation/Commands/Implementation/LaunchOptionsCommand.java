@@ -13,13 +13,15 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,16 +37,26 @@ public class LaunchOptionsCommand extends Command implements OptionSelectListene
 
     private final LaunchableConfig mOptionsConfig;
     private int mCode;
-    private List<NamedCommand> mOptions;
+    private CommandsList mOptions;
     private String mCurrentlySelected;
 
     public LaunchOptionsCommand(LaunchableConfig optionsConfig) {
+        super(Strings.Commands.OPTIONS);
         mOptionsConfig = optionsConfig;
-        mCode = mOptionsConfig.getDefaultRequestCode();
+        mCode = optionsConfig.getDefaultRequestCode();
     }
 
-    public void execute(int requestCode, List<NamedCommand> options, @Nullable String currentlySelected) {
-        mCode= requestCode;
+    public void execute(CommandsList options,
+                        @Nullable String currentlySelected,
+                        int requestCode,
+                        @Nullable ExecutionListener listener) {
+        mOptions = options;
+        mCurrentlySelected = currentlySelected;
+        execute(requestCode, listener);
+    }
+
+    public void execute(CommandsList options,
+                        @Nullable String currentlySelected) {
         mOptions = options;
         mCurrentlySelected = currentlySelected;
         execute();
@@ -55,31 +67,21 @@ public class LaunchOptionsCommand extends Command implements OptionSelectListene
         if(mOptions == null) return;
 
         Bundle args = new Bundle();
-        args.putStringArrayList(OPTIONS, getOptionNames());
+        ArrayList<String> options = mOptions.getCommandNames();
+        args.putStringArrayList(OPTIONS, options);
         args.putString(CURRENTLY_SELECTED, mCurrentlySelected);
+
+        mCode = RequestCodeGenerator.getCode(LaunchOptionsCommand.class,
+                TextUtils.commaDelimited(mOptions.getCommandNames()));
         mOptionsConfig.launch(new UiLauncherArgs(mCode).setBundle(args));
+
         onExecutionComplete();
-    }
-
-    private ArrayList<String> getOptionNames() {
-        ArrayList<String> names = new ArrayList<>();
-        for(NamedCommand option : mOptions) {
-            names.add(option.getName());
-        }
-
-        return names;
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         if(requestCode == mCode) {
-            for (NamedCommand command : mOptions) {
-                if(command.getName().equals(option)) {
-                    command.execute();
-                    break;
-                }
-            }
-
+            mOptions.execute(option);
             return true;
         }
 

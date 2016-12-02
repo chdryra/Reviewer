@@ -47,7 +47,6 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final FactoryCommands mFactoryCommands;
     private final UiLauncher mLauncher;
     private final LaunchableConfig mGridItemConfig;
-    private final LaunchableConfig mOptionsConfig;
     private final ReviewStamp mStamp;
     private final AuthorsRepository mRepo;
     private final ReviewNode mNode;
@@ -55,8 +54,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public FactoryActionsViewData(GvDataType<T> dataType,
                                   FactoryReviewView factoryView,
                                   FactoryCommands factoryCommands,
-                                  ReviewStamp stamp, AuthorsRepository repo, UiLauncher launcher,
-                                  LaunchableConfig optionsConfig,
+                                  ReviewStamp stamp, AuthorsRepository repo,
+                                  UiLauncher launcher,
                                   @Nullable LaunchableConfig gridItemConfig,
                                   @Nullable ReviewNode node) {
         super(dataType);
@@ -64,7 +63,6 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         mFactoryCommands = factoryCommands;
         mLauncher = launcher;
         mGridItemConfig = gridItemConfig;
-        mOptionsConfig = optionsConfig;
         mStamp = stamp;
         mRepo = repo;
         mNode = node;
@@ -86,7 +84,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         if (mNode == null) return super.newRatingBar();
         LaunchFormattedCommand command
                 = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
-        return new RatingBarCommand<>(command, Strings.LOADING);
+        return new RatingBarCommand<>(command, Strings.Progress.LOADING);
     }
 
     @Override
@@ -127,7 +125,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @NonNull
     MenuActionItem<T> newOptionsMenuItem() {
         LaunchReviewOptionsCommand command
-                = mFactoryCommands.newLaunchReviewOptionsCommand(mOptionsConfig, mStamp.getDataAuthorId());
+                = mFactoryCommands.newLaunchReviewOptionsCommand(mStamp.getDataAuthorId());
         return new MaiCommand<>(command);
     }
 }

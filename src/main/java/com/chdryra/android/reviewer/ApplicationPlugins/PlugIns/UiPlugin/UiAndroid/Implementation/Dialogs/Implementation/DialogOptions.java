@@ -22,8 +22,7 @@ import android.widget.LinearLayout;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchOptionsCommand;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -121,7 +120,7 @@ public class DialogOptions extends DialogOneButtonFragment implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSelected.setPressed(false);
+                if(mSelected != null) mSelected.setPressed(false);
                 listener.onOptionSelected(getTargetRequestCode(), option);
                 dismiss();
             }
