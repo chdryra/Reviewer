@@ -166,14 +166,6 @@ public class FactoryReviewView {
     }
 
     //private
-    private LaunchableConfig getReviewOptionsConfig() {
-        return mConfig.getReviewOptions();
-    }
-
-    private LaunchableConfig getOptionsConfig() {
-        return mConfig.getOptions();
-    }
-
     @NonNull
     private ReviewViewNode newDefaultReviewsListView(ReviewNode node,
                                                      ReviewViewAdapter<GvNode> adapter,

@@ -45,7 +45,7 @@ public class FactoryCommands {
     }
 
     public Command newCopyCommand(@Nullable ReviewId template) {
-        return new CopyCommand(newLaunchEditorCommand(getLauncher(), template), getScreen());
+        return new CopyCommand(newLaunchEditorCommand(template), getScreen());
     }
 
     public Command newShareCommand(ReviewId reviewId) {
@@ -68,30 +68,32 @@ public class FactoryCommands {
         return new LaunchOptionsCommand(mApp.getUi().getConfig().getOptions());
     }
 
-    public LaunchViewCommand newLaunchViewCommand(UiLauncher launcher, ReviewView<?> view) {
-        return new LaunchViewCommand(launcher, view);
+    public LaunchViewCommand newLaunchViewCommand(ReviewView<?> view) {
+        return new LaunchViewCommand(getLauncher(), view);
     }
 
-    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher) {
-        return new LaunchFormattedCommand(launcher, null);
+    public LaunchFormattedCommand newLaunchFormattedCommand() {
+        return new LaunchFormattedCommand(getReviewLauncher(), null);
     }
 
-    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewLauncher launcher, ReviewNode
-            node) {
-        return new LaunchFormattedCommand(launcher, node);
+    public LaunchFormattedCommand newLaunchFormattedCommand(ReviewNode node) {
+        return new LaunchFormattedCommand(getReviewLauncher(), node);
     }
 
-    public LaunchMappedCommand newLaunchMappedCommand(ReviewLauncher launcher) {
-        return new LaunchMappedCommand(launcher, null);
+    private ReviewLauncher getReviewLauncher() {
+        return getLauncher().getReviewLauncher();
     }
 
-    public LaunchMappedCommand newLaunchMappedCommand(ReviewLauncher launcher, ReviewNode node) {
-        return new LaunchMappedCommand(launcher, node);
+    public LaunchMappedCommand newLaunchMappedCommand() {
+        return new LaunchMappedCommand(getReviewLauncher(), null);
     }
 
-    public LaunchEditorCommand newLaunchEditorCommand(UiLauncher launcher, @Nullable ReviewId
-            template) {
-        return new LaunchEditorCommand(launcher, template);
+    public LaunchMappedCommand newLaunchMappedCommand(ReviewNode node) {
+        return new LaunchMappedCommand(getReviewLauncher(), node);
+    }
+
+    public LaunchEditorCommand newLaunchEditorCommand(@Nullable ReviewId template) {
+        return new LaunchEditorCommand(getLauncher(), template);
     }
 
     private UserSession getSession() {

@@ -39,4 +39,8 @@ public class MaiCommand<T extends GvData> extends MenuActionItemBasic<T> {
         if(mToast != null) getCurrentScreen().showToast(mToast);
         mCommand.execute();
     }
+
+    protected Command getCommand() {
+        return mCommand;
+    }
 }

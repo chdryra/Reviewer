@@ -29,8 +29,11 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     private final ImageChooser mImageChooser;
     private final UiLauncher mLauncher;
 
-    public BannerButtonAddImage(LaunchableConfig adderConfig, String title, GvDataList<GvImage> emptyImageList, ParcelablePacker<GvImage> dataPacker, UiLauncher launcher,
-
+    public BannerButtonAddImage(LaunchableConfig adderConfig,
+                                String title,
+                                GvDataList<GvImage> emptyImageList,
+                                ParcelablePacker<GvImage> dataPacker,
+                                UiLauncher launcher,
                                 ImageChooser imageChooser) {
         super(adderConfig, title, emptyImageList, dataPacker);
         mLauncher = launcher;

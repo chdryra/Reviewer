@@ -32,7 +32,6 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mMapperEdit;
     private final Class<? extends LaunchableUi> mMapperNode;
     private final Class<? extends LaunchableUi> mPublish;
-    private final Class<? extends LaunchableUi> mReviewOptions;
     private final Class<? extends LaunchableUi> mOptions;
 
     //TODO make this independent of Android
@@ -46,7 +45,6 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> mapperEdit,
                              Class<? extends LaunchableUi> mapperNode,
                              Class<? extends LaunchableUi> publish,
-                             Class<? extends LaunchableUi> reviewOptions,
                              Class<? extends LaunchableUi> options,
                              Class<? extends Activity> defaultActivity) {
         mLogin = login;
@@ -57,7 +55,6 @@ public class LaunchablesHolder implements LaunchablesList {
         mMapperEdit = mapperEdit;
         mMapperNode = mapperNode;
         mPublish = publish;
-        mReviewOptions = reviewOptions;
         mOptions = options;
         mDefaultActivity = defaultActivity;
         mDataLaunchables = new ArrayList<>();
@@ -105,11 +102,6 @@ public class LaunchablesHolder implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getPublish() {
         return mPublish;
-    }
-
-    @Override
-    public Class<? extends LaunchableUi> getReviewOptions() {
-        return mReviewOptions;
     }
 
     @Override

@@ -34,7 +34,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,18 +42,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  */
 class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsNone<T> {
     private final UiConfig mUiConfig;
-    private final ReviewLauncher mLauncher;
     private final FactoryGvData mDataFactory;
     private final FactoryCommands mCommandsFactory;
     private final ParcelablePacker<T> mPacker;
 
     public FactoryActionsEditData(GvDataType<T> dataType,
                                   UiConfig uiConfig,
-                                  FactoryGvData dataFactory, ReviewLauncher launcher,
+                                  FactoryGvData dataFactory,
                                   FactoryCommands commandsFactory) {
         super(dataType);
         mUiConfig = uiConfig;
-        mLauncher = launcher;
         mDataFactory = dataFactory;
         mCommandsFactory = commandsFactory;
         mPacker = new ParcelablePacker<>();
@@ -120,7 +117,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @NonNull
     MenuActionItem<T> newPreviewAction() {
-        return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchFormattedCommand(mLauncher));
+        return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchFormattedCommand());
     }
 
     @NonNull
@@ -135,10 +132,6 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     private String geDataName() {
         return getDataType().getDataName();
-    }
-
-    ReviewLauncher getLauncher() {
-        return mLauncher;
     }
 
     FactoryCommands getCommandsFactory() {

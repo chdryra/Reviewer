@@ -91,7 +91,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
-        LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher());
+        LaunchFormattedCommand click = mFactoryCommands.newLaunchFormattedCommand();
         LaunchReviewOptionsCommand longClick = mFactoryCommands.newLaunchReviewOptionsCommand();
         return new GridItemLaunchFormatted(click, longClick);
     }
@@ -106,7 +106,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         public MenuAction<GvNode> newMenu() {
             UiLauncher launcher = getUiLauncher();
             MaiCommand<GvNode> newReview = new MaiCommand<>
-                    (getFactoryCommands().newLaunchEditorCommand(launcher, null));
+                    (getFactoryCommands().newLaunchEditorCommand(null));
             MaiSearch<GvNode> search = new MaiSearch<>(launcher, getFactoryReviewView());
             MaiLogout<GvNode> logout = new MaiLogout<>();
 

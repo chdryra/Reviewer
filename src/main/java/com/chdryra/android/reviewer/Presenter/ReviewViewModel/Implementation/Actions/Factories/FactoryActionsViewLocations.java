@@ -44,7 +44,7 @@ public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocati
     public MenuAction<GvLocation.Reference> newMenu() {
         if (getNode() == null) return super.newMenu();
         LaunchMappedCommand command
-                = getCommandsFactory().newLaunchMappedCommand(getLauncher().getReviewLauncher(), getNode());
+                = getCommandsFactory().newLaunchMappedCommand(getNode());
         return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>(command));
     }
 }

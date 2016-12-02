@@ -35,7 +35,7 @@ public class FactoryActionsEditImages extends FactoryActionsEditData<GvImage> {
                                     UiLauncher launcher,
                                     FactoryCommands commandsFactory,
                                     ImageChooser imageChooser) {
-        super(TYPE, config, dataFactory, launcher.getReviewLauncher(), commandsFactory);
+        super(TYPE, config, dataFactory, commandsFactory);
         mLauncher = launcher;
         mImageChooser = imageChooser;
     }

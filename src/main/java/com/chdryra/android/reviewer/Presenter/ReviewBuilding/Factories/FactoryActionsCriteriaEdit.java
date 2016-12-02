@@ -12,12 +12,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiRatingAverage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,9 +28,8 @@ public class FactoryActionsCriteriaEdit extends FactoryActionsEditData<GvCriteri
 
     public FactoryActionsCriteriaEdit(UiConfig config,
                                       FactoryGvData dataFactory,
-                                      ReviewLauncher launcher,
                                       FactoryCommands commandsFactory) {
-        super(TYPE, config, dataFactory, launcher, commandsFactory);
+        super(TYPE, config, dataFactory, commandsFactory);
     }
 
     @Override

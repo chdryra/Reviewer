@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 
 /**
@@ -33,9 +32,8 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
 
     public FactoryActionsEditLocations(UiConfig config,
                                        FactoryGvData dataFactory,
-                                       ReviewLauncher launcher,
                                        FactoryCommands commandsFactory) {
-        super(TYPE, config, dataFactory, launcher, commandsFactory);
+        super(TYPE, config, dataFactory, commandsFactory);
     }
 
     @Override
@@ -55,6 +53,6 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
     public MenuAction<GvLocation> newMenu() {
         return new MenuEditLocations(newUpAction(), newDoneAction(), newDeleteAction(),
                 newPreviewAction(),
-                new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand(getLauncher())));
+                new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand()));
     }
 }

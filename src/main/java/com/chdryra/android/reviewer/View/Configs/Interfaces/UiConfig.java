@@ -38,8 +38,6 @@ public interface UiConfig {
 
     LaunchableConfig getPublish();
 
-    LaunchableConfig getReviewOptions();
-
     LaunchableConfig getOptions();
 
     UiLauncher getUiLauncher();

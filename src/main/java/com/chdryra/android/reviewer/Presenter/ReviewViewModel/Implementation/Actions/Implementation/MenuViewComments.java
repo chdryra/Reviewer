@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.R;
 
@@ -22,7 +23,7 @@ public class MenuViewComments extends MenuViewData<GvComment.Reference> {
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
     private static final int MENU_OPTIONS_ID = R.id.menu_item_options_comment;
 
-    public MenuViewComments(MenuActionItem<GvComment.Reference> options,
+    public MenuViewComments(MenuOptionsItem<GvComment.Reference> options,
                             MenuActionItem<GvComment.Reference> splitter) {
         super(GvComment.Reference.TYPE, MENU, MENU_OPTIONS_ID, options);
         bindMenuActionItem(splitter, MENU_SPLIT_ID, false);

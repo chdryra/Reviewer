@@ -12,12 +12,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,10 +28,9 @@ public class FactoryActionsEditTags extends FactoryActionsEditData<GvTag> {
 
     public FactoryActionsEditTags(UiConfig config,
                                   FactoryGvData dataFactory,
-                                  ReviewLauncher launcher,
                                   FactoryCommands commandsFactory,
                                   TagAdjuster tagAdjuster) {
-        super(TYPE, config, dataFactory, launcher, commandsFactory);
+        super(TYPE, config, dataFactory, commandsFactory);
         mTagAdjuster = tagAdjuster;
     }
 

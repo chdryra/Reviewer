@@ -15,13 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuUi {
+public class MenuUi implements OptionSelectListener{
     private final MenuAction<?> mAction;
 
     public MenuUi(MenuAction<?> action) {
@@ -34,5 +35,10 @@ public class MenuUi {
 
     public boolean onItemSelected(MenuItem item) {
         return mAction.onItemSelected(item);
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mAction.onOptionSelected(requestCode, option);
     }
 }

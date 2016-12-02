@@ -8,11 +8,14 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
+
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuReviewOptions;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +27,7 @@ public class MenuReviewOptionsAppLevel extends MenuReviewOptions<GvData> {
 
     public MenuReviewOptionsAppLevel(String title,
                                      MenuActionItem<GvData> upAction,
-                                     MenuActionItem<GvData> reviewOptions,
+                                     MenuOptionsItem<GvData> reviewOptions,
                                      UiSuite ui) {
         super(title, upAction, reviewOptions);
         mUi = ui;

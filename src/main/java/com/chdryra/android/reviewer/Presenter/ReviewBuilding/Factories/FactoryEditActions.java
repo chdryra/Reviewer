@@ -13,9 +13,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagA
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -24,7 +22,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 import java.util.HashMap;
@@ -38,7 +35,6 @@ import java.util.Map;
 public class FactoryEditActions {
     private final Map<GvDataType<?>, FactoryActionsEditData<?>> mFactoriesMap;
     private final UiConfig mConfig;
-    private final ReviewLauncher mLauncher;
     private final FactoryGvData mDataFactory;
     private final FactoryCommands mCommandsFactory;
 
@@ -49,23 +45,22 @@ public class FactoryEditActions {
                               ImageChooser imageChooser) {
         mConfig = config;
         mDataFactory = dataFactory;
-        mLauncher = launcher.getReviewLauncher();
         mCommandsFactory = commandsFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvComment.TYPE, new FactoryActionsCommentsEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvComment.TYPE, new FactoryActionsCommentsEdit(mConfig, mDataFactory, mCommandsFactory));
 
-        addFactory(GvCriterion.TYPE, new FactoryActionsCriteriaEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvCriterion.TYPE, new FactoryActionsCriteriaEdit(mConfig, mDataFactory, mCommandsFactory));
 
-        addFactory(GvFact.TYPE, new FactoryActionsFactsEdit(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvFact.TYPE, new FactoryActionsFactsEdit(mConfig, mDataFactory, mCommandsFactory));
 
-        addFactory(GvLocation.TYPE, new FactoryActionsEditLocations(mConfig, mDataFactory, mLauncher, mCommandsFactory));
+        addFactory(GvLocation.TYPE, new FactoryActionsEditLocations(mConfig, mDataFactory, mCommandsFactory));
 
         addFactory(GvImage.TYPE,
                 new FactoryActionsEditImages(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser));
 
         addFactory(GvTag.TYPE,
-                new FactoryActionsEditTags(mConfig, mDataFactory, mLauncher, mCommandsFactory, new TagAdjuster()));
+                new FactoryActionsEditTags(mConfig, mDataFactory, mCommandsFactory, new TagAdjuster()));
     }
 
     public <T extends GvDataParcelable> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
@@ -76,7 +71,7 @@ public class FactoryEditActions {
         //TODO make type safe
         FactoryActionsEditData<T> factory = (FactoryActionsEditData<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
-            factory = new FactoryActionsEditData<>(dataType, mConfig, mDataFactory, mLauncher, mCommandsFactory);
+            factory = new FactoryActionsEditData<>(dataType, mConfig, mDataFactory, mCommandsFactory);
         }
 
         return factory;

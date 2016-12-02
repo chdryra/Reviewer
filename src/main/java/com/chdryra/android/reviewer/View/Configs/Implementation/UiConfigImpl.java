@@ -37,7 +37,6 @@ public final class UiConfigImpl implements UiConfig {
     private final LaunchableConfig mEditOnMap;
     private final LaunchableConfig mNodeMapper;
     private final LaunchableConfig mPublish;
-    private final LaunchableConfig mReviewOptions;
     private final LaunchableConfig mOptions;
 
     private UiLauncher mLauncher;
@@ -51,7 +50,6 @@ public final class UiConfigImpl implements UiConfig {
                         LaunchableConfig editOnMap,
                         LaunchableConfig nodeMapper,
                         LaunchableConfig publish,
-                        LaunchableConfig reviewOptions,
                         LaunchableConfig options) {
         mConfigsMap = new HashMap<>();
         for (DataConfigs<?> dataConfig : dataConfigs) {
@@ -66,7 +64,6 @@ public final class UiConfigImpl implements UiConfig {
         mEditOnMap = editOnMap;
         mNodeMapper = nodeMapper;
         mPublish = publish;
-        mReviewOptions = reviewOptions;
         mOptions = options;
     }
 
@@ -126,11 +123,6 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
-    public LaunchableConfig getReviewOptions() {
-        return mReviewOptions;
-    }
-
-    @Override
     public LaunchableConfig getOptions() {
         return mOptions;
     }
@@ -150,7 +142,6 @@ public final class UiConfigImpl implements UiConfig {
         mFormattedReview.setLauncher(mLauncher);
         mEditOnMap.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
-        mReviewOptions.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);
         for(DataConfigs<?> holder : mConfigsMap.values()) {
             holder.setLauncher(mLauncher);

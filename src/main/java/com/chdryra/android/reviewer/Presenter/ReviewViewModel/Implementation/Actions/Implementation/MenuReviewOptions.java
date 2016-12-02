@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.R;
 
@@ -21,7 +22,15 @@ public class MenuReviewOptions<T extends GvData> extends MenuActionsSome<T> {
     public static final int OPTIONS = R.id.menu_item_options;
     public static final int MENU = R.menu.menu_review_options;
 
-    protected MenuReviewOptions(String title, MenuActionItem<T> upAction, MenuActionItem<T> reviewOptions) {
+    private MenuOptionsItem<T> mReviewOptions;
+
+    protected MenuReviewOptions(String title, MenuActionItem<T> upAction, MenuOptionsItem<T> reviewOptions) {
         super(title, MENU, new int[]{OPTIONS}, toArrayList(reviewOptions), upAction);
+        mReviewOptions = reviewOptions;
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mReviewOptions.onOptionSelected(requestCode, option);
     }
 }

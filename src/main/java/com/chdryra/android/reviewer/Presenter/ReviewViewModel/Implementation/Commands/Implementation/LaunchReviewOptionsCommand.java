@@ -17,9 +17,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchReviewOptionsCommand extends Command implements OptionSelectListener {
+public class LaunchReviewOptionsCommand extends OptionsCommand {
     public static final String AUTHOR_ID
             = TagKeyGenerator.getKey(LaunchReviewOptionsCommand.class, "AuthorId");
 

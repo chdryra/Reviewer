@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
@@ -20,14 +20,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
     private final int mOptionsId;
+    private MenuOptionsItem<T> mOptions;
 
-    public MenuViewData(GvDataType<T> dataType, int menuId, int optionsId, MenuActionItem<T> options) {
+    public MenuViewData(GvDataType<T> dataType, int menuId, int optionsId, MenuOptionsItem<T> options) {
         this(dataType.getDataName(), menuId, optionsId, options);
     }
 
-    public MenuViewData(String title, int menuId, int optionsId, MenuActionItem<T> options) {
+    public MenuViewData(String title, int menuId, int optionsId, MenuOptionsItem<T> options) {
         super(title, menuId);
         mOptionsId = optionsId;
+        mOptions = options;
         bindHideableItem(options, optionsId, false);
     }
 
@@ -38,5 +40,10 @@ public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
 
     private boolean hasStamp() {
         return getReviewView().getAdapter().getStamp().isValid();
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mOptions.onOptionSelected(requestCode, option);
     }
 }

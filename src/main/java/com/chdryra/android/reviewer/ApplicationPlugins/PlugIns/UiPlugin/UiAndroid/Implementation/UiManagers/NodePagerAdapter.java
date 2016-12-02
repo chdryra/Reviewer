@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -31,15 +34,20 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
     private final boolean mIsClickable;
+    private final SparseArray<FragmentFormatReview> mFragments;
+
     private boolean mIsSorted = false;
     private ArrayList<ReviewNode> mSortedNodes;
 
-    public NodePagerAdapter(ReviewNode node, Comparator<ReviewNode> comparator,
-                            FragmentManager manager, boolean isClickable) {
+    public NodePagerAdapter(ReviewNode node,
+                            Comparator<ReviewNode> comparator,
+                            FragmentManager manager,
+                            boolean isClickable) {
         super(manager);
         mNode = node;
         mComparator = comparator;
         mIsClickable = isClickable;
+        mFragments = new SparseArray<>();
         mNode.registerObserver(this);
     }
 
@@ -48,9 +56,26 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
         return child != null ? child : mNode;
     }
 
+    @Nullable
+    public FragmentFormatReview getFragment(int position) {
+        return mFragments.get(position);
+    }
+
     @Override
     public Fragment getItem(int position) {
-        return FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
+        FragmentFormatReview fragment;
+        if(mFragments.get(position) == null) {
+            fragment = FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
+            mFragments.put(position, fragment);
+        }
+
+        return mFragments.get(position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup group, int position, Object object) {
+        super.destroyItem(group, position, object);
+        mFragments.remove(position);
     }
 
     @Override

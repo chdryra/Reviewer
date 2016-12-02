@@ -17,7 +17,6 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
@@ -29,7 +28,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class LaunchOptionsCommand extends Command implements OptionSelectListener{
+public class LaunchOptionsCommand extends OptionsCommand {
     public static final String OPTIONS
             = TagKeyGenerator.getKey(LaunchOptionsCommand.class, "Options");
     public static final String CURRENTLY_SELECTED

@@ -9,7 +9,9 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
 
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 
@@ -23,7 +25,7 @@ public class MenuViewLocations extends MenuViewData<GvLocation.Reference> {
     private static final int MENU_MAP_ID = R.id.menu_item_map_locations;
     private static final int MENU_OPTIONS_ID = R.id.menu_item_options_locations;
 
-    public MenuViewLocations(MenuActionItem<GvLocation.Reference> options,
+    public MenuViewLocations(MenuOptionsItem<GvLocation.Reference> options,
                              MenuActionItem<GvLocation.Reference> mapLocations) {
         super(GvLocation.Reference.TYPE, MENU, MENU_OPTIONS_ID, options);
         bindMenuActionItem(mapLocations, MENU_MAP_ID, false);

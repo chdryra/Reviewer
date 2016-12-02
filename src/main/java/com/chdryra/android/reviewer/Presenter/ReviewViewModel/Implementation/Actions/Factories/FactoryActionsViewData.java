@@ -18,16 +18,15 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
@@ -83,7 +82,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public RatingBarAction<T> newRatingBar() {
         if (mNode == null) return super.newRatingBar();
         LaunchFormattedCommand command
-                = mFactoryCommands.newLaunchFormattedCommand(mLauncher.getReviewLauncher(), mNode);
+                = mFactoryCommands.newLaunchFormattedCommand(mNode);
         return new RatingBarCommand<>(command, Strings.Progress.LOADING);
     }
 
@@ -123,9 +122,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     }
 
     @NonNull
-    MenuActionItem<T> newOptionsMenuItem() {
+    MenuOptionsItem<T> newOptionsMenuItem() {
         LaunchReviewOptionsCommand command
                 = mFactoryCommands.newLaunchReviewOptionsCommand(mStamp.getDataAuthorId());
-        return new MaiCommand<>(command);
+        return new MaiOptionsCommand<>(command);
     }
 }
