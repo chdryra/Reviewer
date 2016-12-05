@@ -19,11 +19,11 @@ import java.util.List;
 
 public class BucketDistribution<BucketingValue, ItemType> {
     private final List<Bucket<BucketingValue, ItemType>> mBuckets;
-    List<ItemType> notBucketed = new ArrayList<>();
+    List<ItemType> mNotBucketed = new ArrayList<>();
 
     public BucketDistribution(List<Bucket<BucketingValue, ItemType>> buckets) {
         mBuckets = new ArrayList<>();
-        notBucketed = new ArrayList<>();
+        mNotBucketed = new ArrayList<>();
         for(Bucket<BucketingValue, ItemType> bucket : buckets) {
             addBucket(bucket);
         }
@@ -52,6 +52,10 @@ public class BucketDistribution<BucketingValue, ItemType> {
             if (bucketed) break;
         }
 
-        if (!bucketed) notBucketed.add(item);
+        if (!bucketed) dontBucket(item);
+    }
+
+    public void dontBucket(ItemType item) {
+        mNotBucketed.add(item);
     }
 }

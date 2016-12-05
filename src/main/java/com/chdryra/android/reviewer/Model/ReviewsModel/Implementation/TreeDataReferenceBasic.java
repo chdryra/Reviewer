@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -33,8 +34,8 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
         implements
         ReviewListReference<Value, Reference>,
         ReviewNode.NodeObserver {
-
-    private static final String VISITOR = "References";
+    private static final String VISITOR
+            = TagKeyGenerator.getTag(TreeDataReferenceBasic.class, "Visitor");
 
     private ReviewNode mRoot;
     private FactoryNodeTraverser mTraverserFactory;

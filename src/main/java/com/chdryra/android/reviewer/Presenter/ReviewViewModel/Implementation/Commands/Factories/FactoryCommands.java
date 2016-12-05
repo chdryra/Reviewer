@@ -68,7 +68,7 @@ public class FactoryCommands {
         return new OptionsSelector(mApp.getUi().getConfig().getOptions());
     }
 
-    public LaunchViewCommand newLaunchViewCommand(ReviewView<?> view) {
+    public Command newLaunchViewCommand(ReviewView<?> view) {
         return new LaunchViewCommand(getLauncher(), view);
     }
 

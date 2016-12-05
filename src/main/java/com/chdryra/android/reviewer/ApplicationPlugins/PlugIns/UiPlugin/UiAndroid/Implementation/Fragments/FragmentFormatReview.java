@@ -73,7 +73,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -378,7 +378,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private void setComment(View v) {
-        LaunchViewCommand onClick = mIsPublished ? newLaunchViewCommand(GvComment.TYPE) : null;
+        Command onClick = mIsPublished ? newLaunchViewCommand(GvComment.TYPE) : null;
         CommentNodeUi commentNodeUi
                 = new CommentNodeUi((TextView) v.findViewById(COMMENT), mNode, onClick);
         mComment = new HideableViewUi<>(commentNodeUi, v.findViewById(COMMENT_VIEW));
@@ -413,7 +413,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         IdableDataList<T1> empty = new IdableDataList<>(reference.getValue().getReviewId());
         GvDataType<T2> dataType = converter.convert(empty).getGvDataType();
 
-        LaunchViewCommand onClick = mIsPublished ? newLaunchViewCommand(dataType) : null;
+        Command onClick = mIsPublished ? newLaunchViewCommand(dataType) : null;
         HorizontalAdapterRef<T1, T2, Vh> adapter
                 = new HorizontalAdapterRef<>(reference, converter, new VhFactory<>(vhClass), dims);
         HorizontalGridUi<T1> ui
@@ -422,7 +422,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         return new HideableViewUi<>(ui, v);
     }
 
-    private LaunchViewCommand newLaunchViewCommand(GvDataType<?> dataType) {
+    private Command newLaunchViewCommand(GvDataType<?> dataType) {
         ReviewView<?> dataView = mUi.newDataView(mNode, dataType);
         return getCommandsFactory().newLaunchViewCommand(dataView);
     }

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -28,7 +29,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorRatingsBucketer;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataBucketer;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeValueGetter;
 
@@ -65,13 +66,19 @@ public class FactoryVisitorReviewNode {
         });
     }
 
-    public VisitorRatingsBucketer<Float> newRatingValueBucketer() {
-        return new VisitorRatingsBucketer<>(new RatingsDistribution(),
+    public VisitorDataBucketer<Float, DataRating> newRatingValueBucketer() {
+        return new VisitorDataBucketer<>(new RatingsDistribution(),
                 new NodeValueGetter<Float>() {
+                    @Nullable
+                    @Override
+                    public Float getData(@NonNull ReviewNode node) {
+                        return node.getRating().getRating();
+                    }
+                }, new NodeDataGetter<DataRating>() {
             @Nullable
             @Override
-            public Float getData(@NonNull ReviewNode node) {
-                return node.getRating().getRating();
+            public DataRating getData(@NonNull ReviewNode node) {
+                return node.getRating();
             }
         });
     }
