@@ -27,7 +27,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 07/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeRefItemList<Value extends HasReviewId> extends TreeDataReferenceBasic<Value, ReviewItemReference<Value>> implements RefDataList<Value>{
+public class TreeRefItemList<Value extends HasReviewId> extends
+        TreeDataReferenceBasic<Value, ReviewItemReference<Value>> implements RefDataList<Value>{
     private final FactoryMdReference mReferenceFactory;
     private final VisitorFactory.ItemVisitor<Value> mVisitorFactory;
 

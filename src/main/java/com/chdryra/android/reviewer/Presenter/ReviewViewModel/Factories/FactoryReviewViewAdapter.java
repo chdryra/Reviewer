@@ -128,8 +128,8 @@ public class FactoryReviewViewAdapter {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
                     .newReviewCommentsViewer(node, mConverter));
         } else {
-            return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, dataType,
-                    mConverter));
+            return newNodeAdapter(node,
+                    mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
         }
     }
 

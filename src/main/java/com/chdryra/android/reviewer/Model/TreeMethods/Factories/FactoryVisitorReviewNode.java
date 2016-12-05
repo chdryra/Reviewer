@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model.TreeMethods.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Algorithms.DataSorting.RatingsDistribution;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
@@ -27,7 +28,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorRatingsBucketer;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeValueGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -58,6 +61,17 @@ public class FactoryVisitorReviewNode {
             @Override
             public DataSubject getData(@NonNull ReviewNode node) {
                 return node.getSubject();
+            }
+        });
+    }
+
+    public VisitorRatingsBucketer<Float> newRatingValueBucketer() {
+        return new VisitorRatingsBucketer<>(new RatingsDistribution(),
+                new NodeValueGetter<Float>() {
+            @Nullable
+            @Override
+            public Float getData(@NonNull ReviewNode node) {
+                return node.getRating().getRating();
             }
         });
     }

@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RefDataList<Value extends HasReviewId> extends ReviewListReference<Value, ReviewItemReference<Value>> {
+public interface RefDataList<Value extends HasReviewId>
+        extends ReviewListReference<Value, ReviewItemReference<Value>> {
 
 }

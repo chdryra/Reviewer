@@ -19,7 +19,4 @@ public interface DataRating extends HasReviewId, Validatable {
     float getRating();
 
     int getRatingWeight();
-
-    @Override
-    ReviewId getReviewId();
 }

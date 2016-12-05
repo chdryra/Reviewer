@@ -9,6 +9,9 @@
 package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.NumberUtils.NumberFormatter;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.RatingDefinition;
+
+import static com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating.MAX_RATING;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,17 +20,18 @@ import com.chdryra.android.mygenerallibrary.NumberUtils.NumberFormatter;
  */
 public class RatingFormatter extends NumberFormatter {
     private static final int DIGITS = 2;
-    private static final int MAXRATING = 5;
 
     public static String upToTwoSignificantDigits(float rating) {
+        RatingDefinition.throwIfOutOfRange(rating);
         return roundToSignificant(rating, DIGITS, true);
     }
 
     public static String twoSignificantDigits(float rating) {
+        RatingDefinition.throwIfOutOfRange(rating);
         return roundToSignificant(rating, DIGITS, false);
     }
 
     public static String outOfFive(float rating) {
-        return twoSignificantDigits(rating) + "/" + String.valueOf(MAXRATING);
+        return twoSignificantDigits(rating) + "/" + String.valueOf(MAX_RATING);
     }
 }
