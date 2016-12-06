@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Algorithms.DataSorting;
  * On: 05/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-abstract class BucketRange<BucketingValue> {
+public abstract class BucketRange<BucketingValue> {
     private final BucketingValue mMin;
     private final BucketingValue mMax;
     private boolean mClosed;
@@ -50,6 +50,6 @@ abstract class BucketRange<BucketingValue> {
     @Override
     public String toString() {
         String closed = mClosed ? "" : "-";
-        return mMin + " to " + mMax + closed;
+        return mMin + "<" + mMax + closed;
     }
 }

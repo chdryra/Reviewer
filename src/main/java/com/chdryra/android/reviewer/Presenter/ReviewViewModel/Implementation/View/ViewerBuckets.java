@@ -27,6 +27,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
+
+
+import java.util.List;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 05/11/2015
@@ -49,13 +53,14 @@ public class ViewerBuckets<BucketingValue, Data extends HasReviewId> extends Vie
     }
 
     @Nullable
-    private ReviewViewAdapter<?> getExpansionAdapter(GvBucket<BucketingValue, Data> bucket) {
+    private ReviewViewAdapter<?> getExpansionAdapter(GvBucket<BucketingValue, Data> datum) {
         IdableCollection<GvReviewId> data = new IdableDataCollection<>();
-        for (Data datum : bucket.getBucket().getBucketedItems()) {
-            data.add(new GvReviewId(datum.getReviewId()));
+        Bucket<BucketingValue, Data> bucket = datum.getBucket();
+        for (Data item : bucket.getBucketedItems()) {
+            data.add(new GvReviewId(item.getReviewId()));
         }
 
-        return mAdapterFactory.newReviewsListAdapter(data);
+        return mAdapterFactory.newReviewsListAdapter(data, bucket.getRange().toString());
     }
 
     @Override
@@ -73,14 +78,16 @@ public class ViewerBuckets<BucketingValue, Data extends HasReviewId> extends Vie
     @Override
     protected GvDataList<GvBucket> makeGridData() {
         ReviewNode node = getReviewNode();
-        GvReviewId id = new GvReviewId(node.getReviewId());
+        final GvReviewId id = new GvReviewId(node.getReviewId());
         final GvBucketList<BucketingValue, Data> data = new GvBucketList<>(id);
 
         mBucketer.bucketData(node, new DataBucketer.DataBucketerCallback<BucketingValue, Data>() {
             @Override
             public void onDataBucketed(BucketDistribution<BucketingValue, Data> distribution) {
-                for(Bucket<BucketingValue, Data> bucket : distribution.getBuckets()){
-                    data.add(new GvBucket<>(bucket, mVhFactory));
+                List<Bucket<BucketingValue, Data>> buckets = distribution.getBuckets();
+                int size = distribution.size();
+                for(Bucket<BucketingValue, Data> bucket : buckets){
+                    data.add(new GvBucket<>(bucket, size, mVhFactory));
                 }
                 notifyDataObservers();
             }

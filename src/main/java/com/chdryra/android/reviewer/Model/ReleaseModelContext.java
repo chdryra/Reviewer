@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Factories.Factory
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 
@@ -25,11 +26,16 @@ public class ReleaseModelContext extends ModelContextBasic {
     public ReleaseModelContext() {
         setReferenceFactory(new FactoryReference());
 
+        FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
+        FactoryNodeTraverser traverserFactory = new FactoryNodeTraverser();
+
         FactoryMdReference mdReferenceFactory = new FactoryMdReference(getReferenceFactory(),
-                new FactoryNodeTraverser(), new FactoryVisitorReviewNode());
+                traverserFactory, visitorFactory);
 
         FactoryReviews reviews = new FactoryReviews(new FactoryReviewNode(mdReferenceFactory), mdReferenceFactory);
 
         setReviewsFactory(reviews);
+
+        setBucketerFactory(new FactoryDataBucketer(traverserFactory, visitorFactory));
     }
 }

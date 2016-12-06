@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Algorithms.DataSorting;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.RatingDefinition;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,5 +28,12 @@ public class RatingRange extends BucketRange<Float> {
     public boolean inRange(Float aFloat) {
         return RatingDefinition.isRating(aFloat) &&
                 aFloat >= getMin() && isClosed() ? aFloat <= getMax() : aFloat < getMax();
+    }
+
+    @Override
+    public String toString() {
+        String closed = isClosed() ? "-" : "<";
+        return RatingFormatter.upToTwoSignificantDigits(getMin()) + closed
+                + RatingFormatter.upToTwoSignificantDigits(getMax());
     }
 }

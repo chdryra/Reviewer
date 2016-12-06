@@ -20,11 +20,9 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -34,12 +32,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhBucket;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhRatingBucket;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ViewHolderFactory;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -57,7 +49,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class UiSuiteAndroid implements UiSuite{
     private final UiConfig mUiConfig;
     private final UiLauncherAndroid mUiLauncher;
-    private final FactoryDataBucketer mBucketerFactory;
     private final FactoryCommands mCommandsFactory;
     private final FactoryReviewView mViewFactory;
     private final FactoryReviews mReviewsFactory;
@@ -71,11 +62,9 @@ public class UiSuiteAndroid implements UiSuite{
                           FactoryCommands commandsFactory,
                           FactoryReviewView viewFactory,
                           FactoryReviews reviewsFactory,
-                          FactoryDataBucketer bucketerFactory,
                           ConverterGv converter) {
         mUiConfig = uiConfig;
         mUiLauncher = uiLauncher;
-        mBucketerFactory = bucketerFactory;
         mUiConfig.setUiLauncher(mUiLauncher);
         mCommandsFactory = commandsFactory;
         mViewFactory = viewFactory;
@@ -119,17 +108,6 @@ public class UiSuiteAndroid implements UiSuite{
                                         PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
         return mViewFactory.newPublishView(editor, publisher, platforms, authoriser, callback);
-    }
-
-    @Override
-    public ReviewView<?> newRatingDistributionView(ReviewNode node) {
-        return mViewFactory.newBucketView(node, mBucketerFactory.newRatingsBucketer(),
-                new ViewHolderFactory<VhBucket<Float, DataRating>>() {
-                    @Override
-                    public VhBucket<Float, DataRating> newViewHolder() {
-                        return new VhRatingBucket();
-                    }
-                });
     }
 
     @Override

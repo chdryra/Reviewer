@@ -21,29 +21,28 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 
 public class GvBucket<BucketingValue, Data> extends GvDataBasic<GvBucket> {
-    public static final GvDataType<GvBucket> TYPE = new GvDataType<>(GvBucket.class, "Bucket");
+    public static final GvDataType<GvBucket> TYPE = new GvDataType<>(GvBucket.class, "Distribution", "Distribution");
 
     private final Bucket<BucketingValue, Data> mBucket;
+    private final int mTotalItems;
     private final ViewHolderFactory<VhBucket<BucketingValue, Data>> mVhFactory;
-    private VhBucket<BucketingValue, Data> mViewHolder;
 
     public GvBucket(Bucket<BucketingValue, Data> bucket,
+                    int totalItems,
                     ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
         super(TYPE);
         mBucket = bucket;
-        mVhFactory = vhFactory;
-    }
-
-    public GvBucket(GvReviewId reviewId,
-                    Bucket<BucketingValue, Data> bucket,
-                    ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
-        super(TYPE, reviewId);
-        mBucket = bucket;
+        mTotalItems = totalItems;
         mVhFactory = vhFactory;
     }
 
     public Bucket<BucketingValue, Data> getBucket() {
         return mBucket;
+    }
+
+    public double getPercentageOfTotal() {
+        return mTotalItems != 0 ?
+                (double)mBucket.getBucketedItems().size() / (double) mTotalItems : 0;
     }
 
     @Override
@@ -53,11 +52,11 @@ public class GvBucket<BucketingValue, Data> extends GvDataBasic<GvBucket> {
 
     @Override
     public boolean isValidForDisplay() {
-        return true;
+        return mBucket != null;
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return true;
+        return isValidForDisplay();
     }
 }

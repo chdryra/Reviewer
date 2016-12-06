@@ -108,7 +108,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
-                factoryReviewViewAdapter, editorFactory, paramsFactory, getCommandsFactory(),
+                factoryReviewViewAdapter, editorFactory, paramsFactory,
+                modelContext.getBucketerFactory(), getCommandsFactory(),
                 authorRepo, comparators);
 
         setFactoryReviewView(factoryReviewView);

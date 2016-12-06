@@ -23,6 +23,6 @@ public class RatingDefinition {
     }
 
     public static boolean isRating(float rating) {
-        return rating < MIN_RATING || rating > MAX_RATING;
+        return rating >= MIN_RATING && rating <= MAX_RATING;
     }
 }

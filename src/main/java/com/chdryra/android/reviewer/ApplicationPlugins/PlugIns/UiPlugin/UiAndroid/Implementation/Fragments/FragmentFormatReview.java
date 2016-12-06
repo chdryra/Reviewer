@@ -69,7 +69,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
@@ -423,8 +422,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private Command newLaunchViewCommand(GvDataType<?> dataType) {
-        ReviewView<?> dataView = mUi.newDataView(mNode, dataType);
-        return getCommandsFactory().newLaunchViewCommand(dataView);
+        return getCommandsFactory().newLaunchViewCommand(mUi.newDataView(mNode, dataType));
     }
 
     @NonNull

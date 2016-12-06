@@ -45,6 +45,15 @@ public class BucketDistribution<BucketingValue, ItemType> {
         return mBuckets;
     }
 
+    public int size() {
+        int num = mNotBucketed.size();
+        for(Bucket<BucketingValue, ItemType> bucket : mBuckets) {
+            num += bucket.getBucketedItems().size();
+        }
+
+        return num;
+    }
+
     public void bucket(BucketingValue value, ItemType item) {
         boolean bucketed = false;
         for (Bucket<BucketingValue, ItemType> bucket : mBuckets) {

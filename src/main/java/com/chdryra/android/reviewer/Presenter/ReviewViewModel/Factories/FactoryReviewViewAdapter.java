@@ -92,7 +92,11 @@ public class FactoryReviewViewAdapter {
 
     //List reviews generating this data
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T> data) {
-        return newReviewsListAdapter(mReviewSource.getMetaReview(data, data.toString()), null);
+        return newReviewsListAdapter(data, data.toString());
+    }
+
+    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T> data, String title) {
+        return newReviewsListAdapter(mReviewSource.getMetaReview(data, title), null);
     }
 
     //List reviews for this author

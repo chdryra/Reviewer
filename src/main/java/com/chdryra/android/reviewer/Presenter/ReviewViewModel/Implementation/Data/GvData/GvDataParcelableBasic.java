@@ -41,7 +41,7 @@ public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         GvDataType.writeToParcel(getGvDataType(), parcel);
-        parcel.writeParcelable(mReviewId, i);
+        parcel.writeParcelable(getGvReviewId(), i);
     }
 
     @Override

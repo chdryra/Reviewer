@@ -72,6 +72,10 @@ public class FactoryCommands {
         return new LaunchViewCommand(getLauncher(), view);
     }
 
+    public Command newLaunchViewCommand(ReviewView<?> view, String name) {
+        return new LaunchViewCommand(getLauncher(), view, name);
+    }
+
     public LaunchFormattedCommand newLaunchFormattedCommand() {
         return new LaunchFormattedCommand(getReviewLauncher(), null);
     }

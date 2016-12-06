@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchFormatted;
@@ -28,14 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.OptionsSelectAndExecute;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
-
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -47,6 +41,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private final UiLauncher mLauncher;
     private final FactoryReviewView mFactoryReviewView;
+    private final ReviewView<?> mRatingDistribution;
     private final FactoryCommands mFactoryCommands;
     private final DataComparatorsApi mComparators;
 
@@ -54,12 +49,14 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     public FactoryActionsReviewsList(UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
+                                     ReviewView<?> ratingDistribution,
                                      FactoryCommands factoryCommands,
                                      DataComparatorsApi comparators,
                                      @Nullable AuthorReference authorRef) {
         super(GvNode.TYPE);
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
+        mRatingDistribution = ratingDistribution;
         mFactoryCommands = factoryCommands;
         mComparators = comparators;
         mAuthorRef = authorRef;
@@ -91,8 +88,9 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public BannerButtonAction<GvNode> newBannerButton() {
-        OptionsSelector longClick = mFactoryCommands.newOptionsSelector();
-        return new BannerButtonSorter<>(mComparators.newReviewComparators(), longClick);
+        return new BannerButtonSorter<>(mComparators.newReviewComparators(),
+                mFactoryCommands.newLaunchViewCommand(mRatingDistribution, "Distribution"),
+                mFactoryCommands.newOptionsSelector());
     }
 
     @Override
@@ -104,8 +102,9 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     public static class Feed extends FactoryActionsReviewsList {
         public Feed(UiLauncher launcher, FactoryReviewView factoryReviewView,
+                    ReviewView<?> distributionView,
                     FactoryCommands factoryCommands, DataComparatorsApi comparators) {
-            super(launcher, factoryReviewView, factoryCommands, comparators, null);
+            super(launcher, factoryReviewView, distributionView, factoryCommands, comparators, null);
         }
 
         @Override

@@ -34,6 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.OptionsSelectAndExecute;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -75,9 +76,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public MenuAction<T> newMenu() {
-        return isSummary() ?
-                new MenuViewDataDefault<>(Strings.Screens.SUMMARY, newOptionsMenuItem())
-                : new MenuViewDataDefault<>(getDataType(), newOptionsMenuItem());
+        String title = !getDataType().equals(GvBucket.TYPE) && isSummary() ?
+                Strings.Screens.SUMMARY : getDataType().getDataName();
+        return new MenuViewDataDefault<>(title, newOptionsMenuItem());
     }
 
     @Override
@@ -92,7 +93,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public BannerButtonAction<T> newBannerButton() {
         return mStamp.isValid() ?
                 new BannerButtonLaunchAuthorReviews<T>(mLauncher.getReviewLauncher(), mStamp, mRepo)
-                : new BannerButtonActionNone<T>(Strings.Buttons.SUMMARY);
+                : new BannerButtonActionNone<T>(getDataType().getDataName());
     }
 
     @Override

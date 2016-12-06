@@ -33,6 +33,12 @@ public class LaunchViewCommand extends Command {
         mLauncher = launcher;
     }
 
+    public LaunchViewCommand(UiLauncher launcher, ReviewView<?> view, String name) {
+        super(name);
+        mView = view;
+        mLauncher = launcher;
+    }
+
     @Override
     public void execute() {
         int code = RequestCodeGenerator.getCode(FragmentFormatReview.class, mView.getLaunchTag());

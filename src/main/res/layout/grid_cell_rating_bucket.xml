@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+    style="@style/GridCell"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
+                  android:layout_weight="1">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/number_reviews"
+                style="@style/TextViewGridCell.Small"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+
+        </FrameLayout>
+
+        <LinearLayout style="@style/LinearLayoutHorizontal"
+                  android:layout_weight="3"
+                  android:layout_width="match_parent"
+                  android:padding="@dimen/grid_item_text_padding">
+            <TextView
+                android:id="@+id/rating_bucket"
+                style="@style/TextViewGridCell.Small"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:gravity="end|center"
+                android:layout_gravity="top"/>
+
+            <ToggleButton
+                android:button="@android:drawable/btn_star"
+                style="@style/ToggleButtonStar"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="start|center"
+                android:layout_gravity="top"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>

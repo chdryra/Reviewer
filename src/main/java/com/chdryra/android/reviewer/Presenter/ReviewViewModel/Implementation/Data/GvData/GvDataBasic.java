@@ -14,15 +14,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 
-import static android.R.attr.type;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataBasic<T extends GvData> implements GvData {
-    private GvDataType<T> mType;
+    private final GvDataType<T> mType;
     private GvReviewId mReviewId;
 
     GvDataBasic(GvDataType<T> type) {
@@ -54,8 +52,8 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
 
         GvDataParcelableBasic<?> that = (GvDataParcelableBasic<?>) o;
 
-        if (!mType.equals(that.mType)) return false;
-        return !(mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null);
+        if (!mType.equals(that.getGvDataType())) return false;
+        return !(mReviewId != null ? !mReviewId.equals(that.getReviewId()) : that.getReviewId() != null);
 
     }
 

@@ -11,8 +11,6 @@ package com.chdryra.android.reviewer.Utils;
 import com.chdryra.android.mygenerallibrary.NumberUtils.NumberFormatter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.RatingDefinition;
 
-import static com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating.MAX_RATING;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 19/12/2014
@@ -32,6 +30,6 @@ public class RatingFormatter extends NumberFormatter {
     }
 
     public static String outOfFive(float rating) {
-        return twoSignificantDigits(rating) + "/" + String.valueOf(MAX_RATING);
+        return twoSignificantDigits(rating) + "/" + String.valueOf(RatingDefinition.MAX_RATING);
     }
 }

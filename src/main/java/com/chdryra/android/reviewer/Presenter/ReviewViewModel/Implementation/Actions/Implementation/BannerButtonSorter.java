@@ -39,6 +39,7 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
     private boolean mLocked = false;
 
     public BannerButtonSorter(ComparatorCollection<? super T> comparators,
+                              Command longClickExtra,
                               OptionsSelector selector) {
         mComparators = comparators;
         mSelector = selector;
@@ -47,6 +48,7 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
         for(NamedComparator<? super T> comparator : mComparators.asList()) {
             mOptions.add(new ComparatorCommand(comparator));
         }
+        mOptions.add(longClickExtra);
     }
 
     @Override
