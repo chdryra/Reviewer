@@ -8,11 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 
 /**
@@ -20,22 +16,9 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConditionalDataGetter<T extends HasReviewId> implements NodeDataGetter<T> {
-    private final Condition mCondition;
-    private final NodeDataGetter<T> mMethod;
-
-    public interface Condition {
-        boolean isTrue(ReviewNode node);
-    }
-
+public class ConditionalDataGetter<T extends HasReviewId> extends ConditionalValueGetter<T>
+        implements NodeDataGetter<T>{
     public ConditionalDataGetter(Condition condition, NodeDataGetter<T> method) {
-        mCondition = condition;
-        mMethod = method;
-    }
-
-    @Override
-    @Nullable
-    public T getData(@NonNull ReviewNode node) {
-        return mCondition.isTrue(node) ? mMethod.getData(node) : null;
+        super(condition, method);
     }
 }

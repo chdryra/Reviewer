@@ -21,5 +21,5 @@ public interface DataBucketer<BucketingValue, Data extends HasReviewId> {
         void onDataBucketed(BucketDistribution<BucketingValue, Data> distribution);
     }
 
-    void bucket(ReviewNode root, DataBucketerCallback<BucketingValue, Data> callback);
+    void bucketData(ReviewNode root, DataBucketerCallback<BucketingValue, Data> callback);
 }

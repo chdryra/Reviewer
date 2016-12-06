@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationInstance extends ApplicationSuite {
-    String APP_NAME = "Teeqr";
+    String APP_NAME = "StarTouch";
 
     void logout();
 

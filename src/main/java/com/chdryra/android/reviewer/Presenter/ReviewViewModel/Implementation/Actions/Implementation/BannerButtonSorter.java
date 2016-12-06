@@ -47,7 +47,6 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
         for(NamedComparator<? super T> comparator : mComparators.asList()) {
             mOptions.add(new ComparatorCommand(comparator));
         }
-
     }
 
     @Override

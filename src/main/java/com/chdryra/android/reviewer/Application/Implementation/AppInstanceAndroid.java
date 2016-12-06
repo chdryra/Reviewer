@@ -18,6 +18,7 @@ import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.AnalyticsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
@@ -94,6 +95,11 @@ public class AppInstanceAndroid implements ApplicationInstance {
     @Override
     public SocialSuite getSocial() {
         return mApp.getSocial();
+    }
+
+    @Override
+    public AnalyticsSuite getAnalytics() {
+        return mApp.getAnalytics();
     }
 
     @Override

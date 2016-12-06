@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,4 +21,6 @@ public interface ModelContext {
     FactoryReviews getReviewsFactory();
 
     FactoryReference getReferenceFactory();
+
+    FactoryDataBucketer getBucketerFactory();
 }

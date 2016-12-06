@@ -10,8 +10,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -39,6 +41,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeFollowable;
@@ -47,8 +51,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeFlat;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAuthors;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerFeed;
 
 import java.util.Set;
 
@@ -76,7 +78,7 @@ public class FactoryReviewViewAdapter {
         mAggregator = aggregator;
         mReviewSource = reviewsSource;
         mConverter = converter;
-        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository);
+        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository, converter);
     }
 
     //List reviews generating this datum
@@ -89,7 +91,7 @@ public class FactoryReviewViewAdapter {
     }
 
     //List reviews generating this data
-    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(GvDataCollection<T> data) {
+    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T> data) {
         return newReviewsListAdapter(mReviewSource.getMetaReview(data, data.toString()), null);
     }
 
@@ -108,7 +110,7 @@ public class FactoryReviewViewAdapter {
         }
 
         ReviewNode node = mReviewsFactory.createFeed(mAuthorsRepository.getReference(summaryOwner), collection);
-        GridDataWrapper<?> viewer = mViewerFactory.newTreeSummaryViewer(node, mConverter);
+        GridDataWrapper<?> viewer = mViewerFactory.newTreeSummaryViewer(node);
 
         return newNodeAdapter(node, viewer);
     }
@@ -116,8 +118,8 @@ public class FactoryReviewViewAdapter {
     //Summary of reviews for this review tree
     public ReviewViewAdapter<?> newSummaryAdapter(ReviewNode node) {
         GridDataWrapper<?> viewer = node.getChildren().size() > 0 ?
-                mViewerFactory.newTreeSummaryViewer(node, mConverter) :
-                mViewerFactory.newNodeSummaryViewer(node, mConverter);
+                mViewerFactory.newTreeSummaryViewer(node) :
+                mViewerFactory.newNodeSummaryViewer(node);
         return newNodeAdapter(node, viewer);
     }
 
@@ -126,10 +128,10 @@ public class FactoryReviewViewAdapter {
                                                                         GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
-                    .newReviewCommentsViewer(node, mConverter));
+                    .newReviewCommentsViewer(node));
         } else {
             return newNodeAdapter(node,
-                    mViewerFactory.newReviewDataViewer(node, dataType, mConverter));
+                    mViewerFactory.newReviewDataViewer(node, dataType));
         }
     }
 
@@ -138,13 +140,11 @@ public class FactoryReviewViewAdapter {
                                                                       GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
-                    .newTreeCommentsViewer(node, mConverter));
+                    .newTreeCommentsViewer(node));
         } if (dataType == GvAuthorId.TYPE) {
-            return newNodeAdapter(node, mViewerFactory.newTreeAuthorsViewer(node,
-                    mConverter.newConverterAuthorsIds(mAuthorsRepository)));
+            return newNodeAdapter(node, mViewerFactory.newTreeAuthorsViewer(node));
         } else {
-            return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType,
-                    mConverter));
+            return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType));
         }
     }
 
@@ -152,6 +152,12 @@ public class FactoryReviewViewAdapter {
     public ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
         return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
                 mAuthorsRepository, mConverter.newConverterAuthors());
+    }
+
+    public <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
+    newBucketAdapter(ReviewNode node,
+                     DataBucketer<BucketingValue, Data> bucketer, ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
+        return newNodeAdapter(node, mViewerFactory.newBucketViewer(node, vhFactory, bucketer));
     }
 
     //Old aggregate stuff
@@ -190,8 +196,7 @@ public class FactoryReviewViewAdapter {
     }
 
     ReviewViewAdapter<GvNode> newFeedAdapter(ReviewNode node) {
-        return newNodeAdapter(node,
-                new ViewerFeed(node, mConverter.newConverterNodes(mAuthorsRepository), this));
+        return newNodeAdapter(node, mViewerFactory.newFeedViewer(node));
     }
 
     ReviewViewAdapter<GvSocialPlatform> newPublishAdapter(GvSocialPlatformList platforms,
@@ -203,8 +208,7 @@ public class FactoryReviewViewAdapter {
     ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node,
                                                     @Nullable AuthorId followAuthorId) {
         return new AdapterNodeFollowable(node, mConverter.newConverterImages(),
-                new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), this),
-                followAuthorId);
+                mViewerFactory.newChildViewer(node), followAuthorId);
     }
 
     private <T extends GvData> ReviewViewAdapter<T> newMetaReviewAdapter(GvDataCollection<T> data,

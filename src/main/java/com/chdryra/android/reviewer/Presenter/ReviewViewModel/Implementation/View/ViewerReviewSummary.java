@@ -112,7 +112,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     @Override
     protected GvDataRefList<GvSize.Reference> makeGridData() {
         ReviewNode node = getReviewNode();
-        GvReviewId id = new GvReviewId(getReviewNode().getReviewId());
+        GvReviewId id = new GvReviewId(node.getReviewId());
 
         Map<GvDataType<?>, GvSize.Reference> order = getDataSizesMap(node);
 

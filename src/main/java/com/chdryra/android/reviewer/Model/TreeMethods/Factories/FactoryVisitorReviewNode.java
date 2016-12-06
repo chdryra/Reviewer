@@ -28,6 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalValueGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataBucketer;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
@@ -47,15 +48,6 @@ public class FactoryVisitorReviewNode {
         }
     };
 
-    private <Value extends HasReviewId> VisitorDataGetter<Value> newItemCollector(NodeDataGetter<Value> getter) {
-        return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
-    }
-
-    private <List extends ReviewListReference<?, ?>> VisitorDataGetter<List>
-    newListCollector(NodeDataGetter<List> getter) {
-        return new VisitorDataGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
-    }
-
     public VisitorDataGetter<DataSubject> newSubjectsCollector() {
         return newItemCollector(new NodeDataGetter<DataSubject>() {
             @Nullable
@@ -68,19 +60,19 @@ public class FactoryVisitorReviewNode {
 
     public VisitorDataBucketer<Float, DataRating> newRatingValueBucketer() {
         return new VisitorDataBucketer<>(new RatingsDistribution(),
-                new NodeValueGetter<Float>() {
+                newLeafValueGetter(new NodeValueGetter<Float>() {
                     @Nullable
                     @Override
                     public Float getData(@NonNull ReviewNode node) {
                         return node.getRating().getRating();
                     }
-                }, new NodeDataGetter<DataRating>() {
+                }), newLeafDataGetter(new NodeDataGetter<DataRating>() {
             @Nullable
             @Override
             public DataRating getData(@NonNull ReviewNode node) {
                 return node.getRating();
             }
-        });
+        }));
     }
 
     public VisitorDataGetter<DataAuthorId> newAuthorsCollector() {
@@ -112,7 +104,7 @@ public class FactoryVisitorReviewNode {
             }
         });
     }
-    
+
     public VisitorDataGetter<RefDataList<DataCriterion>> newCriteriaCollector() {
         return newListCollector(new NodeDataGetter<RefDataList<DataCriterion>>() {
             @Nullable
@@ -142,7 +134,7 @@ public class FactoryVisitorReviewNode {
             }
         });
     }
-    
+
     public VisitorDataGetter<RefDataList<DataLocation>> newLocationsCollector() {
         return newListCollector(new NodeDataGetter<RefDataList<DataLocation>>() {
             @Nullable
@@ -171,5 +163,27 @@ public class FactoryVisitorReviewNode {
                 return node.getTags();
             }
         });
+    }
+
+    private <Value extends HasReviewId> VisitorDataGetter<Value> newItemCollector
+            (NodeDataGetter<Value> getter) {
+        return new VisitorDataGetter<>(newLeafDataGetter(getter));
+    }
+
+    @NonNull
+    private <Value extends HasReviewId> ConditionalDataGetter<Value> newLeafDataGetter
+            (NodeDataGetter<Value> getter) {
+        return new ConditionalDataGetter<>(IS_LEAF, getter);
+    }
+
+    @NonNull
+    private <Value> ConditionalValueGetter<Value> newLeafValueGetter(NodeValueGetter<Value>
+                                                                                 getter) {
+        return new ConditionalValueGetter<>(IS_LEAF, getter);
+    }
+
+    private <List extends ReviewListReference<?, ?>> VisitorDataGetter<List>
+    newListCollector(NodeDataGetter<List> getter) {
+        return new VisitorDataGetter<>(newLeafDataGetter(getter));
     }
 }

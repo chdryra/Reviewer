@@ -46,6 +46,8 @@ public interface UiSuite {
                                  PlatformAuthoriser authoriser,
                                  PublishAction.PublishCallback callback);
 
+    ReviewView<?> newRatingDistributionView(ReviewNode node);
+
     ConverterGv getGvConverter();
 
     FactoryCommands getCommandsFactory();

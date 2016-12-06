@@ -19,7 +19,7 @@ import java.util.List;
 
 public class BucketDistribution<BucketingValue, ItemType> {
     private final List<Bucket<BucketingValue, ItemType>> mBuckets;
-    List<ItemType> mNotBucketed = new ArrayList<>();
+    private List<ItemType> mNotBucketed = new ArrayList<>();
 
     public BucketDistribution(List<Bucket<BucketingValue, ItemType>> buckets) {
         mBuckets = new ArrayList<>();

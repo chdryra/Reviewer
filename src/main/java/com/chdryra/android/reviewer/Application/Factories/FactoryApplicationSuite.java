@@ -121,7 +121,8 @@ public class FactoryApplicationSuite {
                 uiConfig.getFormattedReview(), uiConfig.getNodeMapper());
 
         return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),
-                viewFactory, model.getReviewsFactory(), presenter.getGvConverter());
+                viewFactory, model.getReviewsFactory(), model.getBucketerFactory(),
+                presenter.getGvConverter());
     }
 
     private ReviewEditorSuiteAndroid newReviewEditorSuite(PresenterContext context) {

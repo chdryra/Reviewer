@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
+package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.VisitorFactory;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataBucketer;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
@@ -40,7 +39,7 @@ public class TraversalBucketer<BucketingValue, Data extends HasReviewId> impleme
     }
 
     @Override
-    public void bucket(ReviewNode root, final DataBucketerCallback<BucketingValue, Data> callback) {
+    public void bucketData(ReviewNode root, final DataBucketerCallback<BucketingValue, Data> callback) {
         TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
         final VisitorDataBucketer<BucketingValue, Data> visitor = mVisitorFactory.newVisitor();
         traverser.addVisitor(VISITOR, visitor);

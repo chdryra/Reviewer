@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.reviewer.Application.Interfaces.AnalyticsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
@@ -42,6 +43,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private final RepositorySuiteAndroid mRepository;
     private final ReviewEditorSuiteAndroid mBuilder;
     private final SocialSuiteAndroid mSocial;
+    private final AnalyticsSuite mAnalytics;
 
     private Activity mActivity;
 
@@ -50,13 +52,15 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
                                    ReviewEditorSuiteAndroid builder,
-                                   SocialSuiteAndroid social) {
+                                   SocialSuiteAndroid social,
+                                   AnalyticsSuite analytics) {
         mAuth = auth;
         mLocation = location;
         mUi = ui;
         mRepository = repository;
         mBuilder = builder;
         mSocial = social;
+        mAnalytics = analytics;
 
         mAuth.getUserSession().registerSessionObserver(this);
         mUi.setApplication(this);
@@ -108,6 +112,11 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     @Override
     public ReviewEditorSuite getReviewEditor() {
         return mBuilder;
+    }
+
+    @Override
+    public AnalyticsSuite getAnalytics() {
+        return mAnalytics;
     }
 
     @Override

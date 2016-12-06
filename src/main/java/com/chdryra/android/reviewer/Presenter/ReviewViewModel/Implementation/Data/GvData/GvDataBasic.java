@@ -12,6 +12,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+
+import static android.R.attr.type;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,8 +22,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvDataBasic<T extends GvData> implements GvData {
-    final GvDataType<T> mType;
-    GvReviewId mReviewId;
+    private GvDataType<T> mType;
+    private GvReviewId mReviewId;
 
     GvDataBasic(GvDataType<T> type) {
         mType = type;
@@ -29,6 +32,12 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
     GvDataBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
         mType = type;
         mReviewId = reviewId;
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return null;
     }
 
     @Override
