@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
@@ -113,10 +114,10 @@ public class FactoryReviewViewAdapter {
             collection.add(author, mReviewSource.getReviewsForAuthor(author));
         }
 
-        ReviewNode node = mReviewsFactory.createFeed(mAuthorsRepository.getReference(summaryOwner), collection);
-        GridDataWrapper<?> viewer = mViewerFactory.newTreeSummaryViewer(node);
+        AuthorReference author = mAuthorsRepository.getReference(summaryOwner);
+        ReviewNode node = mReviewsFactory.createFeed(author, collection);
 
-        return newNodeAdapter(node, viewer);
+        return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
     }
 
     //Summary of reviews for this review tree

@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface UiConfig {
+    boolean hasConfig(String datumName);
+
     LaunchableConfig getViewer(String datumName);
 
     LaunchableConfig getEditor(String datumName);

@@ -68,6 +68,11 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
+    public boolean hasConfig(String datumName) {
+        return getConfigs(datumName) != null;
+    }
+
+    @Override
     public LaunchableConfig getViewer(String datumName) {
         return getConfigs(datumName).getViewerConfig();
     }

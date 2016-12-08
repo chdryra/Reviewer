@@ -8,10 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -34,10 +31,9 @@ public class FactoryActionsViewComments extends FactoryActionsViewData<GvComment
                                       FactoryCommands factoryCommands,
                                       ReviewStamp stamp, AuthorsRepository repo,
                                       UiLauncher launcher,
-                                      LaunchableConfig gridItemConfig,
-                                      @Nullable ReviewNode node) {
+                                      LaunchableConfig gridItemConfig) {
         super(GvComment.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
-                gridItemConfig, node);
+                gridItemConfig);
     }
 
     @Override

@@ -60,10 +60,11 @@ public class ViewerTreeSummary extends ViewerReviewSummary {
     @Nullable
     @Override
     protected ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
-        if(datum.getSizedType().equals(GvNode.TYPE)) {
-            return getAdapterFactory().newFlattenedReviewsListAdapter(getReviewNode());
-        } else{
-            return getAdapterFactory().newTreeDataAdapter(getReviewNode(), datum.getSizedType());
-        }
+        return getAdapterFactory().newTreeDataAdapter(getReviewNode(), datum.getSizedType());
+    }
+
+    @Override
+    public ReviewViewAdapter<?> expandGridData() {
+        return getAdapterFactory().newFlattenedReviewsListAdapter(getReviewNode());
     }
 }

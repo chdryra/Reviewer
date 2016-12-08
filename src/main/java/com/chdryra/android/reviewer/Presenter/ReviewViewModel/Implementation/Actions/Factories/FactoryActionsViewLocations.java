@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
@@ -29,22 +27,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocation.Reference> {
+    private final ReviewNode mNode;
+
     public FactoryActionsViewLocations(FactoryReviewView factoryView,
                                        FactoryCommands factoryCommands,
                                        ReviewStamp stamp,
                                        AuthorsRepository repo,
                                        UiLauncher launcher,
                                        LaunchableConfig gridItemConfig,
-                                       @Nullable ReviewNode node) {
+                                       ReviewNode node) {
         super(GvLocation.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
-                gridItemConfig, node);
+                gridItemConfig);
+        mNode = node;
     }
 
     @Override
     public MenuAction<GvLocation.Reference> newMenu() {
-        if (getNode() == null) return super.newMenu();
         LaunchMappedCommand command
-                = getCommandsFactory().newLaunchMappedCommand(getNode());
+                = getCommandsFactory().newLaunchMappedCommand(mNode);
         return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>(command));
     }
 }
