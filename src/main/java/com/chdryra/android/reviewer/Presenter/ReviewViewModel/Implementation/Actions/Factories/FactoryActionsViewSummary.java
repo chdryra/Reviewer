@@ -17,13 +17,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemSummary;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
-
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.RatingBarCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
@@ -39,11 +42,13 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
 
     public FactoryActionsViewSummary(FactoryReviewView factoryView,
                                      FactoryCommands factoryCommands,
+                                     Command distribution,
                                      ReviewStamp stamp,
                                      AuthorsRepository repo,
                                      UiLauncher launcher,
                                      ReviewNode node) {
-        super(GvSize.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher, null);
+        super(GvSize.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
+                distribution, null);
         mNode = node;
     }
 
@@ -54,26 +59,22 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
 
     @Override
     public RatingBarAction<GvSize.Reference> newRatingBar() {
-        return hasStamp() ? newRatingBarFormatted() : super.newRatingBar();
-    }
-
-    private RatingBarAction<GvSize.Reference> newRatingBarFormatted() {
-        return new RatingBarCommand<>(newLaunchFormattedCommand(), Strings.Progress.LOADING);
-    }
-
-    private LaunchFormattedCommand newLaunchFormattedCommand() {
-        return getCommandsFactory().newLaunchFormattedCommand(mNode);
+        return hasStamp() ?
+                new RatingBarCommand<GvSize.Reference>(launchFormatted(), Strings.Progress.LOADING)
+                : super.newRatingBar();
     }
 
     @Override
     public BannerButtonAction<GvSize.Reference> newBannerButton() {
-        return hasStamp() ?
-                newBannerButtonAuthor()
-                : new BannerButtonActionNone<GvSize.Reference>(Strings.Buttons.SUMMARY);
+        return newBannerButton(Strings.Buttons.SUMMARY);
     }
 
     @Override
     public GridItemAction<GvSize.Reference> newGridItem() {
-        return new GridItemSummary(getLauncher(), getViewFactory(), newLaunchFormattedCommand());
+        return new GridItemSummary(getLauncher(), getViewFactory(), launchFormatted());
+    }
+
+    private LaunchFormattedCommand launchFormatted() {
+        return getCommandsFactory().newLaunchFormattedCommand(mNode);
     }
 }

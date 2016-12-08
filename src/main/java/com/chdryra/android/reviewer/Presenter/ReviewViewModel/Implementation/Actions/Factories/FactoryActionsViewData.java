@@ -20,14 +20,26 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonLaunchAuthorReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelectAndExecute;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonAuthorReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonLongClick;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuViewDataDefault;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelectAndExecute;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -40,6 +52,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
     private final FactoryReviewView mFactoryView;
     private final FactoryCommands mFactoryCommands;
+    private final Command mBannerLongClick;
     private final UiLauncher mLauncher;
     private final LaunchableConfig mGridItemConfig;
     private final ReviewStamp mStamp;
@@ -48,12 +61,15 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public FactoryActionsViewData(GvDataType<T> dataType,
                                   FactoryReviewView factoryView,
                                   FactoryCommands factoryCommands,
-                                  ReviewStamp stamp, AuthorsRepository repo,
+                                  ReviewStamp stamp,
+                                  AuthorsRepository repo,
                                   UiLauncher launcher,
+                                  @Nullable Command bannerLongClick,
                                   @Nullable LaunchableConfig gridItemConfig) {
         super(dataType);
         mFactoryView = factoryView;
         mFactoryCommands = factoryCommands;
+        mBannerLongClick = bannerLongClick;
         mLauncher = launcher;
         mGridItemConfig = gridItemConfig;
         mStamp = stamp;
@@ -62,6 +78,15 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     protected UiLauncher getLauncher() {
         return mLauncher;
+    }
+
+    @NonNull
+    protected BannerButtonAction<T> newBannerButton(String buttonTitle) {
+        return hasStamp() ?
+                new BannerButtonAuthorReviews<T>(mLauncher.getReviewLauncher(), mStamp, mRepo)
+                : mBannerLongClick != null ?
+                new BannerButtonLongClick<T>(mBannerLongClick, buttonTitle) :
+                new BannerButtonActionNone<T>(buttonTitle);
     }
 
     @Override
@@ -76,9 +101,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public BannerButtonAction<T> newBannerButton() {
-        return hasStamp() ?
-                newBannerButtonAuthor()
-                : new BannerButtonActionNone<T>(getDataType().getDataName());
+        return newBannerButton(getDataType().getDataName());
     }
 
     @Override
@@ -96,11 +119,6 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     LaunchableConfig getGridItemConfig() {
         return mGridItemConfig;
-    }
-
-    @NonNull
-    BannerButtonLaunchAuthorReviews<T> newBannerButtonAuthor() {
-        return new BannerButtonLaunchAuthorReviews<>(mLauncher.getReviewLauncher(), mStamp, mRepo);
     }
 
     @NonNull

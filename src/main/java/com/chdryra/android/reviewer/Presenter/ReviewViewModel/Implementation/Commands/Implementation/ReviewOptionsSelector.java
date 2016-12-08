@@ -47,7 +47,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     }
 
     public void execute(DataAuthorId authorId) {
-        setCommands(getCommands(authorId));
+        mAuthorId = authorId;
         execute();
     }
 
@@ -56,6 +56,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         if (mAuthorId == null) {
             onExecutionComplete();
         } else {
+            setCommands(getCommands(mAuthorId));
             super.execute();
         }
     }

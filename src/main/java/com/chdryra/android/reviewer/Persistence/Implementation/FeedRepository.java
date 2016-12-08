@@ -30,18 +30,21 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedRepository implements ReferencesRepository {
-    private RefAuthorList mAuthorsList;
+    private RefAuthorList mFollowing;
     private ReviewsRepository mMasterRepo;
     private RepositoryCollection<AuthorId> mRepos;
     private List<ReviewsSubscriber> mSubscribers;
     private boolean mInitialised = false;
     private Binder mBinder;
 
-    public FeedRepository(AuthorId usersId, RefAuthorList authorsList, ReviewsRepository masterRepo) {
-        mAuthorsList = authorsList;
+    public FeedRepository(AuthorId usersId,
+                          RefAuthorList following,
+                          ReviewsRepository masterRepo,
+                          ReferencesRepository initialFeed) {
+        mFollowing = following;
         mMasterRepo = masterRepo;
         mRepos = new RepositoryCollection<>();
-        mRepos.add(usersId, mMasterRepo.getLatestForAuthor(usersId));
+        mRepos.add(usersId, initialFeed);
         mSubscribers = new ArrayList<>();
     }
 
@@ -56,7 +59,7 @@ public class FeedRepository implements ReferencesRepository {
     public void unsubscribe(ReviewsSubscriber subscriber) {
         mRepos.unsubscribe(subscriber);
         if (mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
-        if (mSubscribers.size() == 0) mAuthorsList.unbindFromItems(mBinder);
+        if (mSubscribers.size() == 0) mFollowing.unbindFromItems(mBinder);
     }
 
     @Override
@@ -70,7 +73,7 @@ public class FeedRepository implements ReferencesRepository {
         if(!mInitialised) {
             mInitialised = true;
             mBinder = new Binder();
-            mAuthorsList.bindToItems(mBinder);
+            mFollowing.bindToItems(mBinder);
         }
     }
 

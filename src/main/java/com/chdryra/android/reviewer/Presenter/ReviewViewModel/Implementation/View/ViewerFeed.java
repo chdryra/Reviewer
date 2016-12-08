@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -38,6 +39,7 @@ public class ViewerFeed extends ViewerChildList {
             authors.add(child.getAuthorId());
         }
 
-        return getAdapterFactory().newSummaryAdapter(node.getAuthorId(), authors);
+        return getAdapterFactory().newSummaryAdapter(node.getAuthorId(), authors, Strings
+                .REVIEWS_LIST.FEED_ALL_STEM);
     }
 }

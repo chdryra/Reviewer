@@ -67,6 +67,7 @@ public class Strings {
         public static final String FORMATTED = "formatted";
         public static final String PREVIEW = "preview";
         public static final String SEARCH = "search";
+        public static final String DISTRIBUTION = "distribution";
     }
 
     public static class Buttons {
@@ -142,6 +143,7 @@ public class Strings {
         public static final String EDITOR = "Editor";
         public static final String FORMATTED = "Formatted";
         public static final String MAPPED = "Mapped";
+        public static final String DISTRIBUTION = "Distribution";
     }
     
     public static class Comparators {
@@ -154,5 +156,11 @@ public class Strings {
         public static final String TRUE = "True";
         public static final String FALSE = "False";
         public static final String SEPARATOR = ":";
+    }
+
+    public static class REVIEWS_LIST {
+        public static final String FEED_LATEST_STEM = "latest";
+        public static final String FEED_ALL_STEM = "feed";
+        public static final String REVIEWS_STEM = "reviews";
     }
 }

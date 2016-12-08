@@ -43,7 +43,7 @@ public class OptionsSelectAndExecute extends OptionsCommand {
 
     @Override
     public void execute() {
-        if(mLocked || mCommands == null) {
+        if(mLocked || mCommands == null || mCommands.size() == 0) {
             onExecutionComplete();
             return;
         }

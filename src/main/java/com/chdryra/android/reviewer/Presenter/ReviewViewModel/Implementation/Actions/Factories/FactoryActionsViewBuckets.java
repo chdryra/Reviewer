@@ -27,7 +27,7 @@ public class FactoryActionsViewBuckets extends FactoryActionsViewData<GvBucket> 
                                      FactoryCommands factoryCommands,
                                      ReviewStamp stamp, AuthorsRepository repo,
                                      UiLauncher launcher) {
-        super(GvBucket.TYPE, factoryView, factoryCommands, stamp, repo, launcher, null);
+        super(GvBucket.TYPE, factoryView, factoryCommands, stamp, repo, launcher, null, null);
     }
 
     @Override

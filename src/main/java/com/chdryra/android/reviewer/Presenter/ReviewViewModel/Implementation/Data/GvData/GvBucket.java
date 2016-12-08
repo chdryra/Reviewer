@@ -21,7 +21,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 
 public class GvBucket<BucketingValue, Data> extends GvDataBasic<GvBucket> {
-    public static final GvDataType<GvBucket> TYPE = new GvDataType<>(GvBucket.class, "Distribution", "Distribution");
+    public static final GvDataType<GvBucket> TYPE
+            = new GvDataType<>(GvBucket.class, "distribution", "distribution");
 
     private final Bucket<BucketingValue, Data> mBucket;
     private final int mTotalItems;

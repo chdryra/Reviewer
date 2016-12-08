@@ -40,13 +40,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
@@ -103,15 +103,10 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNodeRepo createAuthorsTree(AuthorId authorId, ReferencesRepository repo, AuthorsRepository authorsRepo) {
+    public ReviewNode createAuthorsTree(AuthorId authorId, ReferencesRepository repo, AuthorsRepository authorsRepo, String title) {
         DataReviewInfo info = getMetaForAuthor(authorId);
         return newReviewNodeAuthored(info, repo,
-                new NodeTitler.AuthorsTree(authorsRepo.getReference(authorId)));
-    }
-
-    public ReviewNodeRepo createFeed(AuthorReference feedOwner, ReferencesRepository feed) {
-        DataReviewInfo info = getMetaForAuthor(feedOwner.getAuthorId());
-        return newReviewNodeAuthored(info, feed, new NodeTitler.UsersFeed(feedOwner));
+                new NodeTitler.AuthorsTree(authorsRepo.getReference(authorId), title));
     }
 
     public ReviewReference asReference(Review review) {

@@ -68,8 +68,8 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public ReferencesRepository getFeed(SocialProfile profile) {
-        return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
+    public ReferencesRepository getFeedLatest(SocialProfile profile) {
+        return mRepoFactory.newFeedLatest(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
 
     @Override

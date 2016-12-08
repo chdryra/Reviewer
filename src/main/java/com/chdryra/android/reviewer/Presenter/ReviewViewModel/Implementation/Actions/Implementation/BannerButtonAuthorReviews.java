@@ -27,13 +27,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonLaunchAuthorReviews<T extends GvData> extends BannerButtonActionNone<T>
+public class BannerButtonAuthorReviews<T extends GvData> extends BannerButtonActionNone<T>
 implements DataReference.DereferenceCallback<NamedAuthor>{
     private final ReviewLauncher mLauncher;
     private final AuthorId mAuthorId;
     private final String mDate;
 
-    public BannerButtonLaunchAuthorReviews(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepository repo) {
+    public BannerButtonAuthorReviews(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepository repo) {
         super(stamp.toReadableDate());
         mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();

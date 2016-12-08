@@ -32,7 +32,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -94,9 +93,10 @@ public class UiSuiteAndroid implements UiSuite{
 
     @Override
     public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile) {
-        ReferencesRepository feed = repository.getFeed(profile);
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
-        ReviewNodeRepo node = mReviewsFactory.createFeed(repository.getAuthorsRepository().getReference(user), feed);
+        ReferencesRepository feed = repository.getFeedLatest(profile);
+        ReviewNode node = mReviewsFactory.createAuthorsTree(user, feed,
+                repository.getAuthorsRepository(), Strings.REVIEWS_LIST.FEED_LATEST_STEM);
 
         return mViewFactory.newFeedView(node);
     }

@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
@@ -40,6 +39,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
@@ -108,14 +108,14 @@ public class FactoryReviewViewAdapter {
 
     //Summary of reviews for this author
     public ReviewViewAdapter<?> newSummaryAdapter(AuthorId summaryOwner,
-                                                  Set<AuthorId> reviewAuthors) {
+                                                  Set<AuthorId> reviewAuthors,
+                                                  String title) {
         RepositoryCollection<AuthorId> collection = new RepositoryCollection<>();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsForAuthor(author));
         }
 
-        AuthorReference author = mAuthorsRepository.getReference(summaryOwner);
-        ReviewNode node = mReviewsFactory.createFeed(author, collection);
+        ReviewNode node = mReviewsFactory.createAuthorsTree(summaryOwner, collection, mAuthorsRepository, title);
 
         return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
     }
@@ -142,11 +142,12 @@ public class FactoryReviewViewAdapter {
 
     //View specific data for this review as if it was a meta review
     public <T extends GvData> ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node,
-                                                                      GvDataType<T> dataType) {
+                                                                      GvSize.Reference sizeRef) {
+        GvDataType<?> dataType = sizeRef.getSizedType();
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
                     .newTreeCommentsViewer(node));
-        } if (dataType == GvAuthorId.TYPE) {
+        } else if (dataType == GvAuthorId.TYPE) {
             return newNodeAdapter(node, mViewerFactory.newTreeAuthorsViewer(node));
         } else {
             return newNodeAdapter(node, mViewerFactory.newTreeDataViewer(node, dataType));

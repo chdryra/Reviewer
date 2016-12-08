@@ -46,15 +46,12 @@ public abstract class NodeTitler<T> {
     }
 
     public static class AuthorsTree extends NodeTitler<NamedAuthor> implements ReferenceBinder<NamedAuthor>{
-        private static final String STEM = "Reviews";
+        private static final String SEPARATOR = ": ";
+
         private String mTitle;
         private String mStem;
 
-        public AuthorsTree(DataReference<NamedAuthor> reference) {
-            this(reference, STEM);
-        }
-
-        protected AuthorsTree(DataReference<NamedAuthor> reference, String stem) {
+        public AuthorsTree(DataReference<NamedAuthor> reference, String stem) {
             super(reference);
             mStem = stem;
             mTitle = mStem;
@@ -68,7 +65,7 @@ public abstract class NodeTitler<T> {
 
         @Override
         public void onReferenceValue(NamedAuthor value) {
-            mTitle = value.getName() + "'s " + mStem;
+            mTitle = value.getName() + SEPARATOR + mStem;
             fireForBinder();
         }
 
@@ -76,12 +73,6 @@ public abstract class NodeTitler<T> {
         public void onInvalidated(DataReference<NamedAuthor> reference) {
             mTitle = mStem;
             fireForBinder();
-        }
-    }
-
-    public static class UsersFeed extends AuthorsTree {
-        public UsersFeed(DataReference<NamedAuthor> reference) {
-            super(reference, "Feed");
         }
     }
 }

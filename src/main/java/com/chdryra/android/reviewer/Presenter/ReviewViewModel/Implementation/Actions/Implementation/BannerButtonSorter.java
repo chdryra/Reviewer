@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone<T> {
+public class BannerButtonSorter<T extends GvData> extends BannerButtonLongClick<T> {
     private static final int OPTIONS = RequestCodeGenerator.getCode(BannerButtonSorter.class);
 
     private final ComparatorCollection<? super T> mComparators;
@@ -38,17 +38,19 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
     private NamedComparator<? super T> mCurrentComparator;
     private boolean mLocked = false;
 
-    public BannerButtonSorter(ComparatorCollection<? super T> comparators,
-                              Command longClickExtra,
+    public BannerButtonSorter(Command longClick,
+                              ComparatorCollection<? super T> comparators,
                               OptionsSelector selector) {
+        super(longClick);
         mComparators = comparators;
         mSelector = selector;
+
         mCurrentComparator = mComparators.next();
         mOptions = new CommandsList();
         for(NamedComparator<? super T> comparator : mComparators.asList()) {
             mOptions.add(new ComparatorCommand(comparator));
         }
-        mOptions.add(longClickExtra);
+        mOptions.add(longClick);
     }
 
     @Override
@@ -59,13 +61,9 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     @Override
     public void onClick(View v) {
-        if(!mLocked) sort(mComparators.next());
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
-        return true;
+        if(!mLocked) {
+            mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
+        }
     }
 
     @Override
@@ -80,6 +78,7 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonActionNone
 
     private void sort(final NamedComparator<? super T> comparator) {
         mLocked = true;
+        mCurrentComparator = comparator;
         setTitle(Strings.Buttons.SORTING);
         getAdapter().sort(comparator, new AsyncSortable.OnSortedCallback() {
             @Override

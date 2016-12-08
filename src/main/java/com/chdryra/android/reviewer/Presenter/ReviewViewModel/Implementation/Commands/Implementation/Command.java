@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class Command {
+public class Command {
     private int mRequestCode;
     private ExecutionListener mListener;
 
@@ -23,12 +23,18 @@ public abstract class Command {
         void onCommandExecuted(int requestCode);
     }
 
-    public abstract void execute();
+    public void execute() {
+
+    }
 
     private final String mName;
 
     public Command(String name) {
         mName = name;
+    }
+
+    public Command() {
+        mName = "";
     }
 
     public String getName() {

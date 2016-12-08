@@ -36,19 +36,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsSearch;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsViewBuckets;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewBuckets;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewLocations;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
-        .FactoryActionsViewSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectBannerFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -117,7 +114,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node),
                 new FactoryActionsReviewsList.Feed(getUiLauncher(), this,
-                        newRatingDistributionView(node),
+                        newLaunchDistributionCommand(node),
                         mCommandsFactory,
                         mComparators));
     }
@@ -199,19 +196,21 @@ public class FactoryReviewView {
         AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference(followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(getUiLauncher(), this,
-                        newRatingDistributionView(node),
+                        newLaunchDistributionCommand(node),
                         mCommandsFactory,
                         mComparators, name));
     }
 
-    private ReviewView<?> newRatingDistributionView(ReviewNode node) {
-        return newBucketView(node, mBucketerFactory.newRatingsBucketer(),
+    private Command newLaunchDistributionCommand(ReviewNode node) {
+        ReviewView<?> reviewView = newBucketView(node, mBucketerFactory.newRatingsBucketer(),
                 new ViewHolderFactory<VhBucket<Float, DataRating>>() {
-            @Override
-            public VhBucket<Float, DataRating> newViewHolder() {
-                return new VhRatingBucket();
-            }
-        });
+                    @Override
+                    public VhBucket<Float, DataRating> newViewHolder() {
+                        return new VhRatingBucket();
+                    }
+                });
+
+        return mCommandsFactory.newLaunchViewCommand(reviewView, Strings.Screens.DISTRIBUTION);
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -261,32 +260,35 @@ public class FactoryReviewView {
         ReviewStamp stamp = adapter.getStamp();
 
         ReviewNode node = null;
+        Command longClick = new Command();
         try {
             AdapterReviewNode<?> nodeAdapter = (AdapterReviewNode<?>) adapter;
             node = nodeAdapter.getNode();
+            if(!dataType.equals(GvBucket.TYPE)) longClick = newLaunchDistributionCommand(node);
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
 
+        UiLauncher launcher = getUiLauncher();
         LaunchableConfig viewer = null;
         String datumName = dataType.getDatumName();
         if(mConfig.hasConfig(datumName)) viewer = mConfig.getViewer(datumName);
 
         if (viewer != null && dataType.equals(GvComment.Reference.TYPE)) {
             factory = new FactoryActionsViewComments(this, mCommandsFactory, stamp,
-                    mAuthorsRepo, getUiLauncher(), viewer);
-        } else if (viewer != null && dataType.equals(GvLocation.Reference.TYPE)) {
+                    mAuthorsRepo, launcher, longClick, viewer);
+        } else if (viewer != null && dataType.equals(GvLocation.Reference.TYPE) && node != null) {
             factory = new FactoryActionsViewLocations(this, mCommandsFactory, stamp,
-                    mAuthorsRepo, getUiLauncher(), viewer, node);
-        } else if (viewer == null && dataType.equals(GvSize.Reference.TYPE)){
-            factory = new FactoryActionsViewSummary(this, mCommandsFactory, stamp,
-                    mAuthorsRepo, getUiLauncher(), node);
-        } else if (viewer == null && dataType.equals(GvBucket.TYPE)){
+                    mAuthorsRepo, launcher, longClick, viewer, node);
+        } else if (dataType.equals(GvSize.Reference.TYPE)){
+            factory = new FactoryActionsViewSummary(this, mCommandsFactory,
+                    longClick, stamp, mAuthorsRepo, launcher, node);
+        } else if (dataType.equals(GvBucket.TYPE)){
             factory = new FactoryActionsViewBuckets(this, mCommandsFactory, stamp,
-                    mAuthorsRepo, getUiLauncher());
+                    mAuthorsRepo, launcher);
         } else {
-            factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory, stamp,
-                        mAuthorsRepo, getUiLauncher(), viewer);
+                factory = new FactoryActionsViewData<>(dataType, this, mCommandsFactory,
+                        stamp, mAuthorsRepo, launcher, longClick, viewer);
         }
 
         //TODO make type safe
