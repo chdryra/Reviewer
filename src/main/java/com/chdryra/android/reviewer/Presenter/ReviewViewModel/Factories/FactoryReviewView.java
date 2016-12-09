@@ -12,10 +12,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
         .DataComparatorsApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.NamedComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
@@ -93,6 +98,8 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
+import java.util.Comparator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/11/2015
@@ -136,7 +143,7 @@ public class FactoryReviewView {
 
     public ReviewViewNode newFeedView(ReviewNode node) {
         FactoryActionsReviewsList.Feed actionsFactory
-                = new FactoryActionsReviewsList.Feed(getUiLauncher(), this,
+                = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
                 newLaunchDistributionCommand(node), mCommandsFactory, mComparators);
 
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
@@ -220,7 +227,7 @@ public class FactoryReviewView {
         AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference
                 (followAuthorId);
         return newReviewsListView(node, adapter,
-                new FactoryActionsReviewsList(getUiLauncher(), this,
+                new FactoryActionsReviewsList(node, getUiLauncher(), this,
                         newLaunchDistributionCommand(node),
                         mCommandsFactory,
                         mComparators, name));
@@ -235,7 +242,7 @@ public class FactoryReviewView {
                     }
                 });
 
-        return mCommandsFactory.newLaunchViewCommand(reviewView, Strings.Screens.DISTRIBUTION);
+        return mCommandsFactory.newLaunchViewCommand(reviewView, Strings.Commands.DISTRIBUTION);
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -299,10 +306,13 @@ public class FactoryReviewView {
         String datumName = dataType.getDatumName();
         if (mConfig.hasConfig(datumName)) viewer = mConfig.getViewer(datumName);
 
-        //TODO make type safe
         ViewDataParameters<T> params = new ViewDataParameters<>(dataType, this,
-                mCommandsFactory, stamp, mAuthorsRepo, launcher).setBannerClick(longClick)
-                .setGridItemConfig(viewer);
+                mCommandsFactory, stamp, mAuthorsRepo, launcher, getComparator(dataType))
+                .setBannerLongClick(longClick)
+                .setGridItemConfig(viewer)
+                .setReviewNode(node);
+
+        //TODO make type safe
         if (dataType.equals(GvComment.Reference.TYPE)) {
             factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>) params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
@@ -310,12 +320,25 @@ public class FactoryReviewView {
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
         } else if (dataType.equals(GvBucket.TYPE)) {
-            factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params);
+            factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node);
         } else {
             factory = new FactoryActionsViewData<>(params);
         }
 
         return new ReviewViewActions<>((FactoryReviewViewActions<T>) factory);
+    }
+
+    private <T extends GvData> ComparatorCollection<? super T> getComparator(GvDataType<T> dataType) {
+        //TODO redo once there is a sever-client way of doing comparators.
+        NamedComparator<T> placeholder = new NamedComparator.Builder<>(dataType.getDataName
+                (), new Comparator<T>() {
+            @Override
+            public int compare(T lhs, T rhs) {
+                return lhs.getReviewId().toString().compareTo(rhs.getReviewId().toString());
+            }
+        }).build();
+
+        return new ComparatorCollectionImpl<>(placeholder);
     }
 
     private <T extends GvData> GvDataType<T> getDataType(ReviewViewAdapter<T> adapter) {

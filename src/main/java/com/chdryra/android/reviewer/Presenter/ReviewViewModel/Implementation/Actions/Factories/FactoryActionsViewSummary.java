@@ -9,20 +9,19 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonCommandable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 
 /**
@@ -56,12 +55,11 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
         return new GridItemSummary(getLauncher(), getViewFactory(), launchFormatted());
     }
 
-    @Override
     @NonNull
-    protected BannerButtonAction<GvSize.Reference> newDefaultButton(String buttonTitle, @Nullable Command click) {
-        BannerButtonCommandable<GvSize.Reference> button = new BannerButtonCommandable<>(buttonTitle);
-        if(click != null) button.setClick(click);
-        return button;
+    @Override
+    protected BannerButtonSelector<GvSize.Reference> newBannerButtonSelector(String buttonTitle,
+                                                                             OptionsSelector selector) {
+        return new BannerButtonSelector<>(buttonTitle, new CommandsList(), selector);
     }
 
     private LaunchFormattedCommand launchFormatted() {

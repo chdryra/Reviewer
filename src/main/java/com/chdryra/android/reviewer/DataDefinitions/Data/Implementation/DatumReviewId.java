@@ -27,6 +27,11 @@ public class DatumReviewId implements ReviewId, Validatable {
     }
 
     @Override
+    public ReviewId getReviewId() {
+        return this;
+    }
+
+    @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }

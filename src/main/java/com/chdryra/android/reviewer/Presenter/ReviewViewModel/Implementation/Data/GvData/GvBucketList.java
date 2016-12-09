@@ -27,5 +27,4 @@ public class GvBucketList<BucketingValue, Data> extends GvDataListImpl<GvBucket>
     public GvBucketList(GvBucketList<BucketingValue, Data> data) {
         super(data);
     }
-
 }

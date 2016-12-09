@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
@@ -27,46 +26,31 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonSorter<T extends GvData> extends BannerButtonCommandable<T> {
-    private static final int OPTIONS = RequestCodeGenerator.getCode(BannerButtonSorter.class);
-
+public class BannerButtonSorter<T extends GvData> extends BannerButtonSelector<T> {
     private final ComparatorCollection<? super T> mComparators;
-    private final OptionsSelector mSelector;
-    private final CommandsList mOptions;
     private NamedComparator<? super T> mCurrentComparator;
-    private boolean mLocked = false;
+    private boolean mLocked;
 
-    public BannerButtonSorter(Command longClick,
-                              ComparatorCollection<? super T> comparators,
-                              OptionsSelector selector) {
+    public BannerButtonSorter(OptionsSelector selector,
+                              ComparatorCollection<? super T> comparators) {
+        this(comparators.getDefault().getName(), selector, comparators);
+    }
+
+    public BannerButtonSorter(String title, OptionsSelector selector,
+                              ComparatorCollection<? super T> comparators) {
+        super(title, new CommandsList(), selector);
         mComparators = comparators;
-        mSelector = selector;
 
         mCurrentComparator = mComparators.next();
-        mOptions = new CommandsList();
         for(NamedComparator<? super T> comparator : mComparators.asList()) {
-            mOptions.add(new ComparatorCommand(comparator));
+            addOption(new ComparatorCommand(comparator));
         }
-        mOptions.add(longClick);
-
-        setClick(new ClickCommand());
-        setLongClick(longClick);
     }
 
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
         sort(mCurrentComparator);
-    }
-
-    @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        if(requestCode == OPTIONS) {
-            mOptions.execute(option);
-            return true;
-        } else {
-            return super.onOptionSelected(requestCode, option);
-        }
     }
 
     private void sort(final NamedComparator<? super T> comparator) {
@@ -83,6 +67,11 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonCommandabl
         });
     }
 
+    @Override
+    protected void launchSelector() {
+        if(!mLocked) super.launchSelector(mCurrentComparator.getName());
+    }
+
     private class ComparatorCommand extends Command {
         private NamedComparator<? super T> mComparator;
 
@@ -94,15 +83,6 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonCommandabl
         @Override
         public void execute() {
             sort(mComparators.moveToComparator(mComparator.getName()));
-        }
-    }
-
-    private class ClickCommand extends Command {
-        @Override
-        public void execute() {
-            if(!mLocked) {
-                mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
-            }
         }
     }
 }

@@ -9,10 +9,13 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.BannerButtonCommandable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 
 /**
@@ -21,8 +24,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewBuckets extends FactoryActionsViewData<GvBucket> {
-    public FactoryActionsViewBuckets(ViewDataParameters<GvBucket> parameters) {
+    private final ReviewNode mNode;
+
+    public FactoryActionsViewBuckets(ViewDataParameters<GvBucket> parameters, ReviewNode node) {
         super(parameters);
+        mNode = node;
     }
 
     @Override
@@ -32,6 +38,9 @@ public class FactoryActionsViewBuckets extends FactoryActionsViewData<GvBucket> 
 
     @Override
     public BannerButtonAction<GvBucket> newBannerButton() {
-        return new BannerButtonActionNone<>(Strings.Buttons.DISTRIBUTION);
+        BannerButtonCommandable<GvBucket> button
+                = new BannerButtonCommandable<>(Strings.Buttons.DISTRIBUTION);
+        button.setClick(getCommandsFactory().newLaunchFormattedCommand(mNode));
+        return button;
     }
 }

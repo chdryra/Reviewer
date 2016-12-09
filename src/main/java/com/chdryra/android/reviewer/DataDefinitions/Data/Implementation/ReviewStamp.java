@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.Validatable;
 
@@ -26,7 +25,7 @@ import java.util.Date;
  * On: 18/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
+public class ReviewStamp implements Validatable, ReviewId {
     private StampId mId;
     private AuthorId mAuthorId;
     private DateTime mDate;
@@ -120,7 +119,7 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         return result;
     }
 
-    private static class StampId implements ReviewId, HasReviewId {
+    private static class StampId implements ReviewId {
         private static final String SPLITTER = ":";
         private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time";
 

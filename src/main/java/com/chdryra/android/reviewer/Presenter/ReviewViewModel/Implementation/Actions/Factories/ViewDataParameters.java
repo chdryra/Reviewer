@@ -10,12 +10,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -29,8 +31,10 @@ public class ViewDataParameters<T extends GvData> {
     private final ReviewStamp mStamp;
     private final AuthorsRepository mRepo;
     private final UiLauncher mLauncher;
+    private final ComparatorCollection<? super T> mComparators;
 
-    private Command mBannerClick;
+    private ReviewNode mNode;
+    private Command mBannerLongClick;
     private LaunchableConfig mGridItemConfig;
     private String mButtonTitle;
 
@@ -39,7 +43,8 @@ public class ViewDataParameters<T extends GvData> {
                               FactoryCommands factoryCommands,
                               ReviewStamp stamp,
                               AuthorsRepository repo,
-                              UiLauncher launcher) {
+                              UiLauncher launcher,
+                              ComparatorCollection<? super T> comparators) {
         mDataType = dataType;
         mButtonTitle = dataType.getDataName();
         mFactoryView = factoryView;
@@ -47,10 +52,16 @@ public class ViewDataParameters<T extends GvData> {
         mStamp = stamp;
         mRepo = repo;
         mLauncher = launcher;
+        mComparators = comparators;
     }
 
-    public ViewDataParameters<T> setBannerClick(@Nullable Command bannerClick) {
-        mBannerClick = bannerClick;
+    public ViewDataParameters<T> setReviewNode(@Nullable ReviewNode node) {
+        mNode = node;
+        return this;
+    }
+
+    public ViewDataParameters<T> setBannerLongClick(@Nullable Command bannerLongClick) {
+        mBannerLongClick = bannerLongClick;
         return this;
     }
 
@@ -88,9 +99,18 @@ public class ViewDataParameters<T extends GvData> {
         return mLauncher;
     }
 
+    public ComparatorCollection<? super T> getComparators() {
+        return mComparators;
+    }
+
     @Nullable
-    public Command getBannerClick() {
-        return mBannerClick;
+    public ReviewNode getNode() {
+        return mNode;
+    }
+
+    @Nullable
+    public Command getBannerLongClick() {
+        return mBannerLongClick;
     }
 
     @Nullable
