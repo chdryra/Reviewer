@@ -46,8 +46,9 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     private GvDataRefList<GvRef> mCache;
 
-    ViewerReviewData(List reference, GvConverterReferences<Value, GvRef, Reference>
-            converter, @Nullable ReviewStamp stamp) {
+    ViewerReviewData(List reference,
+                     GvConverterReferences<Value, GvRef, Reference> converter,
+                     @Nullable ReviewStamp stamp) {
         mReference = reference;
         mConverter = converter;
         mStamp = stamp == null ? ReviewStamp.noStamp() : stamp;

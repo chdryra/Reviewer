@@ -8,14 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,15 +21,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewBuckets extends FactoryActionsViewData<GvBucket> {
-    public FactoryActionsViewBuckets(FactoryReviewView factoryView,
-                                     FactoryCommands factoryCommands,
-                                     ReviewStamp stamp, AuthorsRepository repo,
-                                     UiLauncher launcher) {
-        super(GvBucket.TYPE, factoryView, factoryCommands, stamp, repo, launcher, null, null);
+    public FactoryActionsViewBuckets(ViewDataParameters<GvBucket> parameters) {
+        super(parameters);
     }
 
     @Override
     public GridItemAction<GvBucket> newGridItem() {
         return new GridItemLauncher<>(getLauncher(), getViewFactory());
+    }
+
+    @Override
+    public BannerButtonAction<GvBucket> newBannerButton() {
+        return new BannerButtonActionNone<>(Strings.Buttons.DISTRIBUTION);
     }
 }

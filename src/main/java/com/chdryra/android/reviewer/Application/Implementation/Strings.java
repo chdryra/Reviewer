@@ -80,6 +80,7 @@ public class Strings {
         public static final String AUTHORS = "authors";
         public static final String FULL_REVIEW = "Full review";
         public static final String QUICK_REVIEW = "Quick review";
+        public static final String DISTRIBUTION = "Ratings distribution";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

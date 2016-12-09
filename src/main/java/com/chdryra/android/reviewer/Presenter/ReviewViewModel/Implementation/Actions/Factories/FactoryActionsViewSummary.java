@@ -8,29 +8,22 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.GridItemSummary;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MenuViewDataDefault;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.RatingBarCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonCommandable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,15 +33,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Reference> {
     private final ReviewNode mNode;
 
-    public FactoryActionsViewSummary(FactoryReviewView factoryView,
-                                     FactoryCommands factoryCommands,
-                                     Command distribution,
-                                     ReviewStamp stamp,
-                                     AuthorsRepository repo,
-                                     UiLauncher launcher,
+    public FactoryActionsViewSummary(ViewDataParameters<GvSize.Reference> parameters,
                                      ReviewNode node) {
-        super(GvSize.Reference.TYPE, factoryView, factoryCommands, stamp, repo, launcher,
-                distribution, null);
+        super(parameters.setButtonTitle(Strings.Buttons.SUMMARY));
         mNode = node;
     }
 
@@ -65,13 +52,16 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
     }
 
     @Override
-    public BannerButtonAction<GvSize.Reference> newBannerButton() {
-        return newBannerButton(Strings.Buttons.SUMMARY);
+    public GridItemAction<GvSize.Reference> newGridItem() {
+        return new GridItemSummary(getLauncher(), getViewFactory(), launchFormatted());
     }
 
     @Override
-    public GridItemAction<GvSize.Reference> newGridItem() {
-        return new GridItemSummary(getLauncher(), getViewFactory(), launchFormatted());
+    @NonNull
+    protected BannerButtonAction<GvSize.Reference> newDefaultButton(String buttonTitle, @Nullable Command click) {
+        BannerButtonCommandable<GvSize.Reference> button = new BannerButtonCommandable<>(buttonTitle);
+        if(click != null) button.setClick(click);
+        return button;
     }
 
     private LaunchFormattedCommand launchFormatted() {

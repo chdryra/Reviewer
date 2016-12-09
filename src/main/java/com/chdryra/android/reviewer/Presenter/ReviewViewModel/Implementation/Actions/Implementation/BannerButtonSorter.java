@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 
-import android.view.View;
-
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
@@ -29,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonSorter<T extends GvData> extends BannerButtonLongClick<T> {
+public class BannerButtonSorter<T extends GvData> extends BannerButtonCommandable<T> {
     private static final int OPTIONS = RequestCodeGenerator.getCode(BannerButtonSorter.class);
 
     private final ComparatorCollection<? super T> mComparators;
@@ -41,7 +39,6 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonLongClick<
     public BannerButtonSorter(Command longClick,
                               ComparatorCollection<? super T> comparators,
                               OptionsSelector selector) {
-        super(longClick);
         mComparators = comparators;
         mSelector = selector;
 
@@ -51,19 +48,15 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonLongClick<
             mOptions.add(new ComparatorCommand(comparator));
         }
         mOptions.add(longClick);
+
+        setClick(new ClickCommand());
+        setLongClick(longClick);
     }
 
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
         sort(mCurrentComparator);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(!mLocked) {
-            mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
-        }
     }
 
     @Override
@@ -101,6 +94,15 @@ public class BannerButtonSorter<T extends GvData> extends BannerButtonLongClick<
         @Override
         public void execute() {
             sort(mComparators.moveToComparator(mComparator.getName()));
+        }
+    }
+
+    private class ClickCommand extends Command {
+        @Override
+        public void execute() {
+            if(!mLocked) {
+                mSelector.execute(mOptions.getCommandNames(), mCurrentComparator.getName(), OPTIONS, null);
+            }
         }
     }
 }
