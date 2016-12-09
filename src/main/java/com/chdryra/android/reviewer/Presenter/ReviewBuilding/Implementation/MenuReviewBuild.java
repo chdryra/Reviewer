@@ -45,13 +45,13 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
-        mEditor.registerListener(this);
+        mEditor.registerModeListener(this);
     }
 
     @Override
     public void onDetachReviewView() {
         super.onDetachReviewView();
-        mEditor.unregisterListener(this);
+        mEditor.unregisterModeListener(this);
     }
 
     @Override

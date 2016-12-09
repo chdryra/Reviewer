@@ -35,20 +35,20 @@ public class DataTypeCellOrder {
     public static class Review {
         public static final List<GvDataType<? extends GvDataParcelable>> FULL = new ArrayList<>();
         static {
-            FULL.add(GvImage.TYPE);
-            FULL.add(GvComment.TYPE);
-            FULL.add(GvLocation.TYPE);
             FULL.add(GvTag.TYPE);
+            FULL.add(GvComment.TYPE);
+            FULL.add(GvImage.TYPE);
+            FULL.add(GvLocation.TYPE);
             FULL.add(GvCriterion.TYPE);
             FULL.add(GvFact.TYPE);
         }
 
         public static final List<GvDataType<? extends GvDataParcelable>> QUICK = new ArrayList<>();
         static {
-            QUICK.add(GvImage.TYPE);
-            QUICK.add(GvComment.TYPE);
-            QUICK.add(GvLocation.TYPE);
             QUICK.add(GvTag.TYPE);
+            QUICK.add(GvComment.TYPE);
+            QUICK.add(GvImage.TYPE);
+            QUICK.add(GvLocation.TYPE);
         }
     }
 
@@ -59,10 +59,10 @@ public class DataTypeCellOrder {
             ORDER.add(GvAuthorId.TYPE);
             ORDER.add(GvSubject.TYPE);
             ORDER.add(GvDate.TYPE);
-            ORDER.add(GvImage.TYPE);
-            ORDER.add(GvComment.TYPE);
-            ORDER.add(GvLocation.TYPE);
             ORDER.add(GvTag.TYPE);
+            ORDER.add(GvComment.TYPE);
+            ORDER.add(GvImage.TYPE);
+            ORDER.add(GvLocation.TYPE);
             ORDER.add(GvCriterion.TYPE);
             ORDER.add(GvFact.TYPE);
         }

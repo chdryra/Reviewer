@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -157,8 +158,7 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {
-            //setDialogTitle(edit() + " " + mDataType.getDatumName());
-            setDialogTitle(null);
+            setDialogTitle(Strings.Dialogs.EDIT + " " + mDataType.getDatumName());
         }
     }
 

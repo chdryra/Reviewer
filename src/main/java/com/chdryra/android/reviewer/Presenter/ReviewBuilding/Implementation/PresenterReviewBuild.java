@@ -25,12 +25,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewEdit<GC extends GvDataList<? extends GvDataParcelable>> implements
+public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelable>> implements
         ActivityResultListener{
 
     private final ReviewEditor<GC> mEditor;
 
-    private PresenterReviewEdit(ReviewEditor<GC> editor) {
+    private PresenterReviewBuild(ReviewEditor<GC> editor) {
         mEditor = editor;
     }
 
@@ -51,7 +51,7 @@ public class PresenterReviewEdit<GC extends GvDataList<? extends GvDataParcelabl
             return this;
         }
 
-        public PresenterReviewEdit<?> build(ApplicationInstance app) {
+        public PresenterReviewBuild<?> build(ApplicationInstance app) {
             ReviewEditorSuite suite = app.getReviewEditor();
             ReviewEditor<?> editor = suite.getEditor();
             if (editor == null) {
@@ -59,7 +59,7 @@ public class PresenterReviewEdit<GC extends GvDataList<? extends GvDataParcelabl
                         app.getLocationServices().newLocationClient(), mTemplate);
             }
 
-            return new PresenterReviewEdit<>(editor);
+            return new PresenterReviewBuild<>(editor);
         }
     }
 }

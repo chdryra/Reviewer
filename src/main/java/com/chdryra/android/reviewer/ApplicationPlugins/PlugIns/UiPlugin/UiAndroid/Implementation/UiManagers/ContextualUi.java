@@ -55,7 +55,7 @@ public class ContextualUi {
                 return mAction.onLongClick(v);
             }
         });
-
+        
         update();
     }
 

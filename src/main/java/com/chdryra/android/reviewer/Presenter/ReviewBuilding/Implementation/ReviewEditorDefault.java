@@ -191,12 +191,12 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void registerListener(ModeListener listener) {
+    public void registerModeListener(ModeListener listener) {
         if(!mModeListeners.contains(listener)) mModeListeners.add(listener);
     }
 
     @Override
-    public void unregisterListener(ModeListener listener) {
+    public void unregisterModeListener(ModeListener listener) {
         if(mModeListeners.contains(listener)) mModeListeners.remove(listener);
     }
 

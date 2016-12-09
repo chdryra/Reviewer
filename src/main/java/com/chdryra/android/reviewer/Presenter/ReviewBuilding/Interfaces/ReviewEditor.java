@@ -80,9 +80,9 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
 
     EditMode getEditMode();
 
-    void registerListener(ModeListener listener);
+    void registerModeListener(ModeListener listener);
 
-    void unregisterListener(ModeListener listener);
+    void unregisterModeListener(ModeListener listener);
 
     ReviewNode buildPreview();
 }
