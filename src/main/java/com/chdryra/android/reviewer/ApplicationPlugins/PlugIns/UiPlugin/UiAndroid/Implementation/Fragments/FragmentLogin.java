@@ -14,6 +14,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -29,7 +29,8 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactorySessionProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
@@ -64,6 +65,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private EditText mEmail;
     private EditText mPassword;
     private ProgressDialog mProgress;
+    private FactorySessionProviders mLoginProviders;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
@@ -94,13 +96,14 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mEmail = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
-        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
+        ApplicationInstance app = getApp();
         mPresenter = new PresenterLogin.Builder().build(app, this);
         mPresenter.startSessionObservation();
+        mLoginProviders = new FactorySessionProviders();
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
-        if(mPresenter.hasAuthenticatedUser()) showLoggingInDialog();
+        if (checkInternet() && mPresenter.hasAuthenticatedUser()) showLoggingInDialog();
 
         return view;
     }
@@ -114,7 +117,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     public void onSignUpRequested(@Nullable AuthenticatedUser user, String message) {
         closeLoggingInDialog();
         mUser = user;
-        UiSuite ui = AppInstanceAndroid.getInstance(getActivity()).getUi();
+        UiSuite ui = getApp().getUi();
         ui.getCurrentScreen().showAlert(message, SIGN_UP, this, new Bundle());
     }
 
@@ -154,6 +157,20 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         }
     }
 
+    private AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    @NonNull
+    private boolean checkInternet() {
+        if (!getApp().getNetwork().isOnline()) {
+            makeToast(Strings.Toasts.NO_INTERNET);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void showLoggingInDialog() {
         mProgress = ProgressDialog.show(getActivity(), Strings.ProgressBar.LOGGING_IN,
                 Strings.ProgressBar.PLEASE_WAIT, true);
@@ -163,10 +180,10 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         if (mProgress != null) mProgress.dismiss();
     }
 
-    private void bindButtonsToProviders(Button facebookButton, Button googleButton,
-                                        Button twitterButton, Button emailButton) {
-        final FactorySessionProviders providers = new FactorySessionProviders();
-
+    private void bindButtonsToProviders(Button facebookButton,
+                                        Button googleButton,
+                                        Button twitterButton,
+                                        Button emailButton) {
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,29 +194,49 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoggingInDialog();
-                mPresenter.logIn(providers.newFacebookLogin(FragmentLogin.this));
+                attemptFacebookLogin();
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoggingInDialog();
-                mPresenter.logIn(providers.newGoogleLogin(FragmentLogin.this));
+                attemptGoogleLogin();
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoggingInDialog();
-                mPresenter.logIn(providers.newTwitterLogin(FragmentLogin.this));
+                attemptTwitterLogin();
             }
         });
     }
 
+    private void attemptFacebookLogin() {
+        if (checkInternet()) {
+            showLoggingInDialog();
+            mPresenter.logIn(mLoginProviders.newFacebookLogin(this));
+        }
+    }
+
+    private void attemptTwitterLogin() {
+        if (checkInternet()) {
+            showLoggingInDialog();
+            mPresenter.logIn(mLoginProviders.newTwitterLogin(this));
+        }
+    }
+
+    private void attemptGoogleLogin() {
+        if (checkInternet()) {
+            showLoggingInDialog();
+            mPresenter.logIn(mLoginProviders.newGoogleLogin(this));
+        }
+    }
+
     private void authenticateEmailOrSignUp() {
+        if (!checkInternet()) return;
+
         String email = mEmail.getText().toString();
         if (email.length() == 0) {
             onSignUpRequested(null, mPresenter.getSignUpMessage());
@@ -223,6 +260,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private void makeToast(String toast) {
-        Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+        getApp().getUi().getCurrentScreen().showToast(toast);
     }
 }

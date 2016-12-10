@@ -25,9 +25,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Unat
  */
 public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction<T> {
     private ReviewView<T> mReviewView;
+    private String mToastOnAttach;
 
     protected GvDataList<T> getGridData() {
         return getReviewView().getAdapterData();
+    }
+
+    public boolean isAttached() {
+        return mReviewView != null;
     }
 
     @Override
@@ -67,7 +72,10 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     @Override
     public void onAttachReviewView() {
-
+        if(mToastOnAttach != null) {
+            showToast(mToastOnAttach);
+            mToastOnAttach = null;
+        }
     }
 
     @Override
@@ -76,8 +84,16 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     }
 
     private void throwIfNoReviewViewAttached() {
-        if (mReviewView == null) {
+        if (!isAttached()) {
             throw new UnattachedReviewViewException("   No ReviewView Attached");
+        }
+    }
+
+    protected void showToast(String message) {
+        if(isAttached()) {
+            getCurrentScreen().showToast(message);
+        } else {
+            mToastOnAttach = message;
         }
     }
 }

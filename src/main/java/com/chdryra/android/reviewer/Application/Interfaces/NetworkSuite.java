@@ -10,21 +10,10 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 05/11/2015
+ * On: 03/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ApplicationSuite {
-    AuthenticationSuite getAuthentication();
 
-    LocationServicesSuite getLocationServices();
-
-    UiSuite getUi();
-
-    RepositorySuite getRepository();
-
-    ReviewEditorSuite getReviewEditor();
-
-    SocialSuite getSocial();
-
-    NetworkSuite getNetwork();
+public interface NetworkSuite {
+    boolean isOnline();
 }

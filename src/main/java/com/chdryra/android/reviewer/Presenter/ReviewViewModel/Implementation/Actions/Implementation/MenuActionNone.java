@@ -107,6 +107,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void onAttachReviewView() {
+        super.onAttachReviewView();
         setupActionBar();
         for (Map.Entry<Integer, MenuActionItemInfo> entry : mActionItems.entrySet()) {
             entry.getValue().mItem.onAttachReviewView();

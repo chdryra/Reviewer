@@ -95,6 +95,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onDetachReviewView() {
+        super.onDetachReviewView();
         mLocationClient.disconnect();
     }
 

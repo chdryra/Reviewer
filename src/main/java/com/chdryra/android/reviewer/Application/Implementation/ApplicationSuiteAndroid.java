@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -42,6 +43,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private final RepositorySuiteAndroid mRepository;
     private final ReviewEditorSuiteAndroid mBuilder;
     private final SocialSuiteAndroid mSocial;
+    private final NetworkSuiteAndroid mNetwork;
 
     private Activity mActivity;
 
@@ -50,13 +52,15 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
                                    ReviewEditorSuiteAndroid builder,
-                                   SocialSuiteAndroid social) {
+                                   SocialSuiteAndroid social,
+                                   NetworkSuiteAndroid network) {
         mAuth = auth;
         mLocation = location;
         mUi = ui;
         mRepository = repository;
         mBuilder = builder;
         mSocial = social;
+        mNetwork = network;
 
         mAuth.getUserSession().registerSessionObserver(this);
         mUi.setApplication(this);
@@ -103,6 +107,11 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     @Override
     public SocialSuite getSocial() {
         return mSocial;
+    }
+
+    @Override
+    public NetworkSuite getNetwork() {
+        return mNetwork;
     }
 
     @Override

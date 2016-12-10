@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
@@ -52,7 +53,7 @@ public class LoginUiDefault<T> implements LoginUi {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AUTHORISATION) {
+        if(requestCode == AUTHORISATION && ActivityResultCode.CANCEL.equals(resultCode)) {
             T accessToken = mGetter.getAuthorisationToken();
             if (accessToken != null) {
                 mPlatform.setAccessToken(accessToken);

@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -52,6 +53,8 @@ public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
     @Nullable
     private OAuthRequest getBundledRequest() {
         ParcelablePacker<OAuthRequest> packer = new ParcelablePacker<>();
-        return packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, getIntent());
+        Intent intent = getIntent();
+        return intent != null ?
+                packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, intent) : null;
     }
 }

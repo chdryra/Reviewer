@@ -44,7 +44,7 @@ public class GridItemCommand<T extends GvData> extends GridItemActionNone<T> {
 
     @Override
     public void onGridItemClick(T item, int position, View v) {
-        if(mToast != null) getCurrentScreen().showToast(mToast);
+        if(mToast != null) showToast(mToast);
         mClick.execute();
     }
 

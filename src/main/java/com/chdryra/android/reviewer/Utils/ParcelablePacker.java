@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import static android.R.attr.data;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 15/12/2014
@@ -53,11 +55,13 @@ public class ParcelablePacker<T extends Parcelable>{
 
     @Nullable
     public T unpack(CurrentNewDatum currentNew, Bundle args) {
+        if(args == null) return null;
         return args.getParcelable(currentNew.getPackingTag());
     }
 
     @Nullable
     public T unpack(CurrentNewDatum currentNew, Intent data) {
+        if(data == null) return null;
         return data.getParcelableExtra(currentNew.getPackingTag());
     }
 }

@@ -53,6 +53,7 @@ public class Strings {
         public static final String DONE = "DONE";
         public static final String LOGGING_OUT = "Logging out...";
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
+        public static final String NO_INTERNET = "No internet available...";
     }
     
     public static class Screens {

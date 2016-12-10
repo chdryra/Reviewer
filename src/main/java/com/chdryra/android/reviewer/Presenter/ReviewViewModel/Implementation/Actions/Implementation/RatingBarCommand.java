@@ -32,7 +32,7 @@ public class RatingBarCommand<T extends GvData> extends RatingBarActionNone<T> {
 
     @Override
     public void onClick(View v) {
-        if(mToast != null) getCurrentScreen().showToast(mToast);
+        if(mToast != null) showToast(mToast);
         mCommand.execute();
     }
 }

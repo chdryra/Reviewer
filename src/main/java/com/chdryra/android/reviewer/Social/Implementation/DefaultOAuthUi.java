@@ -87,13 +87,15 @@ public class DefaultOAuthUi<T> implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AUTHORISATION) {
-            OAuthRequest response = mPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-            if(response == null) {
-                mListener.onAuthorisationRefused(mPlatform);
-            } else {
-                onAuthorisationCallback(response);
-            }
+        OAuthRequest response = null;
+        if(requestCode == AUTHORISATION && data != null) {
+            response = mPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
+        }
+
+        if(response == null) {
+            mListener.onAuthorisationRefused(mPlatform);
+        } else {
+            onAuthorisationCallback(response);
         }
     }
 }

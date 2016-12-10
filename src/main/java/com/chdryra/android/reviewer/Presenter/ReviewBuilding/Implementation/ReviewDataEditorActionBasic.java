@@ -26,6 +26,7 @@ public abstract class ReviewDataEditorActionBasic<T extends GvData> extends Revi
 
     @Override
     public void onAttachReviewView() {
+        super.onAttachReviewView();
         try {
             mEditor = (ReviewDataEditor<T>)getReviewView();
         } catch (ClassCastException e) {

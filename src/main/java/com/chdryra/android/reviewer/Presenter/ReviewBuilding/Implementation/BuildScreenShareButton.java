@@ -41,7 +41,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
     public void onClick(View v) {
         ReviewEditor.ReadyToBuildResult result = getEditor().isReviewBuildable();
         if (!result.equals(ReviewEditor.ReadyToBuildResult.YES)) {
-            getCurrentScreen().showToast(result.getMessage());
+            showToast(result.getMessage());
             return;
         }
 

@@ -15,6 +15,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -40,6 +41,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class PresenterReviewPublish implements ActivityResultListener, PlatformAuthoriser, PublishAction.PublishCallback {
     private final CurrentScreen mScreen;
+    private final NetworkSuite mNetwork;
     private final LaunchableConfig mFeed;
     private final LaunchableUi mAuthLaunchable;
     private final UiLauncher mLauncher;
@@ -49,11 +51,13 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     private LoginUi mAuthUi;
 
     private PresenterReviewPublish(CurrentScreen screen,
+                                   NetworkSuite network,
                                    LaunchableConfig feed,
                                    LaunchableUi authLaunchable,
                                    UiLauncher launcher,
                                    ReviewEditorSuite builder) {
         mScreen = screen;
+        mNetwork = network;
         mFeed = feed;
         mAuthLaunchable = authLaunchable;
         mLauncher = launcher;
@@ -84,13 +88,19 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
-        mAuthUi.launchUi(mLauncher);
+        if(mNetwork.isOnline()) {
+            mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
+            mAuthUi.launchUi(mLauncher);
+        } else {
+            mScreen.showToast(Strings.Toasts.NO_INTERNET);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mAuthUi != null) mAuthUi.onActivityResult(requestCode, resultCode, data);
+        if (mAuthUi != null) {
+            mAuthUi.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void showToast(String publishing) {
@@ -102,7 +112,8 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
             UiSuite ui = app.getUi();
 
             PresenterReviewPublish presenter = new PresenterReviewPublish(ui.getCurrentScreen(),
-                    ui.getConfig().getFeed(), authLaunchable, ui.getLauncher(), app.getReviewEditor());
+                    app.getNetwork(), ui.getConfig().getFeed(), authLaunchable,
+                    ui.getLauncher(), app.getReviewEditor());
 
             ReviewEditor<?> editor = app.getReviewEditor().getEditor();
             SocialPlatformList platforms = app.getSocial().getSocialPlatformList();

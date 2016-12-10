@@ -107,7 +107,8 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == getLaunchableRequestCode()
-                && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
+                && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE
+                && data != null) {
             T datum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
             if(datum != null) onAdd(datum, requestCode);
         }

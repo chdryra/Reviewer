@@ -65,6 +65,6 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     }
 
     private void makeToast(SocialPlatform<?> platform, String message) {
-        getCurrentScreen().showToast(platform.getName() + ": " + message);
+        showToast(platform.getName() + ": " + message);
     }
 }

@@ -95,7 +95,7 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == getLaunchableRequestCode()) {
+        if (requestCode == getLaunchableRequestCode() && data != null) {
             T oldDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                 T newDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);

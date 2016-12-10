@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuit
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -49,8 +50,8 @@ public class AppInstanceAndroid implements ApplicationInstance {
 
     private enum LaunchState {RELEASE, TEST}
 
-    private AppInstanceAndroid(Context app) {
-        instantiate(app, LaunchState.TEST);
+    private AppInstanceAndroid(Context context) {
+        instantiate(context, LaunchState.TEST);
         mViewPacker = new ItemPacker<>();
     }
 
@@ -64,6 +65,30 @@ public class AppInstanceAndroid implements ApplicationInstance {
 
     public static void setActivity(Activity activity) {
         getInstance(activity).setCurrentActivity(activity);
+    }
+
+    @Nullable
+    public Review unpackTemplate(Bundle args) {
+        return mApp.unpackTemplate(args);
+    }
+
+    @Nullable
+    public ReviewNode unpackNode(Bundle args) {
+        return mApp.unpackNode(args);
+    }
+
+    @Nullable
+    public ReviewView<?> unpackView(Intent i) {
+        return mApp.unpackView(i);
+    }
+
+    public void retainView(ReviewView<?> reviewView, Bundle args) {
+        mViewPacker.pack(reviewView, args);
+    }
+
+    @Nullable
+    public ReviewView<?> getRetainedView(Bundle args) {
+        return mViewPacker.unpack(args);
     }
 
     @Override
@@ -97,6 +122,11 @@ public class AppInstanceAndroid implements ApplicationInstance {
     }
 
     @Override
+    public NetworkSuite getNetwork() {
+        return mApp.getNetwork();
+    }
+
+    @Override
     public void logout() {
         mApp.logout();
     }
@@ -106,36 +136,10 @@ public class AppInstanceAndroid implements ApplicationInstance {
         mApp.setReturnResult(result);
     }
 
-    @Nullable
-    public Review unpackTemplate(Bundle args) {
-        return mApp.unpackTemplate(args);
-    }
-
-    @Nullable
-    public ReviewNode unpackNode(Bundle args) {
-        return mApp.unpackNode(args);
-    }
-
-    @Nullable
-    public ReviewView<?> unpackView(Intent i) {
-            return mApp.unpackView(i);
-    }
-
-    public void retainView(ReviewView<?> reviewView, Bundle args) {
-        mViewPacker.pack(reviewView, args);
-    }
-
-    @Nullable
-    public ReviewView<?> getRetainedView(Bundle args) {
-        return mViewPacker.unpack(args);
-    }
-
     private void instantiate(Context context, LaunchState launchState) {
         ApplicationPlugins plugins = launchState.equals(LaunchState.RELEASE) ?
                 new ApplicationPluginsRelease(context) : new ApplicationPluginsTest(context);
-
-        FactoryApplicationSuite factory = new FactoryApplicationSuite();
-        mApp = factory.newAndroidApp(context, plugins);
+        mApp = new FactoryApplicationSuite().newAndroidApp(context, plugins);
     }
 
     private void setCurrentActivity(Activity activity) {
