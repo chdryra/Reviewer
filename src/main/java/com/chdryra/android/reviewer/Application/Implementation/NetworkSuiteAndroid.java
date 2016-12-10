@@ -29,7 +29,6 @@ public class NetworkSuiteAndroid implements NetworkSuite {
         mContext = context;
     }
 
-
     @Override
     public boolean isOnline() {
         boolean success = false;
