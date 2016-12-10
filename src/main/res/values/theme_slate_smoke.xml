@@ -10,6 +10,8 @@
 
     <!-- Slate Smoke -->
     <style name="Theme.Reviewer.SlateSmoke">
+        <item name="dominantBackground">@color/Slate</item>
+        <item name="dominantText">@color/Smoke</item>
         <item name="android:windowBackground">@color/Slate</item>
         <item name="android:colorBackground">@color/Slate</item>
         <item name="android:autoCompleteTextViewStyle">
