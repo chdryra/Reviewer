@@ -30,16 +30,26 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
-    public CommentNodeUi(TextView view, final ReviewNode node, @Nullable final Command onClick) {
-        super(view, new ValueGetter<RefCommentList>() {
+    private TextView mHeadline;
+
+    public CommentNodeUi(TextView headline, TextView comments, final ReviewNode node, @Nullable final Command onClick) {
+        super(comments, new ValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
                 return node.getComments();
             }
         });
+        mHeadline = headline;
         if(onClick != null) {
             getView().setClickable(true);
             getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClick.execute();
+                }
+            });
+            mHeadline.setClickable(true);
+            mHeadline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     onClick.execute();
@@ -58,7 +68,9 @@ public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
             @Override
             public void onDereferenced(DataValue<IdableList<DataComment>> value) {
                 if(value.hasValue()) {
-                    getView().setText(DataFormatter.formatComments(value.getData()));
+                    IdableList<DataComment> comments = value.getData();
+                    getView().setText(DataFormatter.formatComments(comments));
+                    mHeadline.setText(DataFormatter.getHeadlineQuote(comments));
                 }
             }
         });

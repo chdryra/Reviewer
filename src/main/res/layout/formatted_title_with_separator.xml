@@ -10,19 +10,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
     <TextView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/title_text_view1"
-        style="@style/TextView.FormattedTitle"
-        android:text="Title"/>
+        android:id="@+id/section_title"
+        style="@style/FormattedTitle"
+        android:text="Section title"/>
 
-    <View style="@style/HorizontalDivider"/>
+    <include
+        android:id="@+id/title_separator"
+        layout="@layout/formatted_title_separator"/>
 
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/title_text_view2"
-        style="@style/TextView.FormattedTitle"
-        android:text="Title"/>
 </LinearLayout>

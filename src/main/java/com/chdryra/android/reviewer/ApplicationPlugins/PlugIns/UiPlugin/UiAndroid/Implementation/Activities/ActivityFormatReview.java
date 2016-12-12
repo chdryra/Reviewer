@@ -17,9 +17,11 @@ import android.support.v4.view.ViewPager;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeComparatorMostRecent;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodePagerAdapter;
+        .Fragments.FragmentFormatReview2;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.NodeComparatorMostRecent;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.NodePagerAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
@@ -87,7 +89,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        FragmentFormatReview fragment = mAdapter.getFragment(mPager.getCurrentItem());
+        FragmentFormatReview2 fragment = mAdapter.getFragment(mPager.getCurrentItem());
         return fragment != null && fragment.onOptionSelected(requestCode, option);
     }
 

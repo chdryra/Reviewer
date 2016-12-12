@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/section_title"
+        layout="@layout/formatted_title_with_separator"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/formatted_value_padding_top"
+        android:paddingLeft="@dimen/formatted_value_padding_left"
+        android:paddingRight="@dimen/formatted_value_padding_right"
+        android:paddingStart="@dimen/formatted_value_padding_left"
+        android:paddingEnd="@dimen/formatted_value_padding_right">
+        <RatingBar
+            android:id="@+id/rating_formatted"
+            style="@style/RatingBarFiveStar.Indicator.PointOneStep.Formatted"/>
+    </FrameLayout>
+
+</LinearLayout>

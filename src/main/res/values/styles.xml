@@ -101,6 +101,16 @@
         <item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
     </style>
 
+    <style name="FormattedRecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/formatted_value_padding_left</item>
+        <item name="android:paddingRight">@dimen/formatted_title_padding_right</item>
+        <item name="android:horizontalSpacing">@dimen/grid_view_horizontal_spacing</item>
+        <item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
+    </style>
+
     <!-- GridCells -->
     <style name="GridCell">
         <item name="android:layout_width">match_parent</item>
@@ -180,13 +190,31 @@
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
 
-    <style name="TextView.FormattedTitle">
+    <style name="TextView.Headline">
+        <item name="android:textStyle">italic</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="FormattedTitle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/grid_item_text_padding</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:paddingTop">@dimen/formatted_title_padding_top</item>
+        <item name="android:paddingLeft">@dimen/formatted_title_padding_left</item>
+        <item name="android:paddingRight">@dimen/formatted_title_padding_right</item>
+        <item name="android:paddingBottom">@dimen/formatted_title_padding_bottom</item>
+    </style>
+
+    <style name="FormattedTitleValue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:paddingTop">@dimen/formatted_value_padding_top</item>
+        <item name="android:paddingLeft">@dimen/formatted_value_padding_left</item>
+        <item name="android:paddingRight">@dimen/formatted_value_padding_right</item>
+        <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
     </style>
 
     <style name="TextView.Large">
@@ -291,6 +319,10 @@
 
     <style name="RatingBarFiveStar.Indicator.PointOneStep">
         <item name="android:stepSize">0.1</item>
+    </style>
+
+    <style name="RatingBarFiveStar.Indicator.PointOneStep.Formatted">
+        <item name="android:layout_gravity">left</item>
     </style>
 
     <!-- ToggleButton -->

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/section_header"
+        layout="@layout/formatted_title_with_separator"/>
+
+    <include
+        android:id="@+id/section_value"
+        layout="@layout/review_data_row"/>
+
+</LinearLayout>

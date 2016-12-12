@@ -165,4 +165,11 @@ public class Strings {
         public static final String FEED_ALL_STEM = "feed";
         public static final String REVIEWS_STEM = "reviews";
     }
+
+    public static class FORMATTED {
+        public static final String AUTHOR = "author";
+        public static final String DATE = "date";
+        public static final String COMMENT = "comment";
+        public static final String TAGS = "tags";
+    }
 }

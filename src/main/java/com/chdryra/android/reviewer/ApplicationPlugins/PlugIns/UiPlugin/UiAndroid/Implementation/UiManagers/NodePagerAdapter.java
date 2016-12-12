@@ -17,7 +17,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview2;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -34,7 +37,7 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
     private final boolean mIsClickable;
-    private final SparseArray<FragmentFormatReview> mFragments;
+    private final SparseArray<FragmentFormatReview2> mFragments;
 
     private boolean mIsSorted = false;
     private ArrayList<ReviewNode> mSortedNodes;
@@ -57,15 +60,15 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     }
 
     @Nullable
-    public FragmentFormatReview getFragment(int position) {
+    public FragmentFormatReview2 getFragment(int position) {
         return mFragments.get(position);
     }
 
     @Override
     public Fragment getItem(int position) {
-        FragmentFormatReview fragment;
+        FragmentFormatReview2 fragment;
         if(mFragments.get(position) == null) {
-            fragment = FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
+            fragment = FragmentFormatReview2.newInstance(getNodeId(position), mIsClickable);
             mFragments.put(position, fragment);
         }
 
