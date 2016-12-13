@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.view.View;
@@ -21,6 +22,10 @@ public abstract class ViewUi<V extends View, Value> {
     private final V mView;
     private final ValueGetter<Value> mGetter;
 
+    public interface ValueGetter<T> {
+        T getValue();
+    }
+
     public abstract void update();
 
     public ViewUi(V view, ValueGetter<Value> getter) {
@@ -34,9 +39,5 @@ public abstract class ViewUi<V extends View, Value> {
 
     public Value getValue() {
         return mGetter.getValue();
-    }
-
-    public interface ValueGetter<T> {
-        T getValue();
     }
 }

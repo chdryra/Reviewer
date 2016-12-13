@@ -171,5 +171,7 @@ public class Strings {
         public static final String DATE = "date";
         public static final String COMMENT = "comment";
         public static final String TAGS = "tags";
+        public static final String NONE = "none";
+        public static final String DASHES = "- - -";
     }
 }

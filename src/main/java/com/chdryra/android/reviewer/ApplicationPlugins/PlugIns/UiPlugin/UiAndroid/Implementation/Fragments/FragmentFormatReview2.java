@@ -41,6 +41,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarLaunchSummary;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.StampUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TagsNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.VhFactory;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
@@ -49,7 +50,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
@@ -57,7 +57,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
@@ -72,6 +71,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
@@ -128,7 +128,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     private TextUi<TextView> mAuthor;
     private TextUi<TextView> mDate;
     private CommentNodeUi mComment;
-    private ViewUi<RecyclerView, RefDataList<DataTag>> mTags;
+    private TagsNodeUi mTags;
 
     public static FragmentFormatReview2 newInstance(ReviewId nodeId, boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
@@ -139,10 +139,6 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         fragment.setArguments(args);
 
         return fragment;
-    }
-
-    public ReviewId getNodeId() {
-        return mNode.getReviewId();
     }
 
     @Override
@@ -183,7 +179,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         setAuthor(v, launcher);
         setDate(v, launcher);
         setComment(v);
-        setTags(v, dims28);
+        setTags(v);
 
         update();
 
@@ -268,19 +264,6 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         mMenu = new MenuUi(action);
     }
 
-    private void setTags(final View v, final CellDimensionsCalculator.Dimensions dims) {
-        ReviewItemReference<DataSize> sizeRef = mNode.getTags().getSize();
-        sizeRef.dereference(new DataReference.DereferenceCallback<DataSize>() {
-            @Override
-            public void onDereferenced(DataValue<DataSize> value) {
-                int size = 0;
-                if (value.hasValue()) size = value.getData().getSize();
-                int span = size > 2 ? 2 : 1;
-                mTags = FragmentFormatReview2.this.getTags(v, dims, span);
-            }
-        });
-    }
-
     @NonNull
     private ViewUi<RecyclerView, RefDataList<DataTag>> getTags(View v, CellDimensionsCalculator
             .Dimensions dims, int span) {
@@ -302,7 +285,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         mAuthor.update();
         mDate.update();
         mComment.update();
-        if(mTags != null) mTags.update();
+        mTags.update();
     }
 
     private void setCover(View v, CellDimensionsCalculator.Dimensions dims) {
@@ -314,12 +297,17 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         mCover = new CoverNodeBannerUi(image, mNode, placeholder);
     }
 
+    private void setTags(final View v) {
+        Command onClick = mIsPublished ? newLaunchViewCommand(GvTag.TYPE) : null;
+        TextView tags = (TextView) v.findViewById(TAGS);
+        mTags = new TagsNodeUi(tags, mNode, onClick);
+    }
+
     private void setComment(View v) {
         Command onClick = mIsPublished ? newLaunchViewCommand(GvComment.TYPE) : null;
         TextView comment = (TextView) setTitleAndGetValueView(v, Strings.FORMATTED.COMMENT, COMMENT);
         mComment = new CommentNodeUi((TextView) v.findViewById(HEADLINE),
                 comment, mNode, onClick);
-        mComment.update();
     }
 
     private void setAuthor(View v, ReviewLauncher launcher) {
@@ -400,8 +388,8 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         return new ViewUi.ValueGetter<String>() {
             @Override
             public String getValue() {
-                return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date
-                        (mNode.getPublishDate().getTime()));
+                Date date = new Date(mNode.getPublishDate().getTime());
+                return DateFormat.getDateInstance(DateFormat.LONG).format(date);
             }
         };
     }

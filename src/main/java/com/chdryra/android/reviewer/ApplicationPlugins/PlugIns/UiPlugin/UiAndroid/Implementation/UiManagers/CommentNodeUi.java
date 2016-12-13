@@ -14,22 +14,20 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
+public class CommentNodeUi extends NodeDataUi<DataComment, RefCommentList> {
     private TextView mHeadline;
 
     public CommentNodeUi(TextView headline, TextView comments, final ReviewNode node, @Nullable final Command onClick) {
@@ -38,16 +36,15 @@ public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
             public RefCommentList getValue() {
                 return node.getComments();
             }
-        });
+        }, new ValueFormatter<DataComment>() {
+            @Override
+            public String format(IdableList<DataComment> data) {
+                return DataFormatter.formatComments(data);
+            }
+        }, onClick);
+
         mHeadline = headline;
         if(onClick != null) {
-            getView().setClickable(true);
-            getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onClick.execute();
-                }
-            });
             mHeadline.setClickable(true);
             mHeadline.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -58,21 +55,11 @@ public class CommentNodeUi extends ViewUi<TextView, RefCommentList> {
         }
     }
 
-    public String getText() {
-        return getView().getText().toString().trim();
-    }
-
     @Override
-    public void update() {
-        getValue().dereference(new DataReference.DereferenceCallback<IdableList<DataComment>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<DataComment>> value) {
-                if(value.hasValue()) {
-                    IdableList<DataComment> comments = value.getData();
-                    getView().setText(DataFormatter.formatComments(comments));
-                    mHeadline.setText(DataFormatter.getHeadlineQuote(comments));
-                }
-            }
-        });
+    protected void setView(IdableList<DataComment> data) {
+        super.setView(data);
+        String headline = data.size() > 0 ?
+                DataFormatter.getHeadlineQuote(data) : Strings.FORMATTED.DASHES;
+        mHeadline.setText(headline);
     }
 }

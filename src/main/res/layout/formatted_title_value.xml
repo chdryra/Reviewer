@@ -17,9 +17,7 @@
         layout="@layout/formatted_title_with_separator"/>
 
     <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/section_value"
-        style="@style/FormattedTitleValue"
-        android:text="Value"/>
+        style="@style/FormattedTitleValue"/>
 
 </LinearLayout>
