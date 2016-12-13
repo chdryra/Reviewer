@@ -120,7 +120,7 @@ public class DataFormatter {
         return tagsString.trim();
     }
 
-    public static String formatLocations(IdableList<? extends DataLocation> locations) {
+    public static String formatLocationsShort(IdableList<? extends DataLocation> locations) {
         ArrayList<String> locationNames = new ArrayList<>();
         for (DataLocation location : locations) {
             locationNames.add(location.getShortenedName());

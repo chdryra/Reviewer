@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -18,7 +17,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 /**
@@ -29,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class TagsNodeUi extends NodeDataTextUi<DataTag, RefDataList<DataTag>> {
     private static final int MAX_TAGS = 10;
 
-    public TagsNodeUi(TextView tags, final ReviewNode node, @Nullable final Command onClick) {
+    public TagsNodeUi(TextView tags, final ReviewNode node) {
         super(tags, new ValueGetter<RefDataList<DataTag>>() {
             @Override
             public RefDataList<DataTag> getValue() {
@@ -40,6 +38,6 @@ public class TagsNodeUi extends NodeDataTextUi<DataTag, RefDataList<DataTag>> {
             public String format(IdableList<DataTag> data) {
                 return DataFormatter.formatTags(data, MAX_TAGS, null);
             }
-        }, onClick, Strings.FORMATTED.NO_TAGS);
+        }, Strings.FORMATTED.NO_TAGS);
     }
 }

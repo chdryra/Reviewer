@@ -13,18 +13,18 @@
     android:weightSum="10">
 
     <TextView
-        android:id="@+id/fact_label"
+        android:id="@+id/short_name"
         style="@style/FormattedText"
         android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_weight="7"
         android:gravity="start|center"/>
 
 
     <TextView
-        android:id="@+id/fact_value"
+        android:id="@+id/address"
         style="@style/FormattedText"
         android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_weight="3"
         android:gravity="end|center"/>
 
 </LinearLayout>

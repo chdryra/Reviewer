@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,11 +35,10 @@ public abstract class NodeDataLayoutUi<T extends HasReviewId>
 
     public NodeDataLayoutUi(LinearLayout view,
                             ValueGetter<RefDataList<T>> getter,
-                            @Nullable Command onClick,
                             int layout,
                             int placeholder,
                             LayoutInflater inflater) {
-        super(view, getter, onClick);
+        super(view, getter);
         mLayout = layout;
         mPlaceholder = placeholder;
         mInflater = inflater;

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -46,7 +47,8 @@ public abstract class ViewUi<V extends View, Value> {
         return mGetter.getValue();
     }
 
-    public void setOnClickCommand(Command onClick) {
+    public void setOnClickCommand(@Nullable Command onClick) {
+        if(onClick == null) return;
         setClickable();
         mOnClick = onClick;
         if (mOnLongClick == null) mOnLongClick = onClick;

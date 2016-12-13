@@ -217,7 +217,7 @@
         <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
     </style>
 
-    <style name="FormattedFact">
+    <style name="FormattedText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>

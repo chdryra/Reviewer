@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.FactsNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalAdapterRef;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.LocationsNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuOptionsAppLevel;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
@@ -75,6 +77,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -129,6 +132,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     private TagsNodeUi mTags;
     private CriteriaNodeUi mCriteria;
     private FactsNodeUi mFacts;
+    private LocationsNodeUi mLocations;
     private ViewUi<RecyclerView, RefDataList<DataImage>> mImages;
 
     public static FragmentFormatReview2 newInstance(ReviewId nodeId, boolean isPublished) {
@@ -177,6 +181,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         setTags(v);
         setCriteria(v);
         setFacts(v);
+        setLocations(v);
 
         update();
 
@@ -267,6 +272,12 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         mTags.update();
         mCriteria.update();
         mFacts.update();
+        mLocations.update();
+    }
+
+    @Nullable
+    private Command launchView(GvDataType<?> type) {
+        return mIsPublished ? newLaunchViewCommand(type) : null;
     }
 
     private void setCover(View v) {
@@ -282,31 +293,38 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     }
 
     private void setTags(final View v) {
-        Command onClick = mIsPublished ? newLaunchViewCommand(GvTag.TYPE) : null;
         TextView tags = (TextView) v.findViewById(TAGS);
-        mTags = new TagsNodeUi(tags, mNode, onClick);
+        mTags = new TagsNodeUi(tags, mNode);
+        if(mIsPublished) mTags.setOnClickCommand(launchView(GvTag.TYPE));
     }
 
     private void setComment(View v) {
-        Command onClick = mIsPublished ? newLaunchViewCommand(GvComment.TYPE) : null;
         TextView comment = (TextView) setTitleAndGetValueView(v, Strings.FORMATTED.COMMENT,
                 COMMENT);
         mComment = new CommentNodeUi((TextView) v.findViewById(HEADLINE),
-                comment, mNode, onClick);
+                comment, mNode, launchView(GvComment.TYPE));
     }
 
     private void setCriteria(View v) {
-        Command onClick = mIsPublished ? newLaunchViewCommand(GvCriterion.TYPE) : null;
-        setTitleAndGetValueView(v, Strings.FORMATTED.CRITERIA, CRITERIA);
-        LinearLayout section = (LinearLayout)v.findViewById(CRITERIA);
-        mCriteria = new CriteriaNodeUi(section, VALUE, LayoutInflater.from(getActivity()), mNode, onClick);
+        LinearLayout section = (LinearLayout) setTitleAndGetSectionView(v, Strings.FORMATTED.CRITERIA, CRITERIA);
+        mCriteria = new CriteriaNodeUi(section, VALUE, inflater(), mNode);
+        if(mIsPublished) mCriteria.setOnClickCommand(launchView(GvCriterion.TYPE));
+    }
+
+    private LayoutInflater inflater() {
+        return LayoutInflater.from(getActivity());
     }
 
     private void setFacts(View v) {
-        Command onClick = mIsPublished ? newLaunchViewCommand(GvFact.TYPE) : null;
-        setTitleAndGetValueView(v, Strings.FORMATTED.FACTS, FACTS);
-        LinearLayout section = (LinearLayout)v.findViewById(FACTS);
-        mFacts= new FactsNodeUi(section, VALUE, LayoutInflater.from(getActivity()), mNode, onClick);
+        LinearLayout section = (LinearLayout) setTitleAndGetSectionView(v, Strings.FORMATTED.FACTS, FACTS);
+        mFacts = new FactsNodeUi(section, VALUE, inflater(), mNode);
+        if(mIsPublished) mFacts.setOnClickCommand(launchView(GvFact.TYPE));
+    }
+
+    private void setLocations(View v) {
+        LinearLayout section = (LinearLayout) setTitleAndGetSectionView(v, Strings.FORMATTED.LOCATIONS, LOCATIONS);
+        mLocations = new LocationsNodeUi(section, VALUE, inflater(), mNode);
+        if(mIsPublished) mLocations.setOnClickCommand(launchView(GvLocation.TYPE));
     }
 
     private void setAuthor(View v) {
@@ -363,10 +381,15 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     }
 
     private View setTitleAndGetValueView(View v, String sectionTitle, int sectionView) {
+        return setTitleAndGetSectionView(v, sectionTitle, sectionView).findViewById(VALUE);
+    }
+
+    @NonNull
+    private View setTitleAndGetSectionView(View v, String sectionTitle, int sectionView) {
         View view = v.findViewById(sectionView);
         TextView titleView = (TextView) view.findViewById(TITLE);
         titleView.setText(sectionTitle);
-        return view.findViewById(VALUE);
+        return view;
     }
 
     private Command newLaunchViewCommand(GvDataType<?> dataType) {

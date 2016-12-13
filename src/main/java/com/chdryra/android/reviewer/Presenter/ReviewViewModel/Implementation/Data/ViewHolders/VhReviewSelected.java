@@ -201,7 +201,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setLocation(IdableList<? extends DataLocation> value) {
-        mLocation = DataFormatter.formatLocations(value);
+        mLocation = DataFormatter.formatLocationsShort(value);
         newFooter();
     }
 

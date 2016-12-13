@@ -177,5 +177,6 @@ public class Strings {
         public static final String FACTS = "facts";
         public static final String NO_TAGS = "no tags";
         public static final String NO_SUBJECT = "no subject";
+        public static final String LOCATIONS = "locations";
     }
 }

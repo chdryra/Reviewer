@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -18,8 +17,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,9 +29,8 @@ public abstract class NodeDataUi<T extends HasReviewId,
 
     protected abstract void setEmpty();
 
-    public NodeDataUi(V view, ValueGetter<R> getter, @Nullable Command onClick) {
+    public NodeDataUi(V view, ValueGetter<R> getter) {
         super(view, getter);
-        if(onClick != null) setOnClickCommand(onClick);
     }
 
     protected void setView(IdableList<T> data) {

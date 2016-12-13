@@ -41,7 +41,8 @@ public class CommentNodeUi extends NodeDataTextUi<DataComment, RefCommentList> {
             public String format(IdableList<DataComment> data) {
                 return DataFormatter.formatComments(data);
             }
-        }, onClick);
+        });
+        setOnClickCommand(onClick);
 
         mHeadline = headline;
         if(onClick != null) {

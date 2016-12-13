@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.R;
 
 
@@ -37,14 +35,13 @@ public class CriteriaNodeUi extends NodeDataLayoutUi<DataCriterion> {
     public CriteriaNodeUi(LinearLayout view,
                           int placeholder,
                           LayoutInflater inflater,
-                          final ReviewNode node,
-                          @Nullable final Command onClick) {
+                          final ReviewNode node) {
         super(view, new ValueGetter<RefDataList<DataCriterion>>() {
             @Override
             public RefDataList<DataCriterion> getValue() {
                 return node.getCriteria();
             }
-        }, onClick, LAYOUT, placeholder, inflater);
+        }, LAYOUT, placeholder, inflater);
     }
 
     @Override

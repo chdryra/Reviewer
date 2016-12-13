@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.R;
 
 
@@ -36,22 +34,20 @@ public class FactsNodeUi extends NodeDataLayoutUi<DataFact> {
     public FactsNodeUi(LinearLayout view,
                        int placeholder,
                        LayoutInflater inflater,
-                       final ReviewNode node,
-                       @Nullable final Command onClick) {
+                       final ReviewNode node) {
         super(view, new ValueGetter<RefDataList<DataFact>>() {
             @Override
             public RefDataList<DataFact> getValue() {
                 return node.getFacts();
             }
-        }, onClick, LAYOUT, placeholder, inflater);
+        }, LAYOUT, placeholder, inflater);
     }
 
     @Override
     protected void updateView(View view, DataFact fact) {
-        TextView subject = (TextView) view.findViewById(LABEL);
-        TextView rating = (TextView) view.findViewById(VALUE);
-        String label = fact.getLabel() + SEPARATOR;
-        subject.setText(label);
-        rating.setText(fact.getValue());
+        TextView label = (TextView) view.findViewById(LABEL);
+        TextView value = (TextView) view.findViewById(VALUE);
+        label.setText(fact.getLabel() + SEPARATOR);
+        value.setText(fact.getValue());
     }
 }
