@@ -62,7 +62,7 @@
                       android:id="@+id/tags_formatted_view">
                 <include
                     android:id="@+id/tags_formatted"
-                    layout="@layout/review_data_row"/>
+                    layout="@layout/review_data_list"/>
 
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
@@ -71,7 +71,7 @@
                 android:id="@+id/criteria_formatted_view">
                 <include
                     android:id="@+id/criteria_formatted"
-                    layout="@layout/review_data_row"/>
+                    layout="@layout/review_data_list"/>
 
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
@@ -89,7 +89,7 @@
                           android:id="@+id/images_formatted_view">
                 <include
                     android:id="@+id/images_formatted"
-                    layout="@layout/review_data_row"/>
+                    layout="@layout/review_data_list"/>
 
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
@@ -98,7 +98,7 @@
                           android:id="@+id/locations_formatted_view">
                 <include
                     android:id="@+id/locations_formatted"
-                    layout="@layout/review_data_row"/>
+                    layout="@layout/review_data_list"/>
 
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>
@@ -107,7 +107,7 @@
                           android:id="@+id/facts_formatted_view">
                 <include
                     android:id="@+id/facts_formatted"
-                    layout="@layout/review_data_row"/>
+                    layout="@layout/review_data_list"/>
 
                 <View style="@style/HorizontalDivider"/>
             </LinearLayout>

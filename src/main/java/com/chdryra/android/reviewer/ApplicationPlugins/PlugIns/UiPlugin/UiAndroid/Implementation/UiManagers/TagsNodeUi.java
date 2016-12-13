@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsNodeUi extends NodeDataUi<DataTag, RefDataList<DataTag>> {
+public class TagsNodeUi extends NodeDataTextUi<DataTag, RefDataList<DataTag>> {
     private static final int MAX_TAGS = 10;
 
     public TagsNodeUi(TextView tags, final ReviewNode node, @Nullable final Command onClick) {

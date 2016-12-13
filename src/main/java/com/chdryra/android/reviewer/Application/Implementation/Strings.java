@@ -167,11 +167,12 @@ public class Strings {
     }
 
     public static class FORMATTED {
+        public static final String DASHES = "- - -";
         public static final String AUTHOR = "author";
         public static final String DATE = "date";
         public static final String COMMENT = "comment";
         public static final String TAGS = "tags";
         public static final String NONE = "none";
-        public static final String DASHES = "- - -";
+        public static final String CRITERIA = "Criteria";
     }
 }

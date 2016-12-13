@@ -10,10 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 /**
@@ -29,9 +26,11 @@ public abstract class CoverBannerUi<T> extends ViewUi<ImageView, T>{
         mPlaceholder = placeholder;
     }
 
-    @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setCover(@Nullable Bitmap image) {
-        getView().setImageBitmap(image != null ? image : mPlaceholder);
+    protected void setCover(Bitmap image) {
+        getView().setImageBitmap(image);
+    }
+
+    protected void setPlaceholder() {
+        getView().setImageBitmap(mPlaceholder);
     }
 }

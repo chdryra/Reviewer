@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -30,21 +31,38 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CommentNodeUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverNodeBannerUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalAdapterRef;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.HorizontalGridUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuOptionsAppLevel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarLaunchSummary;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.StampUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TagsNodeUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.VhFactory;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CellDimensionsCalculator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CommentNodeUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CoverNodeBannerUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CriteriaNodeUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.HorizontalAdapterRef;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.HorizontalGridUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.MenuOptionsAppLevel;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.MenuUpAppLevel;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RatingBarLaunchSummary;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.StampUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.TagsNodeUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.TextUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.VhFactory;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.ViewUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
@@ -63,16 +81,25 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiOptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUpAppLevel;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagSmall;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
@@ -102,7 +129,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     private static final int DATE = R.id.date_formatted;
     private static final int COMMENT = R.id.comment_formatted;
     private static final int TAGS = R.id.tags_formatted;
-    private static final int DATA = R.id.recyclerview_data;
+    private static final int CRITERIA = R.id.criteria_formatted;
     private static final int TITLE = R.id.section_title;
     private static final int VALUE = R.id.section_value;
 
@@ -129,6 +156,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
     private TextUi<TextView> mDate;
     private CommentNodeUi mComment;
     private TagsNodeUi mTags;
+    private CriteriaNodeUi mCriteria;
 
     public static FragmentFormatReview2 newInstance(ReviewId nodeId, boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
@@ -180,6 +208,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         setDate(v, launcher);
         setComment(v);
         setTags(v);
+        setCriteria(v);
 
         update();
 
@@ -286,6 +315,7 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
         mDate.update();
         mComment.update();
         mTags.update();
+        mCriteria.update();
     }
 
     private void setCover(View v, CellDimensionsCalculator.Dimensions dims) {
@@ -305,9 +335,17 @@ public class FragmentFormatReview2 extends Fragment implements ReviewNode.NodeOb
 
     private void setComment(View v) {
         Command onClick = mIsPublished ? newLaunchViewCommand(GvComment.TYPE) : null;
-        TextView comment = (TextView) setTitleAndGetValueView(v, Strings.FORMATTED.COMMENT, COMMENT);
+        TextView comment = (TextView) setTitleAndGetValueView(v, Strings.FORMATTED.COMMENT,
+                COMMENT);
         mComment = new CommentNodeUi((TextView) v.findViewById(HEADLINE),
                 comment, mNode, onClick);
+    }
+
+    private void setCriteria(View v) {
+        Command onClick = mIsPublished ? newLaunchViewCommand(GvCriterion.TYPE) : null;
+        setTitleAndGetValueView(v, Strings.FORMATTED.CRITERIA, CRITERIA);
+        LinearLayout section = (LinearLayout)v.findViewById(CRITERIA);
+        mCriteria = new CriteriaNodeUi(section, VALUE, LayoutInflater.from(getActivity()), mNode, onClick);
     }
 
     private void setAuthor(View v, ReviewLauncher launcher) {

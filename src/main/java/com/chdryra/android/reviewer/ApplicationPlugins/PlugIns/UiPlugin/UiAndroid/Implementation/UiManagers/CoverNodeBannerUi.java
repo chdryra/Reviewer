@@ -39,7 +39,11 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
         getValue().dereference(new DataReference.DereferenceCallback<DataImage>() {
             @Override
             public void onDereferenced(DataValue<DataImage> value) {
-                if(value.hasValue()) setCover(value.getData().getBitmap());
+                if(value.hasValue()) {
+                    setCover(value.getData().getBitmap());
+                } else {
+                    setPlaceholder();
+                }
             }
         });
     }

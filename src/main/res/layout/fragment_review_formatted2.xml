@@ -62,6 +62,10 @@
             android:id="@+id/comment_formatted"
             layout="@layout/formatted_title_value"/>
 
+        <include
+            android:id="@+id/criteria_formatted"
+            layout="@layout/formatted_title_value"/>
+
     </LinearLayout>
 </ScrollView>
 
