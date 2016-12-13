@@ -217,6 +217,16 @@
         <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
     </style>
 
+    <style name="FormattedFact">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:paddingTop">@dimen/formatted_value_padding_top</item>
+        <item name="android:paddingLeft">@dimen/formatted_value_padding_left</item>
+        <item name="android:paddingRight">@dimen/formatted_value_padding_right</item>
+        <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
+    </style>
+
     <style name="TextView.Large">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>

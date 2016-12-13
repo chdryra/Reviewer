@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -39,6 +40,6 @@ public class TagsNodeUi extends NodeDataTextUi<DataTag, RefDataList<DataTag>> {
             public String format(IdableList<DataTag> data) {
                 return DataFormatter.formatTags(data, MAX_TAGS, null);
             }
-        }, onClick);
+        }, onClick, Strings.FORMATTED.NO_TAGS);
     }
 }

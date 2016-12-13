@@ -42,7 +42,7 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
                 if(value.hasValue()) {
                     setCover(value.getData().getBitmap());
                 } else {
-                    setPlaceholder();
+                    setCover(null);
                 }
             }
         });

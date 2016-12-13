@@ -14,10 +14,9 @@
 
     <TextView
         android:id="@+id/criterion_subject"
-        style="@style/TextView"
+        style="@style/FormattedTitleValue"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:text="food"
         android:gravity="start|center"/>
 
 

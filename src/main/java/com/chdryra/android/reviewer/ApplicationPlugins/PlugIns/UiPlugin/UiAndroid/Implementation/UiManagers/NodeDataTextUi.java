@@ -28,7 +28,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 public class NodeDataTextUi<T extends HasReviewId, R extends ReviewListReference<T, ?>>
         extends NodeDataUi<T, R, TextView> {
+    private static final String NONE = Strings.FORMATTED.NONE;
     private final ValueFormatter<T> mFormatter;
+    private final String mNoneText;
 
     public interface ValueFormatter<T extends HasReviewId> {
         String format(IdableList<T> data);
@@ -38,8 +40,17 @@ public class NodeDataTextUi<T extends HasReviewId, R extends ReviewListReference
                           ValueGetter<R> getter,
                           ValueFormatter<T> formatter,
                           @Nullable final Command onClick) {
+        this(view, getter, formatter, onClick, NONE);
+    }
+
+    public NodeDataTextUi(TextView view,
+                          ValueGetter<R> getter,
+                          ValueFormatter<T> formatter,
+                          @Nullable final Command onClick,
+                          String noneText) {
         super(view, getter, onClick);
         mFormatter = formatter;
+        mNoneText = noneText;
     }
 
     @Override
@@ -50,6 +61,6 @@ public class NodeDataTextUi<T extends HasReviewId, R extends ReviewListReference
     @Override
     protected void setEmpty() {
         getView().setTypeface(getView().getTypeface(), Typeface.ITALIC);
-        getView().setText(Strings.FORMATTED.NONE);
+        getView().setText(NONE);
     }
 }
