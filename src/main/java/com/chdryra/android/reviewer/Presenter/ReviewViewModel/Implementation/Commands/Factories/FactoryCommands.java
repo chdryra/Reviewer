@@ -10,24 +10,37 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CopyCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DeleteCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchEditorCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchMappedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CopyCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.DeleteCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchMappedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ShareCommand;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -44,16 +57,13 @@ public class FactoryCommands {
         mApp = app;
     }
 
-    public Command newCopyCommand(@Nullable ReviewId template) {
-        return new CopyCommand(newLaunchEditorCommand(template), getScreen());
-    }
+    public CommandsList getReviewOptions(ReviewId reviewId, boolean withDelete) {
+        CommandsList commands = new CommandsList();
+        commands.add(new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher()));
+        commands.add(new CopyCommand(newLaunchEditorCommand(reviewId), getScreen()));
+        if (withDelete) commands.add(new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen()));
 
-    public Command newShareCommand(ReviewId reviewId) {
-        return new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher());
-    }
-
-    public Command newDeleteCommand(ReviewId reviewId) {
-        return new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen());
+        return commands;
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector() {
@@ -68,12 +78,19 @@ public class FactoryCommands {
         return new OptionsSelector(mApp.getUi().getConfig().getOptions());
     }
 
-    public Command newLaunchViewCommand(ReviewView<?> view) {
-        return new LaunchViewCommand(getLauncher(), view);
+    public Command newLaunchViewCommand(final ReviewView<?> view) {
+        return newLaunchViewCommand(view, "");
     }
 
-    public Command newLaunchViewCommand(ReviewView<?> view, String name) {
-        return new LaunchViewCommand(getLauncher(), view, name);
+    public Command newLaunchViewCommand(final ReviewView<?> view, String name) {
+        return new Command(name) {
+            @Override
+            public void execute() {
+                int code = RequestCodeGenerator.getCode(FragmentFormatReview.class, view
+                        .getLaunchTag());
+                getLauncher().launch(view, new UiLauncherArgs(code));
+            }
+        };
     }
 
     public LaunchFormattedCommand newLaunchFormattedCommand() {
@@ -84,8 +101,22 @@ public class FactoryCommands {
         return new LaunchFormattedCommand(getReviewLauncher(), node);
     }
 
-    private ReviewLauncher getReviewLauncher() {
-        return getLauncher().getReviewLauncher();
+    public Command newLaunchSummaryCommand(final ReviewId id) {
+        return new Command() {
+            @Override
+            public void execute() {
+                getReviewLauncher().launchSummary(id);
+            }
+        };
+    }
+
+    public Command newLaunchAuthorCommand(final AuthorId id) {
+        return new Command() {
+            @Override
+            public void execute() {
+                getReviewLauncher().launchReviewsList(id);
+            }
+        };
     }
 
     public LaunchMappedCommand newLaunchMappedCommand() {
@@ -96,8 +127,18 @@ public class FactoryCommands {
         return new LaunchMappedCommand(getReviewLauncher(), node);
     }
 
-    public LaunchEditorCommand newLaunchEditorCommand(@Nullable ReviewId template) {
-        return new LaunchEditorCommand(getLauncher(), template);
+    public Command newLaunchEditorCommand(@Nullable final ReviewId template) {
+        return new Command() {
+            @Override
+            public void execute() {
+                getLauncher().launchEditUi(template);
+                onExecutionComplete();
+            }
+        };
+    }
+
+    private ReviewLauncher getReviewLauncher() {
+        return getLauncher().getReviewLauncher();
     }
 
     private UserSession getSession() {

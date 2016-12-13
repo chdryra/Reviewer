@@ -12,6 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.view.View;
 
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 24/10/2016
@@ -21,6 +24,8 @@ import android.view.View;
 public abstract class ViewUi<V extends View, Value> {
     private final V mView;
     private final ValueGetter<Value> mGetter;
+    private Command mOnClick;
+    private Command mOnLongClick;
 
     public interface ValueGetter<T> {
         T getValue();
@@ -39,5 +44,47 @@ public abstract class ViewUi<V extends View, Value> {
 
     public Value getValue() {
         return mGetter.getValue();
+    }
+
+    public void setOnClickCommand(Command onClick) {
+        setClickable();
+        mOnClick = onClick;
+        if (mOnLongClick == null) mOnLongClick = onClick;
+    }
+
+    public void setClickable() {
+        getView().setClickable(true);
+        setOnClick();
+        setOnLongClick();
+    }
+
+    public void onClick(View v) {
+        if (mOnClick != null) mOnClick.execute();
+    }
+
+    public boolean onLongClick(View v) {
+        if (mOnLongClick != null) {
+            mOnLongClick.execute();
+            return true;
+        }
+        return false;
+    }
+
+    private void setOnLongClick() {
+        getView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return ViewUi.this.onLongClick(view);
+            }
+        });
+    }
+
+    private void setOnClick() {
+        getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewUi.this.onClick(view);
+            }
+        });
     }
 }

@@ -61,6 +61,6 @@ public class NodeDataTextUi<T extends HasReviewId, R extends ReviewListReference
     @Override
     protected void setEmpty() {
         getView().setTypeface(getView().getTypeface(), Typeface.ITALIC);
-        getView().setText(NONE);
+        getView().setText(mNoneText);
     }
 }

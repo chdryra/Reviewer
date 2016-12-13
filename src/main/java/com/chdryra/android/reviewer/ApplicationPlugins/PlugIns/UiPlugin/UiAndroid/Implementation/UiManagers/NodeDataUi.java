@@ -26,22 +26,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * On: 13/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class NodeDataUi<T extends HasReviewId, R extends ReviewListReference<T, ?>, V extends View> extends ViewUi<V, R> {
+public abstract class NodeDataUi<T extends HasReviewId,
+        R extends ReviewListReference<T, ?>, V extends View> extends ViewUi<V,R> {
     protected abstract void updateView(IdableList<T> data);
 
     protected abstract void setEmpty();
 
-    public NodeDataUi(V view, ValueGetter<R> getter, @Nullable final Command onClick) {
+    public NodeDataUi(V view, ValueGetter<R> getter, @Nullable Command onClick) {
         super(view, getter);
-        if(onClick != null) {
-            getView().setClickable(true);
-            getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onClick.execute();
-                }
-            });
-        }
+        if(onClick != null) setOnClickCommand(onClick);
     }
 
     protected void setView(IdableList<T> data) {

@@ -66,12 +66,6 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         mAuthorId = authorId;
         ReviewId reviewId = mAuthorId.getReviewId();
         boolean hasDelete = mAuthorId.toString().equals(mSession.getAuthorId().toString());
-
-        CommandsList commands = new CommandsList();
-        commands.add(mFactory.newShareCommand(reviewId));
-        commands.add(mFactory.newCopyCommand(reviewId));
-        if (hasDelete) commands.add(mFactory.newDeleteCommand(reviewId));
-
-        return commands;
+        return mFactory.getReviewOptions(reviewId, hasDelete);
     }
 }

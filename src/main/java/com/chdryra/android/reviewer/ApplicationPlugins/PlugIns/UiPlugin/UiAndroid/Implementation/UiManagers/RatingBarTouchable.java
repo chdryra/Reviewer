@@ -10,37 +10,33 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarLaunchSummary extends RatingBarUi {
-    private ReviewNode mNode;
-
-    public RatingBarLaunchSummary(RatingBar view, final ReviewNode node,
-                                  final ReviewLauncher launcher, boolean clickable) {
+public class RatingBarTouchable extends RatingBarUi {
+    public RatingBarTouchable(RatingBar view, final ReviewNode node, @Nullable final Command onTouch) {
         super(view, new ValueGetter<Float>() {
             @Override
             public Float getValue() {
                 return node.getRating().getRating();
             }
         });
-
-        mNode = node;
-        if(clickable) {
+        if(onTouch != null) {
             getView().setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    launcher.launchSummary(mNode.getReviewId());
-                    return false;
+                    onTouch.execute();
+                    return true;
                 }
             });
         }

@@ -29,14 +29,6 @@ public class OptionsSelectAndExecute extends OptionsCommand {
         mOptionsCommand = optionsCommand;
     }
 
-    public OptionsSelectAndExecute(String name,
-                                   OptionsSelector optionsCommand,
-                                   CommandsList commands) {
-        super(name);
-        mOptionsCommand = optionsCommand;
-        mCommands = commands;
-    }
-
     public void setCommands(CommandsList commands) {
         mCommands = commands;
     }

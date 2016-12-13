@@ -30,6 +30,10 @@ public class TextUi<T extends TextView> extends ViewUi<T, String> {
         return getView().getTextColors().getDefaultColor();
     }
 
+    public void setTextColour(int color) {
+        getView().setTextColor(color);
+    }
+
     @Override
     public void update() {
         getView().setText(getValue());

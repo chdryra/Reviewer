@@ -20,37 +20,30 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonUi extends ButtonUi {
+public class BannerButtonUi extends TextUi<Button> {
+    private final BannerButtonAction<?> mAction;
 
-    public BannerButtonUi(Button view, final BannerButtonAction<?> action, int textColour) {
+    public BannerButtonUi(Button view, final BannerButtonAction<?> action) {
         super(view, new ValueGetter<String>() {
             @Override
             public String getValue() {
                 return action.getTitleString();
             }
-        }, textColour);
+        });
 
-        initialise(action);
+        mAction = action;
+        mAction.setTitle(new ButtonTitle());
+        setClickable();
     }
 
-    private void initialise(final BannerButtonAction<?> action) {
-        action.setTitle(new ButtonTitle());
+    @Override
+    public void onClick(View v) {
+        mAction.onClick(v);
+    }
 
-        getView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                action.onClick(v);
-            }
-        });
-
-        getView().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return action.onLongClick(v);
-            }
-        });
-
-        update();
+    @Override
+    public boolean onLongClick(View v) {
+        return mAction.onLongClick(v);
     }
 
     private class ButtonTitle implements BannerButtonAction.ButtonTitle {

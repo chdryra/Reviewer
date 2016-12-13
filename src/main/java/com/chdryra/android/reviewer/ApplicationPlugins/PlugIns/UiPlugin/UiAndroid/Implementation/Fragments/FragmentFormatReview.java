@@ -29,8 +29,6 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ButtonStampUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CommentNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverNodeUi;
@@ -40,7 +38,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuOptionsAppLevel;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarLaunchSummary;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarTouchable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TextUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.VhFactory;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
@@ -84,7 +82,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTagSmall;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -130,12 +127,12 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     private NamedAuthor mAuthor;
     private UiSuite mUi;
     private RepositorySuite mRepo;
-    private ButtonUi mStamp;
+    private TextUi<Button> mStamp;
     private MenuUi mMenu;
 
     private CoverNodeUi mCover;
     private TextUi<TextView> mSubject;
-    private RatingBarLaunchSummary mRating;
+    private RatingBarTouchable mRating;
     private HideableViewUi<TextView, RefCommentList> mComment;
     private ViewUi<View, RefDataList<DataFact>> mFacts;
     private ViewUi<View, RefDataList<DataImage>> mImages;
@@ -185,12 +182,10 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        ReviewLauncher launcher = mUi.getLauncher().getReviewLauncher();
-
         setCover(v);
         int textColour = setSubject(v);
-        setRating(v, launcher);
-        setBannerButton(v, launcher, textColour);
+        setRating(v);
+        setBannerButton(v, textColour);
         setComment(v);
         setTags(v, dims28);
         setLocations(v, dims28);
@@ -296,18 +291,6 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
                 });
     }
 
-    private void setImages(View v, CellDimensionsCalculator.Dimensions dims) {
-        mImages = newGridUi(v.findViewById
-                        (IMAGES_VIEW), IMAGES, VhImage.class, 1, dims,
-                getConverter().newConverterImages(),
-                new ViewUi.ValueGetter<RefDataList<DataImage>>() {
-                    @Override
-                    public RefDataList<DataImage> getValue() {
-                        return mNode.getImages();
-                    }
-                });
-    }
-
     private void setCriteria(View v, CellDimensionsCalculator.Dimensions dims) {
         mCriteria = newGridUi(v.findViewById
                         (CRITERIA_VIEW), CRITERIA, VhCriterionSmall.class, 1, dims,
@@ -384,21 +367,42 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         mComment.update();
     }
 
-    private void setBannerButton(View v, ReviewLauncher launcher, int textColour) {
+    private void setBannerButton(View v, int textColour) {
         DataAuthorId authorId = mNode.getAuthorId();
-        mStamp = new ButtonStampUi((Button) v.findViewById(STAMP), stamp(), textColour,
-                authorId, launcher, mIsPublished);
+        mStamp = new TextUi<>((Button) v.findViewById(STAMP), stamp());
+        mStamp.setOnClickCommand(launchAuthor());
+        mStamp.setTextColour(textColour);
         mRepo.getAuthorsRepository().getReference(authorId).dereference(setAuthorAndUpdateStamp());
     }
 
-    private void setRating(View v, ReviewLauncher launcher) {
-        mRating = new RatingBarLaunchSummary((RatingBar) v.findViewById(RATING), mNode, launcher,
-                mIsPublished);
+    private Command launchAuthor() {
+        return mUi.getCommandsFactory().newLaunchAuthorCommand(mNode.getAuthorId());
+    }
+
+    private Command launchSummary() {
+        return mUi.getCommandsFactory().newLaunchSummaryCommand(mNode.getReviewId());
+    }
+
+    private void setRating(View v) {
+        Command onTouch = mIsPublished ? launchSummary() : null;
+        mRating = new RatingBarTouchable((RatingBar) v.findViewById(RATING), mNode, onTouch);
     }
 
     private int setSubject(View v) {
         mSubject = new TextUi<>((TextView) v.findViewById(SUBJECT), subject());
         return mSubject.getTextColour();
+    }
+
+    private void setImages(View v, CellDimensionsCalculator.Dimensions dims) {
+        mImages = newGridUi(v.findViewById
+                        (IMAGES_VIEW), IMAGES, VhImage.class, 1, dims,
+                getConverter().newConverterImages(),
+                new ViewUi.ValueGetter<RefDataList<DataImage>>() {
+                    @Override
+                    public RefDataList<DataImage> getValue() {
+                        return mNode.getImages();
+                    }
+                });
     }
 
     @NonNull

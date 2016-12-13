@@ -52,7 +52,7 @@ public class Command {
         return mRequestCode;
     }
 
-    void onExecutionComplete() {
+    protected void onExecutionComplete() {
         if(mListener != null) mListener.onCommandExecuted(mRequestCode);
     }
 }

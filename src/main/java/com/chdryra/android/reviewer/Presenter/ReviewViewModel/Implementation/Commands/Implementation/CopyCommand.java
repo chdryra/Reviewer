@@ -20,19 +20,19 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 public class CopyCommand extends Command {
     private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class);
 
-    private final LaunchEditorCommand mCommand;
+    private final Command mLaunchEditor;
     private final CurrentScreen mScreen;
 
-    public CopyCommand(LaunchEditorCommand command, CurrentScreen screen) {
+    public CopyCommand(Command launchEditor, CurrentScreen screen) {
         super(Strings.Commands.COPY);
         mScreen = screen;
-        mCommand = command;
+        mLaunchEditor = launchEditor;
     }
 
     @Override
     public void execute() {
         mScreen.showToast(Strings.Toasts.COPYING);
-        mCommand.execute(LAUNCH, new ExecutionListener() {
+        mLaunchEditor.execute(LAUNCH, new ExecutionListener() {
             @Override
             public void onCommandExecuted(int requestCode) {
                 onExecutionComplete();
