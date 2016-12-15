@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -25,14 +26,13 @@ import com.chdryra.android.reviewer.R;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactsNodeUi extends NodeDataLayoutUi<DataFact> {
+public class FactsNodeUi extends NodeDataExpandableUi<DataFact> {
     private static final int LAYOUT = R.layout.formatted_facts;
     private static final int LABEL = R.id.fact_label;
     private static final int VALUE = R.id.fact_value;
     private static final String SEPARATOR = ": ";
 
     public FactsNodeUi(LinearLayout view,
-                       int placeholder,
                        LayoutInflater inflater,
                        final ReviewNode node) {
         super(view, new ValueGetter<RefDataList<DataFact>>() {
@@ -40,7 +40,7 @@ public class FactsNodeUi extends NodeDataLayoutUi<DataFact> {
             public RefDataList<DataFact> getValue() {
                 return node.getFacts();
             }
-        }, LAYOUT, placeholder, inflater);
+        }, Strings.FORMATTED.FACTS, LAYOUT, inflater);
     }
 
     @Override

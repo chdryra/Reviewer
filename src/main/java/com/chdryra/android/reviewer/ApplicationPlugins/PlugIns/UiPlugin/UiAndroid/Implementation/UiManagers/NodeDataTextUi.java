@@ -13,7 +13,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
@@ -26,18 +25,11 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  */
 public class NodeDataTextUi<T extends HasReviewId, R extends ReviewListReference<T, ?>>
         extends NodeDataUi<T, R, TextView> {
-    private static final String NONE = Strings.FORMATTED.NONE;
     private final ValueFormatter<T> mFormatter;
     private final String mNoneText;
 
     public interface ValueFormatter<T extends HasReviewId> {
         String format(IdableList<T> data);
-    }
-
-    public NodeDataTextUi(TextView view,
-                          ValueGetter<R> getter,
-                          ValueFormatter<T> formatter) {
-        this(view, getter, formatter, NONE);
     }
 
     public NodeDataTextUi(TextView view,

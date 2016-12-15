@@ -10,8 +10,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -27,21 +29,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentNodeUi extends NodeDataTextUi<DataComment, RefCommentList> {
+public class CommentNodeUi extends NodeDataSectionUi<DataComment, RefCommentList> {
     private TextView mHeadline;
 
-    public CommentNodeUi(TextView headline, TextView comments, final ReviewNode node, @Nullable final Command onClick) {
-        super(comments, new ValueGetter<RefCommentList>() {
+    public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node, @Nullable final Command onClick) {
+        super(section, new ValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
                 return node.getComments();
             }
-        }, new ValueFormatter<DataComment>() {
-            @Override
-            public String format(IdableList<DataComment> data) {
-                return DataFormatter.formatComments(data);
-            }
-        });
+        }, Strings.FORMATTED.COMMENT);
+
         setOnClickCommand(onClick);
 
         mHeadline = headline;
@@ -57,10 +55,16 @@ public class CommentNodeUi extends NodeDataTextUi<DataComment, RefCommentList> {
     }
 
     @Override
-    protected void setView(IdableList<DataComment> data) {
-        super.setView(data);
+    protected void updateView(IdableList<DataComment> data) {
+        getValueView().setText(DataFormatter.formatComments(data));
         String headline = data.size() > 0 ?
                 DataFormatter.getHeadlineQuote(data) : Strings.FORMATTED.DASHES;
         mHeadline.setText(headline);
+    }
+
+    @Override
+    protected void setEmpty() {
+        getValueView().setTypeface(getValueView().getTypeface(), Typeface.ITALIC);
+        getValueView().setText(Strings.FORMATTED.NONE);
     }
 }

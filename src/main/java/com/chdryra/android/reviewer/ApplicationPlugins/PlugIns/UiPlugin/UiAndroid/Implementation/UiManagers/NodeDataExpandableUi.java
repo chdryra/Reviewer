@@ -25,44 +25,40 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
  * On: 13/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class NodeDataLayoutUi<T extends HasReviewId> 
-        extends NodeDataUi<T, RefDataList<T>, LinearLayout> {
-    private final int mLayout;
-    private final int mPlaceholder;
+public abstract class NodeDataExpandableUi<T extends HasReviewId>
+        extends NodeDataSectionUi<T, RefDataList<T>> {
+    private final int mValueLayout;
     private final LayoutInflater mInflater;
 
     protected abstract void updateView(View view, T criterion);
 
-    public NodeDataLayoutUi(LinearLayout view,
-                            ValueGetter<RefDataList<T>> getter,
-                            int layout,
-                            int placeholder,
-                            LayoutInflater inflater) {
-        super(view, getter);
-        mLayout = layout;
-        mPlaceholder = placeholder;
+    public NodeDataExpandableUi(LinearLayout view,
+                                ValueGetter<RefDataList<T>> getter,
+                                String title,
+                                int valueLayout,
+                                LayoutInflater inflater) {
+        super(view, getter, title);
+        mValueLayout = valueLayout;
         mInflater = inflater;
     }
 
     @Override
     protected void setEmpty() {
-        TextView placeholder = getPlaceholder();
+        TextView placeholder = getValueView();
         placeholder.setTypeface(placeholder.getTypeface(), Typeface.ITALIC);
         placeholder.setText(Strings.FORMATTED.NONE);
     }
 
     @Override
     protected void updateView(IdableList<T> data) {
-        getPlaceholder().setVisibility(View.GONE);
-        LinearLayout layout = getView();
+        getValueView().setVisibility(View.GONE);
+        LinearLayout layout = new LinearLayout(getView().getContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
         for (T datum : data) {
-            View datumView = mInflater.inflate(mLayout, null);
+            View datumView = mInflater.inflate(mValueLayout, null);
             updateView(datumView, datum);
             layout.addView(datumView);
         }
-    }
-
-    private TextView getPlaceholder() {
-        return (TextView) getView().findViewById(mPlaceholder);
+        getView().addView(layout);
     }
 }

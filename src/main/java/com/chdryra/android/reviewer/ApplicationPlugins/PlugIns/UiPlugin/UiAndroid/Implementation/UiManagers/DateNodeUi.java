@@ -10,8 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import java.text.DateFormat;
@@ -23,14 +24,19 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class DateNodeUi extends TextUi<TextView> {
-    public DateNodeUi(TextView view, final ReviewNode node) {
-        super(view, new ValueGetter<String>() {
+public class DateNodeUi extends FormattedSectionUi<String> {
+    public DateNodeUi(LinearLayout section, final ReviewNode node) {
+        super(section, new ValueGetter<String>() {
             @Override
             public String getValue() {
                 Date date = new Date(node.getPublishDate().getTime());
                 return DateFormat.getDateInstance(DateFormat.LONG).format(date);
             }
-        });
+        }, Strings.FORMATTED.DATE);
+    }
+
+    @Override
+    public void update() {
+        getValueView().setText(getValue());
     }
 }

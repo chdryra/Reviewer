@@ -10,8 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.support.annotation.NonNull;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -23,22 +24,27 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class AuthorNodeUi extends TextUi<TextView> {
+public class AuthorNodeUi extends FormattedSectionUi<String> {
     private NamedAuthor mNamedAuthor;
 
-    public AuthorNodeUi(TextView view, AuthorReference author) {
-        super(view, new ViewUi.ValueGetter<String>() {
+    public AuthorNodeUi(LinearLayout section, AuthorReference author) {
+        super(section, new ViewUi.ValueGetter<String>() {
             @Override
             public String getValue() {
                 return "";
             }
-        });
+        }, Strings.FORMATTED.AUTHOR);
         author.dereference(setAuthorAndUpdate());
     }
 
     @Override
     public String getValue() {
         return mNamedAuthor != null ? mNamedAuthor.getName() : "";
+    }
+
+    @Override
+    public void update() {
+        getValueView().setText(getValue());
     }
 
     @NonNull

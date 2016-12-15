@@ -14,10 +14,10 @@
 
     <include
         android:id="@+id/section_header"
-        layout="@layout/formatted_title_with_separator"/>
+        layout="@layout/formatted_title_value"/>
 
     <include
-        android:id="@+id/section_value"
+        android:id="@+id/section_data"
         layout="@layout/review_data_list"/>
 
 </LinearLayout>
