@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Implementation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .LocationFormatter;
+        .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -48,7 +48,7 @@ public class DatumLocation implements DataLocation {
 
     @Override
     public String getShortenedName() {
-        return LocationFormatter.getShortenedName(mName);
+        return DataFormatter.getShortenedName(mName);
     }
 
     @Override

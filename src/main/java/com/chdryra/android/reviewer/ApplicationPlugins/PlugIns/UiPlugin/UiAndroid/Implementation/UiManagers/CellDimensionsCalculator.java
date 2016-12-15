@@ -27,8 +27,8 @@ public class CellDimensionsCalculator {
         activity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
-    public Dimensions calcDimensions(ReviewViewParams.CellDimension cellWidth, ReviewViewParams.CellDimension cellHeight) {
-        int maxCellSize = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
+    public Dimensions calcDimensions(ReviewViewParams.CellDimension cellWidth, ReviewViewParams.CellDimension cellHeight, int padding) {
+        int maxCellSize = Math.max(Math.min(mMetrics.widthPixels, mMetrics.heightPixels) - padding, 0);
         return new Dimensions(maxCellSize / cellWidth.getDivider(), maxCellSize / cellHeight.getDivider());
     }
 

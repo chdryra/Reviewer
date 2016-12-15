@@ -51,7 +51,7 @@ public class GridViewUi<T extends GvData> {
 
     public void setCellDimension(ReviewViewParams.CellDimension width,
                                  ReviewViewParams.CellDimension height) {
-        CellDimensionsCalculator.Dimensions dims = mCalculator.calcDimensions(width, height);
+        CellDimensionsCalculator.Dimensions dims = mCalculator.calcDimensions(width, height, 0);
         int cell_width = dims.getCellWidth();
         int cell_height = dims.getCellHeight();
 
@@ -80,7 +80,7 @@ public class GridViewUi<T extends GvData> {
     private void inititialise() {
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
         CellDimensionsCalculator.Dimensions dims
-                = mCalculator.calcDimensions(params.getCellWidth(), params.getCellHeight());
+                = mCalculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
         int cell_width = dims.getCellWidth();
         int cell_height = dims.getCellHeight();
 

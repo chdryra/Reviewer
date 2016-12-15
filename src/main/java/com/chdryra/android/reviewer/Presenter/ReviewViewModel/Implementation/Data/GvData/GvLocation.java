@@ -18,8 +18,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverte
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.LocationFormatter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -71,7 +73,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
 
     @Override
     public String getShortenedName() {
-        return LocationFormatter.getShortenedName(mName);
+        return DataFormatter.getShortenedName(mName);
     }
 
     @Override

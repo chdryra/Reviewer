@@ -38,6 +38,8 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
@@ -84,6 +86,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private NearestPlacesSuggester mSuggester;
     private AutoCompleter<VhdLocatedPlace> mAutoCompleter;
 
+    private LocationDetails mDetails;
+
     public AddLocation(GvDataAdder adder, LocationServicesApi locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
@@ -129,6 +133,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     @Override
     public GvLocation createGvDataFromInputs() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
+        if(mDetails != null) name = DataFormatter.concatenateNameAndAddress(name, mDetails.getAddress());
         return new GvLocation(mSelectedLatLng, name);
     }
 
@@ -231,6 +236,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onPlaceDetailsFound(LocationDetails details) {
+        mDetails = details;
         mSelectedLatLng = details.getLatLng();
         mNameEditText.setText(details.getName());
         mNameEditText.setHint(mHint);

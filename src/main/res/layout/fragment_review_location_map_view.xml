@@ -19,8 +19,6 @@
         android:clickable="true"
         tools:ignore="InefficientWeight"/>
 
-    <View style="@style/HorizontalDivider"/>
-
     <include
         layout="@layout/dialog_two_button_layout"/>
 

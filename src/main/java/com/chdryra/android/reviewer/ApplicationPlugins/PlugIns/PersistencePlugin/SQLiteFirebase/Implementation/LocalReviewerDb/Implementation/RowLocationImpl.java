@@ -19,8 +19,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 
+
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .LocationFormatter;
+        .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -77,7 +78,7 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
 
     @Override
     public String getShortenedName() {
-        return LocationFormatter.getShortenedName(mName);
+        return DataFormatter.getShortenedName(mName);
     }
 
     @Override

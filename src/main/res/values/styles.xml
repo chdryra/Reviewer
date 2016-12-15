@@ -31,20 +31,14 @@
     <style name="HorizontalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?attr/dominantText</item>
+        <item name="android:background">@color/DarkGray</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="HorizontalDivider.Title">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">2dp</item>
-        <item name="android:gravity">top</item>
-    </style>
-
     <style name="VerticalDivider">
-        <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:background">@color/DarkGray</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
@@ -106,7 +100,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">@dimen/formatted_value_padding_left</item>
-        <item name="android:paddingRight">@dimen/formatted_title_padding_right</item>
+        <item name="android:paddingRight">@dimen/formatted_value_padding_right</item>
+        <item name="android:paddingTop">@dimen/formatted_value_padding_top</item>
+        <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
         <item name="android:horizontalSpacing">@dimen/grid_view_horizontal_spacing</item>
         <item name="android:verticalSpacing">@dimen/grid_view_vertical_spacing</item>
     </style>
@@ -225,6 +221,10 @@
         <item name="android:paddingLeft">@dimen/formatted_value_padding_left</item>
         <item name="android:paddingRight">@dimen/formatted_value_padding_right</item>
         <item name="android:paddingBottom">@dimen/formatted_value_padding_bottom</item>
+    </style>
+
+    <style name="FormattedText.Small">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
     <style name="TextView.Large">

@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.R;
 
 
@@ -48,6 +50,6 @@ public class LocationsNodeUi extends NodeDataLayoutUi<DataLocation> {
         TextView name = (TextView) view.findViewById(NAME);
         TextView address = (TextView) view.findViewById(ADDRESS);
         name.setText(location.toString());
-        address.setText(location.getName());
+        address.setText(DataFormatter.getAddress(location.getName()));
     }
 }

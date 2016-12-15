@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Comm
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringTokenizer;
 
 /**
  * Helper class for comment string processing.
@@ -136,5 +137,23 @@ public class DataFormatter {
         }
 
         return location.trim();
+    }
+
+
+    public static String getShortenedName(String name) {
+        String delimeters = ",|";
+        StringTokenizer tokens = new StringTokenizer(name, delimeters);
+        String shortened = tokens.nextToken();
+
+        return shortened != null ? shortened.trim() : name;
+    }
+
+    public static String concatenateNameAndAddress(String name, String address) {
+        return name + "|" + address;
+    }
+
+    public static String getAddress(String name) {
+        String[] split = name.split("|", 1);
+        return split.length > 1 ? split[1] : name;
     }
 }

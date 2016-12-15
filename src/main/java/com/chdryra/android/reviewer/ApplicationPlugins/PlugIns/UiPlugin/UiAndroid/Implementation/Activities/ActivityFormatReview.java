@@ -16,8 +16,7 @@ import android.support.v4.view.ViewPager;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview2;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.NodeComparatorMostRecent;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -89,7 +88,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        FragmentFormatReview2 fragment = mAdapter.getFragment(mPager.getCurrentItem());
+        FragmentFormatReview fragment = mAdapter.getFragment(mPager.getCurrentItem());
         return fragment != null && fragment.onOptionSelected(requestCode, option);
     }
 

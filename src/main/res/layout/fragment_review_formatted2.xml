@@ -74,6 +74,10 @@
             android:id="@+id/locations_formatted"
             layout="@layout/formatted_title_value"/>
 
+        <include
+            android:id="@+id/images_formatted"
+            layout="@layout/formatted_title_data"/>
+
     </LinearLayout>
 </ScrollView>
 
