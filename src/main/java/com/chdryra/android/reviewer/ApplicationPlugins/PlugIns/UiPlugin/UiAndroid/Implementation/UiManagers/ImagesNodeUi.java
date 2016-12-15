@@ -65,15 +65,13 @@ public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSiz
 
     private void showPlaceholder() {
         TextView placeholder = getValueView();
-        mGrid.getView().setVisibility(View.GONE);
         placeholder.setVisibility(View.VISIBLE);
         placeholder.setTypeface(placeholder.getTypeface(), Typeface.ITALIC);
         placeholder.setText(Strings.FORMATTED.NONE);
     }
 
     private void showGrid() {
-        getView().setVisibility(View.GONE);
-        mGrid.getView().setVisibility(View.VISIBLE);
+        getValueView().setVisibility(View.GONE);
         mGrid.update();
     }
 }
