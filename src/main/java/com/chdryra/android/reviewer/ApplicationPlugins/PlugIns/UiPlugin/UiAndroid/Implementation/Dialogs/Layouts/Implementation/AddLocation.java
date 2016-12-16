@@ -31,6 +31,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
@@ -38,8 +39,6 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
@@ -133,8 +132,11 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     @Override
     public GvLocation createGvDataFromInputs() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
-        if(mDetails != null) name = DataFormatter.concatenateNameAndAddress(name, mDetails.getAddress());
-        return new GvLocation(mSelectedLatLng, name);
+        String address = mDetails != null ? mDetails.getAddress() : name;
+        LocationId locationId = mDetails != null ?
+                new LocationId(mDetails.getProvider(), mDetails.getId())
+                : LocationId.appLocationId(name, mSelectedLatLng);
+        return new GvLocation(mSelectedLatLng, name, address, locationId);
     }
 
     @Override

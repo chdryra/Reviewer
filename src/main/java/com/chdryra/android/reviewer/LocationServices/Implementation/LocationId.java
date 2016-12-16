@@ -10,6 +10,9 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/01/2016
@@ -17,12 +20,26 @@ import android.support.annotation.Nullable;
  */
 public class LocationId {
     private static final String NULL_ID = "NULL_LOCATION_ID";
+    private static final String SEPARATOR = ":";
     private final LocationProvider mProvider;
     private final String mId;
 
     public LocationId(LocationProvider provider, @Nullable String providerId) {
         mProvider = provider;
         mId = providerId != null ? providerId : NULL_ID;
+    }
+
+    public LocationProvider getProvider() {
+        return mProvider;
+    }
+
+    public static LocationId appLocationId(String name, LatLng latLng) {
+        return new LocationId(LocationProvider.app(), name + SEPARATOR + latLng);
+    }
+
+    public static LocationId nullId() {
+        return new LocationId(LocationProvider.app(), ReviewStamp.noStamp().toString()
+                + SEPARATOR + "NULL");
     }
 
     public String getId() {

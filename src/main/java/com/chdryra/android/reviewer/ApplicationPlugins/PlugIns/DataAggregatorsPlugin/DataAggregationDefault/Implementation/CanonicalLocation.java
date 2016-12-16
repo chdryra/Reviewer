@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -34,7 +35,9 @@ public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return FactoryNullData.nullLocation(id);
 
-        return new DatumLocation(id, getMidLatLng(data), getModeString(data));
+        String name = getModeString(data);
+        LatLng latLng = getMidLatLng(data);
+        return new DatumLocation(id, latLng, name, "aggregate", LocationId.appLocationId(name, latLng));
     }
 
     private LatLng getMidLatLng(IdableList<? extends DataLocation> locations) {

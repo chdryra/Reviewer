@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Data.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,17 +24,23 @@ public class DatumLocation implements DataLocation {
     private final ReviewId mReviewId;
     private final LatLng mLatLng;
     private final String mName;
+    private final String mAddress;
+    private final LocationId mLocationId;
 
     public DatumLocation(ReviewId reviewId) {
         mReviewId = reviewId;
         mLatLng = new LatLng(0,0);
         mName = "";
+        mAddress = "";
+        mLocationId = LocationId.appLocationId(reviewId.toString(), mLatLng);
     }
 
-    public DatumLocation(ReviewId reviewId, LatLng latLng, String name) {
+    public DatumLocation(ReviewId reviewId, LatLng latLng, String name, String address, LocationId locationId) {
         mReviewId = reviewId;
         mLatLng = latLng;
         mName = name;
+        mAddress = address;
+        mLocationId = locationId;
     }
 
     @Override
@@ -57,6 +64,16 @@ public class DatumLocation implements DataLocation {
     }
 
     @Override
+    public String getAddress() {
+        return mAddress;
+    }
+
+    @Override
+    public LocationId getLocationId() {
+        return mLocationId;
+    }
+
+    @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
@@ -69,16 +86,20 @@ public class DatumLocation implements DataLocation {
         DatumLocation that = (DatumLocation) o;
 
         if (!mReviewId.equals(that.mReviewId)) return false;
-        if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) return false;
-        return mName.equals(that.mName);
+        if (!mLatLng.equals(that.mLatLng)) return false;
+        if (!mName.equals(that.mName)) return false;
+        if (!mAddress.equals(that.mAddress)) return false;
+        return mLocationId.equals(that.mLocationId);
 
     }
 
     @Override
     public int hashCode() {
         int result = mReviewId.hashCode();
-        result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
+        result = 31 * result + mLatLng.hashCode();
         result = 31 * result + mName.hashCode();
+        result = 31 * result + mAddress.hashCode();
+        result = 31 * result + mLocationId.hashCode();
         return result;
     }
 

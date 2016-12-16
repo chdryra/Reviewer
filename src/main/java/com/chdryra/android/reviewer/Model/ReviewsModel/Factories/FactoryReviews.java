@@ -272,7 +272,8 @@ public class FactoryReviews implements ReviewMaker {
             locations) {
         IdableList<DataLocation> mdLocations = new IdableDataList<>(id);
         for (DataLocation datum : locations) {
-            DatumLocation loc = new DatumLocation(id, datum.getLatLng(), datum.getName());
+            DatumLocation loc = new DatumLocation(id, datum.getLatLng(), datum.getName(),
+                    datum.getAddress(), datum.getLocationId());
             mdLocations.add(loc);
         }
         return mdLocations;

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.ViewLayoutLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
@@ -49,7 +51,7 @@ public class DefaultLayoutConfig extends ConfigDialogLayouts{
         add(GvCriterion.TYPE, AddEditCriterion.class, ViewLayoutCriterion.class);
         add(GvImage.TYPE, LayoutEditImage.class, ViewLayoutImage.class);
         add(GvComment.TYPE, AddEditComment.class, ViewLayoutComment.class);
-        add(GvLocation.TYPE, LayoutEditLocation.class, null);
+        add(GvLocation.TYPE, LayoutEditLocation.class, ViewLayoutLocation.class);
         add(GvFact.TYPE, AddEditFact.class, ViewLayoutFact.class);
         add(GvSubject.TYPE, null, ViewLayoutSubject.class);
         add(GvDate.TYPE, null, ViewLayoutDate.class);

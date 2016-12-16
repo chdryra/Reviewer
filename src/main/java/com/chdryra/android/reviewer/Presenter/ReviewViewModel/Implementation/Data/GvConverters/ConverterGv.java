@@ -70,10 +70,6 @@ public class ConverterGv {
         return new GvConverterDateReviews();
     }
 
-    public GvConverterItemTags newConverterItemTags() {
-        return new GvConverterItemTags();
-    }
-
     public GvConverterDataTags newConverterTags() {
         return new GvConverterDataTags();
     }

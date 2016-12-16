@@ -37,6 +37,9 @@ public class TableLocations extends ReviewerDbTableImpl<RowLocation> {
         addNotNullableColumn(RowLocation.LATITUDE);
         addNotNullableColumn(RowLocation.LONGITUDE);
         addNotNullableColumn(RowLocation.NAME);
+        addNotNullableColumn(RowLocation.ADDRESS);
+        addNotNullableColumn(RowLocation.PROVIDER);
+        addNotNullableColumn(RowLocation.PROVIDER_ID);
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(RowLocation.REVIEW_ID.getName()));

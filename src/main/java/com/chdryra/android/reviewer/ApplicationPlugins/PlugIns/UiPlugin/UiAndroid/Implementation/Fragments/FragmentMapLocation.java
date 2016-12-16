@@ -103,6 +103,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     protected MarkerOptions newMarkerOptions(DataLocation location) {
         MarkerOptions markerOptions = new MarkerOptions().position(location.getLatLng());
         markerOptions.title(location.getShortenedName());
+        markerOptions.snippet(location.getAddress());
         markerOptions.draggable(false);
         return markerOptions;
     }

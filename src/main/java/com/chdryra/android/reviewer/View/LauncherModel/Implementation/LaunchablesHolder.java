@@ -30,6 +30,7 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mReviewBuild;
     private final Class<? extends LaunchableUi> mReviewFormatted;
     private final Class<? extends LaunchableUi> mMapperEdit;
+    private final Class<? extends LaunchableUi> mMapperView;
     private final Class<? extends LaunchableUi> mMapperNode;
     private final Class<? extends LaunchableUi> mPublish;
     private final Class<? extends LaunchableUi> mOptions;
@@ -43,6 +44,7 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> reviewBuild,
                              Class<? extends LaunchableUi> reviewFormatted,
                              Class<? extends LaunchableUi> mapperEdit,
+                             Class<? extends LaunchableUi> mapperView,
                              Class<? extends LaunchableUi> mapperNode,
                              Class<? extends LaunchableUi> publish,
                              Class<? extends LaunchableUi> options,
@@ -53,6 +55,7 @@ public class LaunchablesHolder implements LaunchablesList {
         mReviewBuild = reviewBuild;
         mReviewFormatted = reviewFormatted;
         mMapperEdit = mapperEdit;
+        mMapperView = mapperView;
         mMapperNode = mapperNode;
         mPublish = publish;
         mOptions = options;
@@ -92,6 +95,11 @@ public class LaunchablesHolder implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getMapperEdit() {
         return mMapperEdit;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getMapperView() {
+        return mMapperView;
     }
 
     @Override

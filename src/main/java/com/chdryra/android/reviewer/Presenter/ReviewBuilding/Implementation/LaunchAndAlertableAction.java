@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * On: 03/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionBasic<T>
+public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionBasic<T>
         implements AlertListener {
     private final String mLaunchTag;
     private final LaunchableConfig mConfig;
@@ -29,33 +29,29 @@ class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionB
     private int mLaunchableRequestCode = -1;
     private int mAlertDialogRequestCode;
 
-    LaunchAndAlertableAction(String launchTag, LaunchableConfig config) {
+    public LaunchAndAlertableAction(String launchTag, LaunchableConfig config) {
         mLaunchTag = launchTag;
         mConfig = config;
     }
 
-    int getLaunchableRequestCode() {
+    protected int getLaunchableRequestCode() {
         return mLaunchableRequestCode;
     }
 
-    void setLaunchableRequestCode(int defaultCode) {
+    protected void setLaunchableRequestCode(int defaultCode) {
         mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + String.valueOf(defaultCode));
     }
 
-    void launchDefaultConfig(Bundle args){
+    protected void launchDefaultConfig(Bundle args){
         launch(mConfig, args);
     }
 
-    void launch(LaunchableConfig config, Bundle args) {
+    protected void launch(LaunchableConfig config, Bundle args) {
         setLaunchableRequestCode(config.getDefaultRequestCode());
         config.launch(new UiLauncherArgs(getLaunchableRequestCode()).setBundle(args));
     }
 
-    public int getAlertRequestCode() {
-        return mAlertDialogRequestCode;
-    }
-
-    void doAlertPositive(Bundle args) {
+    protected void doAlertPositive(Bundle args) {
 
     }
 
@@ -69,7 +65,7 @@ class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionB
 
     }
 
-    void showAlert(String alert, int requestCode, Bundle args) {
+    protected void showAlert(String alert, int requestCode, Bundle args) {
         mAlertDialogRequestCode = requestCode;
         getCurrentScreen().showAlert(alert, requestCode, this, args);
     }

@@ -35,6 +35,7 @@ public final class UiConfigImpl implements UiConfig {
     private final LaunchableConfig mBuildReview;
     private final LaunchableConfig mFormattedReview;
     private final LaunchableConfig mEditOnMap;
+    private final LaunchableConfig mViewOnMap;
     private final LaunchableConfig mNodeMapper;
     private final LaunchableConfig mPublish;
     private final LaunchableConfig mOptions;
@@ -48,6 +49,7 @@ public final class UiConfigImpl implements UiConfig {
                         LaunchableConfig buildReview,
                         LaunchableConfig formattedReview,
                         LaunchableConfig editOnMap,
+                        LaunchableConfig viewOnMap,
                         LaunchableConfig nodeMapper,
                         LaunchableConfig publish,
                         LaunchableConfig options) {
@@ -62,6 +64,7 @@ public final class UiConfigImpl implements UiConfig {
         mBuildReview = buildReview;
         mFormattedReview = formattedReview;
         mEditOnMap = editOnMap;
+        mViewOnMap = viewOnMap;
         mNodeMapper = nodeMapper;
         mPublish = publish;
         mOptions = options;
@@ -118,6 +121,11 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
+    public LaunchableConfig getMapViewer() {
+        return mViewOnMap;
+    }
+
+    @Override
     public LaunchableConfig getNodeMapper() {
         return mNodeMapper;
     }
@@ -146,6 +154,7 @@ public final class UiConfigImpl implements UiConfig {
         mBuildReview.setLauncher(mLauncher);
         mFormattedReview.setLauncher(mLauncher);
         mEditOnMap.setLauncher(mLauncher);
+        mViewOnMap.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);
         for(DataConfigs<?> holder : mConfigsMap.values()) {

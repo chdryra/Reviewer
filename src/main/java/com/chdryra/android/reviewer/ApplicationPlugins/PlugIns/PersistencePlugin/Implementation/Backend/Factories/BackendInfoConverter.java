@@ -49,7 +49,6 @@ public class BackendInfoConverter {
         return new DatumDate(convert(reviewId), time);
     }
 
-
     private ReviewId convert(String reviewId) {
         return new DatumReviewId(reviewId);
     }

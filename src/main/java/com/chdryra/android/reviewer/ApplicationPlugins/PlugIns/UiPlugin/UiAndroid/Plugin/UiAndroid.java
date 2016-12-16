@@ -21,6 +21,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySignUp;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogOptions;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogViewLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.GvDataDialogs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -55,8 +58,9 @@ public class UiAndroid implements UiPlugin {
         private AndroidLaunchables() {
             super(ActivityLogin.class, ActivitySignUp.class, ActivityFeed.class,
                     ActivityBuildReview.class, ActivityFormatReview.class,
-                    ActivityEditLocationMap.class, ActivityNodeMapper.class,
-                    ActivityPublishReview.class, DialogOptions.class, ActivityReviewView.class);
+                    ActivityEditLocationMap.class, ActivityViewLocation.class,
+                    ActivityNodeMapper.class, ActivityPublishReview.class, DialogOptions.class,
+                    ActivityReviewView.class);
 
             addDataClasses(new DataLaunchables<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
                     GvDataDialogs.EditTag.class, GvDataDialogs.ViewTag.class));
@@ -76,7 +80,7 @@ public class UiAndroid implements UiPlugin {
                     GvDataDialogs.EditFact.class, GvDataDialogs.ViewFact.class));
 
             addDataClasses(new DataLaunchables<>(GvLocation.TYPE, GvDataDialogs.AddLocation.class,
-                    GvDataDialogs.EditLocation.class, ActivityViewLocation.class));
+                    GvDataDialogs.EditLocation.class, DialogViewLocation.class));
 
             addDataClasses(new DataLaunchables<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
                     ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));

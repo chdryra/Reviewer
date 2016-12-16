@@ -33,6 +33,8 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getMapperEdit();
 
+    Class<? extends LaunchableUi> getMapperView();
+
     Class<? extends LaunchableUi> getMapperNode();
 
     Class<? extends LaunchableUi> getPublish();

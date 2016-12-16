@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.LocationServices.Implementation;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 13/01/2016
@@ -18,6 +20,14 @@ public class LocationProvider {
 
     public LocationProvider(String providerName) {
         mProviderName = providerName;
+    }
+
+    public static LocationProvider app() {
+        return new LocationProvider(Strings.AppName);
+    }
+
+    public String getProviderName() {
+        return mProviderName;
     }
 
     @Override

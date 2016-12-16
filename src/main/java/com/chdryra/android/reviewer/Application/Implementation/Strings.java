@@ -14,6 +14,8 @@ package com.chdryra.android.reviewer.Application.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Strings {
+    public static String AppName = "StarTouch";
+
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";
         public static final String SET_IMAGE_AS_BACKGROUND = "Set image as cover?";
@@ -23,6 +25,7 @@ public class Strings {
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "published review?";
         public static final String NEW_USER = "Looks like you're a new user?";
+        public static final String SHOW_ON_MAP = "Show on map";
     }
 
     public static class Dialogs {
@@ -82,6 +85,7 @@ public class Strings {
         public static final String FULL_REVIEW = "Full review";
         public static final String QUICK_REVIEW = "Quick review";
         public static final String DISTRIBUTION = "Ratings distribution";
+        public static final String MAP = "Map";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

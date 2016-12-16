@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -26,7 +26,7 @@ public class FactoryActionsViewComments extends FactoryActionsViewData<GvComment
     }
 
     @Override
-    public GridItemLauncher<GvComment.Reference> newGridItem() {
+    public GridItemAction<GvComment.Reference> newGridItem() {
         return new GridItemComments(getLauncher(), getGridItemConfig(), getViewFactory());
     }
 

@@ -14,6 +14,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
+
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -27,6 +29,9 @@ public interface RowLocation extends ReviewDataRow<RowLocation>, DataLocation {
     ColumnInfo<Double> LATITUDE = new ColumnInfo<>("latitude", DbEntryType.DOUBLE);
     ColumnInfo<Double> LONGITUDE = new ColumnInfo<>("longitude", DbEntryType.DOUBLE);
     ColumnInfo<String> NAME = new ColumnInfo<>("name", DbEntryType.TEXT);
+    ColumnInfo<String> ADDRESS = new ColumnInfo<>("address", DbEntryType.TEXT);
+    ColumnInfo<String> PROVIDER = new ColumnInfo<>("provider", DbEntryType.TEXT);
+    ColumnInfo<String> PROVIDER_ID = new ColumnInfo<>("providers_id", DbEntryType.TEXT);
 
     @Override
     LatLng getLatLng();
@@ -36,6 +41,15 @@ public interface RowLocation extends ReviewDataRow<RowLocation>, DataLocation {
 
     @Override
     ReviewId getReviewId();
+
+    @Override
+    String getAddress();
+
+    @Override
+    String getShortenedName();
+
+    @Override
+    LocationId getLocationId();
 
     @Override
     String getRowId();

@@ -50,6 +50,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
@@ -122,6 +123,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private AddressesSuggester mAddressSuggester;
 
     private LocationEditListener mListener;
+    private LocationDetails mDetails;
+    private String mMarkerAddress;
+    private LocationId mLocationId;
 
     public interface LocationEditListener {
         void onDelete(GvLocation location, Intent returnResult);
@@ -150,7 +154,13 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
+        if (args != null) {
+            mCurrentLocation = args.getParcelable(LOCATION);
+            if(mCurrentLocation != null) {
+                mMarkerAddress = mCurrentLocation.getAddress();
+                mLocationId = mCurrentLocation.getLocationId();
+            }
+        }
 
         extractListener();
         setLocationServices();
@@ -180,7 +190,8 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onLocated(Location location, CallbackMessage message) {
         if(!message.isError()) {
-            setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+            LatLng latlang = new LatLng(location.getLatitude(), location.getLongitude());
+            fetchMarkerAddress(latlang);
         }
     }
 
@@ -227,9 +238,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             makeToast(Strings.Toasts.MAP_SEARCH_FAILED);
             mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
         } else {
-            LocationDetails firstHit = results.get(0);
-            setLatLng(firstHit.getLatLng());
-            mLocationName.setText(firstHit.getName());
+            mDetails = results.get(0);
+            mMarkerAddress = mDetails.getAddress();
+            mLocationId = new LocationId(mDetails.getProvider(), mDetails.getId());
+            mLocationName.setText(mDetails.getName());
+            setLatLng(mDetails.getLatLng());
         }
     }
 
@@ -401,9 +414,27 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                setLatLng(marker.getPosition());
+                LatLng position = marker.getPosition();
+                fetchMarkerAddress(position);
             }
         };
+    }
+
+    private void fetchMarkerAddress(final LatLng position) {
+        mMarkerAddress = null;
+        mLocationId = null;
+        mAddressSuggester.fetchAddresses(position, 1,
+                new AddressesSuggester.AddressSuggestionsListener() {
+            @Override
+            public void onAddressSuggestionsFound(ArrayList<LocatedPlace> addresses) {
+                if(addresses.size() > 0) {
+                    LocatedPlace place = addresses.get(0);
+                    mMarkerAddress = place.getDescription();
+                    mLocationId = place.getId();
+                }
+                setLatLng(position);
+            }
+        });
     }
 
     @NonNull
@@ -453,15 +484,31 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             @Override
             public void onClick(View v) {
                 mSearchLocationName = null;
+                mMarkerAddress = mCurrentLocation.getAddress();
                 setLatLng(mCurrentLocation.getLatLng());
                 mLocationName.setText(mCurrentLocation.getName());
+                mLocationId = mCurrentLocation.getLocationId();
                 mLocationName.hideChrome();
             }
         };
     }
 
     private GvLocation createNewLocation() {
-        return new GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
+        String name = mLocationName.getText().toString().trim();
+        String address = name;
+        LocationId id;
+        if(mCurrentLocation != null && mNewLatLng.equals(mCurrentLocation.getLatLng())) {
+            address = mCurrentLocation.getAddress();
+            id = mCurrentLocation.getLocationId();
+        } else if(mDetails != null){
+            address = mDetails.getAddress();
+            id = new LocationId(mDetails.getProvider(), mDetails.getId());
+        } else {
+            if(mMarkerAddress != null) address = mMarkerAddress;
+            id = mLocationId != null ? mLocationId : LocationId.appLocationId(name, mNewLatLng);
+        }
+
+        return new GvLocation(mNewLatLng, name, address, id);
     }
 
     private void setLatLng(LatLng latlang) {
@@ -479,6 +526,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private void updateMapMarker() {
         MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
         markerOptions.title(mLocationName.getText().toString());
+        if(mMarkerAddress != null) markerOptions.snippet(mMarkerAddress);
         markerOptions.draggable(true);
         mGoogleMap.clear();
         Marker marker = mGoogleMap.addMarker(markerOptions);

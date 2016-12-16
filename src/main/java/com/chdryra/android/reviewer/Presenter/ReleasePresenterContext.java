@@ -110,7 +110,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
                 factoryReviewViewAdapter, editorFactory, paramsFactory,
                 modelContext.getBucketerFactory(), getCommandsFactory(),
-                authorRepo, comparators);
+                authorRepo, comparators, gvConverter.newConverterLocations());
 
         setFactoryReviewView(factoryReviewView);
     }

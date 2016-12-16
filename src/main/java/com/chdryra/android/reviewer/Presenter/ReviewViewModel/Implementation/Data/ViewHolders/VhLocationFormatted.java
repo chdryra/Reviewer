@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -36,7 +35,7 @@ public class VhLocationFormatted extends ViewHolderBasic{
         GvLocation location = (GvLocation) data;
         TextView name = (TextView) getView(NAME);
         TextView address = (TextView) getView(ADDRESS);
-        name.setText(location.toString());
-        address.setText(DataFormatter.getAddress(location.getName()));
+        name.setText(location.getShortenedName());
+        address.setText(location.getAddress());
     }
 }

@@ -20,6 +20,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 
 
+
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
@@ -37,6 +40,8 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
     private double mLatitude;
     private double mLongitude;
     private String mName;
+    private String mAddress;
+    private LocationId mId;
 
     //Constructors
     public RowLocationImpl(DataLocation location, int index) {
@@ -45,6 +50,8 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
         mName = location.getName();
+        mAddress = location.getAddress();
+        mId = location.getLocationId();
     }
 
     //Via reflection
@@ -59,6 +66,12 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
         Double lng = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
         mLongitude = lng !=  null ? lng : -181.;
         mName = values.getValue(NAME.getName(), NAME.getType());
+        mAddress = values.getValue(ADDRESS.getName(), ADDRESS.getType());
+        String provider = values.getValue(PROVIDER.getName(), PROVIDER.getType());
+        String providerId = values.getValue(PROVIDER_ID.getName(), PROVIDER_ID.getType());
+
+        mId = provider != null ? new LocationId(new LocationProvider(provider), providerId) :
+        LocationId.appLocationId(mName, new LatLng(mLatitude, mLongitude));
     }
 
     @Override
@@ -82,6 +95,16 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
     }
 
     @Override
+    public String getAddress() {
+        return mAddress;
+    }
+
+    @Override
+    public LocationId getLocationId() {
+        return mId;
+    }
+
+    @Override
     public String getRowId() {
         return mLocationId;
     }
@@ -100,7 +123,7 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
 
     @Override
     protected int size() {
-        return 5;
+        return 8;
     }
 
     @Override
@@ -115,6 +138,12 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
             return new RowEntryImpl<>(RowLocation.class, LONGITUDE, mLongitude);
         } else if(position == 4) {
             return new RowEntryImpl<>(RowLocation.class, NAME, mName);
+        } else if(position == 5) {
+            return new RowEntryImpl<>(RowLocation.class, ADDRESS, mAddress);
+        } else if(position == 6) {
+            return new RowEntryImpl<>(RowLocation.class, PROVIDER, mId.getProvider().getProviderName());
+        } else if(position == 7) {
+            return new RowEntryImpl<>(RowLocation.class, PROVIDER_ID, mId.getId());
         } else {
             throw noElement();
         }
@@ -129,11 +158,11 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
 
         if (Double.compare(that.mLatitude, mLatitude) != 0) return false;
         if (Double.compare(that.mLongitude, mLongitude) != 0) return false;
-        if (mLocationId != null ? !mLocationId.equals(that.mLocationId) : that.mLocationId != null)
-            return false;
-        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
-            return false;
-        return !(mName != null ? !mName.equals(that.mName) : that.mName != null);
+        if (!mLocationId.equals(that.mLocationId)) return false;
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mName.equals(that.mName)) return false;
+        if (!mAddress.equals(that.mAddress)) return false;
+        return mId.equals(that.mId);
 
     }
 
@@ -141,13 +170,15 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
     public int hashCode() {
         int result;
         long temp;
-        result = mLocationId != null ? mLocationId.hashCode() : 0;
-        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = mLocationId.hashCode();
+        result = 31 * result + mReviewId.hashCode();
         temp = Double.doubleToLongBits(mLatitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(mLongitude);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        result = 31 * result + mName.hashCode();
+        result = 31 * result + mAddress.hashCode();
+        result = 31 * result + mId.hashCode();
         return result;
     }
 

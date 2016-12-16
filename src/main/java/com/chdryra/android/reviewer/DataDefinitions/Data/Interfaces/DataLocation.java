@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
 
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -22,5 +23,9 @@ public interface DataLocation extends HasReviewId, Validatable{
 
     String getName();
 
+    String getAddress();
+
     String getShortenedName();
+
+    LocationId getLocationId();
 }

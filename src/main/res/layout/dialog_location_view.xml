@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout
+    style="@style/LinearLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/name_text_view"
+        style="@style/TextView.Large"
+        android:gravity="center"/>
+
+    <View style="@style/HorizontalDivider"/>
+
+    <TextView
+        android:id="@+id/address_text_view"
+        style="@style/TextView"
+        android:gravity="left"/>
+
+</LinearLayout>

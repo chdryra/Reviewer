@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation
 public class Location {
     private LatitudeLongitude latLng;
     private String name;
+    private String address;
+    private LocId locationId;
 
     public Location() {
     }
@@ -25,6 +27,8 @@ public class Location {
     public Location(DataLocation location) {
         latLng = new LatitudeLongitude(location.getLatLng());
         name = location.getName();
+        address = location.getAddress();
+        locationId = new LocId(location.getLocationId());
     }
 
     public LatitudeLongitude getLatLng() {
@@ -35,8 +39,15 @@ public class Location {
         return name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public LocId getLocationId() {
+        return locationId;
+    }
 
     public static int size() {
-        return 1 + LatitudeLongitude.size();
+        return 1 + LatitudeLongitude.size() + 1 + LocId.size();
     }
 }

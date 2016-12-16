@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */ //Classes
 public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
     private static final int LAUNCH_BROWSER
-            = RequestCodeGenerator.getCode("LaunchUrlBrowser");
+            = RequestCodeGenerator.getCode(BannerButtonAddFacts.class, "LaunchUrlBrowser");
 
     private final LaunchableConfig mUrlAdder;
 

@@ -66,6 +66,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
         .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -114,6 +116,7 @@ public class FactoryReviewView {
     private final FactoryCommands mCommandsFactory;
     private final AuthorsRepository mAuthorsRepo;
     private final DataComparatorsApi mComparators;
+    private final GvConverterLocations mLocationsConverter;
 
     public FactoryReviewView(UiConfig config,
                              FactoryReviewViewAdapter adapterFactory,
@@ -122,7 +125,8 @@ public class FactoryReviewView {
                              FactoryDataBucketer bucketerFactory,
                              FactoryCommands commandsFactory,
                              AuthorsRepository authorsRepo,
-                             DataComparatorsApi comparators) {
+                             DataComparatorsApi comparators,
+                             GvConverterLocations locationsConverter) {
         mConfig = config;
         mAdapterFactory = adapterFactory;
         mEditorFactory = editorFactory;
@@ -131,6 +135,7 @@ public class FactoryReviewView {
         mCommandsFactory = commandsFactory;
         mAuthorsRepo = authorsRepo;
         mComparators = comparators;
+        mLocationsConverter = locationsConverter;
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
@@ -316,7 +321,7 @@ public class FactoryReviewView {
         if (dataType.equals(GvComment.Reference.TYPE)) {
             factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>) params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
-            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params, node);
+            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params, node, mConfig.getMapViewer(), mLocationsConverter);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
         } else if (dataType.equals(GvBucket.TYPE)) {

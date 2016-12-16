@@ -13,12 +13,16 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.LatitudeLongitude;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.LocId;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.ReviewItemConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.firebase.client.DataSnapshot;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,8 +37,10 @@ public class ConverterLocation implements ReviewItemConverter<DataLocation> {
         Location value = snapshot.getValue(Location.class);
         if(value != null) {
             LatitudeLongitude latLng = value.getLatLng();
+            LocId locId = value.getLocationId();
             return new DatumLocation(id, new LatLng(latLng.getLatitude(), latLng.getLongitude()),
-                            value.getName());
+                            value.getName(), value.getAddress(),
+                    new LocationId(new LocationProvider(locId.getProvider()), locId.getLocationId()));
         } else {
             return null;
         }

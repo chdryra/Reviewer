@@ -17,11 +17,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.StringPa
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -46,34 +46,51 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
     };
     private final LatLng mLatLng;
     private final String mName;
+    private final String mAddress;
+    private final LocationId mLocationId;
 
     public GvLocation() {
-        this(null, null, null);
+        this(null, new LatLng(0,0), "", "", LocationId.nullId());
     }
 
-    public GvLocation(LatLng latLng, String name) {
-        this(null, latLng, name);
+    public GvLocation(LatLng latLng, String name, String address, LocationId locationId) {
+        this(null, latLng, name, address, locationId);
     }
 
-    public GvLocation(@Nullable GvReviewId id, LatLng latLng, String name) {
+    public GvLocation(@Nullable GvReviewId id, LatLng latLng, String name, String address,
+                      LocationId locationId) {
         super(GvLocation.TYPE, id);
         mLatLng = latLng;
         mName = name;
+        mAddress = address;
+        mLocationId = locationId;
     }
 
     public GvLocation(GvLocation location) {
-        this(location.getGvReviewId(), location.getLatLng(), location.getName());
+        this(location.getGvReviewId(), location.getLatLng(), location.getName(), location.getAddress(), location.getLocationId());
     }
 
     public GvLocation(Parcel in) {
         super(in);
         mLatLng = in.readParcelable(LatLng.class.getClassLoader());
         mName = in.readString();
+        mAddress = in.readString();
+        mLocationId = new LocationId(new LocationProvider(in.readString()), in.readString());
     }
 
     @Override
     public String getShortenedName() {
         return DataFormatter.getShortenedName(mName);
+    }
+
+    @Override
+    public String getAddress() {
+        return mAddress;
+    }
+
+    @Override
+    public LocationId getLocationId() {
+        return mLocationId;
     }
 
     @Override
@@ -106,6 +123,9 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
         super.writeToParcel(parcel, i);
         parcel.writeParcelable(mLatLng, i);
         parcel.writeString(mName);
+        parcel.writeString(mAddress);
+        parcel.writeString(mLocationId.getProvider().getProviderName());
+        parcel.writeString(mLocationId.getId());
     }
 
     @Override
@@ -150,7 +170,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
             super(TYPE, reference, converter, VhLocation.class, new PlaceHolderFactory<DataLocation>() {
                 @Override
                 public DataLocation newPlaceHolder(String placeHolder) {
-                    return new GvLocation(new LatLng(0,0), placeHolder);
+                    return new GvLocation(new LatLng(0,0), placeHolder, "address", LocationId.nullId());
                 }
             });
         }
