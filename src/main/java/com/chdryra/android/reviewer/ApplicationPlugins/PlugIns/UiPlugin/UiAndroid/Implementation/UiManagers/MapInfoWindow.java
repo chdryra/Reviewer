@@ -22,10 +22,6 @@ public class MapInfoWindow extends ViewHolderBasic {
         void onClick();
     }
 
-    public interface OnLongClickListener {
-        void onLongClick();
-    }
-
     public MapInfoWindow(int layoutId, int[] viewIds) {
         super(layoutId, viewIds);
     }

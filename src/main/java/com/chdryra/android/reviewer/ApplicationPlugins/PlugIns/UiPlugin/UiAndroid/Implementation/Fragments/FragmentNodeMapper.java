@@ -32,10 +32,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollec
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -104,7 +109,13 @@ public class FragmentNodeMapper extends FragmentMapLocation {
 
     @Override
     void onGotoReviewSelected() {
-        if (mCurrentMarker != null) onInfoWindowLongClick(mCurrentMarker);
+        if (mCurrentMarker != null && mIsPublished) {
+            if (mRenderer.getClusterItem(mCurrentMarker) != null) {
+                launchReview(mRenderer.getClusterItem(mCurrentMarker));
+            } else if (mRenderer.getCluster(mCurrentMarker) != null) {
+                launchMetaReview(mRenderer.getCluster(mCurrentMarker));
+            }
+        }
     }
 
     @Override
@@ -124,15 +135,36 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     public void onInfoWindowLongClick(Marker marker) {
         if(mIsPublished) {
             if (mRenderer.getClusterItem(marker) != null) {
-                launchReview(mRenderer.getClusterItem(marker));
+                launchAddress(mRenderer.getClusterItem(marker));
             } else if (mRenderer.getCluster(marker) != null) {
-                launchMetaReview(mRenderer.getCluster(marker));
+                launchAddresses(mRenderer.getCluster(marker));
             }
         }
     }
 
     private ApplicationInstance getApp() {
         return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    private void launchAddress(ReviewClusterItem item) {
+        GvLocation loc = getApp().getUi().getGvConverter().newConverterLocations().convert(item.getLocation());
+        launchAddressView(loc);
+    }
+
+    private void launchAddressView(GvLocation location) {
+        UiSuite ui = getApp().getUi();
+        ParcelablePacker<GvLocation> packer = new ParcelablePacker<>();
+        Bundle args = new Bundle();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, location, args);
+        LaunchableConfig viewer = ui.getConfig().getViewer(DataLocation.TYPE_NAME);
+        viewer.launch(new UiLauncherArgs(viewer.getDefaultRequestCode()).setBundle(args));
+    }
+
+    private void launchAddresses(Cluster<ReviewClusterItem> cluster) {
+        String name = "Midpoint of " + String.valueOf(cluster.getSize()) + " addresses";
+        String addresses = String.valueOf(cluster.getSize()) + " addresses";
+        GvLocation loc = new GvLocation(cluster.getPosition(), name, addresses, LocationId.nullId());
+        launchAddressView(loc);
     }
 
     private void launchReview(ReviewClusterItem item) {
