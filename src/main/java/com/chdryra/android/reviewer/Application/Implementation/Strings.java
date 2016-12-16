@@ -183,5 +183,6 @@ public class Strings {
         public static final String NO_SUBJECT = "no subject";
         public static final String LOCATIONS = "locations";
         public static final String IMAGES = "images";
+        public static final String NO_COMMENT = "no comment";
     }
 }

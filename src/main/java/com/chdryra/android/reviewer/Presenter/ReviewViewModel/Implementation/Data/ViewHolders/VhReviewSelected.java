@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
@@ -49,9 +53,11 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
+    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
+    private final Resources mResources;
 
     private TextView mSubject;
     private TextView mRating;
@@ -71,10 +77,11 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private NamedAuthor mAuthor;
     private String mLocation;
 
-    public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector) {
+    public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector, Resources resources) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
+        mResources = resources;
 
         mCoverBinder = new CoverBinder();
         mCommentsBinder = new CommentsBinder();
@@ -132,7 +139,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private void initialiseData(ReviewNode node) {
         mSubject.setText(node.getSubject().getSubject());
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
-        mImage.setImageBitmap(null);
+        mImage.setImageBitmap(getImagePlaceHolder());
         mHeadline.setText(null);
         mTags.setText(null);
         mPublishDate.setText(null);
@@ -142,7 +149,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     @Override
     public void onReviewSelected(@Nullable ReviewReference review) {
-        if(review != null) {
+        if (review != null) {
             bindToReview(review);
         } else {
             unbindFromNode();
@@ -159,7 +166,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void newFooter() {
-        if(mReview != null) {
+        if (mReview != null) {
             ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
@@ -178,7 +185,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setCover(DataImage cover) {
-        mImage.setImageBitmap(cover.getBitmap());
+        if(cover.getBitmap() != null) mImage.setImageBitmap(cover.getBitmap());
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {
@@ -187,7 +194,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setHeadline(IdableList<DataComment> value) {
-        mHeadline.setText(DataFormatter.getHeadlineQuote(value));
+        String headline = DataFormatter.getHeadlineQuote(value);
+        if(headline.length() == 0) headline = Strings.FORMATTED.NO_COMMENT;
+        mHeadline.setText(headline);
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
@@ -205,6 +214,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         newFooter();
     }
 
+    private Bitmap getImagePlaceHolder(){
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER);
+        return bitmap;
+    }
 
     private class CoverBinder implements ReferenceBinder<DataImage> {
         @Override

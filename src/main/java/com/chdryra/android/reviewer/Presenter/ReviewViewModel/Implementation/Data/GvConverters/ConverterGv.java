@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
+import android.content.res.Resources;
+
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
@@ -22,6 +24,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConverterGv {
+    private final Resources mResources;
+
+    public ConverterGv(Resources resources) {
+        mResources = resources;
+    }
+
     public GvConverterSizes newConverterSizes(GvDataType<?> type) {
         return new GvConverterSizes(type);
     }
@@ -31,7 +39,7 @@ public class ConverterGv {
     }
 
     public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
-        return newConverterNodes(new VhMostRecentFactory(repository));
+        return newConverterNodes(new VhMostRecentFactory(repository, mResources));
     }
 
     public GvConverterComments newConverterComments() {

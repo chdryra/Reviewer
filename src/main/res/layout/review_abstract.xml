@@ -21,46 +21,55 @@
 
     <LinearLayout style="@style/LinearLayoutVertical.GridCell">
 
-    <LinearLayout style="@style/LinearLayoutHorizontal"
-        android:layout_weight="1">
+        <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
+                      android:layout_weight="1">
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#50000000"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/review_subject"
-            style="@style/TextViewGridCell.Bold.Large"
-            android:padding="@dimen/grid_item_text_padding"
-            android:layout_height="wrap_content"
-            android:gravity="start|center"
-            android:layout_weight="5"/>
+            <TextView
+                android:id="@+id/review_subject"
+                style="@style/TextViewGridCell.Bold.Large"
+                android:padding="@dimen/grid_item_text_padding"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:gravity="start|center"
+                android:layout_weight="1"/>
 
-    <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
-                  android:layout_weight="1"
-                  android:layout_width="wrap_content"
-                  android:padding="@dimen/grid_item_text_padding">
-        <TextView
-            android:id="@+id/review_rating_number"
-            style="@style/TextViewGridCell.Bold.Large"
-            android:layout_height="match_parent"
-            android:padding="2dp"
-            android:gravity="end|top"
-            android:layout_gravity="top"
-            android:layout_weight="1"/>
+            <LinearLayout style="@style/LinearLayoutHorizontal"
+                          android:layout_weight="1"
+                          android:layout_width="wrap_content"
+                          android:layout_gravity="end|center">
+                <TextView
+                    android:id="@+id/review_rating_number"
+                    style="@style/TextViewGridCell.Bold.Large"
+                    android:layout_height="match_parent"
+                    android:padding="2dp"
+                    android:gravity="end|center"
+                    android:layout_gravity="top"
+                    android:layout_weight="1"/>
 
-        <ToggleButton
-            android:button="@android:drawable/btn_star"
-            style="@style/ToggleButtonStar"
-            android:layout_height="match_parent"
-            android:gravity="start|top"
-            android:layout_gravity="top"
-            android:layout_weight="1"/>
+                <ToggleButton
+                    android:button="@android:drawable/btn_star"
+                    style="@style/ToggleButtonStar"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:gravity="end|center"
+                    android:layout_gravity="end|center"
+                    android:layout_weight="1"/>
 
-    </LinearLayout>
+            </LinearLayout>
 
+        </FrameLayout>
         </LinearLayout>
+
     <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
-                  android:background="#35000000">
+                  android:background="#50000000">
         <TextView
             android:id="@+id/review_headline"
-            style="@style/TextViewGridCell.Bold"
+            style="@style/TextViewGridCell.BoldItalic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

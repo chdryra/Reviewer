@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.content.res.Resources;
+
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .ReviewSelector;
@@ -17,7 +19,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .VhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhReviewSelected;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,13 +29,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
     private final AuthorsRepository mRepository;
+    private final Resources mResources;
 
-    public VhMostRecentFactory(AuthorsRepository repository) {
+    public VhMostRecentFactory(AuthorsRepository repository, Resources resources) {
         mRepository = repository;
+        mResources = resources;
     }
 
     @Override
     public VhNode newViewHolder() {
-        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()));
+        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()), mResources);
     }
 }

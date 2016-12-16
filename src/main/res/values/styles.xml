@@ -150,6 +150,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextViewGridCell.Italic">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="TextViewGridCell.BoldItalic">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
     <style name="TextViewGridCell.Bold.Large">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
     </style>
