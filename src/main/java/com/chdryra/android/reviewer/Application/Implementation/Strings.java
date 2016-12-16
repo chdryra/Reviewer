@@ -25,7 +25,7 @@ public class Strings {
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "published review?";
         public static final String NEW_USER = "Looks like you're a new user?";
-        public static final String SHOW_ON_MAP = "Show on map";
+        public static final String SHOW_ON_MAP = "Show on map?";
     }
 
     public static class Dialogs {

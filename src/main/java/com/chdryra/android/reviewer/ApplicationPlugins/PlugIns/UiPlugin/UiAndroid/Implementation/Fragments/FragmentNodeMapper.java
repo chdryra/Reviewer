@@ -161,8 +161,8 @@ public class FragmentNodeMapper extends FragmentMapLocation {
     }
 
     private void launchAddresses(Cluster<ReviewClusterItem> cluster) {
-        String name = "Midpoint of " + String.valueOf(cluster.getSize()) + " addresses";
-        String addresses = String.valueOf(cluster.getSize()) + " addresses";
+        String name = String.valueOf(cluster.getSize()) + " locations";
+        String addresses = "Zoom in to see locations";
         GvLocation loc = new GvLocation(cluster.getPosition(), name, addresses, LocationId.nullId());
         launchAddressView(loc);
     }
