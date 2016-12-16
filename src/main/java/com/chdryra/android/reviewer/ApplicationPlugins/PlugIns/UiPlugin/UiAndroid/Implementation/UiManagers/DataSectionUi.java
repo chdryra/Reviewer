@@ -24,14 +24,14 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class NodeDataSectionUi<T extends HasReviewId, Ref extends ReviewListReference<T, ?>>
+public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewListReference<T, ?>>
         extends FormattedSectionUi<Ref> {
 
     protected abstract void updateView(IdableList<T> data);
 
     protected abstract void setEmpty();
 
-    public NodeDataSectionUi(LinearLayout view, ValueGetter<Ref> getter, String title) {
+    public DataSectionUi(LinearLayout view, ValueGetter<Ref> getter, String title) {
         super(view, getter, title);
     }
 

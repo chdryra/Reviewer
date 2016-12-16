@@ -31,15 +31,15 @@
                 android:contentDescription="@string/image_review_cd"
                 android:scaleType="centerCrop"/>
 
-            <include
+            <TextView
                 android:id="@+id/subject_formatted"
-                layout="@layout/review_subject_text_view"
+                style="@style/TextView.Subject"
                 android:background="#35000000"/>
+
 
             <include
                 android:id="@+id/rating_formatted"
-                layout="@layout/review_rating_indicator"
-                android:background="#35000000"/>
+                layout="@layout/review_rating_indicator"/>
         </FrameLayout>
 
         <TextView

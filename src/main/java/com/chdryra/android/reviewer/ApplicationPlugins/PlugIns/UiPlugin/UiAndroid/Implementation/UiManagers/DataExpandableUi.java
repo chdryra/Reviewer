@@ -9,37 +9,42 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
+import android.content.Context;
 import android.graphics.Typeface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class NodeDataExpandableUi<T extends HasReviewId>
-        extends NodeDataSectionUi<T, RefDataList<T>> {
-    private final int mValueLayout;
-    private final LayoutInflater mInflater;
+public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, RefDataList<T>> {
+    private final Context mContext;
+    private final ViewHolderFactory<?> mFactory;
+    private final DataConverter<T, ? extends ViewHolderData, ?> mConverter;
 
-    protected abstract void updateView(View view, T criterion);
-
-    public NodeDataExpandableUi(LinearLayout view,
-                                ValueGetter<RefDataList<T>> getter,
-                                String title,
-                                int valueLayout,
-                                LayoutInflater inflater) {
+    public DataExpandableUi(Context context,
+                            LinearLayout view,
+                            String title,
+                            ValueGetter<RefDataList<T>> getter,
+                            ViewHolderFactory<?> factory,
+                            DataConverter<T, ? extends ViewHolderData, ?> converter) {
         super(view, getter, title);
-        mValueLayout = valueLayout;
-        mInflater = inflater;
+        mContext = context;
+        mFactory = factory;
+        mConverter = converter;
     }
 
     @Override
@@ -55,9 +60,10 @@ public abstract class NodeDataExpandableUi<T extends HasReviewId>
         LinearLayout layout = new LinearLayout(getView().getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
         for (T datum : data) {
-            View datumView = mInflater.inflate(mValueLayout, null);
-            updateView(datumView, datum);
-            layout.addView(datumView);
+            ViewHolder vh = mFactory.newViewHolder();
+            vh.inflate(mContext, null);
+            vh.updateView(mConverter.convert(datum));
+            layout.addView(vh.getView());
         }
         getView().addView(layout);
     }

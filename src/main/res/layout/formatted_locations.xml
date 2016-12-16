@@ -7,23 +7,18 @@
   ~
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutVertical">
+<LinearLayout style="@style/LinearLayoutVertical"
+              xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/short_name"
         style="@style/FormattedText"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
         android:gravity="start|center"/>
 
 
     <TextView
         android:id="@+id/address"
         style="@style/FormattedText.Small"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
         android:gravity="end|center"/>
 
 </LinearLayout>

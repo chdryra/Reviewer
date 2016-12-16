@@ -99,7 +99,7 @@ public class Strings {
             public static final String ADD_LOCATION = "name current or select another";
             public static final String NAME_IMAGE_LOCATION = "name image location";
             public static final String AUTHOR_NAME = "author name";
-            public static final String SUBJECT = "subject";
+            public static final String SUBJECT = "+subject";
         }
     }
 

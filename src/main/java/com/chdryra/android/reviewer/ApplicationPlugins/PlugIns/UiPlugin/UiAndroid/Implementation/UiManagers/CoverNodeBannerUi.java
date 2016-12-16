@@ -25,13 +25,16 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>>{
-    public CoverNodeBannerUi(ImageView view, final ReviewNode node, Bitmap placeholder) {
+    public CoverNodeBannerUi(ImageView view, final ReviewNode node, Bitmap placeholder,
+                             CellDimensionsCalculator.Dimensions dims) {
         super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
             @Override
             public ReviewItemReference<DataImage> getValue() {
                 return node.getCover();
             }
         }, placeholder);
+        view.getLayoutParams().width = dims.getCellWidth();
+        view.getLayoutParams().height = dims.getCellHeight();
     }
 
     @Override

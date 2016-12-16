@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentNodeUi extends NodeDataSectionUi<DataComment, RefCommentList> {
+public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
     private TextView mHeadline;
 
     public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node, @Nullable final Command onClick) {

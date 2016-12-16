@@ -30,7 +30,7 @@
     <string name="activity_title_sign_up">sign up</string>
 
     <!-- EditTexts -->
-    <string name="edit_text_subject_hint">subject</string>
+    <string name="edit_text_subject_hint">&#43;subject</string>
     <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>
     <string name="edit_text_add_comment_hint">comment&#8230;</string>
     <string name="edit_text_name_location_hint">name this location&#8230;</string>
