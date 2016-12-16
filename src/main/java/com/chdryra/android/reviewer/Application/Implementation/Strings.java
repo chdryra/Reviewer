@@ -116,7 +116,7 @@ public class Strings {
     public static class Menu {
         public static final String SHOW_SENTENCES = "show sentences";
         public static final String SHOW_HEADLINES = "show headlines";
-        public static final String MAP_LOCATIONS = "map locations";
+        public static final String REVIEWS = "reviews";
     }
 
     public static class Mapping {

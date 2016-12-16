@@ -43,7 +43,7 @@ public class VhRatingBucket extends VhBucket<Float, DataRating> {
         int percentage = (int) Math.round(data.getPercentageOfTotal() * 100);
         mRatingBucket.setText(bucket.getRange().toString());
         mBar.setProgress(percentage);
-        mNumberReviews.setText(bucket.size() + " (" + percentage + "%)");
+        mNumberReviews.setText(percentage + "%" + " (" + bucket.size() + ")");
     }
 
     private void setViewsIfNecessary() {

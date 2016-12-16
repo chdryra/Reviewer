@@ -112,6 +112,10 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
             "ReviewId");
     private static final String PUBLISHED = TagKeyGenerator.getKey(FragmentFormatReview.class,
             "published");
+    private static final String POSITION = TagKeyGenerator.getKey(FragmentFormatReview.class,
+            "position");
+    private static final String TOTAL = TagKeyGenerator.getKey(FragmentFormatReview.class,
+            "total");
 
     private static final int LAYOUT = R.layout.fragment_review_formatted;
     private static final int IMAGE = R.id.image_formatted;
@@ -136,6 +140,8 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
             = ReviewViewParams.CellDimension.HALF;
 
     private boolean mIsPublished = true;
+    private int mPosition;
+    private int mTotal;
     private ReviewNode mNode;
     private UiSuite mUi;
     private RepositorySuite mRepo;
@@ -153,11 +159,13 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     private FormattedSectionUi<RefDataList<DataLocation>> mLocations;
     private FormattedSectionUi<ReviewItemReference<DataSize>> mImages;
 
-    public static FragmentFormatReview newInstance(ReviewId nodeId, boolean isPublished) {
+    public static FragmentFormatReview newInstance(ReviewId nodeId, int position, int total, boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
         Bundle args = new Bundle();
         args.putString(ID, nodeId.toString());
         args.putBoolean(PUBLISHED, isPublished);
+        args.putInt(POSITION, position);
+        args.putInt(TOTAL, total);
         FragmentFormatReview fragment = new FragmentFormatReview();
         fragment.setArguments(args);
 
@@ -177,6 +185,8 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
         mIsPublished = args.getBoolean(PUBLISHED);
 
         setNode(args);
+        mPosition = args.getInt(POSITION);
+        mTotal = args.getInt(TOTAL);
         setMenu();
 
         setHasOptionsMenu(true);
@@ -277,7 +287,8 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
             OptionsCommand command
                     = getCommandsFactory().newReviewOptionsSelector(new NodeAuthorId(mNode));
             MaiOptionsCommand<GvData> mai = new MaiOptionsCommand<>(command);
-            action = new MenuOptionsAppLevel(Strings.Screens.FORMATTED, upAction, mai, ui);
+            String title = String.valueOf(mPosition) + "/" + String.valueOf(mTotal) + " " + Strings.Menu.REVIEWS;
+            action = new MenuOptionsAppLevel(title, upAction, mai, ui);
         } else {
             action = new MenuUpAppLevel(Strings.Screens.PREVIEW, upAction, ui);
         }

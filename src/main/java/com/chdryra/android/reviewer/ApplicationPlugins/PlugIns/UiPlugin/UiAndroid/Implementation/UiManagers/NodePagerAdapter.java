@@ -66,7 +66,8 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
     public Fragment getItem(int position) {
         FragmentFormatReview fragment;
         if(mFragments.get(position) == null) {
-            fragment = FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
+            fragment = FragmentFormatReview.newInstance(getNodeId(position), position,
+                    getCount(), mIsClickable);
             mFragments.put(position, fragment);
         }
 
