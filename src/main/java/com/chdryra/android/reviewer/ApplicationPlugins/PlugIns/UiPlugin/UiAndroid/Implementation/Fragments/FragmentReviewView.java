@@ -169,7 +169,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     @Override
     public void onDataChanged() {
-        updateUi(true);
+        updateUi(false);
     }
 
     private void attachToReviewViewIfNecessary() {
@@ -186,13 +186,13 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         }
     }
 
-    private void updateUi(boolean includeCover) {
-        mSubject.update();
+    private void updateUi(boolean forceSubject) {
+        mSubject.update(forceSubject);
         mRatingBar.update();
         mBannerButton.update();
         mGridView.update();
         mContextual.update();
-        if(includeCover) mCover.update();
+        mCover.update();
     }
 }
 

@@ -11,16 +11,18 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.NodeComparatorMostRecent;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.NodePagerAdapter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeComparatorMostRecent;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodePagerAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
@@ -34,7 +36,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityFormatReview extends FragmentActivity implements LaunchableUi, OptionSelectListener {
+public class ActivityFormatReview extends FragmentActivity implements LaunchableUi,
+        OptionSelectListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityFormatReview.class);
     private static final String RETAIN_VIEW
             = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
@@ -55,7 +58,8 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
         if (args == null) throwNoReview();
-        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
+        ReviewNode node = app.unpackNode(args);
         if (node == null) throwNoReview();
 
         boolean isPublished = NodeLauncher.isPublished(args);
@@ -64,10 +68,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         mAdapter = new NodePagerAdapter(node, new NodeComparatorMostRecent(),
                 getSupportFragmentManager(), isPublished);
         mPager.setAdapter(mAdapter);
-    }
-
-    private void throwNoReview() {
-        throw new RuntimeException("No review found");
+        mPager.addOnLayoutChangeListener(new Titler(app.getUi()));
     }
 
     @Override
@@ -88,7 +89,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        FragmentFormatReview fragment = mAdapter.getFragment(mPager.getCurrentItem());
+        FragmentFormatReview fragment = getVisibleFragment();
         return fragment != null && fragment.onOptionSelected(requestCode, option);
     }
 
@@ -96,5 +97,33 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
+    }
+
+    @Nullable
+    private FragmentFormatReview getVisibleFragment() {
+        return mAdapter.getFragment(mPager.getCurrentItem());
+    }
+
+    private void throwNoReview() {
+        throw new RuntimeException("No review found");
+    }
+
+    private class Titler implements ViewPager.OnLayoutChangeListener {
+        private UiSuite mUi;
+
+        private Titler(UiSuite ui) {
+            mUi = ui;
+        }
+
+        @Override
+        public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int
+                i6, int i7) {
+            FragmentFormatReview fragment = getVisibleFragment();
+            if (fragment != null) {
+                String title = fragment.isPublished() ?
+                        mAdapter.getTitle(fragment) : Strings.Screens.PREVIEW;
+                mUi.getCurrentScreen().setTitle(title);
+            }
+        }
     }
 }

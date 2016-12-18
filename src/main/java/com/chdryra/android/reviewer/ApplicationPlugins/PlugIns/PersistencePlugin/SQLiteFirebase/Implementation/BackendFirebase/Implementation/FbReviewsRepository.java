@@ -47,11 +47,6 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
     }
 
     @Override
-    public ReferencesRepository getLatestForAuthor(AuthorId authorId) {
-        return mAuthorsDbFactory.newAuthorsDbLatest(getDataBase(), getAuthorsDb(authorId));
-    }
-
-    @Override
     public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }

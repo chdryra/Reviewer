@@ -94,9 +94,9 @@ public class UiSuiteAndroid implements UiSuite{
     @Override
     public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile) {
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
-        ReferencesRepository feed = repository.getFeedLatest(profile);
+        ReferencesRepository feed = repository.getFeed(profile);
         ReviewNode node = mReviewsFactory.createAuthorsTree(user, feed,
-                repository.getAuthorsRepository(), Strings.REVIEWS_LIST.FEED_LATEST_STEM);
+                repository.getAuthorsRepository(), Strings.REVIEWS_LIST.FEED_ALL_STEM);
 
         return mViewFactory.newFeedView(node);
     }

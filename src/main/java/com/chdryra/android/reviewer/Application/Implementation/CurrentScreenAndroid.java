@@ -73,9 +73,7 @@ class CurrentScreenAndroid implements CurrentScreen {
     @Override
     public void setTitle(String title) {
         ActionBar actionBar = mActivity.getActionBar();
-        if (actionBar != null) {
-            if (title != null) actionBar.setTitle(title);
-        }
+        if (actionBar != null && title != null) actionBar.setTitle(title);
     }
 
     @Override

@@ -8,11 +8,12 @@
 
 <LinearLayout
     style="@style/LinearLayoutVertical.WrappedVertical"
+    android:layout_width="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:id="@+id/photo_image_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
@@ -23,6 +24,7 @@
         android:id="@+id/caption_edit_text"
         style="@style/EditTextCapSentences.Done"
         android:cursorVisible="false"
+        android:text="caption"
         android:hint="@string/edit_text_image_caption_hint"/>
 
 </LinearLayout>

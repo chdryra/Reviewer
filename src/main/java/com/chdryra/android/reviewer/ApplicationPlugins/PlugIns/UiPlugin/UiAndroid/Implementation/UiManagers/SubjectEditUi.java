@@ -45,7 +45,15 @@ public class SubjectEditUi extends TextUi<EditText> {
     public void update() {
         if(mSubjectRefresh) super.update();
     }
-    
+
+    public void update(boolean force) {
+        if(force) {
+            super.update();
+        } else {
+            update();
+        }
+    }
+
     private void initialise(ReviewView<?> reviewView) {
         EditText editText = getView();
 

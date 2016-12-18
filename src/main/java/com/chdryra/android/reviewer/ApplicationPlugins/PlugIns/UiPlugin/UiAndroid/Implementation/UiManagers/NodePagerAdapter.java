@@ -17,8 +17,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -57,6 +57,11 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
         return child != null ? child : mNode;
     }
 
+    public String getTitle(FragmentFormatReview fragment) {
+        int position = getItemPosition(fragment);
+        return Strings.Menu.REVIEWS + " (" + String.valueOf(position + 1) + "/" + String.valueOf(getCount()) + ")";
+    }
+
     @Nullable
     public FragmentFormatReview getFragment(int position) {
         return mFragments.get(position);
@@ -64,14 +69,13 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
 
     @Override
     public Fragment getItem(int position) {
-        FragmentFormatReview fragment;
-        if(mFragments.get(position) == null) {
-            fragment = FragmentFormatReview.newInstance(getNodeId(position), position,
-                    getCount(), mIsClickable);
+        FragmentFormatReview fragment = getFragment(position);
+        if(fragment == null) {
+            fragment = FragmentFormatReview.newInstance(getNodeId(position), mIsClickable);
             mFragments.put(position, fragment);
         }
 
-        return mFragments.get(position);
+        return fragment;
     }
 
     @Override

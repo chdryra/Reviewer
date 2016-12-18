@@ -80,7 +80,7 @@ public class FeedRepository implements ReferencesRepository {
     private class Binder implements ListItemBinder<AuthorId> {
         @Override
         public void onItemAdded(AuthorId value) {
-            mRepos.add(value, mMasterRepo.getLatestForAuthor(value));
+            mRepos.add(value, mMasterRepo.getReviewsForAuthor(value));
         }
 
         @Override
@@ -98,7 +98,7 @@ public class FeedRepository implements ReferencesRepository {
                 mRepos.remove(toRemoveId);
             }
             for (AuthorId toAddId : toAdd) {
-                mRepos.add(toAddId, mMasterRepo.getLatestForAuthor(toAddId));
+                mRepos.add(toAddId, mMasterRepo.getReviewsForAuthor(toAddId));
             }
         }
 

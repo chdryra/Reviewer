@@ -36,7 +36,7 @@
     <string name="edit_text_name_location_hint">name this location&#8230;</string>
     <string name="edit_text_fetching_location_hint">fetching location&#8230;</string>
     <string name="edit_text_edit_a_location">location name&#8230;</string>
-    <string name="edit_text_image_caption_hint">caption&#8230;</string>
+    <string name="edit_text_image_caption_hint">&#43;caption&#8230;</string>
     <string name="edit_text_fact_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
     <string name="edit_text_fact_value_hint">value&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>

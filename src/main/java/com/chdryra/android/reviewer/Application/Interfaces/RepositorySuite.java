@@ -30,7 +30,7 @@ public interface RepositorySuite {
 
     ReviewsSource getReviewsRepository();
 
-    ReferencesRepository getFeedLatest(SocialProfile profile);
+    ReferencesRepository getFeed(SocialProfile profile);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 

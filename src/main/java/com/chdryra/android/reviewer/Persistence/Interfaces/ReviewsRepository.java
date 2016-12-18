@@ -17,8 +17,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository extends ReferencesRepository {
-    ReferencesRepository getLatestForAuthor(AuthorId authorId);
-
     ReferencesRepository getReviewsForAuthor(AuthorId authorId);
 
     MutableRepository getMutableRepository(UserSession session);
