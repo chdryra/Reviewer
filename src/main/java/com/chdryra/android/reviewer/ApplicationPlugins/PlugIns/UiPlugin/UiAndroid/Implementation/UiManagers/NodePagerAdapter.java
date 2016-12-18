@@ -59,7 +59,7 @@ public class NodePagerAdapter extends FragmentStatePagerAdapter implements Revie
 
     public String getTitle(FragmentFormatReview fragment) {
         int position = getItemPosition(fragment);
-        return Strings.Menu.REVIEWS + " (" + String.valueOf(position + 1) + "/" + String.valueOf(getCount()) + ")";
+        return Strings.Menu.PAGE + " " + String.valueOf(position + 1) + "/" + String.valueOf(getCount());
     }
 
     @Nullable

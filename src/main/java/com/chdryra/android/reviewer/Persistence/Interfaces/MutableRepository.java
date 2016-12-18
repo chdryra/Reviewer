@@ -20,4 +20,6 @@ public interface MutableRepository extends ReferencesRepository{
     void addReview(Review review, MutableRepoCallback callback);
 
     void removeReview(ReviewId reviewId, MutableRepoCallback callback);
+
+    Playlist getPlaylist(String name);
 }

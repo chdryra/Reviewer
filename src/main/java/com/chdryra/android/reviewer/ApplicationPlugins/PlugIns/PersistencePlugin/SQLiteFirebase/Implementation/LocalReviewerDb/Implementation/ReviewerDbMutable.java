@@ -14,12 +14,16 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
+import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 /**
  * Created by: Rizwan Choudrey
@@ -55,6 +59,41 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
                 }
             }
         });
+    }
+
+    @Override
+    public Playlist getPlaylist(String name) {
+        return nullPlaylist();
+    }
+
+    @NonNull
+    private Playlist nullPlaylist() {
+        return new Playlist() {
+            @Override
+            public void addEntry(DataReviewInfo review, PlaylistCallback callback) {
+
+            }
+
+            @Override
+            public void removeEntry(DataReviewInfo review, PlaylistCallback callback) {
+
+            }
+
+            @Override
+            public void subscribe(ReviewsSubscriber subscriber) {
+
+            }
+
+            @Override
+            public void unsubscribe(ReviewsSubscriber subscriber) {
+
+            }
+
+            @Override
+            public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+
+            }
+        };
     }
 
     private boolean isCorrectAuthor(Review review) {

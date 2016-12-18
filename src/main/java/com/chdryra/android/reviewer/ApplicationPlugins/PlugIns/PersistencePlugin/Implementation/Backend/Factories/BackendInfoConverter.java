@@ -59,4 +59,8 @@ public class BackendInfoConverter {
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
                 convertDate(id, entry.getPublishDate()));
     }
+
+    public ReviewListEntry convert(DataReviewInfo info) {
+        return new ReviewListEntry(info);
+    }
 }

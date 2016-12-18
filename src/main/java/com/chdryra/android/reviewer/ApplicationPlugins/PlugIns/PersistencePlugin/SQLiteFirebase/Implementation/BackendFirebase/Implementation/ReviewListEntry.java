@@ -13,6 +13,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 
+
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 17/05/2016
@@ -20,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  */
 public class ReviewListEntry {
     public static String SUBJECT = "subject";
-    public static String RATING = "subject";
+    public static String RATING = "rating";
     public static String DATE = "publishDate";
 
     private String reviewId;
@@ -39,6 +42,14 @@ public class ReviewListEntry {
         this.rating = review.getRating();
         this.authorId = review.getAuthorId();
         this.publishDate = review.getPublishDate();
+    }
+
+    public ReviewListEntry(DataReviewInfo review) {
+        this.reviewId = review.getReviewId().toString();
+        this.subject = review.getSubject().getSubject();
+        this.rating = new Rating(review.getRating());
+        this.authorId = review.getAuthorId().toString();
+        this.publishDate = review.getPublishDate().getTime();
     }
 
     public ReviewListEntry(String reviewId, String subject, Rating rating, String authorId, long

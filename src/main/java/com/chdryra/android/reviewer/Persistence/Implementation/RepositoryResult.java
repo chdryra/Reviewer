@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -31,6 +32,7 @@ public class RepositoryResult {
     private ReviewNode mNode;
     private ReviewId mId;
     private ReviewReference mReference;
+    private DataReviewInfo mInfo;
     private final Collection<Review> mReviews = new ArrayList<>();
     private final Collection<ReviewReference> mReferences = new ArrayList<>();
     private final CallbackMessage mMessage;
@@ -68,9 +70,20 @@ public class RepositoryResult {
         this(reference, CallbackMessage.ok());
     }
 
+
     private RepositoryResult(@Nullable ReviewReference reference, CallbackMessage message) {
         mReference = reference;
         mId = reference != null ? mReference.getReviewId() : null;
+        mMessage = message;
+    }
+
+    public RepositoryResult(DataReviewInfo info) {
+        this(info, CallbackMessage.ok());
+    }
+
+    private RepositoryResult(@Nullable DataReviewInfo info, CallbackMessage message) {
+        mInfo = info;
+        mId = info != null ? mInfo.getReviewId() : null;
         mMessage = message;
     }
 
@@ -102,6 +115,11 @@ public class RepositoryResult {
     @Nullable
     public ReviewReference getReference() {
         return mReference;
+    }
+
+    @Nullable
+    public DataReviewInfo getReviewEntry() {
+        return mInfo;
     }
 
     public Collection<ReviewReference> getReferences() {

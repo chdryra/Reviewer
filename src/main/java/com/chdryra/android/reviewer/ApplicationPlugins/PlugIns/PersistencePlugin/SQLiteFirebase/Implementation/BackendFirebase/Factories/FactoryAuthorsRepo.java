@@ -31,15 +31,18 @@ public class FactoryAuthorsRepo {
     private final BackendValidator mValidator;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FactoryFbReviewReference mReferencer;
+    private final FactoryFbPlaylist mPlaylistFactory;
 
     public FactoryAuthorsRepo(BackendReviewConverter reviewConverter,
                               BackendValidator validator,
                               SnapshotConverter<ReviewListEntry> entryConverter,
-                              FactoryFbReviewReference referencer) {
+                              FactoryFbReviewReference referencer,
+                              FactoryFbPlaylist playlistFactory) {
         mReviewConverter = reviewConverter;
         mValidator = validator;
         mEntryConverter = entryConverter;
         mReferencer = referencer;
+        mPlaylistFactory = playlistFactory;
     }
 
     public ReferencesRepository newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
@@ -48,10 +51,6 @@ public class FactoryAuthorsRepo {
 
     public MutableRepository newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
         return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
-                mValidator, mReferencer);
-    }
-
-    public ReferencesRepository newAuthorsDbLatest(Firebase root, FbAuthorsReviews authorsDb) {
-        return new FbAuthorReviewsReadable.MostRecent(root, authorsDb, mEntryConverter, mReferencer);
+                mValidator, mReferencer, mPlaylistFactory);
     }
 }

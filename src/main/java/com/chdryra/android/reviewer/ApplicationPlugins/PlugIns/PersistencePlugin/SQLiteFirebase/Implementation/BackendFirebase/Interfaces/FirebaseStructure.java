@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 08/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FirebaseStructure extends FbUsersStructure, FbReviewsStructure{
+public interface FirebaseStructure extends FbUsersStructure, FbReviewsStructure {
 }

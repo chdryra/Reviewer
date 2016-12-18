@@ -10,19 +10,18 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.firebase.client.Firebase;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbAuthorsReviews extends FbReviewsUpdateable {
-    AuthorId getAuthorId();
+public interface FbReviewsUpdateable extends FbReviews {
+    String REVIEWS = "Reviews";
 
-    Firebase getReviewDb(Firebase root, ReviewId reviewId);
-
-    Firebase getAggregatesDb(Firebase root, ReviewId reviewId);
+    DbUpdater<ReviewDb> getReviewUpdater();
 }

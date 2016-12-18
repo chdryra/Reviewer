@@ -19,6 +19,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbPlaylist;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
@@ -73,11 +76,13 @@ public class BackendFirebase implements Backend {
         BackendReviewConverter reviewConverter
                 = new BackendReviewConverter(beValidator, model.getReviewsFactory());
 
+        BackendInfoConverter infoConverter = new BackendInfoConverter();
         FactoryFbReviewReference referencer
-                = new FactoryFbReviewReference(mDataReferencer, new BackendInfoConverter(), reviewConverter, cache);
+                = new FactoryFbReviewReference(mDataReferencer, infoConverter, reviewConverter, cache);
 
         ConverterEntry entryConverter = new ConverterEntry();
-        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator, entryConverter, referencer);
+        FactoryFbPlaylist playlistFactory = new FactoryFbPlaylist(mStructure, entryConverter, infoConverter, referencer);
+        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator, entryConverter, referencer, playlistFactory);
         return new FbReviewsRepository(mDatabase, mStructure, entryConverter, referencer, authorsDbFactory);
     }
 

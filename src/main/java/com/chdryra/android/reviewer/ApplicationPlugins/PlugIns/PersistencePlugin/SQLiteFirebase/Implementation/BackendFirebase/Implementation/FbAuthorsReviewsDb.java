@@ -36,6 +36,11 @@ public class FbAuthorsReviewsDb implements FbAuthorsReviews {
     }
 
     @Override
+    public AuthorId getAuthorId() {
+        return mAuthorId;
+    }
+
+    @Override
     public Firebase getListEntriesDb(Firebase root) {
         return mParent.getListEntriesDb(root, mAuthorId);
     }

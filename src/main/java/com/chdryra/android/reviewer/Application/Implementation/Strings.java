@@ -117,6 +117,7 @@ public class Strings {
         public static final String SHOW_SENTENCES = "show sentences";
         public static final String SHOW_HEADLINES = "show headlines";
         public static final String REVIEWS = "reviews";
+        public static final String PAGE = "page";
     }
 
     public static class Mapping {

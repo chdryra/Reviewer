@@ -9,26 +9,18 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 10/06/2016
+ * On: 18/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FbReviews {
-    String REVIEWS = "Reviews";
     String REVIEWS_LIST = "ReviewsList";
 
     Firebase getListEntriesDb(Firebase root);
 
     Firebase getListEntryDb(Firebase root, ReviewId reviewId);
-
-    DbUpdater<ReviewDb> getReviewUpdater();
 }
