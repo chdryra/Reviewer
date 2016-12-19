@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 import android.support.annotation.Nullable;
 
@@ -18,16 +19,11 @@ import android.support.annotation.Nullable;
 public class Command {
     private int mRequestCode;
     private ExecutionListener mListener;
+    private String mName;
 
     public interface ExecutionListener {
         void onCommandExecuted(int requestCode);
     }
-
-    public void execute() {
-
-    }
-
-    private final String mName;
 
     public Command(String name) {
         mName = name;
@@ -41,18 +37,25 @@ public class Command {
         return mName;
     }
 
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public void execute() {
+
+    }
+
     public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;
         mListener = listener;
         execute();
     }
 
+    protected void onExecutionComplete() {
+        if (mListener != null) mListener.onCommandExecuted(mRequestCode);
+    }
 
     int getRequestCode() {
         return mRequestCode;
-    }
-
-    protected void onExecutionComplete() {
-        if(mListener != null) mListener.onCommandExecuted(mRequestCode);
     }
 }

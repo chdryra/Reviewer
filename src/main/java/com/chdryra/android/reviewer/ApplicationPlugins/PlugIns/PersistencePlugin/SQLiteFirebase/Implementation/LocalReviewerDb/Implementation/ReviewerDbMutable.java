@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -49,8 +48,8 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
         getRepo().getReview(reviewId, new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                Review review = result.getReview();
-                if (result.isReview() && review != null) {
+                if (result.isReview()) {
+                    Review review = result.getReview();
                     if (isCorrectAuthor(review)) {
                         getRepo().removeReview(reviewId, callback);
                     } else {
@@ -70,13 +69,18 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     private Playlist nullPlaylist() {
         return new Playlist() {
             @Override
-            public void addEntry(DataReviewInfo review, PlaylistCallback callback) {
-
+            public void addEntry(ReviewId reviewId, PlaylistCallback callback) {
+                callback.onAddedToPlaylistCallback(error());
             }
 
             @Override
-            public void removeEntry(DataReviewInfo review, PlaylistCallback callback) {
+            public void removeEntry(ReviewId reviewId, PlaylistCallback callback) {
+                callback.onRemovedFromPlaylistCallback(error());
+            }
 
+            @Override
+            public void hasEntry(ReviewId reviewId, PlaylistCallback callback) {
+                callback.onPlaylistHasReviewCallback(false, error());
             }
 
             @Override
@@ -92,6 +96,11 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
             @Override
             public void getReference(ReviewId reviewId, RepositoryCallback callback) {
 
+            }
+
+            @NonNull
+            private CallbackMessage error() {
+                return CallbackMessage.error("null playlist");
             }
         };
     }

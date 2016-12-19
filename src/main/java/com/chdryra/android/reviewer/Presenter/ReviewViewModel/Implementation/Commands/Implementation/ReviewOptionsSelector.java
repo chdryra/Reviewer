@@ -10,12 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
         .Implementation;
 
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 
 /**
@@ -27,7 +24,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     private final FactoryCommands mFactory;
     private final UserSession mSession;
-
     private DataAuthorId mAuthorId;
 
     public ReviewOptionsSelector(OptionsSelector optionsCommand,
@@ -56,16 +52,13 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         if (mAuthorId == null) {
             onExecutionComplete();
         } else {
-            setCommands(getCommands(mAuthorId));
-            super.execute();
+            mFactory.getReviewOptions(mAuthorId, mSession,
+                    new FactoryCommands.ReviewOptionsReadyCallback() {
+                @Override
+                public void onReviewOptionsReady(CommandsList options) {
+                    setCommands(options);
+                    ReviewOptionsSelector.super.execute();                }
+            });
         }
-    }
-
-    @NonNull
-    private CommandsList getCommands(DataAuthorId authorId) {
-        mAuthorId = authorId;
-        ReviewId reviewId = mAuthorId.getReviewId();
-        boolean hasDelete = mAuthorId.toString().equals(mSession.getAuthorId().toString());
-        return mFactory.getReviewOptions(reviewId, hasDelete);
     }
 }

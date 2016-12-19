@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +16,9 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PlaylistCallback {
-    void onAddedToPlaylistCallback(RepositoryResult result);
+    void onAddedToPlaylistCallback(CallbackMessage message);
 
-    void onRemovedFromPlaylistCallback(RepositoryResult result);
+    void onRemovedFromPlaylistCallback(CallbackMessage message);
+
+    void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message);
 }

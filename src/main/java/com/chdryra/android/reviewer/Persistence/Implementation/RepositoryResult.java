@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -32,7 +31,6 @@ public class RepositoryResult {
     private ReviewNode mNode;
     private ReviewId mId;
     private ReviewReference mReference;
-    private DataReviewInfo mInfo;
     private final Collection<Review> mReviews = new ArrayList<>();
     private final Collection<ReviewReference> mReferences = new ArrayList<>();
     private final CallbackMessage mMessage;
@@ -77,16 +75,6 @@ public class RepositoryResult {
         mMessage = message;
     }
 
-    public RepositoryResult(DataReviewInfo info) {
-        this(info, CallbackMessage.ok());
-    }
-
-    private RepositoryResult(@Nullable DataReviewInfo info, CallbackMessage message) {
-        mInfo = info;
-        mId = info != null ? mInfo.getReviewId() : null;
-        mMessage = message;
-    }
-
     public RepositoryResult(ReviewNode node, CallbackMessage message) {
         mNode = node;
         mId = node != null ? node.getReviewId() : null;
@@ -94,16 +82,19 @@ public class RepositoryResult {
     }
 
     @Nullable
+    public ReviewId getReviewId() {
+        return mId;
+    }
+
+    @Nullable
     public AuthorId getAuthorId() {
         return mAuthorId;
     }
 
-    @Nullable
     public Review getReview() {
         return mReview;
     }
 
-    @Nullable
     public ReviewNode getReviewNode() {
         return mNode;
     }
@@ -112,23 +103,12 @@ public class RepositoryResult {
         return mReviews;
     }
 
-    @Nullable
     public ReviewReference getReference() {
         return mReference;
     }
 
-    @Nullable
-    public DataReviewInfo getReviewEntry() {
-        return mInfo;
-    }
-
     public Collection<ReviewReference> getReferences() {
         return mReferences;
-    }
-
-    @Nullable
-    public ReviewId getReviewId() {
-        return mId;
     }
 
     public boolean isError() {
@@ -141,6 +121,10 @@ public class RepositoryResult {
 
     public boolean isReference() {
         return !isError() && mReference != null;
+    }
+
+    public boolean isReviewNode() {
+        return !isError() && mNode != null;
     }
 
     public CallbackMessage getMessage() {

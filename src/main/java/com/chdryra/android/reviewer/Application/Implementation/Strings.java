@@ -52,8 +52,12 @@ public class Strings {
         public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
         public static final String COPYING = "Copying...";
         public static final String FOLLOWING = "Following...";
+        public static final String BOOKMARKING = "Bookmarking...";
+        public static final String UNBOOKMARKING = "Unbookmarking...";
+        public static final String BOOKMARKED = "Bookmarked";
+        public static final String UNBOOKMARKED = "Unbookmarked";
         public static final String UNFOLLOWING = "Unfollowing...";
-        public static final String DONE = "DONE";
+        public static final String DONE = "Done";
         public static final String LOGGING_OUT = "Logging out...";
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
         public static final String NO_INTERNET = "No internet available...";
@@ -62,20 +66,14 @@ public class Strings {
     public static class Screens {
         public static final String LOCATION = "location";
         public static final String URL = "link";
-        public static final String FEED = "feed";
         public static final String BUILD = "create";
         public static final String SHARE = "share";
-        public static final String LOGIN = "login";
-        public static final String SIGN_UP = "sign up";
         public static final String SUMMARY = "summary";
-        public static final String FORMATTED = "formatted";
         public static final String PREVIEW = "preview";
         public static final String SEARCH = "search";
-        public static final String DISTRIBUTION = "distribution";
     }
 
     public static class Buttons {
-        public static final String SEARCH = "search";
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
         public static final String ADD = "add";
@@ -144,13 +142,15 @@ public class Strings {
         public static final String SHARE = "Share";
         public static final String COPY = "Use as template";
         public static final String DELETE = "Delete";
-        public static final String VIEW = "View";
         public static final String OPTIONS = "Options";
         public static final String REVIEW_OPTIONS = "Review options";
-        public static final String EDITOR = "Editor";
         public static final String FORMATTED = "Formatted";
         public static final String MAPPED = "Mapped";
         public static final String DISTRIBUTION = "Distribution";
+        public static final String BOOKMARK = "Bookmark";
+        public static final String UNBOOKMARK = "Unbookmark";
+        public static final String BOOKMARKS_UNAVAILABLE = "Bookmarks unavailable";
+        public static final String DASHES = "- - -";
     }
     
     public static class Comparators {
@@ -166,7 +166,6 @@ public class Strings {
     }
 
     public static class REVIEWS_LIST {
-        public static final String FEED_LATEST_STEM = "latest";
         public static final String FEED_ALL_STEM = "feed";
         public static final String REVIEWS_STEM = "reviews";
     }
@@ -185,5 +184,9 @@ public class Strings {
         public static final String LOCATIONS = "locations";
         public static final String IMAGES = "images";
         public static final String NO_COMMENT = "no comment";
+    }
+
+    public static class Playlists {
+        public static final String BOOKMARKS = "Bookmarks";
     }
 }

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +16,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewIn
  * Email: rizwan.choudrey@gmail.com
  */
 public interface Playlist extends ReferencesRepository{
-    void addEntry(DataReviewInfo review, PlaylistCallback callback);
+    void addEntry(ReviewId reviewId, PlaylistCallback callback);
 
-    void removeEntry(DataReviewInfo review, PlaylistCallback callback);
+    void removeEntry(ReviewId reviewId, PlaylistCallback callback);
+
+    void hasEntry(ReviewId reviewId, PlaylistCallback callback);
 }

@@ -117,13 +117,13 @@ public class BackendRepoService extends IntentService {
     private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
         @Override
         public void onAddedToRepoCallback(RepositoryResult result) {
-            Review review = result.getReview();
-            String subject = review != null ? review.getSubject().getSubject() + ": " : "";
             CallbackMessage message;
-            if (result.isError()) {
-                message = CallbackMessage.error(subject + getErrorString(result, UPLOAD_ERROR));
-            } else {
+            String subject = "";
+            if(result.isReview()) {
+                subject = result.getReview().getSubject().getSubject();
                 message = CallbackMessage.ok(subject + getString(UPLOAD_SUCCESSFUL));
+            } else {
+                message = CallbackMessage.error(subject + getErrorString(result, UPLOAD_ERROR));
             }
 
             broadcastUploadComplete(message);

@@ -13,25 +13,30 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendInfoConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
-
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendInfoConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.Map;
 
@@ -54,7 +59,8 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                       String name,
                       AuthorId authorId,
                       BackendInfoConverter converter) {
-        super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter, referencer);
+        super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,
+                referencer);
         mName = name;
         mAuthorId = authorId;
         mStructure = structure;
@@ -72,20 +78,69 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @Override
-    public void addEntry(DataReviewInfo review, PlaylistCallback callback) {
-        update(review, callback, DbUpdater.UpdateType.INSERT_OR_UPDATE);
+    public void addEntry(ReviewId reviewId, PlaylistCallback callback) {
+        update(reviewId, DbUpdater.UpdateType.INSERT_OR_UPDATE, callback);
     }
 
     @Override
-    public void removeEntry(DataReviewInfo review, PlaylistCallback callback) {
-        update(review, callback, DbUpdater.UpdateType.DELETE);
+    public void removeEntry(ReviewId reviewId, PlaylistCallback callback) {
+        update(reviewId, DbUpdater.UpdateType.DELETE, callback);
     }
 
-    private void update(DataReviewInfo review, PlaylistCallback callback, DbUpdater.UpdateType
-            updateType) {
-        ReviewListEntry entry = mConverter.convert(review);
+    @Override
+    public void hasEntry(ReviewId reviewId, final PlaylistCallback callback) {
+        mStructure.getPlaylistEntryDb(getDataBase(), mAuthorId, mName, reviewId)
+                .addListenerForSingleValueEvent(checkForEntry(callback));
+    }
+
+    @NonNull
+    private ValueEventListener checkForEntry(final PlaylistCallback callback) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.onPlaylistHasReviewCallback(dataSnapshot.getValue() != null,
+                        CallbackMessage.ok());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                CallbackMessage error = CallbackMessage.error(FirebaseBackend
+                        .backendError(firebaseError).getMessage());
+                callback.onPlaylistHasReviewCallback(false, error);
+            }
+        };
+    }
+
+    private void update(ReviewId reviewId,
+                        final DbUpdater.UpdateType updateType,
+                        final PlaylistCallback callback) {
+        getReference(reviewId, new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                if (result.isReference()) {
+                    updatePlaylist(result, updateType, callback);
+                } else {
+                    notifyCallback(result.getMessage(), updateType, callback);
+                }
+            }
+        });
+    }
+
+    private void updatePlaylist(RepositoryResult result, DbUpdater.UpdateType updateType,
+                                PlaylistCallback callback) {
+        ReviewListEntry entry = mConverter.convert(result.getReference());
         Map<String, Object> map = getUpdatesMap(entry, updateType);
-        getDataBase().updateChildren(map, newListener(entry, callback, updateType));
+        getDataBase().updateChildren(map, newListener(callback, updateType));
+    }
+
+    private void notifyCallback(CallbackMessage message,
+                                DbUpdater.UpdateType updateType,
+                                PlaylistCallback callback) {
+        if (updateType.equals(DbUpdater.UpdateType.INSERT_OR_UPDATE)) {
+            callback.onAddedToPlaylistCallback(message);
+        } else {
+            callback.onRemovedFromPlaylistCallback(message);
+        }
     }
 
     @NonNull
@@ -99,25 +154,14 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @NonNull
-    private Firebase.CompletionListener newListener(final ReviewListEntry entry,
-                                                    final PlaylistCallback callback,
+    private Firebase.CompletionListener newListener(final PlaylistCallback callback,
                                                     final DbUpdater.UpdateType updateType) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                RepositoryResult result;
-                if (firebaseError == null) {
-                    result = new RepositoryResult(mConverter.convert(entry));
-                } else {
-                    result = new RepositoryResult(CallbackMessage.error(firebaseError.getMessage
-                            ()));
-                }
-
-                if (updateType.equals(DbUpdater.UpdateType.INSERT_OR_UPDATE)) {
-                    callback.onAddedToPlaylistCallback(result);
-                } else {
-                    callback.onRemovedFromPlaylistCallback(result);
-                }
+                CallbackMessage message = firebaseError == null ? CallbackMessage.ok() :
+                        CallbackMessage.error(firebaseError.getMessage());
+                notifyCallback(message, updateType, callback);
             }
         };
     }

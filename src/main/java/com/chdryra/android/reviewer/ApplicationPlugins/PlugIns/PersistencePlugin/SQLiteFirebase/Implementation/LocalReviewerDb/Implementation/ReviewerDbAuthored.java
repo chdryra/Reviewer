@@ -102,7 +102,7 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 RepositoryResult repoResult = result;
-                if (!result.isReference() || result.getReference() == null) {
+                if (!result.isReference()) {
                     repoResult = new RepositoryResult(CallbackMessage.error("Error retrieving reference"));
                 }
                 callback.onRepositoryCallback(repoResult);

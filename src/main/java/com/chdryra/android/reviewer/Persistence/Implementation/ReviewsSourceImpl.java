@@ -147,10 +147,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 ReviewReference review = result.getReference();
-                RepositoryResult repoResult;
-                if (result.isError() || review == null) {
-                    repoResult = result;
-                } else {
+                RepositoryResult repoResult = result;
+                if (result.isReference()) {
                     ReviewNode node = mReviewsFactory.createLeafNode(review);
                     repoResult = new RepositoryResult(node, result.getMessage());
                 }
@@ -249,8 +247,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         }
 
         private void onCallback(RepositoryResult result) {
-            ReviewNode node = result.getReviewNode();
-            if (!result.isError() && node != null) setNode(node);
+            if (result.isReviewNode()) setNode(result.getReviewNode());
         }
 
         @Override
@@ -278,9 +275,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
         public void onRepositoryCallback(RepositoryResult result) {
             mCurrentIndex++;
 
-            ReviewReference review = result.getReference();
-            if (review != null && !result.isError()) {
-                mFetched.add(review);
+            if (result.isReference()) {
+                mFetched.add(result.getReference());
             } else {
                 mErrors.add(result.getMessage());
             }

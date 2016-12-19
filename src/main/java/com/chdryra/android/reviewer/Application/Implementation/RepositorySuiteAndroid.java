@@ -87,8 +87,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
         return new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                ReviewReference reference = result.getReference();
-                if (result.isReference() && reference != null) dereference(reference, callback);
+                if (result.isReference()) dereference(result.getReference(), callback);
             }
         };
     }

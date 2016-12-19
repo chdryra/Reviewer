@@ -31,7 +31,7 @@ public class StructurePlaylistNames extends DbStructureBasic<ReviewListEntry> im
     @Override
     public Map<String, Object> getUpdatesMap(ReviewListEntry entry, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        updates.atPath(entry).putObject(true);
+        updates.atPath(entry).putValue(true);
 
         return updates.toMap();
     }

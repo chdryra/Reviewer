@@ -88,7 +88,7 @@ public class FbStructUsersLed implements FirebaseStructure {
     @Override
     public DbUpdater<ReviewListEntry> getPlaylistUpdater(final String name, final AuthorId authorId) {
         StructurePlaylist playlist = new StructurePlaylistImpl(pathToPlaylist(name, authorId));
-        StructurePlaylistNames names = new StructurePlaylistNames(pathToPlaylistIndex(authorId, name));
+        StructurePlaylistNames names = new StructurePlaylistNames(pathToPlaylistNamesIndex(name, authorId));
         StructureBuilder<ReviewListEntry> builderPlaylist = new StructureBuilder<>();
         return builderPlaylist.add(playlist).add(names).build();
     }
@@ -106,6 +106,11 @@ public class FbStructUsersLed implements FirebaseStructure {
     @Override
     public Firebase getPlaylistDb(Firebase root, AuthorId authorId, String playlistName) {
         return root.child(pathToPlaylist(playlistName, authorId));
+    }
+
+    @Override
+    public Firebase getPlaylistEntryDb(Firebase root, AuthorId authorId, String playlistName, ReviewId reviewId) {
+        return root.child(pathToPlaylistEntry(playlistName, authorId, reviewId));
     }
 
     @Override
@@ -333,8 +338,12 @@ public class FbStructUsersLed implements FirebaseStructure {
         return path(pathToAuthor(authorId.toString()), PLAYLISTS, PLAYLIST_INDEX);
     }
 
-    private String pathToPlaylistIndex(AuthorId authorId, String name) {
+    public String pathToPlaylistNamesIndex(String name, AuthorId authorId) {
         return path(pathToPlaylistNames(authorId), name);
+    }
+
+    public String pathToPlaylistEntry(String name, AuthorId authorId, ReviewId reviewId) {
+        return path(pathToPlaylist(name, authorId), StructurePlaylistImpl.relativePathToReview(reviewId.toString()));
     }
 
     private String pathToAggregates(AuthorId authorId) {

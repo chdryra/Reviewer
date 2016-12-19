@@ -66,13 +66,12 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
 
     @Override
     public void onAddedToRepoCallback(RepositoryResult result) {
-        Review review = result.getReview();
         ReviewId id = result.getReviewId();
         String reviewId = id != null ? id.toString() : "";
-        if (result.isError() || review == null) {
-            mWorkStoreCallback.onFailed(review, reviewId, result.getMessage());
+        if(result.isReview()) {
+            mWorkStoreCallback.onAddedToStore(result.getReview(), reviewId, result.getMessage());
         } else {
-            mWorkStoreCallback.onAddedToStore(review, reviewId, result.getMessage());
+            mWorkStoreCallback.onFailed(result.getReview(), reviewId, result.getMessage());
         }
     }
 

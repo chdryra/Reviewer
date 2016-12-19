@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -28,7 +27,9 @@ public class ShareCommand extends Command {
     private final CurrentScreen mScreen;
     private final SocialPublisher mSharer;
 
-    public ShareCommand(ReviewId reviewId, RepositorySuite repo, CurrentScreen screen,
+    public ShareCommand(ReviewId reviewId,
+                        RepositorySuite repo,
+                        CurrentScreen screen,
                         SocialPublisher sharer) {
         super(Strings.Commands.SHARE);
         mRepo = repo;
@@ -46,9 +47,8 @@ public class ShareCommand extends Command {
         return new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                Review review = result.getReview();
-                if (!result.isError() && review != null) {
-                    mSharer.publish(review);
+                if (result.isReview()) {
+                    mSharer.publish(result.getReview());
                 } else {
                     String message = Strings.Toasts.REVIEW_NOT_FOUND;
                     if (result.isError()) message += ": " + result.getMessage();

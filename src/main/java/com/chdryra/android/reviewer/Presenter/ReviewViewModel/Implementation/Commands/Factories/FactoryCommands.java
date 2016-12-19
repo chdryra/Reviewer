@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -22,6 +23,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.BookmarkCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -57,13 +60,27 @@ public class FactoryCommands {
         mApp = app;
     }
 
-    public CommandsList getReviewOptions(ReviewId reviewId, boolean withDelete) {
-        CommandsList commands = new CommandsList();
-        commands.add(new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher()));
-        commands.add(new CopyCommand(newLaunchEditorCommand(reviewId), getScreen()));
-        if (withDelete) commands.add(new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen()));
+    public interface ReviewOptionsReadyCallback {
+        void onReviewOptionsReady(CommandsList options);
+    }
 
-        return commands;
+    public void getReviewOptions(DataAuthorId authorId, UserSession session, final ReviewOptionsReadyCallback callback) {
+        ReviewId reviewId = authorId.getReviewId();
+        boolean hasDelete = authorId.toString().equals(session.getAuthorId().toString());
+
+        final CommandsList commands = new CommandsList();
+        commands.add(share(reviewId));
+        commands.add(copy(reviewId));
+        BookmarkCommand bookmark = bookmark(session, reviewId);
+        commands.add(bookmark);
+        if (hasDelete) commands.add(delete(reviewId));
+
+        bookmark.initialise(new BookmarkCommand.BookmarkCommandReadyCallback() {
+            @Override
+            public void onBookmarkCommandReady() {
+                callback.onReviewOptionsReady(commands);
+            }
+        });
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector() {
@@ -155,5 +172,26 @@ public class FactoryCommands {
 
     private UiLauncher getLauncher() {
         return mApp.getUi().getLauncher();
+    }
+
+    @NonNull
+    private DeleteCommand delete(ReviewId reviewId) {
+        return new DeleteCommand(getRepo().newReviewDeleter(reviewId), getScreen());
+    }
+
+    @NonNull
+    private BookmarkCommand bookmark(UserSession session, ReviewId reviewId) {
+        return new BookmarkCommand(reviewId, getRepo().getReviewsRepository()
+                .getMutableRepository(session), getScreen());
+    }
+
+    @NonNull
+    private CopyCommand copy(ReviewId reviewId) {
+        return new CopyCommand(newLaunchEditorCommand(reviewId), getScreen());
+    }
+
+    @NonNull
+    private ShareCommand share(ReviewId reviewId) {
+        return new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher());
     }
 }

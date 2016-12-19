@@ -27,7 +27,7 @@ public class StructurePlaylistImpl extends DbStructureBasic<ReviewListEntry> imp
         setPathToStructure(path);
     }
 
-    public String relativePathToReview(String reviewId) {
+    public static String relativePathToReview(String reviewId) {
         return reviewId;
     }
 

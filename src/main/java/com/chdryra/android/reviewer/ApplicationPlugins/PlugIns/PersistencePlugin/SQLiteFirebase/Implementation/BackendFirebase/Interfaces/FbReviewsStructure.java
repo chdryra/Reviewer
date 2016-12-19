@@ -40,5 +40,7 @@ public interface FbReviewsStructure extends FbReviewsUpdateable {
 
     Firebase getPlaylistDb(Firebase root, AuthorId authorId, String playlistName);
 
+    Firebase getPlaylistEntryDb(Firebase root, AuthorId authorId, String playlistName, ReviewId reviewId);
+
     DbUpdater<ReviewListEntry> getPlaylistUpdater(String name, AuthorId authorId);
 }

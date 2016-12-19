@@ -227,10 +227,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
                 mRepo.getReference(id, new RepositoryCallback() {
                     @Override
                     public void onRepositoryCallback(RepositoryResult result) {
-                        ReviewReference reference = result.getReference();
-                        if (!result.isError() && reference != null) {
-                            subscriber.onReviewAdded(reference);
-                        }
+                        if (!result.isReference()) subscriber.onReviewAdded(result.getReference());
                     }
                 });
             }
@@ -244,8 +241,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
                     mRepo.getReference(id, new RepositoryCallback() {
                         @Override
                         public void onRepositoryCallback(RepositoryResult result) {
-                            ReviewReference reference = result.getReference();
-                            if (!result.isError() && reference != null) notifyOnRemove(reference);
+                            if (result.isReference()) notifyOnRemove(result.getReference());
                             if (++mUnsubscribeIndex == mReviews.size()) delete();
                         }
                     });
