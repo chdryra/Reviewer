@@ -40,6 +40,6 @@ public class ViewerFeed extends ViewerChildList {
         }
 
         return getAdapterFactory().newSummaryAdapter(node.getAuthorId(), authors, Strings
-                .REVIEWS_LIST.FEED_ALL_STEM);
+                .ReviewsList.FEED);
     }
 }

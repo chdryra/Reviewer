@@ -165,12 +165,13 @@ public class Strings {
         public static final String SEPARATOR = ":";
     }
 
-    public static class REVIEWS_LIST {
-        public static final String FEED_ALL_STEM = "feed";
-        public static final String REVIEWS_STEM = "reviews";
+    public static class ReviewsList {
+        public static final String FEED = "feed";
+        public static final String REVIEWS = "reviews";
+        public static final String BOOKMARKS = "bookmarks";
     }
 
-    public static class FORMATTED {
+    public static class Formatted {
         public static final String DASHES = "- - -";
         public static final String AUTHOR = "author";
         public static final String DATE = "date";

@@ -61,13 +61,18 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     @Override
-    public Playlist getPlaylist(String name) {
+    public Playlist getBookmarks() {
         return nullPlaylist();
     }
 
     @NonNull
     private Playlist nullPlaylist() {
         return new Playlist() {
+            @Override
+            public String getName() {
+                return "null";
+            }
+
             @Override
             public void addEntry(ReviewId reviewId, PlaylistCallback callback) {
                 callback.onAddedToPlaylistCallback(error());

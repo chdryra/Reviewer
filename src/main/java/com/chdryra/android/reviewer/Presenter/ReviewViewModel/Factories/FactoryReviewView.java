@@ -31,6 +31,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -114,6 +115,7 @@ public class FactoryReviewView {
     private final FactoryReviewViewParams mParamsFactory;
     private final FactoryDataBucketer mBucketerFactory;
     private final FactoryCommands mCommandsFactory;
+    private final ReviewsSource mReviewsRepo;
     private final AuthorsRepository mAuthorsRepo;
     private final DataComparatorsApi mComparators;
     private final GvConverterLocations mLocationsConverter;
@@ -124,6 +126,7 @@ public class FactoryReviewView {
                              FactoryReviewViewParams paramsFactory,
                              FactoryDataBucketer bucketerFactory,
                              FactoryCommands commandsFactory,
+                             ReviewsSource reviewsRepo,
                              AuthorsRepository authorsRepo,
                              DataComparatorsApi comparators,
                              GvConverterLocations locationsConverter) {
@@ -133,6 +136,7 @@ public class FactoryReviewView {
         mParamsFactory = paramsFactory;
         mBucketerFactory = bucketerFactory;
         mCommandsFactory = commandsFactory;
+        mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mComparators = comparators;
         mLocationsConverter = locationsConverter;
@@ -149,7 +153,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         FactoryActionsReviewsList.Feed actionsFactory
                 = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
-                newLaunchDistributionCommand(node), mCommandsFactory, mComparators);
+                newLaunchDistributionCommand(node), mCommandsFactory, mComparators, mReviewsRepo);
 
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
     }

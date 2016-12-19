@@ -43,7 +43,7 @@ public class OptionsSelectAndExecute extends OptionsCommand {
         mCode = RequestCodeGenerator.getCode(ReviewOptionsSelector.class,
                 TextUtils.commaDelimited(mCommands.getCommandNames()));
 
-        mLocked = true;
+        lock();
         mOptionsCommand.execute(mCommands.getCommandNames(), null, mCode, new ExecutionListener() {
             @Override
             public void onCommandExecuted(int requestCode) {
@@ -56,10 +56,18 @@ public class OptionsSelectAndExecute extends OptionsCommand {
     public boolean onOptionSelected(int requestCode, String option) {
         if (requestCode == mCode) {
             mCommands.execute(option);
-            mLocked = false;
+            unlock();
             return true;
         }
 
         return false;
+    }
+
+    private void lock() {
+        mLocked = true;
+    }
+
+    private void unlock() {
+        mLocked = false;
     }
 }

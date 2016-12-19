@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface Playlist extends ReferencesRepository{
+    String getName();
+
     void addEntry(ReviewId reviewId, PlaylistCallback callback);
 
     void removeEntry(ReviewId reviewId, PlaylistCallback callback);

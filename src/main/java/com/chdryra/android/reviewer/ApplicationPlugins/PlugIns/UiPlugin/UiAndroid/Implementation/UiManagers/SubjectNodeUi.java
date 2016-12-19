@@ -42,7 +42,7 @@ public class SubjectNodeUi extends TextUi<TextView> {
             view.setText(subject);
         } else {
             view.setTypeface(view.getTypeface(), Typeface.ITALIC);
-            view.setText(Strings.FORMATTED.NO_SUBJECT);
+            view.setText(Strings.Formatted.NO_SUBJECT);
         }
     }
 }

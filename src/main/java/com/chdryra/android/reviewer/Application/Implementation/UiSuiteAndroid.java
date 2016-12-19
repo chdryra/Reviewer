@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -50,7 +50,6 @@ public class UiSuiteAndroid implements UiSuite{
     private final UiLauncherAndroid mUiLauncher;
     private final FactoryCommands mCommandsFactory;
     private final FactoryReviewView mViewFactory;
-    private final FactoryReviews mReviewsFactory;
     private final ConverterGv mConverter;
 
     private CurrentScreen mCurrentScreen;
@@ -60,14 +59,12 @@ public class UiSuiteAndroid implements UiSuite{
                           UiLauncherAndroid uiLauncher,
                           FactoryCommands commandsFactory,
                           FactoryReviewView viewFactory,
-                          FactoryReviews reviewsFactory,
                           ConverterGv converter) {
         mUiConfig = uiConfig;
         mUiLauncher = uiLauncher;
         mUiConfig.setUiLauncher(mUiLauncher);
         mCommandsFactory = commandsFactory;
         mViewFactory = viewFactory;
-        mReviewsFactory = reviewsFactory;
         mConverter = converter;
     }
 
@@ -95,8 +92,8 @@ public class UiSuiteAndroid implements UiSuite{
     public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfile profile) {
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
         ReferencesRepository feed = repository.getFeed(profile);
-        ReviewNode node = mReviewsFactory.createAuthorsTree(user, feed,
-                repository.getAuthorsRepository(), Strings.REVIEWS_LIST.FEED_ALL_STEM);
+        ReviewsSource repo = repository.getReviewsRepository();
+        ReviewNode node = repo.getMetaReview(feed, user, Strings.ReviewsList.FEED);
 
         return mViewFactory.newFeedView(node);
     }

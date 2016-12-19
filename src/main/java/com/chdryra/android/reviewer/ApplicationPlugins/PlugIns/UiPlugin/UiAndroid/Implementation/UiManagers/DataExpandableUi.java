@@ -51,7 +51,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
     protected void setEmpty() {
         TextView placeholder = getValueView();
         placeholder.setTypeface(placeholder.getTypeface(), Typeface.ITALIC);
-        placeholder.setText(Strings.FORMATTED.NONE);
+        placeholder.setText(Strings.Formatted.NONE);
     }
 
     @Override

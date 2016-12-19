@@ -42,7 +42,7 @@ public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSiz
             public ReviewItemReference<DataSize> getValue() {
                 return node.getImages().getSize();
             }
-        }, Strings.FORMATTED.IMAGES);
+        }, Strings.Formatted.IMAGES);
         mGrid = grid;
     }
 
@@ -67,7 +67,7 @@ public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSiz
         TextView placeholder = getValueView();
         placeholder.setVisibility(View.VISIBLE);
         placeholder.setTypeface(placeholder.getTypeface(), Typeface.ITALIC);
-        placeholder.setText(Strings.FORMATTED.NONE);
+        placeholder.setText(Strings.Formatted.NONE);
     }
 
     private void showGrid() {

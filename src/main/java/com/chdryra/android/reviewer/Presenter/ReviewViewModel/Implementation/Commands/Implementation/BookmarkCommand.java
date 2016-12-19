@@ -13,7 +13,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
 
@@ -46,11 +45,11 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         void onBookmarkCommandReady();
     }
 
-    public BookmarkCommand(ReviewId reviewId, MutableRepository repo, CurrentScreen screen) {
+    public BookmarkCommand(ReviewId reviewId, Playlist bookmarks, CurrentScreen screen) {
         super(PLACEHOLDER);
         mReviewId = reviewId;
         mScreen = screen;
-        mBookmarks = repo.getPlaylist(BOOKMARKS);
+        mBookmarks = bookmarks;
     }
 
     public void initialise(BookmarkCommandReadyCallback callback) {
@@ -78,19 +77,21 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
 
     @Override
     public void onAddedToPlaylistCallback(CallbackMessage message) {
-        showToast(!message.isError() ? BOOKMARKED : message.getMessage());
+        showToast(message.isOk() ? BOOKMARKED : message.getMessage());
         unlock();
+        onExecutionComplete();
     }
 
     @Override
     public void onRemovedFromPlaylistCallback(CallbackMessage message) {
-        showToast(!message.isError() ? UNBOOKMARKED : message.getMessage());
+        showToast(message.isOk() ? UNBOOKMARKED : message.getMessage());
         unlock();
+        onExecutionComplete();
     }
 
     @Override
     public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
-        if (!message.isError()) {
+        if (message.isOk()) {
             mIsBookmarked = hasReview;
             mErorChecking = false;
             setName(mIsBookmarked ? UNBOOKMARK : BOOKMARK);

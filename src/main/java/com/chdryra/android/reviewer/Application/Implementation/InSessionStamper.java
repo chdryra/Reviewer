@@ -45,6 +45,6 @@ public class InSessionStamper implements UserSession.SessionObserver, ReviewStam
 
     @Override
     public void onLogOut(UserAccount account, CallbackMessage message) {
-        if (!message.isError()) mAuthorId = NULL_AUTHOR;
+        if (message.isOk()) mAuthorId = NULL_AUTHOR;
     }
 }

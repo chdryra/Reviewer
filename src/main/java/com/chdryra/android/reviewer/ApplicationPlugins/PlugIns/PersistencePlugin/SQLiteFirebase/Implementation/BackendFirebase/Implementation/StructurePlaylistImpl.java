@@ -35,7 +35,7 @@ public class StructurePlaylistImpl extends DbStructureBasic<ReviewListEntry> imp
     @Override
     public Map<String, Object> getUpdatesMap(ReviewListEntry entry, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        updates.atPath(entry, relativePathToReview(entry.getReviewId())).putObject(entry);
+        updates.atPath(entry, relativePathToReview(entry.getReviewId())).putObject(entry.toInverseDate());
 
         return updates.toMap();
     }

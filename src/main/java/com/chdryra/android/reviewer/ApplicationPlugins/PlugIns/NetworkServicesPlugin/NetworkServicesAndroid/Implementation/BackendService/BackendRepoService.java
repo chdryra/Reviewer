@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.PlaylistDeleter;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
@@ -106,12 +107,27 @@ public class BackendRepoService extends IntentService {
     }
 
     private void requestBackendService(Service service) {
-        ReviewId id = new DatumReviewId(mReviewId);
+        final ReviewId id = new DatumReviewId(mReviewId);
         if (service == Service.UPLOAD) {
             mToken = mPublisher.getFromQueue(id, new Callbacks(), this);
         } else if (service == Service.DELETE) {
-            mRepo.removeReview(id, new Callbacks());
+            deleteFromBookmarksThenRepo(id);
         }
+    }
+
+    private void deleteFromBookmarksThenRepo(final ReviewId id) {
+        PlaylistDeleter deleter = new PlaylistDeleter(id,
+                mRepo.getBookmarks(), new PlaylistDeleter.DeleteCallback() {
+            @Override
+            public void onDeletedFromPlaylist(String playlistName, CallbackMessage message) {
+                if(message.isOk()) {
+                    mRepo.removeReview(id, new Callbacks());
+                } else {
+                    broadcastDeleteComplete(message);
+                }
+            }
+        });
+        deleter.delete();
     }
 
     private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
@@ -137,9 +153,9 @@ public class BackendRepoService extends IntentService {
             } else {
                 message = CallbackMessage.ok(getString(DELETE_SUCCESSFUL));
             }
-
             broadcastDeleteComplete(message);
         }
+
 
         @Override
         public void onAddedToQueue(ReviewId id, CallbackMessage message) {
@@ -157,6 +173,7 @@ public class BackendRepoService extends IntentService {
             broadcastUploadComplete(message);
         }
     }
+
 
     @NonNull
     private String getErrorString(RepositoryResult result, int error) {

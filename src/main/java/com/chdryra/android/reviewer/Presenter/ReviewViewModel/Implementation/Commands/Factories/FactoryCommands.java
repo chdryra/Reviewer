@@ -182,7 +182,7 @@ public class FactoryCommands {
     @NonNull
     private BookmarkCommand bookmark(UserSession session, ReviewId reviewId) {
         return new BookmarkCommand(reviewId, getRepo().getReviewsRepository()
-                .getMutableRepository(session), getScreen());
+                .getMutableRepository(session).getBookmarks(), getScreen());
     }
 
     @NonNull

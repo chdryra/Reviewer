@@ -68,6 +68,11 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @Override
+    public String getName() {
+        return mName;
+    }
+
+    @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
         return mStructure.getAggregatesDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
     }

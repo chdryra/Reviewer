@@ -84,6 +84,7 @@
     <string name="menu_options">options</string>
     <string name="menu_follow">follow</string>
     <string name="menu_search_authors">search authors</string>
+    <string name="menu_bookmarks">bookmarks</string>
     <string name="menu_settings">settings</string>
     <string name="menu_logout">log out</string>
 

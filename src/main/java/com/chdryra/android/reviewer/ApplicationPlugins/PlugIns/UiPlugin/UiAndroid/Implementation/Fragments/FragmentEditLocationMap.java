@@ -189,7 +189,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     public void onLocated(Location location, CallbackMessage message) {
-        if(!message.isError()) {
+        if(message.isOk()) {
             LatLng latlang = new LatLng(location.getLatitude(), location.getLongitude());
             fetchMarkerAddress(latlang);
         }

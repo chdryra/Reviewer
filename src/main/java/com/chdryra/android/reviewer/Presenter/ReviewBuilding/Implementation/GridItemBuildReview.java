@@ -101,7 +101,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onLocated(Location location, CallbackMessage message) {
-        if (!message.isError()) {
+        if (message.isOk()) {
             mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         }
     }

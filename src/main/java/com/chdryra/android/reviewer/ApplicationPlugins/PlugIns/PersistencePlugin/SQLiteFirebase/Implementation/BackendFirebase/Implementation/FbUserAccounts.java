@@ -118,7 +118,7 @@ public class FbUserAccounts implements UserAccounts {
                                                AuthorProfile profile,
                                                CreateAccountCallback callback,
                                                CallbackMessage message) {
-        if (!message.isError()) {
+        if (message.isOk()) {
             callback.onAccountCreated(newUserAccount(null), NAME_TAKEN_ERROR);
         } else if (AuthorsRepository.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
             addNewProfile(authUser, profile, callback);

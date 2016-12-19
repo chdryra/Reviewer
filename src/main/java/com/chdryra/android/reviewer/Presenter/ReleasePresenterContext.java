@@ -102,15 +102,16 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 incrementorFactory, new FactoryImageChooser(context), getCommandsFactory());
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
+        ReviewsSource reviewsRepo = persistenceContext.getReviewsRepository();
         FactoryReviewViewAdapter factoryReviewViewAdapter = newAdaptersFactory(modelContext,
-                persistenceContext.getReviewsRepository(),
+                reviewsRepo,
                 authorRepo,
                 gvConverter,
                 aggregatorsPlugin.getAggregatorsApi());
         FactoryReviewView factoryReviewView = new FactoryReviewView(uiConfig,
                 factoryReviewViewAdapter, editorFactory, paramsFactory,
                 modelContext.getBucketerFactory(), getCommandsFactory(),
-                authorRepo, comparators, gvConverter.newConverterLocations());
+                reviewsRepo, authorRepo, comparators, gvConverter.newConverterLocations());
 
         setFactoryReviewView(factoryReviewView);
     }

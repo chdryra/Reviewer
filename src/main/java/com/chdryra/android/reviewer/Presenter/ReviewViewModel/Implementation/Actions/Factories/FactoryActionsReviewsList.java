@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
         .DataComparatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -23,6 +24,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.BannerButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.GridItemLaunchFormatted;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiBookmarks;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -121,10 +124,17 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     public static class Feed extends FactoryActionsReviewsList {
-        public Feed(ReviewNode node, UiLauncher launcher, FactoryReviewView factoryReviewView,
+        private final ReviewsSource mRepo;
+
+        public Feed(ReviewNode node,
+                    UiLauncher launcher,
+                    FactoryReviewView factoryReviewView,
                     Command distribution,
-                    FactoryCommands factoryCommands, DataComparatorsApi comparators) {
+                    FactoryCommands factoryCommands,
+                    DataComparatorsApi comparators,
+                    ReviewsSource repo) {
             super(node, launcher, factoryReviewView, distribution, factoryCommands, comparators, null);
+            mRepo = repo;
         }
 
         @Override
@@ -132,10 +142,11 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
             UiLauncher launcher = getUiLauncher();
             MaiCommand<GvNode> newReview = new MaiCommand<>
                     (getFactoryCommands().newLaunchEditorCommand(null));
+            MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, mRepo, getFactoryReviewView());
             MaiSearch<GvNode> search = new MaiSearch<>(launcher, getFactoryReviewView());
             MaiLogout<GvNode> logout = new MaiLogout<>();
 
-            return new MenuFeed<>(newReview, search, logout);
+            return new MenuFeed<>(newReview, bookmarks, search, logout);
         }
     }
 }

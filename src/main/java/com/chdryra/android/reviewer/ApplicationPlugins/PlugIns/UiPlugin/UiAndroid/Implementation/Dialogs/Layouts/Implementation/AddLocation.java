@@ -207,7 +207,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onLocated(Location location, CallbackMessage message) {
-        if(!message.isError()) {
+        if(message.isOk()) {
             onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
         }
     }

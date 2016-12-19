@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -51,6 +52,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements MutableRepository {
+    private static final String BOOKMARKS = Strings.Playlists.BOOKMARKS;
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
     private final FactoryFbPlaylist mPlaylistFactory;
@@ -81,8 +83,8 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
     }
 
     @Override
-    public Playlist getPlaylist(String name) {
-        return mPlaylistFactory.newPlaylist(getDataBase(), name, getStructure().getAuthorId());
+    public Playlist getBookmarks() {
+        return mPlaylistFactory.newPlaylist(getDataBase(), BOOKMARKS, getStructure().getAuthorId());
     }
 
     private void getReviewEntry(ReviewId id, ValueEventListener onReviewFound) {

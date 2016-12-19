@@ -363,7 +363,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private void setCriteria(View v) {
-        mCriteria = newDataUi(v, CRITERIA, Strings.FORMATTED.CRITERIA, GvCriterion.TYPE,
+        mCriteria = newDataUi(v, CRITERIA, Strings.Formatted.CRITERIA, GvCriterion.TYPE,
                 getConverter().newConverterCriteria(), VhCriterionFormatted.class,
                 new ViewUi.ValueGetter<RefDataList<DataCriterion>>() {
                     @Override
@@ -374,7 +374,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private void setFacts(View v) {
-        mFacts = newDataUi(v, FACTS, Strings.FORMATTED.FACTS, GvFact.TYPE,
+        mFacts = newDataUi(v, FACTS, Strings.Formatted.FACTS, GvFact.TYPE,
                 getConverter().newConverterFacts(), VhFactFormatted.class,
                 new ViewUi.ValueGetter<RefDataList<DataFact>>() {
                     @Override
@@ -385,7 +385,7 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     }
 
     private void setLocations(View v) {
-        mLocations = newDataUi(v, LOCATIONS, Strings.FORMATTED.LOCATIONS, GvLocation.TYPE,
+        mLocations = newDataUi(v, LOCATIONS, Strings.Formatted.LOCATIONS, GvLocation.TYPE,
                 getConverter().newConverterLocations(), VhLocationFormatted.class,
                 new ViewUi.ValueGetter<RefDataList<DataLocation>>() {
                     @Override
@@ -398,12 +398,12 @@ public class FragmentFormatReview extends Fragment implements ReviewNode.NodeObs
     private void setAuthor(View v) {
         AuthorReference reference = mRepo.getAuthorsRepository().getReference(mNode.getAuthorId());
         AuthorGetter getter = new AuthorGetter(reference);
-        mAuthor = newTextUi(v, AUTHOR, Strings.FORMATTED.AUTHOR, launchAuthor(), getter);
+        mAuthor = newTextUi(v, AUTHOR, Strings.Formatted.AUTHOR, launchAuthor(), getter);
         getter.setUiAndDereference(mAuthor);
     }
 
     private void setDate(View v) {
-        mDate = newTextUi(v, DATE, Strings.FORMATTED.DATE, launchAuthor(),
+        mDate = newTextUi(v, DATE, Strings.Formatted.DATE, launchAuthor(),
                 new ViewUi.ValueGetter<String>() {
                     @Override
                     public String getValue() {

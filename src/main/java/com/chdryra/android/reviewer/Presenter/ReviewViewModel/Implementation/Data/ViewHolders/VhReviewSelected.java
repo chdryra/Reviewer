@@ -195,7 +195,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void setHeadline(IdableList<DataComment> value) {
         String headline = DataFormatter.getHeadlineQuote(value);
-        if(headline.length() == 0) headline = Strings.FORMATTED.NO_COMMENT;
+        if(headline.length() == 0) headline = Strings.Formatted.NO_COMMENT;
         mHeadline.setText(headline);
     }
 

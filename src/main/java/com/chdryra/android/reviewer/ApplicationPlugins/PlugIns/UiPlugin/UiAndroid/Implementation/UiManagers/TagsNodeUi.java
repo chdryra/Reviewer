@@ -55,7 +55,7 @@ public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> {
             getView().setText(DataFormatter.formatTags(data, MAX_TAGS, null));
         } else {
             getView().setTypeface(getView().getTypeface(), Typeface.ITALIC);
-            getView().setText(Strings.FORMATTED.NO_TAGS);
+            getView().setText(Strings.Formatted.NO_TAGS);
         }
     }
 }

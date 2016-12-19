@@ -124,7 +124,7 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
             @Override
             public void onSorted(CallbackMessage message) {
                 if(callback != null) callback.onSorted(message);
-                if(!message.isError()) notifyDataObservers();
+                if(message.isOk()) notifyDataObservers();
             }
         });
     }

@@ -43,7 +43,7 @@ public class AuthorSearchAdapter extends ReviewViewAdapterImpl<GvAuthor>
             @Override
             public void onAuthors(List<NamedAuthor> suggestions, CallbackMessage message) {
                 GvAuthorList data;
-                if(!message.isError()) {
+                if(message.isOk()) {
                     data = mConverter.convert(suggestions, null);
                 } else {
                     data = new GvAuthorList();

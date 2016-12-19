@@ -20,14 +20,17 @@ import com.chdryra.android.reviewer.R;
 public class MenuFeed<T extends GvData> extends MenuActionNone<T> {
     private static final int MENU = R.menu.menu_feed;
     private static final int LOGOUT = R.id.menu_item_logout;
+    private static final int BOOKMARKS = R.id.menu_item_bookmarks;
     private static final int SEARCH = R.id.menu_item_search;
     private static final int NEW_REVIEW = R.id.menu_item_new_review;
 
     public MenuFeed(MenuActionItem<T> newReview,
+                    MenuActionItem<T> bookmarks,
                     MenuActionItem<T> search,
                     MenuActionItem<T> logout) {
         super(MENU, "", false);
         bindMenuActionItem(newReview, NEW_REVIEW, false);
+        bindMenuActionItem(bookmarks, BOOKMARKS, false);
         bindMenuActionItem(search, SEARCH, false);
         bindMenuActionItem(logout, LOGOUT, false);
     }

@@ -78,8 +78,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public ReviewNode getMetaReview(AuthorId id) {
-        return mReviewsFactory.createAuthorsTree(id, getReviewsForAuthor(id), mAuthorsRepo,
-                Strings.REVIEWS_LIST.REVIEWS_STEM);
+        return getMetaReview(getReviewsForAuthor(id), id, Strings.ReviewsList.REVIEWS);
     }
 
     @Override
@@ -119,6 +118,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public ReviewNode getMetaReview(IdableCollection<?> data, String subject) {
         return newAsyncMetaReview(data, subject);
+    }
+
+    @Override
+    public ReviewNode getMetaReview(ReferencesRepository repo, AuthorId owner, String subject) {
+        return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
     }
 
     @NonNull

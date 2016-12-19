@@ -127,7 +127,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     @Override
     public void onLogOut(UserAccount account, CallbackMessage message) {
         CurrentScreen screen = getUi().getCurrentScreen();
-        if (!message.isError()) {
+        if (message.isOk()) {
             getUi().getConfig().getLogin().launch();
             screen.close();
         } else {

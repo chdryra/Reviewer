@@ -38,7 +38,7 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
             public RefCommentList getValue() {
                 return node.getComments();
             }
-        }, Strings.FORMATTED.COMMENT);
+        }, Strings.Formatted.COMMENT);
 
         setOnClickCommand(onClick);
 
@@ -58,13 +58,13 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
     protected void updateView(IdableList<DataComment> data) {
         getValueView().setText(DataFormatter.formatComments(data));
         String headline = data.size() > 0 ?
-                DataFormatter.getHeadlineQuote(data) : Strings.FORMATTED.DASHES;
+                DataFormatter.getHeadlineQuote(data) : Strings.Formatted.DASHES;
         mHeadline.setText(headline);
     }
 
     @Override
     protected void setEmpty() {
         getValueView().setTypeface(getValueView().getTypeface(), Typeface.ITALIC);
-        getValueView().setText(Strings.FORMATTED.NONE);
+        getValueView().setText(Strings.Formatted.NONE);
     }
 }
