@@ -35,6 +35,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -227,6 +228,12 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
         } else {
             callback.onEntryReady(null);
         }
+    }
+
+    @Override
+    protected void onChildRemoved(DataSnapshot dataSnapshot, ReviewsSubscriber subscriber) {
+        ReviewId id = mItemConverter.convert(dataSnapshot);
+        if(id != null) subscriber.onReferenceInvalidated(id);
     }
 
     private static class PlaylistStructure implements FbReviews {

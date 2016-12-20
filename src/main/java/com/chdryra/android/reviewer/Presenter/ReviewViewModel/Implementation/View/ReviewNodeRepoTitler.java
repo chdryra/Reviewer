@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  */
 public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.TitleBinder {
     private final DataReviewInfo mMeta;
-    private final NodeTitler mTitler;
 
     public ReviewNodeRepoTitler(DataReviewInfo meta,
                                 ReferencesRepository repo,
@@ -32,8 +31,7 @@ public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.T
                                 NodeTitler titler) {
         super(meta, repo, referenceFactory, nodeFactory);
         mMeta = meta;
-        mTitler = titler;
-        mTitler.bind(this);
+        titler.bind(this);
     }
 
     @Override

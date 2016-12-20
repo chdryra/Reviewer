@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 
-
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
@@ -25,4 +25,6 @@ public interface ReviewsSubscriber {
     void onReviewEdited(ReviewReference reference);
 
     void onReviewRemoved(ReviewReference reference);
+
+    void onReferenceInvalidated(ReviewId reviewId);
 }

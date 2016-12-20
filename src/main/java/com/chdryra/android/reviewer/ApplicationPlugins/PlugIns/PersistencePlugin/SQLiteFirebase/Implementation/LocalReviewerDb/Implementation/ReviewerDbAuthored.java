@@ -97,6 +97,13 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
     }
 
     @Override
+    public void onReferenceInvalidated(ReviewId reviewId) {
+        for (ReviewsSubscriber subscriber : mSubscribers) {
+            subscriber.onReferenceInvalidated(reviewId);
+        }
+    }
+
+    @Override
     public void getReference(ReviewId reviewId, final RepositoryCallback callback) {
         mRepo.getReference(reviewId, new RepositoryCallback() {
             @Override

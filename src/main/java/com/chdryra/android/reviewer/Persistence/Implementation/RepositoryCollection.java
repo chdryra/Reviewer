@@ -93,6 +93,12 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
         }
     }
 
+    private void notifyOnInvalidated(ReviewId reviewId) {
+        for (ReviewsSubscriber subscriber: mSubscribers) {
+            subscriber.onReferenceInvalidated(reviewId);
+        }
+    }
+
     private void notifyOnEdit(ReviewReference reference) {
         for (ReviewsSubscriber subscriber: mSubscribers) {
             subscriber.onReviewEdited(reference);
@@ -209,9 +215,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
 
         @Override
         public void onReviewEdited(ReviewReference reference) {
-            if(!mLocked) {
-                notifyOnEdit(reference);
-            }
+            if(!mLocked) notifyOnEdit(reference);
         }
 
         @Override
@@ -219,6 +223,14 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
             if(!mLocked) {
                 mReviews.remove(reference.getReviewId());
                 notifyOnRemove(reference);
+            }
+        }
+
+        @Override
+        public void onReferenceInvalidated(ReviewId reviewId) {
+            if(!mLocked) {
+                mReviews.remove(reviewId);
+                notifyOnInvalidated(reviewId);
             }
         }
 

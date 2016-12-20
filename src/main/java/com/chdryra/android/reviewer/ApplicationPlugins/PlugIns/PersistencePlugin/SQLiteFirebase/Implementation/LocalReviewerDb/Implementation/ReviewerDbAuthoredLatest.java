@@ -84,6 +84,16 @@ public class ReviewerDbAuthoredLatest implements ReferencesRepository, ReviewsSu
     }
 
     @Override
+    public void onReferenceInvalidated(ReviewId reviewId) {
+        if(reviewId == mLatest.getReviewId()) {
+            for (ReviewsSubscriber subscriber : mSubscribers) {
+                subscriber.onReferenceInvalidated(reviewId);
+            }
+            mLatest = null;
+        }
+    }
+
+    @Override
     public void getReference(ReviewId reviewId, final RepositoryCallback callback) {
         RepositoryResult repoResult;
         if(reviewId.equals(mLatest.getReviewId())) {

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
@@ -55,6 +56,11 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     @Override
     public void onReviewRemoved(ReviewReference reference) {
         removeChild(reference.getReviewId());
+    }
+
+    @Override
+    public void onReferenceInvalidated(ReviewId reviewId) {
+        removeChild(reviewId);
     }
 
     private void addChild(ReviewReference review) {

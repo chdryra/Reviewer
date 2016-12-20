@@ -117,12 +117,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                newReference(dataSnapshot, new ReferenceReadyCallback() {
-                    @Override
-                    public void onReferenceReady(ReviewReference reference) {
-                        if(reference != null) subscriber.onReviewRemoved(reference);
-                    }
-                });
+                FbReferencesRepositoryBasic.this.onChildRemoved(dataSnapshot, subscriber);
             }
 
             @Override
@@ -135,6 +130,15 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
             }
         };
+    }
+
+    protected void onChildRemoved(DataSnapshot dataSnapshot, final ReviewsSubscriber subscriber) {
+        newReference(dataSnapshot, new ReferenceReadyCallback() {
+            @Override
+            public void onReferenceReady(ReviewReference reference) {
+                if(reference != null) subscriber.onReviewRemoved(reference);
+            }
+        });
     }
 
     @NonNull
