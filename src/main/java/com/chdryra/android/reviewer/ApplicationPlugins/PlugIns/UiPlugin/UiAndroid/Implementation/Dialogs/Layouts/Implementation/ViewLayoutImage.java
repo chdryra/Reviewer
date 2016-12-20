@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
 
+
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -19,9 +21,9 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewLayoutImage extends DialogLayoutBasic<GvImage> {
-    private static final int LAYOUT = R.layout.dialog_image_view;
-    private static final int IMAGE = R.id.photo_image_view;
-    private static final int CAPTION = R.id.caption_text_view;
+    public static final int LAYOUT = R.layout.dialog_image_view;
+    public static final int IMAGE = R.id.photo_image_view;
+    public static final int CAPTION = R.id.caption_text_view;
 
     public ViewLayoutImage() {
         super(new LayoutHolder(LAYOUT, IMAGE, CAPTION));
@@ -30,7 +32,7 @@ public class ViewLayoutImage extends DialogLayoutBasic<GvImage> {
     //Overridden
     @Override
     public void updateLayout(GvImage image) {
-        android.widget.ImageView imageView = (android.widget.ImageView) getView(IMAGE);
+        ImageView imageView = (android.widget.ImageView) getView(IMAGE);
         TextView imageCaption = (TextView) getView(CAPTION);
 
         imageView.setImageBitmap(image.getBitmap());

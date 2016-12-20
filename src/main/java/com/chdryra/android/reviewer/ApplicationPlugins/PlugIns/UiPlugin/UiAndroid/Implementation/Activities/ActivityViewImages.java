@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+
 
 
 import android.os.Bundle;
@@ -18,16 +18,12 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeComparatorMostRecent;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.FormattedPagerAdapter;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentViewImage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeDataPagerAdapter;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -36,20 +32,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityFormatReview extends FragmentActivity implements LaunchableUi,
-        OptionSelectListener {
-    private static final String TAG = TagKeyGenerator.getTag(ActivityFormatReview.class);
+public class ActivityViewImages extends FragmentActivity implements LaunchableUi,
+        NodeDataPagerAdapter.FragmentFactory<FragmentViewImage> {
+    private static final String TAG = TagKeyGenerator.getTag(ActivityViewImages.class);
     private static final String RETAIN_VIEW
-            = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
+            = TagKeyGenerator.getKey(ActivityViewImages.class, "RetainView");
     private static final int LAYOUT = R.layout.view_pager;
     private static final int PAGER = R.id.pager;
 
-    private FormattedPagerAdapter mAdapter;
+    private NodeDataPagerAdapter<DataImage, FragmentViewImage> mAdapter;
     private ViewPager mPager;
-
-    public ReviewNode getNode(ReviewId id) {
-        return mAdapter.getNode(id);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +54,15 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         ReviewNode node = app.unpackNode(args);
         if (node == null) throwNoReview();
 
-        boolean isPublished = NodeLauncher.isPublished(args);
-
         mPager = (ViewPager) findViewById(PAGER);
-        mAdapter = new FormattedPagerAdapter(node, new NodeComparatorMostRecent(),
-                getSupportFragmentManager(), isPublished);
+        mAdapter = new NodeDataPagerAdapter<>(getSupportFragmentManager(), node.getImages(), this);
         mPager.setAdapter(mAdapter);
         mPager.addOnLayoutChangeListener(new Titler(app.getUi()));
+    }
+
+    @Override
+    public FragmentViewImage newFragment(String pageId, int position) {
+        return FragmentViewImage.newInstance(pageId, position);
     }
 
     @Override
@@ -88,19 +82,13 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     }
 
     @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        FragmentFormatReview fragment = getVisibleFragment();
-        return fragment != null && fragment.onOptionSelected(requestCode, option);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
     }
 
     @Nullable
-    private FragmentFormatReview getVisibleFragment() {
+    private FragmentViewImage getVisibleFragment() {
         return mAdapter.getFragment(mPager.getCurrentItem());
     }
 
@@ -118,12 +106,8 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         @Override
         public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int
                 i6, int i7) {
-            FragmentFormatReview fragment = getVisibleFragment();
-            if (fragment != null) {
-                String title = fragment.isPublished() ?
-                        mAdapter.getTitle(fragment) : Strings.Screens.PREVIEW;
-                mUi.getCurrentScreen().setTitle(title);
-            }
+            FragmentViewImage fragment = getVisibleFragment();
+            if (fragment != null) mUi.getCurrentScreen().setTitle(mAdapter.getTitle(fragment));
         }
     }
 }
