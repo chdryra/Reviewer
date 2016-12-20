@@ -29,9 +29,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Persistence.Implementation.PlaylistDeleter;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -50,7 +52,9 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     private final String mName;
     private final AuthorId mAuthorId;
     private final FbReviewsStructure mStructure;
-    private final BackendInfoConverter mConverter;
+    private final ReferencesRepository mMasterRepo;
+    private final BackendInfoConverter mInfoConverter;
+    private final ConverterPlaylistItem mItemConverter;
 
     public FbPlaylist(Firebase dataBase,
                       FbReviewsStructure structure,
@@ -58,13 +62,17 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                       FactoryFbReviewReference referencer,
                       String name,
                       AuthorId authorId,
-                      BackendInfoConverter converter) {
+                      ReferencesRepository masterRepo,
+                      BackendInfoConverter infoConverter,
+                      ConverterPlaylistItem itemConverter) {
         super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,
                 referencer);
         mName = name;
         mAuthorId = authorId;
         mStructure = structure;
-        mConverter = converter;
+        mMasterRepo = masterRepo;
+        mInfoConverter = infoConverter;
+        mItemConverter = itemConverter;
     }
 
     @Override
@@ -98,6 +106,22 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                 .addListenerForSingleValueEvent(checkForEntry(callback));
     }
 
+    @Override
+    protected void getReviewListEntry(DataSnapshot dataSnapshot, EntryReadyCallback callback) {
+        if (dataSnapshot.getValue() == null) {
+            callback.onEntryReady(null);
+            return;
+        }
+
+        ReviewId reviewId = mItemConverter.convert(dataSnapshot);
+        if(reviewId == null) {
+            callback.onEntryReady(null);
+            return;
+        }
+        
+        mMasterRepo.getReference(reviewId, getEntryOrDeleteIfGone(reviewId, callback));
+    }
+
     @NonNull
     private ValueEventListener checkForEntry(final PlaylistCallback callback) {
         return new ValueEventListener() {
@@ -116,26 +140,10 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
         };
     }
 
-    private void update(ReviewId reviewId,
-                        final DbUpdater.UpdateType updateType,
-                        final PlaylistCallback callback) {
-        getReference(reviewId, new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                if (result.isReference()) {
-                    updatePlaylist(result, updateType, callback);
-                } else {
-                    notifyCallback(result.getMessage(), updateType, callback);
-                }
-            }
-        });
-    }
-
-    private void updatePlaylist(RepositoryResult result, DbUpdater.UpdateType updateType,
-                                PlaylistCallback callback) {
-        ReviewListEntry entry = mConverter.convert(result.getReference());
-        Map<String, Object> map = getUpdatesMap(entry, updateType);
-        getDataBase().updateChildren(map, newListener(callback, updateType));
+    private void update(ReviewId reviewId, DbUpdater.UpdateType updateType, PlaylistCallback
+            callback) {
+        Map<String, Object> updates = getUpdatesMap(reviewId, updateType);
+        getDataBase().updateChildren(updates, updateDoneListener(callback, updateType));
     }
 
     private void notifyCallback(CallbackMessage message,
@@ -159,8 +167,8 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @NonNull
-    private Firebase.CompletionListener newListener(final PlaylistCallback callback,
-                                                    final DbUpdater.UpdateType updateType) {
+    private Firebase.CompletionListener updateDoneListener(final PlaylistCallback callback,
+                                                           final DbUpdater.UpdateType updateType) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -172,16 +180,35 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @NonNull
-    private Map<String, Object> getUpdatesMap(ReviewListEntry entry, DbUpdater.UpdateType type) {
-        return mStructure.getPlaylistUpdater(mName, mAuthorId).getUpdatesMap(entry, type);
+    private Map<String, Object> getUpdatesMap(ReviewId reviewId, DbUpdater.UpdateType type) {
+        return mStructure.getPlaylistUpdater(mName, mAuthorId).getUpdatesMap(reviewId, type);
     }
 
-    /**
-     * Created by: Rizwan Choudrey
-     * On: 18/12/2016
-     * Email: rizwan.choudrey@gmail.com
-     */
-    public static class PlaylistStructure implements FbReviews {
+    @NonNull
+    private RepositoryCallback getEntryOrDeleteIfGone(final ReviewId id,
+                                                      final EntryReadyCallback callback) {
+        return new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                if (result.isReference()) {
+                    callback.onEntryReady(mInfoConverter.convert(result.getReference()));
+                } else {
+                    PlaylistDeleter deleter
+                            = new PlaylistDeleter(id, FbPlaylist.this, new PlaylistDeleter
+                            .DeleteCallback() {
+                        @Override
+                        public void onDeletedFromPlaylist(String playlistName, CallbackMessage
+                                message) {
+                            callback.onEntryReady(null);
+                        }
+                    });
+                    deleter.delete();
+                }
+            }
+        };
+    }
+
+    private static class PlaylistStructure implements FbReviews {
         private final String mPlaylistName;
         private final AuthorId mPlaylistOwner;
         private final FbReviewsStructure mRootStructure;

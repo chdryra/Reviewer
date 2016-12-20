@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Implementation.PlaylistDeleter;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
@@ -108,26 +107,12 @@ public class BackendRepoService extends IntentService {
 
     private void requestBackendService(Service service) {
         final ReviewId id = new DatumReviewId(mReviewId);
+        Callbacks callbacks = new Callbacks();
         if (service == Service.UPLOAD) {
-            mToken = mPublisher.getFromQueue(id, new Callbacks(), this);
+            mToken = mPublisher.getFromQueue(id, callbacks, this);
         } else if (service == Service.DELETE) {
-            deleteFromBookmarksThenRepo(id);
+            mRepo.removeReview(id, callbacks);
         }
-    }
-
-    private void deleteFromBookmarksThenRepo(final ReviewId id) {
-        PlaylistDeleter deleter = new PlaylistDeleter(id,
-                mRepo.getBookmarks(), new PlaylistDeleter.DeleteCallback() {
-            @Override
-            public void onDeletedFromPlaylist(String playlistName, CallbackMessage message) {
-                if(message.isOk()) {
-                    mRepo.removeReview(id, new Callbacks());
-                } else {
-                    broadcastDeleteComplete(message);
-                }
-            }
-        });
-        deleter.delete();
     }
 
     private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {

@@ -12,8 +12,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructurePlaylist;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.StructurePlaylist;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 import java.util.Map;
 
@@ -22,16 +25,16 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructurePlaylistNames extends DbStructureBasic<ReviewListEntry> implements StructurePlaylist {
+public class StructurePlaylistNames extends DbStructureBasic<ReviewId> implements StructurePlaylist {
     public StructurePlaylistNames(String path) {
         setPathToStructure(path);
     }
 
     @NonNull
     @Override
-    public Map<String, Object> getUpdatesMap(ReviewListEntry entry, UpdateType updateType) {
+    public Map<String, Object> getUpdatesMap(ReviewId reviewId, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        updates.atPath(entry).putValue(true);
+        updates.atPath(reviewId).putValue(true);
 
         return updates.toMap();
     }

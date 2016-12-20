@@ -86,10 +86,10 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public DbUpdater<ReviewListEntry> getPlaylistUpdater(final String name, final AuthorId authorId) {
+    public DbUpdater<ReviewId> getPlaylistUpdater(final String name, final AuthorId authorId) {
         StructurePlaylist playlist = new StructurePlaylistImpl(pathToPlaylist(name, authorId));
         StructurePlaylistNames names = new StructurePlaylistNames(pathToPlaylistNamesIndex(name, authorId));
-        StructureBuilder<ReviewListEntry> builderPlaylist = new StructureBuilder<>();
+        StructureBuilder<ReviewId> builderPlaylist = new StructureBuilder<>();
         return builderPlaylist.add(playlist).add(names).build();
     }
 

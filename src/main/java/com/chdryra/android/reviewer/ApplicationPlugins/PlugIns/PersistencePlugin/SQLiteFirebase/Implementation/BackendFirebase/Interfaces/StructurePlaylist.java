@@ -9,10 +9,11 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
+
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 import java.util.Map;
 
@@ -21,8 +22,8 @@ import java.util.Map;
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructurePlaylist extends DbStructure<ReviewListEntry> {
+public interface StructurePlaylist extends DbStructure<ReviewId> {
     @NonNull
     @Override
-    Map<String, Object> getUpdatesMap(ReviewListEntry entry, UpdateType updateType);
+    Map<String, Object> getUpdatesMap(ReviewId reviewId, UpdateType updateType);
 }

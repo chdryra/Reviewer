@@ -19,6 +19,7 @@ import com.firebase.client.DataSnapshot;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SnapshotConverter<T> {
+    //TODO move SnapshotConverters into relevant DbStructures as implicitly use the structures
     @Nullable
     T convert(DataSnapshot snapshot);
 }

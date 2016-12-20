@@ -97,8 +97,12 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ReviewReference reference = newReference(dataSnapshot);
-                if(reference != null) subscriber.onReviewAdded(reference);
+                newReference(dataSnapshot, new ReferenceReadyCallback() {
+                    @Override
+                    public void onReferenceReady(ReviewReference reference) {
+                        if(reference != null) subscriber.onReviewAdded(reference);
+                    }
+                });
             }
 
             @Override
@@ -108,8 +112,12 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                ReviewReference reference = newReference(dataSnapshot);
-                if(reference != null) subscriber.onReviewRemoved(reference);
+                newReference(dataSnapshot, new ReferenceReadyCallback() {
+                    @Override
+                    public void onReferenceReady(ReviewReference reference) {
+                        if(reference != null) subscriber.onReviewRemoved(reference);
+                    }
+                });
             }
 
             @Override
@@ -129,14 +137,18 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ReviewReference reference = newReference(dataSnapshot);
-                RepositoryResult result;
-                if(reference != null) {
-                    result= new RepositoryResult(reference);
-                } else {
-                    result = new RepositoryResult(CallbackMessage.error("Reference not found"));
-                }
-                callback.onRepositoryCallback(result);
+                newReference(dataSnapshot, new ReferenceReadyCallback() {
+                    @Override
+                    public void onReferenceReady(ReviewReference reference) {
+                        RepositoryResult result;
+                        if(reference != null) {
+                            result= new RepositoryResult(reference);
+                        } else {
+                            result = new RepositoryResult(CallbackMessage.error("Reference not found"));
+                        }
+                        callback.onRepositoryCallback(result);
+                    }
+                });
             }
 
             @Override
@@ -148,11 +160,34 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
         };
     }
 
+    private interface ReferenceReadyCallback {
+        void onReferenceReady(@Nullable ReviewReference reference);
+    }
+
+
+    protected interface EntryReadyCallback {
+        void onEntryReady(@Nullable ReviewListEntry entry);
+    }
+
     @Nullable
-    private ReviewReference newReference(DataSnapshot dataSnapshot) {
-        ReviewListEntry entry = mEntryConverter.convert(dataSnapshot);
-        return entry != null ?
-                mReferencer.newReview(entry.toInverseDate(), getReviewDb(entry), getAggregatesDb(entry)) : null;
+    private void newReference(DataSnapshot dataSnapshot, final ReferenceReadyCallback callback) {
+        getReviewListEntry(dataSnapshot, new EntryReadyCallback() {
+            @Override
+            public void onEntryReady(@Nullable ReviewListEntry entry) {
+                ReviewReference reference = entry != null ?
+                        mReferencer.newReview(entry.toInverseDate(), getReviewDb(entry), getAggregatesDb(entry)) : null;
+                callback.onReferenceReady(reference);
+            }
+        });
+    }
+
+    protected void getReviewListEntry(DataSnapshot dataSnapshot, EntryReadyCallback callback) {
+        callback.onEntryReady(convertToEntry(dataSnapshot));
+    }
+
+    @Nullable
+    private ReviewListEntry convertToEntry(DataSnapshot dataSnapshot) {
+        return mEntryConverter.convert(dataSnapshot);
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

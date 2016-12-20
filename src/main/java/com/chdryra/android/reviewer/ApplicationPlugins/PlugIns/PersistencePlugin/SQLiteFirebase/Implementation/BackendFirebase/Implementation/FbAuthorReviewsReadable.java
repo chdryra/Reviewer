@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.firebase.client.Firebase;
-import com.firebase.client.Query;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,19 +51,5 @@ public class FbAuthorReviewsReadable extends FbReferencesRepositoryBasic {
     @NonNull
     private DatumReviewId getReviewId(ReviewListEntry entry) {
         return new DatumReviewId(entry.getReviewId());
-    }
-
-    public static class MostRecent extends FbAuthorReviewsReadable {
-        public MostRecent(Firebase dataBase,
-                          FbAuthorsReviews structure,
-                          SnapshotConverter<ReviewListEntry> entryConverter,
-                          FactoryFbReviewReference referencer) {
-            super(dataBase, structure, entryConverter, referencer);
-        }
-
-        @Override
-        protected Query getQuery(Firebase entriesDb) {
-            return entriesDb.orderByChild(ReviewListEntry.DATE).limitToFirst(1);
-        }
     }
 }

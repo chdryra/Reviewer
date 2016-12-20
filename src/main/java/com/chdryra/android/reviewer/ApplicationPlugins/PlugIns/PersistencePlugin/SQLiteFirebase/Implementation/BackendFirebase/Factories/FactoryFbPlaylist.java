@@ -13,6 +13,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Factories.BackendInfoConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ConverterPlaylistItem;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbPlaylist;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
@@ -22,6 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.firebase.client.Firebase;
 
 /**
@@ -33,18 +36,24 @@ import com.firebase.client.Firebase;
 public class FactoryFbPlaylist {
     private final FbReviewsStructure mStructure;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private final BackendInfoConverter mInfoConvter;
+    private final BackendInfoConverter mInfoConverter;
     private final FactoryFbReviewReference mReferencer;
+    private ReferencesRepository mMasterRepo;
 
     public FactoryFbPlaylist(FbReviewsStructure structure, SnapshotConverter<ReviewListEntry>
-            entryConverter, BackendInfoConverter infoConvter, FactoryFbReviewReference referencer) {
+            entryConverter, BackendInfoConverter infoConverter, FactoryFbReviewReference referencer) {
         mStructure = structure;
         mEntryConverter = entryConverter;
-        mInfoConvter = infoConvter;
+        mInfoConverter = infoConverter;
         mReferencer = referencer;
     }
 
+    public void setMasterRepo(ReferencesRepository masterRepo) {
+        mMasterRepo = masterRepo;
+    }
+
     public Playlist newPlaylist(Firebase root, String name, AuthorId authorId) {
-        return new FbPlaylist(root, mStructure, mEntryConverter, mReferencer, name, authorId, mInfoConvter);
+        return new FbPlaylist(root, mStructure, mEntryConverter, mReferencer, name, authorId,
+                mMasterRepo, mInfoConverter, new ConverterPlaylistItem());
     }
 }

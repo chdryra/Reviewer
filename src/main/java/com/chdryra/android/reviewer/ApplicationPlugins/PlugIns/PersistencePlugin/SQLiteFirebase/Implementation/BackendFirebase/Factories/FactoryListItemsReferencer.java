@@ -14,8 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.CommentsConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterComments;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -67,7 +66,7 @@ public class FactoryListItemsReferencer {
     public ListItemsReferencer<DataComment, RefComment> newSentencesReferencer
             (final RefComment parent) {
         final SnapshotConverter<DataComment> converter =
-                new CommentsConverter.SentenceConverter(parent.getReviewId(),
+                new ConverterComments.SentenceConverter(parent.getReviewId(),
                         new ConverterComment.ConverterSentence(), parent.isHeadline());
         return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment, RefComment>() {
             @Override

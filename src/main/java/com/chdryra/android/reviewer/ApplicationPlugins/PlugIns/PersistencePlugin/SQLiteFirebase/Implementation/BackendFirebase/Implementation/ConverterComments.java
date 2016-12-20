@@ -23,10 +23,10 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentsConverter extends IdableListConverter<DataComment> implements SnapshotConverter<IdableList<DataComment>> {
+public class ConverterComments extends IdableListConverter<DataComment> implements SnapshotConverter<IdableList<DataComment>> {
     protected ReviewId mId;
 
-    public CommentsConverter(ReviewId id, ConverterComment commentConverter) {
+    public ConverterComments(ReviewId id, ConverterComment commentConverter) {
         super(id, commentConverter);
     }
 
