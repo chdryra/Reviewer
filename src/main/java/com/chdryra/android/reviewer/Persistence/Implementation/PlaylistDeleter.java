@@ -25,7 +25,7 @@ public class PlaylistDeleter implements PlaylistCallback {
     private final DeleteCallback mCallback;
 
     public interface DeleteCallback {
-        void onDeletedFromPlaylist(String playlistName, CallbackMessage message);
+        void onDeletedFromPlaylist(String playlistName, ReviewId reviewId, CallbackMessage message);
     }
 
     public PlaylistDeleter(ReviewId reviewId, Playlist playlist, DeleteCallback callback) {
@@ -45,14 +45,14 @@ public class PlaylistDeleter implements PlaylistCallback {
 
     @Override
     public void onRemovedFromPlaylistCallback(CallbackMessage message) {
-        mCallback.onDeletedFromPlaylist(mPlaylist.getName(), message);
+        mCallback.onDeletedFromPlaylist(mPlaylist.getName(), mReviewId, message);
     }
 
     @Override
     public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
         if (!hasReview && message.isOk()) {
             String name = mPlaylist.getName();
-            mCallback.onDeletedFromPlaylist(name, CallbackMessage.ok(mReviewId + " not in " + name));
+            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok("Review  not in " + name));
         } else {
             mPlaylist.removeEntry(mReviewId, this);
         }

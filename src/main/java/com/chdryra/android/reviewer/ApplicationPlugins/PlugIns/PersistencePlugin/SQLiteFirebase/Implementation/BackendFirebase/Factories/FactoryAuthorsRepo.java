@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorReviewsMutable;
@@ -18,6 +19,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.firebase.client.Firebase;
 
@@ -50,7 +52,9 @@ public class FactoryAuthorsRepo {
     }
 
     public MutableRepository newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
+        Playlist bookmarks = mPlaylistFactory.newPlaylist(root, Strings.Playlists.BOOKMARKS,
+                authorsDb.getAuthorId());
         return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
-                mValidator, mReferencer, mPlaylistFactory);
+                mValidator, mReferencer, bookmarks);
     }
 }

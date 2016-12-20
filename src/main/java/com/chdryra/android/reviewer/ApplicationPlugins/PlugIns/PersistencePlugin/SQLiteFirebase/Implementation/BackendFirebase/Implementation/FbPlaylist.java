@@ -40,6 +40,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -55,6 +56,7 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     private final ReferencesRepository mMasterRepo;
     private final BackendInfoConverter mInfoConverter;
     private final ConverterPlaylistItem mItemConverter;
+    private final ArrayList<ReviewId> mStealthDeletion;
 
     public FbPlaylist(Firebase dataBase,
                       FbReviewsStructure structure,
@@ -73,6 +75,7 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
         mMasterRepo = masterRepo;
         mInfoConverter = infoConverter;
         mItemConverter = itemConverter;
+        mStealthDeletion = new ArrayList<>();
     }
 
     @Override
@@ -114,11 +117,16 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
         }
 
         ReviewId reviewId = mItemConverter.convert(dataSnapshot);
-        if(reviewId == null) {
+        if (reviewId == null) {
             callback.onEntryReady(null);
             return;
         }
-        
+
+        if(mStealthDeletion.contains(reviewId)) {
+            callback.onEntryReady(null);
+            return;
+        }
+
         mMasterRepo.getReference(reviewId, getEntryOrDeleteIfGone(reviewId, callback));
     }
 
@@ -193,19 +201,32 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                 if (result.isReference()) {
                     callback.onEntryReady(mInfoConverter.convert(result.getReference()));
                 } else {
-                    PlaylistDeleter deleter
-                            = new PlaylistDeleter(id, FbPlaylist.this, new PlaylistDeleter
-                            .DeleteCallback() {
-                        @Override
-                        public void onDeletedFromPlaylist(String playlistName, CallbackMessage
-                                message) {
-                            callback.onEntryReady(null);
-                        }
-                    });
-                    deleter.delete();
+                    deleteFromPlaylistIfNecessary(result, id, callback);
                 }
             }
         };
+    }
+
+    private void deleteFromPlaylistIfNecessary(RepositoryResult result,
+                                               final ReviewId id,
+                                               final EntryReadyCallback callback) {
+        if (result.isError() && result.getMessage().equals(NULL_AT_SOURCE)) {
+            mStealthDeletion.add(id);
+            PlaylistDeleter deleter
+                    = new PlaylistDeleter(id, FbPlaylist.this, new PlaylistDeleter
+                    .DeleteCallback() {
+                @Override
+                public void onDeletedFromPlaylist(String playlistName,
+                                                  ReviewId reviewId,
+                                                  CallbackMessage message) {
+                    mStealthDeletion.remove(reviewId);
+                    callback.onEntryReady(null);
+                }
+            });
+            deleter.delete();
+        } else {
+            callback.onEntryReady(null);
+        }
     }
 
     private static class PlaylistStructure implements FbReviews {

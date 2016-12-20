@@ -40,6 +40,11 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class FbReferencesRepositoryBasic implements ReferencesRepository {
+    protected static final CallbackMessage NULL_AT_SOURCE
+            = CallbackMessage.error("Null at source");
+    private static final CallbackMessage REFERENCING_ERROR
+            = CallbackMessage.error("Referencing error");
+
     private final Firebase mDataBase;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FbReviews mStructure;
@@ -81,7 +86,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
-        doSingleEvent(entry, newGetReferenceListener(callback));
+        doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
     }
 
     Firebase getDataBase() {
@@ -133,18 +138,24 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     }
 
     @NonNull
-    private ValueEventListener newGetReferenceListener(final RepositoryCallback callback) {
+    private ValueEventListener newGetReferenceListener(final ReviewId reviewId,
+                                                       final RepositoryCallback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() == null) {
+                    callback.onRepositoryCallback(new RepositoryResult(reviewId, NULL_AT_SOURCE));
+                    return;
+                }
+
                 newReference(dataSnapshot, new ReferenceReadyCallback() {
                     @Override
                     public void onReferenceReady(ReviewReference reference) {
                         RepositoryResult result;
                         if(reference != null) {
-                            result= new RepositoryResult(reference);
+                            result = new RepositoryResult(reference);
                         } else {
-                            result = new RepositoryResult(CallbackMessage.error("Reference not found"));
+                            result = new RepositoryResult(reviewId, REFERENCING_ERROR);
                         }
                         callback.onRepositoryCallback(result);
                     }
@@ -154,7 +165,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 BackendError error = FirebaseBackend.backendError(firebaseError);
-                callback.onRepositoryCallback(new RepositoryResult(CallbackMessage.error(error
+                callback.onRepositoryCallback(new RepositoryResult(reviewId, CallbackMessage.error(error
                         .getMessage())));
             }
         };
