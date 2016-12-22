@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -59,11 +60,13 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         ReviewNode node = app.unpackNode(args);
         if (node == null) throwNoReview();
+        int index = NodeLauncher.getIndex(args);
 
         mPager = (ViewPager) findViewById(PAGER);
         mAdapter = new NodeDataPagerAdapter<>(getSupportFragmentManager(), getData(node), this);
         mPager.setAdapter(mAdapter);
         mPager.addOnLayoutChangeListener(new FragmentInitialiser(app.getUi()));
+        mPager.setCurrentItem(index);
     }
 
     @Override

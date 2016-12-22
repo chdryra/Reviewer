@@ -32,6 +32,7 @@ public class LaunchablesHolder implements LaunchablesList {
     private final Class<? extends LaunchableUi> mMapperEdit;
     private final Class<? extends LaunchableUi> mMapperView;
     private final Class<? extends LaunchableUi> mMapperNode;
+    private final Class<? extends LaunchableUi> mImagesViewer;
     private final Class<? extends LaunchableUi> mPublish;
     private final Class<? extends LaunchableUi> mOptions;
 
@@ -46,6 +47,7 @@ public class LaunchablesHolder implements LaunchablesList {
                              Class<? extends LaunchableUi> mapperEdit,
                              Class<? extends LaunchableUi> mapperView,
                              Class<? extends LaunchableUi> mapperNode,
+                             Class<? extends LaunchableUi> imagesViewer,
                              Class<? extends LaunchableUi> publish,
                              Class<? extends LaunchableUi> options,
                              Class<? extends Activity> defaultActivity) {
@@ -57,6 +59,7 @@ public class LaunchablesHolder implements LaunchablesList {
         mMapperEdit = mapperEdit;
         mMapperView = mapperView;
         mMapperNode = mapperNode;
+        mImagesViewer = imagesViewer;
         mPublish = publish;
         mOptions = options;
         mDefaultActivity = defaultActivity;
@@ -105,6 +108,11 @@ public class LaunchablesHolder implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getMapperNode() {
         return mMapperNode;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getImagesViewer() {
+        return mImagesViewer;
     }
 
     @Override

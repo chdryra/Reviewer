@@ -38,7 +38,7 @@ public class AddEditTag extends AddEditLayoutBasic<GvTag> {
     }
 
     @Override
-    public void updateLayout(GvTag tag) {
+    public void updateView(GvTag tag) {
         ((EditText) getView(TAG)).setText(tag.getString());
     }
 }

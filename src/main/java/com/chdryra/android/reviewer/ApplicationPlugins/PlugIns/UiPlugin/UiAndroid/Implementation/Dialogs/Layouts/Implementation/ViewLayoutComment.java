@@ -27,7 +27,7 @@ public class ViewLayoutComment extends DialogLayoutBasic<GvComment> {
     }
 
     @Override
-    public void updateLayout(GvComment comment) {
+    public void updateView(GvComment comment) {
         ((TextView) getView(COMMENT)).setText(comment.getFormattedComment());
     }
 }

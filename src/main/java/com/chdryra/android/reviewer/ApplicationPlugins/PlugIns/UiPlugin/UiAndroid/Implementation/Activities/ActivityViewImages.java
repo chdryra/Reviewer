@@ -67,7 +67,7 @@ public class ActivityViewImages extends ActivityDataPager<DataImage, ActivityVie
         }
 
         @Override
-        public DatumLayoutView<GvImage> newViewLayout() {
+        public DatumLayoutView<GvImage> newView() {
             return new ViewLayoutImage();
         }
 

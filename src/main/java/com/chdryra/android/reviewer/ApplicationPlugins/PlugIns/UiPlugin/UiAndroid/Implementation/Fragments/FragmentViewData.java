@@ -18,16 +18,11 @@ import android.view.ViewGroup;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityDataPager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Interfaces.DatumLayoutView;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.MenuUpAppLevel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.NodeDataPagerAdapter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityDataPager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeDataPagerAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
@@ -35,8 +30,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiUpAppLevel;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -61,7 +55,7 @@ public abstract class FragmentViewData<DataType extends HasReviewId, T extends G
 
     public abstract DataConverter<DataType, T, ?> getConverter();
 
-    public abstract DatumLayoutView<T> newViewLayout();
+    public abstract DatumLayoutView<T> newView();
 
     public FragmentViewData(GvDataType<T> dataType) {
         mDataType = dataType;
@@ -98,8 +92,8 @@ public abstract class FragmentViewData<DataType extends HasReviewId, T extends G
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mLayout = newViewLayout();
         mConverter = getConverter();
+        mLayout = newView();
         return mLayout.createLayoutUi(getActivity(), null);
     }
 
@@ -120,7 +114,7 @@ public abstract class FragmentViewData<DataType extends HasReviewId, T extends G
         data.dereference(new DataReference.DereferenceCallback<DataType>() {
             @Override
             public void onDereferenced(DataValue<DataType> value) {
-                if (value.hasValue()) mLayout.updateLayout(mConverter.convert(value.getData()));
+                if (value.hasValue()) mLayout.updateView(mConverter.convert(value.getData()));
             }
         });
     }

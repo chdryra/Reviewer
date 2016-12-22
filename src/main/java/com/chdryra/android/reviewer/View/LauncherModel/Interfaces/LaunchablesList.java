@@ -37,6 +37,8 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getMapperNode();
 
+    Class<? extends LaunchableUi> getImagesViewer();
+
     Class<? extends LaunchableUi> getPublish();
 
     Class<? extends LaunchableUi> getOptions();

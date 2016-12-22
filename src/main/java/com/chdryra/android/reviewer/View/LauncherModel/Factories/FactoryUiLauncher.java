@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -45,15 +46,14 @@ public class FactoryUiLauncher {
                                          FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
                                          UiConfig config) {
-
-        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, repository);
-
         List<NodeLauncher<?>> launchers = new ArrayList<>();
         launchers.add(newLauncher(config, GvNode.TYPE));
         launchers.add(newLauncher(config, GvLocation.TYPE));
+        launchers.add(newLauncher(config, GvImage.TYPE));
         ReviewLauncherImpl reviewLauncher
                 = new ReviewLauncherImpl(masterRepo, launchers, viewFactory);
 
+        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, repository);
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
     }
 

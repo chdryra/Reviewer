@@ -40,7 +40,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.ViewDataParameters;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryActionsPublish;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
@@ -54,11 +53,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryActionsViewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
+        .FactoryActionsViewImages;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryActionsViewLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryActionsViewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories
+        .ViewDataParameters;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -68,11 +71,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterLocations;
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
@@ -118,7 +122,7 @@ public class FactoryReviewView {
     private final ReviewsSource mReviewsRepo;
     private final AuthorsRepository mAuthorsRepo;
     private final DataComparatorsApi mComparators;
-    private final GvConverterLocations mLocationsConverter;
+    private final ConverterGv mConverter;
 
     public FactoryReviewView(UiConfig config,
                              FactoryReviewViewAdapter adapterFactory,
@@ -129,7 +133,7 @@ public class FactoryReviewView {
                              ReviewsSource reviewsRepo,
                              AuthorsRepository authorsRepo,
                              DataComparatorsApi comparators,
-                             GvConverterLocations locationsConverter) {
+                             ConverterGv converter) {
         mConfig = config;
         mAdapterFactory = adapterFactory;
         mEditorFactory = editorFactory;
@@ -139,7 +143,7 @@ public class FactoryReviewView {
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mComparators = comparators;
-        mLocationsConverter = locationsConverter;
+        mConverter = converter;
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
@@ -326,10 +330,13 @@ public class FactoryReviewView {
             factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>) params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
             factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params,
-                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mLocationsConverter);
+                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter.newConverterLocations());
+        } else if (dataType.equals(GvImage.Reference.TYPE) && node != null) {
+            factory = new FactoryActionsViewImages((ViewDataParameters<GvImage.Reference>) params,
+                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter.newConverterImages());
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
-        } else if (dataType.equals(GvBucket.TYPE)) {
+        } else if (dataType.equals(GvBucket.TYPE) && node != null) {
             factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node);
         } else {
             factory = new FactoryActionsViewData<>(params);

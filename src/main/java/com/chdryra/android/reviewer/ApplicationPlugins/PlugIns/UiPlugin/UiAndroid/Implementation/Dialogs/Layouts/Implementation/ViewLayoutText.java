@@ -27,7 +27,7 @@ public class ViewLayoutText<T extends GvData> extends DialogLayoutBasic<T> {
     }
 
     @Override
-    public void updateLayout(GvData datum) {
+    public void updateView(GvData datum) {
         ((TextView) getView(TEXT)).setText(datum.toString());
     }
 }

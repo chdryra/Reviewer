@@ -43,7 +43,7 @@ public class LayoutEditImage extends AddEditLayoutBasic<GvImage> {
     }
 
     @Override
-    public void updateLayout(GvImage image) {
+    public void updateView(GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

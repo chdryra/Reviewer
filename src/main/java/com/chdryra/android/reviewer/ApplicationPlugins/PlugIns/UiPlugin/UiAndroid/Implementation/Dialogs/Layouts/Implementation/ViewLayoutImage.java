@@ -31,7 +31,7 @@ public class ViewLayoutImage extends DialogLayoutBasic<GvImage> {
 
     //Overridden
     @Override
-    public void updateLayout(GvImage image) {
+    public void updateView(GvImage image) {
         ImageView imageView = (android.widget.ImageView) getView(IMAGE);
         TextView imageCaption = (TextView) getView(CAPTION);
 

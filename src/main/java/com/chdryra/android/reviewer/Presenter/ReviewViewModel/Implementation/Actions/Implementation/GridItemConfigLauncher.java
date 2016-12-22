@@ -16,12 +16,10 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonical;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -47,19 +45,12 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     @Override
     public void onLongClickExpandable(T item, int position, View v, ReviewViewAdapter<?>
             expanded) {
-        GvData datum = item;
-        //TODO get rid of this instanceof
-        if (item instanceof GvCanonical) {
-            GvCanonical canonical = (GvCanonical) item;
-            datum = canonical.size() == 1 ? canonical.getItem(0) : canonical.getCanonical();
-        }
-
-        launchViewerIfPossible(datum);
+        launchViewerIfPossible(item, position);
     }
 
     @Override
     public void onClickNotExpandable(T item, int position, View v) {
-        launchViewerIfPossible(item);
+        launchViewerIfPossible(item, position);
     }
 
     @Override
@@ -67,7 +58,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         onClickNotExpandable(item, position, v);
     }
 
-    private void launchViewerIfPossible(GvData item) {
+    protected void launchViewerIfPossible(T item, int position) {
         if (item.isCollection() || mDataConfig == null || item.getParcelable() == null) return;
         Bundle bundle = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), bundle);

@@ -32,5 +32,5 @@ public interface DatumLayoutView<T extends GvData> {
 
     void initialise(T data);
 
-    void updateLayout(T data);
+    void updateView(T data);
 }

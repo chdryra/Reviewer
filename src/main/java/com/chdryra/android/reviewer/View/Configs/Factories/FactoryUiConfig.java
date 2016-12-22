@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.Configs.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
@@ -38,8 +39,10 @@ public class FactoryUiConfig {
     private static final int BUILD = code("Build");
     private static final int FORMATTED = code("Formatted");
     private static final int EDIT_MAP = code("EditMap");
-    private static final int LOC_MAP = code("ViewMap");
+    private static final int LOC_MAP = code("LocationMap");
     private static final int NODE_MAP = code("NodeMap");
+    private static final int IMAGE_VIEW = code("ImageView");
+    private static final int IMAGES_VIEW = code("ImagesView");
     private static final int PUBLISH = code("Publish");
     private static final int OPTIONS = code("Options");
 
@@ -55,15 +58,17 @@ public class FactoryUiConfig {
         }
 
         Map<String, LaunchableConfig> bespokeEditors = new HashMap<>();
-        Map<String, LaunchableConfig> bespokeDataViewers = new HashMap<>();
-        Map<String, LaunchableConfig> bespokeDatumViewers = new HashMap<>();
-
         bespokeEditors.put(Review.TYPE_NAME, config(classes.getReviewBuild(), BUILD));
         bespokeEditors.put(DataLocation.TYPE_NAME, config(classes.getMapperEdit(), EDIT_MAP));
 
+        Map<String, LaunchableConfig> bespokeDataViewers = new HashMap<>();
         bespokeDataViewers.put(Review.TYPE_NAME, config(classes.getReviewFormatted(), FORMATTED));
         bespokeDataViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperNode(), NODE_MAP));
+        bespokeDataViewers.put(DataImage.TYPE_NAME, config(classes.getImagesViewer(), IMAGES_VIEW));
+
+        Map<String, LaunchableConfig> bespokeDatumViewers = new HashMap<>();
         bespokeDatumViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperLocation(), LOC_MAP));
+        bespokeDatumViewers.put(DataImage.TYPE_NAME, config(classes.getImagesViewer(), IMAGE_VIEW));
 
         LaunchableConfig login = config(classes.getLogin(), LOGIN);
         LaunchableConfig signUp = config(classes.getSignUp(), SIGN_UP);

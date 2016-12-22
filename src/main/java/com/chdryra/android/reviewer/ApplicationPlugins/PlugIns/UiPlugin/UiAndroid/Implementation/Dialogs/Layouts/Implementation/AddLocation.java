@@ -146,7 +146,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void updateLayout(GvLocation location) {
+    public void updateView(GvLocation location) {
         ((EditText) getView(NAME)).setText(location.getName());
     }
 

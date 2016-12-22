@@ -36,7 +36,7 @@ class LayoutHolder {
     }
 
     public void inflate(Context context) {
-        mInflated = android.view.LayoutInflater.from(context).inflate(mLayout, null);
+        mInflated = android.view.LayoutInflater.from(context).inflate(mLayout, null, false);
         if (mInflated != null) {
             for (int viewId : mUpdateableViewIds) {
                 mUpdateableViews.put(viewId, mInflated.findViewById(viewId));

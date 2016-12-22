@@ -31,7 +31,7 @@ public abstract class DialogLayoutBasic<T extends GvData> implements DatumLayout
 
     @Override
     public void initialise(T data) {
-        updateLayout(data);
+        updateView(data);
     }
 
     @Override

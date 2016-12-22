@@ -28,9 +28,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncher
  */
 
 public abstract class DialogBespokeLauncher<T extends GvDataParcelable> extends DialogGvDataView2Button<T> {
+    private final String mButtonTitle;
 
-    public DialogBespokeLauncher(GvDataType<T> dataType) {
+    public DialogBespokeLauncher(GvDataType<T> dataType, String buttonTitle) {
         super(dataType);
+        mButtonTitle = buttonTitle;
     }
 
     @Override
@@ -49,12 +51,12 @@ public abstract class DialogBespokeLauncher<T extends GvDataParcelable> extends 
         super.setDialogParameters();
         dismissDialogOnRightClick();
         setRightButtonAction(ActionType.OTHER);
-        setRightButtonText(Strings.Buttons.MAP);
+        setRightButtonText(mButtonTitle);
     }
 
     public static class ViewLocation extends DialogBespokeLauncher<GvLocation> {
         public ViewLocation() {
-            super(GvLocation.TYPE);
+            super(GvLocation.TYPE, Strings.Buttons.MAP);
         }
     }
 }

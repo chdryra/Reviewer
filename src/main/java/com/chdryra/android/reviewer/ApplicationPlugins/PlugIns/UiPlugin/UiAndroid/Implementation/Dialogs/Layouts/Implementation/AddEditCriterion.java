@@ -45,7 +45,7 @@ public class AddEditCriterion extends AddEditLayoutBasic<GvCriterion> {
     }
 
     @Override
-    public void updateLayout(GvCriterion data) {
+    public void updateView(GvCriterion data) {
         ((EditText) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

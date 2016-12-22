@@ -32,7 +32,7 @@ public class ViewLayoutCriterion extends DialogLayoutBasic<GvCriterion> {
 
     //Overridden
     @Override
-    public void updateLayout(GvCriterion data) {
+    public void updateView(GvCriterion data) {
         ((TextView) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }

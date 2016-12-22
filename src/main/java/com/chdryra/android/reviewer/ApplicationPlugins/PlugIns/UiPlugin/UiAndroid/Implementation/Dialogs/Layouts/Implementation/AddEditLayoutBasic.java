@@ -68,7 +68,7 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
 
     @Override
     public void clearViews() {
-        updateLayout(mNullingItem);
+        updateView(mNullingItem);
     }
 
     @Override
@@ -129,7 +129,7 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
         @Override
         public void initialise(T data) {
             mEditor.setDeleteTitle(data.toString());
-            updateLayout(data);
+            updateView(data);
         }
 
         @Override

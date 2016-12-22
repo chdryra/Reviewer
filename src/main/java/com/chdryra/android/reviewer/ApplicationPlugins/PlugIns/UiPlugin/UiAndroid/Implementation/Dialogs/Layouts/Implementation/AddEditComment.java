@@ -66,7 +66,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     }
 
     @Override
-    public void updateLayout(GvComment comment) {
+    public void updateView(GvComment comment) {
         mCurrent = comment;
         getComment().setText(mCurrent.getComment());
     }

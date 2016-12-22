@@ -28,7 +28,7 @@ public class ViewLayoutFact extends DialogLayoutBasic<GvFact> {
     }
 
     @Override
-    public void updateLayout(GvFact fact) {
+    public void updateView(GvFact fact) {
         ((TextView) getView(LABEL)).setText(fact.getLabel());
         ((TextView) getView(VALUE)).setText(fact.getValue());
     }

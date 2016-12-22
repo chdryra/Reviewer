@@ -28,7 +28,7 @@ public class ViewLayoutLocation extends DialogLayoutBasic<GvLocation> {
     }
 
     @Override
-    public void updateLayout(GvLocation locaton) {
+    public void updateView(GvLocation locaton) {
         ((TextView) getView(NAME)).setText(locaton.getName());
         ((TextView) getView(ADDRESS)).setText(locaton.getAddress());
     }

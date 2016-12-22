@@ -74,7 +74,7 @@ public class AddEditLayoutNull<T extends GvData> implements DatumLayoutEdit<T> {
     }
 
     @Override
-    public void updateLayout(T data) {
+    public void updateView(T data) {
 
     }
 

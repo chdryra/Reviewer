@@ -50,7 +50,7 @@ public class AddEditFact extends AddEditLayoutBasic<GvFact> {
     }
 
     @Override
-    public void updateLayout(GvFact fact) {
+    public void updateView(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();
