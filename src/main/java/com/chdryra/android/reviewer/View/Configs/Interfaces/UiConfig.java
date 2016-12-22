@@ -24,21 +24,17 @@ public interface UiConfig {
 
     LaunchableConfig getAdder(String datumName);
 
+    LaunchableConfig getBespokeViewer(String datumName);
+
+    LaunchableConfig getBespokeDatumViewer(String datumName);
+
+    LaunchableConfig getBespokeEditor(String datumName);
+
     LaunchableConfig getLogin();
 
     LaunchableConfig getSignUp();
 
     LaunchableConfig getFeed();
-
-    LaunchableConfig getBuildReview();
-
-    LaunchableConfig getFormattedReview();
-
-    LaunchableConfig getMapEditor();
-
-    LaunchableConfig getMapViewer();
-
-    LaunchableConfig getNodeMapper();
 
     LaunchableConfig getPublish();
 

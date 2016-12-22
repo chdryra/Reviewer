@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -24,11 +24,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemSummary extends GridItemLauncher<GvSize.Reference> {
-    private final LaunchFormattedCommand mCommand;
+    private final LaunchBespokeViewCommand mCommand;
 
     public GridItemSummary(UiLauncher launcher,
                            FactoryReviewView factory,
-                           LaunchFormattedCommand command) {
+                           LaunchBespokeViewCommand command) {
         super(launcher, factory);
         mCommand = command;
     }

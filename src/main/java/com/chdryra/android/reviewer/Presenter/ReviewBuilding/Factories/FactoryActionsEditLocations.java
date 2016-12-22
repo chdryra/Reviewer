@@ -38,14 +38,14 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
 
     @Override
     public BannerButtonAction<GvLocation> newBannerButton() {
-        return new BannerButtonAddLocation(getAdderConfig(), getUiConfig().getMapEditor(),
+        return new BannerButtonAddLocation(getAdderConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE),
                 getPacker());
     }
 
     @Override
     public GridItemAction<GvLocation> newGridItem() {
-        return new GridItemEditLocation(getEditorConfig(), getUiConfig().getMapEditor(),
+        return new GridItemEditLocation(getEditorConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
                 getPacker());
     }
 
@@ -53,6 +53,6 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
     public MenuAction<GvLocation> newMenu() {
         return new MenuEditLocations(newUpAction(), newDoneAction(), newDeleteAction(),
                 newPreviewAction(),
-                new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand()));
+                new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand(null)));
     }
 }

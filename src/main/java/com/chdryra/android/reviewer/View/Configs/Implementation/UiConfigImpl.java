@@ -28,44 +28,39 @@ import java.util.Map;
  * </p>
  */
 public final class UiConfigImpl implements UiConfig {
-    private final Map<String, DataConfigs<? extends GvData>> mConfigsMap;
+    private final Map<String, DataConfigs<? extends GvData>> mDataConfigsMap;
+    private final Map<String, LaunchableConfig> mBespokeEditorsMap;
+    private final Map<String, LaunchableConfig> mBespokeDataViewersMap;
+    private final Map<String, LaunchableConfig> mBespokeDatumViewersMap;
     private final LaunchableConfig mLogin;
     private final LaunchableConfig mSignUp;
     private final LaunchableConfig mFeed;
-    private final LaunchableConfig mBuildReview;
-    private final LaunchableConfig mFormattedReview;
-    private final LaunchableConfig mEditOnMap;
-    private final LaunchableConfig mViewOnMap;
-    private final LaunchableConfig mNodeMapper;
     private final LaunchableConfig mPublish;
     private final LaunchableConfig mOptions;
 
     private UiLauncher mLauncher;
 
     public UiConfigImpl(Iterable<? extends DataConfigs<?>> dataConfigs,
+                        Map<String, LaunchableConfig> bespokeEditorsMap,
+                        Map<String, LaunchableConfig> bespokeDataViewersMap,
+                        Map<String, LaunchableConfig> bespokeDatumViewersMap,
                         LaunchableConfig login,
                         LaunchableConfig signUp,
                         LaunchableConfig feed,
-                        LaunchableConfig buildReview,
-                        LaunchableConfig formattedReview,
-                        LaunchableConfig editOnMap,
-                        LaunchableConfig viewOnMap,
-                        LaunchableConfig nodeMapper,
                         LaunchableConfig publish,
                         LaunchableConfig options) {
-        mConfigsMap = new HashMap<>();
+        mDataConfigsMap = new HashMap<>();
         for (DataConfigs<?> dataConfig : dataConfigs) {
-            mConfigsMap.put(dataConfig.getGvDataType().getDatumName(), dataConfig);
+            mDataConfigsMap.put(dataConfig.getGvDataType().getDatumName(), dataConfig);
         }
+
+        mBespokeEditorsMap = bespokeEditorsMap;
+        mBespokeDataViewersMap = bespokeDataViewersMap;
+        mBespokeDatumViewersMap = bespokeDatumViewersMap;
 
         mLogin = login;
         mSignUp = signUp;
         mFeed = feed;
-        mBuildReview = buildReview;
-        mFormattedReview = formattedReview;
-        mEditOnMap = editOnMap;
-        mViewOnMap = viewOnMap;
-        mNodeMapper = nodeMapper;
         mPublish = publish;
         mOptions = options;
     }
@@ -91,6 +86,23 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
+    public LaunchableConfig getBespokeViewer(String datumName) {
+        return mBespokeDataViewersMap.get(datumName);
+    }
+
+    @Override
+    public LaunchableConfig getBespokeDatumViewer(String datumName) {
+        LaunchableConfig config = mBespokeDatumViewersMap.get(datumName);
+        return config != null ? config : getViewer(datumName);
+    }
+
+    @Override
+    public LaunchableConfig getBespokeEditor(String datumName) {
+        LaunchableConfig config = mBespokeEditorsMap.get(datumName);
+        return config != null ? config : getEditor(datumName);
+    }
+
+    @Override
     public LaunchableConfig getLogin() {
         return mLogin;
     }
@@ -103,31 +115,6 @@ public final class UiConfigImpl implements UiConfig {
     @Override
     public LaunchableConfig getFeed() {
         return mFeed;
-    }
-
-    @Override
-    public LaunchableConfig getBuildReview() {
-        return mBuildReview;
-    }
-
-    @Override
-    public LaunchableConfig getFormattedReview() {
-        return mFormattedReview;
-    }
-
-    @Override
-    public LaunchableConfig getMapEditor() {
-        return mEditOnMap;
-    }
-
-    @Override
-    public LaunchableConfig getMapViewer() {
-        return mViewOnMap;
-    }
-
-    @Override
-    public LaunchableConfig getNodeMapper() {
-        return mNodeMapper;
     }
 
     @Override
@@ -151,18 +138,23 @@ public final class UiConfigImpl implements UiConfig {
         mLogin.setLauncher(mLauncher);
         mSignUp.setLauncher(mLauncher);
         mFeed.setLauncher(mLauncher);
-        mBuildReview.setLauncher(mLauncher);
-        mFormattedReview.setLauncher(mLauncher);
-        mEditOnMap.setLauncher(mLauncher);
-        mViewOnMap.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);
-        for(DataConfigs<?> holder : mConfigsMap.values()) {
+        for(DataConfigs<?> holder : mDataConfigsMap.values()) {
             holder.setLauncher(mLauncher);
+        }
+        for(LaunchableConfig config : mBespokeEditorsMap.values()) {
+            config.setLauncher(launcher);
+        }
+        for(LaunchableConfig config : mBespokeDataViewersMap.values()) {
+            config.setLauncher(launcher);
+        }
+        for(LaunchableConfig config : mBespokeDatumViewersMap.values()) {
+            config.setLauncher(launcher);
         }
     }
 
     private DataConfigs<?> getConfigs(String datumName) {
-        return mConfigsMap.get(datumName);
+        return mDataConfigsMap.get(datumName);
     }
 }

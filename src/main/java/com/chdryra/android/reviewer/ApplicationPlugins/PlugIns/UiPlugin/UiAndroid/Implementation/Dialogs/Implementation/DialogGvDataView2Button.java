@@ -45,6 +45,10 @@ public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extend
         mDataType = dataType;
     }
 
+    public GvDataType<T> getDataType() {
+        return mDataType;
+    }
+
     @Override
     public String getLaunchTag() {
         return "View" + mDataType.getDatumName();

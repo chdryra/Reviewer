@@ -325,7 +325,8 @@ public class FactoryReviewView {
         if (dataType.equals(GvComment.Reference.TYPE)) {
             factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>) params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
-            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params, node, mConfig.getMapViewer(), mLocationsConverter);
+            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params,
+                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mLocationsConverter);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
         } else if (dataType.equals(GvBucket.TYPE)) {

@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchMappedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 
 
@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class MaiMapLocations extends MaiDataEditor<GvLocation> {
-    private LaunchMappedCommand mCommand;
+    private LaunchBespokeViewCommand mCommand;
 
-    public MaiMapLocations(LaunchMappedCommand command) {
+    public MaiMapLocations(LaunchBespokeViewCommand command) {
         mCommand = command;
     }
 

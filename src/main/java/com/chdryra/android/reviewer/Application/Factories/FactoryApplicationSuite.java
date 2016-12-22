@@ -71,7 +71,7 @@ public class FactoryApplicationSuite {
         LocationServicesSuiteAndroid location = newLocationServicesSuite(locationApi);
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         ReviewEditorSuiteAndroid editor = newReviewEditorSuite(presenter);
-        UiSuiteAndroid ui = newUiSuite(model, persistence, view, presenter, repo, editor);
+        UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, repo, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
         NetworkSuiteAndroid networkSuite = new NetworkSuiteAndroid(context);
 
@@ -110,8 +110,7 @@ public class FactoryApplicationSuite {
         return new SocialSuiteAndroid(social.getSocialPlatforms());
     }
 
-    private UiSuiteAndroid newUiSuite(ModelContext model,
-                                      PersistenceContext persistence,
+    private UiSuiteAndroid newUiSuite(PersistenceContext persistence,
                                       ViewContext view,
                                       PresenterContext presenter,
                                       RepositorySuite repo,
@@ -119,8 +118,7 @@ public class FactoryApplicationSuite {
         FactoryReviewView viewFactory = presenter.getReviewViewFactory();
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
-                viewFactory, persistence.getReviewsRepository(), uiConfig.getBuildReview(),
-                uiConfig.getFormattedReview(), uiConfig.getNodeMapper());
+                viewFactory, persistence.getReviewsRepository(), uiConfig);
 
         return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),
                 viewFactory, presenter.getGvConverter());

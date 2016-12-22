@@ -9,16 +9,24 @@
 package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.EditUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewLauncherImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,16 +44,21 @@ public class FactoryUiLauncher {
                                          ReviewEditorSuite builder,
                                          FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
-                                         LaunchableConfig buildConfig,
-                                         LaunchableConfig formatter,
-                                         LaunchableConfig nodeMapper) {
+                                         UiConfig config) {
 
-        EditUiLauncher buildUi = new EditUiLauncher(buildConfig, builder, repository);
-        NodeLauncher formatted = new NodeLauncher(formatter);
-        NodeLauncher mapped = new NodeLauncher(nodeMapper);
+        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, repository);
+
+        List<NodeLauncher<?>> launchers = new ArrayList<>();
+        launchers.add(newLauncher(config, GvNode.TYPE));
+        launchers.add(newLauncher(config, GvLocation.TYPE));
         ReviewLauncherImpl reviewLauncher
-                = new ReviewLauncherImpl(masterRepo, formatted, mapped, viewFactory);
+                = new ReviewLauncherImpl(masterRepo, launchers, viewFactory);
 
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
+    }
+
+    @NonNull
+    private <T extends GvData> NodeLauncher<T> newLauncher(UiConfig config, GvDataType<T> dataType) {
+        return new NodeLauncher<>(config.getBespokeViewer(dataType.getDatumName()), dataType);
     }
 }

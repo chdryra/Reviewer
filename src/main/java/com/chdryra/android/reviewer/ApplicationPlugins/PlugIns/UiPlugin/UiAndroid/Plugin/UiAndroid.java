@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySignUp;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogOptions;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogViewLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogBespokeLauncher;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.GvDataDialogs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -78,7 +78,7 @@ public class UiAndroid implements UiPlugin {
                     GvDataDialogs.EditFact.class, GvDataDialogs.ViewFact.class));
 
             addDataClasses(new DataLaunchables<>(GvLocation.TYPE, GvDataDialogs.AddLocation.class,
-                    GvDataDialogs.EditLocation.class, DialogViewLocation.class));
+                    GvDataDialogs.EditLocation.class, DialogBespokeLauncher.ViewLocation.class));
 
             addDataClasses(new DataLaunchables<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
                     ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));

@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 
@@ -21,15 +21,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemLaunchFormatted extends GridItemCommand<GvNode> {
-    public GridItemLaunchFormatted(LaunchFormattedCommand click,
-                                   ReviewOptionsSelector longClick) {
+public class GridItemLaunchNodeView extends GridItemCommand<GvNode> {
+    public GridItemLaunchNodeView(LaunchBespokeViewCommand click,
+                                  ReviewOptionsSelector longClick) {
         super(click, longClick, Strings.Progress.LOADING);
     }
 
     @Override
     public void onGridItemClick(GvNode item, int position, View v) {
-        ((LaunchFormattedCommand) getClick()).execute(item.getNode(), true);
+        ((LaunchBespokeViewCommand) getClick()).execute(item.getNode(), true);
     }
 
     @Override

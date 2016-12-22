@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -22,7 +23,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,38 +33,37 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLauncherImpl implements ReviewLauncher {
+    private static final String TYPE = TagKeyGenerator.getKey(ReviewLauncherImpl.class, "DataType");
     private final ReviewsSource mReviewsSource;
     private final FactoryReviewView mViewFactory;
-    private final NodeLauncher mFormatter;
-    private final NodeLauncher mNodeMapper;
-    private List<NodeDataLauncher<?>> mDataLaunchers;
+    private final Map<String, NodeLauncher<?>> mLaunchers;
 
-    private UiLauncher mLauncher;
+    private UiLauncher mUiLauncher;
     private AuthorId mSessionAuthor;
 
     public ReviewLauncherImpl(ReviewsSource reviewsSource,
-                              NodeLauncher formatter,
-                              NodeLauncher nodeMapper,
-                              List<NodeDataLauncher<?>> dataLaunchers,
+                              List<NodeLauncher<?>> nodeLaunchers,
                               FactoryReviewView viewFactory) {
         mReviewsSource = reviewsSource;
         mViewFactory = viewFactory;
-        mFormatter = formatter;
-        mNodeMapper = nodeMapper;
+        mLaunchers = new HashMap<>();
+        for(NodeLauncher<?> launcher : nodeLaunchers) {
+            mLaunchers.put(launcher.getDataType().getDatumName(), launcher);
+        }
     }
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
-        ReviewNode formatted = mFormatter.unpack(args);
-        if(formatted == null) return mNodeMapper.unpack(args);
-        return formatted;
+        NodeLauncher<?> launcher = mLaunchers.get(args.getString(TYPE));
+        return launcher != null ? launcher.unpack(args) : null;
     }
 
     @Override
-    public void setUiLauncher(UiLauncher launcher) {
-        mLauncher = launcher;
-        mFormatter.setUiLauncher(launcher);
-        mNodeMapper.setUiLauncher(launcher);
+    public void setUiLauncher(UiLauncher uiLauncher) {
+        mUiLauncher = uiLauncher;
+        for(NodeLauncher<?> launcher : mLaunchers.values()) {
+            launcher.setUiLauncher(uiLauncher);
+        }
     }
 
     @Override
@@ -87,26 +89,11 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchFormatted(ReviewNode node, boolean isPublished) {
-        mFormatter.launch(node, isPublished);
-    }
-
-    @Override
-    public void launchMap(ReviewNode node, boolean isPublished) {
-        mNodeMapper.launch(node, isPublished);
-    }
-
-    @Override
-    public void launchDataView(ReviewNode node, GvDataType<?> dataType, int datumIndex) {
-        NodeDataLauncher<?> launcher = null;
-        for(NodeDataLauncher<?> dataLauncher : mDataLaunchers) {
-            if(dataLauncher.isOfType(dataType)) {
-                launcher = dataLauncher;
-                break;
-            }
-        }
-
-        if(launcher != null) launcher.launch(node, datumIndex);
+    public void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean isPublished) {
+        Bundle bundle = new Bundle();
+        bundle.putString(TYPE, dataType.getDatumName());
+        NodeLauncher<?> launcher = mLaunchers.get(dataType.getDatumName());
+        if(launcher != null) launcher.launch(node, datumIndex, isPublished, bundle);
     }
 
     void setSessionAuthor(AuthorId authorId) {
@@ -118,7 +105,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     private void launchView(ReviewView<?> ui, int requestCode) {
-        mLauncher.launch(ui, new UiLauncherArgs(requestCode));
+        mUiLauncher.launch(ui, new UiLauncherArgs(requestCode));
     }
 
     private ReviewView<?> newListView(ReviewNode reviewNode) {

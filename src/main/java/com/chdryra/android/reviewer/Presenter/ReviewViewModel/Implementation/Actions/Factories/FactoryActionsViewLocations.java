@@ -15,8 +15,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .Implementation.GridItemLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchMappedCommand;
 
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -43,7 +45,7 @@ public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocati
 
     @Override
     public MenuAction<GvLocation.Reference> newMenu() {
-        LaunchMappedCommand command
+        LaunchBespokeViewCommand command
                 = getCommandsFactory().newLaunchMappedCommand(mNode);
         return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>(command));
     }

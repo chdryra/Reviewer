@@ -98,7 +98,7 @@ public class LaunchablesHolder implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUi> getMapperView() {
+    public Class<? extends LaunchableUi> getMapperLocation() {
         return mMapperView;
     }
 

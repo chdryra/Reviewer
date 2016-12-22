@@ -31,8 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Subj
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -85,7 +84,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public MenuAction<GC> newMenu() {
-        LaunchFormattedCommand command = mFactoryCommands.newLaunchFormattedCommand();
+        LaunchBespokeViewCommand command = mFactoryCommands.newLaunchFormattedCommand(null);
         return new MenuReviewBuild<>(new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
     }

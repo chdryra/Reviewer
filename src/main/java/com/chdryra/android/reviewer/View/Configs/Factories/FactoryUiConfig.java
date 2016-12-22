@@ -8,16 +8,23 @@
 
 package com.chdryra.android.reviewer.View.Configs.Factories;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.View.Configs.Implementation.DataConfigs;
 import com.chdryra.android.reviewer.View.Configs.Implementation.DataLaunchables;
 import com.chdryra.android.reviewer.View.Configs.Implementation.LaunchableConfigImpl;
 import com.chdryra.android.reviewer.View.Configs.Implementation.UiConfigImpl;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,16 +32,20 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryUiConfig {
-    private static final int LOGIN = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Login");
-    private static final int SIGN_UP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "SignUp");
-    private static final int FEED = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Feed");
-    private static final int BUILD = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Build");
-    private static final int FORMATTED = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Formatted");
-    private static final int EDIT_MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "EditMap");
-    private static final int VIEW_MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "ViewMap");
-    private static final int NODE_MAP = RequestCodeGenerator.getCode(FactoryUiConfig.class, "NodeMap");
-    private static final int PUBLISH = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Publish");
-    private static final int OPTIONS = RequestCodeGenerator.getCode(FactoryUiConfig.class, "Options");
+    private static final int LOGIN = code("Login");
+    private static final int SIGN_UP = code("SignUp");
+    private static final int FEED = code("Feed");
+    private static final int BUILD = code("Build");
+    private static final int FORMATTED = code("Formatted");
+    private static final int EDIT_MAP = code("EditMap");
+    private static final int LOC_MAP = code("ViewMap");
+    private static final int NODE_MAP = code("NodeMap");
+    private static final int PUBLISH = code("Publish");
+    private static final int OPTIONS = code("Options");
+
+    private static int code(String login) {
+        return RequestCodeGenerator.getCode(FactoryUiConfig.class, login);
+    }
 
     public UiConfig newUiConfig(LaunchablesList classes) {
         ArrayList<DataConfigs<?>> dataConfigs = new ArrayList<>();
@@ -43,18 +54,29 @@ public class FactoryUiConfig {
             dataConfigs.add(new DataConfigs<>(uiClasses));
         }
 
-        LaunchableConfig login = new LaunchableConfigImpl(classes.getLogin(), LOGIN);
-        LaunchableConfig signUp = new LaunchableConfigImpl(classes.getSignUp(), SIGN_UP);
-        LaunchableConfig feed = new LaunchableConfigImpl(classes.getFeed(), FEED);
-        LaunchableConfig build = new LaunchableConfigImpl(classes.getReviewBuild(), BUILD);
-        LaunchableConfig formatted = new LaunchableConfigImpl(classes.getReviewFormatted(), FORMATTED);
-        LaunchableConfig editMap = new LaunchableConfigImpl(classes.getMapperEdit(), EDIT_MAP);
-        LaunchableConfig viewMap = new LaunchableConfigImpl(classes.getMapperView(), VIEW_MAP);
-        LaunchableConfig nodeMap = new LaunchableConfigImpl(classes.getMapperNode(), NODE_MAP);
-        LaunchableConfig publish = new LaunchableConfigImpl(classes.getPublish(), PUBLISH);
-        LaunchableConfig options = new LaunchableConfigImpl(classes.getOptions(), OPTIONS);
+        Map<String, LaunchableConfig> bespokeEditors = new HashMap<>();
+        Map<String, LaunchableConfig> bespokeDataViewers = new HashMap<>();
+        Map<String, LaunchableConfig> bespokeDatumViewers = new HashMap<>();
 
-        return new UiConfigImpl(dataConfigs, login, signUp, feed, build, formatted, editMap,
-                viewMap, nodeMap, publish, options);
+        bespokeEditors.put(Review.TYPE_NAME, config(classes.getReviewBuild(), BUILD));
+        bespokeEditors.put(DataLocation.TYPE_NAME, config(classes.getMapperEdit(), EDIT_MAP));
+
+        bespokeDataViewers.put(Review.TYPE_NAME, config(classes.getReviewFormatted(), FORMATTED));
+        bespokeDataViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperNode(), NODE_MAP));
+        bespokeDatumViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperLocation(), LOC_MAP));
+
+        LaunchableConfig login = config(classes.getLogin(), LOGIN);
+        LaunchableConfig signUp = config(classes.getSignUp(), SIGN_UP);
+        LaunchableConfig feed = config(classes.getFeed(), FEED);
+        LaunchableConfig publish = config(classes.getPublish(), PUBLISH);
+        LaunchableConfig options = config(classes.getOptions(), OPTIONS);
+
+        return new UiConfigImpl(dataConfigs, bespokeEditors, bespokeDataViewers,
+                bespokeDatumViewers, login, signUp, feed, publish, options);
+    }
+
+    @NonNull
+    private LaunchableConfigImpl config(Class<? extends LaunchableUi> reviewBuild, int build) {
+        return new LaunchableConfigImpl(reviewBuild, build);
     }
 }

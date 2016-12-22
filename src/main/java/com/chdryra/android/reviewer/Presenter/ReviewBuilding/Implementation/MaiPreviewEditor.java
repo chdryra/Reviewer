@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchFormattedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,9 +21,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 public class MaiPreviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         extends MaiEditor<GC> {
-    private LaunchFormattedCommand mCommand;
+    private LaunchBespokeViewCommand mCommand;
 
-    public MaiPreviewEditor(LaunchFormattedCommand command) {
+    public MaiPreviewEditor(LaunchBespokeViewCommand command) {
         mCommand = command;
     }
 
