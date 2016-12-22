@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Concerned with inflating layouts and
  * holding Views on some {@link GvData}.
  */
-class LayoutHolder {
+public class LayoutHolder {
     private final int mLayout;
     private final Integer[] mUpdateableViewIds;
     private final SparseArray<View> mUpdateableViews;

@@ -20,9 +20,12 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.NodeComparatorMostRecent;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.FormattedPagerAdapter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.NodeComparatorMostRecent;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.FormattedPagerAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
@@ -68,7 +71,9 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         mAdapter = new FormattedPagerAdapter(node, new NodeComparatorMostRecent(),
                 getSupportFragmentManager(), isPublished);
         mPager.setAdapter(mAdapter);
-        mPager.addOnLayoutChangeListener(new Titler(app.getUi()));
+        FragmentInitialiser fragmentInitialiser = new FragmentInitialiser(app.getUi());
+        mPager.addOnLayoutChangeListener(fragmentInitialiser);
+        mPager.addOnPageChangeListener(fragmentInitialiser);
     }
 
     @Override
@@ -108,16 +113,36 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         throw new RuntimeException("No review found");
     }
 
-    private class Titler implements ViewPager.OnLayoutChangeListener {
+    private class FragmentInitialiser implements ViewPager.OnLayoutChangeListener, ViewPager
+            .OnPageChangeListener {
         private UiSuite mUi;
 
-        private Titler(UiSuite ui) {
+        private FragmentInitialiser(UiSuite ui) {
             mUi = ui;
         }
 
         @Override
         public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int
                 i6, int i7) {
+            setTitle();
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            setTitle();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+
+        private void setTitle() {
             FragmentFormatReview fragment = getVisibleFragment();
             if (fragment != null) {
                 String title = fragment.isPublished() ?

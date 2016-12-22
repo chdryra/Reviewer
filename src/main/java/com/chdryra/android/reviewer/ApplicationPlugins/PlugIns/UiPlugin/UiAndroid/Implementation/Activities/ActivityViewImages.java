@@ -19,12 +19,12 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.ViewLayoutImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentViewData;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,6 +49,10 @@ public class ActivityViewImages extends ActivityDataPager<DataImage, ActivityVie
     }
 
     public static class FragmentViewImage extends FragmentViewData<DataImage, GvImage, FragmentViewImage> {
+        public static final int LAYOUT = R.layout.bespoke_image_view;
+        public static final int IMAGE = R.id.image_image_view;
+        public static final int CAPTION = R.id.caption_text_view;
+
         public static FragmentViewImage newInstance(String pageId) {
             Bundle args = new Bundle();
             args.putString(PAGE_ID, pageId);
@@ -68,7 +72,7 @@ public class ActivityViewImages extends ActivityDataPager<DataImage, ActivityVie
 
         @Override
         public DatumLayoutView<GvImage> newView() {
-            return new ViewLayoutImage();
+            return new ViewLayoutImage(LAYOUT, IMAGE, CAPTION, true);
         }
 
         @Override

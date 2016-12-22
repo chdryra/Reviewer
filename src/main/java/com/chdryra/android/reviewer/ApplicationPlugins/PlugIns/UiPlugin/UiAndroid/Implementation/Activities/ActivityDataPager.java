@@ -49,6 +49,10 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
 
     protected abstract RefDataList<Data> getData(ReviewNode node);
 
+    public void onFragmentReady(FragmentType fragment) {
+        mAdapter.onFragmentReady(fragment);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,10 +92,6 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         launcher.launch(getClass(), getLaunchTag());
     }
 
-    public void onFragmentReady(FragmentType fragment) {
-        mAdapter.onFragmentReady(fragment);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -107,7 +107,8 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         throw new RuntimeException("No review found");
     }
 
-    private class FragmentInitialiser implements ViewPager.OnLayoutChangeListener {
+    private class FragmentInitialiser implements ViewPager.OnLayoutChangeListener, ViewPager
+            .OnPageChangeListener {
         private UiSuite mUi;
 
         private FragmentInitialiser(UiSuite ui) {
@@ -117,6 +118,25 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         @Override
         public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int
                 i6, int i7) {
+            intialise();
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            intialise();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+
+        private void intialise() {
             FragmentType fragment = getVisibleFragment();
             if (fragment != null) mUi.getCurrentScreen().setTitle(mAdapter.getTitle(fragment));
         }

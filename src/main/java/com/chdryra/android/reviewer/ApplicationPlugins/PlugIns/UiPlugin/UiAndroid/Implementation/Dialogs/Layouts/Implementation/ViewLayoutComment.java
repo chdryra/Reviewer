@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.R;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewLayoutComment extends DialogLayoutBasic<GvComment> {
+public class ViewLayoutComment extends DatumLayoutBasic<GvComment> {
     private static final int LAYOUT = R.layout.dialog_text_view;
     private static final int COMMENT = R.id.medium_text_view;
 

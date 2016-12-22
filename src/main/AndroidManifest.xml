@@ -183,8 +183,7 @@
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewImages"
             android:configChanges="orientation"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Reviewer" >
+            android:screenOrientation="portrait">
         </activity>
 
         <!-- Social login -->

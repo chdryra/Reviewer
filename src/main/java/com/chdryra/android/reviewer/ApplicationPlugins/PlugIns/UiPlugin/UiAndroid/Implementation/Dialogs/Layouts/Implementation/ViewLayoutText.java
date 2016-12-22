@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.R;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewLayoutText<T extends GvData> extends DialogLayoutBasic<T> {
+public class ViewLayoutText<T extends GvData> extends DatumLayoutBasic<T> {
     private static final int LAYOUT = R.layout.dialog_text_view_large;
     private static final int TEXT = R.id.large_text_view;
 

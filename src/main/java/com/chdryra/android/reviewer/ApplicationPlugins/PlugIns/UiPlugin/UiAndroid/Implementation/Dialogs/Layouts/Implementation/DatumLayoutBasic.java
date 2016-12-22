@@ -22,10 +22,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogLayoutBasic<T extends GvData> implements DatumLayoutView<T> {
+public abstract class DatumLayoutBasic<T extends GvData> implements DatumLayoutView<T> {
     private final LayoutHolder mHolder;
 
-    DialogLayoutBasic(LayoutHolder holder) {
+    public DatumLayoutBasic(LayoutHolder holder) {
         mHolder = holder;
     }
 

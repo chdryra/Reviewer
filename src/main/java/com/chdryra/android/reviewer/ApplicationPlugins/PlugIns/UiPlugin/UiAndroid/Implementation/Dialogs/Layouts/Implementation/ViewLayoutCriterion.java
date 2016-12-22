@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.R;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewLayoutCriterion extends DialogLayoutBasic<GvCriterion> {
+public class ViewLayoutCriterion extends DatumLayoutBasic<GvCriterion> {
     private static final int LAYOUT = R.layout.dialog_criterion_view;
     private static final int SUBJECT = R.id.child_name_text_view;
     private static final int RATING = R.id.child_rating_bar;

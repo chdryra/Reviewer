@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.R;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewLayoutLocation extends DialogLayoutBasic<GvLocation> {
+public class ViewLayoutLocation extends DatumLayoutBasic<GvLocation> {
     private static final int LAYOUT = R.layout.dialog_location_view;
     private static final int NAME = R.id.name_text_view;
     private static final int ADDRESS = R.id.address_text_view;

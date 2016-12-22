@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  *
  * @param <T>: {@link GvData} type
  */
-public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutBasic<T>
+public abstract class AddEditLayoutBasic<T extends GvData> extends DatumLayoutBasic<T>
         implements DatumLayoutEdit<T> {
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
