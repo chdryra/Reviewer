@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,4 +30,6 @@ public interface ReviewLauncher extends UiLauncherWrapper {
     void launchFormatted(ReviewNode node, boolean isPublished);
 
     void launchMap(ReviewNode node, boolean isPublished);
+
+    void launchDataView(ReviewNode node, GvDataType<?> dataType, int datumIndex);
 }

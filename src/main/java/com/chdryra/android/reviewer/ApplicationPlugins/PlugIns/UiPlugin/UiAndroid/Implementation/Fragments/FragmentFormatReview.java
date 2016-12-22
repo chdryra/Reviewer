@@ -186,6 +186,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         setNode(args);
         setMenu();
 
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 

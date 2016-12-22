@@ -80,6 +80,10 @@ public abstract class PagerAdapterBasic<T extends PagerAdapterBasic.PageableFrag
         return position;
     }
 
+    protected SparseArray<T> getCachedFragments() {
+        return mFragments;
+    }
+
     public static abstract class PageableFragment extends Fragment {
         public abstract String getPageId();
     }

@@ -11,11 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.support.v4.app.FragmentManager;
-import android.util.SparseArray;
-import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentFormatReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -32,7 +29,6 @@ public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatRevie
     private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
     private final boolean mIsClickable;
-    private final SparseArray<FragmentFormatReview> mFragments;
 
     private boolean mIsSorted = false;
     private ArrayList<ReviewNode> mSortedNodes;
@@ -45,7 +41,6 @@ public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatRevie
         mNode = node;
         mComparator = comparator;
         mIsClickable = isClickable;
-        mFragments = new SparseArray<>();
         mNode.registerObserver(this);
     }
 
@@ -71,12 +66,6 @@ public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatRevie
     @Override
     protected FragmentFormatReview newFragmentInstance(int position) {
         return FragmentFormatReview.newInstance(getId(position), mIsClickable);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup group, int position, Object object) {
-        super.destroyItem(group, position, object);
-        mFragments.remove(position);
     }
 
     @Override

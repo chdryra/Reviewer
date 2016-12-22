@@ -85,6 +85,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void onChosenImage(GvImage image) {
         getEditor().setCover(image);
+        launchQuickSetEditor(image);
     }
 
     @Override

@@ -98,6 +98,7 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
 
+
         <!-- Share review -->
         <activity
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityPublishReview"
@@ -173,6 +174,15 @@
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_locations"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer" >
+        </activity>
+
+        <!-- View images -->
+        <activity
+            android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewImages"
+            android:configChanges="orientation"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Reviewer" >
         </activity>
