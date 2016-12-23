@@ -58,4 +58,10 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
         return args != null ?
                 packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppInstanceAndroid.setActivity(this);
+    }
 }

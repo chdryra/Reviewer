@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
@@ -29,6 +30,8 @@ public class FactoryReviewViewParams {
             ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
             ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
             params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);
+        } else if(dataType.equals(GvSize.Reference.TYPE)) {
+            params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
         }
 
         return params;

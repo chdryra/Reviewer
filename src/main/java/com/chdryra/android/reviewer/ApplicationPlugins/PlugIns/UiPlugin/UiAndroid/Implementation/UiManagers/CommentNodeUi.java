@@ -57,14 +57,13 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
     @Override
     protected void updateView(IdableList<DataComment> data) {
         getValueView().setText(DataFormatter.formatComments(data));
-        String headline = data.size() > 0 ?
-                DataFormatter.getHeadlineQuote(data) : Strings.Formatted.DASHES;
-        mHeadline.setText(headline);
+        mHeadline.setText(DataFormatter.getHeadlineQuote(data));
     }
 
     @Override
     protected void setEmpty() {
         getValueView().setTypeface(getValueView().getTypeface(), Typeface.ITALIC);
         getValueView().setText(Strings.Formatted.NONE);
+        mHeadline.setText(Strings.Formatted.DASHES);
     }
 }
