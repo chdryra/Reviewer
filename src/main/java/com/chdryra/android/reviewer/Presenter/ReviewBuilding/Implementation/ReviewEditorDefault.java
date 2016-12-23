@@ -79,8 +79,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mModeListeners = new ArrayList<>();
 
         mCurrentSubject = mAdapter.getSubject();
-
-        newIncrementor();
     }
 
     @Override
@@ -139,6 +137,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public ImageChooser newImageChooser() {
+        if(mIncrementor == null) newIncrementor();
         return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 

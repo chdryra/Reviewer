@@ -86,7 +86,8 @@ public class UiLauncherAndroid implements UiLauncher {
 
     @Override
     public void launchImageChooser(ImageChooser chooser, int requestCode) {
-        mCommissioner.startActivityForResult(chooser.getChooserIntents(), requestCode);
+        Intent chooserIntents = chooser.getChooserIntents();
+        mCommissioner.startActivityForResult(chooserIntents, requestCode);
     }
 
     @Override

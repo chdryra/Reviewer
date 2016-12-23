@@ -64,7 +64,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
-    private TextView mPublishDate;
+    private TextView mFooter;
 
     private ReviewId mNodeId;
     private ReviewReference mReview;
@@ -120,7 +120,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
         if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
         if (mTags == null) mTags = (TextView) getView(TAGS);
-        if (mPublishDate == null) mPublishDate = (TextView) getView(STAMP);
+        if (mFooter == null) mFooter = (TextView) getView(STAMP);
     }
 
     private void setNode(GvNode gvNode) {
@@ -140,9 +140,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mSubject.setText(node.getSubject().getSubject());
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
         mImage.setImageBitmap(getImagePlaceHolder());
-        mHeadline.setText(null);
-        mTags.setText(null);
-        mPublishDate.setText(null);
+        mHeadline.setText("");
+        mTags.setText("");
+        mFooter.setText("");
         mAuthor = null;
         mLocation = null;
     }
@@ -171,7 +171,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
             String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
-            mPublishDate.setText(text);
+            mFooter.setText(text);
         }
     }
 
@@ -185,7 +185,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     }
 
     private void setCover(DataImage cover) {
-        if(cover.getBitmap() != null) mImage.setImageBitmap(cover.getBitmap());
+        Bitmap bitmap = cover.getBitmap();
+        bitmap = bitmap != null ? bitmap : getImagePlaceHolder();
+        mImage.setImageBitmap(bitmap);
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {

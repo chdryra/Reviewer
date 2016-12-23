@@ -22,7 +22,7 @@ import java.io.File;
  */
 public class ReleaseDeviceContext implements DeviceContext {
     private static final File FILE_DIR_EXT = Environment
-            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
     private final String mImageDir;
 
     public ReleaseDeviceContext(Context context) {

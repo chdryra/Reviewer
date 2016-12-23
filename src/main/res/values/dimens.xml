@@ -17,7 +17,7 @@
     <dimen name="formatted_value_padding_bottom">10dp</dimen>
     <dimen name="formatted_value_padding_left">10dp</dimen>
     <dimen name="formatted_value_padding_right">10dp</dimen>
-    <dimen name="formatted_image_padding">10dp</dimen>
+    <dimen name="formatted_image_padding">2dp</dimen>
 
     <dimen name="grid_item_text_padding">5dp</dimen>
     <dimen name="grid_view_left_padding">2dp</dimen>

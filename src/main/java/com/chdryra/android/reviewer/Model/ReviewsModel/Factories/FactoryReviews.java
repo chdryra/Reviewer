@@ -230,23 +230,16 @@ public class FactoryReviews implements ReviewMaker {
     private IdableList<DataImage> getImages(ReviewId id, Iterable<? extends DataImage> images,
                                             DataDate mdDate, IdableList<DataLocation> mdLocations) {
         DataImage cover = null;
-        int coverIndex = 0;
         for (DataImage datum : images) {
             cover = datum;
-            if (datum.isCover()) {
-                cover = datum;
-                break;
-            }
-            coverIndex++;
+            if (datum.isCover()) break;
         }
 
         IdableList<DataImage> mdImages = new IdableDataList<>(id);
         if (cover != null) mdImages.add(getDatumImage(id, mdDate, mdLocations, cover, true));
-        int index = 0;
         for (DataImage datum : images) {
-            if (index == coverIndex) continue;
-            DatumImage datumImage = getDatumImage(id, mdDate, mdLocations, datum);
-            mdImages.add(datumImage);
+            if (datum.equals(cover)) continue;
+            mdImages.add(getDatumImage(id, mdDate, mdLocations, datum));
         }
         return mdImages;
     }
