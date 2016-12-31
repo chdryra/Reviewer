@@ -68,9 +68,9 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
 
         mPager = (ViewPager) findViewById(PAGER);
         mAdapter = new NodeDataPagerAdapter<>(getSupportFragmentManager(), getData(node), this);
+        mPager.setCurrentItem(index);
         mPager.setAdapter(mAdapter);
         mPager.addOnLayoutChangeListener(new FragmentInitialiser(app.getUi()));
-        mPager.setCurrentItem(index);
     }
 
     @Override

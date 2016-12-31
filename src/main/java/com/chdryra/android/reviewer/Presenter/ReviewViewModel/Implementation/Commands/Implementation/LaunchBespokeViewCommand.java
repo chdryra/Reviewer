@@ -45,6 +45,10 @@ public class LaunchBespokeViewCommand extends Command {
         onExecutionComplete();
     }
 
+    public void execute(int datumIndex) {
+        execute(mNode, datumIndex, true);
+    }
+
     @Override
     public void execute() {
         execute(mNode, 0, true);

@@ -10,7 +10,9 @@
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout style="@style/LinearLayoutVertical.GridCell">
+    <!--Have to put wrap content here as not rendering properly on Android 5+ otherwise-->
+    <LinearLayout style="@style/LinearLayoutVertical.GridCell"
+                  android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/review_subject"

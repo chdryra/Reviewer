@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 
 public class NodeLauncher<T extends GvData> extends PackingLauncherImpl<ReviewNode> {
-    private static final String PUBLISHED = TagKeyGenerator.getTag(NodeLauncher.class);
-    private static final String INDEX = TagKeyGenerator.getTag(NodeLauncher.class);
+    private static final String PUBLISHED = TagKeyGenerator.getTag(NodeLauncher.class, "published");
+    private static final String INDEX = TagKeyGenerator.getTag(NodeLauncher.class, "index");
     private final GvDataType<T> mType;
 
     public NodeLauncher(LaunchableConfig ui, GvDataType<T> dataType) {

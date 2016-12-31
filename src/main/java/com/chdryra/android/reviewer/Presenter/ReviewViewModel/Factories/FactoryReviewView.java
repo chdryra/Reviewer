@@ -333,7 +333,7 @@ public class FactoryReviewView {
                     node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter.newConverterLocations());
         } else if (dataType.equals(GvImage.Reference.TYPE) && node != null) {
             factory = new FactoryActionsViewImages((ViewDataParameters<GvImage.Reference>) params,
-                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter.newConverterImages());
+                    node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
         } else if (dataType.equals(GvBucket.TYPE) && node != null) {

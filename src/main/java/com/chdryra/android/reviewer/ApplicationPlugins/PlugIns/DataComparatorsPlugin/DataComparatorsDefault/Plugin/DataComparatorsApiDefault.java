@@ -115,13 +115,19 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataImage> newImageComparators() {
-        NamedComparator<DataImage> isCover 
-                = trueThenFalse("Covers first", new DataGetters.ImageIsCover());
-        NamedComparator.Builder<DataImage> builder 
-                = newBuilder(isCover.getName(), isCover)
-                .withReverseName("Covers last")
-                .addTieBreaker(newest("Cover dates", new DataGetters.ImageDate()));
-        
+//        NamedComparator<DataImage> isCover
+//                = trueThenFalse("Covers first", new DataGetters.ImageIsCover());
+//        NamedComparator.Builder<DataImage> builder
+//                = newBuilder(isCover.getName(), isCover)
+//                .withReverseName("Covers last")
+//                .addTieBreaker(newest("Cover dates", new DataGetters.ImageDate()));
+//
+        NamedComparator.Builder<DataImage> builder = newBuilder("No order", new Comparator<DataImage>() {
+            @Override
+            public int compare(DataImage lhs, DataImage rhs) {
+                return -1;
+            }
+        });
         return new ComparatorCollectionImpl<>(builder.build());
     }
 

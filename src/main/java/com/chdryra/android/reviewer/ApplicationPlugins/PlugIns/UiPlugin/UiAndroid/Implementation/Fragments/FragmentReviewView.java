@@ -87,6 +87,11 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @Override
+    public void detachFromReviewView() {
+        mIsAttached = false;
+    }
+
+    @Override
     public void setCover(@Nullable DataImage cover) {
         mCover.setCover(cover == null ? null : cover.getBitmap());
     }

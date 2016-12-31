@@ -124,7 +124,17 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
-        if (mContainer != null) throw new RuntimeException("There is a Fragment already attached");
+        if (mContainer != null) {
+            if(mContainer != container) {
+                unregisterObserver(mContainer);
+                mContainer.detachFromReviewView();
+                mContainer = container;
+                registerObserver(mContainer);
+                notifyDataObservers();
+            }
+            return;
+        }
+
         mContainer = container;
         mApp = app;
         registerObserver(mContainer);

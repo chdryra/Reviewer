@@ -42,9 +42,11 @@ public abstract class BindableReferenceBasic<T> extends DataReferenceBasic<T> {
     public void bindToValue(final ReferenceBinder<T> binder) {
         if (!isValidReference()) {
             binder.onInvalidated(this);
-        } else if (!contains(binder)) {
-            bind(binder);
+            return;
         }
+        //Have to do this to force it to refire.
+        if (contains(binder)) unbindFromValue(binder);
+        bind(binder);
     }
 
     @Override

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
@@ -143,7 +144,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Log.e("FbRefData", firebaseError.getMessage());
             }
         };
     }

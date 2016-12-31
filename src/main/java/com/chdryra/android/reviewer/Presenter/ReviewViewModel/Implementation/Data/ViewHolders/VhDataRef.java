@@ -101,7 +101,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
 
         if (isBoundTo(gvReference.getReference())) return;
 
-        if (mReference != null) mReference.unbindFromValue(this);
+        if (mReference != null) unbindFromReference();
         mReference = gvReference.getReference();
 
         gvReference.setViewHolder(this);

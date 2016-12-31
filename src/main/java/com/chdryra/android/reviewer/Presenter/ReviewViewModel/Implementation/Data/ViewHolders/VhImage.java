@@ -34,8 +34,7 @@ public class VhImage extends ViewHolderBasic {
     @Override
     public void updateView(ViewHolderData data) {
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
-
         GvImage image = (GvImage) data;
-        if (image != null && image.isValidForDisplay()) mImage.setImageBitmap(image.getBitmap());
+        mImage.setImageBitmap(image.getBitmap());
     }
 }

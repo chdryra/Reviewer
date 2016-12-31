@@ -34,6 +34,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
     private final Context mContext;
     private final ViewHolderFactory<?> mFactory;
     private final DataConverter<T, ? extends ViewHolderData, ?> mConverter;
+    private int mDataSize = 0;
 
     public DataExpandableUi(Context context,
                             LinearLayout view,
@@ -56,6 +57,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
 
     @Override
     protected void updateView(IdableList<T> data) {
+        mDataSize = data.size();
         getValueView().setVisibility(View.GONE);
         LinearLayout layout = new LinearLayout(getView().getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -66,5 +68,10 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
             layout.addView(vh.getView());
         }
         getView().addView(layout);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mDataSize > 0) super.onClick(v);
     }
 }
