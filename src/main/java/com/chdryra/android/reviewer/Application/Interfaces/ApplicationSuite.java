@@ -27,4 +27,6 @@ public interface ApplicationSuite {
     SocialSuite getSocial();
 
     NetworkSuite getNetwork();
+
+    PermissionsSuite getPermissions();
 }

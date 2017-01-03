@@ -22,7 +22,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,13 +41,14 @@ import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
@@ -71,6 +71,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -80,7 +81,8 @@ import java.util.ArrayList;
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientGoogle.Locatable,
         AddressesSuggester.AddressSuggestionsListener,
-        PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback {
+        PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback,
+        PermissionsSuite.PermissionsCallback{
 
     private static final String TAG = TagKeyGenerator.getTag(FragmentEditLocationMap.class);
     private static final String LOCATION = TagKeyGenerator.getKey(FragmentEditLocationMap.class, "Location");
@@ -104,7 +106,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private static final int MENU_ITEM_DELETE = R.id.menu_item_delete;
     private static final int MENU_ITEM_DONE = R.id.menu_item_done;
     private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
-    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode("RequestLocationPermissions");
 
     private GvLocation mCurrentLocation;
     private GoogleMap mGoogleMap;
@@ -376,19 +377,39 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mLocationName.addTextChangedListener(newLocationNameTextWatcher());
     }
 
-    private void initGoogleMapUi() {
-        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION )
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION )
-                        != PackageManager.PERMISSION_GRANTED) {
-            String[] permissions = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
-            ActivityCompat.requestPermissions( getActivity(), permissions, PERMISSION_REQUEST);
+    @Override
+    public void onPermissionsResult(List<PermissionResult> results) {
+        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
+                && results.get(0).isGranted()) {
+            enableMyLocation();
         }
+        setMapListeners();
+    }
 
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
+    private void initGoogleMapUi() {
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        PermissionsSuite permissions = app.getPermissions();
+        if(permissions.hasPermissions(PermissionsSuite.Permission.LOCATION)) {
+            enableMyLocation();
+            setMapListeners();
+        } else {
+            permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
+        }
+    }
+
+    private void setMapListeners() {
         mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());
         mGoogleMap.setOnMarkerDragListener(newOnMarkerDragListener());
+    }
+
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION )
+                == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION )
+                        == PackageManager.PERMISSION_GRANTED) {
+            mGoogleMap.setMyLocationEnabled(true);
+            mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
+        }
     }
 
     private void initRevertButtonUi() {

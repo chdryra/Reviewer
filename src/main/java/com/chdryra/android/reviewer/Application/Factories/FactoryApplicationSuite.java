@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AuthenticationSui
 import com.chdryra.android.reviewer.Application.Implementation.InSessionStamper;
 import com.chdryra.android.reviewer.Application.Implementation.LocationServicesSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.NetworkSuiteAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.PermissionsSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.ReviewEditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
@@ -74,8 +75,9 @@ public class FactoryApplicationSuite {
         UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, repo, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
         NetworkSuiteAndroid networkSuite = new NetworkSuiteAndroid(context);
+        PermissionsSuiteAndroid permissions = new PermissionsSuiteAndroid(context);
 
-        return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite, networkSuite);
+        return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite, networkSuite, permissions);
     }
 
     private AuthenticationSuiteAndroid newAuthenticationSuite(ModelContext model,

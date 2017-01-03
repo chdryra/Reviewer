@@ -15,6 +15,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
@@ -29,6 +32,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -85,7 +90,28 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Override
-    public void launchImageChooser(ImageChooser chooser, int requestCode) {
+    public void launchImageChooser(final ImageChooser chooser, final int requestCode) {
+        PermissionsSuite permissions = AppInstanceAndroid.getInstance(mCommissioner)
+                .getPermissions();
+        if(permissions.hasPermissions(PermissionsSuite.Permission.CAMERA)) {
+            launchChooser(chooser, requestCode);
+        } else {
+            permissions.requestPermissions(new PermissionsSuite.PermissionsCallback() {
+                @Override
+                public void onPermissionsResult(List<PermissionResult> results) {
+                    if(results.size() ==1) {
+                        PermissionResult result = results.get(0);
+                        if(result.isPermission(PermissionsSuite.Permission.CAMERA)
+                                && result.isGranted()) {
+                            launchChooser(chooser, requestCode);
+                        }
+                    }
+                }
+            }, PermissionsSuite.Permission.CAMERA);
+        }
+    }
+
+    private void launchChooser(ImageChooser chooser, int requestCode) {
         Intent chooserIntents = chooser.getChooserIntents();
         mCommissioner.startActivityForResult(chooserIntents, requestCode);
     }

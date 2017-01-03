@@ -11,10 +11,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -26,7 +28,9 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
@@ -48,6 +52,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static com.chdryra.android.reviewer.R.id.mapView;
 
 public abstract class FragmentMapLocation extends Fragment implements
@@ -55,12 +63,15 @@ public abstract class FragmentMapLocation extends Fragment implements
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMapClickListener,
         OnInfoWindowClickListener, GoogleMap.
-        OnInfoWindowLongClickListener {
+        OnInfoWindowLongClickListener,
+        PermissionsSuite.PermissionsCallback{
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
     private static final int DONE_BUTTON = R.id.button_right;
     private static final float DEFAULT_ZOOM = 15;
+    private static final PermissionsSuite.Permission LOCATION = PermissionsSuite.Permission
+            .LOCATION;
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -267,15 +278,38 @@ public abstract class FragmentMapLocation extends Fragment implements
         mMenu = new MenuUi(action);
     }
 
-    private void initGoogleMapUi(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        try {
+    @Override
+    public void onPermissionsResult(List<PermissionResult> results) {
+        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
+                && results.get(0).isGranted()) {
+            enableMyLocation();
+        }
+        initialiseMap();
+    }
+
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION )
+                == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION )
+                        == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
-        } catch (SecurityException e) {
-            e.printStackTrace();
         }
+    }
 
+    private void initGoogleMapUi(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        PermissionsSuite permissions = app.getPermissions();
+        if(permissions.hasPermissions(LOCATION)) {
+            enableMyLocation();
+            initialiseMap();
+        } else {
+            permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
+        }
+    }
+
+    private void initialiseMap() {
         mGoogleMap.clear();
         setMapListeners();
 

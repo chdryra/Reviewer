@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
@@ -63,5 +64,12 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        AppInstanceAndroid.getInstance(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

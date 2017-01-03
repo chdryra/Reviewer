@@ -12,7 +12,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
@@ -22,6 +24,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -38,7 +41,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 /**
  * Singleton that controls app-wide duties.
  */
-public class AppInstanceAndroid implements ApplicationInstance {
+public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.OnRequestPermissionsResultCallback {
     private static final int GOOGLE_API_CHECK
             = RequestCodeGenerator.getCode(AppInstanceAndroid.class, "GoogleApiCheck");
 
@@ -127,6 +130,11 @@ public class AppInstanceAndroid implements ApplicationInstance {
     }
 
     @Override
+    public PermissionsSuite getPermissions() {
+        return mApp.getPermissions();
+    }
+
+    @Override
     public void logout() {
         mApp.logout();
     }
@@ -134,6 +142,12 @@ public class AppInstanceAndroid implements ApplicationInstance {
     @Override
     public void setReturnResult(ActivityResultCode result) {
         mApp.setReturnResult(result);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        mApp.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void instantiate(Context context, LaunchState launchState) {

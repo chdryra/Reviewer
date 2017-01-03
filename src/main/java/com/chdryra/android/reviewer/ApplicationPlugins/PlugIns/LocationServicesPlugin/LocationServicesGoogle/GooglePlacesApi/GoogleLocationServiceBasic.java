@@ -10,13 +10,16 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
         .GooglePlacesApi;
 
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 
+import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * Email: rizwan.choudrey@gmail.com
  */
 abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, PermissionsSuite.PermissionsCallback {
     private final GoogleApiClient mClient;
 
     protected abstract void doRequestOnConnected();
@@ -55,23 +58,31 @@ abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionC
         mClient.disconnect();
     }
 
-    private boolean hasPermission() {
-        return ContextCompat.checkSelfPermission(mClient.getContext(), android
-                .Manifest.permission
-                .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(mClient.getContext(),
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager
-                        .PERMISSION_GRANTED;
+    @Override
+    public void onConnected(Bundle bundle) {
+        PermissionsSuite permissions
+                = AppInstanceAndroid.getInstance(mClient.getContext()).getPermissions();
+        if (!permissions.hasPermissions(PermissionsSuite.Permission.LOCATION)) {
+            requestPermissions();
+        } else {
+            doRequestOnConnected();
+        }
+    }
+
+    protected void requestPermissions() {
+        PermissionsSuite permissions
+                = AppInstanceAndroid.getInstance(mClient.getContext()).getPermissions();
+        permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-        if (!hasPermission()) {
+    public void onPermissionsResult(List<PermissionResult> results) {
+        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
+                && results.get(0).isGranted()) {
+            doRequestOnConnected();
+        } else {
             onNotPermissioned();
-            return;
         }
-
-        doRequestOnConnected();
     }
 
     @Override

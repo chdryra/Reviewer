@@ -11,7 +11,9 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
@@ -20,6 +22,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -36,7 +39,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.SessionObserver {
+public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.SessionObserver,
+        ActivityCompat.OnRequestPermissionsResultCallback {
     private final AuthenticationSuiteAndroid mAuth;
     private final LocationServicesSuiteAndroid mLocation;
     private final UiSuiteAndroid mUi;
@@ -44,6 +48,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private final ReviewEditorSuiteAndroid mBuilder;
     private final SocialSuiteAndroid mSocial;
     private final NetworkSuiteAndroid mNetwork;
+    private final PermissionsSuiteAndroid mPermissions;
 
     private Activity mActivity;
 
@@ -53,7 +58,8 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
                                    RepositorySuiteAndroid repository,
                                    ReviewEditorSuiteAndroid builder,
                                    SocialSuiteAndroid social,
-                                   NetworkSuiteAndroid network) {
+                                   NetworkSuiteAndroid network,
+                                   PermissionsSuiteAndroid permissions) {
         mAuth = auth;
         mLocation = location;
         mUi = ui;
@@ -61,6 +67,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mBuilder = builder;
         mSocial = social;
         mNetwork = network;
+        mPermissions = permissions;
 
         mAuth.getUserSession().registerSessionObserver(this);
         mUi.setApplication(this);
@@ -72,6 +79,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mLocation.setActivity(mActivity);
         mUi.setActivity(mActivity);
         mSocial.setActivity(mActivity);
+        mPermissions.setActivity(mActivity);
     }
 
     private void setSession() {
@@ -120,6 +128,11 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Override
+    public PermissionsSuite getPermissions() {
+        return mPermissions;
+    }
+
+    @Override
     public void onLogIn(@Nullable UserAccount account, @Nullable AuthenticationError error) {
         setSession();
     }
@@ -133,6 +146,12 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         } else {
             screen.showToast(Strings.Toasts.PROBLEM_LOGGING_OUT + ": " + message.getMessage());
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        mPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public void logout() {

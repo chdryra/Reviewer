@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
@@ -81,5 +82,12 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     public void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult) {
         mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, currentLocation, returnResult);
         mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newLocation , returnResult);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        AppInstanceAndroid.getInstance(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
