@@ -98,7 +98,7 @@ android {
         targetSdkVersion 24
         multiDexEnabled true
         versionCode 1
-        versionName "0.01"
+        versionName "0.1"
         applicationId "com.chdryra.android.reviewer"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

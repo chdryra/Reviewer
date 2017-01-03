@@ -23,9 +23,9 @@ public interface PermissionsSuite {
 
     boolean hasPermissions(Permission... permission);
 
-    void requestPermissions(PermissionsCallback callback, Permission... permissions);
+    void requestPermissions(int requestCode, PermissionsCallback callback, Permission... permissions);
 
     interface PermissionsCallback {
-        void onPermissionsResult(List<PermissionResult> results);
+        void onPermissionsResult(int requestCode, List<PermissionResult> results);
     }
 }

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
 import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
@@ -45,6 +46,8 @@ import java.util.List;
  */
 
 public class UiLauncherAndroid implements UiLauncher {
+    private static final PermissionsSuite.Permission CAMERA = PermissionsSuite.Permission.CAMERA;
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(UiLauncherAndroid.class);
     private Activity mCommissioner;
 
     private final EditUiLauncher mEditUiLauncher;
@@ -93,21 +96,18 @@ public class UiLauncherAndroid implements UiLauncher {
     public void launchImageChooser(final ImageChooser chooser, final int requestCode) {
         PermissionsSuite permissions = AppInstanceAndroid.getInstance(mCommissioner)
                 .getPermissions();
-        if(permissions.hasPermissions(PermissionsSuite.Permission.CAMERA)) {
+        if(permissions.hasPermissions(CAMERA)) {
             launchChooser(chooser, requestCode);
         } else {
-            permissions.requestPermissions(new PermissionsSuite.PermissionsCallback() {
+            permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsSuite.PermissionsCallback() {
                 @Override
-                public void onPermissionsResult(List<PermissionResult> results) {
-                    if(results.size() ==1) {
-                        PermissionResult result = results.get(0);
-                        if(result.isPermission(PermissionsSuite.Permission.CAMERA)
-                                && result.isGranted()) {
+                public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+                    if(requestCode == PERMISSION_REQUEST
+                            && results.size() == 1 && results.get(0).isGranted(CAMERA)) {
                             launchChooser(chooser, requestCode);
-                        }
                     }
                 }
-            }, PermissionsSuite.Permission.CAMERA);
+            }, CAMERA);
         }
     }
 

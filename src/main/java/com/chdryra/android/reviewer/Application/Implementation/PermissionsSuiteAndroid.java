@@ -49,7 +49,7 @@ public class PermissionsSuiteAndroid implements PermissionsSuite, ActivityCompat
 
     private final Context mContext;
     private Activity mActivity;
-    private Map<String[], PermissionsInProgress> mInProgress;
+    private Map<Integer, PermissionsInProgress> mInProgress;
 
     public PermissionsSuiteAndroid(Context context) {
         mContext = context;
@@ -64,30 +64,28 @@ public class PermissionsSuiteAndroid implements PermissionsSuite, ActivityCompat
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode != PERMISSIONS_REQUEST) return;
-
-        PermissionsInProgress wasInProgress = mInProgress.remove(permissions);
-        PermissionsSuite.Permission[] passedPermissions = wasInProgress.getPermissions();
+        PermissionsInProgress inProgress = mInProgress.remove(requestCode);
+        if(inProgress == null) return;
+        PermissionsSuite.Permission[] passedPermissions = inProgress.getPermissions();
         ArrayList<PermissionResult> results = new ArrayList<>();
         for (Permission requested : passedPermissions) {
             boolean result = wasGranted(requested, permissions, grantResults);
             results.add(new PermissionResult(requested, result));
         }
-        wasInProgress.getCallback().onPermissionsResult(results);
+        inProgress.getCallback().onPermissionsResult(requestCode, results);
     }
 
     @Override
-    public void requestPermissions(PermissionsCallback callback, Permission... permissions) {
+    public void requestPermissions(int requestCode, PermissionsCallback callback, Permission... permissions) {
         if (!hasPermissions(permissions)) {
-            String[] requested = (String[]) toStringArray(permissions).toArray();
-            mInProgress.put(requested, new PermissionsInProgress(callback, permissions));
-            ActivityCompat.requestPermissions(mActivity, requested, PERMISSIONS_REQUEST);
+            mInProgress.put(requestCode, new PermissionsInProgress(callback, permissions));
+            ActivityCompat.requestPermissions(mActivity, toStringArray(permissions), requestCode);
         } else {
             ArrayList<PermissionResult> results = new ArrayList<>();
             for (Permission permission : permissions) {
                 results.add(new PermissionResult(permission, true));
             }
-            callback.onPermissionsResult(results);
+            callback.onPermissionsResult(requestCode, results);
         }
     }
 
@@ -124,12 +122,12 @@ public class PermissionsSuiteAndroid implements PermissionsSuite, ActivityCompat
     }
 
     @NonNull
-    private ArrayList<String> toStringArray(Permission[] permissions) {
+    private String[] toStringArray(Permission[] permissions) {
         ArrayList<String> perms = new ArrayList<>();
         for (Permission permission : permissions) {
             perms.addAll(Arrays.asList(sMap.get(permission)));
         }
-        return perms;
+        return perms.toArray(new String[0]);
     }
 
     private class PermissionsInProgress {

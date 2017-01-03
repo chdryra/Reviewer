@@ -25,11 +25,7 @@ public class PermissionResult {
         mResult = result;
     }
 
-    public boolean isPermission(PermissionsSuite.Permission permission) {
-        return mPermission.equals(permission);
-    }
-
-    public boolean isGranted() {
-        return mResult;
+    public boolean isGranted(PermissionsSuite.Permission permission) {
+        return mPermission.equals(permission) && mResult;
     }
 }

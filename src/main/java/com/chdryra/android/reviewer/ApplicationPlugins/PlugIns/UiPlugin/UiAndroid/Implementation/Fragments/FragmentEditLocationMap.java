@@ -41,6 +41,7 @@ import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
@@ -86,6 +87,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private static final String TAG = TagKeyGenerator.getTag(FragmentEditLocationMap.class);
     private static final String LOCATION = TagKeyGenerator.getKey(FragmentEditLocationMap.class, "Location");
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(FragmentEditLocationMap.class);
 
     private static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -106,6 +108,8 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private static final int MENU_ITEM_DELETE = R.id.menu_item_delete;
     private static final int MENU_ITEM_DONE = R.id.menu_item_done;
     private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
+    private static final PermissionsSuite.Permission LOCATION_PERMISSION = PermissionsSuite.Permission
+            .LOCATION;
 
     private GvLocation mCurrentLocation;
     private GoogleMap mGoogleMap;
@@ -378,9 +382,10 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onPermissionsResult(List<PermissionResult> results) {
-        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
-                && results.get(0).isGranted()) {
+    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+        if(requestCode == PERMISSION_REQUEST
+                && results.size() == 1
+                && results.get(0).isGranted(LOCATION_PERMISSION)) {
             enableMyLocation();
         }
         setMapListeners();
@@ -389,11 +394,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private void initGoogleMapUi() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         PermissionsSuite permissions = app.getPermissions();
-        if(permissions.hasPermissions(PermissionsSuite.Permission.LOCATION)) {
+        if(permissions.hasPermissions(LOCATION_PERMISSION)) {
             enableMyLocation();
             setMapListeners();
         } else {
-            permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
+            permissions.requestPermissions(PERMISSION_REQUEST, this, LOCATION_PERMISSION);
         }
     }
 

@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
 import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
@@ -28,6 +29,13 @@ import java.util.List;
  */
 abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, PermissionsSuite.PermissionsCallback {
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(GoogleLocationServiceBasic.class);
+
+
+    private static final PermissionsSuite.Permission LOCATION = PermissionsSuite.Permission
+            .LOCATION;
+
+
     private final GoogleApiClient mClient;
 
     protected abstract void doRequestOnConnected();
@@ -62,7 +70,7 @@ abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionC
     public void onConnected(Bundle bundle) {
         PermissionsSuite permissions
                 = AppInstanceAndroid.getInstance(mClient.getContext()).getPermissions();
-        if (!permissions.hasPermissions(PermissionsSuite.Permission.LOCATION)) {
+        if (!permissions.hasPermissions(LOCATION)) {
             requestPermissions();
         } else {
             doRequestOnConnected();
@@ -72,13 +80,14 @@ abstract class GoogleLocationServiceBasic implements GoogleApiClient.ConnectionC
     protected void requestPermissions() {
         PermissionsSuite permissions
                 = AppInstanceAndroid.getInstance(mClient.getContext()).getPermissions();
-        permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
+        permissions.requestPermissions(PERMISSION_REQUEST, this, LOCATION);
     }
 
     @Override
-    public void onPermissionsResult(List<PermissionResult> results) {
-        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
-                && results.get(0).isGranted()) {
+    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+        if(requestCode == PERMISSION_REQUEST
+                && results.size() == 1
+                && results.get(0).isGranted(LOCATION)) {
             doRequestOnConnected();
         } else {
             onNotPermissioned();

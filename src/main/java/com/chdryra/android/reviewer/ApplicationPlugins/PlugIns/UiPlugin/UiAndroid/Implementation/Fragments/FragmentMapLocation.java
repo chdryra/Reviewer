@@ -27,6 +27,7 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
@@ -72,6 +73,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     private static final float DEFAULT_ZOOM = 15;
     private static final PermissionsSuite.Permission LOCATION = PermissionsSuite.Permission
             .LOCATION;
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(FragmentMapLocation.class);
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -279,9 +281,10 @@ public abstract class FragmentMapLocation extends Fragment implements
     }
 
     @Override
-    public void onPermissionsResult(List<PermissionResult> results) {
-        if(results.size() == 1 && results.get(0).isPermission(PermissionsSuite.Permission.LOCATION)
-                && results.get(0).isGranted()) {
+    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+        if(requestCode == PERMISSION_REQUEST
+                && results.size() == 1
+                && results.get(0).isGranted(LOCATION)) {
             enableMyLocation();
         }
         initialiseMap();
@@ -305,7 +308,7 @@ public abstract class FragmentMapLocation extends Fragment implements
             enableMyLocation();
             initialiseMap();
         } else {
-            permissions.requestPermissions(this, PermissionsSuite.Permission.LOCATION);
+            permissions.requestPermissions(PERMISSION_REQUEST, this, LOCATION);
         }
     }
 
