@@ -61,6 +61,13 @@ public class FactoryCommands {
         boolean hasDelete = authorId.toString().equals(session.getAuthorId().toString());
 
         final CommandsList commands = new CommandsList();
+        if(!mApp.getNetwork().isOnline()) {
+            mApp.getUi().getCurrentScreen().showToast(Strings.Toasts.NO_INTERNET);
+            commands.add(new Command(Strings.Commands.OFFLINE));
+            callback.onReviewOptionsReady(commands);
+            return;
+        }
+
         commands.add(share(reviewId));
         commands.add(copy(reviewId));
         BookmarkCommand bookmark = bookmark(session, reviewId);

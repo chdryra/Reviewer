@@ -149,7 +149,8 @@ public class Strings {
         public static final String DISTRIBUTION = "Distribution";
         public static final String BOOKMARK = "Bookmark";
         public static final String UNBOOKMARK = "Unbookmark";
-        public static final String BOOKMARKS_UNAVAILABLE = "Bookmarks unavailable";
+        public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";
+        public static final String OFFLINE = "offline";
         public static final String DASHES = "- - -";
     }
     

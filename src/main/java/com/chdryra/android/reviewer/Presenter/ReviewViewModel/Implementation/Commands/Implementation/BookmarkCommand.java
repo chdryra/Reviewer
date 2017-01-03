@@ -30,7 +30,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     private static final String UNBOOKMARKED = Strings.Toasts.UNBOOKMARKED;
     private static final String UNBOOKMARK = Strings.Commands.UNBOOKMARK;
     private static final String BOOKMARK = Strings.Commands.BOOKMARK;
-    private static final String BOOKMARKS_UNAVAILABLE = Strings.Commands.BOOKMARKS_UNAVAILABLE;
+    private static final String BOOKMARKS_UNAVAILABLE = Strings.Commands.BOOKMARKS_OFFLINE;
 
     private final ReviewId mReviewId;
     private final Playlist mBookmarks;
