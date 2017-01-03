@@ -503,8 +503,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
               DataConverter<T, G, ?> converter, Class<? extends ViewHolder> vhClass,
               ViewUi.ValueGetter<RefDataList<T>> getter) {
         DataExpandableUi<T> ui = new DataExpandableUi<>(getActivity(), getSection
-                (v, sectionId),
-                title, getter, newVhFactory(vhClass), converter);
+                (v, sectionId), title, getter, newVhFactory(vhClass), converter);
         setLaunchOnClick(ui, dataType);
         return ui;
     }

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -49,10 +48,10 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
     }
 
     @Override
-    protected void setEmpty() {
+    protected void setEmpty(String label) {
         TextView placeholder = getValueView();
         placeholder.setTypeface(placeholder.getTypeface(), Typeface.ITALIC);
-        placeholder.setText(Strings.Formatted.NONE);
+        placeholder.setText(label);
     }
 
     @Override

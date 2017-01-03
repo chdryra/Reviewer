@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.graphics.Typeface;
@@ -21,8 +21,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,7 +34,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
     private TextView mHeadline;
 
-    public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node, @Nullable final Command onClick) {
+    public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node,
+                         @Nullable final Command onClick) {
         super(section, new ValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
@@ -43,7 +46,7 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
         setOnClickCommand(onClick);
 
         mHeadline = headline;
-        if(onClick != null) {
+        if (onClick != null) {
             mHeadline.setClickable(true);
             mHeadline.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,14 +59,17 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
 
     @Override
     protected void updateView(IdableList<DataComment> data) {
-        getValueView().setText(DataFormatter.formatComments(data));
-        mHeadline.setText(DataFormatter.getHeadlineQuote(data));
+        updateView(Typeface.NORMAL, DataFormatter.formatComments(data), DataFormatter.getHeadlineQuote(data));
     }
 
     @Override
-    protected void setEmpty() {
-        getValueView().setTypeface(getValueView().getTypeface(), Typeface.ITALIC);
-        getValueView().setText(Strings.Formatted.NONE);
-        mHeadline.setText(Strings.Formatted.DASHES);
+    protected void setEmpty(String label) {
+        updateView(Typeface.ITALIC, label, Strings.Formatted.DASHES);
+    }
+
+    private void updateView(int typeface, String comment, String headline) {
+        getValueView().setTypeface(getValueView().getTypeface(), typeface);
+        getValueView().setText(comment);
+        mHeadline.setText(headline);
     }
 }

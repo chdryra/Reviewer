@@ -179,6 +179,7 @@ public class Strings {
         public static final String COMMENT = "comment";
         public static final String TAGS = "tags";
         public static final String NONE = "none";
+        public static final String LOADING = "loading";
         public static final String CRITERIA = "Criteria";
         public static final String FACTS = "facts";
         public static final String NO_TAGS = "no tags";

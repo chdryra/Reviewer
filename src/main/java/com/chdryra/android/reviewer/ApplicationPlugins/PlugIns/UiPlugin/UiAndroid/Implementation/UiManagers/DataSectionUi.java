@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.widget.LinearLayout;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
@@ -29,7 +30,7 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
 
     protected abstract void updateView(IdableList<T> data);
 
-    protected abstract void setEmpty();
+    protected abstract void setEmpty(String label);
 
     public DataSectionUi(LinearLayout view, ValueGetter<Ref> getter, String title) {
         super(view, getter, title);
@@ -39,12 +40,13 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
         if(data.size() > 0) {
             updateView(data);
         } else {
-            setEmpty();
+            setEmpty(Strings.Formatted.NONE);
         }
     }
 
     @Override
     public void update() {
+        setEmpty(Strings.Formatted.LOADING);
         getValue().dereference(new DataReference.DereferenceCallback<IdableList<T>>() {
             @Override
             public void onDereferenced(DataValue<IdableList<T>> value) {
