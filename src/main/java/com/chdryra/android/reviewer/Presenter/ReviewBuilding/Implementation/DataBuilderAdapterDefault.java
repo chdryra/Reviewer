@@ -138,8 +138,8 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
-    public void setSubject(String subject) {
-        mParentBuilder.setSubject(subject);
+    public void setSubject(String subject, boolean adjustTags) {
+        mParentBuilder.setSubject(subject, adjustTags);
     }
 
     @Override

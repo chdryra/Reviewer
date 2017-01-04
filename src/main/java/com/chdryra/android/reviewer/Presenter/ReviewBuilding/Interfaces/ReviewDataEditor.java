@@ -24,7 +24,7 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
 
     void delete(T datum);
 
-    void commitEdits();
+    void commitEdits(boolean adjustTags);
 
     void discardEdits();
 

@@ -38,7 +38,7 @@ public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewVi
 
     void setRatingIsAverage(boolean ratingIsAverage);
 
-    void setSubject(String subject);
+    void setSubject(String subject, boolean adjustTags);
 
     void setRating(float rating);
 

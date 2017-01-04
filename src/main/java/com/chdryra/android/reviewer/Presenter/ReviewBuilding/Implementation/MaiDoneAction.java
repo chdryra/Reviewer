@@ -20,10 +20,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public class MaiDoneAction<T extends GvData> extends MaiDataEditor<T> {
     private static final ActivityResultCode RESULT_DONE = ActivityResultCode.DONE;
+    private final boolean mAdjustTagsOnCommit;
+
+    public MaiDoneAction(boolean adjustTagsOnCommit) {
+        mAdjustTagsOnCommit = adjustTagsOnCommit;
+    }
 
     @Override
     public void doAction(MenuItem item) {
-        getEditor().commitEdits();
+        getEditor().commitEdits(mAdjustTagsOnCommit);
         getApp().setReturnResult(RESULT_DONE);
     }
 }

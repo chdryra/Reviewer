@@ -114,12 +114,12 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public String getContainerSubject() {
-        return mContainer.getSubject();
+        return mContainer != null ? mContainer.getSubject() : "";
     }
 
     @Override
     public float getContainerRating() {
-        return mContainer.getRating();
+        return mContainer != null ? mContainer.getRating() : 0f;
     }
 
     @Override

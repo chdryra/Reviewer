@@ -109,11 +109,11 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public void setSubject(String subject) {
+    public void setSubject(String subject, boolean adjustTags) {
         if(!mBuilder.getSubject().equals(subject)) {
             mBuilder.setSubject(subject);
-            mSubjectTag = adjustTagsIfNecessary(mSubjectTag, subject);
         }
+        adjustTagsIfNecessary(adjustTags);
     }
 
     @Override
@@ -170,19 +170,29 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
     }
 
-    private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
-        GvTag newTag = new GvTag(toAdd);
+    private void adjustTagsIfNecessary(boolean adjustTags) {
+        GvTag newTag = new GvTag(mBuilder.getSubject());
         DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
         GvDataList<GvTag> tags = tagBuilder.getGridData();
 
-        if (newTag.equals(toRemove) && tags.contains(newTag)) return newTag;
+        //If nothing to adjust return
+        if (newTag.equals(mSubjectTag) && tags.contains(newTag)) return;
 
+        //if don't want to adjust then set appropriate subject tag to reference for future
+        // adjustments
+        if(!adjustTags) {
+            mSubjectTag = tags.contains(newTag) ? newTag : new GvTag("");
+            return;
+        }
+
+        //Do adjustment
         boolean added = mDataValidator.validateString(newTag.getTag()) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
-        if (!newTag.equals(toRemove)) tagBuilder.delete(toRemove);
+        if (!newTag.equals(mSubjectTag)) tagBuilder.delete(mSubjectTag);
         tagBuilder.commitData();
 
-        return added ? newTag : new GvTag("");
+        mSubjectTag = added ? newTag : new GvTag("");
+        if(added) notifyDataObservers();
     }
 
     private class DataBuildersMap {

@@ -122,7 +122,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @NonNull
     MenuActionItem<T> newDoneAction() {
-        return new MaiDoneAction<>();
+        return new MaiDoneAction<>(true);
     }
 
     @NonNull

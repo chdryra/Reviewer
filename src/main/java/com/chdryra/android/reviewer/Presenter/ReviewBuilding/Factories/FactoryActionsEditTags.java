@@ -8,7 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -37,5 +41,11 @@ public class FactoryActionsEditTags extends FactoryActionsEditData<GvTag> {
     @Override
     public SubjectAction<GvTag> newSubject() {
         return new SubjectEditTags(mTagAdjuster);
+    }
+
+    @NonNull
+    @Override
+    MenuActionItem<GvTag> newDoneAction() {
+        return new MaiDoneAction<>(false);
     }
 }

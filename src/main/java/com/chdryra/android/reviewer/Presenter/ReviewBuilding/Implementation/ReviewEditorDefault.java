@@ -93,7 +93,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void setSubject() {
-        mAdapter.setSubject(getContainerSubject());
+        mAdapter.setSubject(getContainerSubject(), true);
     }
 
     @Override

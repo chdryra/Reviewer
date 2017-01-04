@@ -87,8 +87,8 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public void commitEdits() {
-        mBuilder.setSubject(getContainerSubject());
+    public void commitEdits(boolean adjustTags) {
+        mBuilder.setSubject(getContainerSubject(), adjustTags);
         mBuilder.setRatingIsAverage(mRatingIsAverage);
         mBuilder.setRating(mRatingIsAverage ? mBuilder.getCriteriaAverage() : getContainerRating());
         commitData();
