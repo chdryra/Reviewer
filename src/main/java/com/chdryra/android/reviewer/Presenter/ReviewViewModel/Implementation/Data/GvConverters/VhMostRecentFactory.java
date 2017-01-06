@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
@@ -21,6 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .VhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .ViewHolderFactory;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +30,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
+    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
+
     private final AuthorsRepository mRepository;
     private final Resources mResources;
 
@@ -38,6 +42,7 @@ public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
 
     @Override
     public VhNode newViewHolder() {
-        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()), mResources);
+        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
+                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER));
     }
 }

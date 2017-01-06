@@ -8,9 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +35,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -45,7 +45,8 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.ReviewSelectorCallback, VhNode {
+public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
+        .ReviewSelectorCallback, VhNode {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
@@ -53,35 +54,36 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
-    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
-    private final Resources mResources;
-
+    private final Bitmap mImagePlaceholder;
+    private final CoverBinder mCoverBinder;
+    private final TagsBinder mTagsBinder;
+    private final CommentsBinder mCommentsBinder;
+    private final LocationsBinder mLocationsBinder;
+    private final NameBinder mNameBinder;
     private TextView mSubject;
     private TextView mRating;
     private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
     private TextView mFooter;
-
     private ReviewId mNodeId;
     private ReviewReference mReview;
-    private final CoverBinder mCoverBinder;
-    private final TagsBinder mTagsBinder;
-    private final CommentsBinder mCommentsBinder;
-    private final LocationsBinder mLocationsBinder;
-    private final NameBinder mNameBinder;
-
     private NamedAuthor mAuthor;
     private String mLocation;
 
-    public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector, Resources resources) {
+    private int mNumReturned = 0;
+    private boolean mCancelCover = false;
+    private AsyncTask<GvNode, Void, GvNode> mBindingTask;
+
+    public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector, Bitmap
+            imagePlaceholder) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
-        mResources = resources;
+        mImagePlaceholder = imagePlaceholder;
 
         mCoverBinder = new CoverBinder();
         mCommentsBinder = new CommentsBinder();
@@ -105,46 +107,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNodeId);
         mReview = null;
+        mNodeId = null;
     }
 
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
         setNode(((GvNode) data));
-    }
-
-
-    private void setViewsIfNecessary() {
-        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        if (mRating == null) mRating = (TextView) getView(RATING);
-        if (mImage == null) mImage = (ImageView) getView(IMAGE);
-        if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
-        if (mTags == null) mTags = (TextView) getView(TAGS);
-        if (mFooter == null) mFooter = (TextView) getView(STAMP);
-    }
-
-    private void setNode(GvNode gvNode) {
-        ReviewNode node = gvNode.getNode();
-        if (isBoundTo(node)) return;
-
-        unbindFromNode();
-
-        mNodeId = node.getReviewId();
-
-        initialiseData(node);
-        mSelector.select(node, this);
-        gvNode.setViewHolder(this);
-    }
-
-    private void initialiseData(ReviewNode node) {
-        mSubject.setText(node.getSubject().getSubject());
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
-        mImage.setImageBitmap(getImagePlaceHolder());
-        mHeadline.setText("");
-        mTags.setText("");
-        mFooter.setText("");
-        mAuthor = null;
-        mLocation = null;
     }
 
     @Override
@@ -156,18 +125,49 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         }
     }
 
-    private void bindToReview(ReviewReference review) {
-        mReview = review;
-        mReview.getCover().bindToValue(mCoverBinder);
-        mReview.getComments().bindToValue(mCommentsBinder);
-        mReview.getLocations().bindToValue(mLocationsBinder);
-        mReview.getTags().bindToValue(mTagsBinder);
-        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+    private void setViewsIfNecessary() {
+        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
+        if (mRating == null) mRating = (TextView) getView(RATING);
+        if (mImage == null) mImage = (ImageView) getView(IMAGE);
+        if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
+        if (mTags == null) mTags = (TextView) getView(TAGS);
+        if (mFooter == null) mFooter = (TextView) getView(STAMP);
+    }
+
+    private void setNode(GvNode node) {
+        if (isBoundTo(node.getNode())) return;
+        if(mNumReturned != 0) mCancelCover = true;
+        initialiseData(node);
+        unbindFromNode();
+        if (mBindingTask != null) mBindingTask.cancel(true);
+        mBindingTask = new SelectAndBindTask().execute(node);
+    }
+
+    private void selectAndBind(GvNode gvNode) {
+        mBindingTask = null;
+        ReviewNode node = gvNode.getNode();
+
+        mNodeId = node.getReviewId();
+
+        gvNode.setViewHolder(this);
+        mSelector.select(node, this);
+    }
+
+    private void initialiseData(GvNode node) {
+        mSubject.setText(node.getSubject().getSubject());
+        mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
+        mImage.setImageBitmap(mImagePlaceholder);
+        mHeadline.setText("");
+        mTags.setText("");
+        mFooter.setText("");
+        mAuthor = null;
+        mLocation = null;
     }
 
     private void newFooter() {
         if (mReview != null) {
-            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview.getPublishDate());
+            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview
+                    .getPublishDate());
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
             String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
@@ -186,18 +186,19 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
     private void setCover(DataImage cover) {
         Bitmap bitmap = cover.getBitmap();
-        bitmap = bitmap != null ? bitmap : getImagePlaceHolder();
+        bitmap = bitmap != null ? bitmap : mImagePlaceholder;
         mImage.setImageBitmap(bitmap);
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
         newFooter();
+        returned();
     }
 
     private void setHeadline(IdableList<DataComment> value) {
         String headline = DataFormatter.getHeadlineQuote(value);
-        if(headline.length() == 0) headline = Strings.Formatted.NO_COMMENT;
+        if (headline.length() == 0) headline = Strings.Formatted.NO_COMMENT;
         mHeadline.setText(headline);
     }
 
@@ -216,9 +217,40 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
         newFooter();
     }
 
-    private Bitmap getImagePlaceHolder(){
-        Bitmap bitmap = BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER);
-        return bitmap;
+    private void bindToReview(ReviewReference review) {
+        mReview = review;
+        mSubject.setText(mReview.getSubject().getSubject());
+        mRating.setText(RatingFormatter.upToTwoSignificantDigits(mReview.getRating().getRating()));
+        mNumReturned = 0;
+        mCancelCover = false;
+        mReview.getComments().bindToValue(mCommentsBinder);
+        mReview.getLocations().bindToValue(mLocationsBinder);
+        mReview.getTags().bindToValue(mTagsBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+    }
+
+    private void returned() {
+        if (!mCancelCover && ++mNumReturned == 4 && mReview != null) {
+            mReview.getCover().bindToValue(mCoverBinder);
+        }
+    }
+
+    //hacky way of avoiding downloads spooling up if gridview is being scrolled fast.
+    private class SelectAndBindTask extends AsyncTask<GvNode, Void, GvNode> {
+        @Override
+        protected GvNode doInBackground(GvNode... gvNodes) {
+            try {
+                Thread.sleep(150);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            return gvNodes[0];
+        }
+
+        @Override
+        protected void onPostExecute(GvNode gvNode) {
+            selectAndBind(gvNode);
+        }
     }
 
     private class CoverBinder implements ReferenceBinder<DataImage> {
@@ -236,11 +268,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
     private class NameBinder implements ReferenceBinder<NamedAuthor> {
         @Override
         public void onInvalidated(DataReference<NamedAuthor> reference) {
+            returned();
             setAuthor(null);
         }
 
         @Override
         public void onReferenceValue(NamedAuthor value) {
+            returned();
             setAuthor(value);
         }
     }
@@ -272,11 +306,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector.
 
         @Override
         public void onReferenceValue(IdableList<T> value) {
+            returned();
             onList(value);
         }
 
         @Override
         public void onInvalidated(DataReference<IdableList<T>> reference) {
+            returned();
             onList(new IdableDataList<T>(mNodeId));
         }
     }
