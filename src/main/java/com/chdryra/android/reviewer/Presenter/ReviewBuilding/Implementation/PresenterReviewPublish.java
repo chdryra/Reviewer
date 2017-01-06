@@ -75,7 +75,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
         showToast(Strings.Toasts.PUBLISHING);
-        mBuilder.discardEditor();
+        mBuilder.discardEditor(false, null);
         mFeed.launch(new UiLauncherArgs(mFeed.getDefaultRequestCode()).setClearBackStack());
         mScreen.close();
     }

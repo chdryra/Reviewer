@@ -9,9 +9,12 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
+import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
@@ -24,14 +27,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewDataEdit<T extends GvDataParcelable> implements ActivityResultListener {
+public class PresenterReviewDataEdit<T extends GvDataParcelable> implements ActivityResultListener, AlertListener {
+    private static final int ALERT = RequestCodeGenerator.getCode(PresenterReviewDataEdit.class);
+
+    private final ReviewDataEditor<T> mEditor;
     private final BannerButtonAdd<T> mBannerButton;
     private final GridItemEdit<T> mGridItem;
 
     private PresenterReviewDataEdit(ReviewDataEditor<T> editor) {
-        ReviewViewActions<T> actions = editor.getActions();
+        mEditor = editor;
+        ReviewViewActions<T> actions = mEditor.getActions();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
         mGridItem = (GridItemEdit<T>) actions.getGridItemAction();
+    }
+
+    public ReviewDataEditor<T> getEditor() {
+        return mEditor;
     }
 
     public boolean onAdd(T data, int requestCode) {
@@ -76,23 +87,30 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
         }
     }
 
+    public void onBackPressed() {
+        mEditor.getCurrentScreen().showAlert(Strings.Alerts.DISCARD_EDITS, ALERT, this, new Bundle());
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        mEditor.discardEdits();
+        mEditor.getCurrentScreen().close();
+    }
+
     public static class Builder<T extends GvDataParcelable> {
         private final GvDataType<T> mDataType;
-        private ReviewDataEditor<T> mEditor;
-
         public Builder(GvDataType<T> dataType) {
             mDataType = dataType;
         }
 
-        public ReviewDataEditor<T> getEditor() {
-            return mEditor;
-        }
-
         public PresenterReviewDataEdit<T> build(ApplicationInstance app) {
-            ReviewEditorSuite reviewEditor = app.getReviewEditor();
-            ReviewEditor<?> editor = reviewEditor.getEditor();
-            mEditor = editor.newDataEditor(mDataType);
-            return new PresenterReviewDataEdit<>(mEditor);
+            ReviewEditor<?> editor = app.getReviewEditor().getEditor();
+            return new PresenterReviewDataEdit<>(editor.newDataEditor(mDataType));
         }
     }
 }

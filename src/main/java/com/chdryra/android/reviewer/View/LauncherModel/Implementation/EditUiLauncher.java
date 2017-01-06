@@ -52,6 +52,6 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
 
     @Override
     protected void onPrelaunch() {
-        mBuilder.discardEditor();
+        mBuilder.discardEditor(false, null);
     }
 }

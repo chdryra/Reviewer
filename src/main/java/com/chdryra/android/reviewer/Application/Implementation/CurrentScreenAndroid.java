@@ -62,7 +62,7 @@ class CurrentScreenAndroid implements CurrentScreen {
     }
 
     @Override
-    public void returnToPrevious() {
+    public void closeAndGoUp() {
         if (NavUtils.getParentActivityName(mActivity) != null) {
             NavUtils.navigateUpFromSameTask(mActivity);
         } else {

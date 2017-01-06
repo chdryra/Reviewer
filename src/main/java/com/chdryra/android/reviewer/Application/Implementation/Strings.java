@@ -26,6 +26,8 @@ public class Strings {
         public static final String DELETE_REVIEW = "published review";
         public static final String NEW_USER = "Looks like you're a new user?";
         public static final String SHOW_ON_MAP = "Show on map?";
+        public static final String DISCARD_REVIEW = "Discard review in progress?";
+        public static final String DISCARD_EDITS = "Discard new data and edits?";
     }
 
     public static class Dialogs {

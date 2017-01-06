@@ -25,9 +25,13 @@ public interface ReviewEditorSuite {
     String QUICK_ADD = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickAdd");
     String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickReview");
 
+    interface DiscardListener {
+        void onDiscarded(boolean discardConfirmed);
+    }
+
     ReviewEditor<?> createEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
 
     ReviewEditor<?> getEditor();
 
-    void discardEditor();
+    void discardEditor(boolean showAlert, @Nullable DiscardListener listener);
 }

@@ -11,7 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -26,15 +28,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 import java.util.ArrayList;
@@ -58,6 +58,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private String mCurrentSubject;
     private EditMode mEditMode = EditMode.QUICK;
     private FileIncrementor mIncrementor;
+    private ReviewEditorSuite.DiscardListener mDiscardListener;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,

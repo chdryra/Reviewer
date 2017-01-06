@@ -9,9 +9,13 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 
+import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -19,13 +23,24 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 13/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiUpDataEditor<T extends GvData> extends MaiDataEditor<T> {
+public class MaiUpDataEditor<T extends GvData> extends MaiDataEditor<T> implements AlertListener{
+    private static final int ALERT = RequestCodeGenerator.getCode(MaiDataEditor.class);
     private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
 
     @Override
     public void doAction(MenuItem item) {
+        getCurrentScreen().showAlert(Strings.Alerts.DISCARD_EDITS, ALERT, this, new Bundle());
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
         getEditor().discardEdits();
         getApp().setReturnResult(RESULT_UP);
-        getCurrentScreen().returnToPrevious();
+        getCurrentScreen().closeAndGoUp();
     }
 }

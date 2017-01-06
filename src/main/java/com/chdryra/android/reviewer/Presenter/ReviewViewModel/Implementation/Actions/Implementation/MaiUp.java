@@ -25,6 +25,6 @@ public class MaiUp<T extends GvData> extends MenuActionItemBasic<T> {
     @Override
     public void doAction(MenuItem item) {
         getApp().setReturnResult(RESULT_UP);
-        getCurrentScreen().returnToPrevious();
+        getCurrentScreen().closeAndGoUp();
     }
 }

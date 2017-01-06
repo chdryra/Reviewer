@@ -29,7 +29,7 @@ public class ActivityBuildReview extends ActivityReviewView {
     private PresenterReviewBuild mPresenter;
 
     @Override
-    protected ReviewView createReviewView() {
+    protected ReviewView<?> createReviewView() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         Review template = app.unpackTemplate(getIntent().getBundleExtra(getLaunchTag()));
 
@@ -51,5 +51,10 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     public void launch(UiTypeLauncher launcher) {
         launcher.launch(getClass(), getLaunchTag());
+    }
+
+    @Override
+    public void onBackPressed() {
+        mPresenter.onBackPressed();
     }
 }

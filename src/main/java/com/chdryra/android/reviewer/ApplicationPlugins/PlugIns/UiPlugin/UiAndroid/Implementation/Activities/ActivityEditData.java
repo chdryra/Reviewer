@@ -64,7 +64,7 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
     protected ReviewView createReviewView() {
         PresenterReviewDataEdit.Builder<T> builder = new PresenterReviewDataEdit.Builder<>(mDataType);
         mPresenter = builder.build(AppInstanceAndroid.getInstance(this));
-        return builder.getEditor();
+        return mPresenter.getEditor();
     }
 
     @Override
@@ -95,5 +95,10 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mPresenter.onBackPressed();
     }
 }

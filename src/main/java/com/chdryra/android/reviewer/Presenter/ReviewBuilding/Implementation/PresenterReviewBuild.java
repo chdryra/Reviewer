@@ -11,12 +11,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 
@@ -25,13 +24,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelable>> implements
-        ActivityResultListener{
+public class PresenterReviewBuild implements ActivityResultListener{
 
-    private final ReviewEditor<GC> mEditor;
+    private final ReviewEditorSuite mSuite;
+    private ReviewEditor<?> mEditor;
 
-    private PresenterReviewBuild(ReviewEditor<GC> editor) {
-        mEditor = editor;
+    private PresenterReviewBuild(ReviewEditorSuite suite, LocationClient locationClient, @Nullable Review template) {
+        mSuite = suite;
+        mEditor = suite.getEditor();
+        if (mEditor == null) {
+            mEditor = mSuite.createEditor(Settings.BuildReview.DEFAULT_EDIT_MODE, locationClient, template);
+        }
     }
 
     public ReviewEditor getEditor() {
@@ -40,7 +43,16 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mEditor.onActivityResult(requestCode, resultCode, data);
+        getEditor().onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onBackPressed() {
+        mSuite.discardEditor(true, new ReviewEditorSuite.DiscardListener() {
+            @Override
+            public void onDiscarded(boolean discardConfirmed) {
+                if(discardConfirmed) mEditor.getCurrentScreen().close();
+            }
+        });
     }
 
     public static class Builder {
@@ -51,15 +63,9 @@ public class PresenterReviewBuild<GC extends GvDataList<? extends GvDataParcelab
             return this;
         }
 
-        public PresenterReviewBuild<?> build(ApplicationInstance app) {
-            ReviewEditorSuite suite = app.getReviewEditor();
-            ReviewEditor<?> editor = suite.getEditor();
-            if (editor == null) {
-                editor = suite.createEditor(Settings.BuildReview.DEFAULT_EDIT_MODE,
-                        app.getLocationServices().newLocationClient(), mTemplate);
-            }
-
-            return new PresenterReviewBuild<>(editor);
+        public PresenterReviewBuild build(ApplicationInstance app) {
+            return new PresenterReviewBuild(app.getReviewEditor(),
+                    app.getLocationServices().newLocationClient(), mTemplate);
         }
     }
 }

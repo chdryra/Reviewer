@@ -41,12 +41,6 @@ public class ActivityFeed extends ActivityReviewView implements
     }
 
     @Override
-    protected void onResume() {
-        AppInstanceAndroid.getInstance(this).getReviewEditor().discardEditor();
-        super.onResume();
-    }
-
-    @Override
     protected void onDestroy() {
         mPresenter.detach();
         super.onDestroy();

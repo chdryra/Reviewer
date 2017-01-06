@@ -29,7 +29,7 @@ public interface CurrentScreen {
 
     void showToast(String toast);
 
-    void returnToPrevious();
+    void closeAndGoUp();
 
     void setTitle(String title);
 
