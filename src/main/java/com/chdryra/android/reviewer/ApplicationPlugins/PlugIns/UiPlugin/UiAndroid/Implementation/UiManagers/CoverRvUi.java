@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
@@ -26,15 +25,14 @@ public class CoverRvUi extends CoverUi<Bitmap>{
     private final ReviewView mReviewView;
     private final GridViewUi mGridView;
 
-    public CoverRvUi(ReviewView reviewView, RelativeLayout view, GridViewUi gridView, Activity
-            activity) {
+    public CoverRvUi(ReviewView reviewView, ImageView view, GridViewUi gridView) {
         super(view, new ValueGetter<Bitmap>() {
             @Override
             @Nullable
             public Bitmap getValue() {
                 return null;
             }
-        }, activity);
+        });
         mReviewView = reviewView;
         mGridView = gridView;
     }

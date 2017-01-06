@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
@@ -52,6 +52,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int RATING = R.id.review_rating;
     private static final int BANNER = R.id.banner_button;
     private static final int GRID = R.id.gridview_data;
+    private static final int COVER = R.id.background_image;
     private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
@@ -134,8 +135,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
                 FactoryGridCellAdapter(getActivity()), new CellDimensionsCalculator(getActivity()));
         mMenu = new MenuUi(mReviewView.getActions().getMenuAction());
-        mCover = new CoverRvUi(mReviewView, (RelativeLayout) v.findViewById(FULL_VIEW),
-                mGridView, getActivity());
+        mCover = new CoverRvUi(mReviewView, (ImageView) v.findViewById(COVER), mGridView);
         mContextual = new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
                 CONTEXTUAL_BUTTON, actions.getContextualAction(), colour);
 
