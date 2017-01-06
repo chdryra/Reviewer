@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorIdList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,8 +33,7 @@ public class GvConverterAuthorIds extends
 
     @Override
     public GvAuthorId convert(DataAuthorId datum, @Nullable ReviewId reviewId) {
-        GvReviewId gvReviewId = getGvReviewId(datum, reviewId);
-        return new GvAuthorId(gvReviewId, mRepo.getReference(datum));
+        return new GvAuthorId(newId(reviewId), mRepo.getReference(datum));
     }
 
     @Override

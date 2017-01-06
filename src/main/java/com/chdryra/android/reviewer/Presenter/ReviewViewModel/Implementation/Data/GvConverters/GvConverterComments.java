@@ -29,8 +29,7 @@ public class GvConverterComments extends GvConverterReviewData.RefCommentList<Gv
 
     @Override
     public GvComment convert(DataComment datum, @Nullable ReviewId reviewId) {
-        return new GvComment(getGvReviewId(datum, reviewId),
-                datum.getComment(), datum.isHeadline());
+        return new GvComment(newId(reviewId), datum.getComment(), datum.isHeadline());
     }
 
     @Override

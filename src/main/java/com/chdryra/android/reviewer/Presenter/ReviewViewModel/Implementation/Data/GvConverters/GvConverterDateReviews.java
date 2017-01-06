@@ -29,7 +29,7 @@ public class GvConverterDateReviews extends GvConverterReviewData.RefDataList<Da
 
     @Override
     public GvDate convert(DataDate datum, @Nullable ReviewId reviewId) {
-        return new GvDate(getGvReviewId(datum, reviewId), datum.getTime());
+        return new GvDate(newId(reviewId), datum.getTime());
     }
 
     @Override

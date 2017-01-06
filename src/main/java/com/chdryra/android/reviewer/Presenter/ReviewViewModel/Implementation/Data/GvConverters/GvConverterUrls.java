@@ -28,7 +28,7 @@ public class GvConverterUrls extends GvConverterReviewData.RefDataList<DataUrl, 
 
     @Override
     public GvUrl convert(DataUrl datum, @Nullable ReviewId reviewId) {
-        return new GvUrl(getGvReviewId(datum, reviewId), datum.getLabel(), datum.getUrl());
+        return new GvUrl(newId(reviewId), datum.getLabel(), datum.getUrl());
     }
 
     @Override

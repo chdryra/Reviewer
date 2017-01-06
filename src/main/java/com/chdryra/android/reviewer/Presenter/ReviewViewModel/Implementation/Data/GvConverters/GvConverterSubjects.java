@@ -28,7 +28,7 @@ public class GvConverterSubjects extends GvConverterReviewData.RefDataList<DataS
 
     @Override
     public GvSubject convert(DataSubject datum, @Nullable ReviewId reviewId) {
-        return new GvSubject(getGvReviewId(datum, reviewId), datum.getSubject());
+        return new GvSubject(newId(reviewId), datum.getSubject());
     }
 
     @Override

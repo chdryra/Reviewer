@@ -29,7 +29,7 @@ public class GvConverterDataTags extends GvConverterReviewData.RefDataList<DataT
 
     @Override
     public GvTag convert(DataTag datum, @Nullable ReviewId reviewId) {
-        return new GvTag(getGvReviewId(datum, reviewId), datum.getTag());
+        return new GvTag(newId(reviewId), datum.getTag());
     }
 
     @Override

@@ -30,7 +30,7 @@ public class GvConverterLocations extends
 
     @Override
     public GvLocation convert(DataLocation datum, @Nullable ReviewId reviewId) {
-        return new GvLocation(getGvReviewId(datum, reviewId), datum.getLatLng(), datum.getName(),
+        return new GvLocation(newId(reviewId), datum.getLatLng(), datum.getName(),
                 datum.getAddress(), datum.getLocationId());
     }
 

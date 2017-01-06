@@ -36,7 +36,7 @@ public class GvConverterImages extends GvConverterReviewData.RefDataList<DataIma
 
     @Override
     public GvImage convert(DataImage datum, @Nullable ReviewId reviewId) {
-        GvReviewId id = getGvReviewId(datum, reviewId);
+        GvReviewId id = newId(reviewId);
         DateTime date = datum.getDate();
         GvDate gvDate = date != null ? mConverter.convert(date) : new GvDate();
         return new GvImage(id, datum.getBitmap(), gvDate, datum.getLatLng(), datum.getCaption(),
