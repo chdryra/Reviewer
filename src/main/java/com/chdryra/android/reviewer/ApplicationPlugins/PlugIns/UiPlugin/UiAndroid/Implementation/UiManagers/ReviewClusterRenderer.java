@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -63,7 +64,8 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
 
     @NonNull
     private BitmapDescriptor getIcon(ReviewClusterItem item) {
-        String rating = String.valueOf(getRating(item.getLocation().getReviewId())) + "*";
+        float clusterRating = getRating(item.getLocation().getReviewId());
+        String rating = RatingFormatter.twoSignificantDigits(clusterRating) + "*";
         TextView text = new TextView(mContext);
         text.setText(rating);
 
@@ -74,7 +76,7 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
     private BitmapDescriptor getIcon(Cluster<ReviewClusterItem> cluster) {
         ReviewCluster reviews = new ReviewCluster(cluster);
         ReviewCluster.ClusterAverage average = reviews.getAverage();
-        String rating = String.valueOf(average.getAverage()) + "*";
+        String rating = RatingFormatter.twoSignificantDigits(average.getAverage()) + "*";
         TextView text = new TextView(mContext);
         text.setText(rating + " (" + String.valueOf(cluster.getSize()) + ")");
 

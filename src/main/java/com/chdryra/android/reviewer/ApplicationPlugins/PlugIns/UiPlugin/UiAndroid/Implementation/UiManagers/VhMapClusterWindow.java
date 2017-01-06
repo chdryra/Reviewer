@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.google.maps.android.clustering.Cluster;
 
 /**
@@ -51,7 +52,7 @@ public class VhMapClusterWindow extends MapInfoWindow {
         int numReviews = average.getNumberReviews();
         String stem = numReviews == 1 ? Strings.Mapping.REVIEW : Strings.Mapping.REVIEWS;
         mSubject.setText(String.valueOf(numReviews) + " " + stem);
-        mRating.setText(String.valueOf(average.getAverage()));
+        mRating.setText(RatingFormatter.twoSignificantDigits(average.getAverage()));
         mLocations.setText(mCluster.getSize() + " " + Strings.Mapping.LOCATIONS);
 
         mListener.onInfoUpdated();

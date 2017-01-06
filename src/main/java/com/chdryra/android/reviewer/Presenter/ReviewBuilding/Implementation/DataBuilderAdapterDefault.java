@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
@@ -187,7 +188,9 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     private void makeToastHasItem(GvData datum) {
         String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
-        getReviewView().getCurrentScreen().showToast(toast);
+        ReviewView<?> reviewView = getReviewView();
+        if(reviewView == null) reviewView = mParentBuilder.getReviewView();
+        reviewView.getCurrentScreen().showToast(toast);
     }
 }
 

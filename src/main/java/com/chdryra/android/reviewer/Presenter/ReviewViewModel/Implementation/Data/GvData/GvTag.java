@@ -82,6 +82,7 @@ public class GvTag extends GvText<GvTag> implements DataTag {
         return new VhTag();
     }
 
+
     public static class Reference extends GvDataRef<Reference, DataTag, VhTag> {
         public static final GvDataType<GvTag.Reference> TYPE
                 = new GvDataType<>(GvTag.Reference.class, GvTag.TYPE);

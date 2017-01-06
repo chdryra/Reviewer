@@ -50,7 +50,7 @@ public abstract class GvConverterReviewData<T1 extends HasReviewId,
     }
 
     @Override
-    public abstract T2 convert(T1 datum, ReviewId reviewId);
+    public abstract T2 convert(T1 datum, @Nullable ReviewId reviewId);
 
     @Override
     public T2 convert(T1 datum) {

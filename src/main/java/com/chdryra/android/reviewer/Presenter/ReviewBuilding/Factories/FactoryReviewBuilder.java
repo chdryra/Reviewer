@@ -76,8 +76,8 @@ public class FactoryReviewBuilder {
                                                                      IdableList<? extends T1>
                                                                              data) {
         DataBuilder<T2> dataBuilder = builder.getDataBuilder(dataType);
-        for (T2 datum : converter.convert(data)) {
-            dataBuilder.add(datum);
+        for (T1 datum : data) {
+            dataBuilder.add(converter.convert(datum, null));
         }
 
         dataBuilder.commitData();
@@ -85,7 +85,7 @@ public class FactoryReviewBuilder {
 
     private void setCover(Review template, ReviewBuilder builder) {
         DataBuilder<GvImage> dataBuilder = builder.getDataBuilder(GvImage.TYPE);
-        dataBuilder.add(mConverterGv.newConverterImages().convert(template.getCover()));
+        dataBuilder.add(mConverterGv.newConverterImages().convert(template.getCover(), null));
         dataBuilder.commitData();
     }
 }
