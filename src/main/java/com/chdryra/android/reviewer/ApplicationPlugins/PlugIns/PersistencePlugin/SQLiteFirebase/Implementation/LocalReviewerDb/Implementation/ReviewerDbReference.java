@@ -66,6 +66,16 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
+    public void registerObserver(ReviewReferenceObserver observer) {
+        //TODO implement
+    }
+
+    @Override
+    public void unregisterObserver(ReviewReferenceObserver observer) {
+        //TODO implement
+    }
+
+    @Override
     public ReviewId getReviewId() {
         return mInfo.getReviewId();
     }

@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
@@ -17,4 +19,13 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewReference extends ReviewReferenceData, ReviewItemReference<Review> {
+    interface ReviewReferenceObserver {
+        void onSubjectChanged(DataSubject newSubject);
+
+        void onRatingChanged(DataRating newRating);
+    }
+
+    void registerObserver(ReviewReferenceObserver observer);
+
+    void unregisterObserver(ReviewReferenceObserver observer);
 }

@@ -46,6 +46,16 @@ public class ReviewReferenceWrapper extends WrapperItemReference<Review> impleme
     }
 
     @Override
+    public void registerObserver(ReviewReferenceObserver observer) {
+        //Review is static
+    }
+
+    @Override
+    public void unregisterObserver(ReviewReferenceObserver observer) {
+        //Review is static
+    }
+
+    @Override
     public ReviewId getReviewId() {
         return mReview.getReviewId();
     }

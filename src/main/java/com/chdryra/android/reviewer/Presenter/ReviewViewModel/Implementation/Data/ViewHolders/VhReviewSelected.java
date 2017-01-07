@@ -24,6 +24,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewSt
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -46,7 +48,7 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
-        .ReviewSelectorCallback, VhNode {
+        .ReviewSelectorCallback, VhNode, ReviewReference.ReviewReferenceObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
@@ -104,6 +106,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getLocations().unbindFromValue(mLocationsBinder);
         mReview.getTags().unbindFromValue(mTagsBinder);
+        mReview.unregisterObserver(this);
         mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
         mSelector.unregister(mNodeId);
         mReview = null;
@@ -219,14 +222,27 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void bindToReview(ReviewReference review) {
         mReview = review;
-        mSubject.setText(mReview.getSubject().getSubject());
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(mReview.getRating().getRating()));
+
+        onSubjectChanged(mReview.getSubject());
+        onRatingChanged(mReview.getRating());
+        mReview.registerObserver(this);
+
         mNumReturned = 0;
         mCancelCover = false;
         mReview.getComments().bindToValue(mCommentsBinder);
         mReview.getLocations().bindToValue(mLocationsBinder);
         mReview.getTags().bindToValue(mTagsBinder);
         mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+    }
+
+    @Override
+    public void onSubjectChanged(DataSubject newSubject) {
+        mSubject.setText(newSubject.getSubject());
+    }
+
+    @Override
+    public void onRatingChanged(DataRating newRating) {
+        mRating.setText(RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
     }
 
     private void returned() {

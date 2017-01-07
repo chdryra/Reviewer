@@ -44,6 +44,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/04/2016
@@ -57,8 +59,11 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
     private final FactoryFbReference mReferencer;
+
     private DataSubject mSubject;
     private DataRating mRating;
+
+    private ArrayList<ReviewReferenceObserver> mObservers;
 
     public FbReviewReference(DataReviewInfo info,
                              Firebase reviewReference,
@@ -82,6 +87,29 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
         mAggregate = aggregateReference;
         mCache = cache;
         mReferencer = referencer;
+        mObservers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(ReviewReferenceObserver observer) {
+        if(!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(ReviewReferenceObserver observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    private void notifySubjectChanged(DataSubject newSubject) {
+        for(ReviewReferenceObserver observer : mObservers) {
+            observer.onSubjectChanged(newSubject);
+        }
+    }
+
+    private void notifyRatingChanged(DataRating newRating) {
+        for(ReviewReferenceObserver observer : mObservers) {
+            observer.onRatingChanged(newRating);
+        }
     }
 
     @Override
@@ -171,7 +199,10 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataRating rating = mRatingConverter.convert(dataSnapshot);
-                if (rating != null) mRating = rating;
+                if (rating != null) {
+                    mRating = rating;
+                    notifyRatingChanged(mRating);
+                }
             }
 
             @Override
@@ -189,6 +220,7 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
                 DataSubject subject = mSubjectConverter.convert(dataSnapshot);
                 if (subject != null) {
                     mSubject = subject;
+                    notifySubjectChanged(mSubject);
                 }
             }
 
