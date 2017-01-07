@@ -188,7 +188,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @NonNull
     private NodeAsync newAsyncNode(@Nullable ReviewId id) {
-        Review fetching = mReviewsFactory.createUserReview(Strings.Progress.FETCHING, 0f);
+        Review fetching = mReviewsFactory.createPlaceholderReview(id, Strings.Progress.FETCHING);
 
         ReviewReference reference = mReviewsFactory.asReference(fetching);
         ReviewNodeComponent node = mReviewsFactory.createLeafNode(reference);

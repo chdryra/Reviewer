@@ -100,7 +100,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNodeComponent createTree(Iterable<ReviewReference> reviews, String subject) {
-        return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews);
+        return mNodeFactory.createMetaTree(createPlaceholderReview(null, subject), reviews);
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference reference) {
@@ -117,9 +117,9 @@ public class FactoryReviews implements ReviewMaker {
         return new ReviewReferenceWrapper(review, mReferenceFactory.getReferenceFactory());
     }
 
-    public Review createUserReview(String subject, float rating) {
-        return newReviewUser(newStamp(),
-                subject, rating,
+    public Review createPlaceholderReview(@Nullable ReviewId reviewId, String subject) {
+        return newReviewUser(reviewId != null ? ReviewStamp.newStamp(reviewId) : newStamp(),
+                subject, 0f,
                 new ArrayList<DataTag>(),
                 new ArrayList<DataCriterion>(),
                 new ArrayList<DataComment>(),

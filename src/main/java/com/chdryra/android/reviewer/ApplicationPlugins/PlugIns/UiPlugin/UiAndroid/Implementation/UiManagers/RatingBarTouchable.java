@@ -35,7 +35,7 @@ public class RatingBarTouchable extends RatingBarUi {
             getView().setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    onTouch.execute();
+                    if(motionEvent.getAction() == MotionEvent.ACTION_UP) onTouch.execute();
                     return true;
                 }
             });
