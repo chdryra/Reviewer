@@ -8,9 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -85,8 +87,13 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public MenuAction<GC> newMenu() {
         LaunchBespokeViewCommand command = mFactoryCommands.newLaunchFormattedCommand(null);
-        return new MenuReviewBuild<>(new MaiUpEditor<GC>(),
+        return new MenuReviewBuild<>(getMenuTitle(), new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
+    }
+
+    @NonNull
+    protected String getMenuTitle() {
+        return Strings.Screens.CREATE;
     }
 
     @Nullable

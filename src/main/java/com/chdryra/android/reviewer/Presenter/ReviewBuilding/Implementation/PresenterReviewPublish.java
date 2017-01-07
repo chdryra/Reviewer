@@ -45,7 +45,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     private final LaunchableConfig mFeed;
     private final LaunchableUi mAuthLaunchable;
     private final UiLauncher mLauncher;
-    private final ReviewEditorSuite mBuilder;
+    private final ReviewEditorSuite mSuite;
 
     private ReviewView<?> mView;
     private LoginUi mAuthUi;
@@ -55,13 +55,13 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
                                    LaunchableConfig feed,
                                    LaunchableUi authLaunchable,
                                    UiLauncher launcher,
-                                   ReviewEditorSuite builder) {
+                                   ReviewEditorSuite suite) {
         mScreen = screen;
         mNetwork = network;
         mFeed = feed;
         mAuthLaunchable = authLaunchable;
         mLauncher = launcher;
-        mBuilder = builder;
+        mSuite = suite;
     }
 
     public void setView(ReviewView<?> view) {
@@ -75,7 +75,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
         showToast(Strings.Toasts.PUBLISHING);
-        mBuilder.discardEditor(false, null);
+        mSuite.discardEditor(false, null);
         mFeed.launch(new UiLauncherArgs(mFeed.getDefaultRequestCode()).setClearBackStack());
         mScreen.close();
     }

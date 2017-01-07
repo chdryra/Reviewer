@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 
 /**
@@ -31,7 +33,7 @@ public interface ReviewEditorSuite {
 
     ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
 
-    ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit);
+    ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit, ReviewPublisher publisher, PublishAction.PublishCallback callback);
 
     ReviewEditor<?> getEditor();
 

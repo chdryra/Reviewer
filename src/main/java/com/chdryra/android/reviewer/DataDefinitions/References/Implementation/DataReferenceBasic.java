@@ -19,7 +19,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class DataReferenceBasic<T> implements DataReference<T> {
-    protected Collection<DataReference.InvalidationListener> mListeners;
+    protected Collection<InvalidationListener> mListeners;
     private boolean mDeleted = false;
 
     protected DataReferenceBasic() {
@@ -32,7 +32,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
     }
 
     @Override
-    public void registerListener(DataReference.InvalidationListener listener) {
+    public void registerListener(InvalidationListener listener) {
         if(mDeleted) {
             listener.onReferenceInvalidated(this);
         } else {
@@ -41,7 +41,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
     }
 
     @Override
-    public void unregisterListener(DataReference.InvalidationListener listener) {
+    public void unregisterListener(InvalidationListener listener) {
         if(mListeners.contains(listener)) mListeners.remove(listener);
     }
 
@@ -49,7 +49,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
     public void invalidate() {
         if(!isDeleted()) {
             mDeleted = true;
-            for (DataReference.InvalidationListener listener : mListeners) {
+            for (InvalidationListener listener : mListeners) {
                 listener.onReferenceInvalidated(this);
             }
             mListeners.clear();

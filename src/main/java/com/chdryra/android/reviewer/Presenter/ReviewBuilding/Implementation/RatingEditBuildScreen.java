@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +31,8 @@ public class RatingEditBuildScreen<GC extends GvDataList<? extends GvDataParcela
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        getEditor().setRating(rating, fromUser);
+        ReviewEditor<GC> editor = getEditor();
+        if(editor != null) editor.setRating(rating, fromUser);
     }
 
     @Override

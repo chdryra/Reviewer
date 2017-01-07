@@ -147,11 +147,18 @@ public class FactoryReviewView {
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
-    newEditor(ReviewEditor.EditMode editMode,
-              LocationClient locationClient,
-              @Nullable Review template) {
-        return mEditorFactory.newEditor(mConfig, getUiLauncher(), editMode, locationClient,
+    newReviewCreator(ReviewEditor.EditMode editMode,
+                     LocationClient locationClient,
+                     @Nullable Review template) {
+        return mEditorFactory.newReviewCreator(mConfig, getUiLauncher(), editMode, locationClient,
                 template);
+    }
+
+    public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
+    newReviewEditor(LocationClient locationClient, Review review,
+                    ReviewPublisher publisher, PublishAction.PublishCallback callback) {
+        return mEditorFactory.newReviewEditor(mConfig, getUiLauncher(), locationClient,
+                review, publisher, callback);
     }
 
     public ReviewViewNode newFeedView(ReviewNode node) {

@@ -80,12 +80,6 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         return mViewHolder != null ? mViewHolder.getDataValue() : null;
     }
 
-    @Nullable
-    public GvDataParcelable getParcelabelDataValue() {
-        ValueType value = getDataValue();
-        return value != null ? mConverter.convert(value) : null;
-    }
-
     public void unbind() {
         if (mViewHolder != null && mViewHolder.isBoundTo(mReference)) {
             mViewHolder.unbindFromReference();

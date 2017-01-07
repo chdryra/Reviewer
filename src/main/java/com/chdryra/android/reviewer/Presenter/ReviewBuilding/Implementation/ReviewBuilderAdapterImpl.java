@@ -64,7 +64,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         mFullGridUi.setParentAdapter(this);
         mQuickGridUi.setParentAdapter(this);
 
-        mSubjectTag = new GvTag("");
+        mSubjectTag = new GvTag(builder.getSubject());
     }
 
     @Override

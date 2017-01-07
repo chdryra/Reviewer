@@ -34,8 +34,7 @@ import java.util.Collections;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
-        ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference
-        .InvalidationListener {
+        ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference.InvalidationListener {
     private final ReviewNode mRoot;
     private final ArrayList<ReferenceBinder<DataImage>> mBinders;
     private ReviewItemReference<ReviewReference> mReview;

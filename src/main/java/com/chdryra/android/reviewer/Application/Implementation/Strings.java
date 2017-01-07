@@ -46,6 +46,7 @@ public class Strings {
         public static final String ENTER_LOCATION = "Please enter a location name";
         public static final String PUBLISHING = "Publishing...";
         public static final String PROBLEM_PUBLISHING = "Problem publishing";
+        public static final String PROBLEM_UPLOADING_EDITS = "Problem uploading edits";
         public static final String REVIEW_NOT_FOUND = "Review not found";
         public static final String COMPLETING_SIGNUP = "Completing sign up...";
         public static final String DELETING = "Deleting please wait...";
@@ -64,16 +65,18 @@ public class Strings {
         public static final String LOGGING_OUT = "Logging out...";
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
         public static final String NO_INTERNET = "No internet available...";
+        public static final String UPLOADING_EDITS = "Uploading edits...";
     }
     
     public static class Screens {
         public static final String LOCATION = "location";
         public static final String URL = "link";
-        public static final String BUILD = "create";
+        public static final String CREATE = "create";
         public static final String SHARE = "share";
         public static final String SUMMARY = "summary";
         public static final String PREVIEW = "preview";
         public static final String SEARCH = "search";
+        public static final String EDIT = "edit";
     }
 
     public static class Buttons {
@@ -87,6 +90,7 @@ public class Strings {
         public static final String QUICK_REVIEW = "Quick review";
         public static final String DISTRIBUTION = "Ratings distribution";
         public static final String MAP = "Map";
+        public static final String FINISH_EDITING = "Finish Editing";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

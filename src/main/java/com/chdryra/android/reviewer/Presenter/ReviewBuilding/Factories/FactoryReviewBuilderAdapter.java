@@ -8,14 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewBuilderAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .ReviewBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 
 /**
@@ -39,8 +42,17 @@ public class FactoryReviewBuilderAdapter<GC extends GvDataList<? extends GvDataP
         mDataValidator = dataValidator;
     }
 
-    ReviewBuilderAdapter<GC> newAdapter(@Nullable Review template) {
-        return new ReviewBuilderAdapterImpl<>(mBuilderFactory.newBuilder(template),
+    ReviewBuilderAdapter<GC> newCreateAdapter(@Nullable Review template) {
+        return newAdapter(mBuilderFactory.newBuilder(template));
+    }
+
+    ReviewBuilderAdapter<GC> newEditAdapter(Review toEdit) {
+        return newAdapter(mBuilderFactory.newEditBuilder(toEdit));
+    }
+
+    @NonNull
+    private ReviewBuilderAdapter<GC> newAdapter(ReviewBuilder builder) {
+        return new ReviewBuilderAdapterImpl<>(builder,
                 mDataBuilderFactory,
                 mGridUiFactory.newGridUiWrapperFull(),
                 mGridUiFactory.newGridUiWrapperQuick(),

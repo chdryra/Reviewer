@@ -44,7 +44,5 @@ public interface TableTransactor {
 
     <Row extends DbTableRow> boolean insertRow(Row row, DbTable<Row> table);
 
-    <Row extends DbTableRow> boolean insertOrReplaceRow(Row row, DbTable<Row> table);
-
     boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table);
 }

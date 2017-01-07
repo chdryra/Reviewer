@@ -31,7 +31,7 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     protected ReviewView<?> createReviewView() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
-
+        AppInstanceAndroid.setActivity(this);
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
         mPresenter = new PresenterReviewBuild.Builder().setReview(app.unpackReview(args)).build(app);
 

@@ -73,12 +73,7 @@ public class TableTransactorSqLite implements TableTransactor {
 
     @Override
     public <Row extends DbTableRow> boolean insertRow(Row row, DbTable<Row> table) {
-        return insertOrReplace(row, table, false);
-    }
-
-    @Override
-    public <Row extends DbTableRow> boolean insertOrReplaceRow(Row row, DbTable<Row> table) {
-        return insertOrReplace(row, table, true);
+        return insertOrReplace(row, table);
     }
 
     @Override
@@ -107,18 +102,17 @@ public class TableTransactorSqLite implements TableTransactor {
         }
     }
 
-    private <Row extends DbTableRow> boolean insertOrReplace(Row row, DbTable<Row> table,
-                                                             boolean replace) {
+    private <Row extends DbTableRow> boolean insertOrReplace(Row row, DbTable<Row> table) {
         String tableName = table.getName();
         ContentValues values = mRowConverter.convert(row);
         String id = row.getRowId();
         String idCol = row.getRowIdColumnName();
 
-        boolean success = false;
+        boolean success;
         boolean idInTable = isIdInTable(id, table.getColumn(idCol), table);
         if (!idInTable) {
             success = mDb.insertOrThrow(tableName, values, id) != -1;
-        } else if (replace) {
+        } else {
             success = mDb.replaceOrThrow(tableName, values, id) != -1;
         }
 

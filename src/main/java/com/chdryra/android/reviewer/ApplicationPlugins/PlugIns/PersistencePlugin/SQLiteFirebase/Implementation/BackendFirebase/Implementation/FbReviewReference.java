@@ -10,10 +10,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewAggregates;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
@@ -35,7 +39,10 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,34 +51,47 @@ import com.firebase.client.Firebase;
  */
 public class FbReviewReference extends FbReviewItemRef<Review> implements ReviewReference {
     private final DataReviewInfo mInfo;
+    private final SnapshotConverter<DataSubject> mSubjectConverter;
+    private final SnapshotConverter<DataRating> mRatingConverter;
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
     private final FactoryFbReference mReferencer;
+    private DataSubject mSubject;
+    private DataRating mRating;
 
     public FbReviewReference(DataReviewInfo info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
+                             SnapshotConverter<DataSubject> subjectConverter,
+                             SnapshotConverter<DataRating> ratingConverter,
                              SnapshotConverter<Review> converter,
                              FactoryFbReference referencer,
                              ReviewsCache cache) {
         super(info.getReviewId(), reviewReference, converter);
         mInfo = info;
+        mSubject = mInfo.getSubject();
+        mRating = mInfo.getRating();
+
+        mSubjectConverter = subjectConverter;
+        mRatingConverter = ratingConverter;
         mReference = reviewReference;
+        mReference.child(ReviewDb.SUBJECT).addValueEventListener(subjectChangeListener());
+        mReference.child(ReviewDb.RATING).addValueEventListener(ratingChangeListener());
+
         mAggregate = aggregateReference;
         mCache = cache;
-
         mReferencer = referencer;
     }
 
     @Override
     public DataSubject getSubject() {
-        return mInfo.getSubject();
+        return mSubject;
     }
 
     @Override
     public DataRating getRating() {
-        return mInfo.getRating();
+        return mRating;
     }
 
     @Override
@@ -143,6 +163,40 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     @Override
     protected void onDereferenced(Review value) {
         mCache.add(value);
+    }
+
+    @NonNull
+    private ValueEventListener ratingChangeListener() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataRating rating = mRatingConverter.convert(dataSnapshot);
+                if (rating != null) mRating = rating;
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+    }
+
+    @NonNull
+    private ValueEventListener subjectChangeListener() {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSubject subject = mSubjectConverter.convert(dataSnapshot);
+                if (subject != null) {
+                    mSubject = subject;
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
     }
 
     private ReviewItemReference<DataSize> getSize(String aggregatesName) {

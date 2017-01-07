@@ -16,6 +16,8 @@ import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 
@@ -38,13 +40,14 @@ public class ReviewEditorSuiteAndroid implements ReviewEditorSuite, AlertListene
 
     @Override
     public ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
-        mReviewEditor = mViewFactory.newEditor(editMode, client, template);
+        mReviewEditor = mViewFactory.newReviewCreator(editMode, client, template);
         return mReviewEditor;
     }
 
     @Override
-    public ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit) {
-        mReviewEditor = mViewFactory.newEditor(ReviewEditor.EditMode.FULL, client, toEdit);
+    public ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit, ReviewPublisher
+            publisher, PublishAction.PublishCallback callback) {
+        mReviewEditor = mViewFactory.newReviewEditor(client, toEdit, publisher, callback);
         return mReviewEditor;
     }
 

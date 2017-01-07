@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -31,8 +30,8 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
     private ReviewEditor<GC> mEditor;
 
-    public MenuReviewBuild(MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
-        super(MENU, Strings.Screens.BUILD, upAction);
+    public MenuReviewBuild(String title, MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
+        super(MENU, title, upAction);
         bindMenuActionItem(preview, MENU_PREVIEW_ID, false);
         bindMenuActionItem(averageRating, MENU_AVERAGE_ID, false);
     }
