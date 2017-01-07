@@ -36,10 +36,10 @@ public class Comment {
 
     public Comment(DataComment comment) {
         String commentString = comment.getComment();
-        string = commentString.replaceAll("\n", "<\n>");
-        sentences = DataFormatter.split(new DatumComment(comment.getReviewId(), string, comment.isHeadline()), false);
-        numSentences = sentences.size();
         headline = comment.isHeadline();
+        sentences = DataFormatter.split(new DatumComment(comment.getReviewId(), commentString, headline), false);
+        string = commentString.replaceAll("\n", "<\n>");
+        numSentences = sentences.size();
     }
 
     public String getString() {

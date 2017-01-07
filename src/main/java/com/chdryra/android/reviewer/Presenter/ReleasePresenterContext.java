@@ -35,6 +35,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .ReviewBuilderInitialiser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -137,8 +139,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                                 FactoryGvData dataFactory,
                                                 DataValidator validator) {
         FactoryReviewBuilder builder
-                = new FactoryReviewBuilder(converter, validator, modelContext.getReviewsFactory(),
-                new FactoryDataBuilder(dataFactory));
+                = new FactoryReviewBuilder(validator, modelContext.getReviewsFactory(),
+                new FactoryDataBuilder(dataFactory), new ReviewBuilderInitialiser(converter));
 
         //TODO make type safe
         return new FactoryReviewBuilderAdapter<>(builder, new FactoryDataBuilderAdapter(), new FactoryDataBuildersGridUi(), validator);

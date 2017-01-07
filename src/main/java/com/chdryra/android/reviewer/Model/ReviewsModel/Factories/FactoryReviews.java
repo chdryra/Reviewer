@@ -160,13 +160,11 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataLocation> locations,
                                  boolean ratingIsAverage) {
         ReviewStamp stamp = mStamper.newStamp();
-        AuthorId author = stamp.getAuthorId();
-        DateTime date = stamp.getDate();
 
         if (ratingIsAverage) rating = getAverageRating(criteria);
 
-        return newReviewUser(stamp, author, date, subject, rating, tags, criteria, comments, images,
-                facts, locations);
+        return newReviewUser(stamp, stamp.getAuthorId(), stamp.getDate(),
+                subject, rating, tags, criteria, comments, images, facts, locations);
     }
 
     private float getAverageRating(Iterable<? extends DataCriterion> criteria) {

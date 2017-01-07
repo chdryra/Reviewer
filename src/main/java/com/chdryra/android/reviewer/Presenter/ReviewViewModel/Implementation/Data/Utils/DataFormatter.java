@@ -148,10 +148,6 @@ public class DataFormatter {
         return shortened != null ? shortened.trim() : name;
     }
 
-    public static String concatenateNameAndAddress(String name, String address) {
-        return name + "|" + address;
-    }
-
     public static String getAddress(String name) {
         String[] split = name.split("|", 1);
         return split.length > 1 ? split[1] : name;
