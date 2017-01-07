@@ -30,9 +30,9 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack;
 
 /**
  * Created by: Rizwan Choudrey
@@ -158,9 +158,8 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         getAuthentication().logout();
     }
 
-    @Nullable
-    Review unpackTemplate(Bundle args) {
-        return mUi.unpackTemplate(args);
+    ReviewPack unpackReview(Bundle args) {
+        return mUi.unpackReview(args);
     }
 
     @Nullable

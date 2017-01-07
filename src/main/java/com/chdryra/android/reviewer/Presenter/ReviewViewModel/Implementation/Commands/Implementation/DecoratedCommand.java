@@ -10,29 +10,30 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CopyCommand extends Command {
-    private static final int LAUNCH = RequestCodeGenerator.getCode(CopyCommand.class);
+public class DecoratedCommand extends Command {
+    private static final int EXECUTE = RequestCodeGenerator.getCode(DecoratedCommand.class);
 
-    private final Command mLaunchEditor;
+    private final String mToastOnExecution;
+    private final Command mCommand;
     private final CurrentScreen mScreen;
 
-    public CopyCommand(Command launchEditor, CurrentScreen screen) {
-        super(Strings.Commands.COPY);
+    public DecoratedCommand(String name, String toastOnExecution, Command command, CurrentScreen screen) {
+        super(name);
+        mToastOnExecution = toastOnExecution;
         mScreen = screen;
-        mLaunchEditor = launchEditor;
+        mCommand = command;
     }
 
     @Override
     public void execute() {
-        mScreen.showToast(Strings.Toasts.COPYING);
-        mLaunchEditor.execute(LAUNCH, new ExecutionListener() {
+        mScreen.showToast(mToastOnExecution);
+        mCommand.execute(EXECUTE, new ExecutionListener() {
             @Override
             public void onCommandExecuted(int requestCode) {
                 onExecutionComplete();

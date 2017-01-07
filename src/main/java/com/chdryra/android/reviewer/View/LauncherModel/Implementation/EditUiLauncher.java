@@ -8,8 +8,10 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -24,6 +26,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
+    private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
     private final ReviewEditorSuite mBuilder;
     private final RepositorySuite mRepo;
 
@@ -33,19 +36,33 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
         mRepo = repo;
     }
 
-    public void launch(@Nullable ReviewId template) {
-        if (template == null) {
+    public void launchCreate(@Nullable ReviewId template) {
+        if(template == null ) {
             super.launch(null);
         } else {
-            fetchAndLaunch(template);
+            launch(template, ReviewPack.TemplateOrEdit.TEMPLATE);
         }
     }
 
-    private void fetchAndLaunch(ReviewId template) {
-        mRepo.getReview(template, new RepositoryCallback() {
+    public ReviewPack unpackReview(Bundle args) {
+        Review review = super.unpack(args);
+        ReviewPack.TemplateOrEdit templateOrEdit
+                = (ReviewPack.TemplateOrEdit) args.getSerializable(TEMPLATE_OR_EDIT);
+        if(templateOrEdit == null) templateOrEdit = ReviewPack.TemplateOrEdit.TEMPLATE;
+        return review != null ? new ReviewPack(review, templateOrEdit) : new ReviewPack();
+    }
+
+    public void launchEdit(ReviewId review) {
+        launch(review, ReviewPack.TemplateOrEdit.EDIT);
+    }
+
+    private void launch(ReviewId review, final ReviewPack.TemplateOrEdit templateOrEdit) {
+        mRepo.getReview(review, new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                EditUiLauncher.super.launch(result.getReview());
+                Bundle args = new Bundle();
+                args.putSerializable(TEMPLATE_OR_EDIT, templateOrEdit);
+                EditUiLauncher.super.launch(result.getReview(), args);
             }
         });
     }

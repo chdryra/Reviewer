@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
@@ -79,7 +80,8 @@ public class FactoryReviews implements ReviewMaker {
         mStamper = stamper;
     }
 
-    public Review createUserReview(String subject, float rating,
+    public Review createUserReview(@Nullable ReviewId reviewId,
+                                   String subject, float rating,
                                    Iterable<? extends DataTag> tags,
                                    Iterable<? extends DataCriterion> criteria,
                                    Iterable<? extends DataComment> comments,
@@ -87,8 +89,10 @@ public class FactoryReviews implements ReviewMaker {
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
                                    boolean ratingIsAverage) {
-        return newReviewUser(subject, rating, tags, criteria, comments,
-                images, facts, locations, ratingIsAverage);
+        rating = ratingIsAverage ? getRating(criteria) : rating;
+        ReviewStamp stamp = reviewId != null ? ReviewStamp.newStamp(reviewId) : newStamp();
+        return newReviewUser(stamp, subject, rating, tags, criteria, comments, images,
+                facts, locations);
     }
 
     public ReviewNodeComponent createTree(ReviewReference review) {
@@ -103,13 +107,25 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNode createTree(ReferencesRepository repo, AuthorReference treeOwner, String title) {
+    public ReviewNode createTree(ReferencesRepository repo, AuthorReference treeOwner, String
+            title) {
         return newReviewNodeAuthored(getMetaInfo(treeOwner.getAuthorId()), repo,
                 new NodeTitler.AuthorsTree(treeOwner, title));
     }
 
     public ReviewReference asReference(Review review) {
         return new ReviewReferenceWrapper(review, mReferenceFactory.getReferenceFactory());
+    }
+
+    public Review createUserReview(String subject, float rating) {
+        return newReviewUser(newStamp(),
+                subject, rating,
+                new ArrayList<DataTag>(),
+                new ArrayList<DataCriterion>(),
+                new ArrayList<DataComment>(),
+                new ArrayList<DataImage>(),
+                new ArrayList<DataFact>(),
+                new ArrayList<DataLocation>());
     }
 
     @Override
@@ -121,62 +137,17 @@ public class FactoryReviews implements ReviewMaker {
                 reviewData.getFacts(), reviewData.getLocations());
     }
 
-    @NonNull
-    private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
-                                                 ReferencesRepository reviews,
-                                                 NodeTitler titler) {
-        return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
-                mNodeFactory, titler);
-    }
-
-    @NonNull
-    private DataReviewInfo getMetaInfo(AuthorId authorId) {
-        ReviewStamp stamp = ReviewStamp.newStamp(authorId);
-        return new ReviewInfo(stamp,
-                new DatumSubject(stamp, Strings.Progress.FETCHING),
-                new DatumRating(stamp, 0f, 1),
-                new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
-                new DatumDate(stamp, stamp.getDate().getTime()));
-    }
-
-    public Review createUserReview(String subject, float rating) {
-        return newReviewUser(subject, rating,
-                new ArrayList<DataTag>(),
-                new ArrayList<DataCriterion>(),
-                new ArrayList<DataComment>(),
-                new ArrayList<DataImage>(),
-                new ArrayList<DataFact>(),
-                new ArrayList<DataLocation>(), false);
-    }
-
-    /********************************************************/
-    //private methods
-    private Review newReviewUser(String subject, float rating,
+    private Review newReviewUser(ReviewStamp stamp,
+                                 String subject,
+                                 float rating,
                                  Iterable<? extends DataTag> tags,
                                  Iterable<? extends DataCriterion> criteria,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
-                                 Iterable<? extends DataLocation> locations,
-                                 boolean ratingIsAverage) {
-        ReviewStamp stamp = mStamper.newStamp();
-
-        if (ratingIsAverage) rating = getAverageRating(criteria);
-
-        return newReviewUser(stamp, stamp.getAuthorId(), stamp.getDate(),
-                subject, rating, tags, criteria, comments, images, facts, locations);
-    }
-
-    private float getAverageRating(Iterable<? extends DataCriterion> criteria) {
-        float rating;
-        double average = 0;
-        int size = 0;
-        for (DataCriterion criterion : criteria) {
-            average += criterion.getRating();
-            size++;
-        }
-        rating = (float) average / (float) size;
-        return rating;
+                                 Iterable<? extends DataLocation> locations) {
+        return newReviewUser(stamp, stamp.getAuthorId(), stamp.getDate(), subject, rating,
+                tags, criteria, comments, images, facts, locations);
     }
 
     private Review newReviewUser(ReviewId id,
@@ -204,6 +175,41 @@ public class FactoryReviews implements ReviewMaker {
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdTags, mdComments,
                 mdImages, mdCriteria, mdFacts, mdLocations);
+    }
+
+    private ReviewStamp newStamp() {
+        return mStamper.newStamp();
+    }
+
+    @NonNull
+    private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
+                                                 ReferencesRepository reviews,
+                                                 NodeTitler titler) {
+        return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
+                mNodeFactory, titler);
+    }
+
+    @NonNull
+    private DataReviewInfo getMetaInfo(AuthorId authorId) {
+        ReviewStamp stamp = ReviewStamp.newStamp(authorId);
+        return new ReviewInfo(stamp,
+                new DatumSubject(stamp, Strings.Progress.FETCHING),
+                new DatumRating(stamp, 0f, 1),
+                new DatumAuthorId(stamp, stamp.getAuthorId().toString()),
+                new DatumDate(stamp, stamp.getDate().getTime()));
+    }
+
+    /********************************************************/
+    private float getRating(Iterable<? extends DataCriterion> criteria) {
+        float rating;
+        double average = 0;
+        int size = 0;
+        for (DataCriterion criterion : criteria) {
+            average += criterion.getRating();
+            size++;
+        }
+        rating = (float) average / (float) size;
+        return rating;
     }
 
     @NonNull

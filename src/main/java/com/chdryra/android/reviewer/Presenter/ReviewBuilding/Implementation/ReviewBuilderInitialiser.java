@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -41,23 +42,31 @@ public class ReviewBuilderInitialiser {
 
     public void useTemplate(ReviewBuilder builder, Review template) {
         builder.setSubject(template.getSubject().getSubject());
-        setCover(template, builder);
+        setCover(builder, template);
         setData(builder, GvTag.TYPE, mConverterGv.newConverterTags(), template.getTags());
-        setData(builder, GvCriterion.TYPE, mConverterGv.newConverterCriteriaSubjects(),
-                template.getCriteria());
         setData(builder, GvLocation.TYPE, mConverterGv.newConverterLocations(), template
                 .getLocations());
+        setData(builder, GvCriterion.TYPE, mConverterGv.newConverterCriteriaSubjects(),
+                template.getCriteria());
         setData(builder, GvFact.TYPE, mConverterGv.newConverterFacts(), template.getFacts());
     }
 
-    private <T1 extends HasReviewId, T2 extends GvData> void setData(ReviewBuilder builder,
-                                                                     GvDataType<T2> dataType,
-                                                                     DataConverter<T1, T2, ?
-                                                                             extends
-                                                                             GvDataList<T2>>
-                                                                             converter,
-                                                                     IdableList<? extends T1>
-                                                                             data) {
+    public void copy(ReviewBuilder builder, Review toCopy) {
+        builder.setSubject(toCopy.getSubject().getSubject());
+        builder.setRating(toCopy.getRating().getRating());
+        setData(builder, GvTag.TYPE, mConverterGv.newConverterTags(), toCopy.getTags());
+        setData(builder, GvComment.TYPE, mConverterGv.newConverterComments(), toCopy.getComments());
+        setData(builder, GvImage.TYPE, mConverterGv.newConverterImages(), toCopy.getImages());
+        setData(builder, GvLocation.TYPE, mConverterGv.newConverterLocations(), toCopy.getLocations());
+        setData(builder, GvCriterion.TYPE, mConverterGv.newConverterCriteria(), toCopy.getCriteria());
+        setData(builder, GvFact.TYPE, mConverterGv.newConverterFacts(), toCopy.getFacts());
+    }
+
+    private <T1 extends HasReviewId, T2 extends GvData> void
+    setData(ReviewBuilder builder,
+            GvDataType<T2> dataType,
+            DataConverter<T1, T2, ? extends GvDataList<T2>> converter,
+            IdableList<? extends T1> data) {
         DataBuilder<T2> dataBuilder = builder.getDataBuilder(dataType);
         for (T1 datum : data) {
             dataBuilder.add(converter.convert(datum, null));
@@ -66,7 +75,7 @@ public class ReviewBuilderInitialiser {
         dataBuilder.commitData();
     }
 
-    private void setCover(Review template, ReviewBuilder builder) {
+    private void setCover(ReviewBuilder builder, Review template) {
         DataBuilder<GvImage> dataBuilder = builder.getDataBuilder(GvImage.TYPE);
         dataBuilder.add(mConverterGv.newConverterImages().convert(template.getCover(), null));
         dataBuilder.commitData();

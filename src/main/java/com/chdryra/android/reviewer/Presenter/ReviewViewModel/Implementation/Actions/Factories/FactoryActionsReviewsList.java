@@ -128,7 +128,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         public MenuAction<GvNode> newMenu() {
             UiLauncher launcher = getUiLauncher();
             MaiCommand<GvNode> newReview = new MaiCommand<>
-                    (getFactoryCommands().newLaunchEditorCommand(null));
+                    (getFactoryCommands().newLaunchCreatorCommand(null));
             MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, mRepo, getFactoryReviewView());
             MaiSearch<GvNode> search = new MaiSearch<>(launcher, getFactoryReviewView());
             MaiLogout<GvNode> logout = new MaiLogout<>();

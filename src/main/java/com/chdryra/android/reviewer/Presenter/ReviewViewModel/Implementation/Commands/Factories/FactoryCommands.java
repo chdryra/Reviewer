@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CopyCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DecoratedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DeleteCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
@@ -58,7 +58,7 @@ public class FactoryCommands {
 
     public void getReviewOptions(DataAuthorId authorId, UserSession session, final ReviewOptionsReadyCallback callback) {
         ReviewId reviewId = authorId.getReviewId();
-        boolean hasDelete = authorId.toString().equals(session.getAuthorId().toString());
+        boolean isOwner = authorId.toString().equals(session.getAuthorId().toString());
 
         final CommandsList commands = new CommandsList();
         if(!mApp.getNetwork().isOnline()) {
@@ -69,10 +69,13 @@ public class FactoryCommands {
         }
 
         commands.add(share(reviewId));
-        commands.add(copy(reviewId));
+        commands.add(template(reviewId));
         BookmarkCommand bookmark = bookmark(session, reviewId);
         commands.add(bookmark);
-        if (hasDelete) commands.add(delete(reviewId));
+        if (isOwner) {
+            commands.add(edit(reviewId));
+            commands.add(delete(reviewId));
+        }
 
         bookmark.initialise(new BookmarkCommand.BookmarkCommandReadyCallback() {
             @Override
@@ -139,11 +142,21 @@ public class FactoryCommands {
         return newLaunchBespokeViewCommand(node, Strings.Commands.MAPPED, GvLocation.TYPE);
     }
 
-    public Command newLaunchEditorCommand(@Nullable final ReviewId template) {
+    public Command newLaunchCreatorCommand(@Nullable final ReviewId template) {
         return new Command() {
             @Override
             public void execute() {
-                getLauncher().launchEditUi(template);
+                getLauncher().launchCreateUi(template);
+                onExecutionComplete();
+            }
+        };
+    }
+
+    public Command newLaunchEditorCommand(final ReviewId toEdit) {
+        return new Command() {
+            @Override
+            public void execute() {
+                getLauncher().launchEditUi(toEdit);
                 onExecutionComplete();
             }
         };
@@ -181,8 +194,14 @@ public class FactoryCommands {
     }
 
     @NonNull
-    private CopyCommand copy(ReviewId reviewId) {
-        return new CopyCommand(newLaunchEditorCommand(reviewId), getScreen());
+    private Command template(ReviewId reviewId) {
+        return new DecoratedCommand(Strings.Commands.TEMPLATE, Strings.Toasts.COPYING,
+                newLaunchCreatorCommand(reviewId), getScreen());
+    }
+
+    private Command edit(ReviewId reviewId) {
+        return new DecoratedCommand(Strings.Commands.EDIT, Strings.Toasts.LAUNCHING_EDITOR,
+                newLaunchEditorCommand(reviewId), getScreen());
     }
 
     @NonNull

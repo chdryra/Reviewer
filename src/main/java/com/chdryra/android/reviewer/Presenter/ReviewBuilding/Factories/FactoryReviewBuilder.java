@@ -23,6 +23,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewBuilder {
+    private static final ReviewBuilderImpl.TemplateOrEdit EDIT = ReviewBuilderImpl.TemplateOrEdit
+            .EDIT;
+    private static final ReviewBuilderImpl.TemplateOrEdit TEMPLATE = ReviewBuilderImpl
+            .TemplateOrEdit.TEMPLATE;
     private final FactoryReviews mFactoryReviews;
     private final DataValidator mValidator;
     private final FactoryDataBuilder mBuilderFactory;
@@ -39,8 +43,17 @@ public class FactoryReviewBuilder {
     }
 
     ReviewBuilder newBuilder(@Nullable Review template) {
-        ReviewBuilder builder = new ReviewBuilderImpl(mFactoryReviews, mBuilderFactory, mValidator);
-        if (template != null) mInitialiser.useTemplate(builder, template);
+        ReviewBuilder builder;
+        if (template == null) {
+            builder = new ReviewBuilderImpl(mFactoryReviews, mBuilderFactory, mValidator);
+        } else {
+            builder = new ReviewBuilderImpl(template, mInitialiser, TEMPLATE, mFactoryReviews, mBuilderFactory, mValidator);
+        }
+
         return builder;
+    }
+
+    ReviewBuilder newEditBuilder(Review toEdit) {
+        return new ReviewBuilderImpl(toEdit, mInitialiser, EDIT, mFactoryReviews, mBuilderFactory, mValidator);
     }
 }

@@ -24,7 +24,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncher
 public interface UiLauncher {
     void launch(LaunchableUi ui, UiLauncherArgs args);
 
-    void launchEditUi(@Nullable ReviewId template);
+    void launchCreateUi(@Nullable ReviewId template);
+
+    void launchEditUi(ReviewId toEdit);
 
     void launchEditDataUi(GvDataType<? extends GvDataParcelable> dataType);
 

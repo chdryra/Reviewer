@@ -32,9 +32,9 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -70,9 +70,8 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
         getInstance(activity).setCurrentActivity(activity);
     }
 
-    @Nullable
-    public Review unpackTemplate(Bundle args) {
-        return mApp.unpackTemplate(args);
+    public ReviewPack unpackReview(Bundle args) {
+        return mApp.unpackReview(args);
     }
 
     @Nullable

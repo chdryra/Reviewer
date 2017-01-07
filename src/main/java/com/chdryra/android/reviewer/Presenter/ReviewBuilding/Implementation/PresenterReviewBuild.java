@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Settings;
@@ -18,6 +17,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,12 +29,9 @@ public class PresenterReviewBuild implements ActivityResultListener{
     private final ReviewEditorSuite mSuite;
     private ReviewEditor<?> mEditor;
 
-    private PresenterReviewBuild(ReviewEditorSuite suite, LocationClient locationClient, @Nullable Review template) {
+    private PresenterReviewBuild(ReviewEditorSuite suite) {
         mSuite = suite;
         mEditor = suite.getEditor();
-        if (mEditor == null) {
-            mEditor = mSuite.createEditor(Settings.BuildReview.DEFAULT_EDIT_MODE, locationClient, template);
-        }
     }
 
     public ReviewEditor getEditor() {
@@ -56,16 +53,28 @@ public class PresenterReviewBuild implements ActivityResultListener{
     }
 
     public static class Builder {
-        private Review mTemplate;
+        private Review mReview;
+        private ReviewPack.TemplateOrEdit mTemplateOrEdit;
 
-        public Builder setTemplate(@Nullable Review template) {
-            mTemplate = template;
+        public Builder setReview(ReviewPack pack) {
+            mReview = pack.getReview();
+            mTemplateOrEdit = pack.getTemplateOrEdit();
             return this;
         }
 
         public PresenterReviewBuild build(ApplicationInstance app) {
-            return new PresenterReviewBuild(app.getReviewEditor(),
-                    app.getLocationServices().newLocationClient(), mTemplate);
+            LocationClient client = app.getLocationServices().newLocationClient();
+            ReviewEditorSuite suite = app.getReviewEditor();
+
+            if(suite.getEditor() == null) {
+                if(mReview == null || mTemplateOrEdit == ReviewPack.TemplateOrEdit.TEMPLATE) {
+                    suite.newReviewCreator(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mReview);
+                } else {
+                    suite.newReviewEditor(client, mReview);
+                }
+            }
+
+            return new PresenterReviewBuild(suite);
         }
     }
 }

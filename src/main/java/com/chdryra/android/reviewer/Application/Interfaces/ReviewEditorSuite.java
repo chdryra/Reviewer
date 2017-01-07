@@ -29,7 +29,9 @@ public interface ReviewEditorSuite {
         void onDiscarded(boolean discardConfirmed);
     }
 
-    ReviewEditor<?> createEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+    ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+
+    ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit);
 
     ReviewEditor<?> getEditor();
 

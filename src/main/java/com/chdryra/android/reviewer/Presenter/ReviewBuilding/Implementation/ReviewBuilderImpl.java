@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -43,21 +44,38 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     private final DataValidator mDataValidator;
     private final Map<GvDataType<?>, DataBuilder<?>> mDataBuilders;
 
+    private ReviewId mReviewId;
     private String mSubject;
     private float mRating;
     private boolean mIsAverage = false;
+
+    public enum TemplateOrEdit {TEMPLATE, EDIT};
 
     public ReviewBuilderImpl(FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
                              DataValidator dataValidator) {
         mReviewFactory = reviewFactory;
         mDataValidator = dataValidator;
-
-        mDataBuilders = new HashMap<>();
         mDataBuilderFactory = dataBuilderFactory;
-
+        mDataBuilders = new HashMap<>();
         mSubject = "";
         mRating = 0f;
+        mReviewId = null;
+    }
+
+    public ReviewBuilderImpl(Review review,
+                             ReviewBuilderInitialiser initialiser,
+                             TemplateOrEdit templateOrEdit,
+                             FactoryReviews reviewFactory,
+                             FactoryDataBuilder dataBuilderFactory,
+                             DataValidator dataValidator) {
+        this(reviewFactory, dataBuilderFactory, dataValidator);
+        if(templateOrEdit.equals(TemplateOrEdit.TEMPLATE)) {
+            initialiser.useTemplate(this, review);
+        } else {
+            mReviewId = review.getReviewId();
+            initialiser.copy(this, review);
+        }
     }
 
     @Override
@@ -163,7 +181,7 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
         dataBuilder.commitData();
         return dataBuilder.getData();
     }
-    
+
     private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return getDataBuilder(dataType).getData();
     }
@@ -172,14 +190,8 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
                          GvDataList<GvTag> tags, GvDataList<GvCriterion> criteria,
                          GvDataList<GvComment> comments, GvDataList<GvImage> images,
                          GvDataList<GvFact> facts, GvDataList<GvLocation> locations) {
-        return mReviewFactory.createUserReview(subject, rating,
-                tags,
-                criteria,
-                comments,
-                images,
-                facts,
-                locations,
-                mIsAverage);
+        return mReviewFactory.createUserReview(mReviewId, subject, rating, tags, criteria,
+                comments, images, facts, locations, mIsAverage);
     }
 
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {

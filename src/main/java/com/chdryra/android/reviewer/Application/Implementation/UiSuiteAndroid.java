@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
@@ -29,13 +28,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -131,9 +133,8 @@ public class UiSuiteAndroid implements UiSuite{
         mCommandsFactory.setApp(app);
     }
 
-    @Nullable
-    Review unpackTemplate(Bundle args) {
-        return mUiLauncher.unpackTemplate(args);
+    ReviewPack unpackReview(Bundle args) {
+        return mUiLauncher.unpackReview(args);
     }
 
     @Nullable

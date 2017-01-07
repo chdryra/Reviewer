@@ -53,6 +53,7 @@ public class Strings {
         public static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
         public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
         public static final String COPYING = "Copying...";
+        public static final String LAUNCHING_EDITOR = "Launching editor...";
         public static final String FOLLOWING = "Following...";
         public static final String BOOKMARKING = "Bookmarking...";
         public static final String UNBOOKMARKING = "Unbookmarking...";
@@ -142,7 +143,8 @@ public class Strings {
 
     public static class Commands {
         public static final String SHARE = "Share";
-        public static final String COPY = "Use as template";
+        public static final String TEMPLATE = "Use as template";
+        public static final String EDIT = "Edit";
         public static final String DELETE = "Delete";
         public static final String OPTIONS = "Options";
         public static final String REVIEW_OPTIONS = "Review options";

@@ -37,8 +37,14 @@ public class ReviewEditorSuiteAndroid implements ReviewEditorSuite, AlertListene
     }
 
     @Override
-    public ReviewEditor<?> createEditor(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
+    public ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
         mReviewEditor = mViewFactory.newEditor(editMode, client, template);
+        return mReviewEditor;
+    }
+
+    @Override
+    public ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit) {
+        mReviewEditor = mViewFactory.newEditor(ReviewEditor.EditMode.FULL, client, toEdit);
         return mReviewEditor;
     }
 

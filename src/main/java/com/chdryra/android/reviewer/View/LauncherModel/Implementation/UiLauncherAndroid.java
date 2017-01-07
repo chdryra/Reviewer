@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -83,8 +82,13 @@ public class UiLauncherAndroid implements UiLauncher {
     }
 
     @Override
-    public void launchEditUi(@Nullable ReviewId template) {
-        mEditUiLauncher.launch(template);
+    public void launchCreateUi(@Nullable ReviewId template) {
+        mEditUiLauncher.launchCreate(template);
+    }
+
+    @Override
+    public void launchEditUi(ReviewId toEdit) {
+        mEditUiLauncher.launchEdit(toEdit);
     }
 
     @Override
@@ -121,9 +125,8 @@ public class UiLauncherAndroid implements UiLauncher {
         return mReviewLauncher;
     }
 
-    @Nullable
-    public Review unpackTemplate(Bundle args) {
-        return mEditUiLauncher.unpack(args);
+    public ReviewPack unpackReview(Bundle args) {
+        return mEditUiLauncher.unpackReview(args);
     }
 
     @Nullable

@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
@@ -31,9 +31,9 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     protected ReviewView<?> createReviewView() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
-        Review template = app.unpackTemplate(getIntent().getBundleExtra(getLaunchTag()));
 
-        mPresenter = new PresenterReviewBuild.Builder().setTemplate(template).build(app);
+        Bundle args = getIntent().getBundleExtra(getLaunchTag());
+        mPresenter = new PresenterReviewBuild.Builder().setReview(app.unpackReview(args)).build(app);
 
         return mPresenter.getEditor();
     }

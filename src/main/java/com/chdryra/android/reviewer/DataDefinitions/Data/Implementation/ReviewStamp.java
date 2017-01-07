@@ -42,6 +42,14 @@ public class ReviewStamp implements Validatable, ReviewId {
         mId = new StampId(mAuthorId.toString(), mDate.getTime());
     }
 
+    private ReviewStamp(ReviewId reviewId) {
+        this(StampId.getAuthorId(reviewId), StampId.getDate(reviewId));
+    }
+
+    public static ReviewStamp newStamp(ReviewId reviewId){
+        return new ReviewStamp(reviewId);
+    }
+
     public static ReviewStamp newStamp(AuthorId authorId, DateTime date){
         return new ReviewStamp(authorId, date);
     }
@@ -125,20 +133,20 @@ public class ReviewStamp implements Validatable, ReviewId {
 
         private String mId = ":";
 
-        public StampId() {
+        private StampId() {
 
         }
 
-        public StampId(@NotNull String userId, long time) {
+        private StampId(@NotNull String userId, long time) {
             if(userId.length() == 0) throwException();
             mId = userId + SPLITTER + String.valueOf(time);
         }
 
-        public StampId(ReviewId id) {
+        private StampId(ReviewId id) {
             this(id.toString());
         }
 
-        public StampId(String idString) {
+        private StampId(String idString) {
             String[] split = idString.split(SPLITTER);
             if(split.length != 2) throwException(idString);
             try {
@@ -149,6 +157,38 @@ public class ReviewStamp implements Validatable, ReviewId {
             } catch (Exception e) {
                 throwException("On id: " + idString, e);
             }
+        }
+
+        private static AuthorId getAuthorId(ReviewId id) {
+            String idString = id.toString();
+            String[] split = idString.split(SPLITTER);
+            if(split.length != 2) throwException(idString);
+            AuthorId authorId = new DatumAuthorId();
+            try {
+                String userId = split[0];
+                long time = Long.parseLong(split[1]);
+                check(userId, time, idString);
+                authorId = new DatumAuthorId(id, userId);
+            } catch (Exception e) {
+                throwException("On id: " + idString, e);
+            }
+            return authorId;
+        }
+
+        private static DateTime getDate(ReviewId id) {
+            String idString = id.toString();
+            String[] split = idString.split(SPLITTER);
+            if(split.length != 2) throwException(idString);
+            DateTime date = new DatumDate();
+            try {
+                String userId = split[0];
+                long time = Long.parseLong(split[1]);
+                check(userId, time, idString);
+                date = new DatumDate(id, time);
+            } catch (Exception e) {
+                throwException("On id: " + idString, e);
+            }
+            return date;
         }
 
         private static void check(@NonNull String userId, long time, String idString) {
