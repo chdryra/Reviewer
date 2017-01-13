@@ -207,6 +207,15 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         mUi = app.getUi();
         mRepo = app.getRepository();
@@ -217,15 +226,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
         setNode(args);
         setMenu();
-
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(LAYOUT, container, false);
 
@@ -240,8 +240,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         setFacts(v);
         setLocations(v);
         setImages(v);
-
-        update();
 
         return v;
     }
@@ -280,6 +278,12 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         return mMenu.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
     }
 
     private FactoryCommands getCommandsFactory() {

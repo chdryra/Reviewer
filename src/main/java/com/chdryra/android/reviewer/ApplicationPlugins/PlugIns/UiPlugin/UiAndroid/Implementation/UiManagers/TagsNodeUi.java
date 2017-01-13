@@ -30,6 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> {
     private static final int MAX_TAGS = 10;
+    private boolean mIsBound = false;
 
     public TagsNodeUi(TextView tags, final ReviewNode node) {
         super(tags, new ValueGetter<RefDataList<DataTag>>() {
@@ -42,12 +43,15 @@ public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> {
 
     @Override
     public void update() {
-        getValue().dereference(new DataReference.DereferenceCallback<IdableList<DataTag>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<DataTag>> value) {
-                if(value.hasValue()) setView(value.getData());
-            }
-        });
+        if(!mIsBound) {
+            mIsBound = true;
+            getValue().dereference(new DataReference.DereferenceCallback<IdableList<DataTag>>() {
+                @Override
+                public void onDereferenced(DataValue<IdableList<DataTag>> value) {
+                    if (value.hasValue()) setView(value.getData());
+                }
+            });
+        }
     }
 
     private void setView(IdableList<DataTag> data) {

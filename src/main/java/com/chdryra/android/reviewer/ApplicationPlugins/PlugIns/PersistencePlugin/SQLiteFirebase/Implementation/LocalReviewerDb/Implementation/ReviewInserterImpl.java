@@ -16,6 +16,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewInserter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
@@ -34,6 +38,7 @@ public class ReviewInserterImpl implements ReviewInserter {
     public void addReviewToDb(Review review,
                               ReviewerDb db,
                               TableTransactor transactor) {
+        deleteOldReviewIfNecessary(review.getReviewId(), db, transactor);
         addToTable(review, db.getReviewsTable(), transactor);
         addToTable(review.getCriteria(), db.getCriteriaTable(), transactor);
         addToTable(review.getComments(), db.getCommentsTable(), transactor);
@@ -41,6 +46,13 @@ public class ReviewInserterImpl implements ReviewInserter {
         addToTable(review.getLocations(), db.getLocationsTable(), transactor);
         addToTable(review.getImages(), db.getImagesTable(), transactor);
         addToTable(review.getTags(), db.getTagsTable(), transactor);
+    }
+
+    private void deleteOldReviewIfNecessary(ReviewId reviewId, ReviewerDb db, TableTransactor
+            transactor) {
+        boolean idInTable = transactor.isIdInTable(reviewId.toString(), db
+                .getReviewsTable().getColumn(RowReview.REVIEW_ID.getName()), db.getReviewsTable());
+        if(idInTable) db.deleteReviewFromDb(reviewId, transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(T data,
