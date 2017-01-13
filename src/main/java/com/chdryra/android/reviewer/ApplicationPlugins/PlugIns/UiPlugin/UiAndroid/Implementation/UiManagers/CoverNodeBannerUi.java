@@ -14,8 +14,6 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -24,30 +22,39 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>>{
+public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>> implements ViewUiBinder.BindableViewUi<DataImage>{
+    private final ViewUiBinder<DataImage> mBinder;
+
     public CoverNodeBannerUi(ImageView view, final ReviewNode node, Bitmap placeholder,
                              CellDimensionsCalculator.Dimensions dims) {
         super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
             @Override
             public ReviewItemReference<DataImage> getValue() {
-                return node.getCover();
+                if(node.isLeaf() && node.getReference() != null) {
+                    //More efficient this way.
+                    return node.getReference().getCover();
+                } else {
+                    return node.getCover();
+                }
             }
         }, placeholder);
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
+        mBinder = new ViewUiBinder<>(this);
+    }
+
+    @Override
+    public void update(DataImage value) {
+        setCover(value.getBitmap());
+    }
+
+    @Override
+    public void onInvalidated() {
+        setCover(null);
     }
 
     @Override
     public void update() {
-        getValue().dereference(new DataReference.DereferenceCallback<DataImage>() {
-            @Override
-            public void onDereferenced(DataValue<DataImage> value) {
-                if(value.hasValue()) {
-                    setCover(value.getData().getBitmap());
-                } else {
-                    setCover(null);
-                }
-            }
-        });
+        mBinder.bind();
     }
 }

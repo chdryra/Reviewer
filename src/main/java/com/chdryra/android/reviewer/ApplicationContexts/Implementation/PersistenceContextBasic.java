@@ -13,7 +13,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
@@ -23,7 +22,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
     private LocalRepository mLocalRepo;
-    private ReviewsRepository mBackendRepo;
     private AuthorsRepository mAuthorsRepo;
     private AccountsManager mAccountsManager;
     private ReviewsSource mReviewsSource;
@@ -31,10 +29,6 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
 
     protected void setLocalRepository(LocalRepository localRepo) {
         mLocalRepo = localRepo;
-    }
-
-    protected void setBackendRepository(ReviewsRepository backendRepo) {
-        mBackendRepo = backendRepo;
     }
 
     protected void setAuthorsRepository(AuthorsRepository authorsRepo) {
@@ -61,11 +55,6 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     @Override
     public LocalRepository getLocalRepository() {
         return mLocalRepo;
-    }
-
-    @Override
-    public ReviewsRepository getBackendRepository() {
-        return mBackendRepo;
     }
 
     @Override

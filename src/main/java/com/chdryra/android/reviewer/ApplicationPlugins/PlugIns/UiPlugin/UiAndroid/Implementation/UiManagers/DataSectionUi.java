@@ -13,10 +13,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.widget.LinearLayout;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 
 /**
@@ -26,7 +25,9 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  */
 
 public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewListReference<T, ?>>
-        extends FormattedSectionUi<Ref> {
+        extends FormattedSectionUi<Ref> implements ViewUiBinder.BindableViewUi<IdableList<T>>{
+
+    private final ViewUiBinder<IdableList<T>> mBinder;
 
     protected abstract void updateView(IdableList<T> data);
 
@@ -34,6 +35,7 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
 
     public DataSectionUi(LinearLayout view, ValueGetter<Ref> getter, String title) {
         super(view, getter, title);
+        mBinder = new ViewUiBinder<>(this);
     }
 
     protected void setView(IdableList<T> data) {
@@ -45,14 +47,20 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
     }
 
     @Override
-    public void update() {
-        setEmpty(Strings.Formatted.LOADING);
-        getValue().dereference(new DataReference.DereferenceCallback<IdableList<T>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<T>> value) {
-                if(value.hasValue()) setView(value.getData());
-            }
-        });
+    public void update(IdableList<T> value) {
+        setView(value);
     }
 
+    @Override
+    public void onInvalidated() {
+        setView(new IdableDataList<T>(getValue().getReviewId()));
+    }
+
+    @Override
+    public void update() {
+        if(!mBinder.isBound()) {
+            setEmpty(Strings.Formatted.LOADING);
+            mBinder.bind();
+        }
+    }
 }

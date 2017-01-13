@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationInstance extends ApplicationSuite {
-    String APP_NAME = "StarTouch";
+    String APP_NAME = Strings.APP_NAME;
 
     void logout();
 

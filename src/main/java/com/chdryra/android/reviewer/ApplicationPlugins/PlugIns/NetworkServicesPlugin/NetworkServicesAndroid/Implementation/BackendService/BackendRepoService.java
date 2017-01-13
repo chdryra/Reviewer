@@ -122,9 +122,9 @@ public class BackendRepoService extends IntentService {
             String subject = "";
             if(result.isReview()) {
                 subject = result.getReview().getSubject().getSubject();
-                message = CallbackMessage.ok(subject + getString(UPLOAD_SUCCESSFUL));
+                message = CallbackMessage.ok(subject + " " + getString(UPLOAD_SUCCESSFUL));
             } else {
-                message = CallbackMessage.error(subject + getErrorString(result, UPLOAD_ERROR));
+                message = CallbackMessage.error(subject + " " + getErrorString(result, UPLOAD_ERROR));
             }
 
             broadcastUploadComplete(message);

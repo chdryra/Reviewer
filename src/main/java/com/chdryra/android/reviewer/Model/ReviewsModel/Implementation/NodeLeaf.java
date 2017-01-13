@@ -34,13 +34,24 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 public class NodeLeaf extends ReviewNodeComponentBasic
-        implements DataReference.InvalidationListener {
+        implements DataReference.InvalidationListener, ReviewReference.ReviewReferenceObserver {
     private final ReviewReference mReview;
     private final FactoryReference mReferenceFactory;
 
     public NodeLeaf(ReviewReference review, FactoryReference referenceFactory) {
         mReview = review;
         mReferenceFactory = referenceFactory;
+        mReview.registerObserver(this);
+    }
+
+    @Override
+    public void onSubjectChanged(DataSubject newSubject) {
+        notifyOnNodeChanged();
+    }
+
+    @Override
+    public void onRatingChanged(DataRating newRating) {
+        notifyOnNodeChanged();
     }
 
     @Override

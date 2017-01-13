@@ -82,7 +82,8 @@ public class BackendFirebase implements Backend {
 
         ConverterEntry entryConverter = new ConverterEntry();
         FactoryFbPlaylist playlistFactory = new FactoryFbPlaylist(mStructure, entryConverter, infoConverter, referencer);
-        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator, entryConverter, referencer, playlistFactory);
+        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator,
+                entryConverter, referencer, cache, playlistFactory);
 
         ReviewsRepository masterRepo = new FbReviewsRepository(mDatabase, mStructure,
                 entryConverter, referencer, authorsDbFactory);

@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Strings {
-    public static String AppName = "StarTouch";
+    public static String APP_NAME = "StarTouch";
 
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";

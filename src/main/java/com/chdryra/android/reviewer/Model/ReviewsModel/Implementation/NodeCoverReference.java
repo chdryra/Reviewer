@@ -86,7 +86,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
 
     @Override
     public void onNodeChanged() {
-
+        chooseAgainAndNotifyIfNecessary();
     }
 
     @Override

@@ -14,10 +14,9 @@ import android.graphics.Typeface;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
@@ -27,8 +26,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> {
+public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> implements ViewUiBinder.BindableViewUi<IdableList<DataTag>>{
     private static final int MAX_TAGS = 10;
+    private ViewUiBinder<IdableList<DataTag>> mBinder;
 
     public TagsNodeUi(TextView tags, final ReviewNode node) {
         super(tags, new ValueGetter<RefDataList<DataTag>>() {
@@ -37,16 +37,22 @@ public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> {
                 return node.getTags();
             }
         });
+        mBinder = new ViewUiBinder<>(this);
+    }
+
+    @Override
+    public void update(IdableList<DataTag> value) {
+        setView(value);
+    }
+
+    @Override
+    public void onInvalidated() {
+        setView(new IdableDataList<DataTag>(getValue().getReviewId()));
     }
 
     @Override
     public void update() {
-        getValue().dereference(new DataReference.DereferenceCallback<IdableList<DataTag>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<DataTag>> value) {
-                if (value.hasValue()) setView(value.getData());
-            }
-        });
+        mBinder.bind();
     }
 
     private void setView(IdableList<DataTag> data) {

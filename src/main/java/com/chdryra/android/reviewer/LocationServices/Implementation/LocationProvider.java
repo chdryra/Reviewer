@@ -23,7 +23,7 @@ public class LocationProvider {
     }
 
     public static LocationProvider app() {
-        return new LocationProvider(Strings.AppName);
+        return new LocationProvider(Strings.APP_NAME);
     }
 
     public String getProviderName() {

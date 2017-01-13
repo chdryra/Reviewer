@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
@@ -29,6 +28,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -44,6 +44,7 @@ import java.util.Map;
 public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements MutableRepository {
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
+    private final ReviewsCache mCache;
     private final Playlist mBookmarks;
 
     public FbAuthorReviewsMutable(Firebase dataBase,
@@ -52,10 +53,12 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                                   BackendReviewConverter converter,
                                   BackendValidator validator,
                                   FactoryFbReviewReference referencer,
+                                  ReviewsCache cache,
                                   Playlist bookmarks) {
         super(dataBase, structure, entryConverter, referencer);
         mConverter = converter;
         mValidator = validator;
+        mCache = cache;
         mBookmarks = bookmarks;
     }
 
@@ -145,7 +148,13 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 RepositoryResult result;
                 if (firebaseError == null) {
-                    result = new RepositoryResult(mConverter.convert(review));
+                    Review added = mConverter.convert(review);
+                    result = new RepositoryResult(added);
+                    ReviewId reviewId = added.getReviewId();
+                    if(mCache.contains(reviewId)) {
+                        mCache.remove(reviewId);
+                        mCache.add(added);
+                    }
                 } else {
                     result = new RepositoryResult(CallbackMessage.error(firebaseError.getMessage
                             ()));
@@ -165,6 +174,10 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                 BackendError backendError = newBackendError(firebaseError);
                 CallbackMessage message = backendError == null ?
                         CallbackMessage.ok() : CallbackMessage.error(backendError.getMessage());
+
+                ReviewId reviewId = new DatumReviewId(review.getReviewId());
+                if(message.isOk() && mCache.contains(reviewId)) mCache.remove(reviewId);
+
                 callback.onRemovedFromRepoCallback(new RepositoryResult(mConverter.convert
                         (review), message));
             }

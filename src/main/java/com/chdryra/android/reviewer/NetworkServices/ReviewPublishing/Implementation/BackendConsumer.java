@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendConsumer extends QueueConsumer<Review> implements ReviewUploader.Listener {
+public class BackendConsumer extends QueueConsumer<Review> {
     private final ArrayList<UploadListener> mListeners;
     private final FactoryBackendUploader mFactory;
 
@@ -41,8 +41,7 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
-    @Override
-    public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
+    private void onUploadComplete(ReviewId reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId.toString());
         if (result.isError()) {
             notifyOnFailure(reviewId, result);
@@ -55,6 +54,11 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
     protected void OnFailedToRetrieve(String reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId);
         notifyOnFailure(new DatumReviewId(reviewId), result);
+    }
+
+    @Override
+    protected void onWorkerRemoved(ItemWorker<Review> remove) {
+        ((BackendUploadWorker)remove).unregister();
     }
 
     @Override
@@ -74,16 +78,26 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
         }
     }
 
-    private static class BackendUploadWorker implements ItemWorker<Review> {
+    private class BackendUploadWorker implements ItemWorker<Review>, ReviewUploader.Listener{
         private final ReviewUploader mUploader;
 
-        public BackendUploadWorker(ReviewUploader uploader) {
+        private BackendUploadWorker(ReviewUploader uploader) {
             mUploader = uploader;
         }
 
         @Override
         public void doWork(Review review) {
+            mUploader.registerListener(this);
             mUploader.uploadReview();
+        }
+
+        @Override
+        public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
+            onUploadComplete(reviewId, result);
+        }
+
+        private void unregister() {
+            mUploader.unregisterListener(this);
         }
     }
 }
