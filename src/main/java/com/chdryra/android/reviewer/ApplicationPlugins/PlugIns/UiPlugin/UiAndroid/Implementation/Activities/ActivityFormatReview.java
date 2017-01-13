@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityFormatReview extends FragmentActivity implements LaunchableUi,
-        OptionSelectListener {
+        OptionSelectListener, FormattedPagerAdapter.FragmentsObserver {
     private static final String TAG = TagKeyGenerator.getTag(ActivityFormatReview.class);
     private static final String RETAIN_VIEW
             = TagKeyGenerator.getKey(ActivityFormatReview.class, "RetainView");
@@ -49,9 +49,14 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
     private FormattedPagerAdapter mAdapter;
     private ViewPager mPager;
+    private FragmentInitialiser mInitialiser;
 
     public ReviewNode getNode(ReviewId id) {
         return mAdapter.getNode(id);
+    }
+
+    public void remove(FragmentFormatReview fragment) {
+        mAdapter.removeFragment(fragment);
     }
 
     @Override
@@ -69,11 +74,27 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
         mPager = (ViewPager) findViewById(PAGER);
         mAdapter = new FormattedPagerAdapter(node, new NodeComparatorMostRecent(),
-                getSupportFragmentManager(), isPublished);
+                getSupportFragmentManager(), this, isPublished);
         mPager.setAdapter(mAdapter);
-        FragmentInitialiser fragmentInitialiser = new FragmentInitialiser(app.getUi());
-        mPager.addOnLayoutChangeListener(fragmentInitialiser);
-        mPager.addOnPageChangeListener(fragmentInitialiser);
+        mInitialiser = new FragmentInitialiser(app.getUi());
+        mPager.addOnLayoutChangeListener(mInitialiser);
+        mPager.addOnPageChangeListener(mInitialiser);
+    }
+
+    @Override
+    public void onNoFragmentsLeft() {
+        finish();
+    }
+
+    @Override
+    public void updateTitle(String title) {
+        mInitialiser.setTitle(title);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAdapter.detach();
     }
 
     @Override
@@ -145,10 +166,13 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
         private void setTitle() {
             FragmentFormatReview fragment = getVisibleFragment();
             if (fragment != null) {
-                String title = fragment.isPublished() ?
-                        mAdapter.getTitle(fragment) : Strings.Screens.PREVIEW;
-                mUi.getCurrentScreen().setTitle(title);
+                setTitle(fragment.isPublished() ?
+                        mAdapter.getTitle(fragment) : Strings.Screens.PREVIEW);
             }
+        }
+
+        private void setTitle(String title) {
+            mUi.getCurrentScreen().setTitle(title);
         }
     }
 }

@@ -90,6 +90,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCom
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -136,7 +137,9 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment implements ReviewNode.NodeObserver,
+public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment implements
+        ReviewNode.NodeObserver,
+        DataReference.InvalidationListener,
         OptionSelectListener {
     private static final String ID = TagKeyGenerator.getKey(FragmentFormatReview.class,
             "ReviewId");
@@ -286,6 +289,12 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         update();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mNode.unregisterObserver(this);
+    }
+
     private FactoryCommands getCommandsFactory() {
         return mUi.getCommandsFactory();
     }
@@ -299,7 +308,15 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         if (reviewId == null) throwNoReview();
         mNode = getContainer().getNode(new DatumReviewId(reviewId));
         mNode.registerObserver(this);
+        ReviewReference reference = mNode.getReference();
+        if(mNode.isLeaf() && reference != null) reference.registerListener(this);
     }
+
+    @Override
+    public void onReferenceInvalidated(DataReference<?> reference) {
+        getContainer().remove(this);
+    }
+
     private ActivityFormatReview getContainer() {
         try {
             return (ActivityFormatReview) getActivity();

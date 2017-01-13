@@ -35,7 +35,7 @@ public class ConverterRating implements SnapshotConverter<DataRating> {
     @Nullable
     public DataRating convert(DataSnapshot snapshot) {
         Rating value = snapshot.getValue(Rating.class);
-        return value == null ? new DatumRating(mId, 0f, 1)
+        return value == null ? null
                 : new DatumRating(mId, (float)value.getRating(), (int)value.getRatingWeight());
     }
 }

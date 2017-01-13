@@ -83,7 +83,6 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
         mReference = reviewReference;
         mReference.child(ReviewDb.SUBJECT).addValueEventListener(subjectChangeListener());
         mReference.child(ReviewDb.RATING).addValueEventListener(ratingChangeListener());
-
         mAggregate = aggregateReference;
         mCache = cache;
         mReferencer = referencer;
@@ -202,6 +201,8 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
                 if (rating != null) {
                     mRating = rating;
                     notifyRatingChanged(mRating);
+                } else {
+                    invalidate();
                 }
             }
 
@@ -221,6 +222,8 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
                 if (subject != null) {
                     mSubject = subject;
                     notifySubjectChanged(mSubject);
+                } else {
+                    invalidate();
                 }
             }
 

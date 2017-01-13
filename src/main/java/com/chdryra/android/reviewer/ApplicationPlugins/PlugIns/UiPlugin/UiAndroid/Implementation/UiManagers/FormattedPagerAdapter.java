@@ -28,18 +28,27 @@ import java.util.Comparator;
 public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatReview> implements ReviewNode.NodeObserver {
     private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
+    private final FragmentsObserver mObserver;
     private final boolean mIsClickable;
 
     private boolean mIsSorted = false;
     private ArrayList<ReviewNode> mSortedNodes;
 
+    public interface FragmentsObserver {
+        void updateTitle(String title);
+
+        void onNoFragmentsLeft();
+    }
+
     public FormattedPagerAdapter(ReviewNode node,
                                  Comparator<ReviewNode> comparator,
                                  FragmentManager manager,
+                                 FragmentsObserver observer,
                                  boolean isClickable) {
         super(manager);
         mNode = node;
         mComparator = comparator;
+        mObserver = observer;
         mIsClickable = isClickable;
         mNode.registerObserver(this);
     }
@@ -47,6 +56,16 @@ public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatRevie
     public ReviewNode getNode(ReviewId id) {
         ReviewNode child = mNode.getChild(id);
         return child != null ? child : mNode;
+    }
+
+    public void detach() {
+        mNode.unregisterObserver(this);
+    }
+
+    @Override
+    protected void onFragmentRemoved(int position) {
+        mObserver.updateTitle(newTitle(position, getCount() - 1));
+        if(getCachedFragments().size() == 0) mObserver.onNoFragmentsLeft();
     }
 
     @Override

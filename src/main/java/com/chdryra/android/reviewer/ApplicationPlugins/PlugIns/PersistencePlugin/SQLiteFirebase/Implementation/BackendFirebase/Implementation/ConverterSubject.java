@@ -34,6 +34,6 @@ public class ConverterSubject implements SnapshotConverter<DataSubject> {
     @Nullable
     public DataSubject convert(DataSnapshot snapshot) {
         String value = snapshot.getValue(String.class);
-        return value == null ? new DatumSubject(mId, "") : new DatumSubject(mId, value);
+        return value == null ? null : new DatumSubject(mId, value);
     }
 }
