@@ -21,6 +21,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
+ *
+ * This doesn't work very well as binding is lost if cover deleted due to null path.
+ * Maybe should dereference instead.
  */
 public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>> implements ViewUiBinder.BindableViewUi<DataImage>{
     private final ViewUiBinder<DataImage> mBinder;
