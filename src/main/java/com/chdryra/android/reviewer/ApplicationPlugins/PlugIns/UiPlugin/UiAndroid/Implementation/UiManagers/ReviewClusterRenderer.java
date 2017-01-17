@@ -78,7 +78,7 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
         ReviewCluster.ClusterAverage average = reviews.getAverage();
         String rating = RatingFormatter.twoSignificantDigits(average.getAverage()) + "*";
         TextView text = new TextView(mContext);
-        text.setText(rating + " (" + String.valueOf(cluster.getSize()) + ")");
+        text.setText(rating + " (" + String.valueOf(reviews.getNumReviews()) + ")");
 
         return getBitmapDescriptor(text);
     }

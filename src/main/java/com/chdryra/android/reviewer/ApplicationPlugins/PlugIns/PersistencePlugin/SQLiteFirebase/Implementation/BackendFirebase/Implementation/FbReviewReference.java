@@ -60,10 +60,16 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     private final ReviewsCache mCache;
     private final FactoryFbReference mReferencer;
 
+    private ValueEventListener mRatingListener;
+    private ValueEventListener mSubjectListener;
+
     private DataSubject mSubject;
     private DataRating mRating;
 
     private ArrayList<ReviewReferenceObserver> mObservers;
+    private ArrayList<ReviewReferenceObserver> mToRemove;
+    private ArrayList<ReviewReferenceObserver> mToAdd;
+    private boolean mLocked = false;
 
     public FbReviewReference(DataReviewInfo info,
                              Firebase reviewReference,
@@ -81,34 +87,39 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
         mSubjectConverter = subjectConverter;
         mRatingConverter = ratingConverter;
         mReference = reviewReference;
-        mReference.child(ReviewDb.SUBJECT).addValueEventListener(subjectChangeListener());
-        mReference.child(ReviewDb.RATING).addValueEventListener(ratingChangeListener());
+        mSubjectListener = subjectChangeListener();
+        mRatingListener = ratingChangeListener();
         mAggregate = aggregateReference;
         mCache = cache;
         mReferencer = referencer;
         mObservers = new ArrayList<>();
+        mToRemove = new ArrayList<>();
+        mToAdd = new ArrayList<>();
     }
 
     @Override
     public void registerObserver(ReviewReferenceObserver observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
+        addSubjectRatingListenersIfNecessary();
+
+        if (!mObservers.contains(observer)) {
+            if (!mLocked) {
+                mObservers.add(observer);
+            } else if (!mToAdd.contains(observer)) {
+                mToAdd.add(observer);
+            }
+        }
     }
 
     @Override
     public void unregisterObserver(ReviewReferenceObserver observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    private void notifySubjectChanged(DataSubject newSubject) {
-        for(ReviewReferenceObserver observer : mObservers) {
-            observer.onSubjectChanged(newSubject);
+        if (mObservers.contains(observer)) {
+            if (!mLocked) {
+                mObservers.remove(observer);
+            } else if (!mToRemove.contains(observer)) {
+                mToRemove.add(observer);
+            }
         }
-    }
-
-    private void notifyRatingChanged(DataRating newRating) {
-        for(ReviewReferenceObserver observer : mObservers) {
-            observer.onRatingChanged(newRating);
-        }
+        removeSubjectRatingListenersIfNecessary();
     }
 
     @Override
@@ -192,16 +203,70 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
         mCache.add(value);
     }
 
+    private void addSubjectRatingListenersIfNecessary() {
+        if (mObservers.size() == 0) {
+            mSubjectListener = subjectChangeListener();
+            mRatingListener = ratingChangeListener();
+            mReference.child(ReviewDb.SUBJECT).addValueEventListener(mSubjectListener);
+            mReference.child(ReviewDb.RATING).addValueEventListener(mRatingListener);
+        }
+    }
+
+    private void removeSubjectRatingListenersIfNecessary() {
+        if (mObservers.size() == 0) {
+            mReference.child(ReviewDb.SUBJECT).removeEventListener(mSubjectListener);
+            mReference.child(ReviewDb.RATING).removeEventListener(mRatingListener);
+        }
+    }
+
+    private void notifySubjectChanged(DataSubject newSubject) {
+        mLocked = true;
+
+        for (ReviewReferenceObserver observer : mObservers) {
+            observer.onSubjectChanged(newSubject);
+        }
+
+        updateObserverRegistrations();
+
+        mLocked = false;
+    }
+
+    private void updateObserverRegistrations() {
+        if (mToAdd.size() > 0) {
+            addSubjectRatingListenersIfNecessary();
+            mObservers.addAll(mToAdd);
+            mToAdd.clear();
+        }
+
+        if (mToRemove.size() > 0) {
+            mObservers.removeAll(mToRemove);
+            mToRemove.clear();
+            removeSubjectRatingListenersIfNecessary();
+        }
+    }
+
+    private void notifyRatingChanged(DataRating newRating) {
+        mLocked = true;
+
+        for (ReviewReferenceObserver observer : mObservers) {
+            observer.onRatingChanged(newRating);
+        }
+
+        updateObserverRegistrations();
+
+        mLocked = false;
+    }
+
     @NonNull
     private ValueEventListener ratingChangeListener() {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataRating rating = mRatingConverter.convert(dataSnapshot);
-                if (rating != null) {
+                if (rating != null && !rating.equals(mRating)) {
                     mRating = rating;
                     notifyRatingChanged(mRating);
-                } else {
+                } else if (rating == null) {
                     invalidate();
                 }
             }
@@ -219,10 +284,10 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSubject subject = mSubjectConverter.convert(dataSnapshot);
-                if (subject != null) {
+                if (subject != null && !subject.equals(mSubject)) {
                     mSubject = subject;
                     notifySubjectChanged(mSubject);
-                } else {
+                } else if (subject == null) {
                     invalidate();
                 }
             }

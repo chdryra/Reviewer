@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -114,7 +115,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
 
     private void reselect() {
         reset();
-        doSelection(mNode);
+        if(mNode != null) doSelection(mNode);
     }
 
     private void unregisterAndReset() {
@@ -132,7 +133,8 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mInProgress = true;
         mNumReviews = 0;
         mCount = 0;
-        node.getReviews().toItemReferences(this);
+        RefDataList<ReviewReference> reviews = node.getReviews();
+        reviews.toItemReferences(this);
 //        if(node.isLeaf()) {
 //            mNumReviews = 1;
 //            ReviewReference reference = node.getReference();

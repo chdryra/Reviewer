@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -52,17 +54,25 @@ public class ReviewCluster {
     }
 
     public IdableCollection<ReviewReference> getUniqueReviews() {
-        Set<ReviewReference> set = new HashSet<>();
-        for(ReviewClusterItem item : mCluster.getItems()) {
-            set.add(item.getReference());
-        }
-
         IdableCollection<ReviewReference> references = new IdableDataCollection<>();
-        for (ReviewReference reference : set) {
+        for (ReviewReference reference : getReviewReferences()) {
             references.add(reference);
         }
 
         return references;
+    }
+
+    public int getNumReviews() {
+        return getReviewReferences().size();
+    }
+
+    @NonNull
+    private Set<ReviewReference> getReviewReferences() {
+        Set<ReviewReference> set = new HashSet<>();
+        for(ReviewClusterItem item : mCluster.getItems()) {
+            set.add(item.getReference());
+        }
+        return set;
     }
 
     public static class ClusterAverage {
