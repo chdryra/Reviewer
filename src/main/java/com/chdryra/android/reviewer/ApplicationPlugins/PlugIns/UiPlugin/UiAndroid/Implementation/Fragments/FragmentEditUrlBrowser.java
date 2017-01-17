@@ -148,7 +148,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         new AlertDialog.Builder(getActivity())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Return")
-                .setMessage("Return to review?")
+                .setMessage("Return to " + Strings.REVIEW + "?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

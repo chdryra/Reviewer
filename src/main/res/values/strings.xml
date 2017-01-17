@@ -18,7 +18,7 @@
     <string name="line_or">or</string>
 
     <!-- Dialogs -->
-    <string name="dialog_image_content_description">Review image</string>
+    <string name="dialog_image_content_description">image</string>
     <string name="dialog_location_no_suggestions">No suggestions found&#8230;</string>
 
     <!-- Activities & Screens -->
@@ -56,7 +56,7 @@
     <string name="button_share">Share</string>
     <string name="button_add">Add</string>
     <string name="button_done">Done</string>
-    <string name="button_goto_review">Review</string>
+    <string name="button_goto_review">Opinion</string>
     <string name="button_goto_google_maps">GMaps</string>
     <string name="button_copy">Use as template</string>
     <string name="button_delete">Delete</string>
@@ -69,7 +69,7 @@
     <string name="button_revert_location_cd">revert location</string>
 
     <!-- Image Views -->
-    <string name="image_review_cd">review image</string>
+    <string name="image_review_cd">image</string>
 
     <!-- Menus -->
     <string name="menu_locations">map locations</string>
@@ -77,9 +77,9 @@
     <string name="menu_headlines">show headlines</string>
     <string name="menu_search">search</string>
     <string name="menu_average_rating">average of criteria</string>
-    <string name="menu_preview_review">preview review</string>
-    <string name="menu_new_review">new review</string>
-    <string name="menu_delete_review">delete review</string>
+    <string name="menu_preview_review">preview opinion</string>
+    <string name="menu_new_review">new opinion</string>
+    <string name="menu_delete_review">delete opinion</string>
     <string name="menu_copy_review">use as template</string>
     <string name="menu_options">options</string>
     <string name="menu_follow">follow</string>

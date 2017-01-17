@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import android.util.Log;
-
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ReviewViewAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -60,7 +58,6 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     @Override
     public void detachReviewView() {
-        Log.i("ReviewViewAction", "ReviewView detached");
         onDetachReviewView();
         mReviewView = null;
     }

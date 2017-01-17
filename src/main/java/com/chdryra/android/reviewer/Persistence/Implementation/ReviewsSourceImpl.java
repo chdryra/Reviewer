@@ -287,8 +287,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
             if (mCurrentIndex == mMaxReviews) {
                 CallbackMessage message = mErrors.size() > 0 ?
-                        CallbackMessage.error("Errors fetching some reviews")
-                        : CallbackMessage.ok(mMaxReviews + " reviews fetched");
+                        CallbackMessage.error("Errors fetching some opinions")
+                        : CallbackMessage.ok(mMaxReviews + " opinions fetched");
                 mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, message));
             }
         }

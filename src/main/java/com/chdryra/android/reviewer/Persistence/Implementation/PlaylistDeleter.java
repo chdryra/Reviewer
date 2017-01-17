@@ -52,7 +52,7 @@ public class PlaylistDeleter implements PlaylistCallback {
     public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
         if (!hasReview && message.isOk()) {
             String name = mPlaylist.getName();
-            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok("Review  not in " + name));
+            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok("Opinion  not in " + name));
         } else {
             mPlaylist.removeEntry(mReviewId, this);
         }

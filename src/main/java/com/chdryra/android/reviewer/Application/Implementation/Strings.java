@@ -15,6 +15,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
  */
 public class Strings {
     public static String APP_NAME = "StarTouch";
+    public static String REVIEW = "Opinion";
 
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";
@@ -23,10 +24,10 @@ public class Strings {
         public static final String EDIT_ON_MAP = "Edit on map?";
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
-        public static final String DELETE_REVIEW = "published review";
+        public static final String DELETE_REVIEW = "published opinion";
         public static final String NEW_USER = "Looks like you're a new user?";
         public static final String SHOW_ON_MAP = "Show on map?";
-        public static final String DISCARD_REVIEW = "Discard review in progress?";
+        public static final String DISCARD_REVIEW = "Discard opinion in progress?";
         public static final String DISCARD_EDITS = "Discard new data and edits?";
     }
 
@@ -47,7 +48,7 @@ public class Strings {
         public static final String PUBLISHING = "Publishing...";
         public static final String PROBLEM_PUBLISHING = "Problem publishing";
         public static final String PROBLEM_UPLOADING_EDITS = "Problem uploading edits";
-        public static final String REVIEW_NOT_FOUND = "Review not found";
+        public static final String REVIEW_NOT_FOUND = "Opinion not found";
         public static final String COMPLETING_SIGNUP = "Completing sign up...";
         public static final String DELETING = "Deleting please wait...";
         public static final String EMAIL_IS_INVALID = "Email is invalid";
@@ -86,8 +87,8 @@ public class Strings {
         public static final String SUMMARY = "summary";
         public static final String SORTING = "sorting...";
         public static final String AUTHORS = "authors";
-        public static final String FULL_REVIEW = "Full review";
-        public static final String QUICK_REVIEW = "Quick review";
+        public static final String FULL_REVIEW = "Full opinion";
+        public static final String QUICK_REVIEW = "Quick opinion";
         public static final String DISTRIBUTION = "Ratings distribution";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
@@ -121,14 +122,14 @@ public class Strings {
     public static class Menu {
         public static final String SHOW_SENTENCES = "show sentences";
         public static final String SHOW_HEADLINES = "show headlines";
-        public static final String REVIEWS = "reviews";
+        public static final String REVIEWS = "opinions";
         public static final String PAGE = "page";
     }
 
     public static class Mapping {
         public static final String LOCATIONS = "locations";
-        public static final String REVIEWS = "reviews";
-        public static final String REVIEW = "review";
+        public static final String REVIEWS = "opinions";
+        public static final String REVIEW = "opinion";
     }
     
     public static class Placeholders {
@@ -151,7 +152,7 @@ public class Strings {
         public static final String EDIT = "Edit";
         public static final String DELETE = "Delete";
         public static final String OPTIONS = "Options";
-        public static final String REVIEW_OPTIONS = "Review options";
+        public static final String REVIEW_OPTIONS = "options";
         public static final String FORMATTED = "Formatted";
         public static final String MAPPED = "Mapped";
         public static final String DISTRIBUTION = "Distribution";
@@ -176,7 +177,7 @@ public class Strings {
 
     public static class ReviewsList {
         public static final String FEED = "feed";
-        public static final String REVIEWS = "reviews";
+        public static final String REVIEWS = "opinions";
         public static final String BOOKMARKS = "bookmarks";
     }
 
