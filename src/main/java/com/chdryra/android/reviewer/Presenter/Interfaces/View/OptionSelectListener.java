@@ -15,4 +15,6 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
  */
 public interface OptionSelectListener {
     boolean onOptionSelected(int requestCode, String option);
+
+    boolean onOptionsCancelled(int requestCode);
 }

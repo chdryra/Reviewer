@@ -57,6 +57,11 @@ public class BannerButtonSelector<T extends GvData> extends BannerButtonCommanda
         }
     }
 
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return requestCode == OPTIONS;
+    }
+
     private class ClickCommand extends Command {
         @Override
         public void execute() {

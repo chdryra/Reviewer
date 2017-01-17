@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
@@ -29,10 +28,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,28 +36,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterReviewPublish implements ActivityResultListener, PlatformAuthoriser, PublishAction.PublishCallback {
-    private final CurrentScreen mScreen;
+    private final UiSuite mUi;
     private final NetworkSuite mNetwork;
-    private final LaunchableConfig mFeed;
     private final LaunchableUi mAuthLaunchable;
-    private final UiLauncher mLauncher;
-    private final ReviewEditorSuite mSuite;
+    private final ReviewEditorSuite mEditor;
 
     private ReviewView<?> mView;
     private LoginUi mAuthUi;
 
-    private PresenterReviewPublish(CurrentScreen screen,
+    private PresenterReviewPublish(UiSuite ui,
                                    NetworkSuite network,
-                                   LaunchableConfig feed,
-                                   LaunchableUi authLaunchable,
-                                   UiLauncher launcher,
-                                   ReviewEditorSuite suite) {
-        mScreen = screen;
+                                   ReviewEditorSuite editor,
+                                   LaunchableUi authLaunchable) {
+        mUi = ui;
         mNetwork = network;
-        mFeed = feed;
+        mEditor = editor;
         mAuthLaunchable = authLaunchable;
-        mLauncher = launcher;
-        mSuite = suite;
     }
 
     public void setView(ReviewView<?> view) {
@@ -75,9 +65,8 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
         showToast(Strings.Toasts.PUBLISHING);
-        mSuite.discardEditor(false, null);
-        mFeed.launch(new UiLauncherArgs(mFeed.getDefaultRequestCode()).setClearBackStack());
-        mScreen.close();
+        mEditor.discardEditor(false, null);
+        mUi.returnToFeedScreen();
     }
 
     @Override
@@ -90,9 +79,9 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
         if(mNetwork.isOnline()) {
             mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
-            mAuthUi.launchUi(mLauncher);
+            mAuthUi.launchUi(mUi.getLauncher());
         } else {
-            mScreen.showToast(Strings.Toasts.NO_INTERNET);
+            showToast(Strings.Toasts.NO_INTERNET);
         }
     }
 
@@ -104,16 +93,15 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     }
 
     private void showToast(String publishing) {
-        mScreen.showToast(publishing);
+        mUi.getCurrentScreen().showToast(publishing);
     }
 
     public static class Builder {
         public PresenterReviewPublish build(ApplicationInstance app, LaunchableUi authLaunchable) {
             UiSuite ui = app.getUi();
 
-            PresenterReviewPublish presenter = new PresenterReviewPublish(ui.getCurrentScreen(),
-                    app.getNetwork(), ui.getConfig().getFeed(), authLaunchable,
-                    ui.getLauncher(), app.getReviewEditor());
+            PresenterReviewPublish presenter = new PresenterReviewPublish(ui,
+                    app.getNetwork(), app.getReviewEditor(), authLaunchable);
 
             ReviewEditor<?> editor = app.getReviewEditor().getEditor();
             SocialPlatformList platforms = app.getSocial().getSocialPlatformList();

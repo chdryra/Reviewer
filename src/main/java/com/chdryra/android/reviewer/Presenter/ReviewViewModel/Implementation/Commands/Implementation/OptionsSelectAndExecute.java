@@ -6,8 +6,11 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
+
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
@@ -35,7 +38,7 @@ public class OptionsSelectAndExecute extends OptionsCommand {
 
     @Override
     public void execute() {
-        if(mLocked || mCommands == null || mCommands.size() == 0) {
+        if (mLocked || mCommands == null || mCommands.size() == 0) {
             onExecutionComplete();
             return;
         }
@@ -54,8 +57,17 @@ public class OptionsSelectAndExecute extends OptionsCommand {
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
+        return executeOption(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return executeOption(requestCode, null);
+    }
+
+    private boolean executeOption(int requestCode, @Nullable String option) {
         if (requestCode == mCode) {
-            mCommands.execute(option);
+            if (option != null) mCommands.execute(option);
             unlock();
             return true;
         }

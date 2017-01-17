@@ -187,4 +187,9 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     public boolean onOptionSelected(int requestCode, String option) {
         return mPerspective.getActions().onOptionSelected(requestCode, option);
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mPerspective.getActions().onOptionsCancelled(requestCode);
+    }
 }

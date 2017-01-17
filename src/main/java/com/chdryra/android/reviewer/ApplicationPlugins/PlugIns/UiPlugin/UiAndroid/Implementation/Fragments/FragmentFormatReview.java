@@ -30,6 +30,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -223,14 +224,18 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         mUi = app.getUi();
         mRepo = app.getRepository();
 
+        View v = inflater.inflate(LAYOUT, container, false);
+
         Bundle args = getArguments();
-        if (args == null) throwNoReview();
+        if (args == null) {
+            noReview();
+            return v;
+        }
+
         mIsPublished = args.getBoolean(PUBLISHED);
 
         setNode(args);
         setMenu();
-
-        View v = inflater.inflate(LAYOUT, container, false);
 
         setCover(v);
         setSubject(v);
@@ -245,6 +250,13 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         setImages(v);
 
         return v;
+    }
+
+    private void noReview() {
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        CurrentScreen currentScreen = app.getUi().getCurrentScreen();
+        currentScreen.showToast(Strings.Toasts.REVIEW_NOT_FOUND);
+        currentScreen.close();
     }
 
     @Override
@@ -284,6 +296,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mMenu.onOptionsCancelled(requestCode);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         update();
@@ -305,7 +322,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void setNode(Bundle args) {
         String reviewId = args.getString(ID);
-        if (reviewId == null) throwNoReview();
+        if (reviewId == null) {
+            noReview();
+            return;
+        }
+
         mNode = getContainer().getNode(new DatumReviewId(reviewId));
         mNode.registerObserver(this);
         ReviewReference reference = mNode.getReference();
@@ -323,10 +344,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         } catch (ClassCastException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void throwNoReview() {
-        throw new RuntimeException("No review found");
     }
 
     private void setMenu() {

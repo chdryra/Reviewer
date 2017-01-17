@@ -30,4 +30,9 @@ public class MaiOptionsCommand<T extends GvData> extends MaiCommand<T> implement
     public boolean onOptionSelected(int requestCode, String option) {
         return ((OptionSelectListener)getCommand()).onOptionSelected(requestCode, option);
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return ((OptionSelectListener)getCommand()).onOptionsCancelled(requestCode);
+    }
 }

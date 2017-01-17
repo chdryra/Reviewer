@@ -47,7 +47,6 @@ import com.chdryra.android.reviewer.R;
  */
 public class FragmentReviewView extends Fragment implements ReviewViewContainer {
     private static final int LAYOUT = R.layout.fragment_review_view;
-    private static final int FULL_VIEW = R.id.full_view;
     private static final int SUBJECT = R.id.subject_edit_text;
     private static final int RATING = R.id.review_rating;
     private static final int BANNER = R.id.banner_button;
@@ -122,7 +121,10 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        if (mReviewView == null) return v;
+        if (mReviewView == null) {
+            AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
+            return v;
+        }
 
         ReviewViewActions<?> actions = mReviewView.getActions();
 

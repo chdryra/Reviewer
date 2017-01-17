@@ -36,9 +36,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherAndroid;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -117,6 +119,13 @@ public class UiSuiteAndroid implements UiSuite{
     @Override
     public FactoryCommands getCommandsFactory() {
         return mCommandsFactory;
+    }
+
+    @Override
+    public void returnToFeedScreen() {
+        LaunchableConfig feed = getConfig().getFeed();
+        feed.launch(new UiLauncherArgs(feed.getDefaultRequestCode()).setClearBackStack());
+        getCurrentScreen().close();
     }
 
     public void setActivity(Activity activity) {

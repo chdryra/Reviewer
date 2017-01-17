@@ -120,6 +120,12 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
     }
 
     @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        FragmentFormatReview fragment = getVisibleFragment();
+        return fragment != null && fragment.onOptionsCancelled(requestCode);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);

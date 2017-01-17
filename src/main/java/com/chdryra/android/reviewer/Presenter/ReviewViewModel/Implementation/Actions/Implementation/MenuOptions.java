@@ -33,4 +33,9 @@ public class MenuOptions<T extends GvData> extends MenuActionsSome<T> {
     public boolean onOptionSelected(int requestCode, String option) {
         return mOptions.onOptionSelected(requestCode, option);
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mOptions.onOptionsCancelled(requestCode);
+    }
 }

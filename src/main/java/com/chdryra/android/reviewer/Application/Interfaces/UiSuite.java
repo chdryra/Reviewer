@@ -49,4 +49,6 @@ public interface UiSuite {
     ConverterGv getGvConverter();
 
     FactoryCommands getCommandsFactory();
+
+    void returnToFeedScreen();
 }

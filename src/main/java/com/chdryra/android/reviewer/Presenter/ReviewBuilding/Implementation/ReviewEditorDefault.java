@@ -11,9 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -58,7 +56,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private String mCurrentSubject;
     private EditMode mEditMode = EditMode.QUICK;
     private FileIncrementor mIncrementor;
-    private ReviewEditorSuite.DiscardListener mDiscardListener;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> adapter,
                                ReviewViewActions<GC> actions,

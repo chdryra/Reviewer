@@ -114,4 +114,18 @@ public class ReviewViewActions<T extends GvData> implements OptionSelectListener
 
         return consumed;
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        boolean consumed = mMenuAction.onOptionsCancelled(requestCode);
+        if(!consumed) consumed = mSubjectAction.onOptionsCancelled(requestCode);
+        if(!consumed) consumed = mRatingBarAction.onOptionsCancelled(requestCode);
+        if(!consumed) consumed = mBannerButtonAction.onOptionsCancelled(requestCode);
+        if(!consumed) consumed = mGridItemAction.onOptionsCancelled(requestCode);
+        if(!consumed && mContextualAction != null ) {
+            consumed = mContextualAction.onOptionsCancelled(requestCode);
+        }
+
+        return consumed;
+    }
 }

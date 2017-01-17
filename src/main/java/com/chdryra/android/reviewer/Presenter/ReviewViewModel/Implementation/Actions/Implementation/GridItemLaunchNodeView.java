@@ -42,6 +42,11 @@ public class GridItemLaunchNodeView extends GridItemCommand<GvNode> {
         return getOptionsCommand().onOptionSelected(requestCode, option);
     }
 
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return getOptionsCommand().onOptionsCancelled(requestCode);
+    }
+
     private ReviewOptionsSelector getOptionsCommand() {
         return (ReviewOptionsSelector) getLongClick();
     }

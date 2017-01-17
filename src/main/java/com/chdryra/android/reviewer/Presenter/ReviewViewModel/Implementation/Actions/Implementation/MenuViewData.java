@@ -46,4 +46,9 @@ public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
     public boolean onOptionSelected(int requestCode, String option) {
         return mOptions.onOptionSelected(requestCode, option);
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mOptions.onOptionsCancelled(requestCode);
+    }
 }

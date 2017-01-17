@@ -41,4 +41,9 @@ public class MenuUi implements OptionSelectListener{
     public boolean onOptionSelected(int requestCode, String option) {
         return mAction.onOptionSelected(requestCode, option);
     }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mAction.onOptionsCancelled(requestCode);
+    }
 }

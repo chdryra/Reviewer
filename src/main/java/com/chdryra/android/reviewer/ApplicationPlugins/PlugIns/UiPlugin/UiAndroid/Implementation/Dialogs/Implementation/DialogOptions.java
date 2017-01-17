@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Dialogs.Implementation;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class DialogOptions extends DialogOneButtonFragment implements
     private static final String SELECTED = OptionsSelector.CURRENTLY_SELECTED;
 
     private Button mSelected;
+    private OptionSelectListener mListener;
 
     @Override
     public String getLaunchTag() {
@@ -62,10 +64,10 @@ public class DialogOptions extends DialogOneButtonFragment implements
     protected View createDialogUi() {
         LinearLayout view = newLinearLayout();
 
-        OptionSelectListener listener = getTargetListenerOrThrow(OptionSelectListener.class);
+        mListener = getTargetListenerOrThrow(OptionSelectListener.class);
         String selected = getSelected();
         for (final String option : getOptions()) {
-            view.addView(newOptionButton(listener, option, selected));
+            view.addView(newOptionButton(option, selected));
         }
 
         return view;
@@ -104,8 +106,7 @@ public class DialogOptions extends DialogOneButtonFragment implements
     }
 
     @NonNull
-    private Button newOptionButton(final OptionSelectListener listener, final String option,
-                                   @Nullable String selected) {
+    private Button newOptionButton(final String option, @Nullable String selected) {
         Button button = new Button(getActivity());
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -120,12 +121,24 @@ public class DialogOptions extends DialogOneButtonFragment implements
             @Override
             public void onClick(View view) {
                 if(mSelected != null) mSelected.setPressed(false);
-                listener.onOptionSelected(getTargetRequestCode(), option);
+                mListener.onOptionSelected(getTargetRequestCode(), option);
                 dismiss();
             }
         });
 
         return button;
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        mListener.onOptionsCancelled(getTargetRequestCode());
+    }
+
+    @Override
+    protected void onLeftButtonClick() {
+        super.onLeftButtonClick();
+        mListener.onOptionsCancelled(getTargetRequestCode());
     }
 }
 

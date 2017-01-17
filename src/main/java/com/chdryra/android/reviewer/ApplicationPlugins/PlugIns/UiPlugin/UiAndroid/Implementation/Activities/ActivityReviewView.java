@@ -85,6 +85,11 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mView.onOptionsCancelled(requestCode);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         AppInstanceAndroid.setActivity(this);
