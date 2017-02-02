@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
@@ -46,4 +47,15 @@ public class ReviewClusterItem implements ClusterItem {
         return mLocation.getLatLng();
     }
 
+    @Override
+    public String getTitle() {
+        return mReference.getSubject().getSubject() + " "
+                + RatingFormatter.upToTwoSignificantDigits(mReference.getRating().getRating())
+                + "*";
+    }
+
+    @Override
+    public String getSnippet() {
+        return mLocation.getAddress();
+    }
 }

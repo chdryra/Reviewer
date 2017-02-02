@@ -37,7 +37,7 @@ public class CommentsDataParser {
     public static final String SEPARATOR = "(\\s+" + Strings.Buttons.CommentEdit.SEPARATOR + "\\s+)";
     private static final String WORD = "#?(\\w+)";
     private static final String STARS = "(\\d+(\\.\\d*)?)\\*";
-    private static final String VALUE = "#?(\\S+?)([\\.,;\\s]|$)";
+    private static final String VALUE = "#?(\\S+?)((?:[\\.,;!?]\\s+)|$)";
     private static final String REGEX_CRIT = WORD + SEPARATOR + STARS;
     private static final String REGEX_FACT = WORD + SEPARATOR + "(?!" + STARS + ")" + VALUE;
     private static final String CAMEL = "(?=[A-Z])";
