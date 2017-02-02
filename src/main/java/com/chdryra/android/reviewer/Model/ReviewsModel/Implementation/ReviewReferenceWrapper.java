@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * On: 27/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewReferenceWrapper extends WrapperItemReference<Review> implements ReviewReference {
+public class ReviewReferenceWrapper extends StaticItemReference<Review> implements ReviewReference {
     private final Review mReview;
     private final FactoryReference mReferenceFactory;
 
@@ -82,7 +82,7 @@ public class ReviewReferenceWrapper extends WrapperItemReference<Review> impleme
 
     @Override
     public ReviewItemReference<DataImage> getCover() {
-        return new WrapperItemReference<>(mReview.getCover());
+        return new StaticItemReference<>(mReview.getCover());
     }
 
     @Override

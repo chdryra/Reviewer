@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperRefComment extends WrapperItemReference<DataComment> implements RefComment {
+public class WrapperRefComment extends StaticItemReference<DataComment> implements RefComment {
     private final RefComment mParent;
 
     public WrapperRefComment(DataComment value, @Nullable RefComment parent) {

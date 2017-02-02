@@ -108,7 +108,7 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
-    public LaunchableConfig getSignUp() {
+    public LaunchableConfig getProfileEditor() {
         return mSignUp;
     }
 

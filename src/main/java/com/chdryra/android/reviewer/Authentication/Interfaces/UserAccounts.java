@@ -9,11 +9,12 @@
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 
@@ -35,11 +36,11 @@ public interface UserAccounts {
         void onAccountCreated(UserAccount account, @Nullable AuthenticationError error);
     }
 
-    AuthorProfile newProfile(String name);
+    AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
+    void createAccount(AuthenticatedUser authUser, AuthorProfileSnapshot profile, CreateAccountCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

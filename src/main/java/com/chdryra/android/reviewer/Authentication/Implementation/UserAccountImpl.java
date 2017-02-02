@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -21,15 +22,25 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 public class UserAccountImpl implements UserAccount {
     private final AuthorId mAuthorId;
     private final AuthenticatedUser mAccountHolder;
+    private final AuthorProfile mAuthorProfile;
     private final SocialProfile mSocialProfile;
 
-    public UserAccountImpl(AuthenticatedUser accountHolder, SocialProfile profile) {
+    public UserAccountImpl(AuthenticatedUser accountHolder,
+                           AuthorProfile authorProfile,
+                           SocialProfile socialProfile) {
         mAccountHolder = accountHolder;
         if(mAccountHolder.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }
         mAuthorId = mAccountHolder.getAuthorId();
-        mSocialProfile = profile;
+        mAuthorProfile = authorProfile;
+        mSocialProfile = socialProfile;
+
+        String id = mAuthorId.toString();
+        if(!id.equals(mAuthorProfile.getAuthor().getAuthorId().toString()) ||
+           !id.equals(mSocialProfile.getAuthorId().toString())     ) {
+            throw new IllegalArgumentException("AuthorIds should match!");
+        }
     }
 
     @Override
@@ -40,6 +51,11 @@ public class UserAccountImpl implements UserAccount {
     @Override
     public AuthorId getAuthorId() {
         return mAuthorId;
+    }
+
+    @Override
+    public AuthorProfile getAuthorProfile() {
+        return mAuthorProfile;
     }
 
     @Override

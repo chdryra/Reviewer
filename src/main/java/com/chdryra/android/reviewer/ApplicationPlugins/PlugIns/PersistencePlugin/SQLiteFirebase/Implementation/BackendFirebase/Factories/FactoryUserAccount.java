@@ -10,9 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.NullUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccountImpl;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 
@@ -22,12 +24,14 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryUserAccount {
-    public UserAccount newAccount(AuthenticatedUser user, SocialProfile socialProfile) {
+    public UserAccount newAccount(AuthenticatedUser user,
+                                  AuthorProfile authorProfile,
+                                  SocialProfile socialProfile) {
         if(user.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }
 
-        return new UserAccountImpl(user, socialProfile);
+        return new UserAccountImpl(user, authorProfile, socialProfile);
     }
 
     public UserAccount newNullAccount() {

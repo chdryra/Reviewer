@@ -74,6 +74,11 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     }
 
     @Override
+    public AuthenticatedUser getUser() {
+        return isInSession() ? mAccount.getAccountHolder() : new AuthenticatedUser();
+    }
+
+    @Override
     public SocialProfile getSocialProfile() {
         return isInSession() ? mAccount.getSocialProfile() : new NullUserAccount().getSocialProfile();
     }

@@ -26,19 +26,25 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterSignUp;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArgs;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpListener {
-    private static final String ARGS = TagKeyGenerator.getKey(FragmentSignUp.class, "Args");
+public class FragmentProfile extends Fragment implements PresenterProfile.SignUpListener {
+    private static final String ARGS = TagKeyGenerator.getKey(FragmentProfile.class, "Args");
 
     private static final int LAYOUT = R.layout.fragment_sign_up;
 
@@ -51,16 +57,17 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
 
     private static final int SIGN_UP_BUTTON = R.id.sign_up_button;
 
-    private PresenterSignUp mPresenter;
+    private PresenterProfile mPresenter;
     private AuthenticatedUser mUser;
-
+    private AuthorProfileSnapshot mProfile;
     private EditText mName;
+
     private EditText mEmail;
     private EditText mPassword;
     private EditText mPasswordConfirm;
 
-    public static FragmentSignUp newInstance(@Nullable SignUpArgs args) {
-        FragmentSignUp fragment = new FragmentSignUp();
+    public static FragmentProfile newInstance(@Nullable ProfileArgs args) {
+        FragmentProfile fragment = new FragmentProfile();
         if (args != null) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(ARGS, args);
@@ -86,17 +93,20 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateAndRequestSignUp();
+                validateAndCreateProfile();
             }
         });
 
-        ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        mPresenter = new PresenterSignUp.Builder().build(app, this);
+        mPresenter = new PresenterProfile.Builder().build(getApp(), this);
 
         Bundle args = getArguments();
         if (args != null) initWithArgs(emailSignUp, args);
 
         return view;
+    }
+
+    private ApplicationInstance getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
     }
 
     @Override
@@ -110,23 +120,41 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
     }
 
     private void initWithArgs(LinearLayout emailSignUp, Bundle args) {
-        SignUpArgs signUpArgs = args.getParcelable(ARGS);
-        if (signUpArgs != null) {
-            if (signUpArgs.isEmailPassword()) {
-                EmailAddress emailAddress = signUpArgs.getEmail();
-                if (emailAddress != null) mEmail.setText(emailAddress.toString());
+        ProfileArgs profileArgs = args.getParcelable(ARGS);
+        if (profileArgs != null) {
+            if (profileArgs.isEmailPassword()) {
+                initEmailSignup(profileArgs.getEmail());
             } else {
-                mUser = signUpArgs.getUser();
-                if (mUser == null) throw new IllegalStateException("User should not be null!");
                 emailSignUp.setVisibility(View.GONE);
+                initAuthenticatedUser(profileArgs.getUser());
             }
         }
     }
 
-    private void validateAndRequestSignUp() {
+    private void initAuthenticatedUser(@Nullable AuthenticatedUser user) {
+        mUser = user;
+        if (mUser == null) throw new IllegalStateException("User should not be null!");
+        AuthorId authorId = mUser.getAuthorId();
+        if(authorId != null) {
+            AuthorReference reference = getApp().getRepository().getAuthorsRepository()
+                    .getReference(authorId);
+            reference.dereference(new DataReference.DereferenceCallback<NamedAuthor>() {
+                @Override
+                public void onDereferenced(DataValue<NamedAuthor> value) {
+                    if(value.hasValue()) mName.setText(value.getData().getName());
+                }
+            });
+        }
+    }
+
+    private void initEmailSignup(@Nullable EmailAddress emailAddress) {
+        if (emailAddress != null) mEmail.setText(emailAddress.toString());
+    }
+
+    private void validateAndCreateProfile() {
         String name = mName.getText().toString();
         if (mUser != null) {
-            mPresenter.signUpNewAuthor(mUser, name);
+            mPresenter.signUpNewAuthor(mUser, name, null);
         } else {
             String password = mPassword.getText().toString();
             String passwordConfirm = mPasswordConfirm.getText().toString();
@@ -136,7 +164,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
             }
 
             String email = mEmail.getText().toString();
-            mPresenter.signUpNewAuthor(email, password, name);
+            mPresenter.signUpNewAuthor(email, password, name, null);
         }
     }
 

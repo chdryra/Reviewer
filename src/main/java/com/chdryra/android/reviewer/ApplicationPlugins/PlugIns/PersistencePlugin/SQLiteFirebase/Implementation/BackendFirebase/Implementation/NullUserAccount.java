@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.NullAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
@@ -44,5 +46,10 @@ public class NullUserAccount implements UserAccount {
     @Override
     public SocialProfile getSocialProfile() {
         return new NullSocialProfile();
+    }
+
+    @Override
+    public AuthorProfile getAuthorProfile() {
+        return new NullAuthorProfile();
     }
 }

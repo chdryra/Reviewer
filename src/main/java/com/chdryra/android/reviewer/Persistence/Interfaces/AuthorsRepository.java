@@ -29,13 +29,13 @@ public interface AuthorsRepository {
         void onAuthors(List<NamedAuthor> suggestions, CallbackMessage message);
     }
 
-    interface GetAuthorIdCallback {
+    interface AuthorIdCallback {
         void onAuthorId(DataReference<AuthorId> authorId, CallbackMessage message);
     }
 
     AuthorReference getReference(AuthorId authorId);
 
-    void getAuthorId(String name, GetAuthorIdCallback callback);
+    void getAuthorId(String name, AuthorIdCallback callback);
 
     void search(String nameQuery, SearchAuthorsCallback callback);
 }

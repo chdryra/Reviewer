@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Se
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleRefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperRefComment;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperRefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.WrapperRefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
@@ -38,7 +38,7 @@ public class FactoryReference {
     }
 
     public <T extends HasReviewId> ReviewItemReference<T> newWrapper(T datum) {
-        return new WrapperItemReference<>(datum);
+        return new StaticItemReference<>(datum);
     }
 
     public <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<T> data) {

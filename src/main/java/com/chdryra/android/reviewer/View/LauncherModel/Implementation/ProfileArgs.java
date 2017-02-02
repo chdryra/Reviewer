@@ -20,37 +20,37 @@ import com.chdryra.android.reviewer.Utils.EmailAddress;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SignUpArgs implements Parcelable {
-    public static final Creator<SignUpArgs> CREATOR = new Creator<SignUpArgs>() {
+public class ProfileArgs implements Parcelable {
+    public static final Creator<ProfileArgs> CREATOR = new Creator<ProfileArgs>() {
         @Override
-        public SignUpArgs createFromParcel(Parcel in) {
-            return new SignUpArgs(in);
+        public ProfileArgs createFromParcel(Parcel in) {
+            return new ProfileArgs(in);
         }
 
         @Override
-        public SignUpArgs[] newArray(int size) {
-            return new SignUpArgs[size];
+        public ProfileArgs[] newArray(int size) {
+            return new ProfileArgs[size];
         }
     };
 
     private EmailAddress mEmail;
     private AuthenticatedUser mUser;
 
-    public SignUpArgs() {
+    public ProfileArgs() {
 
     }
 
-    public SignUpArgs(AuthenticatedUser user) {
+    public ProfileArgs(AuthenticatedUser user) {
         mEmail = null;
         mUser = user;
     }
 
-    public SignUpArgs(EmailAddress emailAddress){
+    public ProfileArgs(EmailAddress emailAddress){
         mEmail = emailAddress;
         mUser = null;
     }
 
-    private SignUpArgs(Parcel in) {
+    private ProfileArgs(Parcel in) {
         mEmail = in.readParcelable(EmailAddress.class.getClassLoader());
         mUser = in.readParcelable(AuthenticatedUser.class.getClassLoader());
     }

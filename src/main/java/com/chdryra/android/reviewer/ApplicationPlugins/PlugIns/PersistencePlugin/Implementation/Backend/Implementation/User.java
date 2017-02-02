@@ -57,8 +57,8 @@ public class User {
         return mAuthorId;
     }
 
-    public @Nullable
-    Profile getProfile() {
+    @Nullable
+    public Profile getProfile() {
         return mProfile;
     }
 }

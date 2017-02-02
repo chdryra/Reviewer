@@ -25,7 +25,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
-        extends WrapperItemReference<IdableList<Value>>
+        extends StaticItemReference<IdableList<Value>>
         implements ReviewListReference<Value, Reference> {
     private final Collection<ListItemBinder<Value>> mItemBinders;
 
@@ -36,7 +36,7 @@ public abstract class StaticListReferenceBasic<Value extends HasReviewId, Refere
 
     @Override
     public ReviewItemReference<DataSize> getSize() {
-        return new WrapperItemReference<>(getData().getDataSize());
+        return new StaticItemReference<>(getData().getDataSize());
     }
 
     @Override

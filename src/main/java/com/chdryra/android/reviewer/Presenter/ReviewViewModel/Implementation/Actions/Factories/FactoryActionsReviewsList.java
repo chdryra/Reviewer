@@ -25,6 +25,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
@@ -34,6 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -112,6 +116,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     public static class Feed extends FactoryActionsReviewsList {
         private final ReviewsSource mRepo;
+        private final LaunchableConfig mProfileEditor;
 
         public Feed(ReviewNode node,
                     UiLauncher launcher,
@@ -119,9 +124,11 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
                     Command distribution,
                     FactoryCommands factoryCommands,
                     DataComparatorsApi comparators,
-                    ReviewsSource repo) {
+                    ReviewsSource repo,
+                    LaunchableConfig profileEditor) {
             super(node, launcher, factoryReviewView, distribution, factoryCommands, comparators, null);
             mRepo = repo;
+            mProfileEditor = profileEditor;
         }
 
         @Override
@@ -131,9 +138,10 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
                     (getFactoryCommands().newLaunchCreatorCommand(null));
             MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, mRepo, getFactoryReviewView());
             MaiSearch<GvNode> search = new MaiSearch<>(launcher, getFactoryReviewView());
+            MaiProfile<GvNode> profile = new MaiProfile<>(mProfileEditor);
             MaiLogout<GvNode> logout = new MaiLogout<>();
 
-            return new MenuFeed<>(newReview, bookmarks, search, logout);
+            return new MenuFeed<>(newReview, bookmarks, search, profile, logout);
         }
     }
 }

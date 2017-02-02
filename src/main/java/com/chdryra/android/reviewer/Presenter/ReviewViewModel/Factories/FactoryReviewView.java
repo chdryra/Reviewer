@@ -164,7 +164,8 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         FactoryActionsReviewsList.Feed actionsFactory
                 = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
-                newLaunchDistributionCommand(node), mCommandsFactory, mComparators, mReviewsRepo);
+                newLaunchDistributionCommand(node), mCommandsFactory, mComparators, mReviewsRepo,
+                mConfig.getProfileEditor());
 
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
     }

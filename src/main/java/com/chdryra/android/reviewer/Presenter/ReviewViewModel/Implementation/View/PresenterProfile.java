@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -27,8 +28,8 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
-    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterSignUp.class,
+public class PresenterProfile implements UserAccounts.CreateAccountCallback {
+    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterProfile.class,
             "EmailPassword");
 
     private static final String APP = ApplicationInstance.APP_NAME;
@@ -50,22 +51,22 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         AuthenticationError error);
     }
 
-    private PresenterSignUp(UserAccounts accounts, SignUpListener listener) {
+    private PresenterProfile(UserAccounts accounts, SignUpListener listener) {
         mAccounts = accounts;
         mListener = listener;
     }
 
-    public void signUpNewAuthor(AuthenticatedUser user, String name) {
+    public void signUpNewAuthor(AuthenticatedUser user, String name, @Nullable Bitmap photo) {
         AuthorNameValidation validation = new AuthorNameValidation(name);
         String author = validation.getName();
         if (author == null) {
             notifySignUpError(getError(validation.getReason()));
         } else {
-            createAccount(user, author);
+            createAccount(user, author, photo);
         }
     }
 
-    public void signUpNewAuthor(String email, String password, String name) {
+    public void signUpNewAuthor(String email, String password, String name, @Nullable Bitmap photo) {
         EmailPasswordValidation epValidation = new EmailPasswordValidation(email, password);
         EmailPassword emailPassword = epValidation.getEmailPassword();
         if (emailPassword == null) {
@@ -81,7 +82,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         }
 
         mEmailPassword = emailPassword;
-        createAccount(emailPassword, author);
+        createAccount(emailPassword, author, photo);
     }
 
     public void onSignUpComplete(@Nullable EmailPassword emailPassword, Activity activity) {
@@ -102,11 +103,11 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         mListener.onSignUpComplete(null, error);
     }
 
-    private void createAccount(AuthenticatedUser user, String author) {
-        mAccounts.createAccount(user, mAccounts.newProfile(author), this);
+    private void createAccount(AuthenticatedUser user, String author, @Nullable Bitmap photo) {
+        mAccounts.createAccount(user, mAccounts.newProfile(author, photo), this);
     }
 
-    private void createAccount(EmailPassword emailPassword, final String author) {
+    private void createAccount(EmailPassword emailPassword, final String author, @Nullable final Bitmap photo) {
         mAccounts.createUser(emailPassword, new UserAccounts
                 .CreateUserCallback() {
             @Override
@@ -114,7 +115,7 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
                 if (error != null) {
                     notifySignUpError(error);
                 } else {
-                    createAccount(user, author);
+                    createAccount(user, author, photo);
                 }
             }
         });
@@ -143,8 +144,8 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     }
 
     public static class Builder {
-        public PresenterSignUp build(ApplicationInstance app, SignUpListener listener) {
-            return new PresenterSignUp(app.getAuthentication().getUserAccounts(), listener);
+        public PresenterProfile build(ApplicationInstance app, SignUpListener listener) {
+            return new PresenterProfile(app.getAuthentication().getUserAccounts(), listener);
         }
     }
 }

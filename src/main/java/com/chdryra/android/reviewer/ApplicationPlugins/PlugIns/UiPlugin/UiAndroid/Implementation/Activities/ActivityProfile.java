@@ -17,17 +17,17 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentSignUp;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfile;
 
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
-public class ActivitySignUp extends ActivitySingleFragment implements LaunchableUi {
-    private static final String TAG = TagKeyGenerator.getTag(ActivitySignUp.class);
-    private static final String KEY = TagKeyGenerator.getKey(ActivitySignUp.class, "Key");
-    private FragmentSignUp mFragment;
+public class ActivityProfile extends ActivitySingleFragment implements LaunchableUi {
+    private static final String TAG = TagKeyGenerator.getTag(ActivityProfile.class);
+    private static final String KEY = TagKeyGenerator.getKey(ActivityProfile.class, "Key");
+    private FragmentProfile mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,9 @@ public class ActivitySignUp extends ActivitySingleFragment implements Launchable
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle bundleArgs = getIntent().getBundleExtra(KEY);
-        ParcelablePacker<SignUpArgs> unpacker = new ParcelablePacker<>();
-        SignUpArgs args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
-        mFragment = FragmentSignUp.newInstance(args);
+        ParcelablePacker<ProfileArgs> unpacker = new ParcelablePacker<>();
+        ProfileArgs args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
+        mFragment = FragmentProfile.newInstance(args);
         return mFragment;
     }
 

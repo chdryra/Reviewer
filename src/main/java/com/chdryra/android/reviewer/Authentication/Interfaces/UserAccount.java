@@ -22,4 +22,6 @@ public interface UserAccount {
     AuthorId getAuthorId();
 
     SocialProfile getSocialProfile();
+
+    AuthorProfile getAuthorProfile();
 }

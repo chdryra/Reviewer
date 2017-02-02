@@ -168,10 +168,6 @@ public class FbStructUsersLed implements FirebaseStructure {
         return root.child(pathToReview(authorId, reviewId));
     }
 
-    private Firebase getSocialDb(Firebase root, AuthorId authorId) {
-        return root.child(pathToSocial(authorId.toString()));
-    }
-
     //************Private**********//
     private void initialiseReviewsDb() {
         Path<ReviewDb> pathToReviews = new Path<ReviewDb>() {
@@ -248,6 +244,10 @@ public class FbStructUsersLed implements FirebaseStructure {
 
         StructureBuilder<Follow> builderUser = new StructureBuilder<>();
         mSocialUpdater = builderUser.add(following).add(followers).build();
+    }
+
+    private Firebase getSocialDb(Firebase root, AuthorId authorId) {
+        return root.child(pathToSocial(authorId.toString()));
     }
 
     private AuthorId toAuthorId(ReviewDb review) {

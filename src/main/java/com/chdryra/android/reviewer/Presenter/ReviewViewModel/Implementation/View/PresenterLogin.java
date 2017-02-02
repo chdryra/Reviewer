@@ -38,7 +38,7 @@ import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
@@ -53,7 +53,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     private final AuthenticationSuite mAuth;
     private final CurrentScreen mScreen;
-    private final LaunchableConfig mSignUp;
+    private final LaunchableConfig mProfileEditor;
     private final LaunchableConfig mFeed;
     private final LoginListener mListener;
     private CredentialsHandler mHandler;
@@ -73,14 +73,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     private PresenterLogin(AuthenticationSuite auth,
-                           LaunchableConfig signUp,
+                           LaunchableConfig profileEditor,
                            LaunchableConfig feed,
                            CurrentScreen screen,
                            FactoryCredentialsHandler handlerFactory,
                            FactoryCredentialsAuthenticator authenticatorFactory,
                            LoginListener listener) {
         mAuth = auth;
-        mSignUp = signUp;
+        mProfileEditor = profileEditor;
         mFeed = feed;
         mScreen = screen;
         mHandlerFactory = handlerFactory;
@@ -137,14 +137,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void signUpNewAuthor(String email) {
         try {
-            launchSignUp(new SignUpArgs(new EmailAddress(email)));
+            launchProfileEditor(new ProfileArgs(new EmailAddress(email)));
         } catch (EmailAddressException e) {
-            launchSignUp(new SignUpArgs());
+            launchProfileEditor(new ProfileArgs());
         }
     }
 
     public void signUpNewAuthor(AuthenticatedUser user) {
-        launchSignUp(new SignUpArgs(user));
+        launchProfileEditor(new ProfileArgs(user));
     }
 
     public void onLoginComplete() {
@@ -164,10 +164,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == mSignUp.getDefaultRequestCode()) {
+        if (requestCode == mProfileEditor.getDefaultRequestCode()) {
             mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
             if(data != null) {
-                EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
+                EmailPassword emailPassword = data.getParcelableExtra(PresenterProfile.EMAIL_PASSWORD);
                 if (emailPassword != null) authenticateWithCredentials(emailPassword);
             } else {
                 getUserSession().refreshSession();
@@ -208,11 +208,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         authenticationFinished();
     }
 
-    private void launchSignUp(SignUpArgs signUpArgs) {
+    private void launchProfileEditor(ProfileArgs profileArgs) {
         Bundle args = new Bundle();
-        ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        mSignUp.launch(new UiLauncherArgs(mSignUp.getDefaultRequestCode()).setBundle(args));
+        ParcelablePacker<ProfileArgs> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, profileArgs, args);
+        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode()).setBundle(args));
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
@@ -245,7 +245,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();
 
-            return new PresenterLogin(auth, config.getSignUp(), config.getFeed(),
+            return new PresenterLogin(auth, config.getProfileEditor(), config.getFeed(),
                     ui.getCurrentScreen(), new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);
         }

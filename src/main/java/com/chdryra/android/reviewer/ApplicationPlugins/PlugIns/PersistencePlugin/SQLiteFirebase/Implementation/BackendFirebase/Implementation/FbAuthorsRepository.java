@@ -56,11 +56,10 @@ public class FbAuthorsRepository implements AuthorsRepository {
     }
 
     @Override
-    public void getAuthorId(String name, GetAuthorIdCallback callback) {
+    public void getAuthorId(String name, AuthorIdCallback callback) {
         Firebase db = mStructure.getNameAuthorMappingDb(mDataRoot, name);
         doSingleEvent(db, getAuthorIdIfNameExists(db, callback));
     }
-
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
         root.addListenerForSingleValueEvent(listener);
@@ -68,7 +67,7 @@ public class FbAuthorsRepository implements AuthorsRepository {
 
     @NonNull
     private ValueEventListener getAuthorIdIfNameExists(final Firebase db,
-                                                       final GetAuthorIdCallback callback) {
+                                                       final AuthorIdCallback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

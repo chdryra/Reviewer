@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class BackendTestUtils {
 
     @NonNull
     public static Profile randomProfile() {
-        return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
+        return new Profile(new AuthorProfileSnapshot(RandomAuthor.nextAuthor(),
                 RandomDataDate.nextDateTime()));
     }
 

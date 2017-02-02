@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -20,11 +21,16 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class AuthorReferenceWrapper implements AuthorReference {
+public class AuthorReferenceDefault implements AuthorReference {
     private final AuthorId mAuthorId;
     private final DataReference<NamedAuthor> mReference;
 
-    public AuthorReferenceWrapper(AuthorId authorId, DataReference<NamedAuthor> reference) {
+    public AuthorReferenceDefault() {
+        mAuthorId = new DatumAuthorId();
+        mReference = new NullDataReference<>();
+    }
+
+    public AuthorReferenceDefault(AuthorId authorId, DataReference<NamedAuthor> reference) {
         mAuthorId = authorId;
         mReference = reference;
     }

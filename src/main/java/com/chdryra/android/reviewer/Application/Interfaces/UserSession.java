@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
@@ -42,6 +43,8 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
     void refreshSession();
 
     AuthorId getAuthorId();
+
+    AuthenticatedUser getUser();
 
     SocialProfile getSocialProfile();
 

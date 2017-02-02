@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,15 +29,7 @@ public class UserProfileConverter {
         mProfileFactory = profileFactory;
     }
 
-    private User newUser(String providerName, String providerUserId) {
-        return new User(providerName, providerUserId);
-    }
-
-    public User toUser(AuthenticatedUser user) {
-        return newUser(user.getProvider(), user.getProvidersId());
-    }
-
-    public User toUser(AuthenticatedUser user, AuthorProfile profile) {
+    public User toUser(AuthenticatedUser user, AuthorProfileSnapshot profile) {
         return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
     }
 
@@ -46,16 +41,7 @@ public class UserProfileConverter {
         return new AuthenticatedUser();
     }
 
-    public AuthorProfile toAuthorProfile(Profile profile) {
-        Author author = profile.getAuthor();
-        return mProfileFactory.newProfile(author.getName(), author.getAuthorId(), profile.getDateJoined());
-    }
-
-    public AuthorProfile newProfile(String name) {
-        return mProfileFactory.newProfile(name);
-    }
-
-    public AuthorProfile newNullProfile() {
-        return mProfileFactory.newNullAuthorProfile();
+    public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
+        return mProfileFactory.newProfile(name, photo);
     }
 }
