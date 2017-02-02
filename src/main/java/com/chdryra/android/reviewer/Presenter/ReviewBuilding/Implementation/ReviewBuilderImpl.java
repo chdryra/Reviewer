@@ -177,9 +177,7 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     }
 
     private <T extends GvData> GvDataList<T> getDataFinal(GvDataType<T> dataType) {
-        DataBuilder<T> dataBuilder = getDataBuilder(dataType);
-        dataBuilder.commitData();
-        return dataBuilder.getData();
+        return getDataBuilder(dataType).getData();
     }
 
     private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {

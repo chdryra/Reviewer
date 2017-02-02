@@ -335,7 +335,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     @Override
     public void onReferenceInvalidated(DataReference<?> reference) {
-        getContainer().remove(this);
+        if(getContainer() != null) getContainer().remove(this);
     }
 
     private ActivityFormatReview getContainer() {

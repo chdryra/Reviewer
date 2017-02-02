@@ -68,6 +68,7 @@ public class ReviewBuilderInitialiser {
             DataConverter<T1, T2, ? extends GvDataList<T2>> converter,
             IdableList<? extends T1> data) {
         DataBuilder<T2> dataBuilder = builder.getDataBuilder(dataType);
+        dataBuilder.deleteAll();
         for (T1 datum : data) {
             dataBuilder.add(converter.convert(datum, null));
         }

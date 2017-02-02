@@ -167,7 +167,7 @@ public class CommentsDataParser {
     }
 
     private String camelCaseToSpace(String string) {
-        return StringUtils.join(string.split(CAMEL), " ");
+        return StringUtils.join(string.split(CAMEL), " ").trim();
     }
 
     private GvFact newUrl(String label, String value) {
