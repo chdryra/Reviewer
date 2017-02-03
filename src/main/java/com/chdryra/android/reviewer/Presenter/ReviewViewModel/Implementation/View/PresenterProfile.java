@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
@@ -28,8 +29,8 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterProfile implements UserAccounts.CreateAccountCallback {
-    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterProfile.class,
+public class PresenterProfile implements UserAccounts.CreateAccountCallback, UserAccounts.UpdateProfileCallback {
+    static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterProfile.class,
             "EmailPassword");
 
     private static final String APP = ApplicationInstance.APP_NAME;
@@ -43,15 +44,16 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback {
             AuthenticationError.Reason.UNKNOWN_ERROR);
 
     private final UserAccounts mAccounts;
-    private final SignUpListener mListener;
+    private final ProfileListener mListener;
     private EmailPassword mEmailPassword;
 
-    public interface SignUpListener {
-        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable
-        AuthenticationError error);
+    public interface ProfileListener {
+        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable AuthenticationError error);
+
+        void onProfileUpdated(AuthorProfileSnapshot newProfile, @Nullable AuthenticationError error);
     }
 
-    private PresenterProfile(UserAccounts accounts, SignUpListener listener) {
+    private PresenterProfile(UserAccounts accounts, ProfileListener listener) {
         mAccounts = accounts;
         mListener = listener;
     }
@@ -92,6 +94,15 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback {
         }
 
         activity.finish();
+    }
+
+    public void updateProfile(UserAccount account, AuthorProfileSnapshot newProfile) {
+        mAccounts.updateProfile(account, newProfile, this);
+    }
+
+    @Override
+    public void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
+        mListener.onProfileUpdated(profile, error);
     }
 
     @Override
@@ -144,7 +155,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback {
     }
 
     public static class Builder {
-        public PresenterProfile build(ApplicationInstance app, SignUpListener listener) {
+        public PresenterProfile build(ApplicationInstance app, ProfileListener listener) {
             return new PresenterProfile(app.getAuthentication().getUserAccounts(), listener);
         }
     }

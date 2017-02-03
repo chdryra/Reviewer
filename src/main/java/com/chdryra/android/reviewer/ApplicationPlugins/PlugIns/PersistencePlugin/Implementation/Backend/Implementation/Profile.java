@@ -9,6 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 
+
+import android.graphics.Bitmap;
+
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 
 /**
@@ -23,6 +26,7 @@ public class Profile {
 
     private Author author;
     private long dateJoined;
+    private Bitmap photo;
 
     public Profile() {
     }
@@ -30,6 +34,7 @@ public class Profile {
     public Profile(AuthorProfileSnapshot profile) {
         this.author = new Author(profile.getNamedAuthor());
         this.dateJoined = profile.getJoined().getTime();
+        this.photo = profile.getProfilePhoto();
     }
 
     public Author getAuthor() {
@@ -38,5 +43,9 @@ public class Profile {
 
     public long getDateJoined() {
         return dateJoined;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
     }
 }

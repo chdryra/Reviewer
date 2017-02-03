@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Application.Implementation;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -18,7 +19,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -79,8 +79,13 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     }
 
     @Override
-    public SocialProfile getSocialProfile() {
-        return isInSession() ? mAccount.getSocialProfile() : new NullUserAccount().getSocialProfile();
+    public UserAccount getAccount() {
+        return isInSession() ? mAccount : nullAccount();
+    }
+
+    @NonNull
+    private NullUserAccount nullAccount() {
+        return new NullUserAccount();
     }
 
     @Override
@@ -128,7 +133,7 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
         if(user != null ) {
             mManager.getAccounts().getAccount(user, this);
         } else {
-            notifyOnSession(new NullUserAccount(),
+            notifyOnSession(nullAccount(),
                     new AuthenticationError(ApplicationInstance.APP_NAME,
                             AuthenticationError.Reason.NO_AUTHENTICATED_USER));
         }

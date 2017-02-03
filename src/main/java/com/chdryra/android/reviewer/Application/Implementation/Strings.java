@@ -67,6 +67,7 @@ public class Strings {
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
         public static final String NO_INTERNET = "No internet available...";
         public static final String UPLOADING_EDITS = "Uploading edits...";
+        public static final String PROFILE_UPDATED = "Profile updated";
     }
     
     public static class Screens {
@@ -104,6 +105,7 @@ public class Strings {
         public static final String NO_SUGGESTIONS = "no suggestions found";
         public static final String SEARCHING_NEAR_HERE = "searching near here...";
         public static final String SEARCHING_NEAR_PHOTO = "searching near photo...";
+        public static final String FETCHING = "fetching...";
 
         public static class Hints {
             public static final String ADD_LOCATION = "name current or select another";

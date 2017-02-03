@@ -42,7 +42,7 @@ public class SocialSuiteAndroid implements SocialSuite {
 
     @Override
     public SocialProfile getSocialProfile() {
-        return mSession != null ? mSession.getSocialProfile() : new NullSocialProfile();
+        return mSession != null ? mSession.getAccount().getSocialProfile() : new NullSocialProfile();
     }
 
     @Override

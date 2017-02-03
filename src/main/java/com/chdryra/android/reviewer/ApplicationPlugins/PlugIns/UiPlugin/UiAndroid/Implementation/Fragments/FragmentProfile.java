@@ -21,17 +21,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -43,10 +45,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArg
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentProfile extends Fragment implements PresenterProfile.SignUpListener {
+public class FragmentProfile extends Fragment implements PresenterProfile.ProfileListener {
     private static final String ARGS = TagKeyGenerator.getKey(FragmentProfile.class, "Args");
 
-    private static final int LAYOUT = R.layout.fragment_sign_up;
+    private static final int LAYOUT = R.layout.fragment_profile;
 
     private static final int EMAIL_SIGN_UP = R.id.email_sign_up;
     private static final int EMAIL_EDIT_TEXT = R.id.edit_text_sign_up_email;
@@ -55,7 +57,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.SignUp
 
     private static final int NAME_EDIT_TEXT = R.id.edit_text_author_name;
 
-    private static final int SIGN_UP_BUTTON = R.id.sign_up_button;
+    private static final int DONE_BUTTON = R.id.done_button;
 
     private PresenterProfile mPresenter;
     private AuthenticatedUser mUser;
@@ -89,11 +91,11 @@ public class FragmentProfile extends Fragment implements PresenterProfile.SignUp
 
         mName = (EditText) view.findViewById(NAME_EDIT_TEXT);
 
-        Button signUpButton = (Button) view.findViewById(SIGN_UP_BUTTON);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        Button doneButton = (Button) view.findViewById(DONE_BUTTON);
+        doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateAndCreateProfile();
+                validate();
             }
         });
 
@@ -136,26 +138,57 @@ public class FragmentProfile extends Fragment implements PresenterProfile.SignUp
         if (mUser == null) throw new IllegalStateException("User should not be null!");
         AuthorId authorId = mUser.getAuthorId();
         if(authorId != null) {
-            AuthorReference reference = getApp().getRepository().getAuthorsRepository()
-                    .getReference(authorId);
-            reference.dereference(new DataReference.DereferenceCallback<NamedAuthor>() {
+            mName.setText(Strings.EditTexts.FETCHING);
+            getUserAccount().getAuthorProfile().getProfile(new AuthorProfile.ProfileCallback() {
                 @Override
-                public void onDereferenced(DataValue<NamedAuthor> value) {
-                    if(value.hasValue()) mName.setText(value.getData().getName());
+                public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
+                    String text = message.getMessage();
+                    if(message.isOk()) {
+                        mProfile = profile;
+                        text = mProfile.getNamedAuthor().getName();
+                    }
+                    mName.setText(text);
                 }
             });
         }
+    }
+
+    private UserAccount getUserAccount() {
+        return getApp().getAuthentication().getUserSession().getAccount();
     }
 
     private void initEmailSignup(@Nullable EmailAddress emailAddress) {
         if (emailAddress != null) mEmail.setText(emailAddress.toString());
     }
 
-    private void validateAndCreateProfile() {
+    private void validate() {
         String name = mName.getText().toString();
-        if (mUser != null) {
-            mPresenter.signUpNewAuthor(mUser, name, null);
+        if(mUser == null || mUser.getAuthorId() == null) {
+            signUpNewAuthor(name);
         } else {
+            if(mProfile != null && !name.equals(mProfile.getNamedAuthor().getName())) {
+                NamedAuthor newName = new DefaultNamedAuthor(name, mProfile
+                        .getAuthor().getAuthorId());
+                mPresenter.updateProfile(getUserAccount(),
+                        new AuthorProfileSnapshot(newName, mProfile.getJoined(), mProfile.getProfilePhoto()));
+            } else {
+                getActivity().finish();
+            }
+        }
+    }
+
+    @Override
+    public void onProfileUpdated(AuthorProfileSnapshot newProfile, @Nullable AuthenticationError error) {
+        if(error == null) {
+            makeToast(Strings.Toasts.PROFILE_UPDATED);
+        } else {
+            makeToast(error.getMessage());
+        }
+        getActivity().finish();
+    }
+
+    private void signUpNewAuthor(String name) {
+        if (mUser == null) {
             String password = mPassword.getText().toString();
             String passwordConfirm = mPasswordConfirm.getText().toString();
             if (!password.equals(passwordConfirm)) {
@@ -165,7 +198,10 @@ public class FragmentProfile extends Fragment implements PresenterProfile.SignUp
 
             String email = mEmail.getText().toString();
             mPresenter.signUpNewAuthor(email, password, name, null);
+            return;
         }
+
+        if (mUser.getAuthorId() == null) mPresenter.signUpNewAuthor(mUser, name, null);
     }
 
     private void makeToast(String message) {

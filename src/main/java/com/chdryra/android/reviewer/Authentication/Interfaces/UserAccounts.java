@@ -32,6 +32,10 @@ public interface UserAccounts {
         void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error);
     }
 
+    interface UpdateProfileCallback {
+        void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error);
+    }
+
     interface CreateAccountCallback {
         void onAccountCreated(UserAccount account, @Nullable AuthenticationError error);
     }
@@ -41,6 +45,8 @@ public interface UserAccounts {
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
     void createAccount(AuthenticatedUser authUser, AuthorProfileSnapshot profile, CreateAccountCallback callback);
+
+    void updateProfile(UserAccount account, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

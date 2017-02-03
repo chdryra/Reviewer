@@ -13,13 +13,13 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.AuthorReferenceDefault;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceWrapper;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,17 +52,13 @@ public class AuthorProfileSnapshot implements AuthorProfile{
         return mProfilePhoto;
     }
 
+    @Override
     public AuthorReference getAuthor() {
         return new AuthorReferenceDefault(mAuthor.getAuthorId(), new DataReferenceWrapper<>(mAuthor));
     }
 
     @Override
-    public DataReference<DateTime> getDateJoined() {
-        return new DataReferenceWrapper<>(mDateJoined);
-    }
-
-    @Override
-    public DataReference<Bitmap> getProfileImage() {
-        return new DataReferenceWrapper<>(mProfilePhoto);
+    public void getProfile(ProfileCallback callback) {
+        callback.onProfile(this, CallbackMessage.ok());
     }
 }

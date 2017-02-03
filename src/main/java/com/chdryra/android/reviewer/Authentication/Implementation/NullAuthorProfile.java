@@ -10,15 +10,10 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
-import android.graphics.Bitmap;
-
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation
-        .AuthorReferenceDefault;
-import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.NullDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.AuthorReferenceDefault;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,12 +31,7 @@ public class NullAuthorProfile implements AuthorProfile{
     }
 
     @Override
-    public DataReference<DateTime> getDateJoined() {
-        return new NullDataReference<>();
-    }
-
-    @Override
-    public DataReference<Bitmap> getProfileImage() {
-        return new NullDataReference<>();
+    public void getProfile(ProfileCallback callback) {
+        callback.onProfile(new AuthorProfileSnapshot(), CallbackMessage.error("null profile"));
     }
 }

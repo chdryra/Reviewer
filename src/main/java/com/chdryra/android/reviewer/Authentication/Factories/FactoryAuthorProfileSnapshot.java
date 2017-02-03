@@ -25,7 +25,7 @@ import java.util.Date;
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryAuthorProfile {
+public class FactoryAuthorProfileSnapshot {
     public AuthorProfileSnapshot newProfile(String name, String authorId, long dateJoined, @Nullable Bitmap photo) {
         NamedAuthor author = new DefaultNamedAuthor(name, new AuthorIdParcelable(authorId));
         return new AuthorProfileSnapshot(author, new DatumDateTime(dateJoined), photo);

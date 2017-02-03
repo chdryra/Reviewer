@@ -13,9 +13,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,9 +26,9 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileS
  * Email: rizwan.choudrey@gmail.com
  */
 public class UserProfileConverter {
-    private final FactoryAuthorProfile mProfileFactory;
+    private final FactoryAuthorProfileSnapshot mProfileFactory;
 
-    public UserProfileConverter(FactoryAuthorProfile profileFactory) {
+    public UserProfileConverter(FactoryAuthorProfileSnapshot profileFactory) {
         mProfileFactory = profileFactory;
     }
 
@@ -43,5 +46,11 @@ public class UserProfileConverter {
 
     public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
         return mProfileFactory.newProfile(name, photo);
+    }
+
+    public AuthorProfileSnapshot newProfile(Profile profile) {
+        Author author = profile.getAuthor();
+        return new AuthorProfileSnapshot(new DefaultNamedAuthor(author.getName(), new AuthorIdParcelable(author.getAuthorId())),
+                new DatumDateTime(profile.getDateJoined()), profile.getPhoto());
     }
 }

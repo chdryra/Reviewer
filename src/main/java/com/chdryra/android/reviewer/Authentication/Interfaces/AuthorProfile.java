@@ -8,11 +8,9 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import android.graphics.Bitmap;
-
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,9 +18,11 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthorProfile {
+    interface ProfileCallback {
+        void onProfile(AuthorProfileSnapshot profile, CallbackMessage message);
+    }
+
     AuthorReference getAuthor();
 
-    DataReference<DateTime> getDateJoined();
-
-    DataReference<Bitmap> getProfileImage();
+    void getProfile(ProfileCallback callback);
 }
