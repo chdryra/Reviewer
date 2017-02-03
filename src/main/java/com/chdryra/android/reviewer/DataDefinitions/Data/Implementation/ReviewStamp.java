@@ -138,7 +138,9 @@ public class ReviewStamp implements Validatable, ReviewId {
         }
 
         private StampId(@NotNull String userId, long time) {
-            if(userId.length() == 0) throwException();
+            if(userId.length() == 0) {
+                throwException();
+            }
             mId = userId + SPLITTER + String.valueOf(time);
         }
 

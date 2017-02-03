@@ -16,21 +16,15 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryUserAccount;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
@@ -116,17 +110,14 @@ public class FbUserAccounts implements UserAccounts {
     }
 
     @Override
-    public void updateProfile(UserAccount account, AuthorProfileSnapshot newProfile,
-                              UpdateProfileCallback callback) {
+    public void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback) {
         AuthenticatedUser user = account.getAccountHolder();
-        if (user.getAuthorId() == null || user.getAuthorId().toString().equals(newProfile
-                .getAuthor().getAuthorId().toString())) {
-            callback.onAccountUpdated(newProfile, newError(AuthenticationError.Reason
-                    .AUTHORISATION_REFUSED, "Account and profile author do not match"));
+        if(user.getAuthorId() == null || !user.getAuthorId().toString().equals(newProfile.getAuthor().getAuthorId().toString())) {
+            callback.onAccountUpdated(newProfile, newError(AuthenticationError.Reason.AUTHORISATION_REFUSED, "Account and profile author do not match"));
             return;
         }
 
-        updateProfile(user, newProfile, callback);
+        updateProfile(user, oldProfile, newProfile, callback);
     }
 
     @Override
@@ -163,8 +154,7 @@ public class FbUserAccounts implements UserAccounts {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String authorId = (String) dataSnapshot.getValue();
                 if (authorId == null) {
-                    callback.onAccount(mAccountFactory.newNullAccount(authUser),
-                            UNKNOWN_USER_ERROR);
+                    callback.onAccount(mAccountFactory.newNullAccount(authUser), UNKNOWN_USER_ERROR);
                 } else {
                     authUser.setAuthorId(authorId);
                     AuthorProfile profile = mProfileFactory.newProfile(authUser.getAuthorId());
@@ -174,15 +164,14 @@ public class FbUserAccounts implements UserAccounts {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onAccount(mAccountFactory.newNullAccount(authUser), newError
-                        (firebaseError));
+                callback.onAccount(mAccountFactory.newNullAccount(authUser), newError(firebaseError));
             }
         };
     }
 
     @NonNull
     private UserAccount newUserAccount(@Nullable AuthenticatedUser user, AuthorProfile profile) {
-        if (user == null) {
+        if(user == null) {
             return mAccountFactory.newNullAccount();
         } else {
             SocialProfile socialProfile
@@ -194,33 +183,29 @@ public class FbUserAccounts implements UserAccounts {
     private void createProfile(final AuthenticatedUser authUser,
                                final AuthorProfileSnapshot profile,
                                final CreateAccountCallback callback) {
-        Map<String, Object> map = getProfileUpdates(authUser, profile);
+        final User user = mConverter.toUser(authUser, profile);
+        DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
+        Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
         mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 authUser.setAuthorId(profile.getNamedAuthor().getAuthorId().toString());
-                callback.onAccountCreated(newUserAccount(authUser, profile), newError
-                        (firebaseError));
+                callback.onAccountCreated(newUserAccount(authUser, profile), newError(firebaseError));
             }
         });
     }
 
-    @NonNull
-    private Map<String, Object> getProfileUpdates(AuthenticatedUser authUser,
-                                                  AuthorProfileSnapshot profile) {
-        final User user = mConverter.toUser(authUser, profile);
-        DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
-        return usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-    }
-
     private void updateProfile(final AuthenticatedUser authUser,
-                               final AuthorProfileSnapshot profile,
+                               final AuthorProfileSnapshot oldProfile,
+                               final AuthorProfileSnapshot newProfile,
                                final UpdateProfileCallback callback) {
-        Map<String, Object> map = getProfileUpdates(authUser, profile);
+        final User user = mConverter.toUser(authUser, oldProfile, newProfile);
+        DbUpdater<User> profileUpdater = mStructure.getProfileUpdater();
+        Map<String, Object> map = profileUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
         mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.onAccountUpdated(profile, newError(firebaseError));
+                callback.onAccountUpdated(newProfile, newError(firebaseError));
             }
         });
     }

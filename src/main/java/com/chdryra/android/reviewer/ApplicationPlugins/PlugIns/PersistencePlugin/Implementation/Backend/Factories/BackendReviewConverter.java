@@ -119,7 +119,7 @@ public class BackendReviewConverter {
         ArrayList<DataImage> images = new ArrayList<>();
         for(ImageData image : review.getImages()) {
             Bitmap bitmap = ImageData.asBitmap(image.getBitmap());
-            images.add(new DatumImage(reviewId, bitmap, new DatumDate(reviewId,
+            if(bitmap != null) images.add(new DatumImage(reviewId, bitmap, new DatumDate(reviewId,
                     image.getDate()), image.getCaption(), image.toLatLng(), image.isCover()));
         }
 

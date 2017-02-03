@@ -46,7 +46,7 @@ public interface UserAccounts {
 
     void createAccount(AuthenticatedUser authUser, AuthorProfileSnapshot profile, CreateAccountCallback callback);
 
-    void updateProfile(UserAccount account, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback);
+    void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

@@ -27,7 +27,7 @@
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
     <string name="activity_title_login">login</string>
-    <string name="activity_title_sign_up">sign up</string>
+    <string name="activity_title_profile">profile</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">&#43;subject</string>

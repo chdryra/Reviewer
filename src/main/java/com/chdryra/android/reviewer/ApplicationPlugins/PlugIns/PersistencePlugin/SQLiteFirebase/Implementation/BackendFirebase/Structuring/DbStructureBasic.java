@@ -87,7 +87,7 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
             return update;
         }
 
-        public Update<T> atPath(T itemPathToStructure) {
+        public Update<T> atPath(@Nullable T itemPathToStructure) {
             Update<T> update = new Update<>(itemPathToStructure);
             mUpdates.add(update);
             return update;
@@ -119,8 +119,8 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
                 setPath(path(itemPath, root, elements));
             }
 
-            private Update(P itemPath) {
-                setPath(path(itemPath));
+            private Update(@Nullable P itemPath) {
+                setPath(itemPath == null ? "" : path(itemPath));
             }
 
             public void putValue(@Nullable Object value) {

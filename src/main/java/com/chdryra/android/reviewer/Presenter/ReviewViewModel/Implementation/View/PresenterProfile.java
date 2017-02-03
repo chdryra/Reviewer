@@ -96,8 +96,8 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         activity.finish();
     }
 
-    public void updateProfile(UserAccount account, AuthorProfileSnapshot newProfile) {
-        mAccounts.updateProfile(account, newProfile, this);
+    public void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile) {
+        mAccounts.updateProfile(account, oldProfile, newProfile, this);
     }
 
     @Override

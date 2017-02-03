@@ -36,7 +36,7 @@ public class StructureUserProfileImpl extends DbStructureBasic<User> implements 
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        updates.atPath(user).putObject(user.getProfile());
+        updates.atPath(user).putObject(user.getUpdatedUser().getProfile());
 
         return updates.toMap();
     }

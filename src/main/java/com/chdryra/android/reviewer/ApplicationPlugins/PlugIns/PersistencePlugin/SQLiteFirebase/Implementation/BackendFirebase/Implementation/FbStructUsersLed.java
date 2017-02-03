@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructurePlaylist;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersAuthorsMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
@@ -45,7 +44,7 @@ public class FbStructUsersLed implements FirebaseStructure {
     private StructureReview mAggregates;
     private StructureReview mAllReviewsList;
 
-    private StructureUserProfile mUserProfile;
+    private DbUpdater<User> mProfileUpdater;
     private DbUpdater<User> mUserUpdater;
     private DbUpdater<ReviewDb> mReviewUpdater;
     private DbStructure<Follow> mSocialUpdater;
@@ -67,7 +66,7 @@ public class FbStructUsersLed implements FirebaseStructure {
 
     @Override
     public DbUpdater<User> getProfileUpdater() {
-        return mUserProfile;
+        return mProfileUpdater;
     }
 
     @Override
@@ -212,16 +211,21 @@ public class FbStructUsersLed implements FirebaseStructure {
             }
         };
 
-        mUserProfile = new StructureUserProfileImpl(pathToProfile);
         mUsersAuthorsMap = new StructureUsersAuthorsMapImpl(pathToUserAuthorMap());
         StructureAuthorsUsersMap authorsUsersMap = new StructureAuthorsUsersMapImpl
                 (pathToAuthorUserMap());
         mNamesAuthorsMap = new StructureNamesAuthorsMapImpl(pathToNamesAuthorMap());
         mAuthorsNamesMap = new StructureAuthorsNamesMapImpl(pathToAuthorNamesMap());
 
+        StructureUserProfileImpl profile = new StructureUserProfileImpl(pathToProfile);
         StructureBuilder<User> builderUser = new StructureBuilder<>();
-        mUserUpdater = builderUser.add(mUserProfile).add(mUsersAuthorsMap).add(authorsUsersMap)
+        mUserUpdater = builderUser.add(profile).add(mUsersAuthorsMap).add(authorsUsersMap)
                 .add(mNamesAuthorsMap).add(mAuthorsNamesMap).build();
+        StructureBuilder<User> builderProfile = new StructureBuilder<>();
+
+        DbStructure<User> nameAuthorsUpdate = new UserMappingUpdater(mNamesAuthorsMap);
+        DbStructure<User> authorsNamesUpdate = new UserMappingUpdater(mAuthorsNamesMap);
+        mProfileUpdater = builderProfile.add(profile).add(nameAuthorsUpdate).add(authorsNamesUpdate).build();
     }
 
     private void initialiseSocialDb() {

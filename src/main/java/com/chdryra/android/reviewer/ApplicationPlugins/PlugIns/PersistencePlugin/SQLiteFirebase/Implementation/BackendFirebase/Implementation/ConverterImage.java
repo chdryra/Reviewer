@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ImageData;
@@ -49,7 +50,8 @@ public class ConverterImage implements SnapshotConverter<DataImage>, ReviewItemC
     public DataImage convert(ReviewId id, DataSnapshot snapshot) {
         ImageData value = snapshot.getValue(ImageData.class);
         if(value == null) return null;
-        return new DatumImage(id, ImageData.asBitmap(value.getBitmap()),
+        Bitmap bitmap = ImageData.asBitmap(value.getBitmap());
+        return new DatumImage(id, bitmap,
                 new DatumDate(id, value.getDate()), value.getCaption(), value.toLatLng(), value.isCover());
     }
 }

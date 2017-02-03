@@ -68,7 +68,7 @@
 
         <activity
             android:name=".ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityProfile"
-            android:label="@string/activity_title_sign_up"
+            android:label="@string/activity_title_profile"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>

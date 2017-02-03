@@ -36,6 +36,10 @@ public class UserProfileConverter {
         return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
     }
 
+    public User toUser(AuthenticatedUser user, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile) {
+        return new User(user.getProvider(), user.getProvidersId(), new Profile(oldProfile), new Profile(newProfile));
+    }
+
     public AuthenticatedUser newAuthenticatedUser(String providerName, String providerUserId) {
         return new AuthenticatedUser(providerName, providerUserId);
     }
@@ -51,6 +55,6 @@ public class UserProfileConverter {
     public AuthorProfileSnapshot newProfile(Profile profile) {
         Author author = profile.getAuthor();
         return new AuthorProfileSnapshot(new DefaultNamedAuthor(author.getName(), new AuthorIdParcelable(author.getAuthorId())),
-                new DatumDateTime(profile.getDateJoined()), profile.getPhoto());
+                new DatumDateTime(profile.getDateJoined()), ImageData.asBitmap(profile.getPhoto()));
     }
 }

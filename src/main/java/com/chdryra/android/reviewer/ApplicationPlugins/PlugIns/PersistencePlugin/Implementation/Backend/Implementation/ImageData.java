@@ -42,7 +42,8 @@ public class ImageData {
         cover = image.isCover();
     }
 
-    private static String asString(Bitmap bitmap) {
+    public static String asString(@Nullable Bitmap bitmap) {
+        if(bitmap == null) return "";
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         bitmap.recycle();
@@ -50,7 +51,9 @@ public class ImageData {
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
+    @Nullable
     public static Bitmap asBitmap(String base64) {
+        if(base64 == null || base64.length() == 0) return null;
         byte[] imageAsBytes = Base64.decode(base64, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }

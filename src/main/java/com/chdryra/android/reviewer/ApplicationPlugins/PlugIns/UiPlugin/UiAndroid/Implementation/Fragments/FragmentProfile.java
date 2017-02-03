@@ -68,6 +68,8 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     private EditText mPassword;
     private EditText mPasswordConfirm;
 
+    private boolean mLocked = false;
+
     public static FragmentProfile newInstance(@Nullable ProfileArgs args) {
         FragmentProfile fragment = new FragmentProfile();
         if (args != null) {
@@ -79,9 +81,19 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         return fragment;
     }
 
+    private void lock() {
+        mLocked = true;
+    }
+
+    private void unlock() {
+        mLocked = false;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
+        lock();
+
         View view = inflater.inflate(LAYOUT, container, false);
 
         LinearLayout emailSignUp = (LinearLayout) view.findViewById(EMAIL_SIGN_UP);
@@ -102,6 +114,9 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         mPresenter = new PresenterProfile.Builder().build(getApp(), this);
 
         Bundle args = getArguments();
+
+        unlock();
+
         if (args != null) initWithArgs(emailSignUp, args);
 
         return view;
@@ -138,6 +153,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         if (mUser == null) throw new IllegalStateException("User should not be null!");
         AuthorId authorId = mUser.getAuthorId();
         if(authorId != null) {
+            lock();
             mName.setText(Strings.EditTexts.FETCHING);
             getUserAccount().getAuthorProfile().getProfile(new AuthorProfile.ProfileCallback() {
                 @Override
@@ -146,6 +162,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
                     if(message.isOk()) {
                         mProfile = profile;
                         text = mProfile.getNamedAuthor().getName();
+                        unlock();
                     }
                     mName.setText(text);
                 }
@@ -166,11 +183,11 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         if(mUser == null || mUser.getAuthorId() == null) {
             signUpNewAuthor(name);
         } else {
-            if(mProfile != null && !name.equals(mProfile.getNamedAuthor().getName())) {
+            if(!mLocked && mProfile != null && !name.equals(mProfile.getNamedAuthor().getName())) {
                 NamedAuthor newName = new DefaultNamedAuthor(name, mProfile
                         .getAuthor().getAuthorId());
                 mPresenter.updateProfile(getUserAccount(),
-                        new AuthorProfileSnapshot(newName, mProfile.getJoined(), mProfile.getProfilePhoto()));
+                        mProfile, new AuthorProfileSnapshot(newName, mProfile.getJoined(), mProfile.getProfilePhoto()));
             } else {
                 getActivity().finish();
             }
