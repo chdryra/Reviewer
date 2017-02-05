@@ -40,10 +40,7 @@ public class User {
     }
 
     public User(String providerName, String providerUserId, Profile profile) {
-        mProviderName = providerName;
-        mProviderUserId = providerUserId;
-        mProfile = profile;
-        mAuthorId = mProfile.getAuthor().getAuthorId();
+        this(providerName, providerUserId, profile, null);
     }
 
     public User(String providerName, String providerUserId, Profile oldProfile, @Nullable Profile newProfile) {

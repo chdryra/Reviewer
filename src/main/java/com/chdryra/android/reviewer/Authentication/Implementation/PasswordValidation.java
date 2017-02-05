@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Utils.Password;
 
 /**
@@ -45,11 +43,14 @@ public class PasswordValidation {
         }
     }
 
+    public boolean isValid() {
+        return mPasswordError == PasswordError.OK;
+    }
+
     public PasswordError getError() {
         return mPasswordError;
     }
 
-    @Nullable
     public Password getPassword() {
         return mIfValid;
     }

@@ -27,6 +27,13 @@
         android:id="@+id/edit_text_login_password"
         android:hint="@string/edit_text_password"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:id="@+id/edit_text_login_password_confirm"
+        android:hint="@string/edit_text_password_confirm"/>
+
     <Button
         android:id="@+id/login_button_email"
         style="@style/LoginButton"

@@ -31,7 +31,7 @@ public class NullAuthorProfile implements AuthorProfile{
     }
 
     @Override
-    public void getProfile(ProfileCallback callback) {
+    public void getProfileSnapshot(ProfileCallback callback) {
         callback.onProfile(new AuthorProfileSnapshot(), CallbackMessage.error("null profile"));
     }
 }

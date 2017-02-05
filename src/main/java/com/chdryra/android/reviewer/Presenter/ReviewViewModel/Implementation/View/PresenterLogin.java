@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -32,15 +32,13 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
-import com.chdryra.android.reviewer.Utils.ParcelablePacker;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
-import com.chdryra.android.reviewer.Utils.EmailAddress;
-import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArgs;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 
 /**
  * Created by: Rizwan Choudrey
@@ -61,7 +59,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
-        void onSignUpRequested(@Nullable AuthenticatedUser user, String message);
+        void onNewAccount(@Nullable AuthenticatedUser user);
 
         void onAuthenticated();
 
@@ -94,11 +92,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     private UserSession getUserSession() {
         return mAuth.getUserSession();
-    }
-
-    @NonNull
-    public String getSignUpMessage() {
-        return Strings.Alerts.NEW_USER;
     }
 
     public boolean hasAuthenticatedUser() {
@@ -135,16 +128,24 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    public void signUpNewAuthor(String email) {
-        try {
-            launchProfileEditor(new ProfileArgs(new EmailAddress(email)));
-        } catch (EmailAddressException e) {
-            launchProfileEditor(new ProfileArgs());
-        }
+    public void createUserAndLogin(final EmailPassword emailPassword) {
+        mAuth.getUserAccounts().createUser(emailPassword, new UserAccounts.CreateUserCallback() {
+            @Override
+            public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
+                if(error == null) {
+                    logIn(emailPassword);
+                } else {
+                    mListener.onAuthenticationFailed(error);
+                }
+            }
+        });
     }
 
-    public void signUpNewAuthor(AuthenticatedUser user) {
-        launchProfileEditor(new ProfileArgs(user));
+    public void launchMakeProfile(AuthenticatedUser user) {
+        Bundle args = new Bundle();
+        ParcelablePacker<AuthenticatedUser> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, user, args);
+        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode()).setBundle(args));
     }
 
     public void onLoginComplete() {
@@ -164,14 +165,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == mProfileEditor.getDefaultRequestCode()) {
+        if (requestCode == mProfileEditor.getDefaultRequestCode()
+                && resultCode == Activity.RESULT_OK) {
             mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
-            if(data != null) {
-                EmailPassword emailPassword = data.getParcelableExtra(PresenterProfile.EMAIL_PASSWORD);
-                if (emailPassword != null) authenticateWithCredentials(emailPassword);
-            } else {
-                getUserSession().refreshSession();
-            }
+            getUserSession().refreshSession();
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
         }
@@ -208,17 +205,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         authenticationFinished();
     }
 
-    private void launchProfileEditor(ProfileArgs profileArgs) {
-        Bundle args = new Bundle();
-        ParcelablePacker<ProfileArgs> packer = new ParcelablePacker<>();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, profileArgs, args);
-        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode()).setBundle(args));
-    }
-
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
         if (mListener != null) {
             if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-                mListener.onSignUpRequested(user, getSignUpMessage());
+                mListener.onNewAccount(user);
             } else if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
                 mListener.onNoCurrentUser();
             } else {

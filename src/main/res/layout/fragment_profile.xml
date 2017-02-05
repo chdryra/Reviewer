@@ -13,34 +13,8 @@
 
     <LinearLayout
         android:id="@+id/email_sign_up"
-        style="@style/LinearLayoutVertical.WrappedVertical"
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:layout_gravity="top">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_text_sign_up_email"
-            android:inputType="textEmailAddress"
-            android:layout_gravity="center"
-            android:hint="@string/edit_text_email"
-            android:imeOptions="actionNext"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:id="@+id/edit_text_sign_up_password"
-            android:hint="@string/edit_text_password"
-            android:imeOptions="actionNext"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:id="@+id/edit_text_confirm_password"
-            android:hint="@string/edit_text_confirm_password"
-            android:imeOptions="actionNext"/>
-    </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
@@ -50,6 +24,8 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"
             android:id="@+id/edit_text_author_name"
             android:hint="@string/edit_text_author_name"/>
+
+    </LinearLayout>
 
         <Button
             android:id="@+id/done_button"

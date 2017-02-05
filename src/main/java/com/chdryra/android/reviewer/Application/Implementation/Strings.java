@@ -25,7 +25,7 @@ public class Strings {
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "published opinion";
-        public static final String NEW_USER = "Looks like you're a new user?";
+        public static final String SIGN_UP = "Unknown account. sign up?";
         public static final String SHOW_ON_MAP = "Show on map?";
         public static final String DISCARD_REVIEW = "Discard opinion in progress?";
         public static final String DISCARD_EDITS = "Discard new data and edits?";
@@ -53,6 +53,7 @@ public class Strings {
         public static final String DELETING = "Deleting please wait...";
         public static final String EMAIL_IS_INVALID = "Email is invalid";
         public static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
+        public static final String PASSWORD_MISMATCH = "Passwords don't match";
         public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
         public static final String COPYING = "Copying...";
         public static final String LAUNCHING_EDITOR = "Launching editor...";
@@ -67,7 +68,9 @@ public class Strings {
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
         public static final String NO_INTERNET = "No internet available...";
         public static final String UPLOADING_EDITS = "Uploading edits...";
+        public static final String PROFILE_CREATED = "Profile created";
         public static final String PROFILE_UPDATED = "Profile updated";
+        public static final String CONFIRM_PASSWORD = "Please confirm password then try again";
     }
     
     public static class Screens {
@@ -112,6 +115,7 @@ public class Strings {
             public static final String NAME_IMAGE_LOCATION = "name image location";
             public static final String AUTHOR_NAME = "author name";
             public static final String SUBJECT = "+subject";
+            public static final String CONFIRM_PASSWORD = "Confirm password then press login";
         }
     }
 

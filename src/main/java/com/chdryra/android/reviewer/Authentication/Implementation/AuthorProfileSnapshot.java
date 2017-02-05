@@ -58,7 +58,7 @@ public class AuthorProfileSnapshot implements AuthorProfile{
     }
 
     @Override
-    public void getProfile(ProfileCallback callback) {
+    public void getProfileSnapshot(ProfileCallback callback) {
         callback.onProfile(this, CallbackMessage.ok());
     }
 }

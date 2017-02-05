@@ -55,7 +55,7 @@ public class FbAuthorProfile implements AuthorProfile {
     }
 
     @Override
-    public void getProfile(final ProfileCallback callback) {
+    public void getProfileSnapshot(final ProfileCallback callback) {
         getDb().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

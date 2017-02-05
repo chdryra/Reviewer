@@ -19,8 +19,9 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfile;
 
+
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ProfileArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -48,8 +49,8 @@ public class ActivityProfile extends ActivitySingleFragment implements Launchabl
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle bundleArgs = getIntent().getBundleExtra(KEY);
-        ParcelablePacker<ProfileArgs> unpacker = new ParcelablePacker<>();
-        ProfileArgs args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
+        ParcelablePacker<AuthenticatedUser> unpacker = new ParcelablePacker<>();
+        AuthenticatedUser args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
         mFragment = FragmentProfile.newInstance(args);
         return mFragment;
     }

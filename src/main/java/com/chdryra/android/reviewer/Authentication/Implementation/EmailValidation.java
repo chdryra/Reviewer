@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 
@@ -45,11 +43,14 @@ public class EmailValidation {
         }
     }
 
+    public boolean isValid() {
+        return mEmailError == EmailError.OK;
+    }
+
     public EmailError getError() {
         return mEmailError;
     }
 
-    @Nullable
     public EmailAddress getEmailAddress() {
         return mIfValid;
     }

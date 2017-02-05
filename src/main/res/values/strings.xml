@@ -15,7 +15,7 @@
     <string name="edit">Edit</string>
 
     <!-- Line -->
-    <string name="line_or">or</string>
+    <string name="line_or">or login/sign up using</string>
 
     <!-- Dialogs -->
     <string name="dialog_image_content_description">image</string>
@@ -43,7 +43,7 @@
     <string name="edit_text_tag_hint">tag&#8230;</string>
     <string name="edit_text_email">email</string>
     <string name="edit_text_password">password</string>
-    <string name="edit_text_confirm_password">confirm password</string>
+    <string name="edit_text_password_confirm">confirm password</string>
     <string name="edit_text_author_name">author name</string>
 
     <!-- SearchViews -->
@@ -60,10 +60,10 @@
     <string name="button_goto_google_maps">GMaps</string>
     <string name="button_copy">Use as template</string>
     <string name="button_delete">Delete</string>
-    <string name="button_login_email">Log in</string>
-    <string name="button_login_google">Log in with Google</string>
-    <string name="button_login_facebook">Log in with Facebook</string>
-    <string name="button_login_twitter">Log in with Twitter</string>
+    <string name="button_login_email">Login/Sign up</string>
+    <string name="button_login_google">Google</string>
+    <string name="button_login_facebook">Facebook</string>
+    <string name="button_login_twitter">Twitter</string>
 
     <!-- Image Buttons -->
     <string name="button_revert_location_cd">revert location</string>

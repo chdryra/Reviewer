@@ -8,21 +8,18 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
-import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,9 +27,6 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterProfile implements UserAccounts.CreateAccountCallback, UserAccounts.UpdateProfileCallback {
-    static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterProfile.class,
-            "EmailPassword");
-
     private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason.INVALID_LENGTH
@@ -45,12 +39,13 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
 
     private final UserAccounts mAccounts;
     private final ProfileListener mListener;
-    private EmailPassword mEmailPassword;
 
     public interface ProfileListener {
-        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable AuthenticationError error);
+        void onProfileFetched(AuthorProfileSnapshot profile, CallbackMessage message);
 
-        void onProfileUpdated(AuthorProfileSnapshot newProfile, @Nullable AuthenticationError error);
+        void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message);
+
+        void onProfileUpdated(@Nullable AuthorProfileSnapshot newProfile, CallbackMessage message);
     }
 
     private PresenterProfile(UserAccounts accounts, ProfileListener listener) {
@@ -58,7 +53,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         mListener = listener;
     }
 
-    public void signUpNewAuthor(AuthenticatedUser user, String name, @Nullable Bitmap photo) {
+    public void newAccount(AuthenticatedUser user, String name, @Nullable Bitmap photo) {
         AuthorNameValidation validation = new AuthorNameValidation(name);
         String author = validation.getName();
         if (author == null) {
@@ -68,32 +63,13 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         }
     }
 
-    public void signUpNewAuthor(String email, String password, String name, @Nullable Bitmap photo) {
-        EmailPasswordValidation epValidation = new EmailPasswordValidation(email, password);
-        EmailPassword emailPassword = epValidation.getEmailPassword();
-        if (emailPassword == null) {
-            notifySignUpError(getError(epValidation.getError()));
-            return;
-        }
-
-        AuthorNameValidation validation = new AuthorNameValidation(name);
-        final String author = validation.getName();
-        if (author == null) {
-            notifySignUpError(getError(validation.getReason()));
-            return;
-        }
-
-        mEmailPassword = emailPassword;
-        createAccount(emailPassword, author, photo);
-    }
-
-    public void onSignUpComplete(@Nullable EmailPassword emailPassword, Activity activity) {
-        if (emailPassword != null) {
-            activity.setResult(Activity.RESULT_OK,
-                    new Intent().putExtra(EMAIL_PASSWORD, emailPassword));
-        }
-
-        activity.finish();
+    public void getProfile(UserAccount account) {
+        account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
+            @Override
+            public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
+                mListener.onProfileFetched(profile, message);
+            }
+        });
     }
 
     public void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile) {
@@ -102,46 +78,27 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
 
     @Override
     public void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
-        mListener.onProfileUpdated(profile, error);
+        CallbackMessage message = CallbackMessage.ok();
+        if(error != null) message = CallbackMessage.error(error.getMessage());
+        mListener.onProfileUpdated(profile, message);
     }
 
     @Override
     public void onAccountCreated(UserAccount account, @Nullable AuthenticationError error) {
-        mListener.onSignUpComplete(mEmailPassword, error);
-    }
-
-    private void notifySignUpError(AuthenticationError error) {
-        mListener.onSignUpComplete(null, error);
-    }
-
-    private void createAccount(AuthenticatedUser user, String author, @Nullable Bitmap photo) {
-        mAccounts.createAccount(user, mAccounts.newProfile(author, photo), this);
-    }
-
-    private void createAccount(EmailPassword emailPassword, final String author, @Nullable final Bitmap photo) {
-        mAccounts.createUser(emailPassword, new UserAccounts
-                .CreateUserCallback() {
+        account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
             @Override
-            public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
-                if (error != null) {
-                    notifySignUpError(error);
-                } else {
-                    createAccount(user, author, photo);
-                }
+            public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
+                mListener.onProfileCreated(profile, message);
             }
         });
     }
 
-    private AuthenticationError getError(EmailPasswordValidation.Error error) {
-        if (error.getReason().equals(EmailPasswordValidation.Reason.INVALID_EMAIL)) {
-            return new AuthenticationError(APP,
-                    AuthenticationError.Reason.INVALID_EMAIL, error.getMessage());
-        } else if (error.getReason().equals(EmailPasswordValidation.Reason.INVALID_PASSWORD)) {
-            return new AuthenticationError(APP,
-                    AuthenticationError.Reason.INVALID_PASSWORD, error.getMessage());
-        } else {
-            return UNKNOWN_ERROR;
-        }
+    private void notifySignUpError(AuthenticationError error) {
+        mListener.onProfileUpdated(null, CallbackMessage.error(error.getMessage()));
+    }
+
+    private void createAccount(AuthenticatedUser user, String author, @Nullable Bitmap photo) {
+        mAccounts.createAccount(user, mAccounts.newProfile(author, photo), this);
     }
 
     private AuthenticationError getError(AuthorNameValidation.Reason reason) {

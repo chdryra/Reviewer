@@ -24,5 +24,5 @@ public interface AuthorProfile {
 
     AuthorReference getAuthor();
 
-    void getProfile(ProfileCallback callback);
+    void getProfileSnapshot(ProfileCallback callback);
 }
