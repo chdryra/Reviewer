@@ -39,6 +39,7 @@ public class Strings {
     public static class Callbacks {
         public static final String PROFILE_CREATED = "Profile created";
         public static final String PROFILE_UPDATED = "Profile updated";
+        public static final String NAME_TAKEN = " is already taken";
     }
 
     public static class Toasts {

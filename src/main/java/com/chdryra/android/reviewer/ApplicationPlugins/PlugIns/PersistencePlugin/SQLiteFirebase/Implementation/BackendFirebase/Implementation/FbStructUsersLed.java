@@ -223,9 +223,10 @@ public class FbStructUsersLed implements FirebaseStructure {
                 .add(mNamesAuthorsMap).add(mAuthorsNamesMap).build();
         StructureBuilder<User> builderProfile = new StructureBuilder<>();
 
-        DbStructure<User> nameAuthorsUpdate = new UserMappingUpdater(mNamesAuthorsMap);
-        DbStructure<User> authorsNamesUpdate = new UserMappingUpdater(mAuthorsNamesMap);
-        mProfileUpdater = builderProfile.add(profile).add(nameAuthorsUpdate).add(authorsNamesUpdate).build();
+        DbStructure<User> profileUpdate = new UserStructureUpdater(profile);
+        DbStructure<User> nameAuthorsUpdate = new UserStructureUpdater(mNamesAuthorsMap);
+        DbStructure<User> authorsNamesUpdate = new UserStructureUpdater(mAuthorsNamesMap);
+        mProfileUpdater = builderProfile.add(profileUpdate).add(nameAuthorsUpdate).add(authorsNamesUpdate).build();
     }
 
     private void initialiseSocialDb() {

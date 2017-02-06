@@ -55,6 +55,7 @@
     <!-- Buttons -->
     <string name="button_share">Share</string>
     <string name="button_add">Add</string>
+    <string name="button_cancel">Cancel</string>
     <string name="button_done">Done</string>
     <string name="button_goto_review">Opinion</string>
     <string name="button_goto_google_maps">GMaps</string>

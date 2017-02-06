@@ -30,8 +30,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CellDimensionsCalculator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
@@ -53,6 +52,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     private static final int LAYOUT = R.layout.fragment_profile;
     private static final int PROFILE_IMAGE = R.id.image_view_profile_photo;
     private static final int PROFILE_AUTHOR = R.id.edit_text_author_name;
+    private static final int CANCEL_BUTTON = R.id.cancel_button;
     private static final int DONE_BUTTON = R.id.done_button;
     private static final int OK = Activity.RESULT_OK;
     private static final int CANCELED = Activity.RESULT_CANCELED;
@@ -92,6 +92,13 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
             @Override
             public void onClick(View v) {
                 createOrUpdateOrCancel();
+            }
+        });
+        Button cancelButton = (Button) view.findViewById(CANCEL_BUTTON);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultAndClose(CANCELED);
             }
         });
 
@@ -144,12 +151,18 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
 
     @Override
     public void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message) {
-        updateAndClose(profile, message);
+        toastAndClose(message);
     }
 
     @Override
     public void onProfileUpdated(AuthorProfileSnapshot newProfile, CallbackMessage message) {
-        updateAndClose(newProfile, message);
+        toastAndClose(message);
+    }
+
+    @Override
+    public void onNameTaken(CallbackMessage message) {
+        mName.setText(mProfile != null ? mProfile.getNamedAuthor().getName() : null);
+        makeToast(message.getMessage());
     }
 
     @Override
@@ -194,9 +207,8 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         }
     }
 
-    private void updateAndClose(AuthorProfileSnapshot profile, CallbackMessage message) {
+    private void toastAndClose(CallbackMessage message) {
         makeToast(message.getMessage());
-        setProfile(profile);
         unlock();
         setResultAndClose(message.isOk() ? OK : CANCELED);
     }

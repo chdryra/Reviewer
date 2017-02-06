@@ -71,6 +71,28 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
         return mPath != null ? mPath.getPath(item) : item.toString();
     }
 
+    protected Map<String, Object> getDifference(Map<String, Object> toDelete, Map<String, Object> toInsert) {
+        Map<String, Object> updatesMap = new HashMap<>();
+
+        //Replacements and deletes
+        for(Map.Entry<String, Object> entry : toDelete.entrySet()) {
+            String key = entry.getKey();
+            Object deleteValue = entry.getValue();
+            Object insertValue = toInsert.get(key);
+            if(!deleteValue.equals(insertValue)) updatesMap.put(key, insertValue);
+        }
+
+        //New inserts
+        for(Map.Entry<String, Object> entry : toInsert.entrySet()) {
+            String key = entry.getKey();
+            if(!toDelete.containsKey(key) && !updatesMap.containsKey(key)) {
+                updatesMap.put(key, toInsert.get(key));
+            }
+        }
+
+        return updatesMap;
+    }
+
     protected class Updates {
         private Map<String, Object> mUpdatesMap;
         private List<Update<T>> mUpdates;

@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -27,8 +29,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  */
 public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>> implements ViewUiBinder.BindableViewUi<DataImage>{
     private final ViewUiBinder<DataImage> mBinder;
+    private final DataReference<ProfileImage> mProfileImage;
 
-    public CoverNodeBannerUi(ImageView view, final ReviewNode node, Bitmap placeholder,
+    public CoverNodeBannerUi(ImageView view,
+                             final ReviewNode node,
+                             DataReference<ProfileImage> profileImage,
+                             Bitmap placeholder,
                              CellDimensionsCalculator.Dimensions dims) {
         super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
             @Override
@@ -41,6 +47,7 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
                 }
             }
         }, placeholder);
+        mProfileImage = profileImage;
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
         mBinder = new ViewUiBinder<>(this);

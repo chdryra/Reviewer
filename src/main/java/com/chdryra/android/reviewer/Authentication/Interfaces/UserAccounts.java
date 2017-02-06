@@ -37,7 +37,7 @@ public interface UserAccounts {
     }
 
     interface CreateAccountCallback {
-        void onAccountCreated(UserAccount account, @Nullable AuthenticationError error);
+        void onAccountCreated(UserAccount account, AuthorProfileSnapshot profile, @Nullable AuthenticationError error);
     }
 
     AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo);

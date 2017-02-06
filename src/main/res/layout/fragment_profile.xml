@@ -15,6 +15,8 @@
         android:id="@+id/image_view_profile_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
         android:contentDescription="@string/image_profile_cd"/>
 
     <EditText
@@ -26,12 +28,19 @@
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"
         android:hint="@string/edit_text_author_name"/>
 
-    <Button
-        android:id="@+id/done_button"
-        style="@style/LoginButton"
-        android:layout_gravity="bottom"
-        android:text="@string/button_done"/>
+    <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical">
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/LoginButton"
+            android:layout_weight="1"
+            android:text="@string/button_cancel"/>
 
+        <Button
+            android:id="@+id/done_button"
+            android:layout_weight="1"
+            style="@style/LoginButton"
+            android:text="@string/button_done"/>
+    </LinearLayout>
 </LinearLayout>
 
 

@@ -24,10 +24,10 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserMappingUpdater extends DbStructureBasic<User> {
+public class UserStructureUpdater extends DbStructureBasic<User> {
     private final DbUpdater<User> mStructure;
 
-    public UserMappingUpdater(DbUpdater<User> structure) {
+    public UserStructureUpdater(DbUpdater<User> structure) {
         mStructure = structure;
     }
 
@@ -44,10 +44,10 @@ public class UserMappingUpdater extends DbStructureBasic<User> {
 
         if(oldProfile == null || newProfile == null || oldProfile == newProfile) return noUpdates();
 
-        Updates updates = new Updates(updateType);
-        updates.atPath(null).putMap(mStructure.getUpdatesMap(oldUser, UpdateType.DELETE));
-        updates.atPath(null).putMap(mStructure.getUpdatesMap(newUser, UpdateType.INSERT_OR_UPDATE));
-
-        return updates.toMap();
+        Map<String, Object> oldMap = mStructure.getUpdatesMap(oldUser, UpdateType
+                .INSERT_OR_UPDATE);
+        Map<String, Object> newMap = mStructure.getUpdatesMap(newUser, UpdateType
+                .INSERT_OR_UPDATE);
+        return getDifference(oldMap, newMap);
     }
 }

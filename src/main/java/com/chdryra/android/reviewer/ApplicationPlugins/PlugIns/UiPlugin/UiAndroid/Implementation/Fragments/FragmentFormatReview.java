@@ -388,7 +388,9 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(FULL, HALF, 0);
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER);
 
-        mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode, placeholder, dims);
+        mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode,
+                mRepo.getAuthorsRepository().getProfile(mNode.getAuthorId()).getProfileImage(),
+                placeholder, dims);
         setLaunchOnClick(mCover, launchSummary());
     }
 

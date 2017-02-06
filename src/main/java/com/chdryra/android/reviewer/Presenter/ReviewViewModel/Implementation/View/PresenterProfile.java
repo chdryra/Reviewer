@@ -60,6 +60,8 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
         void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message);
 
         void onProfileUpdated(@Nullable AuthorProfileSnapshot newProfile, CallbackMessage message);
+
+        void onNameTaken(CallbackMessage message);
     }
 
     private PresenterProfile(UserAccounts accounts, ImageChooser imageChooser, UiLauncher launcher, ProfileListener listener) {
@@ -98,13 +100,24 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
 
     @Override
     public void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
-        CallbackMessage message = CallbackMessage.ok(Strings.Callbacks.PROFILE_CREATED);
-        if(error != null) message = CallbackMessage.error(error.getMessage());
+        CallbackMessage message = CallbackMessage.ok(Strings.Callbacks.PROFILE_UPDATED);
+        if(error != null) {
+            if(error.is(AuthenticationError.Reason.NAME_TAKEN)) {
+                notifyNameTaken(profile);
+                return;
+            }
+            message = CallbackMessage.error(error.getMessage());
+        }
         mListener.onProfileUpdated(profile, message);
     }
 
     @Override
-    public void onAccountCreated(UserAccount account, @Nullable AuthenticationError error) {
+    public void onAccountCreated(UserAccount account, AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
+        if(error != null && error.is(AuthenticationError.Reason.NAME_TAKEN)) {
+            notifyNameTaken(profile);
+            return;
+        }
+
         account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
             @Override
             public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
@@ -113,6 +126,11 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
                 mListener.onProfileCreated(profile, updated);
             }
         });
+    }
+
+    private void notifyNameTaken(AuthorProfileSnapshot profile) {
+        String nameTaken = profile.getNamedAuthor().getName() + " " + Strings.Callbacks.NAME_TAKEN;
+        mListener.onNameTaken(CallbackMessage.error(nameTaken));
     }
 
     @Override

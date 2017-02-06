@@ -39,6 +39,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -74,6 +75,14 @@ public class FbUserAccounts implements UserAccounts {
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryUserAccount mAccountFactory;
 
+    private interface CheckNameExistsCallback {
+        void onNameDoesNotExist();
+
+        void onNameExists();
+
+        void onError(CallbackMessage message);
+    }
+
     public FbUserAccounts(Firebase dataRoot,
                           FbUsersStructure structure,
                           FactoryFbReference referencer,
@@ -105,7 +114,8 @@ public class FbUserAccounts implements UserAccounts {
     }
 
     @Override
-    public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo) {
+    public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable
+            String name, @Nullable Bitmap photo) {
         return mProfileSnapshotFactory.newUpdatedProfile(oldProfile, name, photo);
     }
 
@@ -113,25 +123,54 @@ public class FbUserAccounts implements UserAccounts {
     public void createAccount(final AuthenticatedUser authUser,
                               final AuthorProfileSnapshot profile,
                               final CreateAccountCallback callback) {
-        mAuthorsRepo.getAuthorId(profile.getNamedAuthor().getName(),
-                new AuthorsRepository.AuthorIdCallback() {
-                    @Override
-                    public void onAuthorId(DataReference<AuthorId> authorId,
-                                           CallbackMessage message) {
-                        createAccountIfNoNameConflict(authUser, profile, callback, message);
-                    }
-                });
+        checkNameExists(profile.getNamedAuthor().getName(), new CheckNameExistsCallback() {
+            @Override
+            public void onNameDoesNotExist() {
+                createProfile(authUser, profile, callback);
+            }
+
+            @Override
+            public void onNameExists() {
+                callback.onAccountCreated(newUserAccount(null, profile), profile, NAME_TAKEN_ERROR);
+            }
+
+            @Override
+            public void onError(CallbackMessage message) {
+                callback.onAccountCreated(newUserAccount(null, profile), profile, newError(message));
+            }
+        });
     }
 
     @Override
-    public void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback) {
-        AuthenticatedUser user = account.getAccountHolder();
-        if(user.getAuthorId() == null || !user.getAuthorId().toString().equals(newProfile.getAuthor().getAuthorId().toString())) {
-            callback.onAccountUpdated(newProfile, newError(AuthenticationError.Reason.AUTHORISATION_REFUSED, "Account and profile author do not match"));
+    public void updateProfile(final UserAccount account,
+                              final AuthorProfileSnapshot oldProfile,
+                              final AuthorProfileSnapshot newProfile,
+                              final UpdateProfileCallback callback) {
+        final AuthenticatedUser user = account.getAccountHolder();
+        AuthorReference authorUpdate = newProfile.getAuthor();
+        if (user.getAuthorId() == null ||
+                !user.getAuthorId().toString().equals(authorUpdate.getAuthorId().toString())) {
+            callback.onAccountUpdated(newProfile, newError(AuthenticationError.Reason
+                    .AUTHORISATION_REFUSED, "Account and profile author do not match"));
             return;
         }
 
-        updateProfile(user, oldProfile, newProfile, callback);
+        checkNameExists(newProfile.getNamedAuthor().getName(), new CheckNameExistsCallback() {
+            @Override
+            public void onNameDoesNotExist() {
+                updateProfile(user, oldProfile, newProfile, callback);
+            }
+
+            @Override
+            public void onNameExists() {
+                callback.onAccountUpdated(newProfile, NAME_TAKEN_ERROR);
+            }
+
+            @Override
+            public void onError(CallbackMessage message) {
+                callback.onAccountUpdated(newProfile, newError(message));
+            }
+        });
     }
 
     @Override
@@ -145,19 +184,27 @@ public class FbUserAccounts implements UserAccounts {
         }
     }
 
-    private void createAccountIfNoNameConflict(AuthenticatedUser authUser,
-                                               AuthorProfileSnapshot profile,
-                                               CreateAccountCallback callback,
-                                               CallbackMessage message) {
-        if (message.isOk()) {
-            callback.onAccountCreated(newUserAccount(null, profile), NAME_TAKEN_ERROR);
-        } else if (AuthorsRepository.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
-            createProfile(authUser, profile, callback);
-        } else {
-            callback.onAccountCreated(newUserAccount(null, profile),
-                    new AuthenticationError(FirebaseBackend.NAME,
-                            AuthenticationError.Reason.PROVIDER_ERROR, message.getMessage()));
-        }
+    @NonNull
+    private AuthenticationError newError(CallbackMessage message) {
+        return new AuthenticationError(FirebaseBackend.NAME,
+                AuthenticationError.Reason.PROVIDER_ERROR, message.getMessage());
+    }
+
+    private void checkNameExists(String name, final CheckNameExistsCallback callback) {
+        mAuthorsRepo.getAuthorId(name,
+                new AuthorsRepository.AuthorIdCallback() {
+                    @Override
+                    public void onAuthorId(DataReference<AuthorId> authorId,
+                                           CallbackMessage message) {
+                        if (message.isOk()) {
+                            callback.onNameExists();
+                        } else if (AuthorsRepository.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
+                            callback.onNameDoesNotExist();
+                        } else {
+                            callback.onError(message);
+                        }
+                    }
+                });
     }
 
     @NonNull
@@ -168,7 +215,8 @@ public class FbUserAccounts implements UserAccounts {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String authorId = (String) dataSnapshot.getValue();
                 if (authorId == null) {
-                    callback.onAccount(mAccountFactory.newNullAccount(authUser), UNKNOWN_USER_ERROR);
+                    callback.onAccount(mAccountFactory.newNullAccount(authUser),
+                            UNKNOWN_USER_ERROR);
                 } else {
                     authUser.setAuthorId(authorId);
                     AuthorProfile profile = mProfileFactory.newProfile(authUser.getAuthorId());
@@ -178,14 +226,15 @@ public class FbUserAccounts implements UserAccounts {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onAccount(mAccountFactory.newNullAccount(authUser), newError(firebaseError));
+                callback.onAccount(mAccountFactory.newNullAccount(authUser), newError
+                        (firebaseError));
             }
         };
     }
 
     @NonNull
     private UserAccount newUserAccount(@Nullable AuthenticatedUser user, AuthorProfile profile) {
-        if(user == null) {
+        if (user == null) {
             return mAccountFactory.newNullAccount();
         } else {
             SocialProfile socialProfile
@@ -204,7 +253,8 @@ public class FbUserAccounts implements UserAccounts {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 authUser.setAuthorId(profile.getNamedAuthor().getAuthorId().toString());
-                callback.onAccountCreated(newUserAccount(authUser, profile), newError(firebaseError));
+                callback.onAccountCreated(newUserAccount(authUser, profile), profile, newError
+                        (firebaseError));
             }
         });
     }
@@ -216,12 +266,13 @@ public class FbUserAccounts implements UserAccounts {
         final User user = mConverter.toUser(authUser, oldProfile, newProfile);
         DbUpdater<User> profileUpdater = mStructure.getProfileUpdater();
         Map<String, Object> map = profileUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.onAccountUpdated(newProfile, newError(firebaseError));
-            }
-        });
+        callback.onAccountUpdated(newProfile, null);
+//        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
+//            @Override
+//            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+//                callback.onAccountUpdated(newProfile, newError(firebaseError));
+//            }
+//        });
     }
 
 
