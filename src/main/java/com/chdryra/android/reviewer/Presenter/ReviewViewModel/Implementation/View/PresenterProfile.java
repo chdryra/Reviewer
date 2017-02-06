@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -53,14 +54,18 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         mListener = listener;
     }
 
-    public void newAccount(AuthenticatedUser user, String name, @Nullable Bitmap photo) {
+    public void createAccount(AuthenticatedUser user, String name, @Nullable Bitmap photo) {
         AuthorNameValidation validation = new AuthorNameValidation(name);
         String author = validation.getName();
         if (author == null) {
             notifySignUpError(getError(validation.getReason()));
         } else {
-            createAccount(user, author, photo);
+            mAccounts.createAccount(user, mAccounts.newProfile(author, photo), this);
         }
+    }
+
+    public AuthorProfileSnapshot createUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String newName, @Nullable Bitmap photo) {
+        return mAccounts.newUpdatedProfile(oldProfile, newName, photo);
     }
 
     public void getProfile(UserAccount account) {
@@ -78,7 +83,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
 
     @Override
     public void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
-        CallbackMessage message = CallbackMessage.ok();
+        CallbackMessage message = CallbackMessage.ok(Strings.Callbacks.PROFILE_CREATED);
         if(error != null) message = CallbackMessage.error(error.getMessage());
         mListener.onProfileUpdated(profile, message);
     }
@@ -88,17 +93,15 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
             @Override
             public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
-                mListener.onProfileCreated(profile, message);
+                CallbackMessage updated = message.isOk() ?
+                        CallbackMessage.ok(Strings.Callbacks.PROFILE_CREATED) : message;
+                mListener.onProfileCreated(profile, updated);
             }
         });
     }
 
     private void notifySignUpError(AuthenticationError error) {
         mListener.onProfileUpdated(null, CallbackMessage.error(error.getMessage()));
-    }
-
-    private void createAccount(AuthenticatedUser user, String author, @Nullable Bitmap photo) {
-        mAccounts.createAccount(user, mAccounts.newProfile(author, photo), this);
     }
 
     private AuthenticationError getError(AuthorNameValidation.Reason reason) {

@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -29,8 +28,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
 import com.chdryra.android.reviewer.R;
 
@@ -62,7 +59,6 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         bundle.putParcelable(ARGS, user);
         fragment.setArguments(bundle);
 
-
         return fragment;
     }
 
@@ -72,18 +68,17 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         View view = inflater.inflate(LAYOUT, container, false);
 
         mName = (EditText) view.findViewById(NAME_EDIT_TEXT);
-
         Button doneButton = (Button) view.findViewById(DONE_BUTTON);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validate();
+                createOrUpdateOrCancel();
             }
         });
 
         mPresenter = new PresenterProfile.Builder().build(getApp(), this);
 
-        if (!initialiseUser()) {
+        if (!setUser()) {
             lock("No user");
         } else if (mUser.getAuthorId() != null) {
             lock(Strings.EditTexts.FETCHING);
@@ -108,18 +103,14 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
 
     @Override
     public void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message) {
-        if(message.isOk()) {
-            makeToast(Strings.Toasts.PROFILE_CREATED);
-        } else {
-            makeToast(message.getMessage());
-        }
-        setResultAndClose(OK);
+        makeToast(message.getMessage());
+        setResultAndClose(message.isOk() ? OK : CANCELED);
     }
 
     @Override
     public void onProfileUpdated(AuthorProfileSnapshot newProfile, CallbackMessage message) {
-        makeToast(message.isOk() ? Strings.Toasts.PROFILE_UPDATED : message.getMessage());
-        setResultAndClose(OK);
+        makeToast(message.getMessage());
+        setResultAndClose(message.isOk() ? OK : CANCELED);
     }
 
     private ApplicationInstance getApp() {
@@ -139,14 +130,14 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         mLocked = false;
     }
 
-    private boolean initialiseUser() {
+    private boolean setUser() {
         Bundle args = getArguments();
         if (args == null) return false;
         mUser = args.getParcelable(ARGS);
         return mUser != null;
     }
 
-    private void validate() {
+    private void createOrUpdateOrCancel() {
         String name = mName.getText().toString();
         if (mLocked) {
             makeToast(mLockReason);
@@ -154,19 +145,14 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
             return;
         }
 
+        AuthorProfileSnapshot newProfile
+                = mPresenter.createUpdatedProfile(mProfile, name, mProfile.getPhoto());
         if (mUser.getAuthorId() == null) {
-            mPresenter.newAccount(mUser, name, null);
+            mPresenter.createAccount(mUser, name, null);
+        } else if (mProfile != null && !mProfile.equals(newProfile)) {
+            mPresenter.updateProfile(getUserAccount(), mProfile, newProfile);
         } else {
-            if (mProfile != null && !name.equals(mProfile.getNamedAuthor().getName())) {
-                NamedAuthor author = new DefaultNamedAuthor(name,
-                        mProfile.getAuthor().getAuthorId());
-                mPresenter.updateProfile(getUserAccount(),
-                        mProfile,
-                        new AuthorProfileSnapshot(author, mProfile.getJoined(), mProfile
-                                .getProfilePhoto()));
-            } else {
-                setResultAndClose(CANCELED);
-            }
+            setResultAndClose(CANCELED);
         }
     }
 
@@ -176,6 +162,6 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     }
 
     private void makeToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        getApp().getUi().getCurrentScreen().showToast(message);
     }
 }

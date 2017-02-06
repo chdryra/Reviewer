@@ -42,6 +42,8 @@ public interface UserAccounts {
 
     AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo);
 
+    AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo);
+
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
     void createAccount(AuthenticatedUser authUser, AuthorProfileSnapshot profile, CreateAccountCallback callback);

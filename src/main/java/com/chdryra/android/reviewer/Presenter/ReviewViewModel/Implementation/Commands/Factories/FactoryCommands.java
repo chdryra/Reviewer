@@ -61,8 +61,7 @@ public class FactoryCommands {
         boolean isOwner = authorId.toString().equals(session.getAuthorId().toString());
 
         final CommandsList commands = new CommandsList();
-        if(!mApp.getNetwork().isOnline()) {
-            mApp.getUi().getCurrentScreen().showToast(Strings.Toasts.NO_INTERNET);
+        if(!mApp.getNetwork().isOnline(mApp.getUi().getCurrentScreen())) {
             commands.add(new Command(Strings.Commands.OFFLINE));
             callback.onReviewOptionsReady(commands);
             return;

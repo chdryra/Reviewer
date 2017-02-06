@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2016
@@ -15,5 +17,5 @@ package com.chdryra.android.reviewer.Application.Interfaces;
  */
 
 public interface NetworkSuite {
-    boolean isOnline();
+    boolean isOnline(@Nullable CurrentScreen screen);
 }

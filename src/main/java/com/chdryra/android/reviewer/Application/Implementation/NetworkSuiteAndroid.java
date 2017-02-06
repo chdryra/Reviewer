@@ -11,7 +11,9 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 
 import java.io.IOException;
@@ -30,7 +32,7 @@ public class NetworkSuiteAndroid implements NetworkSuite {
     }
 
     @Override
-    public boolean isOnline() {
+    public boolean isOnline(@Nullable CurrentScreen screen) {
         boolean success = false;
         if (isNetworkAvailable(mContext)) {
             Runtime runtime = Runtime.getRuntime();
@@ -45,6 +47,7 @@ public class NetworkSuiteAndroid implements NetworkSuite {
             }
         }
 
+        if(!success && screen != null) screen.showToast(Strings.Toasts.NO_INTERNET);
         return success;
     }
 

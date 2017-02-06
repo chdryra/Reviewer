@@ -10,15 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,13 +42,9 @@ public class UserProfileConverter {
         return new AuthenticatedUser();
     }
 
-    public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
-        return mProfileFactory.newProfile(name, photo);
-    }
-
     public AuthorProfileSnapshot newProfile(Profile profile) {
-        Author author = profile.getAuthor();
-        return new AuthorProfileSnapshot(new DefaultNamedAuthor(author.getName(), new AuthorIdParcelable(author.getAuthorId())),
-                new DatumDateTime(profile.getDateJoined()), ImageData.asBitmap(profile.getPhoto()));
+        return mProfileFactory.newProfile(profile.getAuthor().getName(),
+                profile.getAuthor().getAuthorId(), profile.getDateJoined(),
+                ImageData.asBitmap(profile.getPhoto()));
     }
 }

@@ -77,11 +77,9 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        if(mNetwork.isOnline()) {
+        if(mNetwork.isOnline(mUi.getCurrentScreen())) {
             mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
             mAuthUi.launchUi(mUi.getLauncher());
-        } else {
-            showToast(Strings.Toasts.NO_INTERNET);
         }
     }
 

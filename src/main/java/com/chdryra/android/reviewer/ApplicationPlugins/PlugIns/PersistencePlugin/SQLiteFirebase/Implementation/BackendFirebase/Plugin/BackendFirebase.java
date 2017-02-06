@@ -75,12 +75,14 @@ public class BackendFirebase implements Backend {
     private final UserProfileConverter mConverter;
     private final FactoryFbReference mDataReferencer;
     private final AuthorsRepository mAuthorsRepo;
+    private final FactoryAuthorProfileSnapshot mProfileFactory;
 
     public BackendFirebase(Context context, FactoryAuthorProfileSnapshot profileFactory) {
         Firebase.setAndroidContext(context);
+        mProfileFactory = profileFactory;
         mDatabase = new Firebase(FirebaseBackend.ROOT);
         mStructure = new FbStructUsersLed();
-        mConverter = new UserProfileConverter(profileFactory);
+        mConverter = new UserProfileConverter(mProfileFactory);
         mDataReferencer = new FactoryFbReference();
         mAuthorsRepo = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
     }
@@ -113,7 +115,8 @@ public class BackendFirebase implements Backend {
     @Override
     public AccountsManager newUsersManager() {
         FactoryAuthorProfile factoryAuthorProfile = new FactoryAuthorProfile(mDatabase, mStructure, mDataReferencer, mConverter);
-        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter, factoryAuthorProfile,
+        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
+                factoryAuthorProfile, mProfileFactory,
                 mAuthorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);
 

@@ -30,7 +30,7 @@ public class Profile {
     public Profile(AuthorProfileSnapshot profile) {
         this.author = new Author(profile.getNamedAuthor());
         this.dateJoined = profile.getJoined().getTime();
-        this.photo = ImageData.asString(profile.getProfilePhoto());
+        this.photo = ImageData.asString(profile.getPhoto());
     }
 
     public Author getAuthor() {

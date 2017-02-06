@@ -16,15 +16,21 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
@@ -64,6 +70,7 @@ public class FbUserAccounts implements UserAccounts {
     private final FactoryFbReference mReferencer;
     private final UserProfileConverter mConverter;
     private final FactoryAuthorProfile mProfileFactory;
+    private final FactoryAuthorProfileSnapshot mProfileSnapshotFactory;
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryUserAccount mAccountFactory;
 
@@ -72,6 +79,7 @@ public class FbUserAccounts implements UserAccounts {
                           FactoryFbReference referencer,
                           UserProfileConverter converter,
                           FactoryAuthorProfile profileFactory,
+                          FactoryAuthorProfileSnapshot profileSnapshotFactory,
                           AuthorsRepository authorsRepo,
                           FactoryUserAccount accountFactory) {
         mDataRoot = dataRoot;
@@ -79,6 +87,7 @@ public class FbUserAccounts implements UserAccounts {
         mReferencer = referencer;
         mConverter = converter;
         mProfileFactory = profileFactory;
+        mProfileSnapshotFactory = profileSnapshotFactory;
         mAuthorsRepo = authorsRepo;
         mAccountFactory = accountFactory;
     }
@@ -92,7 +101,12 @@ public class FbUserAccounts implements UserAccounts {
 
     @Override
     public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
-        return mConverter.newProfile(name, photo);
+        return mProfileSnapshotFactory.newProfile(name, photo);
+    }
+
+    @Override
+    public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo) {
+        return mProfileSnapshotFactory.newUpdatedProfile(oldProfile, name, photo);
     }
 
     @Override

@@ -145,10 +145,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     //Searching
     public void handleSearch() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
-        if(!app.getNetwork().isOnline()) {
-            app.getUi().getCurrentScreen().showToast(Strings.Toasts.NO_INTERNET);
-            return;
-        }
+        if(!app.getNetwork().isOnline(app.getUi().getCurrentScreen())) return;
 
         String query = getQuery();
         if (query == null || query.length() == 0) return;

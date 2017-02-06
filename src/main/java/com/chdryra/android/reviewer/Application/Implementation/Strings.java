@@ -25,7 +25,7 @@ public class Strings {
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
         public static final String DELETE_REVIEW = "published opinion";
-        public static final String SIGN_UP = "Unknown account. sign up?";
+        public static final String SIGN_UP = "Looks like a new account. Sign up?";
         public static final String SHOW_ON_MAP = "Show on map?";
         public static final String DISCARD_REVIEW = "Discard opinion in progress?";
         public static final String DISCARD_EDITS = "Discard new data and edits?";
@@ -34,6 +34,11 @@ public class Strings {
     public static class Dialogs {
         public static final String ADD = "Add";
         public static final String EDIT = "Edit";
+    }
+
+    public static class Callbacks {
+        public static final String PROFILE_CREATED = "Profile created";
+        public static final String PROFILE_UPDATED = "Profile updated";
     }
 
     public static class Toasts {
@@ -68,8 +73,6 @@ public class Strings {
         public static final String PROBLEM_LOGGING_OUT = "Problem logging out...";
         public static final String NO_INTERNET = "No internet available...";
         public static final String UPLOADING_EDITS = "Uploading edits...";
-        public static final String PROFILE_CREATED = "Profile created";
-        public static final String PROFILE_UPDATED = "Profile updated";
         public static final String CONFIRM_PASSWORD = "Please confirm password then try again";
     }
     

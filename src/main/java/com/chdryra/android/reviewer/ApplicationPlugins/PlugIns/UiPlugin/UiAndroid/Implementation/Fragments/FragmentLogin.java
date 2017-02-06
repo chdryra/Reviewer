@@ -27,6 +27,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .CredentialProviders.FactorySessionProviders;
@@ -169,12 +170,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private boolean checkInternet() {
-        if (!getApp().getNetwork().isOnline()) {
-            makeToast(Strings.Toasts.NO_INTERNET);
-            return false;
-        } else {
-            return true;
-        }
+        return getApp().getNetwork().isOnline(getCurrentScreen());
     }
 
     private void showLoggingInDialog() {
@@ -286,6 +282,10 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private void makeToast(String toast) {
-        getApp().getUi().getCurrentScreen().showToast(toast);
+        getCurrentScreen().showToast(toast);
+    }
+
+    private CurrentScreen getCurrentScreen() {
+        return getApp().getUi().getCurrentScreen();
     }
 }

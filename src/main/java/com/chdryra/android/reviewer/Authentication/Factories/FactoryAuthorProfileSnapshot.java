@@ -35,4 +35,13 @@ public class FactoryAuthorProfileSnapshot {
         NamedAuthor author = new DefaultNamedAuthor(name, AuthorIdGenerator.newId());
         return new AuthorProfileSnapshot(author, new DatumDateTime(new Date().getTime()), photo);
     }
+
+    public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo) {
+        NamedAuthor author = oldProfile.getNamedAuthor();
+        if(name != null && !name.equals(author.getName())) {
+            author = new DefaultNamedAuthor(name, author.getAuthorId());
+        }
+
+        return new AuthorProfileSnapshot(author, oldProfile.getJoined(), photo);
+    }
 }
