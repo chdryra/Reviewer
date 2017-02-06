@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.References.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 
 /**
@@ -16,6 +16,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorReference extends DataReference<NamedAuthor>{
-    AuthorId getAuthorId();
+public interface AuthorReference extends DataReference<NamedAuthor>, HasAuthorId{
 }

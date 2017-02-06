@@ -10,22 +10,18 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.BackendFirebase.Factories;
 
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterAuthorId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.ConverterBitmap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterProfileImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterComments;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterCriterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.ConverterDateTime;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -72,9 +68,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation
         .AuthorReferenceDefault;
@@ -118,12 +114,8 @@ public class FactoryFbReference {
         return new AuthorReferenceDefault(id, new FbRefData<>(ref, new ConverterIdNamedAuthor()));
     }
 
-    public DataReference<DateTime> newDateReference(Firebase ref) {
-        return new FbRefData<>(ref, new ConverterDateTime());
-    }
-
-    public DataReference<Bitmap> newImageReference(Firebase ref) {
-        return new FbRefData<>(ref, new ConverterBitmap());
+    public DataReference<ProfileImage> newImageReference(Firebase ref, AuthorId id) {
+        return new FbRefData<>(ref, new ConverterProfileImage(id));
     }
 
     public ReviewItemReference<DataSize> newSize(Firebase ref, ReviewId id) {

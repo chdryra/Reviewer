@@ -11,27 +11,26 @@
     style="@style/LinearLayoutVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:id="@+id/email_sign_up"
-        style="@style/LinearLayoutHorizontal.WrappedVertical"
-        android:layout_gravity="top">
+    <ImageView
+        android:id="@+id/image_view_profile_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/image_profile_cd"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:layout_gravity="center"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"
-            android:id="@+id/edit_text_author_name"
-            android:hint="@string/edit_text_author_name"/>
+    <EditText
+        android:id="@+id/edit_text_author_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_gravity="center"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"
+        android:hint="@string/edit_text_author_name"/>
 
-    </LinearLayout>
-
-        <Button
-            android:id="@+id/done_button"
-            style="@style/LoginButton"
-            android:layout_gravity="bottom"
-            android:text="@string/button_done"/>
+    <Button
+        android:id="@+id/done_button"
+        style="@style/LoginButton"
+        android:layout_gravity="bottom"
+        android:text="@string/button_done"/>
 
 </LinearLayout>
 

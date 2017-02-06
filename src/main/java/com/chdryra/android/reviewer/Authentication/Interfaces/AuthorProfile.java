@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +25,8 @@ public interface AuthorProfile {
     }
 
     AuthorReference getAuthor();
+
+    DataReference<ProfileImage> getProfileImage();
 
     void getProfileSnapshot(ProfileCallback callback);
 }

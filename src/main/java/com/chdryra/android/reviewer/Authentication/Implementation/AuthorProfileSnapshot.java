@@ -10,16 +10,17 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
-import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.AuthorReferenceDefault;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataReferenceWrapper;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,12 +30,12 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Author
 public class AuthorProfileSnapshot implements AuthorProfile{
     private NamedAuthor mAuthor;
     private DateTime mDateJoined;
-    private Bitmap mProfilePhoto;
+    private ProfileImage mProfilePhoto;
 
     public AuthorProfileSnapshot() {
     }
 
-    public AuthorProfileSnapshot(NamedAuthor author, DateTime dateJoined, @Nullable Bitmap profilePhoto) {
+    public AuthorProfileSnapshot(NamedAuthor author, DateTime dateJoined, @Nullable ProfileImage profilePhoto) {
         mAuthor = author;
         mDateJoined = dateJoined;
         mProfilePhoto = profilePhoto;
@@ -48,13 +49,18 @@ public class AuthorProfileSnapshot implements AuthorProfile{
         return mDateJoined;
     }
 
-    public Bitmap getPhoto() {
+    public ProfileImage getImage() {
         return mProfilePhoto;
     }
 
     @Override
     public AuthorReference getAuthor() {
         return new AuthorReferenceDefault(mAuthor.getAuthorId(), new DataReferenceWrapper<>(mAuthor));
+    }
+
+    @Override
+    public DataReference<ProfileImage> getProfileImage() {
+        return new DataReferenceWrapper<>(mProfilePhoto);
     }
 
     @Override

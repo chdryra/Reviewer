@@ -58,7 +58,7 @@ public class MdConverterFactsTest extends MdConverterBasicTest<DataFact, MdFact>
 //        MdFact fact = converter.convert(url);
 //        assertThat(fact instanceof MdUrl, is(false));
 //        assertThat(fact.isUrl(), is(false));
-//        assertThat(fact.getReviewId().toString(), is(url.getReviewId().toString()));
+//        assertThat(fact.getAuthorId().toString(), is(url.getAuthorId().toString()));
 //        assertThat(fact.getLabel(), is(url.getLabel()));
 //        assertThat(fact.getValue(), is(url.getValue()));
 //    }

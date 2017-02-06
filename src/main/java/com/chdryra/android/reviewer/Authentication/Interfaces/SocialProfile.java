@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 
 /**
@@ -17,14 +18,12 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAut
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialProfile {
+public interface SocialProfile extends HasAuthorId{
     enum FollowUnfollow {FOLLOW, UNFOLLOW}
 
     interface FollowCallback {
         void onFollowingCallback(AuthorId authorId, FollowUnfollow type, CallbackMessage message);
     }
-
-    AuthorId getAuthorId();
 
     RefAuthorList getFollowing();
 

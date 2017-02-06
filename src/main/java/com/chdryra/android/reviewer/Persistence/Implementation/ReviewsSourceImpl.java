@@ -199,13 +199,13 @@ public class ReviewsSourceImpl implements ReviewsSource {
 //
 //    @Nullable
 //    private ReviewId getSingleSourceId(VerboseDataReview datum) {
-//        ReviewId id = datum.getReviewId();
+//        ReviewId id = datum.getAuthorId();
 //        if (datum.isCollection() && datum.hasElements()) {
 //            VerboseIdableCollection<? extends VerboseDataReview> data =
 //                    (VerboseIdableCollection<? extends VerboseDataReview>) datum;
-//            id = data.getItem(0).getReviewId();
+//            id = data.getItem(0).getAuthorId();
 //            for (VerboseDataReview element : data) {
-//                if (!element.getReviewId().equals(id)) {
+//                if (!element.getAuthorId().equals(id)) {
 //                    id = null;
 //                    break;
 //                }

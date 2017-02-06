@@ -18,7 +18,6 @@ import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -30,6 +29,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
@@ -37,8 +37,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -65,6 +64,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private final CommentsBinder mCommentsBinder;
     private final LocationsBinder mLocationsBinder;
     private final NameBinder mNameBinder;
+
     private TextView mSubject;
     private TextView mRating;
     private ImageView mImage;
@@ -79,6 +79,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private int mNumReturned = 0;
     private boolean mCancelCover = false;
     private AsyncTask<GvNode, Void, GvNode> mBindingTask;
+
+    private ProfileImageBinder mProfileImageBinder;
+    private DataReference<ProfileImage> mProfileImage;
 
     public VhReviewSelected(AuthorsRepository authorsRepo, ReviewSelector selector, Bitmap
             imagePlaceholder) {
@@ -108,6 +111,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mReview.getTags().unbindFromValue(mTagsBinder);
         mReview.unregisterObserver(this);
         mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+        unbindFromProfileimage();
         mSelector.unregister(mNodeId);
         mReview = null;
         mNodeId = null;
@@ -159,7 +163,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private void initialiseData(GvNode node) {
         mSubject.setText(node.getSubject().getSubject());
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
-        mImage.setImageBitmap(mImagePlaceholder);
+        setCover(null);
         mHeadline.setText("");
         mTags.setText("");
         mFooter.setText("");
@@ -187,8 +191,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         return string != null && string.length() > 0;
     }
 
-    private void setCover(DataImage cover) {
-        Bitmap bitmap = cover.getBitmap();
+    private void setCover(@Nullable Bitmap bitmap) {
         bitmap = bitmap != null ? bitmap : mImagePlaceholder;
         mImage.setImageBitmap(bitmap);
     }
@@ -251,12 +254,24 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         }
     }
 
+    private void bindToProfileImage() {
+        if(mProfileImageBinder == null) mProfileImageBinder = new ProfileImageBinder();
+        if(!mCancelCover && mReview != null) {
+            mProfileImage = mAuthorsRepo.getProfile(mAuthor.getAuthorId()).getProfileImage();
+            mProfileImage.bindToValue(mProfileImageBinder);
+        }
+    }
+
+    private void unbindFromProfileimage() {
+        if(mProfileImage != null) mProfileImage.unbindFromValue(mProfileImageBinder);
+    }
+
     //hacky way of avoiding downloads spooling up if gridview is being scrolled fast.
     private class SelectAndBindTask extends AsyncTask<GvNode, Void, GvNode> {
         @Override
         protected GvNode doInBackground(GvNode... gvNodes) {
             try {
-                Thread.sleep(150);
+                Thread.sleep(200);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
@@ -269,15 +284,50 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         }
     }
 
+    private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
+        @Override
+        public void onInvalidated(DataReference<ProfileImage> reference) {
+            if(!mCoverBinder.hasImage()) setCover(null);
+        }
+
+        @Override
+        public void onReferenceValue(ProfileImage value) {
+            if(!mCoverBinder.hasImage()) setCover(value.getBitmap());
+        }
+    }
+
     private class CoverBinder implements ReferenceBinder<DataImage> {
+        private boolean mHasImage = false;
+
+        private boolean hasImage() {
+            return mHasImage;
+        }
+
         @Override
         public void onInvalidated(DataReference<DataImage> reference) {
-            setCover(new DatumImage(mNodeId));
+            bindToProfile();
         }
 
         @Override
         public void onReferenceValue(DataImage value) {
-            setCover(value);
+            Bitmap bitmap = value.getBitmap();
+            if(bitmap == null) {
+                bindToProfile();
+            } else {
+                unbindFromProfile();
+                setCover(bitmap);
+            }
+        }
+
+        private void unbindFromProfile() {
+            mHasImage = true;
+            unbindFromProfileimage();
+        }
+
+        private void bindToProfile() {
+            mHasImage = false;
+            setCover(null);
+            bindToProfileImage();
         }
     }
 

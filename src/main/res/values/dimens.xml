@@ -27,4 +27,6 @@
     <dimen name="subject_text_padding">3dp</dimen>
     <dimen name="imageMaxWidth">480px</dimen>
     <dimen name="imageMaxHeight">480px</dimen>
+
+    <dimen name="profile_image_padding">10dp</dimen>
 </resources>

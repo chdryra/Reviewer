@@ -43,14 +43,14 @@ public class GvDataAggregator {
     }
 //
 //    public GvCanonicalCollection<GvAuthor> aggregateAuthors(ReviewNode root) {
-//        GvAuthorList data = mConverter.toGvAuthorList(root.getChildren(), root.getReviewId());
+//        GvAuthorList data = mConverter.toGvAuthorList(root.getChildren(), root.getAuthorId());
 //        DataAggregator<DataAuthor> aggregator = mAggregators.newAuthorsAggregator(mParams.getSimilarBoolean());
 //        AggregatedList<DataAuthor> aggregated = aggregator.aggregate(data);
 //        return newCollection(mConverter.getConverterAuthors(), aggregated, GvAuthor.TYPE);
 //    }
 //
 //    public GvCanonicalCollection<GvSubject> aggregateSubjects(ReviewNode root) {
-//        GvSubjectList data = mConverter.toGvSubjectList(root.getChildren(), root.getReviewId());
+//        GvSubjectList data = mConverter.toGvSubjectList(root.getChildren(), root.getAuthorId());
 //        DataAggregator<DataSubject> aggregator = mAggregators.newSubjectsAggregator(mParams.getSimilarPercentage());
 //        AggregatedList<DataSubject> aggregated = aggregator.aggregate(data);
 //        return newCollection(mConverter.getConverterSubjects(), aggregated, GvSubject.TYPE);
@@ -64,7 +64,7 @@ public class GvDataAggregator {
 //    }
 //
 //    public GvCanonicalCollection<GvDate> aggregateDates(ReviewNode root) {
-//        GvDateList data = mConverter.toGvDateList(root.getChildren(), root.getReviewId());
+//        GvDateList data = mConverter.toGvDateList(root.getChildren(), root.getAuthorId());
 //        DataAggregator<DataDate> aggregator = mAggregators.newDatesAggregator(mParams.getSimilarDate());
 //        AggregatedList<DataDate> aggregated = aggregator.aggregate(data);
 //        return newCollection(mConverter.getConverterDates(), aggregated, GvDate.TYPE);
@@ -132,7 +132,7 @@ public class GvDataAggregator {
 //        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
 //        traverser.addVisitor(visitor);
 //        traverser.traverse();
-//        return mConverter.toGvTagList(visitor.getData(), root.getReviewId());
+//        return mConverter.toGvTagList(visitor.getData(), root.getAuthorId());
 //    }
 }
 

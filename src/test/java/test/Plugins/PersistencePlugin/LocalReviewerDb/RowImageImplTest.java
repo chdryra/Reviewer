@@ -85,7 +85,7 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
 //
 //        RowValuesForTest values = new RowValuesForTest();
 //        values.put(RowImage.IMAGE_ID, "");
-//        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
+//        values.put(RowImage.REVIEW_ID, reference.getAuthorId().toString());
 //        values.put(RowImage.BITMAP, nextByteArray());
 //        values.put(RowImage.IS_COVER, reference.isCover());
 //        values.put(RowImage.CAPTION, reference.getCaption());
@@ -122,7 +122,7 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
 //
 //        RowValuesForTest values = new RowValuesForTest();
 //        values.put(RowImage.IMAGE_ID, reference.getRowId());
-//        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
+//        values.put(RowImage.REVIEW_ID, reference.getAuthorId().toString());
 //        values.put(RowImage.BITMAP, null);
 //        values.put(RowImage.IS_COVER, reference.isCover());
 //        values.put(RowImage.CAPTION, reference.getCaption());

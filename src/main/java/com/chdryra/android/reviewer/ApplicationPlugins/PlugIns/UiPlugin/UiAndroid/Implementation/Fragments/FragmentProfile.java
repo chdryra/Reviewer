@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,16 +20,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -40,18 +45,24 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     private static final String ARGS = TagKeyGenerator.getKey(FragmentProfile.class, "Args");
 
     private static final int LAYOUT = R.layout.fragment_profile;
-    private static final int NAME_EDIT_TEXT = R.id.edit_text_author_name;
+    private static final int PROFILE_IMAGE = R.id.image_view_profile_photo;
+    private static final int PROFILE_AUTHOR = R.id.edit_text_author_name;
     private static final int DONE_BUTTON = R.id.done_button;
     private static final int OK = Activity.RESULT_OK;
     private static final int CANCELED = Activity.RESULT_CANCELED;
+
+    private static final ReviewViewParams.CellDimension HALF = ReviewViewParams.CellDimension.HALF;
+    private static final int IMAGE_PADDING = R.dimen.profile_image_padding;
 
     private PresenterProfile mPresenter;
     private AuthenticatedUser mUser;
     private AuthorProfileSnapshot mProfile;
     private EditText mName;
+    private ImageView mImageView;
 
     private boolean mLocked = false;
     private String mLockReason;
+    private Bitmap mImage;
 
     public static FragmentProfile newInstance(AuthenticatedUser user) {
         FragmentProfile fragment = new FragmentProfile();
@@ -67,12 +78,25 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
-        mName = (EditText) view.findViewById(NAME_EDIT_TEXT);
+        mImageView = (ImageView) view.findViewById(PROFILE_IMAGE);
+        mName = (EditText) view.findViewById(PROFILE_AUTHOR);
         Button doneButton = (Button) view.findViewById(DONE_BUTTON);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createOrUpdateOrCancel();
+            }
+        });
+
+        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
+        float padding = getResources().getDimension(IMAGE_PADDING);
+        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)padding);
+        mImageView.getLayoutParams().width = dims.getCellWidth();
+        mImageView.getLayoutParams().height = dims.getCellHeight();
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                makeToast("Image goes here");
             }
         });
 
@@ -146,7 +170,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         }
 
         AuthorProfileSnapshot newProfile
-                = mPresenter.createUpdatedProfile(mProfile, name, mProfile.getPhoto());
+                = mPresenter.createUpdatedProfile(mProfile, name, mImage);
         if (mUser.getAuthorId() == null) {
             mPresenter.createAccount(mUser, name, null);
         } else if (mProfile != null && !mProfile.equals(newProfile)) {

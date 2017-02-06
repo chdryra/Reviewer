@@ -69,7 +69,8 @@
     <string name="button_revert_location_cd">revert location</string>
 
     <!-- Image Views -->
-    <string name="image_review_cd">image</string>
+    <string name="image_review_cd">review image</string>
+    <string name="image_profile_cd">profile photo</string>
 
     <!-- Menus -->
     <string name="menu_locations">map locations</string>

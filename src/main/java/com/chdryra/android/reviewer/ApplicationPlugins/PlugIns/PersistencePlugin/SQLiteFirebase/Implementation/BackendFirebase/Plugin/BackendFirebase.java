@@ -75,16 +75,18 @@ public class BackendFirebase implements Backend {
     private final UserProfileConverter mConverter;
     private final FactoryFbReference mDataReferencer;
     private final AuthorsRepository mAuthorsRepo;
-    private final FactoryAuthorProfileSnapshot mProfileFactory;
+    private final FactoryAuthorProfileSnapshot mFactoryProfileSnapshot;
+    private final FactoryAuthorProfile mFactoryAuthorProfile;
 
-    public BackendFirebase(Context context, FactoryAuthorProfileSnapshot profileFactory) {
+    public BackendFirebase(Context context) {
         Firebase.setAndroidContext(context);
-        mProfileFactory = profileFactory;
         mDatabase = new Firebase(FirebaseBackend.ROOT);
         mStructure = new FbStructUsersLed();
-        mConverter = new UserProfileConverter(mProfileFactory);
+        mFactoryProfileSnapshot = new FactoryAuthorProfileSnapshot();
+        mConverter = new UserProfileConverter(mFactoryProfileSnapshot);
         mDataReferencer = new FactoryFbReference();
-        mAuthorsRepo = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
+        mFactoryAuthorProfile = new FactoryAuthorProfile(mDatabase, mStructure, mDataReferencer, mConverter);
+        mAuthorsRepo = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryAuthorProfile);
     }
 
     @Override
@@ -114,9 +116,8 @@ public class BackendFirebase implements Backend {
 
     @Override
     public AccountsManager newUsersManager() {
-        FactoryAuthorProfile factoryAuthorProfile = new FactoryAuthorProfile(mDatabase, mStructure, mDataReferencer, mConverter);
         UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
-                factoryAuthorProfile, mProfileFactory,
+                mFactoryAuthorProfile, mFactoryProfileSnapshot,
                 mAuthorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);
 
@@ -125,6 +126,6 @@ public class BackendFirebase implements Backend {
 
     @Override
     public AuthorsRepository getAuthorsRepo() {
-        return new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer);
+        return mAuthorsRepo;
     }
 }

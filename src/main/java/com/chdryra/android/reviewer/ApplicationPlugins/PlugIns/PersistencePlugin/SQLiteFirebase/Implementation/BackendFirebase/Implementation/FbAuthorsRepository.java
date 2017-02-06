@@ -13,9 +13,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -38,15 +42,18 @@ public class FbAuthorsRepository implements AuthorsRepository {
     private final FbUsersStructure mStructure;
     private final FactoryFbReference mReferenceFactory;
     private final SnapshotConverter<NamedAuthor> mConverter;
+    private final FactoryAuthorProfile mProfileFactory;
 
     public FbAuthorsRepository(Firebase dataRoot,
                                FbUsersStructure structure,
                                SnapshotConverter<NamedAuthor> converter,
-                               FactoryFbReference referenceFactory) {
+                               FactoryFbReference referenceFactory,
+                               FactoryAuthorProfile profileFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mReferenceFactory = referenceFactory;
         mConverter = converter;
+        mProfileFactory = profileFactory;
     }
 
     @Override
@@ -59,6 +66,11 @@ public class FbAuthorsRepository implements AuthorsRepository {
     public void getAuthorId(String name, AuthorIdCallback callback) {
         Firebase db = mStructure.getNameAuthorMappingDb(mDataRoot, name);
         doSingleEvent(db, getAuthorIdIfNameExists(db, callback));
+    }
+
+    @Override
+    public AuthorProfile getProfile(AuthorId authorId) {
+        return mProfileFactory.newProfile(authorId);
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

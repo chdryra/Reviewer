@@ -18,7 +18,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -52,6 +54,11 @@ public class FbAuthorProfile implements AuthorProfile {
     @Override
     public AuthorReference getAuthor() {
         return mReferenceFactory.newNamedAuthor(getDb().child(Profile.AUTHOR), mAuthorId);
+    }
+
+    @Override
+    public DataReference<ProfileImage> getProfileImage() {
+        return mReferenceFactory.newImageReference(getDb().child(Profile.PHOTO), mAuthorId);
     }
 
     @Override

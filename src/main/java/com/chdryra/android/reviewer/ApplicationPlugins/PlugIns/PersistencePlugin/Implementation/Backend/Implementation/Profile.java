@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileS
  */
 public class Profile {
     public static String AUTHOR = "author";
+    public static String PHOTO = "photo";
 
     private Author author;
     private long dateJoined;
@@ -30,7 +31,7 @@ public class Profile {
     public Profile(AuthorProfileSnapshot profile) {
         this.author = new Author(profile.getNamedAuthor());
         this.dateJoined = profile.getJoined().getTime();
-        this.photo = ImageData.asString(profile.getPhoto());
+        this.photo = ImageData.asString(profile.getImage().getBitmap());
     }
 
     public Author getAuthor() {
