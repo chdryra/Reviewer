@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,7 +45,7 @@ public class UserProfileConverter {
 
     public AuthorProfileSnapshot newProfile(Profile profile) {
         return mProfileFactory.newProfile(profile.getAuthor().getName(),
-                profile.getAuthor().getAuthorId(), profile.getDateJoined(),
+                new AuthorIdParcelable(profile.getAuthor().getAuthorId()), profile.getDateJoined(),
                 ImageData.asBitmap(profile.getPhoto()));
     }
 }

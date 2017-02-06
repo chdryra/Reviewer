@@ -15,6 +15,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 
 /**
@@ -23,9 +24,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReviewEditorSuite {
-    String QUICK_ADD = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickAdd");
-    String QUICK_REVIEW = TagKeyGenerator.getKey(ReviewEditorSuite.class, "QuickReview");
+public interface EditorSuite {
+    String QUICK_ADD = TagKeyGenerator.getKey(EditorSuite.class, "QuickAdd");
+    String QUICK_REVIEW = TagKeyGenerator.getKey(EditorSuite.class, "QuickReview");
 
     interface DiscardListener {
         void onDiscarded(boolean discardConfirmed);
@@ -38,4 +39,6 @@ public interface ReviewEditorSuite {
     ReviewEditor<?> getEditor();
 
     void discardEditor(boolean showAlert, @Nullable DiscardListener listener);
+
+    ImageChooser newImageChooser(String fileName);
 }

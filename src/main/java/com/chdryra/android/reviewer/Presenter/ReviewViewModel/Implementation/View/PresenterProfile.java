@@ -8,10 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
@@ -21,13 +24,18 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileS
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterProfile implements UserAccounts.CreateAccountCallback, UserAccounts.UpdateProfileCallback {
+public class PresenterProfile implements UserAccounts.CreateAccountCallback,
+        UserAccounts.UpdateProfileCallback, ImageChooser.ImageChooserListener, ActivityResultListener {
     private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason.INVALID_LENGTH
@@ -37,11 +45,16 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
             .INVALID_CHARACTERS.getMessage());
     private static final AuthenticationError UNKNOWN_ERROR = new AuthenticationError(APP,
             AuthenticationError.Reason.UNKNOWN_ERROR);
+    private static final int IMAGE_REQUEST_CODE = RequestCodeGenerator.getCode(PresenterProfile.class);
 
     private final UserAccounts mAccounts;
+    private final ImageChooser mImageChooser;
+    private final UiLauncher mLauncher;
     private final ProfileListener mListener;
 
     public interface ProfileListener {
+        void onImageChosen(GvImage image, CallbackMessage message);
+
         void onProfileFetched(AuthorProfileSnapshot profile, CallbackMessage message);
 
         void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message);
@@ -49,8 +62,10 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         void onProfileUpdated(@Nullable AuthorProfileSnapshot newProfile, CallbackMessage message);
     }
 
-    private PresenterProfile(UserAccounts accounts, ProfileListener listener) {
+    private PresenterProfile(UserAccounts accounts, ImageChooser imageChooser, UiLauncher launcher, ProfileListener listener) {
         mAccounts = accounts;
+        mImageChooser = imageChooser;
+        mLauncher = launcher;
         mListener = listener;
     }
 
@@ -100,6 +115,25 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
         });
     }
 
+    @Override
+    public void onChosenImage(GvImage image) {
+        CallbackMessage message = image.getBitmap() != null ?
+                CallbackMessage.ok() : CallbackMessage.error("Error loading image");
+        mListener.onImageChosen(image, message);
+    }
+
+    public void launchImageChooser() {
+        mLauncher.launchImageChooser(mImageChooser, IMAGE_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        ActivityResultCode result = ActivityResultCode.get(resultCode);
+        if (requestCode == IMAGE_REQUEST_CODE && mImageChooser.chosenImageExists(result, data)) {
+            mImageChooser.getChosenImage(this);
+        }
+    }
+
     private void notifySignUpError(AuthenticationError error) {
         mListener.onProfileUpdated(null, CallbackMessage.error(error.getMessage()));
     }
@@ -115,8 +149,10 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback, Use
     }
 
     public static class Builder {
-        public PresenterProfile build(ApplicationInstance app, ProfileListener listener) {
-            return new PresenterProfile(app.getAuthentication().getUserAccounts(), listener);
+        public PresenterProfile build(ApplicationInstance app, String profileImageName, ProfileListener listener) {
+            return new PresenterProfile(app.getAuthentication().getUserAccounts(),
+                    app.getEditor().newImageChooser(profileImageName),
+                    app.getUi().getLauncher(), listener);
         }
     }
 }

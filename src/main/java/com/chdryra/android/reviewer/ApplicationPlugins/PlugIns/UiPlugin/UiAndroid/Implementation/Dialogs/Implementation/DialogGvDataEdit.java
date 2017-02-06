@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelDeleteDoneFragme
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
@@ -129,13 +129,13 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
 
     private void setIsQuickSet() {
         Bundle args = getArguments();
-        mQuickSet = args != null && args.getBoolean(ReviewEditorSuite.QUICK_ADD);
+        mQuickSet = args != null && args.getBoolean(EditorSuite.QUICK_ADD);
         if (!mQuickSet) {
             //TODO make type safe
             mListener = (DataEditListener<T>) getTargetListenerOrThrow(DataEditListener.class);
         } else {
             ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-            mEditor = app.getReviewEditor().getEditor().newDataEditor(mDataType);
+            mEditor = app.getEditor().getEditor().newDataEditor(mDataType);
         }
     }
 

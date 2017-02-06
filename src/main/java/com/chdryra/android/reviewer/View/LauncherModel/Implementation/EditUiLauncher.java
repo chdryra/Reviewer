@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -27,10 +27,10 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  */
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
     private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
-    private final ReviewEditorSuite mBuilder;
+    private final EditorSuite mBuilder;
     private final RepositorySuite mRepo;
 
-    public EditUiLauncher(LaunchableConfig ui, ReviewEditorSuite builder, RepositorySuite repo) {
+    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, RepositorySuite repo) {
         super(ui);
         mBuilder = builder;
         mRepo = repo;

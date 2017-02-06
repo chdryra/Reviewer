@@ -14,10 +14,12 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 
@@ -27,15 +29,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewEditorSuiteAndroid implements ReviewEditorSuite, AlertListener {
-    private static final int ALERT = RequestCodeGenerator.getCode(ReviewEditorSuiteAndroid.class);
+public class EditorSuiteAndroid implements EditorSuite, AlertListener {
+    private static final int ALERT = RequestCodeGenerator.getCode(EditorSuiteAndroid.class);
 
     private final FactoryReviewView mViewFactory;
+    private final FactoryImageChooser mFactoryImageChooser;
     private ReviewEditor<?> mReviewEditor;
     private DiscardListener mDiscardListener;
 
-    public ReviewEditorSuiteAndroid(FactoryReviewView viewFactory) {
+    public EditorSuiteAndroid(FactoryReviewView viewFactory,
+                              FactoryImageChooser factoryImageChooser) {
         mViewFactory = viewFactory;
+        mFactoryImageChooser = factoryImageChooser;
     }
 
     @Override
@@ -64,6 +69,11 @@ public class ReviewEditorSuiteAndroid implements ReviewEditorSuite, AlertListene
         } else {
             discard();
         }
+    }
+
+    @Override
+    public ImageChooser newImageChooser(String fileName) {
+        return mFactoryImageChooser.newImageChooser(fileName);
     }
 
     private void discard() {

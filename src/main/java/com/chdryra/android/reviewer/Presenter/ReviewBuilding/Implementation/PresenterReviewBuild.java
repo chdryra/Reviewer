@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Settings;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -34,14 +34,14 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
 
     private final CurrentScreen mScreen;
 
-    private ReviewEditorSuite mSuite;
+    private EditorSuite mSuite;
     private ReviewEditor<?> mEditor;
 
     private PresenterReviewBuild(CurrentScreen screen) {
         mScreen = screen;
     }
 
-    private void setSuite(ReviewEditorSuite suite) {
+    private void setSuite(EditorSuite suite) {
         mSuite = suite;
         mEditor = suite.getEditor();
     }
@@ -74,7 +74,7 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
     }
 
     public void onBackPressed() {
-        mSuite.discardEditor(true, new ReviewEditorSuite.DiscardListener() {
+        mSuite.discardEditor(true, new EditorSuite.DiscardListener() {
             @Override
             public void onDiscarded(boolean discardConfirmed) {
                 if(discardConfirmed) mEditor.getCurrentScreen().close();
@@ -94,7 +94,7 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
 
         public PresenterReviewBuild build(ApplicationInstance app) {
             LocationClient client = app.getLocationServices().newLocationClient();
-            ReviewEditorSuite suite = app.getReviewEditor();
+            EditorSuite suite = app.getEditor();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
             PresenterReviewBuild presenter = new PresenterReviewBuild(app.getUi().getCurrentScreen());
             if(suite.getEditor() == null) {

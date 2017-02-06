@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
@@ -121,19 +121,19 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
 
     private void setIsQuickReview() {
         Bundle args = getArguments();
-        boolean quickReview = args != null && args.getBoolean(ReviewEditorSuite.QUICK_REVIEW);
+        boolean quickReview = args != null && args.getBoolean(EditorSuite.QUICK_REVIEW);
         if (quickReview && !mDataType.equals(GvTag.TYPE)) setHideMiddleButton();
     }
 
     private void setIsQuickSet() {
         Bundle args = getArguments();
-        mQuickAdd = args != null && args.getBoolean(ReviewEditorSuite.QUICK_ADD);
+        mQuickAdd = args != null && args.getBoolean(EditorSuite.QUICK_ADD);
         if (!mQuickAdd) {
             //TODO make type safe
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-            mEditor = app.getReviewEditor().getEditor().newDataEditor(mDataType);
+            mEditor = app.getEditor().getEditor().newDataEditor(mDataType);
         }
     }
 

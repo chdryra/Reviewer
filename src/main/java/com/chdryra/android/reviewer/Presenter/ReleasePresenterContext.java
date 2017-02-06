@@ -70,20 +70,30 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         DataComparatorsApi comparators = comparatorsPlugin.getComparatorsApi();
         GvDataComparators.initialise(comparators);
 
-        setFactoryReviewView(context,
-                modelContext, deviceContext, viewContext, persistenceContext,
-                aggregatorsPlugin, getGvConverter(), comparators, validator);
+        FactoryFileIncrementor factoryFileIncrementor = setFactoryImageChooser(context,
+                deviceContext);
+        setFactoryReviewView(modelContext, viewContext, persistenceContext,
+                aggregatorsPlugin, getGvConverter(), comparators, validator, factoryFileIncrementor);
     }
 
-    private void setFactoryReviewView(Context context,
-                                      ModelContext modelContext,
-                                      DeviceContext deviceContext,
+    private FactoryFileIncrementor setFactoryImageChooser(Context context, DeviceContext deviceContext) {
+        String dir = deviceContext.getImageStorageDirectory();
+        FactoryFileIncrementor incrementorFactory
+                = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
+                dir, dir.toLowerCase());
+        setFactoryImageChooser(new FactoryImageChooser(context, incrementorFactory));
+
+        return incrementorFactory;
+    }
+
+    private void setFactoryReviewView(ModelContext modelContext,
                                       ViewContext viewContext,
                                       PersistenceContext persistenceContext,
                                       DataAggregatorsPlugin aggregatorsPlugin,
                                       ConverterGv gvConverter,
                                       DataComparatorsApi comparators,
-                                      DataValidator validator) {
+                                      DataValidator validator,
+                                      FactoryFileIncrementor incrementorFactory) {
         FactoryGvData dataFactory = new FactoryGvData();
 
         FactoryReviewBuilderAdapter<?> builderFactory =
@@ -94,14 +104,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewDataEditor dataEditorFactory
                 = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(), paramsFactory);
 
-        String dir = deviceContext.getImageStorageDirectory();
-        FactoryFileIncrementor incrementorFactory
-                = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
-                dir, dir.toLowerCase());
 
         FactoryReviewEditor<?> editorFactory
                 = new FactoryReviewEditor<>(builderFactory, paramsFactory, dataEditorFactory,
-                incrementorFactory, new FactoryImageChooser(context), getCommandsFactory());
+                incrementorFactory, getImageChooserFactory(), getCommandsFactory());
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
         ReviewsSource reviewsRepo = persistenceContext.getReviewsRepository();

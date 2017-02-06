@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUp;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 public class MaiUpEditor<GC extends GvDataList<? extends GvDataParcelable>> extends MaiUp<GC> {
     @Override
     public void doAction(final MenuItem item) {
-        getApp().getReviewEditor().discardEditor(true, new ReviewEditorSuite.DiscardListener() {
+        getApp().getEditor().discardEditor(true, new EditorSuite.DiscardListener() {
             @Override
             public void onDiscarded(boolean discardConfirmed) {
                 if(discardConfirmed) MaiUpEditor.super.doAction(item);

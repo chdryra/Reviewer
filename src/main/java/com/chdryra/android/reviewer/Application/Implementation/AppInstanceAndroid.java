@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
@@ -114,8 +114,8 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     }
 
     @Override
-    public ReviewEditorSuite getReviewEditor() {
-        return mApp.getReviewEditor();
+    public EditorSuite getEditor() {
+        return mApp.getEditor();
     }
 
     @Override

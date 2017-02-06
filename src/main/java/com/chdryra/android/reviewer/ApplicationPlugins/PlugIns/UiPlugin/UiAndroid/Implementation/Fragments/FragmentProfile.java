@@ -12,10 +12,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +35,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
@@ -41,15 +47,16 @@ import com.chdryra.android.reviewer.R;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentProfile extends Fragment implements PresenterProfile.ProfileListener {
+public class FragmentProfile extends Fragment implements PresenterProfile.ProfileListener, ActivityResultListener {
     private static final String ARGS = TagKeyGenerator.getKey(FragmentProfile.class, "Args");
-
+    private static final String PROFILE_IMAGE_FILENAME = "Profile" + ApplicationInstance.APP_NAME;
     private static final int LAYOUT = R.layout.fragment_profile;
     private static final int PROFILE_IMAGE = R.id.image_view_profile_photo;
     private static final int PROFILE_AUTHOR = R.id.edit_text_author_name;
     private static final int DONE_BUTTON = R.id.done_button;
     private static final int OK = Activity.RESULT_OK;
     private static final int CANCELED = Activity.RESULT_CANCELED;
+    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
 
     private static final ReviewViewParams.CellDimension HALF = ReviewViewParams.CellDimension.HALF;
     private static final int IMAGE_PADDING = R.dimen.profile_image_padding;
@@ -88,19 +95,10 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
             }
         });
 
-        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
-        float padding = getResources().getDimension(IMAGE_PADDING);
-        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)padding);
-        mImageView.getLayoutParams().width = dims.getCellWidth();
-        mImageView.getLayoutParams().height = dims.getCellHeight();
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeToast("Image goes here");
-            }
-        });
+        setImageView();
 
-        mPresenter = new PresenterProfile.Builder().build(getApp(), this);
+        ApplicationInstance app = getApp();
+        mPresenter = new PresenterProfile.Builder().build(app, PROFILE_IMAGE_FILENAME, this);
 
         if (!setUser()) {
             lock("No user");
@@ -113,28 +111,59 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         return view;
     }
 
+    private void setImageView() {
+        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
+        float padding = getResources().getDimension(IMAGE_PADDING);
+        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)
+                padding);
+        mImageView.getLayoutParams().width = dims.getCellWidth();
+        mImageView.getLayoutParams().height = dims.getCellHeight();
+        mImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) launchImageChooser();
+                return true;
+            }
+        });
+        setImagePlaceholder();
+    }
+
+    private void setImagePlaceholder() {
+        mImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
+    }
+
     @Override
     public void onProfileFetched(AuthorProfileSnapshot profile, CallbackMessage message) {
-        String text = message.getMessage();
         if (message.isOk()) {
-            mProfile = profile;
-            text = mProfile.getNamedAuthor().getName();
+            setProfile(profile);
             unlock();
+        } else {
+            mName.setText(message.getMessage());
         }
-
-        mName.setText(text);
     }
 
     @Override
     public void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message) {
-        makeToast(message.getMessage());
-        setResultAndClose(message.isOk() ? OK : CANCELED);
+        updateAndClose(profile, message);
     }
 
     @Override
     public void onProfileUpdated(AuthorProfileSnapshot newProfile, CallbackMessage message) {
-        makeToast(message.getMessage());
-        setResultAndClose(message.isOk() ? OK : CANCELED);
+        updateAndClose(newProfile, message);
+    }
+
+    @Override
+    public void onImageChosen(GvImage image, CallbackMessage message) {
+        if (message.isError()) {
+            makeToast(message.getMessage());
+        } else {
+            setImage(image.getBitmap());
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     private ApplicationInstance getApp() {
@@ -143,6 +172,33 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
 
     private UserAccount getUserAccount() {
         return getApp().getAuthentication().getUserSession().getAccount();
+    }
+
+    private void launchImageChooser() {
+        mPresenter.launchImageChooser();
+    }
+
+    private void setProfile(AuthorProfileSnapshot profile) {
+        mProfile = profile;
+        mName.setText(mProfile.getNamedAuthor().getName());
+        ProfileImage image = profile.getImage();
+        setImage(image.getBitmap());
+    }
+
+    private void setImage(Bitmap bitmap) {
+        mImage = bitmap;
+        if(mImage != null) {
+            mImageView.setImageBitmap(mImage);
+        } else {
+            setImagePlaceholder();
+        }
+    }
+
+    private void updateAndClose(AuthorProfileSnapshot profile, CallbackMessage message) {
+        makeToast(message.getMessage());
+        setProfile(profile);
+        unlock();
+        setResultAndClose(message.isOk() ? OK : CANCELED);
     }
 
     private void lock(String reason) {

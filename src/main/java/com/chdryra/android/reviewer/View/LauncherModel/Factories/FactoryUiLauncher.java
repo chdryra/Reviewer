@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -42,7 +42,7 @@ public class FactoryUiLauncher {
     }
 
     public UiLauncherAndroid newLauncher(RepositorySuite repository,
-                                         ReviewEditorSuite builder,
+                                         EditorSuite builder,
                                          FactoryReviewView viewFactory,
                                          ReviewsSource masterRepo,
                                          UiConfig config) {

@@ -18,12 +18,14 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -44,7 +46,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends
         ReviewEditorActionBasic<GC>
-        implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener {
+        implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener,
+        ActivityResultListener {
     private final UiConfig mConfig;
     private final UiLauncher mLauncher;
     private final LocationClient mLocationClient;
@@ -65,6 +68,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         mUiType = uiType;
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode result = ActivityResultCode.get(resultCode);
         boolean imageRequested = requestCode == getImageRequestCode();
@@ -134,7 +138,8 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private <T extends GvDataParcelable> void launchQuickSetEditor(T datum) {
-        showQuickSetLaunchable(mConfig.getEditor(datum.getGvDataType().getDatumName()), datum, false);
+        showQuickSetLaunchable(mConfig.getEditor(datum.getGvDataType().getDatumName()), datum,
+                false);
     }
 
     private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
@@ -142,11 +147,14 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
             if (mImageChooser == null) mImageChooser = getEditor().newImageChooser();
             mLauncher.launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
-            showQuickSetLaunchable(mConfig.getAdder(type.getDatumName()), null, type.equals(GvLocation.TYPE));
+            showQuickSetLaunchable(mConfig.getAdder(type.getDatumName()), null, type.equals
+                    (GvLocation.TYPE));
         }
     }
 
-    private <T extends GvDataParcelable> void showQuickSetLaunchable(LaunchableConfig config, @Nullable T datum, boolean packLatLng) {
+    private <T extends GvDataParcelable> void showQuickSetLaunchable(LaunchableConfig config,
+                                                                     @Nullable T datum, boolean
+                                                                             packLatLng) {
         Bundle args = packData(datum, packLatLng);
         config.launch(new UiLauncherArgs(config.getDefaultRequestCode()).setBundle(args));
     }
@@ -154,14 +162,14 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     @NonNull
     private <T extends GvDataParcelable> Bundle packData(@Nullable T datum, boolean packLatLng) {
         Bundle args = new Bundle();
-        args.putBoolean(ReviewEditorSuite.QUICK_ADD, true);
+        args.putBoolean(EditorSuite.QUICK_ADD, true);
 
-        if(isQuickReview()) args.putBoolean(ReviewEditorSuite.QUICK_REVIEW, true);
-        if(datum != null) {
+        if (isQuickReview()) args.putBoolean(EditorSuite.QUICK_REVIEW, true);
+        if (datum != null) {
             ParcelablePacker<T> packer = new ParcelablePacker<>();
             packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, datum, args);
         }
-        if(packLatLng) packLatLng(args);
+        if (packLatLng) packLatLng(args);
 
         return args;
     }

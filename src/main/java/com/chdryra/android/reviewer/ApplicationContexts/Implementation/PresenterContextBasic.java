@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
@@ -21,6 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public abstract class PresenterContextBasic implements PresenterContext {
     private FactoryCommands mFactoryCommands;
     private FactoryReviewView mFactoryReviewView;
+    private FactoryImageChooser mFactoryImageChooser;
     private ConverterGv mConverter;
 
     protected PresenterContextBasic() {
@@ -32,6 +34,10 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     protected void setFactoryReviewView(FactoryReviewView factoryReviewView) {
         mFactoryReviewView = factoryReviewView;
+    }
+
+    protected void setFactoryImageChooser(FactoryImageChooser factoryImageChooser) {
+        mFactoryImageChooser = factoryImageChooser;
     }
 
     protected void setConverter(ConverterGv converter) {
@@ -52,5 +58,10 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public FactoryReviewView getReviewViewFactory() {
         return mFactoryReviewView;
+    }
+
+    @Override
+    public FactoryImageChooser getImageChooserFactory() {
+        return mFactoryImageChooser;
     }
 }

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
@@ -45,7 +45,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private final LocationServicesSuiteAndroid mLocation;
     private final UiSuiteAndroid mUi;
     private final RepositorySuiteAndroid mRepository;
-    private final ReviewEditorSuiteAndroid mBuilder;
+    private final EditorSuiteAndroid mBuilder;
     private final SocialSuiteAndroid mSocial;
     private final NetworkSuiteAndroid mNetwork;
     private final PermissionsSuiteAndroid mPermissions;
@@ -56,7 +56,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
                                    LocationServicesSuiteAndroid location,
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
-                                   ReviewEditorSuiteAndroid builder,
+                                   EditorSuiteAndroid builder,
                                    SocialSuiteAndroid social,
                                    NetworkSuiteAndroid network,
                                    PermissionsSuiteAndroid permissions) {
@@ -123,7 +123,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Override
-    public ReviewEditorSuite getReviewEditor() {
+    public EditorSuite getEditor() {
         return mBuilder;
     }
 

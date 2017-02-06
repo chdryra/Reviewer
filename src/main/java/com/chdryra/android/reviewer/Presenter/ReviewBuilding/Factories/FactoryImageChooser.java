@@ -21,12 +21,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
  */
 public class FactoryImageChooser {
     private final Context mContext;
+    private final FactoryFileIncrementor mIncrementorFactory;
 
-    public FactoryImageChooser(Context context) {
+    public FactoryImageChooser(Context context, FactoryFileIncrementor incrementorFactory) {
         mContext = context;
+        mIncrementorFactory = incrementorFactory;
     }
 
     public ImageChooser newImageChooser(FileIncrementor fileIncrementor) {
         return new ImageChooserImpl(mContext, fileIncrementor);
+    }
+
+    public ImageChooser newImageChooser(String fileName) {
+        return newImageChooser(mIncrementorFactory.newJpgFileIncrementor(fileName));
     }
 }

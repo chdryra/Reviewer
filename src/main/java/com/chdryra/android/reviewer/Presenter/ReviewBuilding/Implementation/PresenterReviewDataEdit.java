@@ -109,7 +109,7 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
         }
 
         public PresenterReviewDataEdit<T> build(ApplicationInstance app) {
-            ReviewEditor<?> editor = app.getReviewEditor().getEditor();
+            ReviewEditor<?> editor = app.getEditor().getEditor();
             return new PresenterReviewDataEdit<>(editor.newDataEditor(mDataType));
         }
     }

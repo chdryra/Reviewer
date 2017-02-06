@@ -13,9 +13,10 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultProfileImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 
 import java.util.Date;
@@ -26,22 +27,19 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorProfileSnapshot {
-    public AuthorProfileSnapshot newProfile(String name, String authorId, long dateJoined, @Nullable Bitmap photo) {
-        NamedAuthor author = new DefaultNamedAuthor(name, new AuthorIdParcelable(authorId));
-        return new AuthorProfileSnapshot(author, new DatumDateTime(dateJoined), photo);
+    public AuthorProfileSnapshot newProfile(String name, AuthorId id, long dateJoined, @Nullable Bitmap photo) {
+        NamedAuthor author = new DefaultNamedAuthor(name, id);
+        return new AuthorProfileSnapshot(author, new DatumDateTime(dateJoined), new DefaultProfileImage(id, photo));
     }
 
     public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
-        NamedAuthor author = new DefaultNamedAuthor(name, AuthorIdGenerator.newId());
-        return new AuthorProfileSnapshot(author, new DatumDateTime(new Date().getTime()), photo);
+        return newProfile(name, AuthorIdGenerator.newId(), new Date().getTime(), photo);
     }
 
     public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo) {
         NamedAuthor author = oldProfile.getNamedAuthor();
-        if(name != null && !name.equals(author.getName())) {
-            author = new DefaultNamedAuthor(name, author.getAuthorId());
-        }
+        if(name == null || name.length() == 0) name = author.getName();
 
-        return new AuthorProfileSnapshot(author, oldProfile.getJoined(), photo);
+        return newProfile(name, author.getAuthorId(), oldProfile.getJoined().getTime(), photo);
     }
 }

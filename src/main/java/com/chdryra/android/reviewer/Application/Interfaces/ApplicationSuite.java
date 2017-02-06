@@ -22,7 +22,7 @@ public interface ApplicationSuite {
 
     RepositorySuite getRepository();
 
-    ReviewEditorSuite getReviewEditor();
+    EditorSuite getEditor();
 
     SocialSuite getSocial();
 

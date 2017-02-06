@@ -15,7 +15,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.ReviewEditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -39,14 +39,14 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     private final UiSuite mUi;
     private final NetworkSuite mNetwork;
     private final LaunchableUi mAuthLaunchable;
-    private final ReviewEditorSuite mEditor;
+    private final EditorSuite mEditor;
 
     private ReviewView<?> mView;
     private LoginUi mAuthUi;
 
     private PresenterReviewPublish(UiSuite ui,
                                    NetworkSuite network,
-                                   ReviewEditorSuite editor,
+                                   EditorSuite editor,
                                    LaunchableUi authLaunchable) {
         mUi = ui;
         mNetwork = network;
@@ -99,9 +99,9 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
             UiSuite ui = app.getUi();
 
             PresenterReviewPublish presenter = new PresenterReviewPublish(ui,
-                    app.getNetwork(), app.getReviewEditor(), authLaunchable);
+                    app.getNetwork(), app.getEditor(), authLaunchable);
 
-            ReviewEditor<?> editor = app.getReviewEditor().getEditor();
+            ReviewEditor<?> editor = app.getEditor().getEditor();
             SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
 

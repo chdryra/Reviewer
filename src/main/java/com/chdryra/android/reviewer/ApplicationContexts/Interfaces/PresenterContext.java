@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
@@ -21,6 +22,8 @@ public interface PresenterContext {
     FactoryCommands getCommandsFactory();
 
     FactoryReviewView getReviewViewFactory();
+
+    FactoryImageChooser getImageChooserFactory();
 
     ConverterGv getGvConverter();
 }
