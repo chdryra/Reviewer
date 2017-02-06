@@ -240,7 +240,9 @@ public class FactoryReviewViewAdapter {
     private <T extends GvData> ReviewViewAdapter<T>
     newNodeAdapter(ReviewNode node, @Nullable GridDataWrapper<T> viewer) {
         return viewer != null ?
-                new AdapterReviewNode<>(node, mConverter.newConverterImages(), viewer) : null;
+                new AdapterReviewNode<>(node,
+                        mAuthorsRepository.getProfile(node.getAuthorId()).getProfileImage(),
+                        mConverter.newConverterImages(), viewer) : null;
     }
 
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter

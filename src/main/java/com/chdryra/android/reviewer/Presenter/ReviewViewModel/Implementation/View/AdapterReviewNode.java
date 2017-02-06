@@ -16,6 +16,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -30,15 +31,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T> implements ReviewNode.NodeObserver {
     private final ReviewNode mNode;
+    private final DataReference<ProfileImage> mProfileImage;
     private final DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
     private GvImage mCover;
     private boolean mFindingCover = false;
 
     public AdapterReviewNode(ReviewNode node,
+                             DataReference<ProfileImage> profileImage,
                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
                              GridDataWrapper<T> viewer) {
         super(viewer);
         mNode = node;
+        mProfileImage = profileImage;
         mCoversConverter = coversConverter;
         mCover = new GvImage();
     }
