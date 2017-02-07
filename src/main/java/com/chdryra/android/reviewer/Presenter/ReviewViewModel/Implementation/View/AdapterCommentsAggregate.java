@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -39,11 +41,12 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
+                                    DataReference<ProfileImage> profileImage,
                                     DataConverter<DataImage, GvImage, GvImageList> converter,
                                     GvCanonicalCollection<GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     GvDataAggregator aggregater) {
-        super(node, converter, viewerFactory.newAggregateToReviewsViewer(comments));
+        super(node, profileImage, converter, viewerFactory.newAggregateToReviewsViewer(comments));
         mComments = comments;
         mViewerFactory = viewerFactory;
         mAggregater = aggregater;

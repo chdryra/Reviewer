@@ -14,7 +14,9 @@ import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
@@ -132,7 +134,9 @@ public class FactoryReviewViewAdapter {
     public <T extends GvData> ReviewViewAdapter<?> newReviewDataAdapter(ReviewNode node,
                                                                         GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {
-            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
+            return new AdapterComments(node,
+                    getProfileImage(node),
+                    mConverter.newConverterImages(), mViewerFactory
                     .newReviewCommentsViewer(node));
         } else {
             return newNodeAdapter(node,
@@ -145,7 +149,9 @@ public class FactoryReviewViewAdapter {
                                                                       GvSize.Reference sizeRef) {
         GvDataType<?> dataType = sizeRef.getSizedType();
         if (dataType == GvComment.TYPE) {
-            return new AdapterComments(node, mConverter.newConverterImages(), mViewerFactory
+            return new AdapterComments(node,
+                    getProfileImage(node),
+                    mConverter.newConverterImages(), mViewerFactory
                     .newTreeCommentsViewer(node));
         } else if (dataType == GvAuthorId.TYPE) {
             return newNodeAdapter(node, mViewerFactory.newTreeAuthorsViewer(node));
@@ -179,7 +185,9 @@ public class FactoryReviewViewAdapter {
         if (type.equals(GvComment.TYPE)) {
             ReviewNode node = newFlattenedMetaReview(data, subject);
             //TODO make type safe
-            return new AdapterCommentsAggregate(node, mConverter.newConverterImages(),
+            return new AdapterCommentsAggregate(node,
+                    getProfileImage(node),
+                    mConverter.newConverterImages(),
                     (GvCanonicalCollection<GvComment>) data, mViewerFactory, mAggregator);
         }
 
@@ -213,7 +221,9 @@ public class FactoryReviewViewAdapter {
     //adapter shows child nodes
     ReviewViewAdapter<GvNode> newReviewsListAdapter(ReviewNode node,
                                                     @Nullable AuthorId followAuthorId) {
-        return new AdapterNodeFollowable(node, mConverter.newConverterImages(),
+        return new AdapterNodeFollowable(node,
+                getProfileImage(node),
+                mConverter.newConverterImages(),
                 mViewerFactory.newChildViewer(node), followAuthorId);
     }
 
@@ -241,8 +251,12 @@ public class FactoryReviewViewAdapter {
     newNodeAdapter(ReviewNode node, @Nullable GridDataWrapper<T> viewer) {
         return viewer != null ?
                 new AdapterReviewNode<>(node,
-                        mAuthorsRepository.getProfile(node.getAuthorId()).getProfileImage(),
+                        getProfileImage(node),
                         mConverter.newConverterImages(), viewer) : null;
+    }
+
+    private DataReference<ProfileImage> getProfileImage(ReviewNode node) {
+        return mAuthorsRepository.getProfile(node.getAuthorId()).getProfileImage();
     }
 
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter

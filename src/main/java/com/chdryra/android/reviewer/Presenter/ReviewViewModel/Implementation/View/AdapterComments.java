@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -24,9 +26,10 @@ public class AdapterComments extends AdapterReviewNode<GvComment.Reference> {
     private final ViewerReviewData.CommentList mViewer;
 
     public AdapterComments(ReviewNode node,
+                           DataReference<ProfileImage> profileImage,
                            DataConverter<DataImage, GvImage, GvImageList> converter,
                            ViewerReviewData.CommentList viewer) {
-        super(node, converter, viewer);
+        super(node, profileImage, converter, viewer);
         mViewer = viewer;
         setSplit(false);
     }

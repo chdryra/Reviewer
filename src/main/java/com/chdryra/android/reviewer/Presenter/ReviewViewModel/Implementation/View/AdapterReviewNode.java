@@ -17,11 +17,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 
@@ -98,14 +99,33 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
             mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
                 @Override
                 public void onDereferenced(DataValue<DataImage> value) {
-                    mCover = value.hasValue() ?
-                            mCoversConverter.convert(value.getData()) : new GvImage();
-                    callback.onAdapterCover(mCover);
-                    mFindingCover = false;
+                    if(value.hasValue()) {
+                        mCover = mCoversConverter.convert(value.getData());
+                        mFindingCover = false;
+                        callback.onAdapterCover(mCover);
+                    } else {
+                        dereferenceProfileImage(callback);
+                    }
                 }
             });
         } else {
             callback.onAdapterCover(mCover);
         }
+    }
+
+    private void dereferenceProfileImage(final CoverCallback callback) {
+        mProfileImage.dereference(new DataReference.DereferenceCallback<ProfileImage>() {
+            @Override
+            public void onDereferenced(DataValue<ProfileImage> value) {
+                if(value.hasValue()) {
+                    ProfileImage image = value.getData();
+                    mCover = new GvImage(image.getBitmap(), new GvDate(mNode.getPublishDate().getTime()), null, "", true);
+                } else {
+                    mCover = new GvImage();
+                }
+                mFindingCover = false;
+                callback.onAdapterCover(mCover);
+            }
+        });
     }
 }

@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -30,6 +31,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>> implements ViewUiBinder.BindableViewUi<DataImage>{
     private final ViewUiBinder<DataImage> mBinder;
     private final DataReference<ProfileImage> mProfileImage;
+    private ProfileImageBinder mProfileImageBinder;
+    private boolean mHasImage = false;
 
     public CoverNodeBannerUi(ImageView view,
                              final ReviewNode node,
@@ -47,6 +50,7 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
                 }
             }
         }, placeholder);
+
         mProfileImage = profileImage;
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
@@ -55,7 +59,19 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
 
     @Override
     public void update(DataImage value) {
-        setCover(value.getBitmap());
+        Bitmap bitmap = value.getBitmap();
+        if(bitmap == null) {
+            mHasImage = false;
+            if(mProfileImageBinder == null) {
+                mProfileImageBinder = new ProfileImageBinder();
+                mProfileImage.bindToValue(mProfileImageBinder);
+            } else {
+                setCover(mProfileImageBinder.getProfileImage());
+            }
+        } else {
+            mHasImage = true;
+            setCover(bitmap);
+        }
     }
 
     @Override
@@ -66,5 +82,25 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
     @Override
     public void update() {
         mBinder.bind();
+    }
+
+    private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
+        private Bitmap mProfileImage;
+
+        @Override
+        public void onInvalidated(DataReference<ProfileImage> reference) {
+            mProfileImage = null;
+            if(!mHasImage) setCover(null);
+        }
+
+        @Override
+        public void onReferenceValue(ProfileImage value) {
+            mProfileImage = value.getBitmap();
+            if(!mHasImage) setCover(mProfileImage);
+        }
+
+        private Bitmap getProfileImage() {
+            return mProfileImage;
+        }
     }
 }

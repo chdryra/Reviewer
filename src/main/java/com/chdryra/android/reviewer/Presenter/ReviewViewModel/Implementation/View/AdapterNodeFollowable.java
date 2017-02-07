@@ -19,6 +19,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -35,10 +37,11 @@ public class AdapterNodeFollowable extends AdapterReviewNode<GvNode> {
     private final AuthorId mFollowAuthorId;
 
     public AdapterNodeFollowable(ReviewNode node,
+                                 DataReference<ProfileImage> profileImage,
                                  DataConverter<DataImage, GvImage, GvImageList> coversConverter,
                                  GridDataWrapper<GvNode> viewer,
                                  @Nullable AuthorId followAuthorId) {
-        super(node, coversConverter, viewer);
+        super(node, profileImage, coversConverter, viewer);
         mFollowAuthorId = followAuthorId;
     }
 
