@@ -20,6 +20,7 @@ public class DefaultNamedAuthor implements NamedAuthor {
     private String mName;
 
     public DefaultNamedAuthor() {
+        this("", new AuthorIdParcelable(""));
     }
 
     public DefaultNamedAuthor(String name, AuthorId id) {

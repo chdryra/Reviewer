@@ -9,8 +9,17 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
+import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .ReviewSelector;
@@ -29,20 +38,30 @@ import com.chdryra.android.reviewer.R;
  * On: 17/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
+public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
     private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
+    private static final int CACHE_MAX = 50;
 
     private final AuthorsRepository mRepository;
     private final Resources mResources;
+    private CacheVhReviewSelected mCache;
 
-    public VhMostRecentFactory(AuthorsRepository repository, Resources resources) {
+    public FactoryVhMostRecent(AuthorsRepository repository, Resources resources) {
         mRepository = repository;
         mResources = resources;
+        mCache = new CacheVhReviewSelected(this.<IdableList<DataComment>>newCache(),
+                this.<IdableList<DataLocation>>newCache(), this.<IdableList<DataTag>>newCache(),
+                this.<NamedAuthor>newCache(), this.<Bitmap>newCache());
+    }
+
+    @NonNull
+    private <T> QueueCache<T> newCache() {
+        return new QueueCache<>(new InMemoryCache<T>(), CACHE_MAX);
     }
 
     @Override
     public VhNode newViewHolder() {
         return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
-                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER));
+                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER), mCache);
     }
 }

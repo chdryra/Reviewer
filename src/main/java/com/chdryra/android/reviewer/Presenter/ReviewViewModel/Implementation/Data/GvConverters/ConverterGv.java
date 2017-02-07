@@ -39,7 +39,7 @@ public class ConverterGv {
     }
 
     public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
-        return newConverterNodes(new VhMostRecentFactory(repository, mResources));
+        return newConverterNodes(new FactoryVhMostRecent(repository, mResources));
     }
 
     public GvConverterComments newConverterComments() {

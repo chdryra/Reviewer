@@ -17,15 +17,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .CacheVhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
-public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
+public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo, ReviewNode.NodeObserver {
     public static final GvDataType<GvNode> TYPE = new GvDataType<>(GvNode.class, TYPE_NAME);
 
     private ReviewNode mNode;
     private ViewHolderFactory<VhNode> mViewHolderFactory;
     private VhNode mViewHolder;
+    private CacheVhNode mCache;
 
     private GvNode() {
         super(GvNode.TYPE);
@@ -35,7 +38,28 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
                   ViewHolderFactory<VhNode> viewHolderFactory) {
         super(GvNode.TYPE, new GvReviewId(node.getReviewId()));
         mNode = node;
+        mNode.registerObserver(this);
         mViewHolderFactory = viewHolderFactory;
+    }
+
+    @Override
+    public void onChildAdded(ReviewNode child) {
+        refresh();
+    }
+
+    @Override
+    public void onChildRemoved(ReviewNode child) {
+        refresh();
+    }
+
+    @Override
+    public void onNodeChanged() {
+        refresh();
+    }
+
+    @Override
+    public void onTreeChanged() {
+        refresh();
     }
 
     public ReviewNode getNode() {
@@ -50,6 +74,11 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo {
 
     public void setViewHolder(VhNode viewHolder) {
         mViewHolder = viewHolder;
+        mCache = viewHolder.getCache();
+    }
+
+    private void refresh() {
+        mCache.deleteCache(mNode.getReviewId());
     }
 
     @Override

@@ -75,6 +75,8 @@ public class Strings {
         public static final String NO_INTERNET = "No internet available...";
         public static final String UPLOADING_EDITS = "Uploading edits...";
         public static final String CONFIRM_PASSWORD = "Please confirm password then try again";
+        public static final String CREATING_ACCOUNT = "Creating account...";
+        public static final String UPDATING_PROFILE = "Updating profile...";
     }
     
     public static class Screens {

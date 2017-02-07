@@ -240,8 +240,10 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         AuthorProfileSnapshot newProfile
                 = mPresenter.createUpdatedProfile(mProfile, name, mImage);
         if (mUser.getAuthorId() == null) {
+            makeToast(Strings.Toasts.CREATING_ACCOUNT);
             mPresenter.createAccount(mUser, name, null);
         } else if (mProfile != null && !mProfile.equals(newProfile)) {
+            makeToast(Strings.Toasts.UPDATING_PROFILE);
             mPresenter.updateProfile(getUserAccount(), mProfile, newProfile);
         } else {
             setResultAndClose(CANCELED);
