@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryCoverBinder;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .ReviewSelector;
@@ -35,17 +34,15 @@ public class VhMostRecentFactory implements ViewHolderFactory<VhNode> {
 
     private final AuthorsRepository mRepository;
     private final Resources mResources;
-    private final FactoryCoverBinder mFactoryCoverBinder;
 
     public VhMostRecentFactory(AuthorsRepository repository, Resources resources) {
         mRepository = repository;
         mResources = resources;
-        mFactoryCoverBinder = new FactoryCoverBinder();
     }
 
     @Override
     public VhNode newViewHolder() {
         return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
-                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER), mFactoryCoverBinder);
+                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER));
     }
 }

@@ -266,15 +266,13 @@ public class FbUserAccounts implements UserAccounts {
         final User user = mConverter.toUser(authUser, oldProfile, newProfile);
         DbUpdater<User> profileUpdater = mStructure.getProfileUpdater();
         Map<String, Object> map = profileUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-        callback.onAccountUpdated(newProfile, null);
-//        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
-//            @Override
-//            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-//                callback.onAccountUpdated(newProfile, newError(firebaseError));
-//            }
-//        });
+        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.onAccountUpdated(newProfile, newError(firebaseError));
+            }
+        });
     }
-
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
         root.addListenerForSingleValueEvent(listener);
