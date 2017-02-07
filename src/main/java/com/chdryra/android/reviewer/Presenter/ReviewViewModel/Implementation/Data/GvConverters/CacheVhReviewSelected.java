@@ -68,14 +68,13 @@ public class CacheVhReviewSelected implements CacheVhNode{
         removeCover(reviewId);
         removeLocations(reviewId);
         removeTags(reviewId);
-
-        for(VhNode node : mObservers) {
-            node.refresh(reviewId);
-        }
     }
 
-    public void addComments(IdableList<DataComment> comments) {
-        mComments.add(comments.getReviewId().toString(), comments);
+    public boolean addComments(IdableList<DataComment> comments) {
+        ReviewId reviewId = comments.getReviewId();
+        boolean newComments = !containsComments(reviewId) || !getComments(reviewId).equals(comments);
+        if(newComments) mComments.add(comments.getReviewId().toString(), comments);
+        return newComments;
     }
 
     public IdableList<DataComment> getComments(ReviewId reviewId) {
@@ -90,8 +89,15 @@ public class CacheVhReviewSelected implements CacheVhNode{
         return mComments.containsId(reviewId.toString());
     }
 
-    public void addAuthor(ReviewId reviewId, NamedAuthor author) {
-        mAuthors.add(reviewId.toString(), author);
+    public boolean addAuthor(ReviewId reviewId, NamedAuthor author) {
+        boolean newAuthor = false;
+        if(mAuthors.containsId(reviewId.toString())) {
+            NamedAuthor current = getAuthor(reviewId);
+            newAuthor = !current.getName().equals(author.getName())
+                    || !current.getAuthorId().toString().equals(author.getAuthorId().toString());
+        }
+        if(newAuthor) mAuthors.add(reviewId.toString(), author);
+        return newAuthor;
     }
 
     public NamedAuthor getAuthor(ReviewId reviewId) {
@@ -106,8 +112,10 @@ public class CacheVhReviewSelected implements CacheVhNode{
         return mAuthors.containsId(reviewId.toString());
     }
 
-    public void addCover(ReviewId reviewId, Bitmap bitmap) {
-        mCovers.add(reviewId.toString(), bitmap);
+    public boolean addCover(ReviewId reviewId, Bitmap bitmap) {
+        boolean newCover = !containsCover(reviewId) || !getCover(reviewId).equals(bitmap);
+        if(newCover) mCovers.add(reviewId.toString(), bitmap);
+        return newCover;
     }
 
     public Bitmap getCover(ReviewId reviewId) {
@@ -122,8 +130,11 @@ public class CacheVhReviewSelected implements CacheVhNode{
         return mCovers.containsId(reviewId.toString());
     }
 
-    public void addLocations(IdableList<DataLocation> locations) {
-        mLocations.add(locations.getReviewId().toString(), locations);
+    public boolean addLocations(IdableList<DataLocation> locations) {
+        ReviewId reviewId = locations.getReviewId();
+        boolean newLocations = !containsLocations(reviewId) || getLocations(reviewId).equals(locations);
+        if(newLocations) mLocations.add(reviewId.toString(), locations);
+        return newLocations;
     }
 
     public IdableList<DataLocation> getLocations(ReviewId reviewId) {
@@ -138,8 +149,11 @@ public class CacheVhReviewSelected implements CacheVhNode{
         return mLocations.containsId(reviewId.toString());
     }
 
-    public void addTags(IdableList<DataTag> tags) {
-        mTags.add(tags.getReviewId().toString(), tags);
+    public boolean addTags(IdableList<DataTag> tags) {
+        ReviewId reviewId = tags.getReviewId();
+        boolean newTags = !containsTags(reviewId) || !getTags(reviewId).equals(tags);
+        if(newTags) mTags.add(reviewId.toString(), tags);
+        return newTags;
     }
 
     public IdableList<DataTag> getTags(ReviewId reviewId) {

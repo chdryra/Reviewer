@@ -74,7 +74,6 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo, Revie
 
     public void setViewHolder(VhNode viewHolder) {
         mViewHolder = viewHolder;
-        mCache = viewHolder.getCache();
     }
 
     private void refresh() {

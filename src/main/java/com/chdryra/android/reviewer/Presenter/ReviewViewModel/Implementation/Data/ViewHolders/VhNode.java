@@ -9,10 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .CacheVhNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,8 +20,4 @@ public interface VhNode extends ViewHolder {
     boolean isBoundTo(ReviewNode node);
 
     void unbindFromNode();
-
-    void refresh(ReviewId reviewId);
-
-    CacheVhNode getCache();
 }
