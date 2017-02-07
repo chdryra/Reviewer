@@ -155,22 +155,29 @@ public class FbUserAccounts implements UserAccounts {
             return;
         }
 
-        checkNameExists(newProfile.getNamedAuthor().getName(), new CheckNameExistsCallback() {
-            @Override
-            public void onNameDoesNotExist() {
-                updateProfile(user, oldProfile, newProfile, callback);
-            }
 
-            @Override
-            public void onNameExists() {
-                callback.onAccountUpdated(newProfile, NAME_TAKEN_ERROR);
-            }
+        String oldName = oldProfile.getNamedAuthor().getName();
+        String newName = newProfile.getNamedAuthor().getName();
+        if(oldName.equals(newName)) {
+            updateProfile(user, oldProfile, newProfile, callback);
+        } else {
+            checkNameExists(newName, new CheckNameExistsCallback() {
+                @Override
+                public void onNameDoesNotExist() {
+                    updateProfile(user, oldProfile, newProfile, callback);
+                }
 
-            @Override
-            public void onError(CallbackMessage message) {
-                callback.onAccountUpdated(newProfile, newError(message));
-            }
-        });
+                @Override
+                public void onNameExists() {
+                    callback.onAccountUpdated(newProfile, NAME_TAKEN_ERROR);
+                }
+
+                @Override
+                public void onError(CallbackMessage message) {
+                    callback.onAccountUpdated(newProfile, newError(message));
+                }
+            });
+        }
     }
 
     @Override

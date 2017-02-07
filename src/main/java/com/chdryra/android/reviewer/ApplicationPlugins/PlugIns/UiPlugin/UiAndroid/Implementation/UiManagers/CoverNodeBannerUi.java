@@ -11,8 +11,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -28,9 +30,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * This doesn't work very well as binding is lost if cover deleted due to null path.
  * Maybe should dereference instead.
  */
-public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataImage>> implements ViewUiBinder.BindableViewUi<DataImage>{
+public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<DataImage>>
+        implements ViewUiBinder.BindableViewUi<DataImage>{
     private final ViewUiBinder<DataImage> mBinder;
     private final DataReference<ProfileImage> mProfileImage;
+    private final Bitmap mPlaceholder;
     private ProfileImageBinder mProfileImageBinder;
     private boolean mHasImage = false;
 
@@ -49,9 +53,10 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
                     return node.getCover();
                 }
             }
-        }, placeholder);
+        });
 
         mProfileImage = profileImage;
+        mPlaceholder = placeholder;
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
         mBinder = new ViewUiBinder<>(this);
@@ -60,28 +65,35 @@ public class CoverNodeBannerUi extends CoverBannerUi<ReviewItemReference<DataIma
     @Override
     public void update(DataImage value) {
         Bitmap bitmap = value.getBitmap();
-        if(bitmap == null) {
-            mHasImage = false;
-            if(mProfileImageBinder == null) {
-                mProfileImageBinder = new ProfileImageBinder();
-                mProfileImage.bindToValue(mProfileImageBinder);
-            } else {
-                setCover(mProfileImageBinder.getProfileImage());
-            }
-        } else {
-            mHasImage = true;
+        mHasImage = bitmap != null;
+        if(mHasImage) {
             setCover(bitmap);
+        } else {
+            useProfileImage();
+        }
+    }
+
+    private void useProfileImage() {
+        if(mProfileImageBinder == null) {
+            mProfileImageBinder = new ProfileImageBinder();
+            mProfileImage.bindToValue(mProfileImageBinder);
+        } else {
+            setCover(mProfileImageBinder.getProfileImage());
         }
     }
 
     @Override
     public void onInvalidated() {
-        setCover(null);
+        update(new DatumImage());
     }
 
     @Override
     public void update() {
         mBinder.bind();
+    }
+
+    private void setCover(@Nullable Bitmap image) {
+        getView().setImageBitmap(image == null ? mPlaceholder : image);
     }
 
     private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
