@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultN
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
@@ -79,6 +80,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private ReviewId mNodeId;
     private ReviewReference mReview;
     private NamedAuthor mAuthor;
+    private DataDate mDate;
     private String mLocation;
 
     private int mNumReturned = 0;
@@ -139,11 +141,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     @Override
     public void onSubjectChanged(DataSubject newSubject) {
+        mCache.addSubject(newSubject);
         mSubject.setText(newSubject.getSubject());
     }
 
     @Override
     public void onRatingChanged(DataRating newRating) {
+        mCache.addRating(newRating);
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
     }
 
@@ -183,8 +187,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void initialiseView(GvNode node) {
         ReviewId reviewId = node.getReviewId();
-        mSubject.setText(node.getSubject().getSubject());
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(node.getRating().getRating()));
+        mSubject.setText(mCache.containsSubject(reviewId) ?
+                mCache.getSubject(reviewId).getSubject() : Strings.EditTexts.FETCHING);
+        mRating.setText(RatingFormatter.upToTwoSignificantDigits(mCache.containsRating(reviewId) ?
+        mCache.getRating(reviewId).getRating() : 0f));
 
         setCover(mCache.containsCover(reviewId) ? mCache.getCover(reviewId) : null);
         setHeadline(mCache.containsComments(reviewId) ? mCache.getComments(reviewId) : new
@@ -193,17 +199,18 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         setLocations(mCache.containsLocations(reviewId) ? mCache.getLocations(reviewId) : new
                 IdableDataList<DataLocation>(reviewId));
         setAuthor(mCache.containsAuthor(reviewId) ? mCache.getAuthor(reviewId) : new DefaultNamedAuthor());
+        setDate(mCache.containsDate(reviewId) ? mCache.getDate(reviewId) : null);
     }
 
     private void newFooter() {
-        if (mReview != null) {
-            ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthorId(), mReview
-                    .getPublishDate());
-            String date = stamp.toReadableDate();
-            String name = mAuthor != null ? mAuthor.getName() : "";
-            String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
-            mFooter.setText(text);
-        }
+        newFooter(mDate);
+    }
+
+    private void newFooter(@Nullable DataDate publishDate) {
+        String date = publishDate != null ? ReviewStamp.toReadableDate(publishDate) : "";
+        String name = mAuthor != null ? mAuthor.getName() : "";
+        String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
+        mFooter.setText(text);
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
@@ -217,6 +224,11 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
+        newFooter();
+    }
+
+    private void setDate(@Nullable DataDate publishDate) {
+        mDate = publishDate;
         newFooter();
     }
 
@@ -244,8 +256,11 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private void bindToReview(ReviewReference review) {
         mReview = review;
 
+        setDate(mReview.getPublishDate());
+        mCache.addDate(mDate);
         onSubjectChanged(mReview.getSubject());
         onRatingChanged(mReview.getRating());
+
         mReview.registerObserver(this);
 
         mNumReturned = 0;

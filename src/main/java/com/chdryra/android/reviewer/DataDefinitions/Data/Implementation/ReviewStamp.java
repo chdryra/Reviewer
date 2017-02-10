@@ -84,7 +84,11 @@ public class ReviewStamp implements Validatable, ReviewId {
     }
 
     public String toReadableDate(){
-        return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(mDate.getTime()));
+        return toReadableDate(mDate);
+    }
+
+    public static String toReadableDate(DateTime date) {
+        return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(date.getTime()));
     }
 
     @Override

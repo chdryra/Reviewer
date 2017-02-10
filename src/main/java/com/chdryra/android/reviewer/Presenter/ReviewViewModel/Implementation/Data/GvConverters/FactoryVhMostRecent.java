@@ -16,7 +16,10 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
@@ -49,9 +52,10 @@ public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
     public FactoryVhMostRecent(AuthorsRepository repository, Resources resources) {
         mRepository = repository;
         mResources = resources;
-        mCache = new CacheVhReviewSelected(this.<IdableList<DataComment>>newCache(),
-                this.<IdableList<DataLocation>>newCache(), this.<IdableList<DataTag>>newCache(),
-                this.<NamedAuthor>newCache(), this.<Bitmap>newCache());
+        mCache = new CacheVhReviewSelected(this.<DataSubject>newCache(), this.<DataRating>newCache(),
+                this.<NamedAuthor>newCache(), this.<DataDate>newCache(), this.<Bitmap>newCache(),
+                this.<IdableList<DataTag>>newCache(), this.<IdableList<DataComment>>newCache(),
+                this.<IdableList<DataLocation>>newCache());
     }
 
     @NonNull

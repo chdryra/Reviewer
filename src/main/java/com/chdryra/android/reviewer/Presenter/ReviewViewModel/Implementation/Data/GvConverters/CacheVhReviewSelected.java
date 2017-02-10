@@ -12,8 +12,12 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -30,23 +34,32 @@ import java.util.List;
  */
 
 public class CacheVhReviewSelected implements CacheVhNode{
+    private final QueueCache<DataSubject> mSubjects;
+    private final QueueCache<DataRating> mRatings;
     private final QueueCache<IdableList<DataComment>> mComments;
     private final QueueCache<IdableList<DataLocation>> mLocations;
     private final QueueCache<IdableList<DataTag>> mTags;
     private final QueueCache<NamedAuthor> mAuthors;
+    private final QueueCache<DataDate> mDates;
     private final QueueCache<Bitmap> mCovers;
 
     public List<VhNode> mObservers;
 
-    public CacheVhReviewSelected(QueueCache<IdableList<DataComment>> headlines, 
-                                 QueueCache<IdableList<DataLocation>> locations, 
-                                 QueueCache<IdableList<DataTag>> tags, 
+    public CacheVhReviewSelected(QueueCache<DataSubject> subjects,
+                                 QueueCache<DataRating> ratings,
                                  QueueCache<NamedAuthor> authors, 
-                                 QueueCache<Bitmap> covers) {
+                                 QueueCache<DataDate> dates, 
+                                 QueueCache<Bitmap> covers, 
+                                 QueueCache<IdableList<DataTag>> tags, 
+                                 QueueCache<IdableList<DataComment>> headlines,
+                                 QueueCache<IdableList<DataLocation>> locations) {
+        mSubjects = subjects;
+        mRatings = ratings;
         mComments = headlines;
         mLocations = locations;
         mTags = tags;
         mAuthors = authors;
+        mDates = dates;
         mCovers = covers;
         mObservers = new ArrayList<>();
     }
@@ -64,15 +77,18 @@ public class CacheVhReviewSelected implements CacheVhNode{
     @Override
     public void deleteCache(ReviewId reviewId) {
         removeAuthor(reviewId);
+        removeDate(reviewId);
+        removeSubject(reviewId);
+        removeRating(reviewId);
         removeComments(reviewId);
         removeCover(reviewId);
         removeLocations(reviewId);
         removeTags(reviewId);
     }
-
+    
     public boolean addComments(IdableList<DataComment> comments) {
         ReviewId reviewId = comments.getReviewId();
-        boolean newComments = !containsComments(reviewId) || !getComments(reviewId).equals(comments);
+        boolean newComments = !containsComments(reviewId);
         if(newComments) mComments.add(comments.getReviewId().toString(), comments);
         return newComments;
     }
@@ -90,12 +106,8 @@ public class CacheVhReviewSelected implements CacheVhNode{
     }
 
     public boolean addAuthor(ReviewId reviewId, NamedAuthor author) {
-        boolean newAuthor = false;
-        if(mAuthors.containsId(reviewId.toString())) {
-            NamedAuthor current = getAuthor(reviewId);
-            newAuthor = !current.getName().equals(author.getName())
-                    || !current.getAuthorId().toString().equals(author.getAuthorId().toString());
-        }
+        boolean newAuthor = !containsAuthor(reviewId)
+                || !mAuthors.get(reviewId.toString()).getName().equals(author.getName());
         if(newAuthor) mAuthors.add(reviewId.toString(), author);
         return newAuthor;
     }
@@ -111,9 +123,64 @@ public class CacheVhReviewSelected implements CacheVhNode{
     public boolean containsAuthor(ReviewId reviewId) {
         return mAuthors.containsId(reviewId.toString());
     }
+    
+    public boolean addDate(DataDate date) {
+        return addData(date, mDates);
+    }
+
+    public DataDate getDate(ReviewId reviewId) {
+        return mDates.get(reviewId.toString());
+    }
+
+    private void removeDate(ReviewId reviewId) {
+        mDates.remove(reviewId.toString());
+    }
+
+    public boolean containsDate(ReviewId reviewId) {
+        return mDates.containsId(reviewId.toString());
+    }
+
+    private <T extends HasReviewId> boolean addData(T datum, QueueCache<T> cache) {
+        ReviewId reviewId = datum.getReviewId();
+        boolean newDatum = cache.containsId(reviewId.toString());
+        if(newDatum) cache.add(reviewId.toString(), datum);
+        return newDatum;
+    }
+    
+    public boolean addSubject(DataSubject subject) {
+        return addData(subject, mSubjects);
+    }
+
+    public DataSubject getSubject(ReviewId reviewId) {
+        return mSubjects.get(reviewId.toString());
+    }
+
+    private void removeSubject(ReviewId reviewId) {
+        mSubjects.remove(reviewId.toString());
+    }
+
+    public boolean containsSubject(ReviewId reviewId) {
+        return mSubjects.containsId(reviewId.toString());
+    }
+
+    public boolean addRating(DataRating rating) {
+        return addData(rating, mRatings);
+    }
+
+    public DataRating getRating(ReviewId reviewId) {
+        return mRatings.get(reviewId.toString());
+    }
+
+    private void removeRating(ReviewId reviewId) {
+        mRatings.remove(reviewId.toString());
+    }
+
+    public boolean containsRating(ReviewId reviewId) {
+        return mRatings.containsId(reviewId.toString());
+    }
 
     public boolean addCover(ReviewId reviewId, Bitmap bitmap) {
-        boolean newCover = !containsCover(reviewId) || !getCover(reviewId).equals(bitmap);
+        boolean newCover = !containsCover(reviewId) || !getCover(reviewId).sameAs(bitmap);
         if(newCover) mCovers.add(reviewId.toString(), bitmap);
         return newCover;
     }
