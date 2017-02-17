@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -122,7 +121,14 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
     private void setIsQuickReview() {
         Bundle args = getArguments();
         boolean quickReview = args != null && args.getBoolean(EditorSuite.QUICK_REVIEW);
-        if (quickReview && !mDataType.equals(GvTag.TYPE)) setHideMiddleButton();
+        if (quickReview && isQuickType()) setHideMiddleButton();
+    }
+
+    private boolean isQuickType() {
+        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if(mDataType.equals(non)) return false;
+        }
+        return true;
     }
 
     private void setIsQuickSet() {

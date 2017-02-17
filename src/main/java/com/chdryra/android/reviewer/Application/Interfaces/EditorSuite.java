@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,6 +29,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
 public interface EditorSuite {
     String QUICK_ADD = TagKeyGenerator.getKey(EditorSuite.class, "QuickAdd");
     String QUICK_REVIEW = TagKeyGenerator.getKey(EditorSuite.class, "QuickReview");
+    GvDataType[] NON_QUICK = new GvDataType[]{GvTag.TYPE};
 
     interface DiscardListener {
         void onDiscarded(boolean discardConfirmed);

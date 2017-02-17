@@ -19,8 +19,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -31,7 +30,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -130,11 +128,18 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         GvDataType<? extends GvDataParcelable> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
-        } else if (isQuickReview() && gridCell.size() == 1 && !type.equals(GvTag.TYPE)) {
+        } else if (isQuickReview(type) && gridCell.size() == 1) {
             launchQuickSetEditor(gridCell.getItem(0));
         } else {
             mLauncher.launchEditDataUi(type);
         }
+    }
+
+    private boolean isQuickReview(GvDataType<?> dataType) {
+        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if(dataType.equals(non)) return false;
+        }
+        return isQuickReview();
     }
 
     private <T extends GvDataParcelable> void launchQuickSetEditor(T datum) {

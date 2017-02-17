@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,6 +19,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class VhBuildReviewQuick extends VhBuildReviewFull {
     @Override
     String getLowerString(int number, GvDataType dataType) {
-        return dataType.equals(GvTag.TYPE) ? dataType.getDataName() : dataType.getDatumName();
+        return isQuickType(dataType)? dataType.getDatumName() : dataType.getDataName();
+    }
+
+    private boolean isQuickType(GvDataType<?> dataType) {
+        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if(dataType.equals(non)) return false;
+        }
+        return true;
     }
 }
