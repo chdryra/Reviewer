@@ -43,6 +43,10 @@ public class MapInfoWindow extends ViewHolderBasic {
 
     }
 
+    void resetWindow() {
+
+    }
+
     public static class InfoUpdateListener {
         private final Marker mMarker;
 

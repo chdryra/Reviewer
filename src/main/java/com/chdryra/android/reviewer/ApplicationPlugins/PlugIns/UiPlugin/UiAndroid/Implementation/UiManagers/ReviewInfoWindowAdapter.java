@@ -71,4 +71,9 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
         MapInfoWindow info = mInflated.get(marker);
         if (info != null) info.onClick();
     }
+
+    public void resetInfoWindow(Marker marker) {
+        MapInfoWindow info = mInflated.get(marker);
+        if (info != null) info.resetWindow();
+    }
 }

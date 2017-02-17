@@ -139,6 +139,7 @@ public class Strings {
     }
 
     public static class Mapping {
+        public static final String LOCATION = "location";
         public static final String LOCATIONS = "locations";
         public static final String REVIEWS = "opinions";
         public static final String REVIEW = "opinion";

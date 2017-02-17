@@ -29,15 +29,18 @@ public class VhMapClusterWindow extends MapInfoWindow {
     private static final int LOCATIONS = R.id.cluster_num_locations;
 
     private final Cluster<ReviewClusterItem> mCluster;
+    private final InfoWindowLauncher mLauncher;
     private final InfoUpdateListener mListener;
 
     private TextView mSubject;
     private TextView mRating;
     private TextView mLocations;
 
-    public VhMapClusterWindow(Cluster<ReviewClusterItem> cluster, InfoUpdateListener listener) {
+    public VhMapClusterWindow(Cluster<ReviewClusterItem> cluster, InfoWindowLauncher launcher,
+                              InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, LOCATIONS});
         mCluster = cluster;
+        mLauncher = launcher;
         mListener = listener;
     }
 
@@ -56,5 +59,10 @@ public class VhMapClusterWindow extends MapInfoWindow {
         mLocations.setText(mCluster.getSize() + " " + Strings.Mapping.LOCATIONS);
 
         mListener.onInfoUpdated();
+    }
+
+    @Override
+    void onClick() {
+        mLauncher.launchCluster(mCluster);
     }
 }

@@ -22,20 +22,23 @@ import java.util.ArrayList;
  */
 public class ReviewFormatterTwitter implements ReviewFormatter {
     private static final String APP = ApplicationInstance.APP_NAME;
+    private static final int MAX_TAGS = 3;
 
     @Override
     public FormattedReview format(ReviewSummary summary) {
         String subjectTag = TextUtils.toCamelCase(summary.getSubject());
-        String title = subjectTag + " " +
+        String title = subjectTag + " = " +
                 RatingFormatter.upToTwoSignificantDigits(summary.getRating()) + "*";
 
         String body = "#" + title + ": ";
         ArrayList<String> headlines = summary.getHeadlines();
         if(headlines.size() > 0) body += headlines.get(0);
         body += " #" + APP;
+        int i = 0;
         for(String tag : summary.getTags()) {
             if (tag.equalsIgnoreCase(subjectTag)) continue;
             body += " " + "#" + tag;
+            if(++i == MAX_TAGS) break;
         }
 
         return new FormattedReview(title, body);

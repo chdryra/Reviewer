@@ -19,14 +19,16 @@ import com.google.android.gms.maps.model.Marker;
  */
 public class ClusterInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactory {
     private final ReviewClusterRenderer mRenderer;
+    private final InfoWindowLauncher mLauncher;
 
-    public ClusterInfoFactory(ReviewClusterRenderer renderer) {
+    public ClusterInfoFactory(ReviewClusterRenderer renderer, InfoWindowLauncher launcher) {
         mRenderer = renderer;
+        mLauncher = launcher;
     }
 
     @Override
     public MapInfoWindow newInfoWindow(Marker marker) {
         return new VhMapClusterWindow(mRenderer.getCluster(marker),
-                new MapInfoWindow.InfoUpdateListener(marker));
+                mLauncher, new MapInfoWindow.InfoUpdateListener(marker));
     }
 }

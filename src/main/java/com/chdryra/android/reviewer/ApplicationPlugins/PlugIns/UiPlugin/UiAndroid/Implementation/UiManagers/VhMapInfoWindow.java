@@ -55,6 +55,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
 
     private final ReviewNode mNode;
     private final DataLocation mLocationName;
+    private final InfoWindowLauncher mLauncher;
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
     private final InfoUpdateListener mListener;
@@ -81,12 +82,14 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     public VhMapInfoWindow(DataLocation locationName,
                            ReviewNode node,
                            ReviewSelector selector,
+                           InfoWindowLauncher launcher,
                            AuthorsRepository authorsRepo,
                            InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE,
                 TAGS, STAMP});
         mLocationName = locationName;
         mNode = node;
+        mLauncher = launcher;
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mListener = listener;
@@ -128,9 +131,19 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
 
     @Override
     public void onClick() {
-        mShowAbstract = !mShowAbstract;
-        setAbstractVisibility();
-        bindIfNecessary();
+        if(mShowAbstract && mReview != null) {
+            mLauncher.launchReview(mReview.getReviewId());
+        } else {
+            mShowAbstract = !mShowAbstract;
+            setInfoVisibility();
+            bindIfNecessary();
+        }
+    }
+
+    @Override
+    void resetWindow() {
+        mShowAbstract = false;
+        setInfoVisibility();
     }
 
     private void setGone(View view) {
@@ -164,7 +177,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
 
     private void initialiseData() {
         mShowAbstract = false;
-        setAbstractVisibility();
+        setInfoVisibility();
         mSubject.setText(Strings.Progress.FETCHING);
         mRating.setText("");
         mLocation.setText(mLocationName.toString());
@@ -174,7 +187,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         mAuthor = null;
     }
 
-    private void setAbstractVisibility() {
+    private void setInfoVisibility() {
         mAbstract.setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
         notifyListener(true);
     }

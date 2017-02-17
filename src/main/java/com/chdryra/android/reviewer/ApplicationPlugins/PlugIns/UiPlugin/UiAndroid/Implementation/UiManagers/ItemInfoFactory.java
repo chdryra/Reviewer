@@ -23,13 +23,16 @@ import com.google.android.gms.maps.model.Marker;
  */
 public class ItemInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactory {
     private final ReviewNode mNode;
+    private final InfoWindowLauncher mLauncher;
     private final AuthorsRepository mRepo;
     private final ReviewClusterRenderer mRenderer;
 
     public ItemInfoFactory(ReviewNode node,
+                           InfoWindowLauncher launcher,
                            AuthorsRepository repo,
                            ReviewClusterRenderer renderer) {
         mNode = node;
+        mLauncher = launcher;
         mRepo = repo;
         mRenderer = renderer;
     }
@@ -39,7 +42,8 @@ public class ItemInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactor
         DataLocation location = mRenderer.getClusterItem(marker).getLocation();
         SelectorEqualsReviewId selector = new SelectorEqualsReviewId(location.getReviewId());
 
-        return new VhMapInfoWindow(location, mNode, new ReviewSelector(selector), mRepo,
+        return new VhMapInfoWindow(location, mNode, new ReviewSelector(selector),
+                mLauncher, mRepo,
                 new MapInfoWindow.InfoUpdateListener(marker));
     }
 }
