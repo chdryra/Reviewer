@@ -9,11 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
@@ -38,9 +38,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .CacheVhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -58,7 +60,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
-    private static final int DOWNLOAD_WAIT_TIME = 200;
+    private static final long WAIT_TIME = 150L;
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
@@ -84,7 +86,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private int mNumReturned = 0;
     private boolean mCancelBinding = false;
-    private AsyncTask<ReviewNode, Void, ReviewNode> mBindingTask;
+    private DelaySelectTask mBindingTask;
     private Bitmap mCover;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
@@ -150,6 +152,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
     }
 
+    @Override
+    public void refresh(ReviewNode node) {
+        if (mBindingTask != null) mBindingTask.cancel(true);
+        mBindingTask = new DelaySelectTask(node);
+        mBindingTask.execute(WAIT_TIME);
+    }
+
     private void unbindFromCover() {
         mReview.getCover().unbindFromValue(mCoverBinder);
         mCoverBinder.unbind();
@@ -174,12 +183,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         refresh(node.getNode());
     }
 
-    @Override
-    public void refresh(ReviewNode node) {
-        if (mBindingTask != null) mBindingTask.cancel(true);
-        mBindingTask = new SelectAndBindTask().execute(node);
-    }
-
     private void selectAndBind(ReviewNode node) {
         mBindingTask = null;
         mSelector.select(node, this);
@@ -190,15 +193,17 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mSubject.setText(mCache.containsSubject(reviewId) ?
                 mCache.getSubject(reviewId).getSubject() : Strings.EditTexts.FETCHING);
         mRating.setText(RatingFormatter.upToTwoSignificantDigits(mCache.containsRating(reviewId) ?
-        mCache.getRating(reviewId).getRating() : 0f));
+                mCache.getRating(reviewId).getRating() : 0f));
 
         setCover(mCache.containsCover(reviewId) ? mCache.getCover(reviewId) : null);
         setHeadline(mCache.containsComments(reviewId) ? mCache.getComments(reviewId) : new
                 IdableDataList<DataComment>(reviewId));
-        setTags(mCache.containsTags(reviewId) ? mCache.getTags(reviewId) : new IdableDataList<DataTag>(reviewId));
+        setTags(mCache.containsTags(reviewId) ? mCache.getTags(reviewId) : new
+                IdableDataList<DataTag>(reviewId));
         setLocations(mCache.containsLocations(reviewId) ? mCache.getLocations(reviewId) : new
                 IdableDataList<DataLocation>(reviewId));
-        setAuthor(mCache.containsAuthor(reviewId) ? mCache.getAuthor(reviewId) : new DefaultNamedAuthor());
+        setAuthor(mCache.containsAuthor(reviewId) ? mCache.getAuthor(reviewId) : new
+                DefaultNamedAuthor());
         setDate(mCache.containsDate(reviewId) ? mCache.getDate(reviewId) : null);
     }
 
@@ -284,7 +289,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     private void setCover(@Nullable Bitmap cover) {
-        if(mCover != null && mCover.sameAs(cover)) return;
+        if (mCover != null && mCover.sameAs(cover)) return;
         mCover = cover;
         mImage.setImageBitmap(cover);
     }
@@ -294,25 +299,18 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     //hacky way of avoiding downloads spooling up if gridview is being scrolled fast.
-    private class SelectAndBindTask extends AsyncTask<ReviewNode, Void, ReviewNode> {
-        private SelectAndBindTask() {
+    private class DelaySelectTask extends DelayTask {
+        private final ReviewNode mNode;
+
+        private DelaySelectTask(ReviewNode node) {
+            mNode = node;
             mSelecting = true;
             mCancelBinding = false;
         }
 
         @Override
-        protected ReviewNode doInBackground(ReviewNode... gvNodes) {
-            try {
-                Thread.sleep(DOWNLOAD_WAIT_TIME);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-            }
-            return gvNodes[0];
-        }
-
-        @Override
-        protected void onPostExecute(ReviewNode node) {
-            if (!mCancelBinding) selectAndBind(node);
+        protected void onPostExecute(Void aVoid) {
+            if (!mCancelBinding) selectAndBind(mNode);
         }
     }
 
@@ -347,7 +345,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
             } else {
                 mCache.removeTags(data.getReviewId());
             }
-            if(newData) setTags(data);
+            if (newData) setTags(data);
         }
     }
 
@@ -360,7 +358,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
             } else {
                 mCache.removeLocations(data.getReviewId());
             }
-            if(newData) setLocations(data);
+            if (newData) setLocations(data);
         }
     }
 
@@ -373,7 +371,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
             } else {
                 mCache.removeComments(data.getReviewId());
             }
-            if(newData) setHeadline(data);
+            if (newData) setHeadline(data);
         }
     }
 
@@ -443,7 +441,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         }
 
         private void notifyOnCover(@Nullable Bitmap bitmap) {
-            boolean newData = true;
             if (bitmap == null) {
                 mCache.removeCover(mReviewId);
             } else {

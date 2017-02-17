@@ -8,15 +8,19 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +28,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, ReviewNode {
-    private ReferencesRepository mRepo;
+    private static final long WAIT_TIME = 200L;
     private final FactoryReviewNode mNodeFactory;
+    private ReferencesRepository mRepo;
+    private List<ReviewReference> mBatchPending;
+    private DelayAddChildTask mTask;
 
     ReviewNodeRepo(DataReviewInfo meta,
                    ReferencesRepository repo,
@@ -34,6 +41,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
         super(meta, referenceFactory);
         mRepo = repo;
         mNodeFactory = nodeFactory;
+        mBatchPending = new ArrayList<>();
         mRepo.subscribe(this);
     }
 
@@ -44,7 +52,9 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
 
     @Override
     public void onReviewAdded(ReviewReference reference) {
-        addChild(reference);
+        if (mTask != null) mTask.cancel(true);
+        mTask = new DelayAddChildTask(reference);
+        mTask.execute(WAIT_TIME);
     }
 
     @Override
@@ -61,18 +71,6 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     @Override
     public void onReferenceInvalidated(ReviewId reviewId) {
         removeChild(reviewId);
-    }
-
-    private void addChild(ReviewReference review) {
-        addChild(mNodeFactory.createLeafNode(review));
-    }
-
-    void detachFromRepo() {
-        mRepo.unsubscribe(this);
-        for(ReviewNode child : getChildren()) {
-            removeChild(child.getReviewId());
-        }
-        mRepo = null;
     }
 
     @Override
@@ -92,5 +90,47 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
         int result = super.hashCode();
         result = 31 * result + mRepo.hashCode();
         return result;
+    }
+
+    void detachFromRepo() {
+        mRepo.unsubscribe(this);
+        for (ReviewNode child : getChildren()) {
+            removeChild(child.getReviewId());
+        }
+        mRepo = null;
+    }
+
+    private void addPendingChildren() {
+        for (ReviewReference child : mBatchPending) {
+            addChild(child);
+        }
+
+        mTask = null;
+        mBatchPending.clear();
+    }
+
+    private void addChild(ReviewReference review) {
+        addChild(mNodeFactory.createLeafNode(review));
+    }
+
+    //Hacky way of collecting a bunch of reviews first before adding when subscribing to repo,
+    //rather than continuous notifying of listeners on first download.
+    private class DelayAddChildTask extends DelayTask {
+        private final ReviewReference mReference;
+
+        private DelayAddChildTask(ReviewReference reference) {
+            mReference = reference;
+        }
+
+        @Override
+        protected void onCancelled() {
+            mBatchPending.add(mReference);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            onCancelled();
+            addPendingChildren();
+        }
     }
 }
