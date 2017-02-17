@@ -62,7 +62,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
-    private final Bitmap mImagePlaceholder;
     private final CacheVhReviewSelected mCache;
     private final TagsBinder mTagsBinder;
     private final CommentsBinder mCommentsBinder;
@@ -85,16 +84,14 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private int mNumReturned = 0;
     private boolean mCancelBinding = false;
-    private AsyncTask<GvNode, Void, GvNode> mBindingTask;
+    private AsyncTask<ReviewNode, Void, ReviewNode> mBindingTask;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             ReviewSelector selector,
-                            Bitmap imagePlaceholder,
                             CacheVhReviewSelected cache) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
-        mImagePlaceholder = imagePlaceholder;
         mCache = cache;
 
         mCommentsBinder = new CommentsBinder();
@@ -108,7 +105,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     @Override
-    public void unbindFromNode() {
+    public void unbind() {
         if (mReview == null) return;
         mCancelBinding = true;
         if (mCoverBinder != null) unbindFromCover();
@@ -135,7 +132,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         if (review != null) {
             if (notReinitialising()) bindToReview(review);
         } else {
-            unbindFromNode();
+            unbind();
         }
     }
 
@@ -169,19 +166,21 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private void setNode(GvNode node) {
         if (isBoundTo(node.getNode())) return;
         if (mBindingTask != null) mBindingTask.cancel(true);
-        unbindFromNode();
+        unbind();
         mCache.registerObserver(this);
         initialiseView(node);
+        node.setViewHolder(this);
+        refresh(node.getNode());
+    }
+
+    @Override
+    public void refresh(ReviewNode node) {
         mBindingTask = new SelectAndBindTask().execute(node);
     }
 
-    private void selectAndBind(GvNode gvNode) {
+    private void selectAndBind(ReviewNode node) {
         mBindingTask = null;
-        ReviewNode node = gvNode.getNode();
-
         mNodeId = node.getReviewId();
-
-        gvNode.setViewHolder(this);
         mSelector.select(node, this);
     }
 
@@ -292,14 +291,14 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     //hacky way of avoiding downloads spooling up if gridview is being scrolled fast.
-    private class SelectAndBindTask extends AsyncTask<GvNode, Void, GvNode> {
+    private class SelectAndBindTask extends AsyncTask<ReviewNode, Void, ReviewNode> {
         private SelectAndBindTask() {
             mSelecting = true;
             mCancelBinding = false;
         }
 
         @Override
-        protected GvNode doInBackground(GvNode... gvNodes) {
+        protected ReviewNode doInBackground(ReviewNode... gvNodes) {
             try {
                 Thread.sleep(DOWNLOAD_WAIT_TIME);
             } catch (InterruptedException ex) {
@@ -309,8 +308,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         }
 
         @Override
-        protected void onPostExecute(GvNode gvNode) {
-            if (!mCancelBinding) selectAndBind(gvNode);
+        protected void onPostExecute(ReviewNode node) {
+            if (!mCancelBinding) selectAndBind(node);
         }
     }
 

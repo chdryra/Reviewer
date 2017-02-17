@@ -43,7 +43,7 @@ public class CacheVhReviewSelected implements CacheVhNode{
     private final QueueCache<DataDate> mDates;
     private final QueueCache<Bitmap> mCovers;
 
-    public List<VhNode> mObservers;
+    private List<VhNode> mObservers;
 
     public CacheVhReviewSelected(QueueCache<DataSubject> subjects,
                                  QueueCache<DataRating> ratings,

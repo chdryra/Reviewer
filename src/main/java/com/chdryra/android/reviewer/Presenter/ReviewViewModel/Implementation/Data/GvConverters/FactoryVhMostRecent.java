@@ -8,9 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
@@ -24,17 +22,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ReviewSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .SelectorMostRecent;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhReviewSelected;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ViewHolderFactory;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -42,16 +34,13 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
-    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
     private static final int CACHE_MAX = 50;
 
     private final AuthorsRepository mRepository;
-    private final Resources mResources;
     private CacheVhReviewSelected mCache;
 
-    public FactoryVhMostRecent(AuthorsRepository repository, Resources resources) {
+    public FactoryVhMostRecent(AuthorsRepository repository) {
         mRepository = repository;
-        mResources = resources;
         mCache = new CacheVhReviewSelected(this.<DataSubject>newCache(), this.<DataRating>newCache(),
                 this.<NamedAuthor>newCache(), this.<DataDate>newCache(), this.<Bitmap>newCache(),
                 this.<IdableList<DataTag>>newCache(), this.<IdableList<DataComment>>newCache(),
@@ -65,7 +54,7 @@ public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
 
     @Override
     public VhNode newViewHolder() {
-        return new VhReviewSelected(mRepository, new ReviewSelector(new SelectorMostRecent()),
-                BitmapFactory.decodeResource(mResources, IMAGE_PLACEHOLDER), mCache);
+        return new VhReviewSelected(mRepository,
+                new ReviewSelector(new SelectorMostRecent()), mCache);
     }
 }

@@ -19,5 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 public interface VhNode extends ViewHolder {
     boolean isBoundTo(ReviewNode node);
 
-    void unbindFromNode();
+    void unbind();
+
+    void refresh(ReviewNode node);
 }

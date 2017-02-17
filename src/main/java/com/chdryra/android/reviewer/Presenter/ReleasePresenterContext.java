@@ -62,7 +62,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregatorsPlugin,
                                    DataValidator validator) {
-        setConverter(new ConverterGv(context.getResources()));
+        setConverter(new ConverterGv());
 
         setFactoryCommands(new FactoryCommands());
 
