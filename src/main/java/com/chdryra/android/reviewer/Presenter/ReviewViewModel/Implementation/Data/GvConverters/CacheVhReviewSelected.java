@@ -88,7 +88,7 @@ public class CacheVhReviewSelected implements CacheVhNode{
     
     public boolean addComments(IdableList<DataComment> comments) {
         ReviewId reviewId = comments.getReviewId();
-        boolean newComments = !containsComments(reviewId);
+        boolean newComments = !containsComments(reviewId) || !getComments(reviewId).equals(comments);
         if(newComments) mComments.add(comments.getReviewId().toString(), comments);
         return newComments;
     }
@@ -142,7 +142,7 @@ public class CacheVhReviewSelected implements CacheVhNode{
 
     private <T extends HasReviewId> boolean addData(T datum, QueueCache<T> cache) {
         ReviewId reviewId = datum.getReviewId();
-        boolean newDatum = cache.containsId(reviewId.toString());
+        boolean newDatum = !cache.containsId(reviewId.toString());
         if(newDatum) cache.add(reviewId.toString(), datum);
         return newDatum;
     }
@@ -199,7 +199,7 @@ public class CacheVhReviewSelected implements CacheVhNode{
 
     public boolean addLocations(IdableList<DataLocation> locations) {
         ReviewId reviewId = locations.getReviewId();
-        boolean newLocations = !containsLocations(reviewId) || getLocations(reviewId).equals(locations);
+        boolean newLocations = !containsLocations(reviewId) || !getLocations(reviewId).equals(locations);
         if(newLocations) mLocations.add(reviewId.toString(), locations);
         return newLocations;
     }

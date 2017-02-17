@@ -85,6 +85,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private int mNumReturned = 0;
     private boolean mCancelBinding = false;
     private AsyncTask<ReviewNode, Void, ReviewNode> mBindingTask;
+    private Bitmap mCover;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             ReviewSelector selector,
@@ -93,6 +94,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mCache = cache;
+        mCache.registerObserver(this);
 
         mCommentsBinder = new CommentsBinder();
         mTagsBinder = new TagsBinder();
@@ -165,9 +167,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setNode(GvNode node) {
         if (isBoundTo(node.getNode())) return;
-        if (mBindingTask != null) mBindingTask.cancel(true);
         unbind();
-        mCache.registerObserver(this);
+        mNodeId = node.getReviewId();
         initialiseView(node);
         node.setViewHolder(this);
         refresh(node.getNode());
@@ -175,12 +176,12 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     @Override
     public void refresh(ReviewNode node) {
+        if (mBindingTask != null) mBindingTask.cancel(true);
         mBindingTask = new SelectAndBindTask().execute(node);
     }
 
     private void selectAndBind(ReviewNode node) {
         mBindingTask = null;
-        mNodeId = node.getReviewId();
         mSelector.select(node, this);
     }
 
@@ -282,8 +283,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mReview.getCover().bindToValue(mCoverBinder);
     }
 
-    private void setCover(@Nullable Bitmap bitmap) {
-        mImage.setImageBitmap(bitmap);
+    private void setCover(@Nullable Bitmap cover) {
+        if(mCover != null && mCover.sameAs(cover)) return;
+        mCover = cover;
+        mImage.setImageBitmap(cover);
     }
 
     private boolean notReinitialising() {
@@ -444,9 +447,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
             if (bitmap == null) {
                 mCache.removeCover(mReviewId);
             } else {
-                newData = mCache.addCover(mReviewId, bitmap);
+                mCache.addCover(mReviewId, bitmap);
             }
-            if (!mCancel && newData) setCover(bitmap);
+            if (!mCancel) setCover(bitmap);
         }
 
         private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
