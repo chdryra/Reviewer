@@ -39,7 +39,7 @@ public class ViewerFeed extends ViewerChildList {
             authors.add(child.getAuthorId());
         }
 
-        return getAdapterFactory().newSummaryAdapter(node.getAuthorId(), authors, Strings
+        return getAdapterFactory().newFeedSummaryAdapter(node.getAuthorId(), authors, Strings
                 .ReviewsList.FEED);
     }
 }

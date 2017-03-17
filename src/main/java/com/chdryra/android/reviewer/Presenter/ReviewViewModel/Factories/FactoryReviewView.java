@@ -202,13 +202,6 @@ public class FactoryReviewView {
         return newDefaultView(mAdapterFactory.newSummaryAdapter(node));
     }
 
-    public <BucketingValue, Data extends HasReviewId> ReviewView<?>
-    newBucketView(ReviewNode node,
-                  DataBucketer<BucketingValue, Data> bucketer,
-                  ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
-        return newDefaultView(mAdapterFactory.newBucketAdapter(node, bucketer, vhFactory));
-    }
-
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter) {
         ReviewView view;
         try {
@@ -231,6 +224,13 @@ public class FactoryReviewView {
 
     private UiLauncher getUiLauncher() {
         return mConfig.getUiLauncher();
+    }
+
+    private <BucketingValue, Data extends HasReviewId> ReviewView<?>
+    newBucketView(ReviewNode node,
+                  DataBucketer<BucketingValue, Data> bucketer,
+                  ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
+        return newDefaultView(mAdapterFactory.newBucketAdapter(node, bucketer, vhFactory));
     }
 
     private <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter,
@@ -335,15 +335,19 @@ public class FactoryReviewView {
 
         //TODO make type safe
         if (dataType.equals(GvComment.Reference.TYPE)) {
-            factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>) params);
+            factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>)
+                    params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
-            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>) params,
-                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter.newConverterLocations());
+            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>)
+                    params,
+                    node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter
+                    .newConverterLocations());
         } else if (dataType.equals(GvImage.Reference.TYPE) && node != null) {
             factory = new FactoryActionsViewImages((ViewDataParameters<GvImage.Reference>) params,
                     node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
-            factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>) params, node);
+            factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>)
+                    params, node);
         } else if (dataType.equals(GvBucket.TYPE) && node != null) {
             factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node);
         } else {
@@ -353,7 +357,8 @@ public class FactoryReviewView {
         return new ReviewViewActions<>((FactoryReviewViewActions<T>) factory);
     }
 
-    private <T extends GvData> ComparatorCollection<? super T> getComparator(GvDataType<T> dataType) {
+    private <T extends GvData> ComparatorCollection<? super T> getComparator(GvDataType<T>
+                                                                                     dataType) {
         //TODO redo once there is a sever-client way of doing comparators.
         NamedComparator<T> placeholder = new NamedComparator.Builder<>(dataType.getDataName
                 (), new Comparator<T>() {

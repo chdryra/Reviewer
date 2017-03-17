@@ -41,7 +41,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
@@ -102,16 +101,15 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(mReviewSource.getMetaReview(data, title), null);
     }
 
-    //List reviews for this author
     //List all reviews in the tree
     public ReviewViewAdapter<?> newFlattenedReviewsListAdapter(ReviewNode toFlatten) {
         return newReviewsListAdapter(new ReviewTreeFlat(toFlatten, mReviewsFactory), null);
     }
 
-    //Summary of reviews for this author
-    public ReviewViewAdapter<?> newSummaryAdapter(AuthorId summaryOwner,
-                                                  Set<AuthorId> reviewAuthors,
-                                                  String title) {
+    //Summary of reviews for these authors
+    public ReviewViewAdapter<?> newFeedSummaryAdapter(AuthorId summaryOwner,
+                                                      Set<AuthorId> reviewAuthors,
+                                                      String title) {
         RepositoryCollection<AuthorId> collection = new RepositoryCollection<>();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsForAuthor(author));
@@ -122,7 +120,7 @@ public class FactoryReviewViewAdapter {
         return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
     }
 
-    //Summary of reviews for this review tree
+    //Summary of review data sizes for this review tree
     public ReviewViewAdapter<?> newSummaryAdapter(ReviewNode node) {
         GridDataWrapper<?> viewer = node.getChildren().size() > 0 ?
                 mViewerFactory.newTreeSummaryViewer(node) :
@@ -130,7 +128,7 @@ public class FactoryReviewViewAdapter {
         return newNodeAdapter(node, viewer);
     }
 
-    //View specific data for this review as if it was a single review
+    //View specific data for this review as a review (can't be expanded to a review list)
     public <T extends GvData> ReviewViewAdapter<?> newReviewDataAdapter(ReviewNode node,
                                                                         GvDataType<T> dataType) {
         if (dataType == GvComment.TYPE) {
@@ -144,10 +142,8 @@ public class FactoryReviewViewAdapter {
         }
     }
 
-    //View specific data for this review as if it was a meta review
-    public <T extends GvData> ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node,
-                                                                      GvSize.Reference sizeRef) {
-        GvDataType<?> dataType = sizeRef.getSizedType();
+    //View specific data for this review as a meta-review (can be expanded to a review list)
+    public ReviewViewAdapter<?> newTreeDataAdapter(ReviewNode node, GvDataType<?> dataType) {
         if (dataType == GvComment.TYPE) {
             return new AdapterComments(node,
                     getProfileImage(node),
@@ -161,14 +157,16 @@ public class FactoryReviewViewAdapter {
     }
 
     //View for search screen
-    public ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
+    ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
         return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
                 mAuthorsRepository, mConverter.newConverterAuthors());
     }
 
-    public <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
+    //View for distribution screen
+    <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
     newBucketAdapter(ReviewNode node,
-                     DataBucketer<BucketingValue, Data> bucketer, ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
+                     DataBucketer<BucketingValue, Data> bucketer,
+                     ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
         return newNodeAdapter(node, mViewerFactory.newBucketViewer(node, vhFactory, bucketer));
     }
 
