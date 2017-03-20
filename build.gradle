@@ -35,14 +35,14 @@ dependencies {
 
     compile fileTree(dir: '../libs', include: '*.jar')
 
-    compile 'com.google.android.gms:play-services-maps:10.0.1'
-    compile 'com.google.android.gms:play-services-location:10.0.1'
-    compile 'com.google.android.gms:play-services-places:10.0.1'
-    compile 'com.google.android.gms:play-services-auth:10.0.1'
-    compile 'com.google.android.gms:play-services-plus:10.0.1'
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
+    compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.google.android.gms:play-services-location:10.2.0'
+    compile 'com.google.android.gms:play-services-places:10.2.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-plus:10.2.0'
+    compile 'com.google.maps.android:android-maps-utils:0.5+'
 
-    compile 'com.android.support:support-annotations:25.1.0'
+    compile 'com.android.support:support-annotations:25.2.0'
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.github.scribejava:scribejava-apis:2.2.2'
@@ -50,8 +50,8 @@ dependencies {
         transitive = true;
     }
     compile 'com.firebase:firebase-client-android:2.5.2'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:multidex:1.0.1'
 
     //unit tests
