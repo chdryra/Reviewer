@@ -12,8 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewPublish;
 
@@ -27,9 +25,8 @@ public class ActivityPublishReview extends ActivityReviewView {
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = AppInstanceAndroid.getInstance(this);
-        mPresenter =  new PresenterReviewPublish.Builder().build(app, new ActivitySocialAuthUi());
-
+        mPresenter =  new PresenterReviewPublish.Builder().build(getApp(),
+                new ActivitySocialAuthUi());
         return mPresenter.getView();
     }
 

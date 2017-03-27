@@ -13,7 +13,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterFeed;
@@ -30,7 +29,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     protected ReviewView createReviewView() {
-        mPresenter = new PresenterFeed.Builder().build(AppInstanceAndroid.getInstance(this), this);
+        mPresenter = new PresenterFeed.Builder().build(getApp(), this);
         mPresenter.attach();
         return mPresenter.getView();
     }
@@ -54,6 +53,6 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
-
+        //TODO show publishing status
     }
 }

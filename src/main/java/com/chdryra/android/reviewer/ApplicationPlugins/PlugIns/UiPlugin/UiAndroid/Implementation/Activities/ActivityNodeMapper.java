@@ -60,7 +60,7 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
 
     @Override
     protected void onResume() {
-        super.onStart();
+        super.onResume();
         AppInstanceAndroid.setActivity(this);
     }
 

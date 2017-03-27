@@ -48,17 +48,15 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        AppInstanceAndroid.getInstance(this).retainView(mView, outState);
+        getApp().retainView(mView, outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
-        //Get retained to remove from memory but prefer new retained over retained retained
+        //Get retained to remove from memory but prefer new view over retained view
         ReviewView<?> retained = null;
-        if(savedInstanceState != null) {
-            retained = AppInstanceAndroid.getInstance(this).getRetainedView(savedInstanceState);
-        }
+        if(savedInstanceState != null) retained = getApp().getRetainedView(savedInstanceState);
 
         mView = createReviewView();
         if (mView == null) mView = retained;
@@ -97,13 +95,17 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     @Nullable
     ReviewView<?> createReviewView() {
-        return AppInstanceAndroid.getInstance(this).unpackView(getIntent());
+        return getApp().unpackView(getIntent());
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        AppInstanceAndroid.getInstance(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        getApp().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    protected AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(this);
     }
 }

@@ -54,7 +54,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
         mAuthLaunchable = authLaunchable;
     }
 
-    public void setView(ReviewView<?> view) {
+    private void setView(ReviewView<?> view) {
         mView = view;
     }
 
@@ -85,9 +85,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mAuthUi != null) {
-            mAuthUi.onActivityResult(requestCode, resultCode, data);
-        }
+        if (mAuthUi != null) mAuthUi.onActivityResult(requestCode, resultCode, data);
     }
 
     private void showToast(String publishing) {

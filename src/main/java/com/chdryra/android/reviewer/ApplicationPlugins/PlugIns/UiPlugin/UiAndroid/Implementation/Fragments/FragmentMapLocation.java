@@ -36,7 +36,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
@@ -275,9 +274,7 @@ public abstract class FragmentMapLocation extends Fragment implements
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         UiSuite ui = app.getUi();
         MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
-
-        MenuAction<GvData> action = new MenuUpAppLevel(getMenuTitle(), upAction, ui);
-        mMenu = new MenuUi(action);
+        mMenu = new MenuUi(new MenuUpAppLevel(getMenuTitle(), upAction, ui));
     }
 
     @Override

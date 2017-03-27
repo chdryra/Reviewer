@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
@@ -62,8 +61,7 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
 
     @Override
     protected ReviewView createReviewView() {
-        PresenterReviewDataEdit.Builder<T> builder = new PresenterReviewDataEdit.Builder<>(mDataType);
-        mPresenter = builder.build(AppInstanceAndroid.getInstance(this));
+        mPresenter = new PresenterReviewDataEdit.Builder<>(mDataType).build(getApp());
         return mPresenter.getEditor();
     }
 
