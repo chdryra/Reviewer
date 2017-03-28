@@ -8,7 +8,7 @@ I'm not a professional coder so the architecture that I've come up with is proba
 However my intentions were pure.
 
 The architecture is Model-View-Presenter. The idea is to both separate the view from the model and the view from the 
-Android UI environment (as much as possible). The Android UI environment consists of activities and fragments. Activities are the bits of Android that create and provide the screen to the user. Activities may contain none or more fragments which contain specific UI logic. If there are no fragments, activities are responsible for UI logic. Activities create fragments, route information to them and do other Androidy things which are not strictly UI related. They are the Android environment for your app on any given screen. 
+Android UI environment (as much as possible). The Android UI environment consists of activities and fragments. Activities are the bits of Android that create and provide the screen to the user. Activities may contain none or more fragments which contain specific UI logic. If there are no fragments, activities are responsible for UI logic. Activities create fragments, route information to them and do other Androidy things which are not strictly UI related. They are the environment for your app on any given screen. 
 
 Therefore, to separate responsibilities, there is 1 fragment per activity to separate the non-UI responsibilities from the pure UI logic. This leads to 2 situations vis a vis presenters:
 
