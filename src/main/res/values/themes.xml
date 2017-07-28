@@ -15,7 +15,7 @@
     <color name="TransSmoke">#CCF5F5F5</color>
     <color name="DarkSmoke">#D3D3D3</color>
 
-    <style name="Theme.Reviewer" parent="android:Theme.Holo.Light"/>
+    <style name="Theme.Reviewer" parent="@style/AppBaseTheme"/>
 
     <style name="Widget.AutoCompleteTextView" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@null</item>

@@ -46,7 +46,7 @@ public abstract class NodeTitler<T> {
     }
 
     public static class AuthorsTree extends NodeTitler<NamedAuthor> implements ReferenceBinder<NamedAuthor>{
-        private static final String SEPARATOR = ": ";
+        private static final String SEPARATOR = "'s ";
 
         private String mTitle;
         private String mStem;

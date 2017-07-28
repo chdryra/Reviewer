@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
@@ -136,6 +137,7 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     protected void initButtonUI() {
         super.initButtonUI();
         setMarker(null);
+        getGotoReviewButton().setVisibility(View.GONE);
     }
 
     @Override
