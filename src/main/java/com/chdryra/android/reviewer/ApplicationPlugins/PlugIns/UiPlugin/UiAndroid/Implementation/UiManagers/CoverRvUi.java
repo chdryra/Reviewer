@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 public class CoverRvUi extends CoverUi<Bitmap>{
     private final ReviewView mReviewView;
-    private final GridViewUi mGridView;
+    private final RecyclerViewUi<?> mGridView;
 
-    public CoverRvUi(ReviewView reviewView, ImageView view, GridViewUi gridView) {
+    public CoverRvUi(ReviewView reviewView, ImageView view, RecyclerViewUi<?> gridView) {
         super(view, new ValueGetter<Bitmap>() {
             @Override
             @Nullable

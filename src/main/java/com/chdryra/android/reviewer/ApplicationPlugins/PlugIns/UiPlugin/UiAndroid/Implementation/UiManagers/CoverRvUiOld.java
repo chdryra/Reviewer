@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -22,11 +21,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverRvUi2 extends CoverUi<Bitmap>{
+public class CoverRvUiOld extends CoverUi<Bitmap>{
     private final ReviewView mReviewView;
-    private final RecyclerViewUi<?> mGridView;
+    private final GridViewUi mGridView;
 
-    public CoverRvUi2(ReviewView reviewView, ImageView view, RecyclerViewUi<?> gridView) {
+    public CoverRvUiOld(ReviewView reviewView, ImageView view, GridViewUi gridView) {
         super(view, new ValueGetter<Bitmap>() {
             @Override
             @Nullable

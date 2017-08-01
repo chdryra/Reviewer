@@ -49,7 +49,7 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
 
     @Override
     public ViewHolder getViewHolder() {
-        return mViewHolderFactory.newViewHolder();
+        return mViewHolderFactory.newViewHolder(size() == 1 ? getItem(0).getViewHolder() : null);
     }
 
     @Override

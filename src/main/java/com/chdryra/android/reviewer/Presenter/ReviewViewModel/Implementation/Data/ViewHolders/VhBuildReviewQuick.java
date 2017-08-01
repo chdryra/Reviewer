@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
@@ -17,6 +20,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhBuildReviewQuick extends VhBuildReviewFull {
+    public VhBuildReviewQuick(@Nullable ViewHolder datumView) {
+        super(datumView);
+    }
+
     @Override
     String getLowerString(int number, GvDataType dataType) {
         return isQuickType(dataType)? dataType.getDatumName() : dataType.getDataName();

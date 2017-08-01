@@ -17,7 +17,6 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDualText;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,37 +25,25 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class VhDataCollection implements ViewHolder {
     private final ViewHolder mDataView;
-    private Context mContext;
-    private ViewGroup mParent;
-    private ViewHolder mCurrentView;
 
     public VhDataCollection() {
         mDataView = new VhDualText();
-        mCurrentView = mDataView;
     }
 
-    //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
-        mContext = context;
-        mParent = parent;
         mDataView.inflate(context, parent);
     }
 
     @Override
     public void updateView(ViewHolderData data) {
         GvDataCollection dataList = (GvDataCollection) data;
-        if (dataList.size() != 1 ||
-                dataList.getGvDataType().equals(GvImage.TYPE)) {
-            updateDataView(dataList);
-        } else {
-            updateDatumView(dataList);
-        }
+        updateDataView(dataList);
     }
 
     @Override
     public View getView() {
-        return mCurrentView.getView();
+        return mDataView.getView();
     }
 
     String getUpperString(int number) {
@@ -67,17 +54,9 @@ public class VhDataCollection implements ViewHolder {
         return number == 1 ? dataType.getDatumName() : dataType.getDataName();
     }
 
-    private void updateDataView(GvDataCollection data) {
+    protected void updateDataView(GvDataCollection data) {
         String upper = getUpperString(data.size());
         String lower = getLowerString(data.size(), data.getGvDataType());
         mDataView.updateView(new GvDualText(upper, lower));
-        mCurrentView = mDataView;
-    }
-
-    private void updateDatumView(GvDataCollection data) {
-        ViewHolderData datum = data.getItem(0);
-        mCurrentView = datum.getViewHolder();
-        mCurrentView.inflate(mContext, mParent);
-        mCurrentView.updateView(datum);
     }
 }

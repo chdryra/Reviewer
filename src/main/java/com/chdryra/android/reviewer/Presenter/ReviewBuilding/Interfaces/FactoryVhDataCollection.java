@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhDataCollection;
 
@@ -17,5 +20,5 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryVhDataCollection {
-    VhDataCollection newViewHolder();
+    VhDataCollection newViewHolder(@Nullable ViewHolder datumVh);
 }

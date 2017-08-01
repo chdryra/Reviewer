@@ -30,8 +30,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.OnItemClickListener<T>{
     private final ReviewView<T> mReviewView;
     private final RecyclerView mView;
-    private final RecyclerAdapterBasic<T> mAdapter;
     private final GridItemAction<T> mClickAction;
+    private final CellDimensionsCalculator.Dimensions mDims;
 
     public RecyclerViewUi(ReviewView<T> reviewView, RecyclerView view, CellDimensionsCalculator calculator) {
         mReviewView = reviewView;
@@ -42,20 +42,19 @@ public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.On
 
         mView.setLayoutManager(manager);
 
-        CellDimensionsCalculator.Dimensions dims
-                = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
-        mAdapter = new GvDataAdapter<>(mReviewView.getGridData(), dims, this);
-        mView.setAdapter(mAdapter);
+        mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
 
         DividerItemDecoration divider = new DividerItemDecoration(mView.getContext(),
                 manager.getOrientation());
         mView.addItemDecoration(divider);
 
         mClickAction = mReviewView.getActions().getGridItemAction();
+
+        update();
     }
 
     public void update() {
-        mAdapter.setData(mReviewView.getGridData().toArrayList());
+        mView.setAdapter(new GvDataAdapter<>(mReviewView.getGridData(), mDims, this));
     }
 
     @Override

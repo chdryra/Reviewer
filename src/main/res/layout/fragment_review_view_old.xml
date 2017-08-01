@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
   ~ Unauthorized copying of this file via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ rizwan.choudrey@gmail.com
@@ -29,7 +29,7 @@
 
     <include
         android:id="@+id/main_view"
-        layout="@layout/fragment_review_view_recycler"
+        layout="@layout/fragment_review_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/contextual_view"/>
