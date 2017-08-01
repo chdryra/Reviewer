@@ -40,11 +40,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         mPerspective = perspective;
     }
 
-    protected void setCellDimension(ReviewViewParams.CellDimension width, ReviewViewParams
-            .CellDimension height) {
-        mContainer.setCellDimension(width, height);
-    }
-
     protected void attachToAdapter() {
         mPerspective.attachToAdapter(this);
         mGridViewData = mPerspective.getAdapter().getGridData();

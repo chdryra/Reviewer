@@ -49,15 +49,8 @@ public class GridViewUi<T extends GvData> {
         getAdapter().setData(mReviewView.getGridData());
     }
 
-    public void setCellDimension(ReviewViewParams.CellDimension width,
-                                 ReviewViewParams.CellDimension height) {
-        CellDimensionsCalculator.Dimensions dims = mCalculator.calcDimensions(width, height, 0);
-        int cell_width = dims.getCellWidth();
-        int cell_height = dims.getCellHeight();
-
-        mView.setColumnWidth(cell_width);
-        mView.setNumColumns(width.getDivider());
-        getAdapter().setCellDimensions(cell_width, cell_height);
+    private ViewHolderAdapter getAdapter() {
+        return (ViewHolderAdapter) mView.getAdapter();
     }
 
     void setOpaque() {
@@ -66,10 +59,6 @@ public class GridViewUi<T extends GvData> {
 
     void setTransparent() {
         setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
-    }
-
-    private ViewHolderAdapter getAdapter() {
-        return (ViewHolderAdapter) mView.getAdapter();
     }
 
     private void setAlpha(int gridAlpha) {
