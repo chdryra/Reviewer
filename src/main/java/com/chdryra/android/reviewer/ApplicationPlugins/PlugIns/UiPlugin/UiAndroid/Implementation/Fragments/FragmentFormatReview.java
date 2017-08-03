@@ -65,8 +65,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .UiManagers.SubjectNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.TagsNodeUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.VhFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFactory;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ViewUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;

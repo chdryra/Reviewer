@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.support.annotation.Nullable;
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Created by: Rizwan Choudrey
  * On: 31/07/2017
  * Email: rizwan.choudrey@gmail.com
- *
+ * <p>
  * Now that Android has a proper viewholder implementation, this adapter wraps my previous
  * implementation.
  */
@@ -39,15 +39,15 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
     private final ViewHolderFactory<?> mVhFactory;
 
     GvDataAdapter(GvDataList<T> data,
-                         int cellWidth, int cellHeight,
-                         @Nullable OnItemClickListener<T> clickListener) {
+                  int cellWidth, int cellHeight,
+                  @Nullable OnItemClickListener<T> clickListener) {
         this(data, cellWidth, cellHeight, clickListener, null);
     }
 
     GvDataAdapter(GvDataList<T> data,
-                         int cellWidth, int cellHeight,
-                         @Nullable OnItemClickListener<T> clickListener,
-                         @Nullable ViewHolderFactory<?> vhFactory) {
+                  int cellWidth, int cellHeight,
+                  @Nullable OnItemClickListener<T> clickListener,
+                  @Nullable ViewHolderFactory<?> vhFactory) {
         super(data.toArrayList(), clickListener);
         mCellWidth = cellWidth;
         mCellHeight = cellHeight;
@@ -74,13 +74,14 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
         return v;
     }
 
-    private ViewHolder createViewHolder(int viewType) {
-        return mVhFactory != null ? mVhFactory.newViewHolder() : getData().get(viewType).getViewHolder();
-    }
-
     @Override
     protected ViewHolderAbstract<T> newRecyclerViewHolder(View v, int viewType) {
         return new RecyclerVh<>((ViewHolder) v.getTag());
+    }
+
+    private ViewHolder createViewHolder(int viewType) {
+        return mVhFactory != null ? mVhFactory.newViewHolder() : getData().get(viewType)
+                .getViewHolder();
     }
 
     private static class RecyclerVh<T extends GvData> extends ViewHolderAbstract<T> {
