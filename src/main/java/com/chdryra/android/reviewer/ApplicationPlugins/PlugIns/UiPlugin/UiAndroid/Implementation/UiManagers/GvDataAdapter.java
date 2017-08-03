@@ -20,6 +20,8 @@ import com.chdryra.android.mygenerallibrary.Ui.ViewHolderAbstract;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,15 +32,26 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
  * implementation.
  */
 
-public class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
+class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
 
-    private final CellDimensionsCalculator.Dimensions mGridCellDims;
+    private final int mCellWidth;
+    private final int mCellHeight;
+    private final ViewHolderFactory<?> mVhFactory;
 
-    public GvDataAdapter(GvDataList<T> data,
-                         CellDimensionsCalculator.Dimensions gridCellDims,
+    GvDataAdapter(GvDataList<T> data,
+                         int cellWidth, int cellHeight,
                          @Nullable OnItemClickListener<T> clickListener) {
+        this(data, cellWidth, cellHeight, clickListener, null);
+    }
+
+    GvDataAdapter(GvDataList<T> data,
+                         int cellWidth, int cellHeight,
+                         @Nullable OnItemClickListener<T> clickListener,
+                         @Nullable ViewHolderFactory<?> vhFactory) {
         super(data.toArrayList(), clickListener);
-        mGridCellDims = gridCellDims;
+        mCellWidth = cellWidth;
+        mCellHeight = cellHeight;
+        mVhFactory = vhFactory;
     }
 
     @Override
@@ -48,30 +61,34 @@ public class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
 
     @Override
     protected View inflateView(ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = getData().get(viewType).getViewHolder();
+        ViewHolder viewHolder = createViewHolder(viewType);
         viewHolder.inflate(parent.getContext(), parent);
         View v = viewHolder.getView();
         v.setTag(viewHolder);
 
         GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) v.getLayoutParams();
-        lp.width = mGridCellDims.getCellWidth();
-        lp.height = mGridCellDims.getCellHeight();
+        lp.width = mCellWidth;
+        lp.height = mCellHeight;
         v.setLayoutParams(lp);
 
         return v;
     }
 
+    private ViewHolder createViewHolder(int viewType) {
+        return mVhFactory != null ? mVhFactory.newViewHolder() : getData().get(viewType).getViewHolder();
+    }
+
     @Override
-    protected ViewHolderAbstract<T> newViewHolder(View v, int viewType) {
-        return new RecyclerVh<>(v);
+    protected ViewHolderAbstract<T> newRecyclerViewHolder(View v, int viewType) {
+        return new RecyclerVh<>((ViewHolder) v.getTag());
     }
 
     private static class RecyclerVh<T extends GvData> extends ViewHolderAbstract<T> {
         private final ViewHolder mViewHolder;
 
-        private RecyclerVh(View itemView) {
-            super(itemView);
-            mViewHolder = (ViewHolder) itemView.getTag();
+        private RecyclerVh(ViewHolder vh) {
+            super(vh.getView());
+            mViewHolder = vh;
         }
 
         @Override

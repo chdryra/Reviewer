@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments;
 
 
 import android.app.Fragment;
@@ -25,20 +25,31 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.BannerButtonUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RecyclerViewUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.ContextualUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CoverRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CoverUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RatingBarRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RatingBarUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RecyclerViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.SubjectUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -56,46 +67,16 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
-    private SubjectEditUi mSubject;
-    private RatingBarRvUi mRatingBar;
+    private MenuUi mMenu;
+    private SubjectUi mSubject;
+    private RatingBarUi mRatingBar;
     private BannerButtonUi mBannerButton;
     private RecyclerViewUi<?> mGridView;
     private ContextualUi mContextual;
-    private MenuUi mMenu;
-    private CoverRvUi mCover;
+    private CoverUi<?> mCover;
 
     private ReviewView<?> mReviewView;
     private boolean mIsAttached = false;
-
-    @Override
-    public String getSubject() {
-        return mSubject.getText();
-    }
-
-    @Override
-    public float getRating() {
-        return mRatingBar.getRating();
-    }
-
-    @Override
-    public void setRating(float rating) {
-        mRatingBar.setRating(rating);
-    }
-
-    @Override
-    public ReviewView<?> getReviewView() {
-        return mReviewView;
-    }
-
-    @Override
-    public void detachFromReviewView() {
-        mIsAttached = false;
-    }
-
-    @Override
-    public void setCover(@Nullable DataImage cover) {
-        mCover.setCover(cover == null ? null : cover.getBitmap());
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,10 +84,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
-    }
-
-    public void setReviewView(ReviewView<?> reviewView) {
-        mReviewView = reviewView;
     }
 
     @Override
@@ -123,10 +100,10 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         ReviewViewActions<?> actions = mReviewView.getActions();
 
-        mSubject = new SubjectEditUi(mReviewView, (EditText) v.findViewById(SUBJECT));
+        mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarRvUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
-            mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
+        mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
                 actions.getBannerButtonAction());
         mBannerButton.setTextColour(colour);
         mGridView = new RecyclerViewUi<>(mReviewView, (RecyclerView) v.findViewById(GRID),
@@ -172,6 +149,40 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public void onDataChanged() {
         updateUi(false);
+    }
+
+    @Override
+    public String getSubject() {
+        return mSubject.getText();
+    }
+
+    @Override
+    public float getRating() {
+        return mRatingBar.getRating();
+    }
+
+    @Override
+    public void setRating(float rating) {
+        mRatingBar.setRating(rating);
+    }
+
+    @Override
+    public ReviewView<?> getReviewView() {
+        return mReviewView;
+    }
+
+    public void setReviewView(ReviewView<?> reviewView) {
+        mReviewView = reviewView;
+    }
+
+    @Override
+    public void detachFromReviewView() {
+        mIsAttached = false;
+    }
+
+    @Override
+    public void setCover(@Nullable DataImage cover) {
+        mCover.setCover(cover == null ? null : cover.getBitmap());
     }
 
     private void attachToReviewViewIfNecessary() {

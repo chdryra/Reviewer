@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView, RefDataList<T>>{
     public HorizontalGridUi(Context context,
                             RecyclerView view,
-                            HorizontalAdapterRef<T, ?, ?> adapter,
+                            GvDataRefAdapter<T, ?, ?> adapter,
                             int span,
                             @Nullable Command onClick) {
         super(view, adapter);

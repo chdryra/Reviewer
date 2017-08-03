@@ -15,6 +15,6 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
  * On: 16/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ViewHolderFactory<T extends ViewHolder> {
-    T newViewHolder();
+public interface ViewHolderFactory<V extends ViewHolder> {
+    V newViewHolder();
 }

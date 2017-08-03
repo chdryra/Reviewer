@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -43,10 +42,10 @@ public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.On
         mView.setLayoutManager(manager);
 
         mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
-
-        DividerItemDecoration divider = new DividerItemDecoration(mView.getContext(),
-                manager.getOrientation());
-        mView.addItemDecoration(divider);
+//
+//        DividerItemDecoration divider = new DividerItemDecoration(mView.getContext(),
+//                manager.getOrientation());
+//        mView.addItemDecoration(divider);
 
         mClickAction = mReviewView.getActions().getGridItemAction();
 
@@ -54,7 +53,7 @@ public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.On
     }
 
     public void update() {
-        mView.setAdapter(new GvDataAdapter<>(mReviewView.getGridData(), mDims, this));
+        mView.setAdapter(new GvDataAdapter<>(mReviewView.getGridData(), mDims.getCellWidth(), mDims.getCellHeight(), this));
     }
 
     @Override

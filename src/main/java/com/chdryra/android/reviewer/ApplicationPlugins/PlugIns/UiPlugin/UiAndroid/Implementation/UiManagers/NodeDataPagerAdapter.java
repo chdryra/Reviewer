@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 
+import com.chdryra.android.mygenerallibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;

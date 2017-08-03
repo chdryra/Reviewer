@@ -29,12 +29,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditUi extends TextUi<EditText> {
+public class SubjectUi extends TextUi<EditText> {
     private boolean mSubjectRefresh = true;
     private String mCurrentText;
     private SubjectAction<?> mSubjectAction;
 
-    public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
+    public SubjectUi(final ReviewView<?> reviewView, EditText view) {
         super(view, new ValueGetter<String>() {
             @Override
             public String getValue() {

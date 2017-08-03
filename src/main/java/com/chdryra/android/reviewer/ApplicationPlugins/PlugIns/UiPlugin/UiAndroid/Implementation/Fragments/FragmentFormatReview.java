@@ -47,8 +47,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .UiManagers.FormattedSectionUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.FormattedTextUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.HorizontalAdapterRef;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.GvDataRefAdapter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.HorizontalGridUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -59,8 +58,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.MenuUpAppLevel;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.PagerAdapterBasic;
+import com.chdryra.android.mygenerallibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.RatingBarTouchable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -503,8 +501,8 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         IdableDataList<T1> empty = new IdableDataList<>(getter.getValue().getReviewId());
         GvDataType<T2> dataType = converter.convert(empty).getGvDataType();
 
-        HorizontalAdapterRef<T1, T2, Vh> adapter
-                = new HorizontalAdapterRef<>(getter, converter, new VhFactory<>(vhClass), dims);
+        GvDataRefAdapter<T1, T2, Vh> adapter
+                = new GvDataRefAdapter<>(getter, converter, new VhFactory<>(vhClass), dims);
 
         Command onClick = mIsPublished ? newLaunchViewCommand(dataType) : null;
         view.addItemDecoration(new PaddedItemDecoration(padding));

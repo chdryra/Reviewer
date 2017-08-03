@@ -29,19 +29,19 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 25/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
-        extends HorizontalAdapter<Gv, Vh> implements ViewUi.ValueGetter<RefDataList<Value>>{
+public class GvDataRefAdapter<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
+        extends GvDataAdapter<Gv> implements ViewUi.ValueGetter<RefDataList<Value>>{
     private final ViewUi.ValueGetter<RefDataList<Value>> mReference;
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
 
     private boolean mDereferenced = false;
 
-    public HorizontalAdapterRef(ViewUi.ValueGetter<RefDataList<Value>> reference,
-                                DataConverter<Value, Gv, ? extends GvDataList<Gv>> converter,
-                                ViewHolderFactory<Vh> factory,
-                                CellDimensionsCalculator.Dimensions dims) {
+    public GvDataRefAdapter(ViewUi.ValueGetter<RefDataList<Value>> reference,
+                            DataConverter<Value, Gv, ? extends GvDataList<Gv>> converter,
+                            ViewHolderFactory<Vh> factory,
+                            CellDimensionsCalculator.Dimensions dims) {
         super(converter.convert(new IdableDataList<Value>(reference.getValue().getReviewId())),
-                factory, dims.getCellWidth(), dims.getCellHeight());
+                dims.getCellWidth(), dims.getCellHeight(), null, factory);
         mReference = reference;
         mConverter = converter;
     }
@@ -63,7 +63,7 @@ public class HorizontalAdapterRef<Value extends HasReviewId, Gv extends GvData, 
             @Override
             public void onDereferenced(DataValue<IdableList<Value>> value) {
                 if(value.hasValue()) {
-                    setData(mConverter.convert(value.getData()));
+                    setData(mConverter.convert(value.getData()).toArrayList());
                     notifyChange();
                 }
             }

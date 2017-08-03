@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.support.v4.app.FragmentManager;
 
+import com.chdryra.android.mygenerallibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
