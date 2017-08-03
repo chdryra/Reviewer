@@ -64,7 +64,7 @@ public class FactoryReviewViewParams {
 
     public ReviewViewParams newBuildReviewParams() {
         ReviewViewParams params = new ReviewViewParams();
-        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
         params.getRatingBarParams().setEditable(true);
         params.getSubjectParams().setEditable(true);
 
@@ -73,7 +73,7 @@ public class FactoryReviewViewParams {
 
     public ReviewViewParams newPublishParams() {
         ReviewViewParams params = new ReviewViewParams();
-        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
+        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
 
         return params;
     }

@@ -23,7 +23,7 @@ public class ReviewViewParams {
 
     public enum GridViewAlpha {
         TRANSPARENT(0),
-        MEDIUM(200),
+        MEDIUM(100),
         OPAQUE(255);
 
         private final int mAlpha;

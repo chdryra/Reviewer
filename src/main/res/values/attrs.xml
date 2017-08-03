@@ -8,5 +8,6 @@
 
 <resources>
     <attr name="dominantBackground" format="color"/>
+    <attr name="darkBackground" format="color"/>
     <attr name="dominantText" format="color"/>
 </resources>

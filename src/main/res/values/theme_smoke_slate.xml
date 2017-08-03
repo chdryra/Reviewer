@@ -11,6 +11,7 @@
     <!-- Slate Smoke -->
     <style name="Theme.Reviewer.SmokeSlate">
         <item name="dominantBackground">@color/Smoke</item>
+        <item name="darkBackground">@color/DarkSmoke</item>
         <item name="dominantText">@color/Slate</item>
         <item name="android:windowBackground">@color/Smoke</item>
         <item name="android:colorBackground">@color/Smoke</item>

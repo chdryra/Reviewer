@@ -15,6 +15,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.Ui.GridItemDecoration;
 import com.chdryra.android.mygenerallibrary.Ui.RecyclerAdapterBasic;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -37,16 +38,14 @@ public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.On
         mView = view;
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
 
-        GridLayoutManager manager = new GridLayoutManager(mView.getContext(), params.getCellWidth().getDivider());
+        int span = params.getCellWidth().getDivider();
+        GridLayoutManager manager = new GridLayoutManager(mView.getContext(), span);
 
         mView.setLayoutManager(manager);
 
-        mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
-//
-//        DividerItemDecoration divider = new DividerItemDecoration(mView.getContext(),
-//                manager.getOrientation());
-//        mView.addItemDecoration(divider);
+        mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 10);
 
+        mView.addItemDecoration(new GridItemDecoration(span, 10, false));
         mClickAction = mReviewView.getActions().getGridItemAction();
 
         update();

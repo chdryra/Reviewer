@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
@@ -49,7 +50,8 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
 
     @Override
     public ViewHolder getViewHolder() {
-        return mViewHolderFactory.newViewHolder(size() == 1 ? getItem(0).getViewHolder() : null);
+        boolean useDatumVh = size() == 1 && !getGvDataType().equals(GvImage.TYPE);
+        return mViewHolderFactory.newViewHolder(useDatumVh ? getItem(0).getViewHolder() : null);
     }
 
     @Override
