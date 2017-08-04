@@ -53,6 +53,9 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         .ReviewSelectorCallback, VhNode, ReviewReference.ReviewReferenceObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
+    private static final int PROFILE_IMAGE = R.id.profile_image;
+    private static final int PROFILE_NAME = R.id.profile_name;
+    private static final int PROFILE_MENU = R.id.profile_menu;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
     private static final int SUBJECT_RATING = R.id.subject_rating;
@@ -61,6 +64,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
     private static final int STAMP = R.id.review_stamp;
+    private static final int LIKE_BUTTON = R.id.like_button;
+    private static final int COMMENT_BUTTON = R.id.comment_button;
+    private static final int SHARE_BUTTON = R.id.share_button;
+    private static final int MENU_BUTTON = R.id.menu_button;
     private static final long WAIT_TIME = 150L;
 
     private final AuthorsRepository mAuthorsRepo;
@@ -87,7 +94,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             ReviewSelector selector,
                             CacheVhReviewSelected cache) {
-        super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP});
+        super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME});
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mCache = cache;
@@ -205,8 +212,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void newStamp(@Nullable DataDate publishDate) {
         String date = publishDate != null ? ReviewStamp.toReadableDate(publishDate) : "";
-        String name = mAuthor != null ? mAuthor.getName() : "";
-        String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
+        String text = date + (validateString(mLocation) ? " @" + mLocation : "");
         setText(STAMP, text);
     }
 
@@ -221,7 +227,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
-        newStamp();
+        if(mAuthor != null) setText(PROFILE_NAME, mAuthor.getName());
     }
 
     private void setDate(@Nullable DataDate publishDate) {
