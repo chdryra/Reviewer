@@ -64,14 +64,6 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private final CommentsBinder mCommentsBinder;
     private final NameBinder mNameBinder;
 
-    private LinearLayout mAbstract;
-    private TextView mSubject;
-    private TextView mRating;
-    private TextView mLocation;
-    private TextView mHeadline;
-    private TextView mTags;
-    private TextView mPublishDate;
-
     private ReviewReference mReview;
     private NamedAuthor mAuthor;
     private int mCallbacks;
@@ -123,8 +115,8 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         if (review == null) return;
         mCallbacks = 0;
         mReview = review;
-        mSubject.setText(mReview.getSubject().toString());
-        mRating.setText(mReview.getRating().toString());
+        setText(SUBJECT, mReview.getSubject().toString());
+        setText(RATING, mReview.getRating().toString());
         notifyListener(true);
         bindIfNecessary();
     }
@@ -164,31 +156,24 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     }
 
     private void setViewsIfNecessary() {
-        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        if (mRating == null) mRating = (TextView) getView(RATING);
-        if (mAbstract == null) mAbstract = (LinearLayout) getView(ABSTRACT);
-        if (mLocation == null) mLocation = (TextView) getView(LOCATION);
-        if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
-        if (mTags == null) mTags = (TextView) getView(TAGS);
-        if (mPublishDate == null) mPublishDate = (TextView) getView(STAMP);
-        setGone(mHeadline);
-        setGone(mTags);
+        setGone(getView(HEADLINE, TextView.class));
+        setGone(getView(TAGS, TextView.class));
     }
 
     private void initialiseData() {
         mShowAbstract = false;
         setInfoVisibility();
-        mSubject.setText(Strings.Progress.FETCHING);
-        mRating.setText("");
-        mLocation.setText(mLocationName.toString());
-        mHeadline.setText(null);
-        mTags.setText(null);
-        mPublishDate.setText(null);
+        setText(SUBJECT, Strings.Progress.FETCHING);
+        setText(RATING, "");
+        setText(LOCATION, mLocationName.toString());
+        setText(HEADLINE, null);
+        setText(TAGS, null);
+        setText(STAMP, null);
         mAuthor = null;
     }
 
     private void setInfoVisibility() {
-        mAbstract.setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
+        getView(ABSTRACT, LinearLayout.class).setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
         notifyListener(true);
     }
 
@@ -199,7 +184,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
             String date = stamp.toReadableDate();
             String name = mAuthor != null ? mAuthor.getName() : "";
             String text = name + " " + date;
-            mPublishDate.setText(text);
+            setText(STAMP, text);
             notifyListener(false);
         }
     }
@@ -214,7 +199,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        String ignoreTag = TextUtils.toTag(mSubject.getText().toString());
+        String ignoreTag = TextUtils.toTag(getView(SUBJECT, TextView.class).getText().toString());
         return DataFormatter.formatTags(tags, maxTags, ignoreTag);
     }
 
@@ -225,8 +210,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
 
     private void setHeadline(IdableList<DataComment> value) {
         if (value.size() > 0) {
-            setVisible(mHeadline);
-            mHeadline.setText(DataFormatter.getHeadlineQuote(value));
+            TextView headline = getView(HEADLINE, TextView.class);
+            setVisible(headline);
+            headline.setText(DataFormatter.getHeadlineQuote(value));
         }
 
         notifyListener(false);
@@ -235,12 +221,13 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private void setTags(IdableList<? extends DataTag> tags) {
         int i = tags.size();
         if (i > 0) {
-            setVisible(mTags);
+            TextView tagsView = getView(TAGS, TextView.class);
+            setVisible(tagsView);
             String tagsString = getTagString(tags, i--);
-            while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+            while (i > -1 && TextUtils.isTooLargeForTextView(tagsView, tagsString)) {
                 tagsString = getTagString(tags, i--);
             }
-            mTags.setText(tagsString);
+            tagsView.setText(tagsString);
         }
 
         notifyListener(false);

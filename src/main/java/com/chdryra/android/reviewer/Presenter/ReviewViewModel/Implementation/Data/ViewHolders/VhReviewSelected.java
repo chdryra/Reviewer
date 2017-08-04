@@ -8,9 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
@@ -38,11 +39,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .CacheVhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -56,6 +55,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
+    private static final int SUBJECT_RATING = R.id.subject_rating;
+    private static final int ABSTRACT = R.id.review_text_abstract;
     private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
@@ -72,12 +73,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private CoverBinder mCoverBinder;
     private boolean mSelecting = false;
 
-    private TextView mSubject;
-    private TextView mRating;
-    private ImageView mImage;
-    private TextView mHeadline;
-    private TextView mTags;
-    private TextView mFooter;
     private ReviewId mNodeId;
     private ReviewReference mReview;
     private NamedAuthor mAuthor;
@@ -126,7 +121,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     @Override
     public void updateView(ViewHolderData data) {
-        setViewsIfNecessary();
         setNode(((GvNode) data));
     }
 
@@ -143,13 +137,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     @Override
     public void onSubjectChanged(DataSubject newSubject) {
         mCache.addSubject(newSubject);
-        mSubject.setText(newSubject.getSubject());
+        setText(SUBJECT, newSubject.getSubject());
     }
 
     @Override
     public void onRatingChanged(DataRating newRating) {
         mCache.addRating(newRating);
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
+        setText(RATING, RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
     }
 
     @Override
@@ -165,15 +159,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mCoverBinder = null;
     }
 
-    private void setViewsIfNecessary() {
-        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        if (mRating == null) mRating = (TextView) getView(RATING);
-        if (mImage == null) mImage = (ImageView) getView(IMAGE);
-        if (mHeadline == null) mHeadline = (TextView) getView(HEADLINE);
-        if (mTags == null) mTags = (TextView) getView(TAGS);
-        if (mFooter == null) mFooter = (TextView) getView(STAMP);
-    }
-
     private void setNode(GvNode node) {
         if (isBoundTo(node.getNode())) return;
         unbind();
@@ -183,6 +168,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         refresh(node.getNode());
     }
 
+    @Override
+    public void inflate(Context context, ViewGroup parent) {
+        super.inflate(context, parent);
+        getView().findViewById(SUBJECT_RATING).setAlpha(0.8f);
+        getView().findViewById(ABSTRACT).setAlpha(0.8f);
+    }
+
     private void selectAndBind(ReviewNode node) {
         mBindingTask = null;
         mSelector.select(node, this);
@@ -190,9 +182,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void initialiseView(GvNode node) {
         ReviewId reviewId = node.getReviewId();
-        mSubject.setText(mCache.containsSubject(reviewId) ?
+        setText(SUBJECT, mCache.containsSubject(reviewId) ?
                 mCache.getSubject(reviewId).getSubject() : Strings.EditTexts.FETCHING);
-        mRating.setText(RatingFormatter.upToTwoSignificantDigits(mCache.containsRating(reviewId) ?
+        setText(RATING, RatingFormatter.upToTwoSignificantDigits(mCache.containsRating(reviewId) ?
                 mCache.getRating(reviewId).getRating() : 0f));
 
         setCover(mCache.containsCover(reviewId) ? mCache.getCover(reviewId) : null);
@@ -207,19 +199,19 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         setDate(mCache.containsDate(reviewId) ? mCache.getDate(reviewId) : null);
     }
 
-    private void newFooter() {
-        newFooter(mDate);
+    private void newStamp() {
+        newStamp(mDate);
     }
 
-    private void newFooter(@Nullable DataDate publishDate) {
+    private void newStamp(@Nullable DataDate publishDate) {
         String date = publishDate != null ? ReviewStamp.toReadableDate(publishDate) : "";
         String name = mAuthor != null ? mAuthor.getName() : "";
         String text = name + " " + date + (validateString(mLocation) ? " @" + mLocation : "");
-        mFooter.setText(text);
+        setText(STAMP, text);
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        String ignoreTag = TextUtils.toTag(mSubject.getText().toString());
+        String ignoreTag = TextUtils.toTag(getView(SUBJECT, TextView.class).getText().toString());
         return DataFormatter.formatTags(tags, maxTags, ignoreTag);
     }
 
@@ -229,33 +221,34 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
-        newFooter();
+        newStamp();
     }
 
     private void setDate(@Nullable DataDate publishDate) {
         mDate = publishDate;
-        newFooter();
+        newStamp();
     }
 
     private void setHeadline(IdableList<DataComment> value) {
         String headline = DataFormatter.getHeadlineQuote(value);
         if (headline.length() == 0) headline = Strings.Formatted.NO_COMMENT;
-        mHeadline.setText(headline);
+        setText(HEADLINE, headline);
     }
 
     private void setTags(IdableList<? extends DataTag> tags) {
         int i = tags.size();
         String tagsString = getTagString(tags, i--);
-        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+        TextView tagsView = getView(TAGS, TextView.class);
+        while (i > -1 && TextUtils.isTooLargeForTextView(tagsView, tagsString)) {
             tagsString = getTagString(tags, i--);
         }
 
-        mTags.setText(tagsString);
+        tagsView.setText(tagsString);
     }
 
     private void setLocations(IdableList<? extends DataLocation> value) {
         mLocation = DataFormatter.formatLocationsShort(value);
-        newFooter();
+        newStamp();
     }
 
     private void bindToReview(ReviewReference review) {
@@ -291,7 +284,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private void setCover(@Nullable Bitmap cover) {
         if (mCover != null && mCover.sameAs(cover)) return;
         mCover = cover;
-        mImage.setImageBitmap(cover);
+        setImage(IMAGE, mCover);
     }
 
     private boolean notReinitialising() {

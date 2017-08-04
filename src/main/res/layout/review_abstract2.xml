@@ -6,25 +6,22 @@
   ~ rizwan.choudrey@gmail.com
   ~
   -->
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LinearLayoutVertical.GridCell">
+
+    <include layout="@layout/image_view"
+             android:id="@+id/review_image"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:contentDescription="@string/image_review_cd">
+    </include>
 
     <include layout="@layout/subject_rating2"
              android:id="@+id/subject_rating"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-            android:layout_alignParentTop="true">
-    </include>
-
-    <include layout="@layout/image_view"
-             android:id="@+id/review_image"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:contentDescription="@string/image_review_cd"
-             android:layout_above="@id/review_text_abstract"
-             android:layout_below="@id/subject_rating">
+             android:layout_alignParentTop="true">
     </include>
 
     <include layout="@layout/review_text_abstract2"
@@ -35,3 +32,32 @@
     </include>
 
 </RelativeLayout>
+
+<!--<RelativeLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--style="@style/LinearLayoutVertical.GridCell">-->
+
+    <!--<include layout="@layout/subject_rating2"-->
+             <!--android:id="@+id/subject_rating"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true">-->
+    <!--</include>-->
+
+    <!--<include layout="@layout/image_view"-->
+             <!--android:id="@+id/review_image"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="wrap_content"-->
+             <!--android:contentDescription="@string/image_review_cd"-->
+             <!--android:layout_above="@id/review_text_abstract"-->
+             <!--android:layout_below="@id/subject_rating">-->
+    <!--</include>-->
+
+    <!--<include layout="@layout/review_text_abstract2"-->
+             <!--android:id="@+id/review_text_abstract"-->
+             <!--android:layout_width="match_parent"-->
+             <!--android:layout_height="wrap_content"-->
+             <!--android:layout_alignParentBottom="true">-->
+    <!--</include>-->
+
+<!--</RelativeLayout>-->

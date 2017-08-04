@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
+
+import static com.chdryra.android.reviewer.R.id.address;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.R;
 public class VhLocationFormatted extends ViewHolderBasic{
     private static final int LAYOUT = R.layout.formatted_locations;
     private static final int NAME = R.id.short_name;
-    private static final int ADDRESS = R.id.address;
+    private static final int ADDRESS = address;
 
     public VhLocationFormatted() {
         super(LAYOUT, new int[]{NAME, ADDRESS});
@@ -33,9 +33,7 @@ public class VhLocationFormatted extends ViewHolderBasic{
     @Override
     public void updateView(ViewHolderData data) {
         GvLocation location = (GvLocation) data;
-        TextView name = (TextView) getView(NAME);
-        TextView address = (TextView) getView(ADDRESS);
-        name.setText(location.getShortenedName());
-        address.setText(location.getAddress());
+        setText(NAME, location.getShortenedName());
+        setText(ADDRESS, location.getAddress());
     }
 }

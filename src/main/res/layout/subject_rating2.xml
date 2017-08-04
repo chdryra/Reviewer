@@ -9,11 +9,11 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutHorizontal.WrappedVertical"
-    android:layout_weight="1">
+    style="@style/LinearLayoutHorizontal.WrappedVertical">
 
     <LinearLayout
-        style="@style/LinearLayoutHorizontal.WrappedVertical">
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
+        android:background="?dominantBackground">
 
         <TextView
             android:id="@+id/review_subject"

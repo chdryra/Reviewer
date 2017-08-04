@@ -8,7 +8,8 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/LinearLayoutVertical.WrappedVertical">
+              style="@style/LinearLayoutVertical.WrappedVertical"
+              android:background="?dominantBackground">
 
         <TextView
             android:id="@+id/review_headline"

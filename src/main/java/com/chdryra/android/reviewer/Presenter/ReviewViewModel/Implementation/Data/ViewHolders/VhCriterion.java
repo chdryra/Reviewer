@@ -9,13 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -30,12 +28,8 @@ public class VhCriterion extends ViewHolderBasic {
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
 
-    private final int mLayout;
     private final int mSubjectId;
     private final int mRatingId;
-
-    private TextView mSubject;
-    private RatingBar mRating;
 
     public VhCriterion() {
         this(LAYOUT, SUBJECT, RATING);
@@ -43,20 +37,16 @@ public class VhCriterion extends ViewHolderBasic {
 
     protected VhCriterion(int layoutId, int subjectId, int ratingId) {
         super(layoutId, new int[]{subjectId, ratingId});
-        mLayout = layoutId;
         mSubjectId = subjectId;
         mRatingId = ratingId;
     }
 
     @Override
     public void updateView(ViewHolderData data) {
-        if (mSubject == null) mSubject = (TextView) getView(mSubjectId);
-        if (mRating == null) mRating = (RatingBar) getView(mRatingId);
-
         GvCriterion criterion = (GvCriterion) data;
         if (criterion != null) {
-            mSubject.setText(criterion.getSubject());
-            mRating.setRating(criterion.getRating());
+            setText(mSubjectId, criterion.getSubject());
+            getView(mRatingId, RatingBar.class).setRating(criterion.getRating());
         }
     }
 }

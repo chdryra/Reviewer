@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import android.widget.TextView;
-
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
@@ -34,9 +32,7 @@ public class VhFactFormatted extends ViewHolderBasic{
     @Override
     public void updateView(ViewHolderData data) {
         GvFact fact = (GvFact) data;
-        TextView label = (TextView) getView(LABEL);
-        TextView value = (TextView) getView(VALUE);
-        label.setText(fact.getLabel() + SEPARATOR);
-        value.setText(fact.getValue());
+        setText(LABEL, fact.getLabel() + SEPARATOR);
+        setText(VALUE, fact.getValue());
     }
 }

@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
@@ -34,9 +33,7 @@ public class VhCriterionFormatted extends ViewHolderBasic{
     @Override
     public void updateView(ViewHolderData data) {
         GvCriterion criterion = (GvCriterion) data;
-        TextView subject = (TextView) getView(SUBJECT);
-        RatingBar rating = (RatingBar) getView(RATING);
-        subject.setText(criterion.getSubject());
-        rating.setRating(criterion.getRating());
+        setText(SUBJECT, criterion.getSubject());
+        getView(RATING, RatingBar.class).setRating(criterion.getRating());
     }
 }

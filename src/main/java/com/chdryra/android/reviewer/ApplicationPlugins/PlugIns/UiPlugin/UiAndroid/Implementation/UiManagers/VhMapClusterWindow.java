@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.widget.TextView;
-
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
@@ -32,10 +30,6 @@ public class VhMapClusterWindow extends MapInfoWindow {
     private final InfoWindowLauncher mLauncher;
     private final InfoUpdateListener mListener;
 
-    private TextView mSubject;
-    private TextView mRating;
-    private TextView mLocations;
-
     public VhMapClusterWindow(Cluster<ReviewClusterItem> cluster, InfoWindowLauncher launcher,
                               InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, LOCATIONS});
@@ -46,17 +40,13 @@ public class VhMapClusterWindow extends MapInfoWindow {
 
     @Override
     public void updateView() {
-        if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
-        if (mRating == null) mRating = (TextView) getView(RATING);
-        if (mLocations == null) mLocations = (TextView) getView(LOCATIONS);
-
         ReviewCluster cluster = new ReviewCluster(mCluster);
         ReviewCluster.ClusterAverage average = cluster.getAverage();
         int numReviews = average.getNumberReviews();
         String stem = numReviews == 1 ? Strings.Mapping.REVIEW : Strings.Mapping.REVIEWS;
-        mSubject.setText(String.valueOf(numReviews) + " " + stem);
-        mRating.setText(RatingFormatter.twoSignificantDigits(average.getAverage()));
-        mLocations.setText(mCluster.getSize() + " " + Strings.Mapping.LOCATIONS);
+        setText(SUBJECT, String.valueOf(numReviews) + " " + stem);
+        setText(RATING, RatingFormatter.twoSignificantDigits(average.getAverage()));
+        setText(LOCATIONS, mCluster.getSize() + " " + Strings.Mapping.LOCATIONS);
 
         mListener.onInfoUpdated();
     }

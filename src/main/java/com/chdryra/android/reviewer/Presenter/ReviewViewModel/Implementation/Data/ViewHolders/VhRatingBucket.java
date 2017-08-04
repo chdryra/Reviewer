@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.Bucket;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
@@ -28,27 +27,16 @@ public class VhRatingBucket extends VhBucket<Float, DataRating> {
     private static final int BAR = R.id.progress_bar;
     private static final int NUMBER = R.id.number_reviews;
 
-    private TextView mRatingBucket;
-    private ProgressBar mBar;
-    private TextView mNumberReviews;
-
     public VhRatingBucket() {
         super(LAYOUT, new int[]{RATING, BAR, NUMBER});
     }
 
     @Override
     public void updateView(GvBucket<Float, DataRating> data) {
-        setViewsIfNecessary();
         Bucket<Float, DataRating> bucket = data.getBucket();
         int percentage = (int) Math.round(data.getPercentageOfTotal() * 100);
-        mRatingBucket.setText(bucket.getRange().toString());
-        mBar.setProgress(percentage);
-        mNumberReviews.setText(percentage + "%" + " (" + bucket.size() + ")");
-    }
-
-    private void setViewsIfNecessary() {
-        if (mRatingBucket == null) mRatingBucket = (TextView) getView(RATING);
-        if (mBar == null) mBar = (ProgressBar) getView(BAR);
-        if (mNumberReviews == null) mNumberReviews = (TextView) getView(NUMBER);
+        setText(RATING, bucket.getRange().toString());
+        getView(BAR, ProgressBar.class).setProgress(percentage);
+        setText(NUMBER, percentage + "%" + " (" + bucket.size() + ")");
     }
 }
