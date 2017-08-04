@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/review_subject"
-            style="@style/TextViewGridCell.Bold.Large"
+            style="@style/TextViewGridCell.Left.Bold"
             android:padding="@dimen/grid_item_text_padding"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                       android:layout_gravity="end|center">
             <TextView
                 android:id="@+id/review_rating_number"
-                style="@style/TextViewGridCell.Bold.Large"
+                style="@style/TextViewGridCell"
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:gravity="end|center"

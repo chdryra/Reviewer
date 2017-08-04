@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayoutVertical.GridCell">
+
+    <include layout="@layout/subject_rating2"
+             android:id="@+id/subject_rating"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
+    </include>
+
+    <include layout="@layout/image_view"
+             android:id="@+id/review_image"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:contentDescription="@string/image_review_cd"
+             android:layout_above="@id/review_text_abstract"
+             android:layout_below="@id/subject_rating">
+    </include>
+
+    <include layout="@layout/review_text_abstract2"
+             android:id="@+id/review_text_abstract"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true">
+    </include>
+
+</RelativeLayout>

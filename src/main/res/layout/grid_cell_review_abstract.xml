@@ -13,7 +13,7 @@
 
     <include
         android:id="@+id/review_abstract"
-        layout="@layout/review_abstract"
+        layout="@layout/review_abstract2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
