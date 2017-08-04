@@ -298,7 +298,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         return !mCancelBinding && !mSelecting;
     }
 
-    //hacky way of avoiding downloads spooling up if gridview is being scrolled fast.
+    //hacky way of avoiding downloads spooling up if view is being scrolled fast.
     private class DelaySelectTask extends DelayTask {
         private final ReviewNode mNode;
 

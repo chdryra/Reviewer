@@ -12,75 +12,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/review_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/image_review_cd"
-        android:scaleType="centerCrop"/>
+    <include layout="@layout/image_view"
+             android:id="@+id/review_image"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:contentDescription="@string/image_review_cd">
+    </include>
 
-    <LinearLayout style="@style/LinearLayoutVertical.GridCell">
+    <include layout="@layout/subject_rating"
+             android:id="@+id/subject_rating"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentTop="true"
+             android:background="#50000000">
+    </include>
 
-        <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
-                      android:layout_weight="1">
+    <include layout="@layout/review_text_abstract"
+             android:id="@+id/review_text_abstract"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:background="#50000000">
+    </include>
 
-                <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
-                              android:layout_weight="1"
-                              android:background="#50000000">
-                    <TextView
-                    android:id="@+id/review_subject"
-                    style="@style/TextViewGridCell.Bold.Large"
-                    android:padding="@dimen/grid_item_text_padding"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:gravity="start|center"
-                    android:layout_weight="1"/>
-
-                    <LinearLayout style="@style/LinearLayoutHorizontal"
-                                  android:layout_weight="4"
-                                  android:layout_width="match_parent"
-                                  android:layout_gravity="end|center">
-                        <TextView
-                            android:id="@+id/review_rating_number"
-                            style="@style/TextViewGridCell.Bold.Large"
-                            android:layout_height="match_parent"
-                            android:padding="2dp"
-                            android:gravity="end|center"
-                            android:layout_gravity="top"
-                            android:layout_weight="1"/>
-
-                        <ToggleButton
-                            android:button="@android:drawable/btn_star"
-                            style="@style/ToggleButtonStar"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:gravity="end|center"
-                            android:layout_gravity="end|center"
-                            android:layout_weight="1"/>
-
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-    <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
-                  android:background="#50000000">
-        <TextView
-            android:id="@+id/review_headline"
-            style="@style/TextViewGridCell.BoldItalic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/review_tags"
-            style="@style/TextViewGridCell.Bold.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/review_stamp"
-            style="@style/TextViewGridCell.Bold.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>
 </RelativeLayout>
