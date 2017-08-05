@@ -66,7 +66,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int LIKE_BUTTON = R.id.like_button;
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
-    private static final int MENU_BUTTON = R.id.menu_button;
+    private static final int MENU_BUTTON = R.id.bookmark_button;
     private static final long WAIT_TIME = 150L;
 
     private final static int[] VIEWS =

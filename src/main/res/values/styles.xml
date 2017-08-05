@@ -152,14 +152,23 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">left</item>
         <item name="android:padding">@dimen/grid_item_text_padding</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="TextViewGridCell.Left.Small">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
     <style name="TextViewGridCell.Left.Tiny">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextViewGridCell.Left.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewGridCell.Left.Small.Bold">
         <item name="android:textStyle">bold</item>
     </style>
 

@@ -53,7 +53,7 @@
             android:background="?dominantBackground"
             android:layout_alignBottom="@id/review_image"/>
 
-        <include layout="@layout/subject_rating2"
+        <include layout="@layout/subject_rating_horizontal_small"
                  android:id="@+id/subject_rating"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"

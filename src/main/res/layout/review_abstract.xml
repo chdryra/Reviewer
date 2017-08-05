@@ -19,7 +19,7 @@
              android:contentDescription="@string/image_review_cd">
     </include>
 
-    <include layout="@layout/subject_rating"
+    <include layout="@layout/subject_rating_vertical"
              android:id="@+id/subject_rating"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
