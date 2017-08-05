@@ -17,20 +17,17 @@ import android.widget.RatingBar;
  * On: 24/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarUi extends ViewUi<RatingBar, Float>{
+public class RatingBarUi extends RatingUi<RatingBar> {
     public RatingBarUi(RatingBar view, ValueGetter<Float> rating) {
         super(view, rating);
     }
 
+    @Override
     public float getRating() {
         return getView().getRating();
     }
 
     @Override
-    public void update() {
-        setRating(getValue());
-    }
-
     public void setRating(float rating) {
         getView().setRating(rating);
     }

@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.GridViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
@@ -54,7 +54,7 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
     private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
-    private SubjectUi mSubject;
+    private SubjectEditUi mSubject;
     private RatingBarRvUi mRatingBar;
     private BannerButtonUi mBannerButton;
     private GridViewUi<?> mGridView;
@@ -121,7 +121,7 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
 
         ReviewViewActions<?> actions = mReviewView.getActions();
 
-        mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
+        mSubject = new SubjectEditUi(mReviewView, (EditText) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarRvUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
             mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),

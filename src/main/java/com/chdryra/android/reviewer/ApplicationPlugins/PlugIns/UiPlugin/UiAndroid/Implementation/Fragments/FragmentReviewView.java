@@ -40,9 +40,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.RatingBarRvUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.RatingBarUi;
+        .UiManagers.RatingUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.RecyclerViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.SubjectEditUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.SubjectUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -69,7 +71,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private MenuUi mMenu;
     private SubjectUi mSubject;
-    private RatingBarUi mRatingBar;
+    private RatingUi mRatingBar;
     private BannerButtonUi mBannerButton;
     private RecyclerViewUi<?> mGridView;
     private ContextualUi mContextual;
@@ -100,7 +102,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         ReviewViewActions<?> actions = mReviewView.getActions();
 
-        mSubject = new SubjectUi(mReviewView, (EditText) v.findViewById(SUBJECT));
+        mSubject = new SubjectEditUi(mReviewView, (EditText) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarRvUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
         mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
