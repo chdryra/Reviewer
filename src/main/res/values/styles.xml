@@ -155,8 +155,8 @@
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
-    <style name="TextViewGridCell.Left.Small">
-        <item name="android:textSize">10sp</item>
+    <style name="TextViewGridCell.Left.Tiny">
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextViewGridCell.Left.Bold">
@@ -181,7 +181,11 @@
 
     <style name="TextViewGridCell.Bold.Small">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextViewGridCell.Bold.Tiny">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextViewGridCell.Wrapped">
@@ -195,7 +199,11 @@
 
     <style name="TextViewGridCell.Wrapped.Small">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextViewGridCell.Wrapped.Tiny">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextViewGridCell.Large">
@@ -204,7 +212,11 @@
 
     <style name="TextViewGridCell.Small">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextViewGridCell.Tiny">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextView">

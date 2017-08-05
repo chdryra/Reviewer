@@ -28,10 +28,16 @@ public class CellDimensionsCalculator {
     }
 
     public Dimensions calcDimensions(ReviewViewParams.CellDimension cellWidth, ReviewViewParams.CellDimension cellHeight, int padding) {
+        boolean isWrappedVert = cellHeight.equals(ReviewViewParams.CellDimension.WRAPPED);
+        boolean isWrappedHorz = cellWidth.equals(ReviewViewParams.CellDimension.WRAPPED);
         int min = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
+        if(isWrappedHorz) min = mMetrics.heightPixels;
+        if(isWrappedVert) min = mMetrics.widthPixels;
+
         int span = min == mMetrics.widthPixels ? cellWidth.getDivider() : cellHeight.getDivider();
         int maxCellSize = Math.max(min - span * padding, 0);
-        return new Dimensions(maxCellSize / cellWidth.getDivider(), maxCellSize / cellHeight.getDivider());
+        return new Dimensions(isWrappedHorz ? -1 : maxCellSize / cellWidth.getDivider(),
+                isWrappedVert ? -1 : maxCellSize / cellHeight.getDivider());
     }
 
     public static class Dimensions {
@@ -49,6 +55,10 @@ public class CellDimensionsCalculator {
 
         public int getCellHeight() {
             return mCellHeight;
+        }
+
+        public boolean isWrapped() {
+            return mCellHeight == -1;
         }
     }
 }

@@ -9,36 +9,24 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutHorizontal">
+    style="@style/LinearLayoutHorizontal"
+    android:layout_width="wrap_content"
+    android:id="@+id/profile">
 
-    <LinearLayout style="@style/LinearLayoutHorizontal"
-                  android:layout_width="wrap_content"
-                  android:id="@+id/profile"
-                  android:layout_weight="1"
-                  android:gravity="start|center">
+    <include layout="@layout/image_view"
+             android:id="@+id/profile_image"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:contentDescription="@string/image_review_cd">
+    </include>
 
-        <include layout="@layout/image_view"
-                 android:id="@+id/profile_image"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_weight="1"
-                 android:contentDescription="@string/image_review_cd">
-        </include>
-
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_weight="1"
-            style="@style/TextViewGridCell.Bold.Small"
-            android:gravity="start|center"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/profile_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/profile_name"
         android:layout_weight="1"
-        android:gravity="end|center"
-        android:layout_gravity="center"/>
+        style="@style/TextViewGridCell.Bold.Small"
+        android:gravity="start|center"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
 </LinearLayout>

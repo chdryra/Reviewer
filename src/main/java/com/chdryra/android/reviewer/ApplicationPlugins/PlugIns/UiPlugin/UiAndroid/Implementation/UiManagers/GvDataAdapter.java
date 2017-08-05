@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,8 +19,7 @@ import com.chdryra.android.mygenerallibrary.Ui.ViewHolderAbstract;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,6 +36,7 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
     private final int mCellHeight;
     private final ViewHolderFactory<?> mVhFactory;
 
+    //Cell height of <=0 will assume wrapped
     GvDataAdapter(GvDataList<T> data,
                   int cellWidth, int cellHeight,
                   @Nullable OnItemClickListener<T> clickListener) {
@@ -66,10 +65,8 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
         View v = viewHolder.getView();
         v.setTag(viewHolder);
 
-        GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) v.getLayoutParams();
-        lp.width = mCellWidth;
-        lp.height = mCellHeight;
-        v.setLayoutParams(lp);
+        if(mCellHeight > 0) v.getLayoutParams().height = mCellHeight;
+        if(mCellWidth > 0) v.getLayoutParams().width = mCellWidth;
 
         return v;
     }

@@ -55,9 +55,10 @@ public class FactoryReviewViewParams {
     public ReviewViewParams newReviewsListParams() {
         ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+        ReviewViewParams.CellDimension wrapped = ReviewViewParams.CellDimension.WRAPPED;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
         params.setCoverManager(false);
-        params.getGridViewParams().setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        params.getGridViewParams().setCellHeight(wrapped).setCellWidth(full).setGridAlpha(trans);
 
         return params;
     }

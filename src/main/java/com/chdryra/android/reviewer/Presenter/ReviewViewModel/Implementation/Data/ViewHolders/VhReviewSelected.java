@@ -55,7 +55,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int PROFILE_IMAGE = R.id.profile_image;
     private static final int PROFILE_NAME = R.id.profile_name;
-    private static final int PROFILE_MENU = R.id.profile_menu;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
     private static final int SUBJECT_RATING = R.id.subject_rating;
@@ -69,6 +68,9 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int SHARE_BUTTON = R.id.share_button;
     private static final int MENU_BUTTON = R.id.menu_button;
     private static final long WAIT_TIME = 150L;
+
+    private final static int[] VIEWS =
+            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME};
 
     private final AuthorsRepository mAuthorsRepo;
     private final ReviewSelector mSelector;
@@ -94,7 +96,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             ReviewSelector selector,
                             CacheVhReviewSelected cache) {
-        super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME});
+        super(LAYOUT, VIEWS);
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mCache = cache;
@@ -179,7 +181,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     public void inflate(Context context, ViewGroup parent) {
         super.inflate(context, parent);
         getView().findViewById(SUBJECT_RATING).setAlpha(0.8f);
-        getView().findViewById(ABSTRACT).setAlpha(0.8f);
+        getView().findViewById(TAGS).setAlpha(0.8f);
     }
 
     private void selectAndBind(ReviewNode node) {

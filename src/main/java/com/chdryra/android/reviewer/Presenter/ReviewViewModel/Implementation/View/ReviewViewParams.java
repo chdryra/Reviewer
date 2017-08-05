@@ -41,7 +41,8 @@ public class ReviewViewParams {
         FULL(1),
         HALF(2),
         QUARTER(4),
-        EIGHTH(8);
+        EIGHTH(8),
+        WRAPPED(-1);
 
         private final int mDivider;
         CellDimension(int divider) {
@@ -50,6 +51,10 @@ public class ReviewViewParams {
 
         public int getDivider() {
             return mDivider;
+        }
+
+        public boolean isWrapped() {
+            return getDivider() == -1;
         }
     }
 
