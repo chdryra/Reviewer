@@ -39,7 +39,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
     public DataExpandableUi(Context context,
                             LinearLayout view,
                             String title,
-                            ValueGetter<RefDataList<T>> getter,
+                            ReferenceValueGetter<RefDataList<T>> getter,
                             ViewHolderFactory<?> factory,
                             DataConverter<T, ? extends ViewHolderData, ?> converter) {
         super(view, getter, title);

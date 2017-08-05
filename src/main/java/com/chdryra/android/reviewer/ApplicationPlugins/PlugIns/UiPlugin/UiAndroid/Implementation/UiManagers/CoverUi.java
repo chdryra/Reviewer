@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 /**
@@ -19,12 +19,18 @@ import android.widget.ImageView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class CoverUi<T> extends ViewUi<ImageView, T>{
-    public CoverUi(ImageView view, ValueGetter<T> getter) {
-        super(view, getter);
-    }
-
-    public void setCover(@Nullable Bitmap image) {
-        getView().setImageBitmap(image);
+public abstract class CoverUi extends SimpleViewUi<ImageView, Bitmap> {
+    public CoverUi(final ImageView view, ReferenceValueGetter<Bitmap> getter) {
+        super(view, getter, new ViewValueGetter<Bitmap>() {
+            @Override
+            public Bitmap getValue() {
+                return ((BitmapDrawable)view.getDrawable()).getBitmap();
+            }
+        }, new ViewValueSetter<Bitmap>() {
+            @Override
+            public void setValue(Bitmap value) {
+                view.setImageBitmap(value);
+            }
+        });
     }
 }

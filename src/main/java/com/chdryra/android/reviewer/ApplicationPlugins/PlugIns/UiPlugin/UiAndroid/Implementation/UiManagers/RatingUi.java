@@ -18,17 +18,8 @@ import android.view.View;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class RatingUi<V extends View> extends ViewUi<V, Float> {
-    public abstract float getRating();
-
-    public abstract void setRating(float rating);
-
-    public RatingUi(V view, ValueGetter<Float> getter) {
-        super(view, getter);
-    }
-
-    @Override
-    public void update() {
-        setRating(getValue());
+public abstract class RatingUi<V extends View> extends SimpleViewUi<V, Float> {
+    public RatingUi(V view, ReferenceValueGetter<Float> reference, ViewValueGetter<Float> getter, ViewValueSetter<Float> setter) {
+        super(view, reference, getter, setter);
     }
 }

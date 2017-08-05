@@ -21,12 +21,12 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CoverRvUi extends CoverUi<Bitmap>{
+public class CoverRvUi extends CoverUi{
     private final ReviewView mReviewView;
-    private final DataViewUi<?> mGridView;
+    private final DataViewUi<?, ?>  mGridView;
 
-    public CoverRvUi(ReviewView reviewView, ImageView view, DataViewUi<?> gridView) {
-        super(view, new ValueGetter<Bitmap>() {
+    public CoverRvUi(ReviewView reviewView, ImageView view, DataViewUi<?, ?> gridView) {
+        super(view, new ReferenceValueGetter<Bitmap>() {
             @Override
             @Nullable
             public Bitmap getValue() {
@@ -43,9 +43,9 @@ public class CoverRvUi extends CoverUi<Bitmap>{
     }
 
     @Override
-    public void setCover(@Nullable Bitmap image) {
-        super.setCover(image);
+    public void setViewValue(@Nullable Bitmap image) {
         if (image != null) {
+            super.setViewValue(image);
             mGridView.setTransparent();
         } else {
             mGridView.setOpaque();

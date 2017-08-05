@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 public class RatingBarRvUi extends RatingBarUi {
     public RatingBarRvUi(final ReviewView<?> reviewView, RatingBar view) {
-        super(view, new ValueGetter<Float>() {
+        super(view, new ReferenceValueGetter<Float>() {
             @Override
             public Float getValue() {
                 return reviewView.getRating();

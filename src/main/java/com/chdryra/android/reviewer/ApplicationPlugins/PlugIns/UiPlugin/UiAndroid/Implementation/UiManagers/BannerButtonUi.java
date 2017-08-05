@@ -24,7 +24,7 @@ public class BannerButtonUi extends TextUi<Button> {
     private final BannerButtonAction<?> mAction;
 
     public BannerButtonUi(Button view, final BannerButtonAction<?> action) {
-        super(view, new ValueGetter<String>() {
+        super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
                 return action.getTitleString();

@@ -27,12 +27,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RecyclerViewUi<T extends GvData> extends DataViewUi<T> implements RecyclerAdapterBasic.OnItemClickListener<T>{
+public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T> implements RecyclerAdapterBasic.OnItemClickListener<T>{
     private final GridItemAction<T> mClickAction;
     private final CellDimensionsCalculator.Dimensions mDims;
 
     public RecyclerViewUi(final ReviewView<T> reviewView, RecyclerView view, CellDimensionsCalculator calculator) {
-        super(view, new ValueGetter<GvDataList<T>>() {
+        super(view, new ReferenceValueGetter<GvDataList<T>>() {
             @Override
             public GvDataList<T> getValue() {
                 return reviewView.getGridData();
@@ -53,7 +53,7 @@ public class RecyclerViewUi<T extends GvData> extends DataViewUi<T> implements R
 
     @Override
     public void update() {
-        getView().setAdapter(new GvDataAdapter<>(getValue(), mDims.getCellWidth(), mDims.getCellHeight(), this));
+        getView().setAdapter(new GvDataAdapter<>(getReferenceValue(), mDims.getCellWidth(), mDims.getCellHeight(), this));
     }
 
     @Override

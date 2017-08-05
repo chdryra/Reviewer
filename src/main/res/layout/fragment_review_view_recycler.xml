@@ -24,7 +24,8 @@
 
     <include
         android:id="@+id/banner_button"
-        layout="@layout/review_button"/>
+        layout="@layout/review_button"
+        android:textColor="?dominantText"/>
 
     <View style="@style/HorizontalDivider"/>
 

@@ -21,7 +21,7 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
     private boolean mSubjectRefresh = true;
     private String mTextCache;
 
-    public SubjectUi(T view, ValueGetter<String> getter) {
+    public SubjectUi(T view, ReferenceValueGetter<String> getter) {
         super(view, getter);
     }
 
@@ -37,13 +37,14 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
         mSubjectRefresh = subjectRefresh;
     }
 
-    protected void setText(String newText) {
-        getView().setText(newText);
+    @Override
+    public void setViewValue(String newText) {
+        super.setViewValue(newText);
         updateTextCache();
     }
 
     protected void updateTextCache() {
-        mTextCache = getView().getText().toString();
+        mTextCache = getViewValue();
     }
 
     public String getTextCache() {

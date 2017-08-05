@@ -30,13 +30,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataRefAdapter<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
-        extends GvDataAdapter<Gv> implements ViewUi.ValueGetter<RefDataList<Value>>{
-    private final ViewUi.ValueGetter<RefDataList<Value>> mReference;
+        extends GvDataAdapter<Gv> implements SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> {
+    private final SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> mReference;
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
 
     private boolean mDereferenced = false;
 
-    public GvDataRefAdapter(ViewUi.ValueGetter<RefDataList<Value>> reference,
+    public GvDataRefAdapter(SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> reference,
                             DataConverter<Value, Gv, ? extends GvDataList<Gv>> converter,
                             ViewHolderFactory<Vh> factory,
                             CellDimensionsCalculator.Dimensions dims) {

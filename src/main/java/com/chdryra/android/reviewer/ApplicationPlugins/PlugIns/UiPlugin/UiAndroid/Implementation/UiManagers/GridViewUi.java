@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .UiManagers;
 
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +18,7 @@ import android.widget.GridView;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -28,59 +28,50 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridViewUi<T extends GvData> {
-    private final ReviewView<T> mReviewView;
-    private final GridView mView;
+public class GridViewUi<T extends GvData> extends DataViewUi<GridView, T>{
     private final FactoryGridCellAdapter mFactory;
     private final CellDimensionsCalculator mCalculator;
 
-    public GridViewUi(ReviewView<T> reviewView,
+    public GridViewUi(final ReviewView<T> reviewView,
                       GridView view,
                       FactoryGridCellAdapter factory,
                       CellDimensionsCalculator calculator) {
-        mReviewView = reviewView;
-        mView = view;
+        super(view, new ReferenceValueGetter<GvDataList<T>>() {
+            @Override
+            public GvDataList<T> getValue() {
+                return reviewView.getGridData();
+            }
+        }, reviewView);
         mFactory = factory;
         mCalculator = calculator;
-        inititialise();
+        inititialise(reviewView);
     }
 
+    @Override
     public void update() {
-        getAdapter().setData(mReviewView.getGridData());
+        getAdapter().setData(getReferenceValue());
     }
 
     private ViewHolderAdapter getAdapter() {
-        return (ViewHolderAdapter) mView.getAdapter();
+        return (ViewHolderAdapter) getView().getAdapter();
     }
 
-    void setOpaque() {
-        setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
-    }
-
-    void setTransparent() {
-        setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
-    }
-
-    private void setAlpha(int gridAlpha) {
-        Drawable background = mView.getBackground();
-        if (background != null) background.setAlpha(gridAlpha);
-    }
-
-    private void inititialise() {
-        ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
+    private void inititialise(ReviewView<T> reviewView) {
+        ReviewViewParams.GridViewParams params = reviewView.getParams().getGridViewParams();
         CellDimensionsCalculator.Dimensions dims
                 = mCalculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
         int cell_width = dims.getCellWidth();
         int cell_height = dims.getCellHeight();
 
-        mView.setDrawSelectorOnTop(true);
-        mView.setAdapter(mFactory.newAdapter(mReviewView.getGridData(), cell_width, cell_height));
-        mView.setColumnWidth(cell_width);
-        mView.setNumColumns(params.getCellWidth().getDivider());
+        GridView view = getView();
+        view.setDrawSelectorOnTop(true);
+        view.setAdapter(mFactory.newAdapter(getReferenceValue(), cell_width, cell_height));
+        view.setColumnWidth(cell_width);
+        view.setNumColumns(params.getCellWidth().getDivider());
 
-        GridItemAction<T> action = mReviewView.getActions().getGridItemAction();
-        mView.setOnItemClickListener(newGridItemClickListener(action));
-        mView.setOnItemLongClickListener(newGridItemLongClickListener(action));
+        GridItemAction<T> action = reviewView.getActions().getGridItemAction();
+        view.setOnItemClickListener(newGridItemClickListener(action));
+        view.setOnItemLongClickListener(newGridItemLongClickListener(action));
     }
 
     @NonNull

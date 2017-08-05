@@ -19,12 +19,12 @@ import android.widget.LinearLayout;
  */
 
 public class FormattedTextUi extends FormattedSectionUi<String> {
-    public FormattedTextUi(LinearLayout section, String title, ValueGetter<String> getter) {
+    public FormattedTextUi(LinearLayout section, String title, ReferenceValueGetter<String> getter) {
         super(section, getter, title);
     }
 
     @Override
     public void update() {
-        getValueView().setText(getValue());
+        getValueView().setText(getReferenceValue());
     }
 }

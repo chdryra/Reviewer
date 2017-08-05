@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 public class RatingBarTouchable extends RatingBarUi {
     public RatingBarTouchable(RatingBar view, final ReviewNode node, @Nullable final Command onTouch) {
-        super(view, new ValueGetter<Float>() {
+        super(view, new ReferenceValueGetter<Float>() {
             @Override
             public Float getValue() {
                 return node.getRating().getRating();

@@ -37,7 +37,7 @@ public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSiz
     public ImagesNodeUi(LinearLayout section,
                         ViewUi<RecyclerView, RefDataList<DataImage>> grid,
                         final ReviewNode node) {
-        super(section, new ValueGetter<ReviewItemReference<DataSize>>() {
+        super(section, new ReferenceValueGetter<ReviewItemReference<DataSize>>() {
             @Override
             public ReviewItemReference<DataSize> getValue() {
                 return node.getImages().getSize();
@@ -48,7 +48,7 @@ public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSiz
 
     @Override
     public void update() {
-        getValue().dereference(new DataReference.DereferenceCallback<DataSize>() {
+        getReferenceValue().dereference(new DataReference.DereferenceCallback<DataSize>() {
             @Override
             public void onDereferenced(DataValue<DataSize> value) {
                 if(value.hasValue()) {

@@ -17,13 +17,19 @@ import android.widget.TextView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TextUi<T extends TextView> extends ViewUi<T, String> {
-    public TextUi(T view, ValueGetter<String> getter) {
-        super(view, getter);
-    }
-
-    public String getText() {
-        return getView().getText().toString().trim();
+public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
+    public TextUi(final T view, ReferenceValueGetter<String> getter) {
+        super(view, getter, new ViewValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return view.getText().toString().trim();
+            }
+        },new ViewValueSetter<String>() {
+            @Override
+            public void setValue(String value) {
+                view.setText(value);
+            }
+        });
     }
 
     public int getTextColour() {
@@ -32,10 +38,5 @@ public class TextUi<T extends TextView> extends ViewUi<T, String> {
 
     public void setTextColour(int color) {
         getView().setTextColor(color);
-    }
-
-    @Override
-    public void update() {
-        getView().setText(getValue());
     }
 }

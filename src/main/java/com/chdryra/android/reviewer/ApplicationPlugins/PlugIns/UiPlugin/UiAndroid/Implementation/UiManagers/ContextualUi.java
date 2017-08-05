@@ -22,15 +22,28 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButto
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ContextualUi {
-    private final Button mButton;
+public class ContextualUi extends SimpleViewUi<Button, String> {
     private final ContextualButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextualUi(LinearLayout view, int buttonId, @Nullable ContextualButtonAction<?> action) {
-        mButton = (Button) view.findViewById(buttonId);
+    public ContextualUi(final LinearLayout view, final int buttonId, @Nullable final ContextualButtonAction<?> action) {
+        super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return action != null ? action.getButtonTitle() : "";
+            }
+        }, new ViewValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return ((Button) view.findViewById(buttonId)).getText().toString().trim();
+            }
+        },new ViewValueSetter<String>() {
+            @Override
+            public void setValue(String value) {
+                ((Button) view.findViewById(buttonId)).setText(value);
+            }
+        });
         mAction = action;
-
         initialise(view);
     }
 
@@ -41,24 +54,23 @@ public class ContextualUi {
             return;
         }
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAction.onClick(v);
             }
         });
-
-        mButton.setOnLongClickListener(new View.OnLongClickListener() {
+        getView().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return mAction.onLongClick(v);
             }
         });
-        
         update();
     }
 
+    @Override
     public void update() {
-        if(mIsVisible) mButton.setText(mAction.getButtonTitle());
+        if(mIsVisible) super.update();
     }
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,10 +35,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.DataViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RecyclerViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SimpleViewUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
@@ -59,12 +61,12 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
     private MenuUi mMenu;
-    private SubjectUi mSubject;
-    private RatingUi mRatingBar;
-    private BannerButtonUi mBannerButton;
-    private DataViewUi<?> mGridView;
-    private ContextualUi mContextual;
-    private CoverUi<?> mCover;
+    private SimpleViewUi<?, Bitmap> mCover;
+    private SubjectUi<?> mSubject;
+    private SimpleViewUi<?, Float> mRatingBar;
+    private ViewUi<?, ?> mBannerButton;
+    private DataViewUi<?, ?> mGridView;
+    private ViewUi<?, ?> mContextual;
 
     private ReviewView<?> mReviewView;
     private boolean mIsAttached = false;
@@ -101,13 +103,13 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @NonNull
-    private ContextualUi newContextualUi(View v) {
+    private ViewUi<?, ?> newContextualUi(View v) {
         return new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
                 CONTEXTUAL_BUTTON, getReviewView().getActions().getContextualAction());
     }
 
     @NonNull
-    private CoverRvUi newCoverUi(View v) {
+    private CoverUi newCoverUi(View v) {
         return new CoverRvUi(getReviewView(), (ImageView) v.findViewById(COVER), mGridView);
     }
 
@@ -117,27 +119,24 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @NonNull
-    private RecyclerViewUi<?> newDataViewUi(View v) {
+    private DataViewUi<?, ?> newDataViewUi(View v) {
         return new RecyclerViewUi<>(getReviewView(), (RecyclerView) v.findViewById(GRID),
                 new CellDimensionsCalculator(getActivity()));
     }
 
     @NonNull
     private BannerButtonUi createBannerButtonUi(View v) {
-        BannerButtonUi button = new BannerButtonUi((Button) v.findViewById(BANNER),
+        return new BannerButtonUi((Button) v.findViewById(BANNER),
                 getReviewView().getActions().getBannerButtonAction());
-        button.setTextColour(mSubject.getTextColour());
-
-        return button;
     }
 
     @NonNull
-    private RatingUi createRatingUi(View v) {
+    private SimpleViewUi<?, Float> createRatingUi(View v) {
         return new RatingBarRvUi(getReviewView(), (RatingBar) v.findViewById(RATING));
     }
 
     @NonNull
-    private SubjectUi createSubjectUi(View v) {
+    private SubjectUi<?> createSubjectUi(View v) {
         return new SubjectEditUi(getReviewView(), (EditText) v.findViewById(SUBJECT));
     }
 
@@ -182,17 +181,17 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     @Override
     public String getSubject() {
-        return mSubject.getText();
+        return mSubject.getViewValue();
     }
 
     @Override
     public float getRating() {
-        return mRatingBar.getRating();
+        return mRatingBar.getViewValue();
     }
 
     @Override
     public void setRating(float rating) {
-        mRatingBar.setRating(rating);
+        mRatingBar.setViewValue(rating);
     }
 
     @Override
@@ -211,7 +210,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     @Override
     public void setCover(@Nullable DataImage cover) {
-        mCover.setCover(cover == null ? null : cover.getBitmap());
+        mCover.setViewValue(cover == null ? null : cover.getBitmap());
     }
 
     private void attachToReviewViewIfNecessary() {

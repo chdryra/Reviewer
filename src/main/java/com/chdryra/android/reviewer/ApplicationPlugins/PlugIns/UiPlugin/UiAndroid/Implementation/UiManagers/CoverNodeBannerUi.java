@@ -43,7 +43,7 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
                              DataReference<ProfileImage> profileImage,
                              Bitmap placeholder,
                              CellDimensionsCalculator.Dimensions dims) {
-        super(view, new ValueGetter<ReviewItemReference<DataImage>>() {
+        super(view, new ReferenceValueGetter<ReviewItemReference<DataImage>>() {
             @Override
             public ReviewItemReference<DataImage> getValue() {
                 if(node.isLeaf() && node.getReference() != null) {

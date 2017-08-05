@@ -44,7 +44,7 @@ public class ViewUiBinder<T extends HasReviewId> implements Bindable{
     public void bind() {
         if(!mIsBound) {
             mIsBound = true;
-            mView.getValue().bindToValue(new ReferenceBinder<T>() {
+            mView.getReferenceValue().bindToValue(new ReferenceBinder<T>() {
                 @Override
                 public void onReferenceValue(T value) {
                     mCastView.update(value);

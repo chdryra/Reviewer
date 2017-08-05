@@ -9,8 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -23,10 +24,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class DataViewUi<T extends GvData> extends ViewUi<RecyclerView, GvDataList<T>> {
+public abstract class DataViewUi<V extends View, T extends GvData> extends ViewUi<V, GvDataList<T>> {
     private final ReviewView<T> mReviewView;
 
-    public DataViewUi(RecyclerView view, ValueGetter<GvDataList<T>> getter, final ReviewView<T>
+    public DataViewUi(V view, ReferenceValueGetter<GvDataList<T>> getter, final ReviewView<T>
             reviewView) {
         super(view, getter);
         mReviewView = reviewView;

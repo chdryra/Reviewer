@@ -36,7 +36,7 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
 
     public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node,
                          @Nullable final Command onClick) {
-        super(section, new ValueGetter<RefCommentList>() {
+        super(section, new ReferenceValueGetter<RefCommentList>() {
             @Override
             public RefCommentList getValue() {
                 return node.getComments();

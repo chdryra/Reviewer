@@ -31,7 +31,7 @@ public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> implement
     private ViewUiBinder<IdableList<DataTag>> mBinder;
 
     public TagsNodeUi(TextView tags, final ReviewNode node) {
-        super(tags, new ValueGetter<RefDataList<DataTag>>() {
+        super(tags, new ReferenceValueGetter<RefDataList<DataTag>>() {
             @Override
             public RefDataList<DataTag> getValue() {
                 return node.getTags();
@@ -47,7 +47,7 @@ public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> implement
 
     @Override
     public void onInvalidated() {
-        setView(new IdableDataList<DataTag>(getValue().getReviewId()));
+        setView(new IdableDataList<DataTag>(getReferenceValue().getReviewId()));
     }
 
     @Override

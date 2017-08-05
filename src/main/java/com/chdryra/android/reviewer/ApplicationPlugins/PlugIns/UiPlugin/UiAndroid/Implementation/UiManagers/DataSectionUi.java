@@ -33,7 +33,7 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
 
     protected abstract void setEmpty(String label);
 
-    public DataSectionUi(LinearLayout view, ValueGetter<Ref> getter, String title) {
+    public DataSectionUi(LinearLayout view, ReferenceValueGetter<Ref> getter, String title) {
         super(view, getter, title);
         mBinder = new ViewUiBinder<>(this);
     }
@@ -53,7 +53,7 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
 
     @Override
     public void onInvalidated() {
-        setView(new IdableDataList<T>(getValue().getReviewId()));
+        setView(new IdableDataList<T>(getReferenceValue().getReviewId()));
     }
 
     @Override

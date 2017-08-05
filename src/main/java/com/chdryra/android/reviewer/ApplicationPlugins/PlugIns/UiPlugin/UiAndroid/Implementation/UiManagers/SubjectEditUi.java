@@ -33,7 +33,7 @@ public class SubjectEditUi extends SubjectUi<EditText> {
     private SubjectAction<?> mSubjectAction;
 
     public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
-        super(view, new ValueGetter<String>() {
+        super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
                 return reviewView.getSubject();
@@ -45,7 +45,7 @@ public class SubjectEditUi extends SubjectUi<EditText> {
     private void initialise(ReviewView<?> reviewView) {
         EditText mEditText = getView();
 
-        setText(reviewView.getSubject());
+        setViewValue(reviewView.getSubject());
 
         ReviewViewParams.SubjectParams params = reviewView.getParams().getSubjectParams();
         boolean isEditable = params.isEditable();

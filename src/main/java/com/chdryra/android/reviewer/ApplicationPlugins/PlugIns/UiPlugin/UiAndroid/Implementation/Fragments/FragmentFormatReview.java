@@ -62,6 +62,8 @@ import com.chdryra.android.mygenerallibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.RatingBarTouchable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.SimpleViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.SubjectNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.TagsNodeUi;
@@ -404,7 +406,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private void setCriteria(View v) {
         mCriteria = newDataUi(v, CRITERIA, Strings.Formatted.CRITERIA, GvCriterion.TYPE,
                 getConverter().newConverterCriteria(), VhCriterionFormatted.class,
-                new ViewUi.ValueGetter<RefDataList<DataCriterion>>() {
+                new SimpleViewUi.ReferenceValueGetter<RefDataList<DataCriterion>>() {
                     @Override
                     public RefDataList<DataCriterion> getValue() {
                         return mNode.getCriteria();
@@ -415,7 +417,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private void setFacts(View v) {
         mFacts = newDataUi(v, FACTS, Strings.Formatted.FACTS, GvFact.TYPE,
                 getConverter().newConverterFacts(), VhFactFormatted.class,
-                new ViewUi.ValueGetter<RefDataList<DataFact>>() {
+                new SimpleViewUi.ReferenceValueGetter<RefDataList<DataFact>>() {
                     @Override
                     public RefDataList<DataFact> getValue() {
                         return mNode.getFacts();
@@ -426,7 +428,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private void setLocations(View v) {
         mLocations = newDataUi(v, LOCATIONS, Strings.Formatted.LOCATIONS, GvLocation.TYPE,
                 getConverter().newConverterLocations(), VhLocationFormatted.class,
-                new ViewUi.ValueGetter<RefDataList<DataLocation>>() {
+                new SimpleViewUi.ReferenceValueGetter<RefDataList<DataLocation>>() {
                     @Override
                     public RefDataList<DataLocation> getValue() {
                         return mNode.getLocations();
@@ -443,7 +445,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void setDate(View v) {
         mDate = newTextUi(v, DATE, Strings.Formatted.DATE, launchAuthor(),
-                new ViewUi.ValueGetter<String>() {
+                new SimpleViewUi.ReferenceValueGetter<String>() {
                     @Override
                     public String getValue() {
                         Date date = new Date(mNode.getPublishDate().getTime());
@@ -472,7 +474,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
         ViewUi<RecyclerView, RefDataList<DataImage>> dataView = newGridUi
                 (grid, VhImage.class, 1, (int)padding, dims, getConverter().newConverterImages(),
-                        new ViewUi.ValueGetter<RefDataList<DataImage>>() {
+                        new SimpleViewUi.ReferenceValueGetter<RefDataList<DataImage>>() {
                             @Override
                             public RefDataList<DataImage> getValue() {
                                 return mNode.getImages();
@@ -496,7 +498,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     newGridUi(RecyclerView view, Class<Vh> vhClass,
               int span, int padding, CellDimensionsCalculator.Dimensions dims,
               DataConverter<T1, T2, ? extends GvDataList<T2>> converter,
-              ViewUi.ValueGetter<RefDataList<T1>> getter) {
+              SimpleViewUi.ReferenceValueGetter<RefDataList<T1>> getter) {
         IdableDataList<T1> empty = new IdableDataList<>(getter.getValue().getReviewId());
         GvDataType<T2> dataType = converter.convert(empty).getGvDataType();
 
@@ -538,7 +540,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private <T extends HasReviewId, G extends GvData> DataExpandableUi<T>
     newDataUi(View v, int sectionId, String title, GvDataType<G> dataType,
               DataConverter<T, G, ?> converter, Class<? extends ViewHolder> vhClass,
-              ViewUi.ValueGetter<RefDataList<T>> getter) {
+              SimpleViewUi.ReferenceValueGetter<RefDataList<T>> getter) {
         DataExpandableUi<T> ui = new DataExpandableUi<>(getActivity(), getSection
                 (v, sectionId), title, getter, newVhFactory(vhClass), converter);
         setLaunchOnClick(ui, dataType);
@@ -562,7 +564,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private FormattedTextUi newTextUi(View v, int sectionId, String title, Command onClick,
-                                      ViewUi.ValueGetter<String> getter) {
+                                      SimpleViewUi.ReferenceValueGetter<String> getter) {
         FormattedTextUi ui = new FormattedTextUi(getSection(v, sectionId), title, getter);
         setLaunchOnClick(ui, onClick);
         return ui;
@@ -591,7 +593,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         }
     }
 
-    private class AuthorGetter implements ViewUi.ValueGetter<String> {
+    private class AuthorGetter implements SimpleViewUi.ReferenceValueGetter<String> {
         private NamedAuthor mNamedAuthor;
         private AuthorReference mReference;
         private ViewUi<?, ?> mUi;

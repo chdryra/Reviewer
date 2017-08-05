@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 public class SubjectNodeUi extends TextUi<TextView> {
     public SubjectNodeUi(TextView view, final ReviewNode node, @Nullable final Command onClick) {
-        super(view, new ValueGetter<String>() {
+        super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
                 return node.getSubject().getSubject();
@@ -36,7 +36,7 @@ public class SubjectNodeUi extends TextUi<TextView> {
 
     @Override
     public void update() {
-        String subject = getValue();
+        String subject = getReferenceValue();
         TextView view = getView();
         if(subject.length() > 0) {
             view.setText(subject);

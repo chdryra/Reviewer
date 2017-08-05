@@ -24,19 +24,28 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverRvUiOld;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.GridViewUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.BannerButtonUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CellDimensionsCalculator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.ContextualUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.CoverRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.GridViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.RatingBarRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.SubjectEditUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -60,24 +69,24 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
     private GridViewUi<?> mGridView;
     private ContextualUi mContextual;
     private MenuUi mMenu;
-    private CoverRvUiOld mCover;
+    private CoverRvUi mCover;
 
     private ReviewView<?> mReviewView;
     private boolean mIsAttached = false;
 
     @Override
     public String getSubject() {
-        return mSubject.getText();
+        return mSubject.getViewValue();
     }
 
     @Override
     public float getRating() {
-        return mRatingBar.getRating();
+        return mRatingBar.getViewValue();
     }
 
     @Override
     public void setRating(float rating) {
-        mRatingBar.setRating(rating);
+        mRatingBar.setViewValue(rating);
     }
 
     @Override
@@ -92,7 +101,7 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
 
     @Override
     public void setCover(@Nullable DataImage cover) {
-        mCover.setCover(cover == null ? null : cover.getBitmap());
+        mCover.setViewValue(cover == null ? null : cover.getBitmap());
     }
 
     @Override
@@ -130,7 +139,7 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
         mGridView = new GridViewUi<>(mReviewView, (GridView) v.findViewById(GRID), new
                 FactoryGridCellAdapter(getActivity()), new CellDimensionsCalculator(getActivity()));
         mMenu = new MenuUi(mReviewView.getActions().getMenuAction());
-        mCover = new CoverRvUiOld(mReviewView, (ImageView) v.findViewById(COVER), mGridView);
+        mCover = new CoverRvUi(mReviewView, (ImageView) v.findViewById(COVER), mGridView);
         mContextual = new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
                 CONTEXTUAL_BUTTON, actions.getContextualAction());
 

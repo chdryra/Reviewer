@@ -1,13 +1,12 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
 import android.support.annotation.Nullable;
@@ -18,33 +17,34 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/10/2016
+ * On: 05/08/2017
  * Email: rizwan.choudrey@gmail.com
  */
 
 public abstract class ViewUi<V extends View, Value> {
     private final V mView;
-    private final ValueGetter<Value> mGetter;
+    private final ReferenceValueGetter<Value> mReference;
+
     private Command mOnClick;
     private Command mOnLongClick;
 
-    public interface ValueGetter<T> {
+    public interface ReferenceValueGetter<T> {
         T getValue();
     }
 
     public abstract void update();
 
-    public ViewUi(V view, ValueGetter<Value> getter) {
+    ViewUi(V view, ReferenceValueGetter<Value> reference) {
         mView = view;
-        mGetter = getter;
+        mReference = reference;
     }
 
     public V getView() {
         return mView;
     }
 
-    public Value getValue() {
-        return mGetter.getValue();
+    public Value getReferenceValue() {
+        return mReference.getValue();
     }
 
     public void setOnClickCommand(@Nullable Command onClick) {
