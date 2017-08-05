@@ -23,9 +23,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 public class CoverRvUi extends CoverUi<Bitmap>{
     private final ReviewView mReviewView;
-    private final RecyclerViewUi<?> mGridView;
+    private final DataViewUi<?> mGridView;
 
-    public CoverRvUi(ReviewView reviewView, ImageView view, RecyclerViewUi<?> gridView) {
+    public CoverRvUi(ReviewView reviewView, ImageView view, DataViewUi<?> gridView) {
         super(view, new ValueGetter<Bitmap>() {
             @Override
             @Nullable

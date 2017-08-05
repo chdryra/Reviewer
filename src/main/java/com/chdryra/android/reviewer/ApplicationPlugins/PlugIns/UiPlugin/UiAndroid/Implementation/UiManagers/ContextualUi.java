@@ -27,9 +27,8 @@ public class ContextualUi {
     private final ContextualButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextualUi(LinearLayout view, int buttonId, @Nullable ContextualButtonAction<?> action, int textColour) {
+    public ContextualUi(LinearLayout view, int buttonId, @Nullable ContextualButtonAction<?> action) {
         mButton = (Button) view.findViewById(buttonId);
-        mButton.setTextColor(textColour);
         mAction = action;
 
         initialise(view);

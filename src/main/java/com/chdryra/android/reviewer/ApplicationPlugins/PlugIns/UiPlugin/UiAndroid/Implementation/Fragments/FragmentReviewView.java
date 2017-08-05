@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,33 +26,21 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.BannerButtonUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ContextualUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CoverRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CoverUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.MenuUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.RatingBarRvUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.RatingUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.RecyclerViewUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.SubjectEditUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.SubjectUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.BannerButtonUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ContextualUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CoverUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.DataViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarRvUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RecyclerViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectEditUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectUi;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -73,7 +62,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private SubjectUi mSubject;
     private RatingUi mRatingBar;
     private BannerButtonUi mBannerButton;
-    private RecyclerViewUi<?> mGridView;
+    private DataViewUi<?> mGridView;
     private ContextualUi mContextual;
     private CoverUi<?> mCover;
 
@@ -93,29 +82,67 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(LAYOUT, container, false);
+        View v = inflateLayout(inflater, container);
 
         if (mReviewView == null) {
             AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
             return v;
         }
 
-        ReviewViewActions<?> actions = mReviewView.getActions();
-
-        mSubject = new SubjectEditUi(mReviewView, (EditText) v.findViewById(SUBJECT));
-        mRatingBar = new RatingBarRvUi(mReviewView, (RatingBar) v.findViewById(RATING));
-        int colour = mSubject.getTextColour();
-        mBannerButton = new BannerButtonUi((Button) v.findViewById(BANNER),
-                actions.getBannerButtonAction());
-        mBannerButton.setTextColour(colour);
-        mGridView = new RecyclerViewUi<>(mReviewView, (RecyclerView) v.findViewById(GRID),
-                new CellDimensionsCalculator(getActivity()));
-        mMenu = new MenuUi(mReviewView.getActions().getMenuAction());
-        mCover = new CoverRvUi(mReviewView, (ImageView) v.findViewById(COVER), mGridView);
-        mContextual = new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
-                CONTEXTUAL_BUTTON, actions.getContextualAction(), colour);
+        mSubject = createSubjectUi(v);
+        mRatingBar = createRatingUi(v);
+        mBannerButton = createBannerButtonUi(v);
+        mGridView = newDataViewUi(v);
+        mMenu = newMenuUi();
+        mCover = newCoverUi(v);
+        mContextual = newContextualUi(v);
 
         return v;
+    }
+
+    @NonNull
+    private ContextualUi newContextualUi(View v) {
+        return new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
+                CONTEXTUAL_BUTTON, getReviewView().getActions().getContextualAction());
+    }
+
+    @NonNull
+    private CoverRvUi newCoverUi(View v) {
+        return new CoverRvUi(getReviewView(), (ImageView) v.findViewById(COVER), mGridView);
+    }
+
+    @NonNull
+    private MenuUi newMenuUi() {
+        return new MenuUi(getReviewView().getActions().getMenuAction());
+    }
+
+    @NonNull
+    private RecyclerViewUi<?> newDataViewUi(View v) {
+        return new RecyclerViewUi<>(getReviewView(), (RecyclerView) v.findViewById(GRID),
+                new CellDimensionsCalculator(getActivity()));
+    }
+
+    @NonNull
+    private BannerButtonUi createBannerButtonUi(View v) {
+        BannerButtonUi button = new BannerButtonUi((Button) v.findViewById(BANNER),
+                getReviewView().getActions().getBannerButtonAction());
+        button.setTextColour(mSubject.getTextColour());
+
+        return button;
+    }
+
+    @NonNull
+    private RatingUi createRatingUi(View v) {
+        return new RatingBarRvUi(getReviewView(), (RatingBar) v.findViewById(RATING));
+    }
+
+    @NonNull
+    private SubjectUi createSubjectUi(View v) {
+        return new SubjectEditUi(getReviewView(), (EditText) v.findViewById(SUBJECT));
+    }
+
+    private View inflateLayout(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(LAYOUT, container, false);
     }
 
     @Override

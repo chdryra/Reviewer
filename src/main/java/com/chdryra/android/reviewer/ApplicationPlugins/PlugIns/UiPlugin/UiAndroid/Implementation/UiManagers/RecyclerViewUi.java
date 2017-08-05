@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -19,6 +18,7 @@ import com.chdryra.android.mygenerallibrary.Ui.GridItemDecoration;
 import com.chdryra.android.mygenerallibrary.Ui.RecyclerAdapterBasic;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
@@ -27,32 +27,33 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.OnItemClickListener<T>{
-    private final ReviewView<T> mReviewView;
-    private final RecyclerView mView;
+public class RecyclerViewUi<T extends GvData> extends DataViewUi<T> implements RecyclerAdapterBasic.OnItemClickListener<T>{
     private final GridItemAction<T> mClickAction;
     private final CellDimensionsCalculator.Dimensions mDims;
 
-    public RecyclerViewUi(ReviewView<T> reviewView, RecyclerView view, CellDimensionsCalculator calculator) {
-        mReviewView = reviewView;
-        mView = view;
-        ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
+    public RecyclerViewUi(final ReviewView<T> reviewView, RecyclerView view, CellDimensionsCalculator calculator) {
+        super(view, new ValueGetter<GvDataList<T>>() {
+            @Override
+            public GvDataList<T> getValue() {
+                return reviewView.getGridData();
+            }
+        }, reviewView);
+
+        ReviewViewParams.GridViewParams params = reviewView.getParams().getGridViewParams();
 
         int span = params.getCellWidth().getDivider();
-        GridLayoutManager manager = new GridLayoutManager(mView.getContext(), span);
-
-        mView.setLayoutManager(manager);
-
+        getView().setLayoutManager(new GridLayoutManager(getView().getContext(), span));
+        getView().addItemDecoration(new GridItemDecoration(span, 10, false));
         mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 10);
 
-        mView.addItemDecoration(new GridItemDecoration(span, 10, false));
-        mClickAction = mReviewView.getActions().getGridItemAction();
+        mClickAction = reviewView.getActions().getGridItemAction();
 
         update();
     }
 
+    @Override
     public void update() {
-        mView.setAdapter(new GvDataAdapter<>(mReviewView.getGridData(), mDims.getCellWidth(), mDims.getCellHeight(), this));
+        getView().setAdapter(new GvDataAdapter<>(getValue(), mDims.getCellWidth(), mDims.getCellHeight(), this));
     }
 
     @Override
@@ -65,16 +66,4 @@ public class RecyclerViewUi<T extends GvData> implements RecyclerAdapterBasic.On
         mClickAction.onGridItemLongClick(datum, position, v);
     }
 
-    void setOpaque() {
-        setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
-    }
-
-    void setTransparent() {
-        setAlpha(mReviewView.getParams().getGridViewParams().getGridAlpha());
-    }
-
-    private void setAlpha(int gridAlpha) {
-        Drawable background = mView.getBackground();
-        if (background != null) background.setAlpha(gridAlpha);
-    }
 }

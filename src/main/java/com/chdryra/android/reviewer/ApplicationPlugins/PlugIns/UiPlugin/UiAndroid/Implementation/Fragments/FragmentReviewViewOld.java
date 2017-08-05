@@ -132,7 +132,7 @@ public class FragmentReviewViewOld extends Fragment implements ReviewViewContain
         mMenu = new MenuUi(mReviewView.getActions().getMenuAction());
         mCover = new CoverRvUiOld(mReviewView, (ImageView) v.findViewById(COVER), mGridView);
         mContextual = new ContextualUi((LinearLayout) v.findViewById(CONTEXTUAL_VIEW),
-                CONTEXTUAL_BUTTON, actions.getContextualAction(), colour);
+                CONTEXTUAL_BUTTON, actions.getContextualAction());
 
         return v;
     }

@@ -11,7 +11,8 @@
 
     <include
         android:id="@+id/contextual_button"
-        layout="@layout/review_button"/>
+        layout="@layout/review_button"
+        android:textColor="?dominantText"/>
 
     <View style="@style/HorizontalDivider"/>
 
