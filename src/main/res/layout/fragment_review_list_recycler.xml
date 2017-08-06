@@ -19,14 +19,20 @@
     <LinearLayout
         style="@style/LinearLayoutHorizontal.WrappedVertical">
 
-        <include
-            android:id="@+id/view_button"
-            layout="@layout/review_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+        <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
+                      android:id="@+id/view_selector_layout"
+                      android:layout_weight="1">
 
-        <View style="@style/VerticalDivider"/>
+            <include
+                android:id="@+id/view_button"
+                layout="@layout/review_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <View style="@style/VerticalDivider"/>
+
+        </LinearLayout>
 
         <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
                       android:layout_weight="1">

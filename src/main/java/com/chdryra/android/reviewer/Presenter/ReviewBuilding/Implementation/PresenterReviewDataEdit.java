@@ -31,13 +31,13 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
     private static final int ALERT = RequestCodeGenerator.getCode(PresenterReviewDataEdit.class);
 
     private final ReviewDataEditor<T> mEditor;
-    private final BannerButtonAdd<T> mBannerButton;
+    private final ButtonAdd<T> mBannerButton;
     private final GridItemEdit<T> mGridItem;
 
     private PresenterReviewDataEdit(ReviewDataEditor<T> editor) {
         mEditor = editor;
         ReviewViewActions<T> actions = mEditor.getActions();
-        mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
+        mBannerButton = (ButtonAdd<T>) actions.getBannerButtonAction();
         mGridItem = (GridItemEdit<T>) actions.getGridItemAction();
     }
 

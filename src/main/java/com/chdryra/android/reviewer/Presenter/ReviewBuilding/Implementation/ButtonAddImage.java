@@ -24,17 +24,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
+public class ButtonAddImage extends ButtonAdd<GvImage>
         implements ImageChooser.ImageChooserListener {
     private final ImageChooser mImageChooser;
     private final UiLauncher mLauncher;
 
-    public BannerButtonAddImage(LaunchableConfig adderConfig,
-                                String title,
-                                GvDataList<GvImage> emptyImageList,
-                                ParcelablePacker<GvImage> dataPacker,
-                                UiLauncher launcher,
-                                ImageChooser imageChooser) {
+    public ButtonAddImage(LaunchableConfig adderConfig,
+                          String title,
+                          GvDataList<GvImage> emptyImageList,
+                          ParcelablePacker<GvImage> dataPacker,
+                          UiLauncher launcher,
+                          ImageChooser imageChooser) {
         super(adderConfig, title, emptyImageList, dataPacker);
         mLauncher = launcher;
         mImageChooser = imageChooser;

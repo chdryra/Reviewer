@@ -21,14 +21,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonCommandable<T extends GvData> extends BannerButtonActionNone<T> {
+public class ButtonCommandable<T extends GvData> extends ButtonActionNone<T> {
     private Command mClick;
     private Command mLongClick;
 
-    public BannerButtonCommandable() {
+    public ButtonCommandable() {
     }
 
-    public BannerButtonCommandable(String title) {
+    public ButtonCommandable(String title) {
         super(title);
     }
 

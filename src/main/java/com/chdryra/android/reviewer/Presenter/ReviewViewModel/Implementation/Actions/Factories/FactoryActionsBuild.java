@@ -13,15 +13,14 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonReviewBuild;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
@@ -75,8 +74,8 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public BannerButtonAction<GC> newBannerButton() {
-        return new BannerButtonReviewBuild<>(mDefaultEditMode);
+    public ButtonAction<GC> newBannerButton() {
+        return new ButtonReviewBuild<>(mDefaultEditMode);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Nullable
     @Override
-    public ContextualButtonAction<GC> newContextButton() {
+    public ButtonAction<GC> newContextButton() {
         return new BuildScreenShareButton<>(mConfig.getPublish());
     }
 }

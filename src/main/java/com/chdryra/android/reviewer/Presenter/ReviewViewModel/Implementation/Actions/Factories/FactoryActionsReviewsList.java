@@ -14,12 +14,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSorter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
@@ -97,14 +97,20 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     @Override
-    public BannerButtonAction<GvNode> newBannerButton() {
-        BannerButtonSorter<GvNode> button = new BannerButtonSorter<>
+    public ButtonAction<GvNode> newBannerButton() {
+        ButtonSorter<GvNode> button = new ButtonSorter<>
                 (mFactoryCommands.newOptionsSelector(), mComparators.newReviewComparators());
         if(mNode != null) {
             button.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
         }
         button.addLongClick(mDistribution);
         return button;
+    }
+
+    @Nullable
+    @Override
+    public ButtonAction<GvNode> newContextButton() {
+        return super.newContextButton();
     }
 
     @Override

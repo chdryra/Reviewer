@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -29,21 +28,21 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 public class ReviewViewActions<T extends GvData> implements OptionSelectListener{
     private final SubjectAction<T> mSubjectAction;
     private final RatingBarAction<T> mRatingBarAction;
-    private final BannerButtonAction<T> mBannerButtonAction;
+    private final ButtonAction<T> mBannerButtonAction;
     private final GridItemAction<T> mGridItemAction;
     private final MenuAction<T> mMenuAction;
-    private final ContextualButtonAction<T> mContextualAction;
+    private final ButtonAction<T> mContextualAction;
 
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
-                             BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
+                             ButtonAction<T> bannerButtonAction, GridItemAction<T>
                                      gridItemAction, MenuAction<T> menuAction) {
         this(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction, null);
     }
 
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
-                             BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
+                             ButtonAction<T> bannerButtonAction, GridItemAction<T>
                                      gridItemAction, MenuAction<T> menuAction,
-                             @Nullable ContextualButtonAction<T> contextualAction) {
+                             @Nullable ButtonAction<T> contextualAction) {
         mSubjectAction = subjectAction;
         mRatingBarAction = ratingBarAction;
         mBannerButtonAction = bannerButtonAction;
@@ -66,7 +65,7 @@ public class ReviewViewActions<T extends GvData> implements OptionSelectListener
         return mRatingBarAction;
     }
 
-    public BannerButtonAction<T> getBannerButtonAction() {
+    public ButtonAction<T> getBannerButtonAction() {
         return mBannerButtonAction;
     }
 
@@ -79,7 +78,7 @@ public class ReviewViewActions<T extends GvData> implements OptionSelectListener
     }
 
     @Nullable
-    public ContextualButtonAction<T> getContextualAction() {
+    public ButtonAction<T> getContextualAction() {
         return mContextualAction;
     }
 

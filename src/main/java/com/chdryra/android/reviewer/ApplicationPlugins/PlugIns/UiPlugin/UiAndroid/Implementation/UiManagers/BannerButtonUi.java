@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.view.View;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonUi extends TextUi<Button> {
-    private final BannerButtonAction<?> mAction;
+    private final ButtonAction<?> mAction;
 
-    public BannerButtonUi(Button view, final BannerButtonAction<?> action) {
+    public BannerButtonUi(Button view, final ButtonAction<?> action) {
         super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
-                return action.getTitleString();
+                return action.getButtonTitle();
             }
         });
 
@@ -46,7 +46,7 @@ public class BannerButtonUi extends TextUi<Button> {
         return mAction.onLongClick(v);
     }
 
-    private class ButtonTitle implements BannerButtonAction.ButtonTitle {
+    private class ButtonTitle implements ButtonAction.ButtonTitle {
         @Override
         public void update(String title) {
             getView().setText(title);

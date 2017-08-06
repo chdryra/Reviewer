@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -30,10 +29,10 @@ public interface FactoryReviewViewActions<T extends GvData> {
 
     RatingBarAction<T> newRatingBar();
 
-    BannerButtonAction<T> newBannerButton();
+    ButtonAction<T> newBannerButton();
 
     GridItemAction<T> newGridItem();
 
     @Nullable
-    ContextualButtonAction<T> newContextButton();
+    ButtonAction<T> newContextButton();
 }

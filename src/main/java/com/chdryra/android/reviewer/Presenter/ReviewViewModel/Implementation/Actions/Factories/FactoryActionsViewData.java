@@ -14,16 +14,16 @@ import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonAuthorReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSorter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonAuthorReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
@@ -72,8 +72,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     }
 
     @NonNull
-    protected BannerButtonSelector<T> newBannerButtonSelector(String buttonTitle, OptionsSelector selector) {
-        return new BannerButtonSorter<>(buttonTitle, selector, mComparators);
+    protected ButtonSelector<T> newBannerButtonSelector(String buttonTitle, OptionsSelector selector) {
+        return new ButtonSorter<>(buttonTitle, selector, mComparators);
     }
 
     @Override
@@ -87,11 +87,11 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     }
 
     @Override
-    public BannerButtonAction<T> newBannerButton() {
+    public ButtonAction<T> newBannerButton() {
         if(hasStamp()) {
-            return new BannerButtonAuthorReviews<>(mLauncher.getReviewLauncher(), mStamp, mRepo);
+            return new ButtonAuthorReviews<>(mLauncher.getReviewLauncher(), mStamp, mRepo);
         } else {
-            BannerButtonSelector<T> selector
+            ButtonSelector<T> selector
                     = newBannerButtonSelector(mButtonTitle, mFactoryCommands.newOptionsSelector());
             if(mNode != null) selector.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
             selector.addLongClick(mBannerLongClick);

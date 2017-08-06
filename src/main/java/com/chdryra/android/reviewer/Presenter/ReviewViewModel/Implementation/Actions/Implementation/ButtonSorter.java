@@ -26,18 +26,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonSorter<T extends GvData> extends BannerButtonSelector<T> {
+public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
     private final ComparatorCollection<? super T> mComparators;
     private NamedComparator<? super T> mCurrentComparator;
     private boolean mLocked;
 
-    public BannerButtonSorter(OptionsSelector selector,
-                              ComparatorCollection<? super T> comparators) {
+    public ButtonSorter(OptionsSelector selector,
+                        ComparatorCollection<? super T> comparators) {
         this(comparators.getDefault().getName(), selector, comparators);
     }
 
-    public BannerButtonSorter(String title, OptionsSelector selector,
-                              ComparatorCollection<? super T> comparators) {
+    public ButtonSorter(String title, OptionsSelector selector,
+                        ComparatorCollection<? super T> comparators) {
         super(title, new CommandsList(), selector);
         mComparators = comparators;
 

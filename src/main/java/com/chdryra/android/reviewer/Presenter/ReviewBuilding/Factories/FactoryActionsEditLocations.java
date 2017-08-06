@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonAddLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiMapLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditLocations;
@@ -37,8 +37,8 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
     }
 
     @Override
-    public BannerButtonAction<GvLocation> newBannerButton() {
-        return new BannerButtonAddLocation(getAdderConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
+    public ButtonAction<GvLocation> newBannerButton() {
+        return new ButtonAddLocation(getAdderConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE),
                 getPacker());
     }

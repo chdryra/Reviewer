@@ -64,8 +64,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ViewDataParameters;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.SubjectBannerFilter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
@@ -300,7 +299,7 @@ public class FactoryReviewView {
         //TODO make type safe
         FactoryActionsSearch<T> factory = (FactoryActionsSearch<T>) factoryActions;
 
-        SubjectBannerFilter<T> subjectBanner = factory.newSubjectBannerFilter();
+        SubjectFilter<T> subjectBanner = factory.newSubjectBannerFilter();
         return new ReviewViewActions<>(subjectBanner,
                 factory.newRatingBar(), subjectBanner, factory.newGridItem(),
                 factory.newMenu(), factory.newContextButton());

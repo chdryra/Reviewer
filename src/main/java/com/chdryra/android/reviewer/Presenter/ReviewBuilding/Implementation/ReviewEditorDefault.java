@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
@@ -43,11 +43,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
-        implements ReviewEditor<GC>, BannerButtonAction.ClickListener {
+        implements ReviewEditor<GC>, ButtonAction.ClickListener {
     private final ReviewBuilderAdapter<?> mAdapter;
     private final UiLauncher mLauncher;
     private final FactoryReviewDataEditor mEditorFactory;
-    private final BannerButtonReviewBuild<GC> mBannerButton;
+    private final ButtonReviewBuild<GC> mBannerButton;
     private final GridItemBuildReview<GC> mGridItem;
     private final ArrayList<ModeListener> mModeListeners;
     private final FactoryFileIncrementor mIncrementorFactory;
@@ -71,7 +71,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
 
-        mBannerButton = (BannerButtonReviewBuild<GC>) actions.getBannerButtonAction();
+        mBannerButton = (ButtonReviewBuild<GC>) actions.getBannerButtonAction();
         mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
 
         mModeListeners = new ArrayList<>();
@@ -198,7 +198,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void onBannerClick() {
+    public void onButtonClick() {
         setView();
         notifyModeListeners();
     }

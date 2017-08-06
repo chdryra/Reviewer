@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonAdd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDeleteAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
@@ -68,8 +68,8 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
     }
 
     @Override
-    public BannerButtonAction<T> newBannerButton() {
-        return new BannerButtonAdd<>(getAdderConfig(), getBannerButtonTitle(),
+    public ButtonAction<T> newBannerButton() {
+        return new ButtonAdd<>(getAdderConfig(), getBannerButtonTitle(),
                 mDataFactory.newDataList(getDataType()), mPacker);
     }
 

@@ -10,14 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarActionNone;
@@ -56,8 +55,8 @@ public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewAc
     }
 
     @Override
-    public BannerButtonAction<T> newBannerButton() {
-        return new BannerButtonActionNone<>();
+    public ButtonAction<T> newBannerButton() {
+        return new ButtonActionNone<>();
     }
 
     @Override
@@ -67,7 +66,7 @@ public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewAc
 
     @Nullable
     @Override
-    public ContextualButtonAction<T> newContextButton() {
+    public ButtonAction<T> newContextButton() {
         return null;
     }
 

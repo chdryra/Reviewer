@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -22,8 +22,8 @@ import java.util.List;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilter<T>
-        implements BannerButtonAction<T>, SubjectAction<T> {
+public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
+        implements ButtonAction<T>, SubjectAction<T> {
 
     private final String mButtonTitle;
     private final String mWorkingMessage;
@@ -32,7 +32,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     private ButtonTitle mButton;
     private boolean mFiltering = false;
 
-    public SubjectBannerFilter(String buttonTitle, String workingMessage) {
+    public SubjectFilter(String buttonTitle, String workingMessage) {
         mButtonTitle = buttonTitle;
         mWorkingMessage = workingMessage;
         mListeners = new ArrayList<>();
@@ -66,7 +66,7 @@ public class SubjectBannerFilter<T extends GvData> extends ReviewViewActionFilte
     }
 
     @Override
-    public String getTitleString() {
+    public String getButtonTitle() {
         return mButtonTitle;
     }
 

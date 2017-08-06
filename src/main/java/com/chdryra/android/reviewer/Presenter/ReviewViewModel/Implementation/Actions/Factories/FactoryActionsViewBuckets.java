@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonCommandable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonCommandable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
@@ -37,9 +36,9 @@ public class FactoryActionsViewBuckets extends FactoryActionsViewData<GvBucket> 
     }
 
     @Override
-    public BannerButtonAction<GvBucket> newBannerButton() {
-        BannerButtonCommandable<GvBucket> button
-                = new BannerButtonCommandable<>(Strings.Buttons.DISTRIBUTION);
+    public ButtonAction<GvBucket> newBannerButton() {
+        ButtonCommandable<GvBucket> button
+                = new ButtonCommandable<>(Strings.Buttons.DISTRIBUTION);
         button.setClick(getCommandsFactory().newLaunchFormattedCommand(mNode));
         return button;
     }

@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
@@ -57,9 +57,9 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
 
     @NonNull
     @Override
-    protected BannerButtonSelector<GvSize.Reference> newBannerButtonSelector(String buttonTitle,
-                                                                             OptionsSelector selector) {
-        return new BannerButtonSelector<>(buttonTitle, new CommandsList(), selector);
+    protected ButtonSelector<GvSize.Reference> newBannerButtonSelector(String buttonTitle,
+                                                                       OptionsSelector selector) {
+        return new ButtonSelector<>(buttonTitle, new CommandsList(), selector);
     }
 
     private LaunchBespokeViewCommand launchFormatted() {

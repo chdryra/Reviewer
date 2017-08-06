@@ -23,16 +23,16 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
+public class ButtonAddFacts extends ButtonAdd<GvFact> {
     private static final int LAUNCH_BROWSER
-            = RequestCodeGenerator.getCode(BannerButtonAddFacts.class, "LaunchUrlBrowser");
+            = RequestCodeGenerator.getCode(ButtonAddFacts.class, "LaunchUrlBrowser");
 
     private final LaunchableConfig mUrlAdder;
 
-    public BannerButtonAddFacts(String title, LaunchableConfig factAdder,
-                                LaunchableConfig urlAdder,
-                                GvDataList<GvFact> emptyFactList,
-                                ParcelablePacker<GvFact> dataPacker) {
+    public ButtonAddFacts(String title, LaunchableConfig factAdder,
+                          LaunchableConfig urlAdder,
+                          GvDataList<GvFact> emptyFactList,
+                          ParcelablePacker<GvFact> dataPacker) {
         super(factAdder, title, emptyFactList, dataPacker);
         mUrlAdder = urlAdder;
     }

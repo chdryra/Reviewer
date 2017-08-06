@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.util.ArrayList;
@@ -22,19 +22,19 @@ import java.util.List;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBasic<T>
-        implements BannerButtonAction<T> {
+public class ButtonActionNone<T extends GvData> extends ReviewViewActionBasic<T>
+        implements ButtonAction<T> {
 
     private final List<ClickListener> mListeners;
 
     private ButtonTitle mButtonTitle;
     private String mTitle;
 
-    public BannerButtonActionNone() {
+    public ButtonActionNone() {
         this("");
     }
 
-    public BannerButtonActionNone(String title) {
+    public ButtonActionNone(String title) {
         mTitle = title;
         mListeners = new ArrayList<>();
     }
@@ -51,7 +51,7 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
     }
 
     @Override
-    public String getTitleString() {
+    public String getButtonTitle() {
         return mTitle;
     }
 
@@ -78,7 +78,7 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
 
     protected void notifyListeners() {
         for(ClickListener listener : mListeners) {
-            listener.onBannerClick();
+            listener.onButtonClick();
         }
     }
 }

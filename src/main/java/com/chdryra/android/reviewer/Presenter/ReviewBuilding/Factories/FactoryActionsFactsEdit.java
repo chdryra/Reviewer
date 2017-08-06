@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddFacts;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonAddFacts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
@@ -36,9 +36,9 @@ public class FactoryActionsFactsEdit extends FactoryActionsEditData<GvFact> {
     }
 
     @Override
-    public BannerButtonAction<GvFact> newBannerButton() {
+    public ButtonAction<GvFact> newBannerButton() {
         LaunchableConfig urlConfig = getUiConfig().getAdder(GvUrl.TYPE.getDatumName());
-        return new BannerButtonAddFacts(getBannerButtonTitle(), getAdderConfig(), urlConfig,
+        return new ButtonAddFacts(getBannerButtonTitle(), getAdderConfig(), urlConfig,
                 getDataFactory().newDataList(TYPE), getPacker());
     }
 

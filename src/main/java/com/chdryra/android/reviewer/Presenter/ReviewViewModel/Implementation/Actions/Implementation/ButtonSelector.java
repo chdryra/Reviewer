@@ -25,13 +25,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonSelector<T extends GvData> extends BannerButtonCommandable<T> {
-    private static final int OPTIONS = RequestCodeGenerator.getCode(BannerButtonSelector.class);
+public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
+    private static final int OPTIONS = RequestCodeGenerator.getCode(ButtonSelector.class);
 
     private final OptionsSelector mSelector;
     private final CommandsList mOptions;
 
-    public BannerButtonSelector(String title, CommandsList options, OptionsSelector selector) {
+    public ButtonSelector(String title, CommandsList options, OptionsSelector selector) {
         super(title);
         mSelector = selector;
         mOptions = options;

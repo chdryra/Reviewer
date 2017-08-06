@@ -11,16 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -51,8 +49,8 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
     }
 
     @Override
-    public BannerButtonAction<GvSocialPlatform> newBannerButton() {
-        return new BannerButtonActionNone<>(TITLE);
+    public ButtonAction<GvSocialPlatform> newBannerButton() {
+        return new ButtonActionNone<>(TITLE);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
 
     @Nullable
     @Override
-    public ContextualButtonAction<GvSocialPlatform> newContextButton() {
+    public ButtonAction<GvSocialPlatform> newContextButton() {
         return new PublishButton(mEditor, mPublishAction, mPlatforms);
     }
 }

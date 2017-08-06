@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ConfirmEditsButton;
@@ -45,7 +45,7 @@ public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParc
 
     @Nullable
     @Override
-    public ContextualButtonAction<GC> newContextButton() {
+    public ButtonAction<GC> newContextButton() {
         return new ConfirmEditsButton<>(mPublishAction);
     }
 

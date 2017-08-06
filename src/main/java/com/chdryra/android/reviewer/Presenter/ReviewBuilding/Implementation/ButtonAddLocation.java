@@ -23,15 +23,15 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
+public class ButtonAddLocation extends ButtonAdd<GvLocation> {
     private static final int LAUNCH_MAP = RequestCodeGenerator.getCode("LaunchMapAlert");
     private final LaunchableConfig mMapScreenConfig;
 
-    public BannerButtonAddLocation(LaunchableConfig adderConfig,
-                                   LaunchableConfig mapScreenConfig,
-                                   String title,
-                                   GvDataList<GvLocation> emptyLocationList,
-                                   ParcelablePacker<GvLocation> dataPacker) {
+    public ButtonAddLocation(LaunchableConfig adderConfig,
+                             LaunchableConfig mapScreenConfig,
+                             String title,
+                             GvDataList<GvLocation> emptyLocationList,
+                             ParcelablePacker<GvLocation> dataPacker) {
         super(adderConfig, title, emptyLocationList, dataPacker);
         mMapScreenConfig = mapScreenConfig;
     }

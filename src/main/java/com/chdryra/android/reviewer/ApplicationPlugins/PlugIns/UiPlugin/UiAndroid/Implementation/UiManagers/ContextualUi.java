@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,10 +22,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButto
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextualUi extends SimpleViewUi<Button, String> {
-    private final ContextualButtonAction<?> mAction;
+    private final ButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextualUi(final View view, final int buttonId, @Nullable final ContextualButtonAction<?> action) {
+    public ContextualUi(final View view, final int buttonId, @Nullable final ButtonAction<?> action) {
         super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {

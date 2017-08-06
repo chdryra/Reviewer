@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddImage;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonAddImage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditImage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -41,8 +41,8 @@ public class FactoryActionsEditImages extends FactoryActionsEditData<GvImage> {
     }
 
     @Override
-    public BannerButtonAction<GvImage> newBannerButton() {
-        return new BannerButtonAddImage(getAdderConfig(), getBannerButtonTitle(),
+    public ButtonAction<GvImage> newBannerButton() {
+        return new ButtonAddImage(getAdderConfig(), getBannerButtonTitle(),
                 getDataFactory().newDataList(TYPE), getPacker(), mLauncher, mImageChooser);
     }
 

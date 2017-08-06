@@ -13,7 +13,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,14 +21,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class BannerButtonReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
-        extends BannerButtonActionNone<GC> {
+public class ButtonReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
+        extends ButtonActionNone<GC> {
     private static final ReviewEditor.EditMode FULL = ReviewEditor.EditMode.FULL;
     private static final ReviewEditor.EditMode QUICK = ReviewEditor.EditMode.QUICK;
 
     private ReviewEditor.EditMode mMode;
 
-    public BannerButtonReviewBuild(ReviewEditor.EditMode defaultMode) {
+    public ButtonReviewBuild(ReviewEditor.EditMode defaultMode) {
         mMode = defaultMode;
         setTitle(mMode.getLabel());
     }

@@ -17,10 +17,24 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ContextualButtonAction<T extends GvData> extends ReviewViewAction<T> {
+public interface ButtonAction<T extends GvData> extends ReviewViewAction<T> {
+    interface ButtonTitle {
+        void update(String title);
+    }
+
+    interface ClickListener {
+        void onButtonClick();
+    }
+
     boolean onLongClick(View v);
 
     void onClick(View v);
 
+    void setTitle(ButtonTitle title);
+
     String getButtonTitle();
+
+    void registerListener(ClickListener listener);
+
+    void unregisterListener(ClickListener listener);
 }

@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -29,8 +29,8 @@ import java.util.List;
  * On: 09/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAction<T> implements
-        BannerButtonAction<T>, DataAddListener<T>, ActivityResultListener {
+public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAction<T> implements
+        ButtonAction<T>, DataAddListener<T>, ActivityResultListener {
     private static final String TAG = "BannerButtonAdd:";
 
     private final String mTitle;
@@ -39,10 +39,10 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     private final GvDataList<T> mAdded;
     private final List<ClickListener> mListeners;
 
-    public BannerButtonAdd(LaunchableConfig adderConfig,
-                           String title,
-                           GvDataList<T> emptyListToAddTo,
-                           ParcelablePacker<T> dataPacker) {
+    public ButtonAdd(LaunchableConfig adderConfig,
+                     String title,
+                     GvDataList<T> emptyListToAddTo,
+                     ParcelablePacker<T> dataPacker) {
         super(TAG, adderConfig);
         mTitle = title;
         mAdded = emptyListToAddTo;
@@ -72,7 +72,7 @@ public class BannerButtonAdd<T extends GvDataParcelable> extends LaunchAndAlerta
     }
 
     @Override
-    public String getTitleString() {
+    public String getButtonTitle() {
         return mTitle;
     }
 
