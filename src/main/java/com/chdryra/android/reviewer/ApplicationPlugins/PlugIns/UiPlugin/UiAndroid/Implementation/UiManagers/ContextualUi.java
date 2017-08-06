@@ -13,7 +13,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 
@@ -26,7 +25,7 @@ public class ContextualUi extends SimpleViewUi<Button, String> {
     private final ContextualButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextualUi(final LinearLayout view, final int buttonId, @Nullable final ContextualButtonAction<?> action) {
+    public ContextualUi(final View view, final int buttonId, @Nullable final ContextualButtonAction<?> action) {
         super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
@@ -47,7 +46,7 @@ public class ContextualUi extends SimpleViewUi<Button, String> {
         initialise(view);
     }
 
-    private void initialise(LinearLayout view) {
+    private void initialise(View view) {
         if (mAction == null) {
             view.setVisibility(View.GONE);
             mIsVisible = false;
