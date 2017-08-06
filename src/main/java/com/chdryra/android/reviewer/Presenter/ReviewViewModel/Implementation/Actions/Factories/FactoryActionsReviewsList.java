@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -19,15 +20,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.MaiProfile;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
@@ -35,6 +35,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -98,19 +101,23 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public ButtonAction<GvNode> newBannerButton() {
-        ButtonSorter<GvNode> button = new ButtonSorter<>
-                (mFactoryCommands.newOptionsSelector(), mComparators.newReviewComparators());
-        if(mNode != null) {
-            button.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
-        }
-        button.addLongClick(mDistribution);
-        return button;
+        return new ButtonSorter<>(newSelector(), mComparators.newReviewComparators());
+    }
+
+    private OptionsSelector newSelector() {
+        return mFactoryCommands.newOptionsSelector();
     }
 
     @Nullable
     @Override
     public ButtonAction<GvNode> newContextButton() {
-        return super.newContextButton();
+        ButtonSelector<GvNode> button = new ButtonSelector<>(Strings.Buttons.LIST, newSelector());
+        button.addOption(mDistribution);
+        if(mNode != null) {
+            button.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
+        }
+
+        return button;
     }
 
     @Override

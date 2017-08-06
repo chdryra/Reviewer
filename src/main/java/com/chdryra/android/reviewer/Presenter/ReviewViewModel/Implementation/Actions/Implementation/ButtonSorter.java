@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 
 /**
@@ -38,7 +37,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
 
     public ButtonSorter(String title, OptionsSelector selector,
                         ComparatorCollection<? super T> comparators) {
-        super(title, new CommandsList(), selector);
+        super(title, selector);
         mComparators = comparators;
 
         mCurrentComparator = mComparators.next();

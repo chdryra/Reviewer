@@ -53,7 +53,7 @@ public class FactoryReviewViewParams {
     }
 
     public ReviewViewParams newReviewsListParams() {
-        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams params = new ReviewViewParams(ReviewViewParams.ViewType.REVIEWS_LIST);
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.CellDimension wrapped = ReviewViewParams.CellDimension.WRAPPED;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;

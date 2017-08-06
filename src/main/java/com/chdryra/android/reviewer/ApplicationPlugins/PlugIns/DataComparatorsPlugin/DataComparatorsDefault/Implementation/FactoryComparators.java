@@ -72,7 +72,7 @@ public class FactoryComparators {
     }
 
     private String concat(String name, String order) {
-        return name + SEPARATOR + " " + order;
+        return name.length() > 0 ? name + SEPARATOR + " " + order : order;
     }
 
     @NonNull

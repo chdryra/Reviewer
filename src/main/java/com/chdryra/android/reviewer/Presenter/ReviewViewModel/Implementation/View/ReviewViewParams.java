@@ -20,6 +20,9 @@ public class ReviewViewParams {
     private final SubjectParams mSubjectParams = new SubjectParams();
     private final RatingBarParams mRatingBarParams = new RatingBarParams();
     private boolean mCoverManager = true;
+    private final ViewType mViewType;
+
+    public enum ViewType {REVIEWS_LIST, OTHER}
 
     public enum GridViewAlpha {
         TRANSPARENT(0),
@@ -56,6 +59,19 @@ public class ReviewViewParams {
         public boolean isWrapped() {
             return getDivider() == -1;
         }
+    }
+
+
+    public ReviewViewParams() {
+        this(ViewType.OTHER);
+    }
+
+    public ReviewViewParams(ViewType viewType) {
+        mViewType = viewType;
+    }
+
+    public ViewType getViewType() {
+        return mViewType;
     }
 
     public GridViewParams getGridViewParams() {

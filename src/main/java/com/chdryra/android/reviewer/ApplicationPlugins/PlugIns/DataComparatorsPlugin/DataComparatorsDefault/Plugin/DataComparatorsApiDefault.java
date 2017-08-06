@@ -122,12 +122,6 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
                 .withReverseName("Covers last")
                 .addTieBreaker(newest("Cover dates", new DataGetters.ImageDate()));
 
-//        NamedComparator.Builder<DataImage> builder = newBuilder("No order", new Comparator<DataImage>() {
-//            @Override
-//            public int compare(DataImage lhs, DataImage rhs) {
-//                return -1;
-//            }
-//        });
         return new ComparatorCollectionImpl<>(builder.build());
     }
 

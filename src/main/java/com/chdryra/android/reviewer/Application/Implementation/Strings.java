@@ -102,6 +102,7 @@ public class Strings {
         public static final String DISTRIBUTION = "Ratings distribution";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
+        public static final String LIST = "List";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";
@@ -177,12 +178,12 @@ public class Strings {
     }
     
     public static class Comparators {
-        public static final String A_TO_Z = "A to Z";
-        public static final String Z_TO_A = "Z to A";
-        public static final String HIGH_TO_LOW = "High To Low";
-        public static final String LOW_TO_HIGH = "Low To High";
-        public static final String NEWEST = "Newest";
-        public static final String OLDEST = "Oldest";
+        public static final String A_TO_Z = "A-Z";
+        public static final String Z_TO_A = "Z-A";
+        public static final String HIGH_TO_LOW = "High-Low";
+        public static final String LOW_TO_HIGH = "Low-High";
+        public static final String NEWEST = "New-Old";
+        public static final String OLDEST = "Old-New";
         public static final String TRUE = "True";
         public static final String FALSE = "False";
         public static final String SEPARATOR = ":";

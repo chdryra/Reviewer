@@ -140,7 +140,6 @@
 
     <style name="Button.Rating">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/subject_text_padding</item>
@@ -289,10 +288,13 @@
 
     <style name="TextView.Subject">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:background">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/subject_text_padding</item>
+    </style>
+
+    <style name="TextView.Subject.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- EditTexts -->

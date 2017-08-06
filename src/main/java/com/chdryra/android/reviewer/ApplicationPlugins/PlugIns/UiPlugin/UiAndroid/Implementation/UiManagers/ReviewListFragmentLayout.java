@@ -21,9 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -38,7 +37,8 @@ import com.chdryra.android.reviewer.R;
 public class ReviewListFragmentLayout implements ReviewViewLayout {
     private static final int LAYOUT = R.layout.fragment_review_list;
     private static final int SUBJECT = R.id.review_subject;
-    private static final int RATING = R.id.review_rating;
+    private static final int RATING_VALUE = R.id.rating_value;
+    private static final int RATING_NUMER = R.id.rating_number;
     private static final int BANNER = R.id.sort_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
@@ -143,12 +143,17 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingBarRvUi(reviewView, (RatingBar) mView.findViewById(RATING));
+        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE), (TextView) mView.findViewById(RATING_NUMER));
     }
 
     @NonNull
-    private SubjectUi<?> newSubjectUi(ReviewView<?> reviewView) {
-        return new SubjectEditUi(reviewView, (EditText) mView.findViewById(SUBJECT));
+    private SubjectUi<?> newSubjectUi(final ReviewView<?> reviewView) {
+        return new SubjectUi<>((TextView) mView.findViewById(SUBJECT), new ViewUi.ReferenceValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return reviewView.getSubject();
+            }
+        });
     }
 
 }

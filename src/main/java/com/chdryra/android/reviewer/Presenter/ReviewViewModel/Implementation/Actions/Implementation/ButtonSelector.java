@@ -26,16 +26,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 
 public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
-    private static final int OPTIONS = RequestCodeGenerator.getCode(ButtonSelector.class);
-
     private final OptionsSelector mSelector;
     private final CommandsList mOptions;
+    private final int mRequestCode;
 
-    public ButtonSelector(String title, CommandsList options, OptionsSelector selector) {
+    public ButtonSelector(String title, OptionsSelector selector) {
         super(title);
         mSelector = selector;
-        mOptions = options;
+        mOptions = new CommandsList();
         setClick(new ClickCommand());
+        mRequestCode = RequestCodeGenerator.getCode(ButtonSelector.class, title);
     }
 
     public void addOption(Command command) {
@@ -49,7 +49,7 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        if(requestCode == OPTIONS) {
+        if(requestCode == mRequestCode) {
             mOptions.execute(option);
             return true;
         } else {
@@ -59,7 +59,7 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        return requestCode == OPTIONS;
+        return requestCode == mRequestCode;
     }
 
     private class ClickCommand extends Command {
@@ -74,6 +74,6 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     }
 
     protected void launchSelector(@Nullable String currentOption) {
-        mSelector.execute(mOptions.getCommandNames(), currentOption, OPTIONS, null);
+        mSelector.execute(mOptions.getCommandNames(), currentOption, mRequestCode, null);
     }
 }

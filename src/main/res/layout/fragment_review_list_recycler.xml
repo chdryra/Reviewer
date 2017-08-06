@@ -38,14 +38,11 @@
                       android:layout_weight="1">
 
             <Button style="@style/Button.Rating"
-                android:id="@+id/rating_star"
-                android:text="4"
-                android:drawableRight="@android:drawable/btn_star"
-                android:drawableEnd="@android:drawable/btn_star"
+                android:id="@+id/rating_value"
                 android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/review_total_number"
+                android:id="@+id/rating_number"
                 style="@style/TextView.Subject"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -62,6 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
+
+    <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/gridview_data"

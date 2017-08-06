@@ -34,7 +34,7 @@
 
             <TextView
             android:id="@+id/subject_formatted"
-            style="@style/TextView.Subject"/>
+            style="@style/TextView.Subject.Bold"/>
 
         <RatingBar
             android:id="@+id/rating_formatted"

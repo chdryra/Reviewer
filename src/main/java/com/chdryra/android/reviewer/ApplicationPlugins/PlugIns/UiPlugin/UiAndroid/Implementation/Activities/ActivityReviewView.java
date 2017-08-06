@@ -21,11 +21,14 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.ReviewListFragmentLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ReviewViewFragmentLayout;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ReviewViewLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -49,11 +52,10 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppInstanceAndroid.setActivity(this);
-        mLayout = createReviewViewLayout();
     }
 
-    protected ReviewViewLayout createReviewViewLayout() {
-        return new ReviewViewFragmentLayout();
+    protected ReviewViewLayout createReviewViewLayout(ReviewViewParams.ViewType viewType) {
+        return viewType == ReviewViewParams.ViewType.REVIEWS_LIST ? new ReviewListFragmentLayout() : new ReviewViewFragmentLayout();
     }
 
     @Override
@@ -71,6 +73,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         mView = createReviewView();
         if (mView == null) mView = retained;
         if (mView == null) throw new RuntimeException("View is null!");
+        mLayout = createReviewViewLayout(mView.getParams().getViewType());
 
         return new FragmentReviewView();
     }
