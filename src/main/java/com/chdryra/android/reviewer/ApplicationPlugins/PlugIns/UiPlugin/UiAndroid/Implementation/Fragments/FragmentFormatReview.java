@@ -150,6 +150,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private static final int IMAGE = R.id.image_formatted;
     private static final int SUBJECT = R.id.subject_formatted;
     private static final int RATING = R.id.rating_formatted;
+    private static final int SUBJECT_RATING_FORMATTED = R.id.subject_rating_formatted;
     private static final int HEADLINE = R.id.headline_formatted;
     private static final int AUTHOR = R.id.author_formatted;
     private static final int DATE = R.id.date_formatted;
@@ -384,7 +385,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void setCover(View v) {
         CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
-        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(FULL, HALF, 0);
+        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(FULL, FULL, 0);
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER);
 
         mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode,

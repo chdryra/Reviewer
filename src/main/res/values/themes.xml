@@ -14,6 +14,7 @@
     <color name="Smoke">#F5F5F5</color>
     <color name="TransSmoke">#CCF5F5F5</color>
     <color name="DarkSmoke">#D3D3D3</color>
+    <color name="TransDarkSmoke">#CCD3D3D3</color>
 
     <style name="Theme.Reviewer" parent="@style/AppBaseTheme"/>
 

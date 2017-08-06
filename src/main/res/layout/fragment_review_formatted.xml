@@ -13,34 +13,33 @@
     android:id="@+id/scroll_formatted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#50000000"
+        android:background="?dominantBackground"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false">
 
     <LinearLayout style="@style/LinearLayoutVertical">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/image_formatted"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_review_cd"
+            android:scaleType="centerCrop"/>
 
-            <ImageView
-                android:id="@+id/image_formatted"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/image_review_cd"
-                android:scaleType="centerCrop"/>
+        <LinearLayout
+            style="@style/LinearLayoutVertical.WrappedVertical"
+            android:id="@+id/subject_rating_formatted"
+            android:background="?transDarkBackground">
 
             <TextView
-                android:id="@+id/subject_formatted"
-                style="@style/TextView.Subject"
-                android:background="#35000000"/>
+            android:id="@+id/subject_formatted"
+            style="@style/TextView.Subject"/>
 
-
-            <include
-                android:id="@+id/rating_formatted"
-                layout="@layout/review_rating_indicator"/>
-        </FrameLayout>
+        <RatingBar
+            android:id="@+id/rating_formatted"
+            style="@style/RatingBarFiveStar.Indicator.PointOneStep"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/headline_formatted"
