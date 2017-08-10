@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -129,7 +129,7 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     }
 
     @Override
-    public PermissionsSuite getPermissions() {
+    public PermissionsManager getPermissions() {
         return mApp.getPermissions();
     }
 

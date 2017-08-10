@@ -16,16 +16,20 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
 import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggesterAsync;
 import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.AddressesProviderGp;
+import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi
+        .LocationDetailsFetcherGp;
+import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.LocationPredicterGp;
+import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi
+        .NearestPlacesSuggesterGp;
+import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.PlaceSearcherGp;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
 import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.AddressesProviderGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.LocationDetailsFetcherGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.LocationPredicterGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.NearestPlacesSuggesterGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.PlaceSearcherGp;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
 
@@ -36,9 +40,11 @@ import com.google.android.gms.location.places.Places;
  */
 public class GoogleLocationServicesApi implements LocationServicesApi {
     private final Context mContext;
+    private final PermissionsManager mPermissions;
 
-    public GoogleLocationServicesApi(Context context) {
+    public GoogleLocationServicesApi(Context context, PermissionsManager permissions) {
         mContext = context;
+        mPermissions = permissions;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class GoogleLocationServicesApi implements LocationServicesApi {
 
     @Override
     public LocationDetailsFetcher newLocationDetailsFetcher() {
-        return new LocationDetailsFetcherGp(newGeoClient());
+        return new LocationDetailsFetcherGp(newGeoClient(), mPermissions);
     }
 
     @Override
@@ -63,12 +69,12 @@ public class GoogleLocationServicesApi implements LocationServicesApi {
                 .addApi(Places.PLACE_DETECTION_API)
                 .build();
 
-        return new NearestPlacesSuggesterGp(client);
+        return new NearestPlacesSuggesterGp(client, mPermissions);
     }
 
     @Override
     public PlaceSearcher newPlaceSearcher() {
-        return new PlaceSearcherGp(newGeoClient());
+        return new PlaceSearcherGp(newGeoClient(), mPermissions);
     }
 
     @NonNull

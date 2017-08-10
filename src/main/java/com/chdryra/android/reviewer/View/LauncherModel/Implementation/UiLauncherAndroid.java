@@ -17,8 +17,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
-import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionResult;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
@@ -45,7 +45,7 @@ import java.util.List;
  */
 
 public class UiLauncherAndroid implements UiLauncher {
-    private static final PermissionsSuite.Permission CAMERA = PermissionsSuite.Permission.CAMERA;
+    private static final PermissionsManager.Permission CAMERA = PermissionsManager.Permission.CAMERA;
     private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(UiLauncherAndroid.class);
     private Activity mCommissioner;
 
@@ -98,12 +98,12 @@ public class UiLauncherAndroid implements UiLauncher {
 
     @Override
     public void launchImageChooser(final ImageChooser chooser, final int requestCode) {
-        PermissionsSuite permissions = AppInstanceAndroid.getInstance(mCommissioner)
+        PermissionsManager permissions = AppInstanceAndroid.getInstance(mCommissioner)
                 .getPermissions();
         if(permissions.hasPermissions(CAMERA)) {
             launchChooser(chooser, requestCode);
         } else {
-            permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsSuite.PermissionsCallback() {
+            permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsManager.PermissionsCallback() {
                 @Override
                 public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
                     if(requestCode == PERMISSION_REQUEST

@@ -47,10 +47,10 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.chdryra.android.mygenerallibrary.LocationServices.StringAutoCompleterLocation;
@@ -84,7 +84,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientGoogle.Locatable,
         AddressesSuggester.AddressSuggestionsListener,
         PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback,
-        PermissionsSuite.PermissionsCallback{
+        PermissionsManager.PermissionsCallback{
 
     private static final String TAG = TagKeyGenerator.getTag(FragmentEditLocationMap.class);
     private static final String LOCATION = TagKeyGenerator.getKey(FragmentEditLocationMap.class, "Location");
@@ -109,7 +109,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private static final int MENU_ITEM_DELETE = R.id.menu_item_delete;
     private static final int MENU_ITEM_DONE = R.id.menu_item_done;
     private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
-    private static final PermissionsSuite.Permission LOCATION_PERMISSION = PermissionsSuite.Permission
+    private static final PermissionsManager.Permission LOCATION_PERMISSION = PermissionsManager.Permission
             .LOCATION;
 
     private GvLocation mCurrentLocation;
@@ -391,7 +391,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private void initGoogleMapUi() {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
-        PermissionsSuite permissions = app.getPermissions();
+        PermissionsManager permissions = app.getPermissions();
         if(permissions.hasPermissions(LOCATION_PERMISSION)) {
             enableMyLocation();
             setMapListeners();

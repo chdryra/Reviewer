@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 05/11/2015
@@ -28,5 +30,5 @@ public interface ApplicationSuite {
 
     NetworkSuite getNetwork();
 
-    PermissionsSuite getPermissions();
+    PermissionsManager getPermissions();
 }

@@ -13,8 +13,7 @@ import android.app.Activity;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
  */
 
 public class LocationServicesSuiteAndroid implements LocationServicesSuite {
-    private LocationServicesApi mApi;
+    private final LocationServicesApi mApi;
     private Activity mActivity;
 
     public LocationServicesSuiteAndroid(LocationServicesApi api) {

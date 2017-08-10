@@ -8,11 +8,13 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
 
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocationServicesPlugin {
-    LocationServicesApi getApi();
+    LocationServicesApi getApi(PermissionsManager permissions);
 }

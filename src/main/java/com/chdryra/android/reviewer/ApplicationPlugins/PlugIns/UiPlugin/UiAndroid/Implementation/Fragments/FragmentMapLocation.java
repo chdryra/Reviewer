@@ -29,9 +29,9 @@ import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.PermissionResult;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
@@ -64,13 +64,13 @@ public abstract class FragmentMapLocation extends Fragment implements
         GoogleMap.OnMapClickListener,
         OnInfoWindowClickListener, GoogleMap.
         OnInfoWindowLongClickListener,
-        PermissionsSuite.PermissionsCallback{
+        PermissionsManager.PermissionsCallback{
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
     private static final int DONE_BUTTON = R.id.button_right;
     private static final float DEFAULT_ZOOM = 15;
-    private static final PermissionsSuite.Permission LOCATION = PermissionsSuite.Permission
+    private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission
             .LOCATION;
     private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(FragmentMapLocation.class);
 
@@ -300,7 +300,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     private void initGoogleMapUi(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
-        PermissionsSuite permissions = app.getPermissions();
+        PermissionsManager permissions = app.getPermissions();
         if(permissions.hasPermissions(LOCATION)) {
             enableMyLocation();
             initialiseMap();

@@ -10,19 +10,19 @@ package com.chdryra.android.reviewer.Application.Factories;
 
 import android.content.Context;
 
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManagerAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.ApplicationSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.AuthenticationSuiteAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.EditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.InSessionStamper;
 import com.chdryra.android.reviewer.Application.Implementation.LocationServicesSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.NetworkSuiteAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.PermissionsSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.EditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UiSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UserSessionDefault;
-import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
@@ -66,16 +66,14 @@ public class FactoryApplicationSuite {
                 new ReleasePresenterContext(context, model, view, persistence, device,
                         plugins.getDataComparators(), plugins.getDataAggregators(), validator);
 
-        LocationServicesApi locationApi = plugins.getLocationServices().getApi();
-
         AuthenticationSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
-        LocationServicesSuiteAndroid location = newLocationServicesSuite(locationApi);
+        PermissionsManagerAndroid permissions = new PermissionsManagerAndroid(context);
+        LocationServicesSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions));
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         EditorSuiteAndroid editor = newReviewEditorSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, repo, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
         NetworkSuiteAndroid networkSuite = new NetworkSuiteAndroid(context);
-        PermissionsSuiteAndroid permissions = new PermissionsSuiteAndroid(context);
 
         return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite, networkSuite, permissions);
     }

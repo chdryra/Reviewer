@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 
 import android.content.Context;
 
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
@@ -20,6 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
  */
 public class LocationServicesGoogle implements LocationServicesPlugin {
     private static LocationServicesApi sServices;
+
     private final Context mContext;
 
     public LocationServicesGoogle(Context context) {
@@ -27,8 +29,8 @@ public class LocationServicesGoogle implements LocationServicesPlugin {
     }
 
     @Override
-    public LocationServicesApi getApi() {
-        if(sServices == null) sServices = new GoogleLocationServicesApi(mContext);
+    public LocationServicesApi getApi(PermissionsManager permissions) {
+        if(sServices == null) sServices = new GoogleLocationServicesApi(mContext, permissions);
         return sServices;
     }
 }
