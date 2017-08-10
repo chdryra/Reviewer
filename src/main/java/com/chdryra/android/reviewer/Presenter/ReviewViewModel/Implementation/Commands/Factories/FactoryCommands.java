@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -104,8 +103,7 @@ public class FactoryCommands {
         return new Command(name) {
             @Override
             public void execute() {
-                int code = RequestCodeGenerator.getCode(FragmentFormatReview.class, view
-                        .getLaunchTag());
+                int code = RequestCodeGenerator.getCode(view.getClass(), view.getLaunchTag());
                 getLauncher().launch(view, new UiLauncherArgs(code));
             }
         };

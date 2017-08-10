@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.BucketDistribution;
+import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;

@@ -12,16 +12,20 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsP
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.Comparators.BooleanComparator;
+import com.chdryra.android.mygenerallibrary.Comparators.DataComparator;
+import com.chdryra.android.mygenerallibrary.Comparators.DataGetter;
+import com.chdryra.android.mygenerallibrary.Comparators.FloatComparator;
+import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
+import com.chdryra.android.mygenerallibrary.Comparators.StringComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 
 import java.util.Comparator;
 
 import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.A_TO_Z;
 import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.FALSE;
-import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators
-        .HIGH_TO_LOW;
-import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators
-        .LOW_TO_HIGH;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.HIGH_TO_LOW;
+import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.LOW_TO_HIGH;
 import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.NEWEST;
 import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.OLDEST;
 import static com.chdryra.android.reviewer.Application.Implementation.Strings.Comparators.SEPARATOR;

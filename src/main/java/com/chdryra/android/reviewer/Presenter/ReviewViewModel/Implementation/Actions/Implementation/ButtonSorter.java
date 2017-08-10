@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
+import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
+import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.AsyncSortable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
@@ -32,7 +32,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
 
     public ButtonSorter(OptionsSelector selector,
                         ComparatorCollection<? super T> comparators) {
-        this(comparators.getDefault().getName(), selector, comparators);
+        this(comparators.getDefault().getId(), selector, comparators);
     }
 
     public ButtonSorter(String title, OptionsSelector selector,
@@ -40,8 +40,8 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         super(title, selector);
         mComparators = comparators;
 
-        mCurrentComparator = mComparators.next();
-        for(NamedComparator<? super T> comparator : mComparators.asList()) {
+        mCurrentComparator = mComparators.iterator().next();
+        for(NamedComparator<? super T> comparator : mComparators) {
             addOption(new ComparatorCommand(comparator));
         }
     }
@@ -60,7 +60,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
             @Override
             public void onSorted(CallbackMessage message) {
                 if(message.isOk()) mCurrentComparator = comparator;
-                setTitle(mCurrentComparator.getName());
+                setTitle(mCurrentComparator.getId());
                 mLocked = false;
             }
         });
@@ -68,20 +68,18 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
 
     @Override
     protected void launchSelector() {
-        if(!mLocked) super.launchSelector(mCurrentComparator.getName());
+        if(!mLocked) super.launchSelector(mCurrentComparator.getId());
     }
 
     private class ComparatorCommand extends Command {
-        private NamedComparator<? super T> mComparator;
-
         private ComparatorCommand(NamedComparator<? super T> comparator) {
-            super(comparator.getName());
-            mComparator = comparator;
+            super(comparator.getId());
         }
 
         @Override
         public void execute() {
-            sort(mComparators.moveToComparator(mComparator.getName()));
+            NamedComparator<? super T> comparator = mComparators.get(getName());
+            if(comparator != null) sort(comparator);
         }
     }
 }

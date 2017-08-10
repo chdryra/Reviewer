@@ -39,7 +39,9 @@ public class RatingTextUi extends RatingUi<TextView> {
                 new ViewValueSetter<Float>() {
                     @Override
                     public void setValue(Float value) {
-                        ratingView.setText(RatingFormatter.twoSignificantDigits(reviewView.getRating()) + "*");
+                        String text = RatingFormatter.twoSignificantDigits(reviewView.getRating()
+                        ) + "*";
+                        ratingView.setText(text);
                     }
                 });
 

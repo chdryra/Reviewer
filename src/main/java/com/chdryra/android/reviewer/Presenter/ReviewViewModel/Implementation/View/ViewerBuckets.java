@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Bucket;
-import com.chdryra.android.reviewer.Algorithms.DataSorting.BucketDistribution;
+import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
+import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;

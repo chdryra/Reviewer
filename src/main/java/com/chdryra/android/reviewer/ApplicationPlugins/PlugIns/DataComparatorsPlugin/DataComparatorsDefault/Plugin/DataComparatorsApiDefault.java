@@ -11,14 +11,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsP
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.Comparators.DataGetter;
+import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
+import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DataGetter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DataGetters;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.FactoryComparators;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.NamedComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
@@ -51,7 +51,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     public ComparatorCollection<NamedAuthor> newAuthorComparators() {
         NamedComparator<NamedAuthor> aToZ
                 = aToZ(upper(NamedAuthor.TYPE_NAME), new DataGetters.NamedAuthorName());
-        ComparatorCollectionImpl<NamedAuthor> comparators = new ComparatorCollectionImpl<>(aToZ);
+        ComparatorCollection<NamedAuthor> comparators = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse(false));
 
         return comparators;
@@ -65,7 +65,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
                 = aToZ(upper(DataComment.TYPE_NAME), new DataGetters.CommentString());
         
         NamedComparator.Builder<DataComment> builder 
-                = newBuilder(isHeadline.getName(), isHeadline)
+                = newBuilder(isHeadline.getId(), isHeadline)
                 .withReverseName("Headlines last")
                 .addTieBreaker(aToZ);
         
@@ -89,7 +89,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         
         NamedComparator<DataCriterion> desc = builder.build();
 
-        ComparatorCollectionImpl<DataCriterion> comparators = new ComparatorCollectionImpl<>(desc);
+        ComparatorCollection<DataCriterion> comparators = new ComparatorCollectionImpl<>(desc);
         comparators.add(desc.reverse(false));
         NamedComparator<DataCriterion> a2z = aToZ(subject, new DataGetters.CriterionSubject());
         comparators.add(a2z);
@@ -101,7 +101,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     @Override
     public ComparatorCollection<DateTime> newDateTimeComparators() {
         NamedComparator<DateTime> oldest = oldest();
-        ComparatorCollectionImpl<DateTime> comparators
+        ComparatorCollection<DateTime> comparators
                 = new ComparatorCollectionImpl<>(oldest.reverse());
         comparators.add(oldest);
         
@@ -118,7 +118,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         NamedComparator<DataImage> isCover
                 = trueThenFalse("Covers first", new DataGetters.ImageIsCover());
         NamedComparator.Builder<DataImage> builder
-                = newBuilder(isCover.getName(), isCover)
+                = newBuilder(isCover.getId(), isCover)
                 .withReverseName("Covers last")
                 .addTieBreaker(newest("Cover dates", new DataGetters.ImageDate()));
 
@@ -130,7 +130,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         NamedComparator<DataLocation> locations 
                 = aToZ(upper(DataLocation.TYPE_NAME), new DataGetters.LocationName());
         
-        ComparatorCollectionImpl<DataLocation> comparator
+        ComparatorCollection<DataLocation> comparator
                 = new ComparatorCollectionImpl<>(locations);
         comparator.add(locations.reverse());
         
@@ -154,18 +154,18 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         NamedComparator.Builder<DataReviewInfo> builder;
 
         //Most recent first comes first, then oldest
-        builder = newBuilder(mostRecentNamed.getName(), mostRecent)
+        builder = newBuilder(mostRecentNamed.getId(), mostRecent)
                 .withReverseName(mostRecentNamed.getReverseName())
                 .addTieBreaker(highestRated)
                 .addTieBreaker(subjectAtoZ);
 
         NamedComparator<DataReviewInfo> recentFirst = builder.build();
-        ComparatorCollectionImpl<DataReviewInfo> comparators
+        ComparatorCollection<DataReviewInfo> comparators
                 = new ComparatorCollectionImpl<>(recentFirst);
         comparators.add(recentFirst.reverse(false));
 
         //highest rating comes next, then lowest
-        builder = newBuilder(highestRatedNamed.getName(), highestRated)
+        builder = newBuilder(highestRatedNamed.getId(), highestRated)
                 .withReverseName(highestRatedNamed.getReverseName())
                 .addTieBreaker(mostRecent)
                 .addTieBreaker(subjectAtoZ);
@@ -175,7 +175,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         comparators.add(highest.reverse());
 
         //Then subject AtoZ, followed by ZtoA
-        builder = newBuilder(subjectAtoZNamed.getName(), subjectAtoZ)
+        builder = newBuilder(subjectAtoZNamed.getId(), subjectAtoZ)
                 .withReverseName(subjectAtoZNamed.getReverseName())
                 .addTieBreaker(mostRecent)
                 .addTieBreaker(highestRated);
@@ -196,7 +196,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataSubject> newSubjectComparators() {
-        ComparatorCollectionImpl<DataSubject> comparators
+        ComparatorCollection<DataSubject> comparators
                 = new ComparatorCollectionImpl<>(aToZSubject());
         comparators.add(aToZSubject().reverse());
         return comparators;
@@ -206,7 +206,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     public ComparatorCollection<DataTag> newTagComparators() {
         NamedComparator<DataTag> aToZ 
                 = aToZ(upper(DataTag.TYPE_NAME), new DataGetters.TagString());
-        ComparatorCollectionImpl<DataTag> comparators
+        ComparatorCollection<DataTag> comparators
                 = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse());
         
@@ -229,11 +229,13 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     private NamedComparator<DataSubject> aToZSubject() {
-        return aToZ(upper(DataSubject.TYPE_NAME), new DataGetters.SubjectString());
+        //return aToZ(upper(DataSubject.TYPE_NAME), new DataGetters.SubjectString());
+        return aToZ("", new DataGetters.SubjectString());
     }
 
     private NamedComparator<DataRating> ascRating() {
-        return ascRating(upper(DataRating.TYPE_NAME), new DataGetters.RatingFloat());
+        //return ascRating(upper(DataRating.TYPE_NAME), new DataGetters.RatingFloat());
+        return ascRating("", new DataGetters.RatingFloat());
     }
 
     private <T> Comparator<T> newest(String name, DataGetter<T, DateTime> getter) {
@@ -263,13 +265,13 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         String value = DataFact.VALUE;
 
         NamedComparator<T> labelAtoZ = mFactory.newAtoZ(label, new DataGetters.FactLabel<T>());
-        NamedComparator.Builder<T> builder = newBuilder(labelAtoZ.getName(), labelAtoZ);
+        NamedComparator.Builder<T> builder = newBuilder(labelAtoZ.getId(), labelAtoZ);
         builder.withReverseName(labelAtoZ.getReverseName())
                 .addTieBreaker(mFactory.newAtoZ(value, new DataGetters.FactValue<T>()));
 
         NamedComparator<T> labelAz = builder.build();
 
-        ComparatorCollectionImpl<T> comparators = new ComparatorCollectionImpl<>(labelAz);
+        ComparatorCollection<T> comparators = new ComparatorCollectionImpl<>(labelAz);
         comparators.add(labelAz.reverse(false));
 
         return comparators;

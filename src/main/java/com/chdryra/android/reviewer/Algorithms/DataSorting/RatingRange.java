@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Algorithms.DataSorting;
 
+import com.chdryra.android.mygenerallibrary.Bucketing.BucketRange;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.RatingDefinition;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 

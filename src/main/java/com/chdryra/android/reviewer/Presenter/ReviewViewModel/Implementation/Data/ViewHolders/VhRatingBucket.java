@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.widget.ProgressBar;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Bucket;
+import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.R;

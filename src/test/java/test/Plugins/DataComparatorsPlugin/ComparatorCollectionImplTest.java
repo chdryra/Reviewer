@@ -8,13 +8,14 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollection;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Comparator;
 
+import static org.apache.commons.lang3.Range.is;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -24,7 +25,7 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparatorCollectionImplTest {
-    private ComparatorCollectionImpl<String> mComparators;
+    private ComparatorCollection<String> mComparators;
     private Comparator<String> mAscending;
     private Comparator<String> mDescending;
 
@@ -66,7 +67,7 @@ public class ComparatorCollectionImplTest {
         assertThat(mComparators.next(), is(mAscending));
     }
 
-    private class Comparators extends ComparatorCollectionImpl<String> {
+    private class Comparators extends ComparatorCollection<String> {
         public Comparators() {
             super(mAscending);
             add(mDescending);

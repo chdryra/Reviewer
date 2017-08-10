@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Algorithms.DataSorting;
 
+import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
+import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.RatingDefinition;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 
@@ -20,7 +22,7 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class RatingsDistribution extends BucketDistribution<Float, DataRating>{
+public class RatingsDistribution extends BucketDistribution<Float, DataRating> {
     private static final int NUM_BUCKETS = 5;
     private static final float MIN = RatingDefinition.MIN_RATING;
     private static final float MAX = RatingDefinition.MAX_RATING;
