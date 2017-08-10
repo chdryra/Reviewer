@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DifferenceLevel;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLevel;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
         .Implementation.DataAggregatorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -109,7 +109,7 @@ public class DataAggregatorImplTest {
         assertThat(results.size(), is(numAggregates));
         int totalSize = 0;
         for (int i = 0; i < results.size(); ++i) {
-            AggregatedData<ReviewInteger> aggregate = results.getItem(i);
+            AggregatedData<ReviewInteger> aggregate = results.get(i);
             totalSize += aggregate.getAggregatedItems().size();
             checkAggregateWithinExpectedSimilarity(aggregate, diff);
         }
@@ -132,7 +132,7 @@ public class DataAggregatorImplTest {
         assertThat(results.size(), is(numAggregatesExpected));
         int totalSize = 0;
         for (int i = 0; i < results.size(); ++i) {
-            AggregatedData<ReviewInteger> aggregate = results.getItem(i);
+            AggregatedData<ReviewInteger> aggregate = results.get(i);
             totalSize = checkAggregateSize(aggregate, numAggregatesExpected, totalSize);
             assertThat(aggregate.getReviewId(), is(data.getReviewId()));
             checkAggregateWithinExpectedSimilarity(aggregate, expectedDifference);
@@ -154,7 +154,7 @@ public class DataAggregatorImplTest {
         assertThat(canonical.getReviewId(), is(aggregate.getReviewId()));
         assertThat(canonical.getInt(), is(getAverageInt(aggregates)));
         for (int j = 0; j < aggregates.size(); ++j) {
-            IntegerDifference diff = mComparitor.compare(canonical, aggregates.getItem(j));
+            IntegerDifference diff = mComparitor.compare(canonical, aggregates.get(j));
             assertThat(diff.lessThanOrEqualTo(expectedDifference), is(true));
         }
     }

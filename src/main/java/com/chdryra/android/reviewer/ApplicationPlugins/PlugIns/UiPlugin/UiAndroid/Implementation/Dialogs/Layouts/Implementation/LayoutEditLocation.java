@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.GvDataEditor;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;

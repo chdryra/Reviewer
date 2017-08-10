@@ -17,9 +17,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLoc
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ItemGetter;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
 
         String name = getModeString(data);
         LatLng latLng = getMidLatLng(data);
-        return new DatumLocation(id, latLng, name, "aggregate", LocationId.appLocationId(name, latLng));
+        return new DatumLocation(id, latLng, name, "aggregate", LocationId.withProviderName(name, latLng));
     }
 
     private LatLng getMidLatLng(IdableList<? extends DataLocation> locations) {

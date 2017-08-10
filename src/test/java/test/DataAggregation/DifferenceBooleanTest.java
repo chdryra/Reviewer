@@ -8,7 +8,7 @@
 
 package test.DataAggregation;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
 
 import org.junit.Test;
 

@@ -129,7 +129,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
         if (quickDialog && !gridCell.hasData()) {
             launchQuickSetAdder(type);
         } else if (isQuickReview(type) && gridCell.size() == 1) {
-            launchQuickSetEditor(gridCell.getItem(0));
+            launchQuickSetEditor(gridCell.get(0));
         } else {
             mLauncher.launchEditDataUi(type);
         }

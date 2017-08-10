@@ -39,6 +39,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -51,13 +52,13 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.PermissionsSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
-import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.StringAutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.UserLocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
+import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -528,7 +529,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             id = new LocationId(mDetails.getProvider(), mDetails.getId());
         } else {
             if(mMarkerAddress != null) address = mMarkerAddress;
-            id = mLocationId != null ? mLocationId : LocationId.appLocationId(name, mNewLatLng);
+            id = mLocationId != null ? mLocationId : new LocationId(new LocationProvider(Strings.APP_NAME), mNewLatLng.toString());
         }
 
         return new GvLocation(mNewLatLng, name, address, id);

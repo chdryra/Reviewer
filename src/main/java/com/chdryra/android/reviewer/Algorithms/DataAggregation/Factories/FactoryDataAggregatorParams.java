@@ -9,11 +9,11 @@
 package com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DataAggregatorParamsImpl;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceFloat;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 
 /**

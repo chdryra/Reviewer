@@ -24,5 +24,5 @@ public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdabl
     boolean contains(Object item);
 
     @Override
-    T getItem(int position);
+    T get(int position);
 }

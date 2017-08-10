@@ -21,9 +21,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
+import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.UserLocatedPlace;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.VhQueryFilter;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
@@ -31,13 +40,6 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
@@ -45,6 +47,7 @@ import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -83,7 +86,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private final LocationServicesApi mLocationServices;
     private final LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
-    private AutoCompleter<VhdLocatedPlace> mAutoCompleter;
+    private AutoCompleterLocation mAutoCompleter;
 
     private LocationDetails mDetails;
 
@@ -113,7 +116,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
         mAutoCompleter = mLocationServices.newAutoCompleter(place);
         mFilteredAdapter = new ViewHolderAdapterFiltered<>(mContext, names,
-                new VhdLocatedPlace(new NullLocatedPlace()), mAutoCompleter);
+                new VhdLocatedPlace(new NullLocatedPlace()), new VhdLocatedPlaceFilter(mAutoCompleter));
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 
@@ -135,7 +138,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         String address = mDetails != null ? mDetails.getAddress() : name;
         LocationId locationId = mDetails != null ?
                 new LocationId(mDetails.getProvider(), mDetails.getId())
-                : LocationId.appLocationId(name, mSelectedLatLng);
+                : new LocationId(new LocationProvider(Strings.APP_NAME), mSelectedLatLng.toString());
         return new GvLocation(mSelectedLatLng, name, address, locationId);
     }
 
@@ -250,4 +253,22 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         super.onActivityStopped();
     }
 
+    private static class VhdLocatedPlaceFilter implements VhQueryFilter<VhdLocatedPlace> {
+        private final AutoCompleterLocation mAutoCompleter;
+
+        private VhdLocatedPlaceFilter(AutoCompleterLocation autoCompleter) {
+            mAutoCompleter = autoCompleter;
+        }
+
+        @Override
+        public VhDataList<VhdLocatedPlace> filter(String query) {
+            List<LocatedPlace> filterResults = mAutoCompleter.filter(query);
+            VhDataList<VhdLocatedPlace> list = new VhDataList<>();
+            for(LocatedPlace place : filterResults) {
+                list.add(new VhdLocatedPlace(place));
+            }
+
+            return list;
+        }
+    }
 }

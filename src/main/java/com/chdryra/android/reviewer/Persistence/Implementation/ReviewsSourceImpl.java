@@ -238,7 +238,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                                   final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
-            getReference(data.getItem(i).getReviewId(), uniqueCallback);
+            getReference(data.get(i).getReviewId(), uniqueCallback);
         }
     }
 

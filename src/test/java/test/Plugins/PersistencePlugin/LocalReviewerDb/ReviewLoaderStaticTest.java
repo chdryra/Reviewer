@@ -153,28 +153,28 @@ public class ReviewLoaderStaticTest {
         IdableList<? extends DataComment> reviewComments = mReview.getComments();
         int i = 0;
         for (DataComment comment : data.getComments()) {
-            DataEquivalence.checkEquivalence(comment, reviewComments.getItem(i++));
+            DataEquivalence.checkEquivalence(comment, reviewComments.get(i++));
         }
         assertThat(i, is(reviewComments.size()));
 
         IdableList<? extends DataFact> reviewFacts = mReview.getFacts();
         i = 0;
         for (DataFact fact : data.getFacts()) {
-            DataEquivalence.checkEquivalence(fact, reviewFacts.getItem(i++));
+            DataEquivalence.checkEquivalence(fact, reviewFacts.get(i++));
         }
         assertThat(i, is(reviewFacts.size()));
 
         IdableList<? extends DataLocation> reviewLocations = mReview.getLocations();
         i = 0;
         for (DataLocation location : data.getLocations()) {
-            DataEquivalence.checkEquivalence(location, reviewLocations.getItem(i++));
+            DataEquivalence.checkEquivalence(location, reviewLocations.get(i++));
         }
         assertThat(i, is(reviewLocations.size()));
 
         IdableList<? extends DataImage> reviewImages = mReview.getImages();
         i = 0;
         for (DataImage image : data.getImages()) {
-            DataEquivalence.checkEquivalence(image, reviewImages.getItem(i++));
+            DataEquivalence.checkEquivalence(image, reviewImages.get(i++));
         }
         assertThat(i, is(reviewImages.size()));
     }

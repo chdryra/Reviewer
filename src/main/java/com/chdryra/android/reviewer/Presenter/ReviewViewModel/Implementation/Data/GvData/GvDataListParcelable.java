@@ -59,7 +59,7 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
         super((GvDataType<T>)GvDataType.loadFromParcel(in),
                 (GvReviewId)in.readParcelable(GvReviewId.class.getClassLoader()));
         T[] data = (T[]) in.readParcelableArray(getGvDataType().getDataClass().getClassLoader());
-        mData = new ArrayList<>(Arrays.asList(data));
+        addAll(new ArrayList<>(Arrays.asList(data)));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
     public void writeToParcel(Parcel dest, int flags) {
         GvDataType.writeToParcel(getGvDataType(), dest);
         //TODO make type safe
-        dest.writeParcelableArray((T[]) mData.toArray(), flags);
+        dest.writeParcelableArray((T[]) toArray(), flags);
         dest.writeParcelable(getGvReviewId(), flags);
     }
 }

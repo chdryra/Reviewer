@@ -53,7 +53,7 @@ public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T
     }
 
     @Override
-    public T getItem(int position) {
+    public T get(int position) {
         return mData.get(position);
     }
 

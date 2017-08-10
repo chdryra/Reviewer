@@ -34,7 +34,7 @@ public class IdableDataCollection<T extends HasReviewId> extends AbstractCollect
     }
 
     @Override
-    public T getItem(int position) {
+    public T get(int position) {
         return mData.get(position);
     }
 

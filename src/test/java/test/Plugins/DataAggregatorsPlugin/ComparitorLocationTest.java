@@ -10,16 +10,16 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceFloat;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationDistance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationName;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
+import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;

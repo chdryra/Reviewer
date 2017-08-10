@@ -94,7 +94,7 @@ public class DataFormatter {
             if (comment.isHeadline()) headlines.add(comment);
         }
 
-        String headline = headlines.size() > 0 ? getFirstSentence(headlines.getItem(0)) : "";
+        String headline = headlines.size() > 0 ? getFirstSentence(headlines.get(0)) : "";
         return headline.length() > 0 ? "\"" + headline + "\"" : headline;
     }
 
@@ -106,7 +106,7 @@ public class DataFormatter {
         int count = 0;
         boolean ignored = false;
         while (count < numTags && i < tags.size()) {
-            DataTag item = tags.getItem(i);
+            DataTag item = tags.get(i);
             if(!item.getTag().equalsIgnoreCase(ignoreTag)) {
                 tagsString += item + " ";
                 ++count;

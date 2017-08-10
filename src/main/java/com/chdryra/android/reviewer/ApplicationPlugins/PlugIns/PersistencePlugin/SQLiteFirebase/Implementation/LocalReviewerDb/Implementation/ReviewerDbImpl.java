@@ -115,7 +115,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         TableRowList<DbRow> rows = transactor.getRowsWhere(table, clause, mRowFactory);
         if (rows.size() > 1) throw new IllegalStateException("More than one row found!");
 
-        return rows.size() == 0 ? mRowFactory.emptyRow(table.getRowClass()) : rows.getItem(0);
+        return rows.size() == 0 ? mRowFactory.emptyRow(table.getRowClass()) : rows.get(0);
     }
 
     @Override

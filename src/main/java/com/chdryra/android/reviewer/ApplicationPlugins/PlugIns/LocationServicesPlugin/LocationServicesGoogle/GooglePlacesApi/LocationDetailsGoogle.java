@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 
 import android.net.Uri;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 

@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
 import com.firebase.client.DataSnapshot;
 import com.google.android.gms.maps.model.LatLng;
 

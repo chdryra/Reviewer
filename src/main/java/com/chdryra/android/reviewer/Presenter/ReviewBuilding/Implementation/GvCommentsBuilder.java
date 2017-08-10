@@ -46,7 +46,7 @@ public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
             data.setIsHeadline(false);
             GvCommentList comments = (GvCommentList) getData();
             if (comments.getHeadlines().size() == 0 && comments.size() > 0) {
-                comments.getItem(0).setIsHeadline(true);
+                comments.get(0).setIsHeadline(true);
             }
         }
 

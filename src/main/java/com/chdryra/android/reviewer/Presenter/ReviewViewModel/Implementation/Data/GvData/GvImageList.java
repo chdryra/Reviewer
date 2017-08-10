@@ -53,7 +53,7 @@ public class GvImageList extends GvDataListParcelable<GvImage> {
         GvImageList covers = getCovers();
         if (covers.size() == 0) return new GvImage();
 
-        return covers.getItem(RANDOM.nextInt(covers.size()));
+        return covers.get(RANDOM.nextInt(covers.size()));
     }
 
     public GvImageList getCovers() {

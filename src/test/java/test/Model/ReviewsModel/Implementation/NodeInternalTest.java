@@ -69,7 +69,7 @@ public class NodeInternalTest {
         parent.addChild(child);
 
         assertThat(parent.getChildren().size(), is(1));
-        assertThat(parent.getChildren().getItem(0), is((ReviewNode)child));
+        assertThat(parent.getChildren().get(0), is((ReviewNode)child));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class NodeInternalTest {
 
         parentNew.addChild(child1);
         assertThat(parentOld.getChildren().size(), is(1));
-        assertThat(parentOld.getChildren().getItem(0), is((ReviewNode)child2));
+        assertThat(parentOld.getChildren().get(0), is((ReviewNode)child2));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class NodeInternalTest {
 
         parent.removeChild(child1.getReviewId());
         assertThat(parent.getChildren().size(), is(1));
-        assertThat(parent.getChildren().getItem(0), is((ReviewNode)child2));
+        assertThat(parent.getChildren().get(0), is((ReviewNode)child2));
     }
 
     @Test
@@ -183,7 +183,7 @@ public class NodeInternalTest {
 
         child.setParent(parent);
         assertThat(parent.getChildren().size(), is(1));
-        assertThat(parent.getChildren().getItem(0), is((ReviewNode) child));
+        assertThat(parent.getChildren().get(0), is((ReviewNode) child));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class NodeInternalTest {
 
         child1.setParent(parentNew);
         assertThat(parentOld.getChildren().size(), is(1));
-        assertThat(parentOld.getChildren().getItem(0), is((ReviewNode) child2));
+        assertThat(parentOld.getChildren().get(0), is((ReviewNode) child2));
     }
 
     @Test
@@ -273,8 +273,8 @@ public class NodeInternalTest {
         parent.addChild(child2);
         IdableList<ReviewNode> children = parent.getChildren();
         assertThat(children.size(), is(2));
-        assertThat(children.getItem(0), is((ReviewNode) child1));
-        assertThat(children.getItem(1), is((ReviewNode) child2));
+        assertThat(children.get(0), is((ReviewNode) child1));
+        assertThat(children.get(1), is((ReviewNode) child2));
     }
 
     @Test
@@ -352,9 +352,9 @@ public class NodeInternalTest {
         assertThat(node.getRating().getRatingWeight(), is(0));
 
         IdableList<ReviewNodeComponent> children = addChildren(node, 3, true);
-        addChildren(children.getItem(0), 10, false);
-        addChildren(children.getItem(1), 5, false);
-        addChildren(children.getItem(2), 2, false);
+        addChildren(children.get(0), 10, false);
+        addChildren(children.get(1), 5, false);
+        addChildren(children.get(2), 2, false);
 
         float average = getAverageRating(children);
 
@@ -459,10 +459,10 @@ public class NodeInternalTest {
     @NonNull
     private IdableList<Review> makeTree(ReviewNodeComponent node) {
         IdableList<ReviewNodeComponent> children = addChildren(node, 3, true);
-        IdableList<ReviewNodeComponent> grandChildren0 = addChildren(children.getItem(0), 3, false);
-        IdableList<ReviewNodeComponent> grandChildren1 = addChildren(children.getItem(1), 3, false);
-        IdableList<ReviewNodeComponent> grandChildren2 = addChildren(children.getItem(2), 2, false);
-        IdableList<ReviewNodeComponent> ggc = addChildren(grandChildren2.getItem(0), 3, false);
+        IdableList<ReviewNodeComponent> grandChildren0 = addChildren(children.get(0), 3, false);
+        IdableList<ReviewNodeComponent> grandChildren1 = addChildren(children.get(1), 3, false);
+        IdableList<ReviewNodeComponent> grandChildren2 = addChildren(children.get(2), 2, false);
+        IdableList<ReviewNodeComponent> ggc = addChildren(grandChildren2.get(0), 3, false);
 
         IdableList<ReviewNodeComponent> allNodes = new IdableDataList<>(node.getReviewId());
         allNodes.add(node);

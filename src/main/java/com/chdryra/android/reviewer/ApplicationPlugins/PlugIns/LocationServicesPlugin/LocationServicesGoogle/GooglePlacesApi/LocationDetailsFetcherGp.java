@@ -12,9 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceBuffer;

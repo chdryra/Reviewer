@@ -16,8 +16,8 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;

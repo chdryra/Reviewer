@@ -142,7 +142,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
 
         for (int i = 0; i < size(); ++i) {
             //TODO make type safe
-            if (!getItem(i).equals(that.getItem(i))) return false;
+            if (!get(i).equals(that.get(i))) return false;
         }
 
         return true;

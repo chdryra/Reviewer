@@ -35,7 +35,7 @@ public class CanonicalDate implements CanonicalDatumMaker<DataDate> {
     }
 
     private long getMostRecent(IdableList<? extends DataDate> data) {
-        Date canon = new Date(data.getItem(0).getTime());
+        Date canon = new Date(data.get(0).getTime());
         for (DataDate date : data) {
             Date candidate = new Date(date.getTime());
             if (candidate.after(canon)) canon = candidate;

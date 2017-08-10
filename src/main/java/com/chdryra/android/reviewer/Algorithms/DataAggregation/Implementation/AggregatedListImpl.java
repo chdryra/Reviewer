@@ -45,7 +45,7 @@ public class AggregatedListImpl<T extends HasReviewId>
     }
 
     @Override
-    public AggregatedData<T> getItem(int position) {
+    public AggregatedData<T> get(int position) {
         return mData.get(position);
     }
 

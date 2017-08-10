@@ -87,7 +87,7 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
         assertThat(mdData.getReviewId().toString(), is(id.toString()));
         assertThat(mdData.size(), is(NUM));
         for (int i = 0; i < NUM; ++i) {
-            checkDatumEquivalence(data.getItem(i), mdData.getItem(i));
+            checkDatumEquivalence(data.get(i), mdData.getItem(i));
         }
     }
 
@@ -104,7 +104,7 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
         assertThat(mdData.getReviewId().toString(), is(id.toString()));
         assertThat(mdData.size(), is(NUM));
         for (int i = 0; i < NUM; ++i) {
-            checkDatumEquivalence(data.getItem(i), mdData.getItem(i));
+            checkDatumEquivalence(data.get(i), mdData.getItem(i));
         }
     }
 

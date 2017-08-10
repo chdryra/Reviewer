@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 
 /**
  * Created by: Rizwan Choudrey

@@ -164,7 +164,7 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     @Override
     public GvImage getCover() {
-        return mType.equals(GvImage.TYPE) ? ((GvImageList) getGridData()).getCovers().getItem(0)
+        return mType.equals(GvImage.TYPE) ? ((GvImageList) getGridData()).getCovers().get(0)
                 : mParentBuilder.getCover();
     }
 

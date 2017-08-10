@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

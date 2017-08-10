@@ -50,7 +50,7 @@ public class VhBuildReviewFull extends VhDataCollection {
     @Override
     protected void updateDataView(GvDataCollection data) {
         if(mDatumView != null && data.size() == 1) {
-            mDatumView.updateView(data.getItem(0));
+            mDatumView.updateView(data.get(0));
         } else {
             super.updateDataView(data);
         }

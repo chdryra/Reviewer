@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,7 +38,7 @@ public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthor> {
         DataAuthor nullAuthor = FactoryNullData.nullAuthor(id);
         if (data.size() == 0) return nullAuthor;
 
-        DataAuthor reference = data.getItem(0);
+        DataAuthor reference = data.get(0);
         DifferenceBoolean none = new DifferenceBoolean(false);
         for (DataAuthor author : data) {
             DifferenceBoolean difference = mComparitor.compare(reference, author);

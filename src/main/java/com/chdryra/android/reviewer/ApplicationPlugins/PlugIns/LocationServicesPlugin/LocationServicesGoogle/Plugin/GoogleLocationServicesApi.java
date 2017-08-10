@@ -9,29 +9,23 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin;
 
 
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.AddressesSuggesterAsync;
-import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterLocation;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggesterAsync;
+import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle
-        .GooglePlacesApi.AddressesProviderGp;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.AddressesProviderGp;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.LocationDetailsFetcherGp;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.LocationPredicterGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle
-        .GooglePlacesApi.LocationDetailsFetcherGp;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle
-        .GooglePlacesApi.NearestPlacesSuggesterGp;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.NearestPlacesSuggesterGp;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.PlaceSearcherGp;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhdLocatedPlace;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
 
@@ -53,7 +47,7 @@ public class GoogleLocationServicesApi implements LocationServicesApi {
     }
 
     @Override
-    public AutoCompleter<VhdLocatedPlace> newAutoCompleter(LocatedPlace locatedPlace) {
+    public AutoCompleterLocation newAutoCompleter(LocatedPlace locatedPlace) {
         return new AutoCompleterLocation(locatedPlace, new LocationPredicterGp(newGeoClient()));
     }
 

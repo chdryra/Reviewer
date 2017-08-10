@@ -92,8 +92,8 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     }
 
     @Override
-    public T getItem(int position) {
-        return mData.getItem(position);
+    public T get(int position) {
+        return mData.get(position);
     }
 
     @Override

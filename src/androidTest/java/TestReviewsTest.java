@@ -89,36 +89,36 @@ public class TestReviewsTest extends InstrumentationTestCase{
         //Children
         IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
-        checkCriterion(criteria.getItem(0), "Food", 4f, reviewId);
-        checkCriterion(criteria.getItem(1), "Service", 2f, reviewId);
-        checkCriterion(criteria.getItem(2), "Value", 4.5f, reviewId);
+        checkCriterion(criteria.get(0), "Food", 4f, reviewId);
+        checkCriterion(criteria.get(1), "Service", 2f, reviewId);
+        checkCriterion(criteria.get(2), "Value", 4.5f, reviewId);
 
 
         //Comments
         IdableList<? extends DataComment> comments = review.getComments();
         checkSize(comments, 3);
-        checkComment("Good food. Variable service. Very good value.", comments.getItem(0));
-        checkComment("Drinks are BYO.", comments.getItem(1));
-        checkComment("Be prepared to queue at peak times.", comments.getItem(2));
+        checkComment("Good food. Variable service. Very good value.", comments.get(0));
+        checkComment("Drinks are BYO.", comments.get(1));
+        checkComment("Be prepared to queue at peak times.", comments.get(2));
 
         //Locations
         IdableList<? extends DataLocation> locations = review.getLocations();
         checkSize(locations, 1);
-        checkLocation(locations.getItem(0), "Tayyabs", 51.517972, -0.063291);
+        checkLocation(locations.get(0), "Tayyabs", 51.517972, -0.063291);
 
         //Facts
         IdableList<? extends DataFact> facts = review.getFacts();
         checkSize(facts, 5);
-        checkFact("Starter", "5", facts.getItem(0));
-        checkFact("Main", "8", facts.getItem(1));
-        checkFact("Desert", "5", facts.getItem(2));
-        checkFact("Drinks", "BYO", facts.getItem(3));
+        checkFact("Starter", "5", facts.get(0));
+        checkFact("Main", "8", facts.get(1));
+        checkFact("Desert", "5", facts.get(2));
+        checkFact("Drinks", "BYO", facts.get(3));
 
         //Images
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 2);
-        checkImage(R.raw.tayyabs, "Lovely lamb chops!", date(2015, 1, 25, 19, 15), images.getItem(0));
-        checkImage(R.raw.tayyabs_14, "Frontage", date(2015, 1, 25, 19, 0), images.getItem(1));
+        checkImage(R.raw.tayyabs, "Lovely lamb chops!", date(2015, 1, 25, 19, 15), images.get(0));
+        checkImage(R.raw.tayyabs_14, "Frontage", date(2015, 1, 25, 19, 0), images.get(1));
     }
 
     private void testReview2(Review review) {
@@ -131,47 +131,47 @@ public class TestReviewsTest extends InstrumentationTestCase{
         //Children
         IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
-        checkCriterion(criteria.getItem(0), "Friday", 4f, reviewId);
-        checkCriterion(criteria.getItem(1), "Saturday", 3.5f, reviewId);
-        checkCriterion(criteria.getItem(2), "Sunday", 4f, reviewId);
+        checkCriterion(criteria.get(0), "Friday", 4f, reviewId);
+        checkCriterion(criteria.get(1), "Saturday", 3.5f, reviewId);
+        checkCriterion(criteria.get(2), "Sunday", 4f, reviewId);
 
         //Comments
         IdableList<? extends DataComment> comments = review.getComments();
         checkSize(comments, 3);
         checkComment("Mum made curry which was awesome! Had coconut cake for dessert. Also great " +
-                "but ate too much.", comments.getItem(0));
+                "but ate too much.", comments.get(0));
         checkComment("Saturday went to Kew Gardens to see the blossom. A little late for blossom " +
                         "and lots of place overhead. However was fun to hang out with mum and she" +
                         " enjoyed it.",
-                comments.getItem(1));
+                comments.get(1));
         checkComment("Sunday went to look at cars and cots in preparation for spot. Exciting. For" +
-                " mum anyway...", comments.getItem(2));
+                " mum anyway...", comments.get(2));
 
         //Locations
         IdableList<? extends DataLocation> locations = review.getLocations();
         checkSize(locations, 4);
-        checkLocation(locations.getItem(0), "Home", 51.453149, -1.058555);
-        checkLocation(locations.getItem(1), "Kew Gardens", 51.478914, -0.295557);
-        checkLocation(locations.getItem(2), "Car contacts", 51.460987, -1.038010);
-        checkLocation(locations.getItem(3), "ToysRUs", 51.456697, -0.960154);
+        checkLocation(locations.get(0), "Home", 51.453149, -1.058555);
+        checkLocation(locations.get(1), "Kew Gardens", 51.478914, -0.295557);
+        checkLocation(locations.get(2), "Car contacts", 51.460987, -1.038010);
+        checkLocation(locations.get(3), "ToysRUs", 51.456697, -0.960154);
 
         //Facts
         IdableList<? extends DataFact> facts = review.getFacts();
         checkSize(facts, 6);
-        checkFact("Friday dinner", "Curry and coconut & chocolate cake", facts.getItem(0));
-        checkFact("Kew lunch", "Fish pie", facts.getItem(1));
-        checkFact("Car", "Skoda Octavia Estate", facts.getItem(2));
-        checkFact("Car price", "4495", facts.getItem(3));
-        checkFact("Cot", "Sleigh Cot in antique", facts.getItem(4));
-        checkFact("Cot price", "199 plus mattress", facts.getItem(5));
+        checkFact("Friday dinner", "Curry and coconut & chocolate cake", facts.get(0));
+        checkFact("Kew lunch", "Fish pie", facts.get(1));
+        checkFact("Car", "Skoda Octavia Estate", facts.get(2));
+        checkFact("Car price", "4495", facts.get(3));
+        checkFact("Cot", "Sleigh Cot in antique", facts.get(4));
+        checkFact("Cot price", "199 plus mattress", facts.get(5));
 
 
         //Images
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 3);
-        checkImage(R.raw.kew, "Selfie in Kew!", date(2015, 4, 25, 14, 15), images.getItem(0));
-        checkImage(R.raw.car, "Skoda Octavia", date(2015, 4, 26, 13, 0), images.getItem(1));
-        checkImage(R.raw.cot, "Cot", date(2015, 4, 26, 14, 15), images.getItem(2));
+        checkImage(R.raw.kew, "Selfie in Kew!", date(2015, 4, 25, 14, 15), images.get(0));
+        checkImage(R.raw.car, "Skoda Octavia", date(2015, 4, 26, 13, 0), images.get(1));
+        checkImage(R.raw.cot, "Cot", date(2015, 4, 26, 14, 15), images.get(2));
     }
 
     private void testReview3(Review review) {
@@ -184,36 +184,36 @@ public class TestReviewsTest extends InstrumentationTestCase{
         //Children
         IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
-        checkCriterion(criteria.getItem(0), "Food", 3f, reviewId);
-        checkCriterion(criteria.getItem(1), "Service", 1f, reviewId);
-        checkCriterion(criteria.getItem(2), "Value", 4f, reviewId);
+        checkCriterion(criteria.get(0), "Food", 3f, reviewId);
+        checkCriterion(criteria.get(1), "Service", 1f, reviewId);
+        checkCriterion(criteria.get(2), "Value", 4f, reviewId);
 
 
         //Comments
         IdableList<? extends DataComment> comments = review.getComments();
         checkSize(comments, 3);
-        checkComment("Food not so good today. Variable service.", comments.getItem(0));
-        checkComment("Very busy today and they couldn't cope.", comments.getItem(1));
-        checkComment("Food was cold. Food came late.", comments.getItem(2));
+        checkComment("Food not so good today. Variable service.", comments.get(0));
+        checkComment("Very busy today and they couldn't cope.", comments.get(1));
+        checkComment("Food was cold. Food came late.", comments.get(2));
 
         //Locations
         IdableList<? extends DataLocation> locations = review.getLocations();
         checkSize(locations, 1);
-        checkLocation(locations.getItem(0), "Tayyabs", 51.517975, -0.063295);
+        checkLocation(locations.get(0), "Tayyabs", 51.517975, -0.063295);
 
         //Facts
         IdableList<? extends DataFact> facts = review.getFacts();
         checkSize(facts, 4);
-        checkFact("Starter", "5", facts.getItem(0));
-        checkFact("Main", "9", facts.getItem(1));
-        checkFact("Desert", "4", facts.getItem(2));
-        checkFact("Link", "http://www.tayyabs.co.uk/", facts.getItem(3));
+        checkFact("Starter", "5", facts.get(0));
+        checkFact("Main", "9", facts.get(1));
+        checkFact("Desert", "4", facts.get(2));
+        checkFact("Link", "http://www.tayyabs.co.uk/", facts.get(3));
 
         //Images
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 2);
-        checkImage(R.raw.tayyabs_14, "Lamb chops", date(2015, 7, 20, 12, 15), images.getItem(0));
-        checkImage(R.raw.tayyabs, "Restaurant", date(2015, 7, 20, 12, 0), images.getItem(1));
+        checkImage(R.raw.tayyabs_14, "Lamb chops", date(2015, 7, 20, 12, 15), images.get(0));
+        checkImage(R.raw.tayyabs, "Restaurant", date(2015, 7, 20, 12, 0), images.get(1));
     }
 
     private void testReview4(Review review) {
@@ -222,7 +222,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
         IdableList<? extends DataComment> comments = review.getComments();
         checkSize(comments, 1);
-        checkComment("Good value, reasonable fit.", comments.getItem(0));
+        checkComment("Good value, reasonable fit.", comments.get(0));
 
         //Tags
         checkTags(reviewId, new String[]{"Nappies", "Asda"});

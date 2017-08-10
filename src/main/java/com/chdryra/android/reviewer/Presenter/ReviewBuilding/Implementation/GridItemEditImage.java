@@ -59,7 +59,7 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
     protected void onDataDeleted(GvImage datum) {
         if(datum.isCover()) {
             GvDataList<GvImage> images = getGridData();
-            if(images.size() > 0) images.getItem(0).setIsCover(true);
+            if(images.size() > 0) images.get(0).setIsCover(true);
         }
         updateEditor();
     }

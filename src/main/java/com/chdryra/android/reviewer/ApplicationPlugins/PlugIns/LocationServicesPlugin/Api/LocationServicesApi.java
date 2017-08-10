@@ -8,14 +8,12 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhdLocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
+import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public interface LocationServicesApi {
     AddressesSuggester newAddressesSuggester();
 
-    AutoCompleter<VhdLocatedPlace> newAutoCompleter(LocatedPlace locatedPlace);
+    AutoCompleterLocation newAutoCompleter(LocatedPlace locatedPlace);
 
     LocationDetailsFetcher newLocationDetailsFetcher();
 

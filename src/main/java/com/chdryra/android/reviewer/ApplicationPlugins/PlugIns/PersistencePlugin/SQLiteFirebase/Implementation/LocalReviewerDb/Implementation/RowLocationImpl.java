@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 
 
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
@@ -71,7 +71,7 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
         String providerId = values.getValue(PROVIDER_ID.getName(), PROVIDER_ID.getType());
 
         mId = provider != null ? new LocationId(new LocationProvider(provider), providerId) :
-        LocationId.appLocationId(mName, new LatLng(mLatitude, mLongitude));
+        LocationId.withProviderName(mName, new LatLng(mLatitude, mLongitude));
     }
 
     @Override

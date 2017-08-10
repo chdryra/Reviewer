@@ -12,9 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey

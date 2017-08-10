@@ -12,8 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
+import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompleteFilter;

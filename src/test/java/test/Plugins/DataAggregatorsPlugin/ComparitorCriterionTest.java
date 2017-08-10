@@ -8,7 +8,7 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;

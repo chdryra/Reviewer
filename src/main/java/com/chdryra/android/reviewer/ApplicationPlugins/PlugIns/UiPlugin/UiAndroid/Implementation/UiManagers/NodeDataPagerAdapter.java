@@ -103,7 +103,7 @@ public class NodeDataPagerAdapter<Data extends HasReviewId, FragmentType extends
     }
 
     private void updateFragment(FragmentType fragment) {
-        fragment.onData(mReferences.getItem(getItemPosition(fragment)));
+        fragment.onData(mReferences.get(getItemPosition(fragment)));
     }
 
     public static abstract class DataFragment<Data extends HasReviewId> extends PageableFragment {

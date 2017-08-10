@@ -11,9 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ItemGetter;
+import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
+import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey

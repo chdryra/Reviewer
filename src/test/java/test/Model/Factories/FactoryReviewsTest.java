@@ -153,7 +153,7 @@ public class FactoryReviewsTest {
         checkAuthor(mAuthor, meta);
         checkNodeAgainstReview(review, meta);
         
-        ReviewNode child = meta.getChildren().getItem(0);
+        ReviewNode child = meta.getChildren().get(0);
         assertThat(child.getReviewId(), is(review.getReviewId()));
         assertThat(child.getReference(), is(review));
         assertThat(child.getChildren().size(), is(0));
@@ -183,7 +183,7 @@ public class FactoryReviewsTest {
 
         for(int i = 0; i < reviews.size(); ++i) {
             Review review = reviews.get(i);
-            ReviewNode child = meta.getChildren().getItem(i);
+            ReviewNode child = meta.getChildren().get(i);
             assertThat(child.getReviewId(), is(review.getReviewId()));
             assertThat(child.getReference(), is(review));
             assertThat(child.getChildren().size(), is(0));
@@ -214,7 +214,7 @@ public class FactoryReviewsTest {
 
         for(int i = 0; i < reviews.size(); ++i) {
             Review review = reviews.get(i);
-            ReviewNode child = meta.getChildren().getItem(i);
+            ReviewNode child = meta.getChildren().get(i);
             assertThat(child.getReviewId(), is(review.getReviewId()));
             assertThat(child.getReference(), is(review));
             assertThat(child.getChildren().size(), is(0));
@@ -313,7 +313,7 @@ public class FactoryReviewsTest {
         int i = 0;
         for(DataLocation location : locations) {
             assertThat(reviewLocations.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(location, reviewLocations.getItem(i++), reviewId);
+            DataEquivalence.checkEquivalence(location, reviewLocations.get(i++), reviewId);
         }
         assertThat(reviewLocations.size(), is(i));
     }
@@ -327,7 +327,7 @@ public class FactoryReviewsTest {
         int i = 0;
         for(DataImage image : images) {
             assertThat(reviewImages.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(image, reviewImages.getItem(i++), reviewId);
+            DataEquivalence.checkEquivalence(image, reviewImages.get(i++), reviewId);
         }
         assertThat(reviewImages.size(), is(i));
     }
@@ -342,7 +342,7 @@ public class FactoryReviewsTest {
         int i = 0;
         for(DataFact fact : facts) {
             assertThat(reviewFacts.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(fact, reviewFacts.getItem(i++), reviewId);
+            DataEquivalence.checkEquivalence(fact, reviewFacts.get(i++), reviewId);
         }
         assertThat(reviewFacts.size(), is(i));
     }
@@ -357,7 +357,7 @@ public class FactoryReviewsTest {
         int i = 0;
         for(DataComment comment : comments) {
             assertThat(reviewComments.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(comment, reviewComments.getItem(i++), reviewId);
+            DataEquivalence.checkEquivalence(comment, reviewComments.get(i++), reviewId);
         }
         assertThat(reviewComments.size(), is(i));
     }
@@ -372,7 +372,7 @@ public class FactoryReviewsTest {
         int i = 0;
         for(DataCriterion criterion : criteria) {
             assertThat(reviewCriteria.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(criterion, reviewCriteria.getItem(i++), reviewId);
+            DataEquivalence.checkEquivalence(criterion, reviewCriteria.get(i++), reviewId);
         }
         assertThat(reviewCriteria.size(), is(i));
     }
@@ -383,7 +383,7 @@ public class FactoryReviewsTest {
         assertThat(reviewCriteria.size(), is(criteria.size()));
         for(int i = 0; i < criteria.size(); ++i) {
             DataEquivalence.checkEquivalence(review.getReviewId(), criteria.get(i),
-                    reviewCriteria.getItem(i));
+                    reviewCriteria.get(i));
         }
     }
 

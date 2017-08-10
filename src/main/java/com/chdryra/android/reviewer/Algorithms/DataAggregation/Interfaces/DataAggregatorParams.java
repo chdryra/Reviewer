@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
 
 /**
  * Created by: Rizwan Choudrey

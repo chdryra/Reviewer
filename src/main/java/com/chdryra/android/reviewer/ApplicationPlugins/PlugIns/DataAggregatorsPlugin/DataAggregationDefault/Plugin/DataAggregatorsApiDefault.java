@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin;
 
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
@@ -56,7 +56,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorSubject;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorTag;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.DataAggregatorImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.ComparatorString;
+import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
 
 /**
  * Created by: Rizwan Choudrey

@@ -15,8 +15,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.AddressesSuggesterAsync;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggesterAsync;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;

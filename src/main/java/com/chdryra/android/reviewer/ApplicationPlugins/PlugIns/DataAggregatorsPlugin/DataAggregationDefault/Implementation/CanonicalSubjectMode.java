@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSub
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ItemGetter;
+import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey

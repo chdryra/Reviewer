@@ -8,7 +8,7 @@
 
 package test.DataAggregation;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
 
 import org.junit.Test;
 

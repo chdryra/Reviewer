@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 
 /**
  * Created by: Rizwan Choudrey

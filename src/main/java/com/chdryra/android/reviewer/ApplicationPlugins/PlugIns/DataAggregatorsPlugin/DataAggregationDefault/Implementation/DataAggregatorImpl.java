@@ -16,13 +16,13 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Ag
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.AggregatedListImpl;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DifferenceLevel;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLevel;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Interfaces.DifferenceComparator;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
 
 
 /**
@@ -80,7 +80,7 @@ public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel
 
     private int allocateCandidateIfSimilar(IdableList<T> unallocated, IdableList<T> aggregated,
                                            T reference, int index) {
-        T candidate = unallocated.getItem(index);
+        T candidate = unallocated.get(index);
         D difference = mComparitor.compare(reference, candidate);
         if (difference.lessThanOrEqualTo(mSimilarityThreshold)) {
             aggregated.add(candidate);
@@ -93,7 +93,7 @@ public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel
     }
 
     private T allocateFirstDatumAsReference(IdableList<T> unallocated, IdableList<T> similar) {
-        T reference = unallocated.getItem(0);
+        T reference = unallocated.get(0);
         similar.add(reference);
         unallocated.remove(reference);
         return reference;

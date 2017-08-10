@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.Aggregation.ItemCounter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.ItemGetter;
+import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey

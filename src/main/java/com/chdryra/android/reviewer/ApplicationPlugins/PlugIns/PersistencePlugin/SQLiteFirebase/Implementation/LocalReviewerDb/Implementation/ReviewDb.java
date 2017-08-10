@@ -122,7 +122,7 @@ public class ReviewDb extends ReviewStatic {
         IdableRowList<RowImage> images = new IdableRowList<>(getReviewId(), loadDataWhere(mDb
                 .getImagesTable(), COVER_CLAUSE));
 
-        return images.size() == 0 ? new DatumImage(getReviewId()) : images.getItem(0);
+        return images.size() == 0 ? new DatumImage(getReviewId()) : images.get(0);
     }
 
     @NonNull

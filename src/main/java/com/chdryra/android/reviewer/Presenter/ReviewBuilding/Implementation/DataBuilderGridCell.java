@@ -51,12 +51,13 @@ public class DataBuilderGridCell<T extends GvDataParcelable> extends GvDataListI
     @Override
     public ViewHolder getViewHolder() {
         boolean useDatumVh = size() == 1 && !getGvDataType().equals(GvImage.TYPE);
-        return mViewHolderFactory.newViewHolder(useDatumVh ? getItem(0).getViewHolder() : null);
+        return mViewHolderFactory.newViewHolder(useDatumVh ? get(0).getViewHolder() : null);
     }
 
     @Override
     public void onDataChanged() {
-        mData = mDataAdapter.getGridData().toArrayList();
+        clear();
+        addAll(mDataAdapter.getGridData().toArrayList());
     }
 
     @Override

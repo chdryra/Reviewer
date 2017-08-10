@@ -33,6 +33,6 @@ public class ReviewGetterTest {
         ReviewNode node = RandomReview.nextReviewNode();
         IdableList<Review> reviews = getter.getData(node);
         assertThat(reviews.size(), is(1));
-        assertThat(reviews.getItem(0), is(node.getReference()));
+        assertThat(reviews.get(0), is(node.getReference()));
     }
 }

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
 
 /**
  * Created by: Rizwan Choudrey

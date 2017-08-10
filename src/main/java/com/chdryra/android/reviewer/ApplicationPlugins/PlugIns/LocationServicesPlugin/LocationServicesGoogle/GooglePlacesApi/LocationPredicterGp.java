@@ -13,8 +13,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServices
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterLocation;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;

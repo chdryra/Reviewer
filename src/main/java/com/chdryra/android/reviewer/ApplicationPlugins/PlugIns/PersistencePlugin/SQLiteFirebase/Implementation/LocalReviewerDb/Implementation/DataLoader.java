@@ -138,7 +138,7 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
             super.onPostExecute(data);
             if(mListener != null) {
                 if(data.size() == 1) {
-                    mListener.onLoaded(data.getItem(0));
+                    mListener.onLoaded(data.get(0));
                 } else {
                     mListener.onLoaded(null);
                 }

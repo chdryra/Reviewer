@@ -259,7 +259,7 @@ public class FactoryReviews implements ReviewMaker {
         DateTime date = datum.getDate();
         if (date.getTime() == 0) date = mdDate;
         LatLng latLng = datum.getLatLng();
-        if (latLng == null && mdLocations.size() > 0) latLng = mdLocations.getItem(0).getLatLng();
+        if (latLng == null && mdLocations.size() > 0) latLng = mdLocations.get(0).getLatLng();
 
         return new DatumImage(id, datum.getBitmap(), date, datum.getCaption(), latLng, isCover);
     }

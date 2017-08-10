@@ -48,7 +48,7 @@ public class DbItemDereferencer<Row extends ReviewDataRow<Row>, Value extends Ha
             @Override
             public void onLoaded(IdableList<Row> data) {
                 if (data.size() > 0) {
-                    callback.onDereferenced(new DataValue<>(mConverter.convert(data.getItem(0))));
+                    callback.onDereferenced(new DataValue<>(mConverter.convert(data.get(0))));
                 } else {
                     callback.onDereferenced(new DataValue<Value>(CallbackMessage.error("No item in database for this reference")));
                 }

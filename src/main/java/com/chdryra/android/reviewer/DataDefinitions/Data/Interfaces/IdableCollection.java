@@ -16,5 +16,5 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface IdableCollection<T extends HasReviewId> extends Collection<T> {
-    T getItem(int position);
+    T get(int position);
 }

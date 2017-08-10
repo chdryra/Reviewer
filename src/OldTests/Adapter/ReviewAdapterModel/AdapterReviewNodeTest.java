@@ -65,11 +65,11 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         assertNotNull(oList);
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {
-            ReviewNode review = mReviews.getItem(i);
-            assertEquals(review.getRating().getRating(), oList.getItem(i).getRating());
-            assertEquals(review.getSubject().getSubject(), oList.getItem(i).getSubject());
-            assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
-            assertEquals(review.getPublishDate().getDate(), oList.getItem(i).getPublishDate());
+            ReviewNode review = mReviews.get(i);
+            assertEquals(review.getRating().getRating(), oList.get(i).getRating());
+            assertEquals(review.getSubject().getSubject(), oList.get(i).getSubject());
+            assertEquals(review.getAuthor(), oList.get(i).getAuthor());
+            assertEquals(review.getPublishDate().getDate(), oList.get(i).getPublishDate());
         }
     }
 

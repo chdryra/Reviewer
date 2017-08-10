@@ -8,7 +8,7 @@
 
 package test.DataAggregation;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
+import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceFloat;
 
 import org.junit.Test;
 

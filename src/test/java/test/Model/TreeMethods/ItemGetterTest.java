@@ -41,7 +41,7 @@ public class ItemGetterTest {
         IdableList<? extends DataComment> nodeComments = node.getData();
         assertThat(comments.size(), is(nodeComments.size()));
         for(int i = 0; i < comments.size(); ++i) {
-            DataComment comment = nodeComments.getItem(i);
+            DataComment comment = nodeComments.get(i);
             assertThat(comments.contains(comment), is(true));
             comments.remove(comment);
         }

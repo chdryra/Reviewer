@@ -175,9 +175,9 @@ public class ReviewDbTest {
         verify(mDb).getRowsWhere(dataTable, dataClause, mTransactor);
         assertThat(data.getReviewId(), is(review.getReviewId()));
         assertThat(data.size(), is(3));
-        DataEquivalence.checkEquivalence(data.getItem(0), dataRows.getItem(0));
-        DataEquivalence.checkEquivalence(data.getItem(1), dataRows.getItem(1));
-        DataEquivalence.checkEquivalence(data.getItem(2), dataRows.getItem(2));
+        DataEquivalence.checkEquivalence(data.get(0), dataRows.get(0));
+        DataEquivalence.checkEquivalence(data.get(1), dataRows.get(1));
+        DataEquivalence.checkEquivalence(data.get(2), dataRows.get(2));
     }
 
     @Test
@@ -202,9 +202,9 @@ public class ReviewDbTest {
         verify(mDb).getRowsWhere(dataTable, dataClause, mTransactor);
         assertThat(data.getReviewId(), is(review.getReviewId()));
         assertThat(data.size(), is(3));
-        DataEquivalence.checkEquivalence(data.getItem(0), dataRows.getItem(0));
-        DataEquivalence.checkEquivalence(data.getItem(1), dataRows.getItem(1));
-        DataEquivalence.checkEquivalence(data.getItem(2), dataRows.getItem(2));
+        DataEquivalence.checkEquivalence(data.get(0), dataRows.get(0));
+        DataEquivalence.checkEquivalence(data.get(1), dataRows.get(1));
+        DataEquivalence.checkEquivalence(data.get(2), dataRows.get(2));
     }
 
     @Test
@@ -228,9 +228,9 @@ public class ReviewDbTest {
         verify(mDb).getRowsWhere(dataTable, dataClause, mTransactor);
         assertThat(data.getReviewId(), is(review.getReviewId()));
         assertThat(data.size(), is(3));
-        DataEquivalence.checkEquivalence(data.getItem(0), dataRows.getItem(0));
-        DataEquivalence.checkEquivalence(data.getItem(1), dataRows.getItem(1));
-        DataEquivalence.checkEquivalence(data.getItem(2), dataRows.getItem(2));
+        DataEquivalence.checkEquivalence(data.get(0), dataRows.get(0));
+        DataEquivalence.checkEquivalence(data.get(1), dataRows.get(1));
+        DataEquivalence.checkEquivalence(data.get(2), dataRows.get(2));
     }
 
     @Test
@@ -254,9 +254,9 @@ public class ReviewDbTest {
         verify(mDb).getRowsWhere(dataTable, dataClause, mTransactor);
         assertThat(data.getReviewId(), is(review.getReviewId()));
         assertThat(data.size(), is(3));
-        DataEquivalence.checkEquivalence(data.getItem(0), dataRows.getItem(0));
-        DataEquivalence.checkEquivalence(data.getItem(1), dataRows.getItem(1));
-        DataEquivalence.checkEquivalence(data.getItem(2), dataRows.getItem(2));
+        DataEquivalence.checkEquivalence(data.get(0), dataRows.get(0));
+        DataEquivalence.checkEquivalence(data.get(1), dataRows.get(1));
+        DataEquivalence.checkEquivalence(data.get(2), dataRows.get(2));
     }
 
     @Test

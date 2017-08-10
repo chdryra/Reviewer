@@ -49,7 +49,7 @@ public class DbRefDataList<Row extends ReviewDataRow<Row>, Value extends HasRevi
                 IdableList<Row> list = new IdableDataList<>(getReviewId());
                 list.add(data);
                 IdableList<Value> convert = getConverter().convert(list);
-                return convert.getItem(0);
+                return convert.get(0);
             }
         };
     }

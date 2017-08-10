@@ -119,7 +119,7 @@ public class ReviewsSourceImplTest {
         mSource.getMetaReview(expectedReview.getReviewId(), new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
-                assertCorrectReview(getNode(result).getChildren().getItem(0), expectedReview);
+                assertCorrectReview(getNode(result).getChildren().get(0), expectedReview);
             }
         });
     }
@@ -154,7 +154,7 @@ public class ReviewsSourceImplTest {
         mSource.asMetaReview(datum, "", new ReviewsSource.ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
-                assertCorrectReview(getNode(result).getChildren().getItem(0), expectedReview);
+                assertCorrectReview(getNode(result).getChildren().get(0), expectedReview);
             }
         });
 
@@ -194,7 +194,7 @@ public class ReviewsSourceImplTest {
             public void onMetaReviewCallback(RepositoryResult result) {
                 ReviewNode review = getNode(result);
                 assertThat(review.getChildren().size(), is(1));
-                assertCorrectReview(review.getChildren().getItem(0), expectedReview);
+                assertCorrectReview(review.getChildren().get(0), expectedReview);
             }
         });
     }
@@ -344,7 +344,7 @@ public class ReviewsSourceImplTest {
 
     private Review getRandomReview() {
         int index = RAND.nextInt(mReviews.size());
-        return mReviews.getItem(index);
+        return mReviews.get(index);
     }
 
     private void assertNodeHasCorrectData(String subject, ReviewNode node) {
@@ -353,14 +353,14 @@ public class ReviewsSourceImplTest {
         int numChildren = children.size();
         ArrayList<Review> reviewsAssessed = new ArrayList<>();
         for (int i = 0; i < numChildren; ++i) {
-            ReviewNode child = children.getItem(i);
+            ReviewNode child = children.get(i);
             Review review = child.getReference();
 
             assertThat(mReviews.contains(review), is(true));
             assertThat(reviewsAssessed.contains(review), is(false));
             reviewsAssessed.add(review);
 
-            Review item = mReviews.getItem(review.getReviewId());
+            Review item = mReviews.get(review.getReviewId());
             assertNotNull(item);
             assertCorrectReview(child, item);
             averageRating += child.getRating().getRating() / numChildren;
@@ -376,7 +376,7 @@ public class ReviewsSourceImplTest {
         assertThat(node.getParent(), is(nullValue()));
         assertThat(node.getChildren().size(), is(num));
         for (int i = 0; i < num; ++i) {
-            ReviewNode child = node.getChildren().getItem(i);
+            ReviewNode child = node.getChildren().get(i);
             assertThat(child.getChildren().size(), is(0));
         }
     }
