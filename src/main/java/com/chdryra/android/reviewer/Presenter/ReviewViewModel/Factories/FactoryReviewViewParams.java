@@ -27,6 +27,7 @@ public class FactoryReviewViewParams {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
             params.getGridViewParams().setCellHeight(half).setCellWidth(half);
         } else if(dataType.equals(GvBucket.TYPE)) {
+            params = new ReviewViewParams(ReviewViewParams.ViewType.REVIEWS_LIST);
             ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
             ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
             params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);

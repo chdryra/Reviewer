@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -28,9 +29,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  */
 
 public interface ReviewViewLayout {
-    <T extends GvData> View inflateLayout(ReviewView<T> reviewView, CellDimensionsCalculator
-            calculator,
-                                          LayoutInflater inflater, ViewGroup container);
+    View inflateLayout(LayoutInflater inflater, ViewGroup container);
+
+    <T extends GvData> void attachReviewView(ReviewView<T> reviewView, CellDimensionsCalculator calculator);
 
     void inflateMenu(Menu menu, MenuInflater inflater);
 

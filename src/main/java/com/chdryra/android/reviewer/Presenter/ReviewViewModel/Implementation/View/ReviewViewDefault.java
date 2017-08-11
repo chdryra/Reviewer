@@ -30,7 +30,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         ReviewView<T> {
     private static final String TAG = TagKeyGenerator.getTag(ReviewViewDefault.class);
 
-    private final ReviewViewPerspective<T> mPerspective;
+    private ReviewViewPerspective<T> mPerspective;
 
     private ReviewViewContainer mContainer;
     private ApplicationInstance mApp;
@@ -40,14 +40,23 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         mPerspective = perspective;
     }
 
-    protected void attachToAdapter() {
-        mPerspective.attachToAdapter(this);
-        mGridViewData = mPerspective.getAdapter().getGridData();
-        notifyDataObservers();
+    protected ReviewViewContainer getContainer() {
+        return mContainer;
     }
 
-    protected void detachFromAdapter() {
+    protected void setGridViewData(GvDataList<T> dataToShow) {
+        mGridViewData = dataToShow;
+        if (mContainer != null) mContainer.onDataChanged();
+    }
+
+    protected void detachPerspective() {
+        mPerspective.detachFromActions();
         mPerspective.detachFromAdapter();
+        nullifyGridData();
+    }
+
+    protected void nullifyGridData() {
+        mGridViewData = null;
     }
 
     @Override
@@ -93,15 +102,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         return mGridViewData;
     }
 
-    protected void setGridViewData(GvDataList<T> dataToShow) {
-        mGridViewData = dataToShow;
-        if (mContainer != null) mContainer.onDataChanged();
-    }
-
-    protected ReviewViewContainer getContainer() {
-        return mContainer;
-    }
-
     @Override
     public ReviewViewActions<T> getActions() {
         return mPerspective.getActions();
@@ -120,7 +120,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
         if (mContainer != null) {
-            if(mContainer != container) {
+            if (mContainer != container) {
                 unregisterObserver(mContainer);
                 mContainer.detachFromReviewView();
                 mContainer = container;
@@ -133,17 +133,15 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         mContainer = container;
         mApp = app;
         registerObserver(mContainer);
-        mPerspective.attachToActions(this);
-        attachToAdapter();
+        attachPerspective();
+        notifyDataObservers();
     }
 
     @Override
     public void detachEnvironment() {
-        mPerspective.detachFromActions();
-        detachFromAdapter();
+        detachPerspective();
         unregisterObserver(mContainer);
         mContainer = null;
-        nullifyGridData();
     }
 
     @Override
@@ -164,10 +162,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         notifyDataObservers();
     }
 
-    protected void nullifyGridData() {
-        mGridViewData = null;
-    }
-
     @Override
     public String getLaunchTag() {
         return getSubject() + " " + TAG;
@@ -186,5 +180,16 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     @Override
     public boolean onOptionsCancelled(int requestCode) {
         return mPerspective.getActions().onOptionsCancelled(requestCode);
+    }
+
+    @Override
+    public void switchContainerTo(ReviewView<?> newReviewView) {
+        if(mContainer != null) mContainer.setReviewView(newReviewView);
+    }
+
+    private void attachPerspective() {
+        mPerspective.attachToActions(this);
+        mPerspective.attachToAdapter(this);
+        mGridViewData = mPerspective.getAdapter().getGridData();
     }
 }

@@ -56,12 +56,14 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
     private ViewUi<?, ?> mViewSelector;
 
     @Override
-    public <T extends GvData> View inflateLayout(ReviewView<T> reviewView,
-                                                 CellDimensionsCalculator calculator,
-                                                 LayoutInflater inflater, ViewGroup container) {
+    public View inflateLayout(LayoutInflater inflater, ViewGroup container) {
         mView = inflater.inflate(LAYOUT, container, false);
-        if(reviewView == null) return mView;
+        return mView;
+    }
 
+    @Override
+    public <T extends GvData> void attachReviewView(ReviewView<T> reviewView,
+                                                    CellDimensionsCalculator calculator) {
         mMenu = newMenuUi(reviewView);
         mSubject = newSubjectUi(reviewView);
         mRatingBar = newRatingUi(reviewView);
@@ -69,8 +71,6 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
         mDataView = newDataViewUi(reviewView, calculator);
         mCover = newCoverUi(reviewView);
         mViewSelector = newContextualUi(reviewView);
-
-        return mView;
     }
 
     @Override

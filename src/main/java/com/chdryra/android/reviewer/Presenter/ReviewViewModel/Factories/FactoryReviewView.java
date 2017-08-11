@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
+import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
-import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
@@ -51,7 +51,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
@@ -138,7 +137,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         FactoryActionsReviewsList.Feed actionsFactory
                 = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
-                newLaunchDistributionCommand(node), mCommandsFactory, mComparators, mReviewsRepo,
+                newDistributionView(node), mCommandsFactory, mComparators, mReviewsRepo,
                 mConfig.getProfileEditor());
 
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
@@ -200,11 +199,11 @@ public class FactoryReviewView {
         return mConfig.getUiLauncher();
     }
 
-    private <BucketingValue, Data extends HasReviewId> ReviewView<?>
-    newBucketView(ReviewNode node,
-                  DataBucketer<BucketingValue, Data> bucketer,
-                  ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
-        return newDefaultView(mAdapterFactory.newBucketAdapter(node, bucketer, vhFactory));
+    private <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
+    newBucketAdapter(ReviewNode node,
+                     DataBucketer<BucketingValue, Data> bucketer,
+                     ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
+        return mAdapterFactory.newBucketAdapter(node, bucketer, vhFactory);
     }
 
     private <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter,
@@ -223,21 +222,19 @@ public class FactoryReviewView {
                 (followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(node, getUiLauncher(), this,
-                        newLaunchDistributionCommand(node),
+                        newDistributionView(node),
                         mCommandsFactory,
                         mComparators, name));
     }
 
-    private Command newLaunchDistributionCommand(ReviewNode node) {
-        ReviewView<?> reviewView = newBucketView(node, mBucketerFactory.newRatingsBucketer(),
+    private ReviewView<?> newDistributionView(ReviewNode node) {
+        return newDefaultView(newBucketAdapter(node, mBucketerFactory.newRatingsBucketer(),
                 new ViewHolderFactory<VhBucket<Float, DataRating>>() {
                     @Override
                     public VhBucket<Float, DataRating> newViewHolder() {
                         return new VhRatingBucket();
                     }
-                });
-
-        return mCommandsFactory.newLaunchViewCommand(reviewView, Strings.Commands.DISTRIBUTION);
+                }));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -287,11 +284,9 @@ public class FactoryReviewView {
         ReviewStamp stamp = adapter.getStamp();
 
         ReviewNode node = null;
-        Command longClick = new Command();
         try {
             AdapterReviewNode<?> nodeAdapter = (AdapterReviewNode<?>) adapter;
             node = nodeAdapter.getNode();
-            if (!dataType.equals(GvBucket.TYPE)) longClick = newLaunchDistributionCommand(node);
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
@@ -303,7 +298,6 @@ public class FactoryReviewView {
 
         ViewDataParameters<T> params = new ViewDataParameters<>(dataType, this,
                 mCommandsFactory, stamp, mAuthorsRepo, launcher, getComparator(dataType))
-                .setBannerLongClick(longClick)
                 .setGridItemConfig(viewer)
                 .setReviewNode(node);
 

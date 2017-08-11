@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 
 public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     private final OptionsSelector mSelector;
-    private final CommandsList mOptions;
     private final int mRequestCode;
+    private CommandsList mOptions;
 
     public ButtonSelector(String title, OptionsSelector selector) {
         super(title);
@@ -40,6 +40,10 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
 
     public void addOption(Command command) {
         mOptions.add(command);
+    }
+
+    public void addOption(int position, Command command) {
+        mOptions.add(position, command);
     }
 
     public void addLongClick(Command command) {

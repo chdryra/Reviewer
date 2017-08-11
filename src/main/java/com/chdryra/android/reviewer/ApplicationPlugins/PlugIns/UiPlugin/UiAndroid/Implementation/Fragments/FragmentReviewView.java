@@ -58,20 +58,16 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        ActivityReviewView activity;
         try {
-            ActivityReviewView activity = (ActivityReviewView) getActivity();
-            mReviewView = activity.getReviewView();
-            mLayout = activity.getReviewLayout();
+            activity = (ActivityReviewView) getActivity();
         } catch (ClassCastException e) {
             throw new RuntimeException("Activity must be ActivityReviewView!", e);
         }
 
-        View v = mLayout.inflateLayout(mReviewView, new CellDimensionsCalculator(getActivity()), inflater, container);
-
-        if (mReviewView == null) {
-            AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
-            return v;
-        }
+        mLayout = activity.getReviewLayout();
+        View v = mLayout.inflateLayout(inflater, container);
+        setReviewView(activity.getReviewView());
 
         return v;
     }
@@ -112,6 +108,18 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @Override
+    public void setReviewView(ReviewView<?> reviewView) {
+        detachFromReviewViewIfNecessary();
+        mReviewView = reviewView;
+        if(mReviewView != null) {
+            mLayout.attachReviewView(mReviewView, new CellDimensionsCalculator(getActivity()));
+            attachToReviewViewIfNecessary();
+        } else {
+            AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
+        }
+    }
+
+    @Override
     public String getSubject() {
         return mLayout.getSubject();
     }
@@ -129,10 +137,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public ReviewView<?> getReviewView() {
         return mReviewView;
-    }
-
-    public void setReviewView(ReviewView<?> reviewView) {
-        mReviewView = reviewView;
     }
 
     @Override

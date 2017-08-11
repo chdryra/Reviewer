@@ -38,6 +38,8 @@ public interface ReviewView<T extends GvData>
 
     ReviewViewActions<T> getActions();
 
+    void switchContainerTo(ReviewView<?> newReviewView);
+
     String getContainerSubject();
 
     float getContainerRating();

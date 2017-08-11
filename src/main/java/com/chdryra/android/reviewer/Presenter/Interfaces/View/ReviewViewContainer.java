@@ -31,6 +31,8 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
 
     void detachFromReviewView();
 
+    void setReviewView(ReviewView<?> reviewView);
+
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     void setCover(@Nullable DataImage cover);

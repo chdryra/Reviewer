@@ -29,6 +29,10 @@ public class CommandsList {
         mCommands.add(command);
     }
 
+    public void add(int position, Command command) {
+        mCommands.add(position, command);
+    }
+
     public int size() {
         return mCommands.size();
     }
