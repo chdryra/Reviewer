@@ -128,6 +128,10 @@ public class FactoryReviewViewAdapter {
         return newNodeAdapter(node, viewer);
     }
 
+    public ReviewViewAdapter<?> newTreeAdapter(ReviewNode node) {
+        return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
+    }
+
     //View specific data for this review as a review (can't be expanded to a review list)
     public <T extends GvData> ReviewViewAdapter<?> newReviewDataAdapter(ReviewNode node,
                                                                         GvDataType<T> dataType) {

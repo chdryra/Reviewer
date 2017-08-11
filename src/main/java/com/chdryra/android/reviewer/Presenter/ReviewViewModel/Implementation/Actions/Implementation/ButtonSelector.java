@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
@@ -29,6 +27,7 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     private final OptionsSelector mSelector;
     private final int mRequestCode;
     private CommandsList mOptions;
+    private String mCurrentlySelected = null;
 
     public ButtonSelector(String title, OptionsSelector selector) {
         super(title);
@@ -51,9 +50,20 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
         setLongClick(command);
     }
 
+    protected void setCurrentlySelected(String optionName) {
+        Command option = null;
+        for(int i = 0; i < mOptions.size(); ++i) {
+            option = mOptions.get(i);
+            if(optionName.equals(option.getName())) break;
+        }
+
+        if(option != null) mCurrentlySelected = optionName;
+    }
+
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         if(requestCode == mRequestCode) {
+            mCurrentlySelected = option;
             mOptions.execute(option);
             return true;
         } else {
@@ -74,10 +84,6 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     }
 
     protected void launchSelector() {
-        launchSelector(null);
-    }
-
-    protected void launchSelector(@Nullable String currentOption) {
-        mSelector.execute(mOptions.getCommandNames(), currentOption, mRequestCode, null);
+        mSelector.execute(mOptions.getCommandNames(), mCurrentlySelected, mRequestCode, null);
     }
 }

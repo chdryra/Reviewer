@@ -99,7 +99,8 @@ public class Strings {
         public static final String AUTHORS = "authors";
         public static final String FULL_REVIEW = "Full opinion";
         public static final String QUICK_REVIEW = "Quick opinion";
-        public static final String DISTRIBUTION = "Ratings distribution";
+        public static final String DISTRIBUTION = "Distribution";
+        public static final String AGGREGATE = "Aggregate";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
         public static final String LIST = "List";
@@ -167,9 +168,8 @@ public class Strings {
         public static final String DELETE = "Delete";
         public static final String OPTIONS = "Options";
         public static final String REVIEW_OPTIONS = "options";
-        public static final String FORMATTED = "Formatted";
-        public static final String MAPPED = "Mapped";
-        public static final String DISTRIBUTION = "Distribution";
+        public static final String PAGED = "Pages";
+        public static final String MAPPED = "Map";
         public static final String BOOKMARK = "Bookmark";
         public static final String UNBOOKMARK = "Unbookmark";
         public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";

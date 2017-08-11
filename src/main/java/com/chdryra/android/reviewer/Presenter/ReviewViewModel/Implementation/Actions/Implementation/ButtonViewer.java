@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
-import com.chdryra.android.mygenerallibrary.Collections.CollectionIdableImpl;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
@@ -23,31 +22,37 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
  */
 
 public class ButtonViewer<T extends GvData> extends ButtonSelector<T> {
-    private NamedReviewView<?> mCurrentView;
+    private final String mDefaultView;
+    private final int mDefaultPosition;
     private final CollectionIdable<String, NamedReviewView<?>> mViews;
     private boolean mInitialised = false;
 
     public ButtonViewer(String title,
-                        OptionsSelector selector) {
+                        String defaultView,
+                        int defaultPosition,
+                        OptionsSelector selector,
+                        CollectionIdable<String, NamedReviewView<?>> views) {
         super(title, selector);
-        mViews = new CollectionIdableImpl<>();
-    }
-
-    public void addView(NamedReviewView<?> view) {
-        mViews.add(view);
-        addOption(new SwitchViewCommand(view));
+        mDefaultView = defaultView;
+        mDefaultPosition = defaultPosition;
+        mViews = views;
+        for(NamedReviewView<?> view : mViews) {
+            mViews.add(view);
+            addOption(new SwitchViewCommand(view));
+        }
     }
 
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
         if(!mInitialised) {
-            NamedReviewView<T> defaultView = new NamedReviewView<>(getButtonTitle(), getReviewView());
+            NamedReviewView<T> defaultView = new NamedReviewView<>(mDefaultView, getReviewView());
             mViews.add(defaultView);
-            addOption(0, new SwitchViewCommand(defaultView));
-            mCurrentView = defaultView;
+            addOption(mDefaultPosition, new SwitchViewCommand(defaultView));
             mInitialised = true;
         }
+
+        setCurrentlySelected(mDefaultView);
     }
 
     private class SwitchViewCommand extends Command {
@@ -59,8 +64,7 @@ public class ButtonViewer<T extends GvData> extends ButtonSelector<T> {
         public void execute() {
             NamedReviewView<?> view = mViews.get(getName());
             if(view != null) {
-                mCurrentView = view;
-                getReviewView().switchContainerTo(mCurrentView.getView());
+                getReviewView().switchContainerTo(view.getView());
             }
         }
     }

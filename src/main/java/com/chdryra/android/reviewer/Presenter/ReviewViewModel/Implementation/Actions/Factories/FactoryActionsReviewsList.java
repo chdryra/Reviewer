@@ -10,33 +10,53 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonViewer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfile;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.NamedReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonSorter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonViewer;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLaunchNodeView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiBookmarks;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiFollow;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiLogout;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiProfile;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiSearch;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuFollow;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.NamedReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -50,7 +70,8 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     private final ReviewNode mNode;
     private final UiLauncher mLauncher;
     private final FactoryReviewView mFactoryReviewView;
-    private final ReviewView<?> mDistribution;
+    private final CollectionIdable<String, NamedReviewView<?>> mContextViews;
+    private final CommandsList mContextCommands;
     private final FactoryCommands mFactoryCommands;
     private final DataComparatorsApi mComparators;
 
@@ -59,7 +80,8 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     public FactoryActionsReviewsList(ReviewNode node,
                                      UiLauncher launcher,
                                      FactoryReviewView factoryReviewView,
-                                     ReviewView<?> distribution,
+                                     CollectionIdable<String, NamedReviewView<?>> contextViews,
+                                     CommandsList contextCommands,
                                      FactoryCommands factoryCommands,
                                      DataComparatorsApi comparators,
                                      @Nullable AuthorReference authorRef) {
@@ -67,7 +89,8 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         mNode = node;
         mLauncher = launcher;
         mFactoryReviewView = factoryReviewView;
-        mDistribution = distribution;
+        mContextViews = contextViews;
+        mContextCommands = contextCommands;
         mFactoryCommands = factoryCommands;
         mComparators = comparators;
         mAuthorRef = authorRef;
@@ -93,12 +116,6 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     }
 
     @Override
-    public RatingBarAction<GvNode> newRatingBar() {
-        return super.newRatingBar();
-        //return new RatingBarExpandGrid<>(mLauncher, mFactoryReviewView);
-    }
-
-    @Override
     public ButtonAction<GvNode> newBannerButton() {
         return new ButtonSorter<>(newSelector(), mComparators.newReviewComparators());
     }
@@ -110,10 +127,11 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
     @Nullable
     @Override
     public ButtonAction<GvNode> newContextButton() {
-        ButtonViewer<GvNode> button = new ButtonViewer<>(Strings.Buttons.LIST, newSelector());
-        button.addView(new NamedReviewView<>(Strings.Buttons.DISTRIBUTION, mDistribution));
+        String title = Strings.Buttons.LIST;
+        ButtonViewer<GvNode> button = new ButtonViewer<>(title, title, 0, newSelector(), mContextViews);
         if(mNode != null) {
-            button.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
+            for(Command command : mContextCommands)
+            button.addOption(command);
         }
 
         return button;
@@ -121,7 +139,7 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
-        LaunchBespokeViewCommand click = mFactoryCommands.newLaunchFormattedCommand(null);
+        LaunchBespokeViewCommand click = mFactoryCommands.newLaunchPagedCommand(null);
         ReviewOptionsSelector longClick = mFactoryCommands.newReviewOptionsSelector();
         return new GridItemLaunchNodeView(click, longClick);
     }
@@ -133,12 +151,13 @@ public class FactoryActionsReviewsList extends FactoryActionsNone<GvNode> {
         public Feed(ReviewNode node,
                     UiLauncher launcher,
                     FactoryReviewView factoryReviewView,
-                    ReviewView<?> distribution,
+                    CollectionIdable<String, NamedReviewView<?>> contextViews,
+                    CommandsList contextCommands,
                     FactoryCommands factoryCommands,
                     DataComparatorsApi comparators,
                     ReviewsSource repo,
                     LaunchableConfig profileEditor) {
-            super(node, launcher, factoryReviewView, distribution, factoryCommands, comparators, null);
+            super(node, launcher, factoryReviewView, contextViews, contextCommands, factoryCommands, comparators, null);
             mRepo = repo;
             mProfileEditor = profileEditor;
         }

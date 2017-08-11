@@ -109,8 +109,8 @@ public class FactoryCommands {
         };
     }
 
-    public LaunchBespokeViewCommand newLaunchFormattedCommand(@Nullable ReviewNode node) {
-        return newLaunchBespokeViewCommand(node, Strings.Commands.FORMATTED, GvNode.TYPE);
+    public LaunchBespokeViewCommand newLaunchPagedCommand(@Nullable ReviewNode node) {
+        return newLaunchBespokeViewCommand(node, Strings.Commands.PAGED, GvNode.TYPE);
     }
 
     public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String commandName, GvDataType<?> dataType) {

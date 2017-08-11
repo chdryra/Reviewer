@@ -9,8 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
 
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,28 +20,22 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class CommandsList {
-    private final List<Command> mCommands;
-
+public class CommandsList extends ArrayList<Command> implements Collection<Command>{
     public CommandsList() {
-        mCommands = new ArrayList<>();
+        super();
     }
 
-    public void add(Command command) {
-        mCommands.add(command);
+    public CommandsList(@NonNull Collection<? extends Command> c) {
+        super(c);
     }
 
-    public void add(int position, Command command) {
-        mCommands.add(position, command);
-    }
-
-    public int size() {
-        return mCommands.size();
+    public CommandsList(int initialCapacity) {
+        super(initialCapacity);
     }
 
     public ArrayList<String> getCommandNames() {
         ArrayList<String> names = new ArrayList<>();
-        for(Command command : mCommands) {
+        for(Command command : this) {
             names.add(command.getName());
         }
 
@@ -47,7 +43,7 @@ public class CommandsList {
     }
 
     public void execute(String name) {
-        for (Command command : mCommands) {
+        for (Command command : this) {
             if(command.getName().equals(name)) {
                 command.execute();
                 break;

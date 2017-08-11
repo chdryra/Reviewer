@@ -44,6 +44,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         for(NamedComparator<? super T> comparator : mComparators) {
             addOption(new ComparatorCommand(comparator));
         }
+        setCurrentlySelected(mCurrentComparator.getId());
     }
 
     @Override
@@ -68,7 +69,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
 
     @Override
     protected void launchSelector() {
-        if(!mLocked) super.launchSelector(mCurrentComparator.getId());
+        if(!mLocked) super.launchSelector();
     }
 
     private class ComparatorCommand extends Command {

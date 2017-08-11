@@ -85,7 +85,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public MenuAction<GC> newMenu() {
-        LaunchBespokeViewCommand command = mFactoryCommands.newLaunchFormattedCommand(null);
+        LaunchBespokeViewCommand command = mFactoryCommands.newLaunchPagedCommand(null);
         return new MenuReviewBuild<>(getMenuTitle(), new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
     }

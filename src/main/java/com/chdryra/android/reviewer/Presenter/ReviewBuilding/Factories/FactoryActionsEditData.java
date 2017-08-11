@@ -117,7 +117,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @NonNull
     MenuActionItem<T> newPreviewAction() {
-        return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchFormattedCommand(null));
+        return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchPagedCommand(null));
     }
 
     @NonNull

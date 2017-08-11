@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
+import com.chdryra.android.mygenerallibrary.Collections.CollectionIdableImpl;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
 import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
@@ -48,9 +50,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.ViewDataParameters;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.NamedReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
@@ -137,7 +145,8 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         FactoryActionsReviewsList.Feed actionsFactory
                 = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
-                newDistributionView(node), mCommandsFactory, mComparators, mReviewsRepo,
+                getListContextViews(node), getDefaultContextCommands(node),
+                mCommandsFactory, mComparators, mReviewsRepo,
                 mConfig.getProfileEditor());
 
         return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
@@ -173,6 +182,10 @@ public class FactoryReviewView {
 
     public ReviewView<?> newSummaryView(ReviewNode node) {
         return newDefaultView(mAdapterFactory.newSummaryAdapter(node));
+    }
+
+    public ReviewView<?> newAggregateView(ReviewNode node) {
+        return newDefaultView(mAdapterFactory.newTreeAdapter(node));
     }
 
     public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter) {
@@ -222,9 +235,32 @@ public class FactoryReviewView {
                 (followAuthorId);
         return newReviewsListView(node, adapter,
                 new FactoryActionsReviewsList(node, getUiLauncher(), this,
-                        newDistributionView(node),
+                        getListContextViews(node),
+                        getDefaultContextCommands(node),
                         mCommandsFactory,
                         mComparators, name));
+    }
+
+    @NonNull
+    private CollectionIdable<String, NamedReviewView<?>> getListContextViews(ReviewNode node) {
+        CollectionIdable<String, NamedReviewView<?>> contextViews = new CollectionIdableImpl<>();
+        contextViews.add(new NamedReviewView<>(Strings.Buttons.DISTRIBUTION, newDistributionView(node)));
+        contextViews.add(new NamedReviewView<>(Strings.Buttons.AGGREGATE, newAggregateView(node)));
+        return contextViews;
+    }
+
+    @NonNull
+    private CollectionIdable<String, NamedReviewView<?>> getDistributionContextViews(ReviewNode node) {
+        CollectionIdable<String, NamedReviewView<?>> contextViews = new CollectionIdableImpl<>();
+        contextViews.add(new NamedReviewView<>(Strings.Buttons.AGGREGATE, newAggregateView(node)));
+        return contextViews;
+    }
+
+    private CommandsList getDefaultContextCommands(ReviewNode node) {
+        CommandsList list = new CommandsList();
+        list.add(mCommandsFactory.newLaunchMappedCommand(node));
+        list.add(mCommandsFactory.newLaunchPagedCommand(node));
+        return list;
     }
 
     private ReviewView<?> newDistributionView(ReviewNode node) {
@@ -317,7 +353,8 @@ public class FactoryReviewView {
             factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>)
                     params, node);
         } else if (dataType.equals(GvBucket.TYPE) && node != null) {
-            factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node);
+            factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node,
+                    getDistributionContextViews(node), getDefaultContextCommands(node), mCommandsFactory);
         } else {
             factory = new FactoryActionsViewData<>(params);
         }

@@ -62,6 +62,6 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
     }
 
     private LaunchBespokeViewCommand launchFormatted() {
-        return getCommandsFactory().newLaunchFormattedCommand(mNode);
+        return getCommandsFactory().newLaunchPagedCommand(mNode);
     }
 }

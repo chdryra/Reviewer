@@ -93,7 +93,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         } else {
             ButtonSelector<T> selector
                     = newBannerButtonSelector(mButtonTitle, mFactoryCommands.newOptionsSelector());
-            if(mNode != null) selector.addOption(mFactoryCommands.newLaunchFormattedCommand(mNode));
+            if(mNode != null) selector.addOption(mFactoryCommands.newLaunchPagedCommand(mNode));
             selector.addLongClick(mBannerLongClick);
             return selector;
         }
