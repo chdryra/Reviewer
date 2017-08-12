@@ -52,7 +52,7 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
     @Override
     public ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit, ReviewPublisher
             publisher, PublishAction.PublishCallback callback) {
-        mReviewEditor = mViewFactory.newReviewEditor(client, toEdit, publisher, callback);
+        mReviewEditor = mViewFactory.newReviewEditor(toEdit, client, publisher, callback);
         return mReviewEditor;
     }
 

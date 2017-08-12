@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewComments extends FactoryActionsViewData<GvComment.Reference> {
-    public FactoryActionsViewComments(ViewDataParameters<GvComment.Reference> parameters) {
+    public FactoryActionsViewComments(ActionsParameters<GvComment.Reference> parameters) {
         super(parameters);
     }
 

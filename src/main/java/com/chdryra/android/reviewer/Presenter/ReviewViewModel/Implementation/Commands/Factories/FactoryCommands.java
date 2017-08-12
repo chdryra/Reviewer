@@ -61,7 +61,7 @@ public class FactoryCommands {
 
         final CommandsList commands = new CommandsList();
         if(!mApp.getNetwork().isOnline(mApp.getUi().getCurrentScreen())) {
-            commands.add(new Command(Strings.Commands.OFFLINE));
+            commands.add(Command.NoAction(Strings.Commands.OFFLINE));
             callback.onReviewOptionsReady(commands);
             return;
         }

@@ -38,7 +38,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
 
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
-        ReviewView<?> ui = mFactory.newDefaultView(expanded);
+        ReviewView<?> ui = mFactory.newViewWithAdapter(expanded);
         int code = RequestCodeGenerator.getCode(TAG + ui.getLaunchTag());
         mLauncher.launch(ui, new UiLauncherArgs(code));
     }

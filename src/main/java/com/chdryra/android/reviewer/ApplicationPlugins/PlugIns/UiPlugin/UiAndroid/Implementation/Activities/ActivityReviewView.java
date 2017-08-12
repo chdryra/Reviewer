@@ -20,10 +20,8 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.FragmentReviewView;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewListFragmentLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewViewFragmentLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewViewFragmentLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewEditFragmentLayout;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ReviewViewLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
@@ -55,7 +53,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     protected ReviewViewLayout createReviewViewLayout(ReviewViewParams.ViewType viewType) {
-        return viewType == ReviewViewParams.ViewType.REVIEWS_LIST ? new ReviewListFragmentLayout() : new ReviewViewFragmentLayout();
+        return viewType == ReviewViewParams.ViewType.VIEW ? new ReviewViewFragmentLayout() : new ReviewEditFragmentLayout();
     }
 
     @Override

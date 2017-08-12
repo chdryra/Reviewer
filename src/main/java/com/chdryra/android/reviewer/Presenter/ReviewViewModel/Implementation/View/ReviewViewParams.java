@@ -19,10 +19,11 @@ public class ReviewViewParams {
     private final GridViewParams mGridViewParams = new GridViewParams();
     private final SubjectParams mSubjectParams = new SubjectParams();
     private final RatingBarParams mRatingBarParams = new RatingBarParams();
-    private boolean mCoverManager = true;
-    private final ViewType mViewType;
 
-    public enum ViewType {REVIEWS_LIST, OTHER}
+    private boolean mCoverManager = true;
+    private ViewType mViewType;
+
+    public enum ViewType {EDIT, VIEW}
 
     public enum GridViewAlpha {
         TRANSPARENT(0),
@@ -55,19 +56,11 @@ public class ReviewViewParams {
         public int getDivider() {
             return mDivider;
         }
-
-        public boolean isWrapped() {
-            return getDivider() == -1;
-        }
     }
 
 
     public ReviewViewParams() {
-        this(ViewType.OTHER);
-    }
-
-    public ReviewViewParams(ViewType viewType) {
-        mViewType = viewType;
+        mViewType = ViewType.VIEW;
     }
 
     public ViewType getViewType() {
@@ -88,6 +81,11 @@ public class ReviewViewParams {
 
     public boolean manageCover() {
         return mCoverManager;
+    }
+
+    public ReviewViewParams setViewType(ViewType type) {
+        mViewType = type;
+        return this;
     }
 
     public ReviewViewParams setCoverManager(boolean coverManager) {

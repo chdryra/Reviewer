@@ -11,16 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
-import com.chdryra.android.mygenerallibrary.Collections.CollectionIdableImpl;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
 import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -39,26 +37,21 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.ActionsParameters;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsPublish;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsSearch;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewBuckets;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsViewSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.ViewDataParameters;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.NamedReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
@@ -136,33 +129,17 @@ public class FactoryReviewView {
     }
 
     public ReviewEditor<? extends GvDataList<? extends GvDataParcelable>>
-    newReviewEditor(LocationClient locationClient, Review review,
+    newReviewEditor(Review review, LocationClient locationClient,
                     ReviewPublisher publisher, PublishAction.PublishCallback callback) {
         return mEditorFactory.newReviewEditor(mConfig, getUiLauncher(), locationClient,
                 review, publisher, callback);
     }
 
-    public ReviewViewNode newFeedView(ReviewNode node) {
-        FactoryActionsReviewsList.Feed actionsFactory
-                = new FactoryActionsReviewsList.Feed(node, getUiLauncher(), this,
-                getListContextViews(node), getDefaultContextCommands(node),
-                mCommandsFactory, mComparators, mReviewsRepo,
-                mConfig.getProfileEditor());
-
-        return newReviewsListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
-    }
-
-    public ReviewViewNode newReviewsListView(ReviewNode node, boolean followMenu) {
-        AuthorId followAuthorId = followMenu ? node.getAuthorId() : null;
-        return newDefaultReviewsListView(node,
-                mAdapterFactory.newReviewsListAdapter(node, followAuthorId), followAuthorId);
-    }
-
     public ReviewView<?> newPublishView(ReviewEditor<?> toPublish,
                                         ReviewPublisher publisher,
+                                        PublishAction.PublishCallback callback,
                                         SocialPlatformList platforms,
-                                        PlatformAuthoriser authoriser,
-                                        PublishAction.PublishCallback callback) {
+                                        PlatformAuthoriser authoriser) {
         GvSocialPlatformList list = new GvSocialPlatformList();
         for (SocialPlatform platform : platforms) {
             list.add(new GvSocialPlatform(platform));
@@ -176,23 +153,32 @@ public class FactoryReviewView {
                 new ReviewViewActions<>(factory), mParamsFactory.newPublishParams());
     }
 
+    public ReviewViewNode newFeedView(ReviewNode node) {
+        FactoryActionsViewReviews actionsFactory
+                = new FactoryActionsViewReviews(newListActionParams(node, false), mReviewsRepo,
+                mConfig.getProfileEditor());
+        return newListView(node, mAdapterFactory.newFeedAdapter(node), actionsFactory);
+    }
+
+    public ReviewViewNode newListView(ReviewNode node, boolean followMenu) {
+        AuthorId followAuthorId = followMenu ? node.getAuthorId() : null;
+        return newListView(node,
+                mAdapterFactory.newReviewsListAdapter(node, followAuthorId), followAuthorId);
+    }
+
     public ReviewView<?> newDataView(ReviewNode node, GvDataType<?> dataType) {
-        return newDefaultView(mAdapterFactory.newReviewDataAdapter(node, dataType));
+        return newViewWithAdapter(mAdapterFactory.newReviewDataAdapter(node, dataType));
     }
 
     public ReviewView<?> newSummaryView(ReviewNode node) {
-        return newDefaultView(mAdapterFactory.newSummaryAdapter(node));
+        return newViewWithAdapter(mAdapterFactory.newSummaryAdapter(node));
     }
 
-    public ReviewView<?> newAggregateView(ReviewNode node) {
-        return newDefaultView(mAdapterFactory.newTreeAdapter(node));
-    }
-
-    public <T extends GvData> ReviewView<T> newDefaultView(ReviewViewAdapter<T> adapter) {
+    public <T extends GvData> ReviewView<T> newViewWithAdapter(ReviewViewAdapter<T> adapter) {
         ReviewView view;
         try {
             AdapterNodeFollowable followable = (AdapterNodeFollowable) adapter;
-            view = newDefaultReviewsListView(followable.getNode(), followable,
+            view = newListView(followable.getNode(), followable,
                     followable.getFollowAuthorId());
         } catch (ClassCastException e) {
             view = newReviewView(adapter, newViewActions(adapter),
@@ -212,6 +198,30 @@ public class FactoryReviewView {
         return mConfig.getUiLauncher();
     }
 
+    @NonNull
+    private ActionsParameters<GvNode> newListActionParams(ReviewNode node, boolean withFollow) {
+        ActionsParameters<GvNode> params = newActionParams(GvNode.TYPE);
+        params.setContextCommands(getDefaultContextCommands(node, Strings.Buttons.LIST,
+                withFollow)).setComparators(mComparators.newReviewComparators());
+        return params;
+    }
+
+    private ReviewView<?> newAggregateView(ReviewNode node) {
+        return newViewWithAdapter(mAdapterFactory.newTreeAdapter(node));
+    }
+
+    private ReviewView<?> newDistributionView(ReviewNode node) {
+        ReviewViewAdapter<?> adapter = newBucketAdapter(node, mBucketerFactory.newRatingsBucketer(),
+                new ViewHolderFactory<VhBucket<Float, DataRating>>() {
+                    @Override
+                    public VhBucket<Float, DataRating> newViewHolder() {
+                        return new VhRatingBucket();
+                    }
+                });
+
+        return newViewWithAdapter(adapter);
+    }
+
     private <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
     newBucketAdapter(ReviewNode node,
                      DataBucketer<BucketingValue, Data> bucketer,
@@ -228,49 +238,43 @@ public class FactoryReviewView {
 
     //private
     @NonNull
-    private ReviewViewNode newDefaultReviewsListView(ReviewNode node,
-                                                     ReviewViewAdapter<GvNode> adapter,
-                                                     @Nullable AuthorId followAuthorId) {
-        AuthorReference name = followAuthorId == null ? null : mAuthorsRepo.getReference
-                (followAuthorId);
-        return newReviewsListView(node, adapter,
-                new FactoryActionsReviewsList(node, getUiLauncher(), this,
-                        getListContextViews(node),
-                        getDefaultContextCommands(node),
-                        mCommandsFactory,
-                        mComparators, name));
+    private ReviewViewNode newListView(ReviewNode node,
+                                       ReviewViewAdapter<GvNode> adapter,
+                                       @Nullable AuthorId followAuthorId) {
+        boolean follow = followAuthorId != null;
+        AuthorReference name = follow ? mAuthorsRepo.getReference
+                (followAuthorId) : null;
+        return newListView(node, adapter,
+                new FactoryActionsViewReviews(newListActionParams(node, follow), name));
     }
 
-    @NonNull
-    private CollectionIdable<String, NamedReviewView<?>> getListContextViews(ReviewNode node) {
-        CollectionIdable<String, NamedReviewView<?>> contextViews = new CollectionIdableImpl<>();
-        contextViews.add(new NamedReviewView<>(Strings.Buttons.DISTRIBUTION, newDistributionView(node)));
-        contextViews.add(new NamedReviewView<>(Strings.Buttons.AGGREGATE, newAggregateView(node)));
-        return contextViews;
-    }
+    private CommandsList getDefaultContextCommands(final ReviewNode node, String defaultView,
+                                                   final boolean withFollowForList) {
+        CommandsList list = new CommandsList(defaultView);
+        list.add(new Command(Strings.Buttons.LIST) {
+            @Override
+            public void execute() {
+                mCommandsFactory.newLaunchViewCommand(newListView(node, withFollowForList)).execute();
+            }
+        });
 
-    @NonNull
-    private CollectionIdable<String, NamedReviewView<?>> getDistributionContextViews(ReviewNode node) {
-        CollectionIdable<String, NamedReviewView<?>> contextViews = new CollectionIdableImpl<>();
-        contextViews.add(new NamedReviewView<>(Strings.Buttons.AGGREGATE, newAggregateView(node)));
-        return contextViews;
-    }
+        list.add(new Command(Strings.Buttons.DISTRIBUTION) {
+            @Override
+            public void execute() {
+                mCommandsFactory.newLaunchViewCommand(newDistributionView(node)).execute();
+            }
+        });
 
-    private CommandsList getDefaultContextCommands(ReviewNode node) {
-        CommandsList list = new CommandsList();
+        list.add(new Command(Strings.Buttons.AGGREGATE) {
+            @Override
+            public void execute() {
+                mCommandsFactory.newLaunchViewCommand(newAggregateView(node)).execute();
+            }
+        });
+
         list.add(mCommandsFactory.newLaunchMappedCommand(node));
         list.add(mCommandsFactory.newLaunchPagedCommand(node));
         return list;
-    }
-
-    private ReviewView<?> newDistributionView(ReviewNode node) {
-        return newDefaultView(newBucketAdapter(node, mBucketerFactory.newRatingsBucketer(),
-                new ViewHolderFactory<VhBucket<Float, DataRating>>() {
-                    @Override
-                    public VhBucket<Float, DataRating> newViewHolder() {
-                        return new VhRatingBucket();
-                    }
-                }));
     }
 
     private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
@@ -280,9 +284,9 @@ public class FactoryReviewView {
     }
 
     @NonNull
-    private ReviewViewNode newReviewsListView(ReviewNode node,
-                                              ReviewViewAdapter<GvNode> adapter,
-                                              FactoryReviewViewActions<GvNode> actionsFactory) {
+    private ReviewViewNode newListView(ReviewNode node,
+                                       ReviewViewAdapter<GvNode> adapter,
+                                       FactoryReviewViewActions<GvNode> actionsFactory) {
         ReviewViewActions<GvNode> actions = new ReviewViewActions<>(actionsFactory);
         ReviewViewParams params = mParamsFactory.newReviewsListParams();
         return new ReviewViewNode(node, newPerspective(adapter, actions, params));
@@ -315,10 +319,6 @@ public class FactoryReviewView {
 
     @NonNull
     private <T extends GvData> ReviewViewActions<T> newViewActions(ReviewViewAdapter<T> adapter) {
-        GvDataType<T> dataType = getDataType(adapter);
-        FactoryReviewViewActions<?> factory;
-        ReviewStamp stamp = adapter.getStamp();
-
         ReviewNode node = null;
         try {
             AdapterReviewNode<?> nodeAdapter = (AdapterReviewNode<?>) adapter;
@@ -327,46 +327,62 @@ public class FactoryReviewView {
             e.printStackTrace();
         }
 
-        UiLauncher launcher = getUiLauncher();
-        LaunchableConfig viewer = null;
-        String datumName = dataType.getDatumName();
-        if (mConfig.hasConfig(datumName)) viewer = mConfig.getViewer(datumName);
-
-        ViewDataParameters<T> params = new ViewDataParameters<>(dataType, this,
-                mCommandsFactory, stamp, mAuthorsRepo, launcher, getComparator(dataType))
-                .setGridItemConfig(viewer)
-                .setReviewNode(node);
+        GvDataType<T> dataType = getDataType(adapter);
+        ActionsParameters<T> params = newDefaultActionsParameters(dataType).setStamp(adapter
+                .getStamp());
+        if(node != null) {
+            params.setContextCommands(getDefaultContextCommands(node, TextUtils.capitalize(dataType.getDataName()), false))
+            .setComparators(getPlaceholderComparator("Unsorted"));
+        }
 
         //TODO make type safe
-        if (dataType.equals(GvComment.Reference.TYPE)) {
-            factory = new FactoryActionsViewComments((ViewDataParameters<GvComment.Reference>)
+        FactoryReviewViewActions<?> factory;
+        if (dataType.equals(GvComment.Reference.TYPE) && node != null) {
+            factory = new FactoryActionsViewComments((ActionsParameters<GvComment.Reference>)
                     params);
         } else if (dataType.equals(GvLocation.Reference.TYPE) && node != null) {
-            factory = new FactoryActionsViewLocations((ViewDataParameters<GvLocation.Reference>)
+            factory = new FactoryActionsViewLocations((ActionsParameters<GvLocation.Reference>)
                     params,
                     node, mConfig.getBespokeDatumViewer(dataType.getDatumName()), mConverter
                     .newConverterLocations());
         } else if (dataType.equals(GvImage.Reference.TYPE) && node != null) {
-            factory = new FactoryActionsViewImages((ViewDataParameters<GvImage.Reference>) params,
+            factory = new FactoryActionsViewImages((ActionsParameters<GvImage.Reference>) params,
                     node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
-            factory = new FactoryActionsViewSummary((ViewDataParameters<GvSize.Reference>)
+            params.setContextCommands(getDefaultContextCommands(node, Strings.Buttons
+                    .AGGREGATE, false)).setComparators(getPlaceholderComparator("Review data"));
+            factory = new FactoryActionsViewSummary((ActionsParameters<GvSize.Reference>)
                     params, node);
-        } else if (dataType.equals(GvBucket.TYPE) && node != null) {
-            factory = new FactoryActionsViewBuckets((ViewDataParameters<GvBucket>) params, node,
-                    getDistributionContextViews(node), getDefaultContextCommands(node), mCommandsFactory);
         } else {
+            if (dataType.equals(GvBucket.TYPE) && node != null) {
+                params.setContextCommands(getDefaultContextCommands(node, Strings.Buttons
+                        .DISTRIBUTION, false)).setComparators(getPlaceholderComparator("High-Low"));
+            }
             factory = new FactoryActionsViewData<>(params);
         }
 
         return new ReviewViewActions<>((FactoryReviewViewActions<T>) factory);
     }
 
-    private <T extends GvData> ComparatorCollection<? super T> getComparator(GvDataType<T>
-                                                                                     dataType) {
+    @NonNull
+    private <T extends GvData> ActionsParameters<T> newDefaultActionsParameters(GvDataType<T>
+                                                                                            dataType) {
+        LaunchableConfig viewer = null;
+        String datumName = dataType.getDatumName();
+        if (mConfig.hasConfig(datumName)) viewer = mConfig.getViewer(datumName);
+
+        return newActionParams(dataType).setGridItemConfig(viewer);
+    }
+
+    @NonNull
+    private <T extends GvData> ActionsParameters<T> newActionParams(GvDataType<T> dataType) {
+        return new ActionsParameters<>(dataType, this,
+                mCommandsFactory, mAuthorsRepo, getUiLauncher());
+    }
+
+    private <T extends GvData> ComparatorCollection<? super T> getPlaceholderComparator(String name) {
         //TODO redo once there is a sever-client way of doing comparators.
-        NamedComparator<T> placeholder = new NamedComparator.Builder<>(dataType.getDataName
-                (), new Comparator<T>() {
+        NamedComparator<T> placeholder = new NamedComparator.Builder<>(name, new Comparator<T>() {
             @Override
             public int compare(T lhs, T rhs) {
                 return lhs.getReviewId().toString().compareTo(rhs.getReviewId().toString());

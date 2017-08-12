@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class FactoryActionsViewImages extends FactoryActionsViewData<GvImage.Reference> {
     private final ReviewNode mNode;
 
-    public FactoryActionsViewImages(ViewDataParameters<GvImage.Reference> parameters,
+    public FactoryActionsViewImages(ActionsParameters<GvImage.Reference> parameters,
                                     ReviewNode node) {
         super(parameters);
         mNode = node;

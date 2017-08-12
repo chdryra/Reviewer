@@ -25,16 +25,21 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 
 public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     private final OptionsSelector mSelector;
+    private final boolean mIgnoreCurrent;
     private final int mRequestCode;
     private CommandsList mOptions;
     private String mCurrentlySelected = null;
 
-    public ButtonSelector(String title, OptionsSelector selector) {
-        super(title);
+    public ButtonSelector(OptionsSelector selector, CommandsList commands, boolean ignoreCurrent) {
+        super(commands.getListName());
         mSelector = selector;
+        mIgnoreCurrent = ignoreCurrent;
         mOptions = new CommandsList();
         setClick(new ClickCommand());
-        mRequestCode = RequestCodeGenerator.getCode(ButtonSelector.class, title);
+        mRequestCode = RequestCodeGenerator.getCode(ButtonSelector.class, commands.getListName());
+        for(Command option : commands) {
+            addOption(option);
+        }
     }
 
     public void addOption(Command command) {
@@ -43,11 +48,6 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
 
     public void addOption(int position, Command command) {
         mOptions.add(position, command);
-    }
-
-    public void addLongClick(Command command) {
-        mOptions.add(command);
-        setLongClick(command);
     }
 
     protected void setCurrentlySelected(String optionName) {
@@ -63,8 +63,10 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         if(requestCode == mRequestCode) {
-            mCurrentlySelected = option;
-            mOptions.execute(option);
+            if(!option.equals(mCurrentlySelected) || !mIgnoreCurrent) {
+                mCurrentlySelected = option;
+                mOptions.execute(option);
+            }
             return true;
         } else {
             return super.onOptionSelected(requestCode, option);

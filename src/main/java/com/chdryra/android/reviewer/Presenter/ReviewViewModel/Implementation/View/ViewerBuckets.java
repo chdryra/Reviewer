@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .ViewHolderFactory;
 
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -78,6 +79,7 @@ public class ViewerBuckets<BucketingValue, Data extends HasReviewId> extends
             @Override
             public void onDataBucketed(BucketDistribution<BucketingValue, Data> distribution) {
                 List<Bucket<BucketingValue, Data>> buckets = distribution.getBuckets();
+                Collections.reverse(buckets);
                 int size = distribution.size();
                 for (Bucket<BucketingValue, Data> bucket : buckets) {
                     data.add(new GvBucket<>(bucket, size, mVhFactory));

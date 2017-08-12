@@ -110,6 +110,6 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     private ReviewView<?> newListView(ReviewNode reviewNode) {
         boolean menu = !reviewNode.getAuthorId().toString().equals(mSessionAuthor.toString());
-        return mViewFactory.newReviewsListView(reviewNode, menu);
+        return mViewFactory.newListView(reviewNode, menu);
     }
 }

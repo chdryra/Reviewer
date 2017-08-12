@@ -21,8 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -34,16 +35,15 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewListFragmentLayout implements ReviewViewLayout {
-    private static final int LAYOUT = R.layout.fragment_review_list;
-    private static final int SUBJECT = R.id.review_subject;
-    private static final int RATING_VALUE = R.id.rating_value;
-    private static final int RATING_NUMER = R.id.rating_number;
-    private static final int BANNER = R.id.sort_button;
+public class ReviewEditFragmentLayout implements ReviewViewLayout {
+    private static final int LAYOUT = R.layout.fragment_review_view;
+    private static final int SUBJECT = R.id.subject_edit_text;
+    private static final int RATING = R.id.review_rating;
+    private static final int BANNER = R.id.banner_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
-    private static final int CONTEXTUAL_VIEW = R.id.view_selector_layout;
-    private static final int CONTEXTUAL_BUTTON = R.id.view_button;
+    private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
+    private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
     private View mView;
 
@@ -51,9 +51,9 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
     private SimpleViewUi<?, Bitmap> mCover;
     private SubjectUi<?> mSubject;
     private SimpleViewUi<?, Float> mRatingBar;
-    private ViewUi<?, ?> mSortButton;
+    private ViewUi<?, ?> mBannerButton;
     private DataViewUi<?, ?> mDataView;
-    private ViewUi<?, ?> mViewSelector;
+    private ViewUi<?, ?> mContextual;
 
     @Override
     public View inflateLayout(LayoutInflater inflater, ViewGroup container) {
@@ -67,10 +67,10 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
         mMenu = newMenuUi(reviewView);
         mSubject = newSubjectUi(reviewView);
         mRatingBar = newRatingUi(reviewView);
-        mSortButton = newBannerButtonUi(reviewView);
+        mBannerButton = newBannerButtonUi(reviewView);
         mDataView = newDataViewUi(reviewView, calculator);
         mCover = newCoverUi(reviewView);
-        mViewSelector = newContextualUi(reviewView);
+        mContextual = newContextualUi(reviewView);
     }
 
     @Override
@@ -107,9 +107,9 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
     public void update(boolean forceSubject) {
         mSubject.update(forceSubject);
         mRatingBar.update();
-        mSortButton.update();
+        mBannerButton.update();
         mDataView.update();
-        mViewSelector.update();
+        mContextual.update();
         mCover.update();
     }
 
@@ -143,17 +143,12 @@ public class ReviewListFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE), (TextView) mView.findViewById(RATING_NUMER));
+        return new RatingBarRvUi(reviewView, (RatingBar) mView.findViewById(RATING));
     }
 
     @NonNull
-    private SubjectUi<?> newSubjectUi(final ReviewView<?> reviewView) {
-        return new SubjectUi<>((TextView) mView.findViewById(SUBJECT), new ViewUi.ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return reviewView.getSubject();
-            }
-        });
+    private SubjectUi<?> newSubjectUi(ReviewView<?> reviewView) {
+        return new SubjectEditUi(reviewView, (EditText) mView.findViewById(SUBJECT));
     }
 
 }

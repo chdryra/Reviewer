@@ -108,7 +108,7 @@ public class UiSuiteAndroid implements UiSuite{
                                         SocialPlatformList platforms,
                                         PlatformAuthoriser authoriser,
                                         PublishAction.PublishCallback callback) {
-        return mViewFactory.newPublishView(editor, publisher, platforms, authoriser, callback);
+        return mViewFactory.newPublishView(editor, publisher, callback, platforms, authoriser);
     }
 
     @Override

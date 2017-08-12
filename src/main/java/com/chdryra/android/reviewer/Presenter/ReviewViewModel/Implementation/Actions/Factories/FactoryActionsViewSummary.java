@@ -8,19 +8,15 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemSummary;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 
 /**
@@ -31,9 +27,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Reference> {
     private final ReviewNode mNode;
 
-    public FactoryActionsViewSummary(ViewDataParameters<GvSize.Reference> parameters,
+    public FactoryActionsViewSummary(ActionsParameters<GvSize.Reference> parameters,
                                      ReviewNode node) {
-        super(parameters.setButtonTitle(Strings.Buttons.SUMMARY));
+        super(parameters);
         mNode = node;
     }
 
@@ -52,13 +48,6 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
     @Override
     public GridItemAction<GvSize.Reference> newGridItem() {
         return new GridItemSummary(getLauncher(), getViewFactory(), launchFormatted());
-    }
-
-    @NonNull
-    @Override
-    protected ButtonSelector<GvSize.Reference> newBannerButtonSelector(String buttonTitle,
-                                                                       OptionsSelector selector) {
-        return new ButtonSelector<>(buttonTitle, selector);
     }
 
     private LaunchBespokeViewCommand launchFormatted() {

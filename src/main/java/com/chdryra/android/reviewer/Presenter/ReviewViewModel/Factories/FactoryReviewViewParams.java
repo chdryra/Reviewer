@@ -27,7 +27,6 @@ public class FactoryReviewViewParams {
             ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
             params.getGridViewParams().setCellHeight(half).setCellWidth(half);
         } else if(dataType.equals(GvBucket.TYPE)) {
-            params = new ReviewViewParams(ReviewViewParams.ViewType.REVIEWS_LIST);
             ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
             ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
             params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);
@@ -38,8 +37,12 @@ public class FactoryReviewViewParams {
         return params;
     }
 
+    public <T extends GvData> ReviewViewParams newEditParams(GvDataType<T> dataType) {
+        return newViewParams(dataType).setViewType(ReviewViewParams.ViewType.EDIT);
+    }
+
     public ReviewViewParams newEditorParams(GvDataType<?> dataType) {
-        ReviewViewParams params = newViewParams(dataType);
+        ReviewViewParams params = newEditParams(dataType);
         params.getRatingBarParams().setEditable(true);
         params.getSubjectParams().setEditable(true);
 
@@ -47,14 +50,14 @@ public class FactoryReviewViewParams {
     }
 
     public ReviewViewParams newSearchParams(GvDataType<?> dataType, String hint) {
-        ReviewViewParams params = newViewParams(dataType);
+        ReviewViewParams params = newEditParams(dataType);
         params.getSubjectParams().setEditable(true).setUpdateOnRefresh(false).setHint(hint);
         params.getRatingBarParams().setVisible(false);
         return params;
     }
 
     public ReviewViewParams newReviewsListParams() {
-        ReviewViewParams params = new ReviewViewParams(ReviewViewParams.ViewType.REVIEWS_LIST);
+        ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.CellDimension wrapped = ReviewViewParams.CellDimension.WRAPPED;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
@@ -65,7 +68,7 @@ public class FactoryReviewViewParams {
     }
 
     public ReviewViewParams newBuildReviewParams() {
-        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams params = new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
         params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
         params.getRatingBarParams().setEditable(true);
         params.getSubjectParams().setEditable(true);

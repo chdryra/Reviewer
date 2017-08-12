@@ -16,13 +16,22 @@ import android.support.annotation.Nullable;
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Command {
+public abstract class Command {
     private int mRequestCode;
     private ExecutionListener mListener;
     private String mName;
 
     public interface ExecutionListener {
         void onCommandExecuted(int requestCode);
+    }
+
+    public static Command NoAction(String name) {
+        return new Command(name) {
+            @Override
+            public void execute() {
+
+            }
+        };
     }
 
     public Command(String name) {
@@ -41,9 +50,7 @@ public class Command {
         mName = name;
     }
 
-    public void execute() {
-
-    }
+    public abstract void execute();
 
     public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;

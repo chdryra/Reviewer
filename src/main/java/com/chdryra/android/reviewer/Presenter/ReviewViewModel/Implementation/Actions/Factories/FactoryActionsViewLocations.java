@@ -34,7 +34,7 @@ public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocati
     private final LaunchableConfig mMapper;
     private final GvConverterLocations mConverter;
 
-    public FactoryActionsViewLocations(ViewDataParameters<GvLocation.Reference> parameters,
+    public FactoryActionsViewLocations(ActionsParameters<GvLocation.Reference> parameters,
                                        ReviewNode node, LaunchableConfig mapper,
                                        GvConverterLocations converter) {
         super(parameters);

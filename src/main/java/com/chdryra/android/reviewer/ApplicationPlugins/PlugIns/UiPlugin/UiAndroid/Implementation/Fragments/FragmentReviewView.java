@@ -23,8 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
         .Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewViewFragmentLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewEditFragmentLayout;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ReviewViewLayout;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -41,7 +40,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private ReviewViewLayout mLayout;
     private boolean mIsAttached = false;
 
-    public void setLayout(ReviewViewFragmentLayout layout) {
+    public void setLayout(ReviewEditFragmentLayout layout) {
         mLayout = layout;
     }
 

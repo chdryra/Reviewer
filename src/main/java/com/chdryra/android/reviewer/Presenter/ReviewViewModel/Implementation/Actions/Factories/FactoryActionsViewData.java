@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
@@ -22,14 +22,15 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonAuthorReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelectorWithDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelectAndExecute;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
@@ -41,7 +42,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
-    private final ReviewNode mNode;
     private final FactoryReviewView mFactoryView;
     private final FactoryCommands mFactoryCommands;
     private final UiLauncher mLauncher;
@@ -49,21 +49,18 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final AuthorsRepository mRepo;
     private final ComparatorCollection<? super T> mComparators;
 
-    private Command mBannerLongClick;
     private LaunchableConfig mGridItemConfig;
-    private String mButtonTitle;
+    private CommandsList mContextCommands;
 
-    public FactoryActionsViewData(ViewDataParameters<T> parameters) {
+    public FactoryActionsViewData(ActionsParameters<T> parameters) {
         super(parameters.getDataType());
-        mNode = parameters.getNode();
-        mButtonTitle = parameters.getButtonTitle();
         mFactoryView = parameters.getFactoryView();
         mFactoryCommands = parameters.getFactoryCommands();
         mLauncher = parameters.getLauncher();
         mStamp = parameters.getStamp();
         mRepo = parameters.getRepo();
+        mContextCommands = parameters.getContextCommands();
         mComparators = parameters.getComparators();
-        mBannerLongClick = parameters.getBannerLongClick();
         mGridItemConfig = parameters.getGridItemConfig();
     }
 
@@ -71,9 +68,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         return mLauncher;
     }
 
-    @NonNull
-    protected ButtonSelector<T> newBannerButtonSelector(String buttonTitle, OptionsSelector selector) {
-        return new ButtonSorter<>(buttonTitle, selector, mComparators);
+    protected OptionsSelector newSelector() {
+        return getCommandsFactory().newOptionsSelector();
     }
 
     @Override
@@ -88,20 +84,27 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @Override
     public ButtonAction<T> newBannerButton() {
-        if(hasStamp()) {
+        if (hasStamp()) {
             return new ButtonAuthorReviews<>(mLauncher.getReviewLauncher(), mStamp, mRepo);
+        } else if(mComparators != null){
+            return new ButtonSorter<>(newSelector(), mComparators);
         } else {
-            ButtonSelector<T> selector
-                    = newBannerButtonSelector(mButtonTitle, mFactoryCommands.newOptionsSelector());
-            if(mNode != null) selector.addOption(mFactoryCommands.newLaunchPagedCommand(mNode));
-            selector.addLongClick(mBannerLongClick);
-            return selector;
+            return super.newBannerButton();
         }
+    }
+
+    @Nullable
+    @Override
+    public ButtonAction<T> newContextButton() {
+        return mContextCommands != null ? new ButtonSelectorWithDefault<T>(newSelector(),
+                mContextCommands, mContextCommands.getListName()) : super.newContextButton();
     }
 
     @Override
     public GridItemAction<T> newGridItem() {
-        return new GridItemConfigLauncher<>(mLauncher, mFactoryView, mGridItemConfig);
+        return mGridItemConfig != null ?
+                new GridItemConfigLauncher<T>(mLauncher, mFactoryView, mGridItemConfig) :
+                new GridItemLauncher<T>(getLauncher(), getViewFactory());
     }
 
     FactoryReviewView getViewFactory() {
@@ -118,12 +121,16 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     @NonNull
     MenuOptionsItem<T> newOptionsMenuItem() {
-        OptionsSelectAndExecute command
-                = mFactoryCommands.newReviewOptionsSelector(mStamp.getDataAuthorId());
+        OptionsSelectAndExecute command;
+        if(hasStamp()) {
+            command = mFactoryCommands.newReviewOptionsSelector(mStamp.getDataAuthorId());
+        } else {
+            command = mFactoryCommands.newReviewOptionsSelector();
+        }
         return new MaiOptionsCommand<>(command);
     }
 
     boolean hasStamp() {
-        return mStamp.isValid();
+        return mStamp != null && mStamp.isValid();
     }
 }

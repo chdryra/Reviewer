@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -20,9 +21,16 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class CommandsList extends ArrayList<Command> implements Collection<Command>{
+public class CommandsList extends ArrayList<Command> implements Collection<Command> {
+    private String mName;
+
     public CommandsList() {
+        this("");
+    }
+
+    public CommandsList(String name) {
         super();
+        mName = name;
     }
 
     public CommandsList(@NonNull Collection<? extends Command> c) {
@@ -33,9 +41,17 @@ public class CommandsList extends ArrayList<Command> implements Collection<Comma
         super(initialCapacity);
     }
 
+    public String getListName() {
+        return mName;
+    }
+
+    public void setListName(String name) {
+        mName = name;
+    }
+
     public ArrayList<String> getCommandNames() {
         ArrayList<String> names = new ArrayList<>();
-        for(Command command : this) {
+        for (Command command : this) {
             names.add(command.getName());
         }
 
@@ -44,7 +60,7 @@ public class CommandsList extends ArrayList<Command> implements Collection<Comma
 
     public void execute(String name) {
         for (Command command : this) {
-            if(command.getName().equals(name)) {
+            if (command.getName().equals(name)) {
                 command.execute();
                 break;
             }
