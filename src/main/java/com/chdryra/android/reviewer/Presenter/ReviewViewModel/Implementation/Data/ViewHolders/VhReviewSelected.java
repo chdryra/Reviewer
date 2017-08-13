@@ -11,8 +11,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
@@ -53,6 +56,8 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         .ReviewSelectorCallback, VhNode, ReviewReference.ReviewReferenceObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
+    private static final int PROFILE = R.id.user_profile;
+    private static final int OPTIONS = R.id.social_options;
     private static final int PROFILE_IMAGE = R.id.profile_image;
     private static final int PROFILE_NAME = R.id.profile_name;
     private static final int SUBJECT = R.id.review_subject;
@@ -66,6 +71,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int LIKE_BUTTON = R.id.like_button;
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
+    private static final int BOOKMARK_BUTTON = R.id.bookmark_button;
     private static final int MENU_BUTTON = R.id.bookmark_button;
     private static final long WAIT_TIME = 150L;
 
@@ -178,10 +184,34 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     @Override
-    public void inflate(Context context, ViewGroup parent) {
+    public void inflate(final Context context, ViewGroup parent) {
         super.inflate(context, parent);
-        getView().findViewById(SUBJECT_RATING).setAlpha(0.8f);
-        getView().findViewById(TAGS).setAlpha(0.8f);
+        View view = getView();
+        view.findViewById(SUBJECT_RATING).setAlpha(0.8f);
+        view.findViewById(TAGS).setAlpha(0.8f);
+
+        interceptTouch(view.findViewById(PROFILE));
+        interceptTouch(view.findViewById(OPTIONS));
+
+        View bm = view.findViewById(BOOKMARK_BUTTON);
+        bm.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    Toast.makeText(context, "bm", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+    }
+
+    private void interceptTouch(View profile) {
+        profile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
     }
 
     private void selectAndBind(ReviewNode node) {

@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.OptionsSelector;
 
@@ -26,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 public class ButtonSelectorWithDefault<T extends GvData> extends ButtonSelector<T> {
     private final String mDefaultCommand;
 
-    public ButtonSelectorWithDefault(OptionsSelector selector, CommandsList commands, String defaultCommand) {
+    public ButtonSelectorWithDefault(OptionsSelector selector, CommandList commands, String defaultCommand) {
         super(selector, commands, true);
         mDefaultCommand = defaultCommand;
     }

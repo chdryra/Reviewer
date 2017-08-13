@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -29,7 +29,7 @@ public class ActionsParameters<T extends GvData> {
     private final UiLauncher mLauncher;
 
     private LaunchableConfig mGridItemConfig;
-    private CommandsList mContextCommands;
+    private CommandList mContextCommands;
     private ComparatorCollection<? super T> mComparators;
     private ReviewStamp mStamp;
 
@@ -95,11 +95,11 @@ public class ActionsParameters<T extends GvData> {
         return this;
     }
 
-    public CommandsList getContextCommands() {
+    public CommandList getContextCommands() {
         return mContextCommands;
     }
 
-    public ActionsParameters<T> setContextCommands(CommandsList contextCommands) {
+    public ActionsParameters<T> setContextCommands(CommandList contextCommands) {
         mContextCommands = contextCommands;
         return this;
     }

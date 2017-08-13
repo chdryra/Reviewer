@@ -77,7 +77,7 @@ public class FactoryReviewViewParams {
     }
 
     public ReviewViewParams newPublishParams() {
-        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams params = new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
         params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
 
         return params;

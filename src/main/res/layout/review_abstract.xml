@@ -14,7 +14,7 @@
     <include layout="@layout/review_selected_profile"
              android:id="@+id/user_profile"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:layout_height="50dp">
     </include>
 
     <RelativeLayout
@@ -22,10 +22,10 @@
         android:id="@+id/review_abstract">
 
         <include
-            android:id="@+id/options"
+            android:id="@+id/social_options"
             layout="@layout/review_selected_share"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true">
         </include>
 
@@ -33,7 +33,7 @@
                  android:id="@+id/review_text_abstract"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
-                 android:layout_above="@id/options">
+                 android:layout_above="@id/social_options">
         </include>
 
         <include layout="@layout/image_view"

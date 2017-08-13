@@ -24,21 +24,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     private final FactoryCommands mFactory;
     private final UserSession mSession;
+    private final OptionsType mOptionsType;
     private DataAuthorId mAuthorId;
+
+    public enum OptionsType {ALL, BASIC}
 
     public ReviewOptionsSelector(OptionsSelector optionsCommand,
                                  FactoryCommands factory,
-                                 UserSession Session) {
+                                 UserSession Session,
+                                 OptionsType optionsType) {
         super(Strings.Commands.REVIEW_OPTIONS, optionsCommand);
         mFactory = factory;
         mSession = Session;
+        mOptionsType = optionsType;
     }
 
     public ReviewOptionsSelector(OptionsSelector optionsCommand,
                                  FactoryCommands factory,
                                  UserSession session,
+                                 OptionsType optionsType,
                                  DataAuthorId authorId) {
-        this(optionsCommand, factory, session);
+        this(optionsCommand, factory, session, optionsType);
         mAuthorId = authorId;
     }
 
@@ -52,10 +58,10 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         if (mAuthorId == null) {
             onExecutionComplete();
         } else {
-            mFactory.getReviewOptions(mAuthorId, mSession,
+            mFactory.getReviewOptions(mAuthorId, mSession, mOptionsType == OptionsType.ALL,
                     new FactoryCommands.ReviewOptionsReadyCallback() {
                 @Override
-                public void onReviewOptionsReady(CommandsList options) {
+                public void onReviewOptionsReady(CommandList options) {
                     setCommands(options);
                     ReviewOptionsSelector.super.execute();                }
             });

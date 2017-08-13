@@ -22,17 +22,17 @@ import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
  */
 public class OptionsSelectAndExecute extends OptionsCommand {
     private final OptionsSelector mOptionsCommand;
-    private CommandsList mCommands;
+    private CommandList mCommands;
     private boolean mLocked = false;
     private int mCode;
 
     public OptionsSelectAndExecute(String name, OptionsSelector optionsCommand) {
         super(name);
-        mCommands = new CommandsList();
+        mCommands = new CommandList();
         mOptionsCommand = optionsCommand;
     }
 
-    public void setCommands(CommandsList commands) {
+    public void setCommands(CommandList commands) {
         mCommands = commands;
     }
 

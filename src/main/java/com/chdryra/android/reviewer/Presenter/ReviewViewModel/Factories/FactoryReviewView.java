@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
@@ -248,9 +248,9 @@ public class FactoryReviewView {
                 new FactoryActionsViewReviews(newListActionParams(node, follow), name));
     }
 
-    private CommandsList getDefaultContextCommands(final ReviewNode node, String defaultView,
-                                                   final boolean withFollowForList) {
-        CommandsList list = new CommandsList(defaultView);
+    private CommandList getDefaultContextCommands(final ReviewNode node, String defaultView,
+                                                  final boolean withFollowForList) {
+        CommandList list = new CommandList(defaultView);
         list.add(new Command(Strings.Buttons.LIST) {
             @Override
             public void execute() {

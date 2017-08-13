@@ -31,7 +31,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 
 class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
-
     private final int mCellWidth;
     private final int mCellHeight;
     private final ViewHolderFactory<?> mVhFactory;
@@ -59,7 +58,7 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
     }
 
     @Override
-    protected View inflateView(ViewGroup parent, int viewType) {
+    protected View inflateView(final ViewGroup parent, int viewType) {
         ViewHolder viewHolder = createViewHolder(viewType);
         viewHolder.inflate(parent.getContext(), parent);
         View v = viewHolder.getView();
@@ -69,6 +68,16 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
         if(mCellWidth > 0) v.getLayoutParams().width = mCellWidth;
 
         return v;
+    }
+
+    @Override
+    protected void setOnLongClickListeners(View v) {
+        super.setOnLongClickListeners(v);
+    }
+
+    @Override
+    protected void setOnClickListeners(View v) {
+        super.setOnClickListeners(v);
     }
 
     @Override

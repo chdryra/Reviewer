@@ -21,23 +21,23 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class CommandsList extends ArrayList<Command> implements Collection<Command> {
+public class CommandList extends ArrayList<Command> implements Collection<Command> {
     private String mName;
 
-    public CommandsList() {
+    public CommandList() {
         this("");
     }
 
-    public CommandsList(String name) {
+    public CommandList(String name) {
         super();
         mName = name;
     }
 
-    public CommandsList(@NonNull Collection<? extends Command> c) {
+    public CommandList(@NonNull Collection<? extends Command> c) {
         super(c);
     }
 
-    public CommandsList(int initialCapacity) {
+    public CommandList(int initialCapacity) {
         super(initialCapacity);
     }
 

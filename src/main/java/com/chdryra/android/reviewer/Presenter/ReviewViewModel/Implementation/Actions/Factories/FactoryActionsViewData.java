@@ -30,9 +30,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelectAndExecute;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -50,7 +53,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final ComparatorCollection<? super T> mComparators;
 
     private LaunchableConfig mGridItemConfig;
-    private CommandsList mContextCommands;
+    private CommandList mContextCommands;
 
     public FactoryActionsViewData(ActionsParameters<T> parameters) {
         super(parameters.getDataType());
@@ -123,9 +126,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     MenuOptionsItem<T> newOptionsMenuItem() {
         OptionsSelectAndExecute command;
         if(hasStamp()) {
-            command = mFactoryCommands.newReviewOptionsSelector(mStamp.getDataAuthorId());
+            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.ALL, mStamp.getDataAuthorId());
         } else {
-            command = mFactoryCommands.newReviewOptionsSelector();
+            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.ALL);
         }
         return new MaiOptionsCommand<>(command);
     }

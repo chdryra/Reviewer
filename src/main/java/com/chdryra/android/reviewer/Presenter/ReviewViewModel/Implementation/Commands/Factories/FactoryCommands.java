@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DecoratedCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DeleteCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
@@ -47,48 +47,45 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryCommands {
     private ApplicationSuite mApp;
 
+    public interface ReviewOptionsReadyCallback {
+        void onReviewOptionsReady(CommandList options);
+    }
+
     public void setApp(ApplicationSuite app) {
         mApp = app;
     }
 
-    public interface ReviewOptionsReadyCallback {
-        void onReviewOptionsReady(CommandsList options);
-    }
-
-    public void getReviewOptions(DataAuthorId authorId, UserSession session, final ReviewOptionsReadyCallback callback) {
-        ReviewId reviewId = authorId.getReviewId();
-        boolean isOwner = authorId.toString().equals(session.getAuthorId().toString());
-
-        final CommandsList commands = new CommandsList();
-        if(!mApp.getNetwork().isOnline(mApp.getUi().getCurrentScreen())) {
-            commands.add(Command.NoAction(Strings.Commands.OFFLINE));
-            callback.onReviewOptionsReady(commands);
+    public void getReviewOptions(DataAuthorId authorId, UserSession session, boolean allOptions, final
+    ReviewOptionsReadyCallback callback) {
+        if (isOffline()) {
+            callback.onReviewOptionsReady(getOfflineOptions());
             return;
         }
 
-        commands.add(share(reviewId));
-        commands.add(template(reviewId));
-        BookmarkCommand bookmark = bookmark(session, reviewId);
-        commands.add(bookmark);
-        if (isOwner) {
-            commands.add(edit(reviewId));
-            commands.add(delete(reviewId));
+        final CommandList commands = getBasicReviewOptions(authorId, session);
+        if (allOptions) {
+            ReviewId reviewId = authorId.getReviewId();
+            commands.add(share(reviewId));
+            BookmarkCommand bookmark = bookmark(session, reviewId);
+            commands.add(bookmark);
+
+            bookmark.initialise(new BookmarkCommand.BookmarkCommandReadyCallback() {
+                @Override
+                public void onBookmarkCommandReady() {
+                    callback.onReviewOptionsReady(commands);
+                }
+            });
+        } else {
+            callback.onReviewOptionsReady(commands);
         }
-
-        bookmark.initialise(new BookmarkCommand.BookmarkCommandReadyCallback() {
-            @Override
-            public void onBookmarkCommandReady() {
-                callback.onReviewOptionsReady(commands);
-            }
-        });
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector() {
-        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession());
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType optionsType) {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType);
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector(DataAuthorId authorId) {
-        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), authorId);
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType optionsType, DataAuthorId authorId) {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType, authorId);
     }
 
     public OptionsSelector newOptionsSelector() {
@@ -113,7 +110,8 @@ public class FactoryCommands {
         return newLaunchBespokeViewCommand(node, Strings.Commands.PAGED, GvNode.TYPE);
     }
 
-    public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String commandName, GvDataType<?> dataType) {
+    public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String
+            commandName, GvDataType<?> dataType) {
         return new LaunchBespokeViewCommand(commandName, getReviewLauncher(), node, dataType);
     }
 
@@ -159,6 +157,16 @@ public class FactoryCommands {
         };
     }
 
+    private CommandList getOfflineOptions() {
+        CommandList commands = new CommandList();
+        commands.add(Command.NoAction(Strings.Commands.OFFLINE));
+        return commands;
+    }
+
+    private boolean isOffline() {
+        return !mApp.getNetwork().isOnline(mApp.getUi().getCurrentScreen());
+    }
+
     private ReviewLauncher getReviewLauncher() {
         return getLauncher().getReviewLauncher();
     }
@@ -177,6 +185,22 @@ public class FactoryCommands {
 
     private UiLauncher getLauncher() {
         return mApp.getUi().getLauncher();
+    }
+
+    @NonNull
+    private CommandList getBasicReviewOptions(DataAuthorId authorId, UserSession session) {
+        final CommandList commands = new CommandList();
+        ReviewId reviewId = authorId.getReviewId();
+        commands.add(template(reviewId));
+        if (isReviewAuthor(authorId, session)) {
+            commands.add(edit(reviewId));
+            commands.add(delete(reviewId));
+        }
+        return commands;
+    }
+
+    private boolean isReviewAuthor(DataAuthorId authorId, UserSession session) {
+        return authorId.toString().equals(session.getAuthorId().toString());
     }
 
     @NonNull

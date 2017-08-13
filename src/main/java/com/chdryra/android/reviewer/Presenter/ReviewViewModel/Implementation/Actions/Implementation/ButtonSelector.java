@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandsList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
 
 
@@ -27,14 +27,14 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
     private final OptionsSelector mSelector;
     private final boolean mIgnoreCurrent;
     private final int mRequestCode;
-    private CommandsList mOptions;
+    private CommandList mOptions;
     private String mCurrentlySelected = null;
 
-    public ButtonSelector(OptionsSelector selector, CommandsList commands, boolean ignoreCurrent) {
+    public ButtonSelector(OptionsSelector selector, CommandList commands, boolean ignoreCurrent) {
         super(commands.getListName());
         mSelector = selector;
         mIgnoreCurrent = ignoreCurrent;
-        mOptions = new CommandsList();
+        mOptions = new CommandList();
         setClick(new ClickCommand());
         mRequestCode = RequestCodeGenerator.getCode(ButtonSelector.class, commands.getListName());
         for(Command option : commands) {
