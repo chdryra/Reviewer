@@ -88,7 +88,7 @@
     <style name="RecyclerView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">?darkBackground</item>
+        <item name="android:background">?transDarkBackground</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">@dimen/grid_view_left_padding</item>
         <item name="android:paddingRight">@dimen/grid_view_right_padding</item>
@@ -288,7 +288,7 @@
 
     <style name="TextView.Subject">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-        <item name="android:background">@null</item>
+        <item name="android:background">?transBackground</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/subject_text_padding</item>
     </style>
@@ -310,6 +310,12 @@
         <item name="android:inputType">textCapSentences</item>
     </style>
 
+    <style name="EditTextCapWords">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textCapWords</item>
+    </style>
+
     <style name="EditTextCapSentences.Add">
         <item name="android:imeOptions">actionGo</item>
     </style>
@@ -322,7 +328,11 @@
         <item name="android:imeOptions">actionDone</item>
     </style>
 
-    <style name="EditTextCapSentences.Done.Subject">
+    <style name="EditTextCapWords.Done">
+        <item name="android:imeOptions">actionDone</item>
+    </style>
+
+    <style name="EditTextCapWords.Done.Subject">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:background">@null</item>
         <item name="android:cursorVisible">false</item>

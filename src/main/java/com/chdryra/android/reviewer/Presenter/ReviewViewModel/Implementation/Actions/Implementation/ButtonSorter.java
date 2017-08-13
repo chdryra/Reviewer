@@ -57,8 +57,6 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
     }
 
     private void sort(final NamedComparator<? super T> comparator) {
-        if(mCurrentComparator.equals(comparator)) return;
-
         mLocked = true;
         mCurrentComparator = comparator;
         setTitle(Strings.Buttons.SORTING);

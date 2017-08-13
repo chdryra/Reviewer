@@ -21,9 +21,17 @@
         android:scaleType="centerCrop"/>
 
     <include
-        android:id="@+id/main_view"
-        layout="@layout/fragment_review_list_recycler"
+        android:id="@+id/contextual_view"
+        layout="@layout/fragment_review_edit_contextual"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+    <include
+        android:id="@+id/main_view"
+        layout="@layout/fragment_review_edit_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/contextual_view"/>
 
 </RelativeLayout>

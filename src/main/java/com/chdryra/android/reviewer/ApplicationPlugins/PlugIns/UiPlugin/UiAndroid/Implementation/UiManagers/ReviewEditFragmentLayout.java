@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.R;
  */
 
 public class ReviewEditFragmentLayout implements ReviewViewLayout {
-    private static final int LAYOUT = R.layout.fragment_review_view;
+    private static final int LAYOUT = R.layout.fragment_review_edit;
     private static final int SUBJECT = R.id.subject_edit_text;
     private static final int RATING = R.id.review_rating;
     private static final int BANNER = R.id.banner_button;
