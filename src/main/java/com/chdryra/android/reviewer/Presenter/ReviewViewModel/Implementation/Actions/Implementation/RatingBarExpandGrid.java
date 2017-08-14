@@ -38,6 +38,6 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
-        mLauncher.launch(mFactory.newViewWithAdapter(expanded), new UiLauncherArgs(REQUEST_CODE));
+        mLauncher.launch(mFactory.newReviewView(expanded), new UiLauncherArgs(REQUEST_CODE));
     }
 }

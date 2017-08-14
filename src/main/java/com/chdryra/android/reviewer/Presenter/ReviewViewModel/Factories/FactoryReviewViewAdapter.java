@@ -10,8 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.RatingBucketer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
@@ -19,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Factories.Factory
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -64,23 +66,26 @@ import java.util.Set;
 public class FactoryReviewViewAdapter {
     private final FactoryReviews mReviewsFactory;
     private final FactoryGridDataViewer mViewerFactory;
+    private final FactoryDataBucketer mBucketerFactory;
     private final GvDataAggregator mAggregator;
-    private final ConverterGv mConverter;
     private final AuthorsRepository mAuthorsRepository;
     private final ReviewsSource mReviewSource;
+    private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
                                     FactoryReference referenceFactory,
+                                    FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
-                                    ReviewsSource reviewsSource,
                                     AuthorsRepository authorsRepository,
+                                    ReviewsSource reviewSource,
                                     ConverterGv converter) {
-        mAuthorsRepository = authorsRepository;
         mReviewsFactory = reviewsFactory;
+        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepository, converter);
+        mBucketerFactory = bucketerFactory;
         mAggregator = aggregator;
-        mReviewSource = reviewsSource;
         mConverter = converter;
-        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, mAuthorsRepository, converter);
+        mAuthorsRepository = authorsRepository;
+        mReviewSource = reviewSource;
     }
 
     //List reviews generating this datum
@@ -167,10 +172,10 @@ public class FactoryReviewViewAdapter {
     }
 
     //View for distribution screen
-    <BucketingValue, Data extends HasReviewId> ReviewViewAdapter<?>
+    ReviewViewAdapter<?>
     newBucketAdapter(ReviewNode node,
-                     DataBucketer<BucketingValue, Data> bucketer,
-                     ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory) {
+                     ViewHolderFactory<VhBucket<Float, DataRating>> vhFactory) {
+        RatingBucketer bucketer = mBucketerFactory.newRatingsBucketer();
         return newNodeAdapter(node, mViewerFactory.newBucketViewer(node, vhFactory, bucketer));
     }
 

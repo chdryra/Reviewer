@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewEditor;
@@ -30,34 +30,29 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Menu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
+public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
     private final UiConfig mConfig;
-    private final UiLauncher mLauncher;
     private final FactoryCommands mFactoryCommands;
     private final LocationClient mLocationClient;
     private final ReviewEditor.EditMode mDefaultEditMode;
 
-    public FactoryActionsBuild(GvDataType<GC> dataType,
-                               UiConfig config,
-                               UiLauncher launcher,
-                               FactoryCommands factoryCommands,
-                               ReviewEditor.EditMode defaultEditMode,
-                               LocationClient locationClient) {
+    public FactoryActionsBuildReview(GvDataType<GC> dataType,
+                                     UiConfig config,
+                                     FactoryCommands factoryCommands,
+                                     ReviewEditor.EditMode defaultEditMode,
+                                     LocationClient locationClient) {
         super(dataType);
         mConfig = config;
-        mLauncher = launcher;
         mFactoryCommands = factoryCommands;
         mLocationClient = locationClient;
         mDefaultEditMode = defaultEditMode;
@@ -80,7 +75,7 @@ public class FactoryActionsBuild<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildReview<>(mConfig, mLauncher, mDefaultEditMode, mLocationClient);
+        return new GridItemBuildReview<>(mConfig, mConfig.getUiLauncher(), mDefaultEditMode, mLocationClient);
     }
 
     @Override

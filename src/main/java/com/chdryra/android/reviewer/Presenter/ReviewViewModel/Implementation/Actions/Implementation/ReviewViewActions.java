@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,7 +51,7 @@ public class ReviewViewActions<T extends GvData> implements OptionSelectListener
         mContextualAction = contextualAction;
     }
 
-    public ReviewViewActions(FactoryReviewViewActions<T> factory) {
+    public ReviewViewActions(FactoryActionsReviewView<T> factory) {
         this(factory.newSubject(),
                 factory.newRatingBar(), factory.newBannerButton(), factory.newGridItem(),
                 factory.newMenu(), factory.newContextButton());

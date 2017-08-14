@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsNone<T extends GvData> implements FactoryReviewViewActions<T> {
+public class FactoryActionsNone<T extends GvData> implements FactoryActionsReviewView<T> {
     private GvDataType<T> mDataType;
 
     public FactoryActionsNone(GvDataType<T> dataType) {

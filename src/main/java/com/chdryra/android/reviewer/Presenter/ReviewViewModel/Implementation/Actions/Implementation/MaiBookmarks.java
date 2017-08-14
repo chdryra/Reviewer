@@ -43,6 +43,6 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
         UserSession session = getApp().getAuthentication().getUserSession();
         Playlist bookmarks = mRepo.getMutableRepository(session).getBookmarks();
         ReviewNode node = mRepo.getMetaReview(bookmarks, session.getAuthorId(),  bookmarks.getName());
-        mLauncher.launch(mFactory.newListView(node, false), new UiLauncherArgs(CODE));
+        mLauncher.launch(mFactory.newListView(node, null), new UiLauncherArgs(CODE));
     }
 }

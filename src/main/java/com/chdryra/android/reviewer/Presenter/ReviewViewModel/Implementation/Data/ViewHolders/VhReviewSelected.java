@@ -52,7 +52,12 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * Created by: Rizwan Choudrey
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
+ *
+ * This class is messy and poorly implemented. Highlights deficiencies in my ViewHolder pattern.
+ * Ripe for a refactor and design rethink.
  */
+
+//TODO refactor and think about ViewHolder redesign.
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         .ReviewSelectorCallback, VhNode, ReviewReference.ReviewReferenceObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
