@@ -168,6 +168,22 @@ public class FactoryReviewView {
     }
 
     /***** private methods *****/
+    private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
+                                                           ReviewViewActions<T> actions,
+                                                           ReviewViewParams params) {
+        return new ReviewViewDefault<>(newPerspective(adapter, actions, params));
+    }
+
+    @NonNull
+    private ReviewViewNode newReviewViewNode(ReviewNode node,
+                                             ReviewViewAdapter<GvNode> adapter,
+                                             FactoryActionsReviewView<GvNode> actionsFactory) {
+        ReviewViewActions<GvNode> actions = newReviewViewActions(actionsFactory);
+        ReviewViewParams params = mParamsFactory.newReviewsListParams();
+
+        return new ReviewViewNode(node, newPerspective(adapter, actions, params));
+    }
+
     @NonNull
     private ReviewView<?> newFollowableReviewView(AdapterNodeFollowable adapter) {
         ReviewNode node = adapter.getNode();
@@ -176,12 +192,6 @@ public class FactoryReviewView {
                 = mActionsFactory.newListActions(node, this, followAuthor);
 
         return newReviewViewNode(node, adapter, actionsFactory);
-    }
-
-    @NonNull
-    private <T extends GvData> ReviewViewActions<T> newReviewViewActions
-            (FactoryActionsReviewView<T> factory) {
-        return new ReviewViewActions<>(factory);
     }
 
     private <T extends GvData> ReviewView<T> newSearchView(ReviewViewAdapter.Filterable<T> adapter,
@@ -198,20 +208,10 @@ public class FactoryReviewView {
         return newReviewView(adapter, actions, params);
     }
 
-    private <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter,
-                                                           ReviewViewActions<T> actions,
-                                                           ReviewViewParams params) {
-        return new ReviewViewDefault<>(newPerspective(adapter, actions, params));
-    }
-
     @NonNull
-    private ReviewViewNode newReviewViewNode(ReviewNode node,
-                                             ReviewViewAdapter<GvNode> adapter,
-                                             FactoryActionsReviewView<GvNode> actionsFactory) {
-        ReviewViewActions<GvNode> actions = new ReviewViewActions<>(actionsFactory);
-        ReviewViewParams params = mParamsFactory.newReviewsListParams();
-
-        return new ReviewViewNode(node, newPerspective(adapter, actions, params));
+    private <T extends GvData> ReviewViewActions<T> newReviewViewActions
+            (FactoryActionsReviewView<T> factory) {
+        return new ReviewViewActions<>(factory);
     }
 
     @NonNull
