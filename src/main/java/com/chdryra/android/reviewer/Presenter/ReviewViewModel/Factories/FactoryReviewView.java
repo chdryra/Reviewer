@@ -109,7 +109,7 @@ public class FactoryReviewView {
     public ReviewViewNode newFeedView(ReviewNode node) {
         ReviewViewAdapter<GvNode> adapter = mAdapterFactory.newFeedAdapter(node);
         FactoryActionsReviewView<GvNode> actionsFactory
-                = mActionsFactory.newFactoryActionsViewReviews(node, this);
+                = mActionsFactory.newFeedActions(node, this);
 
         return newReviewViewNode(node, adapter, actionsFactory);
     }
@@ -118,7 +118,7 @@ public class FactoryReviewView {
         ReviewViewAdapter<GvNode> adapter
                 = mAdapterFactory.newReviewsListAdapter(node, followAuthor);
         FactoryActionsReviewView<GvNode> actionsFactory =
-                mActionsFactory.newFactoryActionsListView(node, this, followAuthor);
+                mActionsFactory.newListActions(node, this, followAuthor);
 
         return newReviewViewNode(node, adapter, actionsFactory);
     }
@@ -157,7 +157,7 @@ public class FactoryReviewView {
             view = newFollowableReviewView(adapt);
         } catch (ClassCastException e) {
             ReviewViewActions<T> actions
-                    = newReviewViewActions(mActionsFactory.newViewActions(adapter, this));
+                    = newReviewViewActions(mActionsFactory.newDataActions(adapter, this));
             ReviewViewParams params = mParamsFactory.newViewParams(getDataType(adapter));
 
             view = newReviewView(adapter, actions, params);
@@ -173,7 +173,7 @@ public class FactoryReviewView {
         ReviewNode node = adapter.getNode();
         AuthorId followAuthor = adapter.getFollowAuthorId();
         FactoryActionsReviewView<GvNode> actionsFactory
-                = mActionsFactory.newFactoryActionsListView(node, this, followAuthor);
+                = mActionsFactory.newListActions(node, this, followAuthor);
 
         return newReviewViewNode(node, adapter, actionsFactory);
     }

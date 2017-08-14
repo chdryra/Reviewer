@@ -101,10 +101,11 @@ public class FactoryReviewViewActions {
 
     public <GC extends GvDataList<? extends GvDataParcelable>>
     FactoryActionsBuildReview<GC> newEditorActions(GvDataType<GC> dataType,
-                                    ReviewEditor.EditMode defaultEditMode,
-                                    LocationClient locationClient,
-                                    PublishAction publishAction) {
-        return new FactoryActionsEditReview<>(dataType, mConfig, mCommandsFactory, defaultEditMode, locationClient, publishAction);
+                                                   ReviewEditor.EditMode defaultEditMode,
+                                                   LocationClient locationClient,
+                                                   PublishAction publishAction) {
+        return new FactoryActionsEditReview<>(dataType, mConfig, mCommandsFactory,
+                defaultEditMode, locationClient, publishAction);
     }
 
     public FactoryActionsReviewView<GvSocialPlatform>
@@ -115,20 +116,19 @@ public class FactoryReviewViewActions {
         return new FactoryActionsPublish(editor, publishAction, platforms, authoriser);
     }
 
-    public FactoryActionsReviewView<GvNode> newFactoryActionsViewReviews
-            (ActionsParameters<GvNode> parameters,
-
-             @Nullable
-                     AuthorReference
-                     authorRef) {
-        return new FactoryActionsViewReviews(parameters, authorRef);
-    }
-
-    public FactoryActionsReviewView<GvNode> newFactoryActionsViewReviews
-            (ReviewNode node,
-             FactoryReviewView viewFactory) {
+    public FactoryActionsReviewView<GvNode> newFeedActions
+            (ReviewNode node, FactoryReviewView viewFactory) {
         ActionsParameters<GvNode> params = newListActionParams(node, viewFactory, false);
         return new FactoryActionsViewReviews(params, mReviewsRepo, mConfig.getProfileEditor());
+    }
+
+    public FactoryActionsReviewView<GvNode> newListActions(ReviewNode node,
+                                                           FactoryReviewView viewFactory,
+                                                           @Nullable AuthorId followAuthor) {
+        boolean follow = followAuthor != null;
+        ActionsParameters<GvNode> actionParams = newListActionParams(node, viewFactory, follow);
+        AuthorReference name = follow ? mAuthorsRepo.getReference(followAuthor) : null;
+        return newListActions(actionParams, name);
     }
 
     public <T extends GvData> FactoryActionsSearch<T> newSearchActions(GvDataType<T> dataType,
@@ -144,26 +144,13 @@ public class FactoryReviewViewActions {
         return (FactoryActionsSearch<T>) factoryActions;
     }
 
-    private UiLauncher getLauncher() {
-        return mConfig.getUiLauncher();
-    }
-
-    public FactoryActionsReviewView<GvNode> newFactoryActionsListView(ReviewNode node,
-                                                                      FactoryReviewView
-                                                                              viewFactory, @Nullable
-                                                                              AuthorId
-                                                                              followAuthor) {
-        boolean follow = followAuthor != null;
-        ActionsParameters<GvNode> actionParams = newListActionParams(node, viewFactory, follow);
-        AuthorReference name = follow ? mAuthorsRepo.getReference(followAuthor) : null;
-        return newFactoryActionsViewReviews(actionParams, name);
-    }
-
     @NonNull
-    public <T extends GvData> FactoryActionsReviewView<T> newViewActions(ReviewViewAdapter<T>
-                                                                                 adapter,
-                                                                         FactoryReviewView
-                                                                                 viewFactory) {
+    public <T extends GvData> FactoryActionsReviewView<T> newDataActions(ReviewViewAdapter<T> adapter,
+                                                                         FactoryReviewView viewFactory) {
+        GvDataType<T> dataType = getDataType(adapter);
+        ActionsParameters<T> params
+                = newDefaultActionsParameters(dataType, viewFactory).setStamp(adapter.getStamp());
+
         ReviewNode node = null;
         try {
             AdapterReviewNode<?> nodeAdapter = (AdapterReviewNode<?>) adapter;
@@ -172,10 +159,6 @@ public class FactoryReviewViewActions {
             e.printStackTrace();
         }
 
-        GvDataType<T> dataType = getDataType(adapter);
-        ActionsParameters<T> params = newDefaultActionsParameters(dataType, viewFactory).setStamp
-                (adapter
-                        .getStamp());
         if (node != null) {
             params.setContextCommands(getDefaultContextCommands(node, viewFactory,
                     TextUtils.capitalize(dataType.getDataName()), false))
@@ -206,10 +189,24 @@ public class FactoryReviewViewActions {
                         .Buttons
                         .DISTRIBUTION, false)).setComparators(getPlaceholderComparator("High-Low"));
             }
+
             factory = new FactoryActionsViewData<>(params);
         }
 
         return (FactoryActionsReviewView<T>) factory;
+    }
+
+    private UiLauncher getLauncher() {
+        return mConfig.getUiLauncher();
+    }
+
+    private FactoryActionsReviewView<GvNode> newListActions
+            (ActionsParameters<GvNode> parameters,
+
+             @Nullable
+                     AuthorReference
+                     authorRef) {
+        return new FactoryActionsViewReviews(parameters, authorRef);
     }
 
     @NonNull
