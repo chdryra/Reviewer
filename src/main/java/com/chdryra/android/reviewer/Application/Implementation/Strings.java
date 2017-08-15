@@ -175,6 +175,9 @@ public class Strings {
         public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";
         public static final String OFFLINE = "offline";
         public static final String DASHES = "- - -";
+        public static final String AGGREGATE = "Aggregate";
+        public static final String LIST = "List";
+        public static final String DISTRIBUTION = "Distribution";
     }
     
     public static class Comparators {

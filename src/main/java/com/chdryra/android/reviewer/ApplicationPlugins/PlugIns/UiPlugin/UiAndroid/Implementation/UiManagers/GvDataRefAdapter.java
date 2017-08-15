@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.os.Handler;
+import android.support.v7.widget.RecyclerView;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
@@ -52,9 +53,9 @@ public class GvDataRefAdapter<Value extends HasReviewId, Gv extends GvData, Vh e
     }
 
     @Override
-    public int getItemCount() {
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
         if(!mDereferenced) dereference();
-        return super.getItemCount();
     }
 
     private void dereference() {

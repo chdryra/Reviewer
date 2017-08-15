@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.util.Log;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -22,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  */
 public class ReviewViewPerspective<T extends GvData> {
     private final ReviewViewAdapter<T> mAdapter;
-    private final ReviewViewParams mParams;
     private final ReviewViewActions<T> mActions;
+    private final ReviewViewParams mParams;
 
     private boolean mIsAttachedToActions = false;
     private boolean mIsAttachedToAdapter = false;

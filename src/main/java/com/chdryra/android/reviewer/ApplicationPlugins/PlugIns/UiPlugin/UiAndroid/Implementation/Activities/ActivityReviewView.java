@@ -39,7 +39,6 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
 
     private ReviewView<?> mView;
-    private ReviewViewLayout mLayout;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -71,7 +70,6 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         mView = createReviewView();
         if (mView == null) mView = retained;
         if (mView == null) throw new RuntimeException("View is null!");
-        mLayout = createReviewViewLayout(mView.getParams().getViewType());
 
         return new FragmentReviewView();
     }
@@ -81,7 +79,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     public ReviewViewLayout getReviewLayout() {
-        return mLayout;
+        return createReviewViewLayout(mView.getParams().getViewType());
     }
 
     @Override

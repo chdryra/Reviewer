@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
@@ -22,19 +21,39 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DecoratedCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.DeleteCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.BookmarkCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateAggregateView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateDistributionView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateListView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.DecoratedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.DeleteCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeExpandedCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchViewCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ShareCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -55,7 +74,8 @@ public class FactoryCommands {
         mApp = app;
     }
 
-    public void getReviewOptions(DataAuthorId authorId, UserSession session, boolean allOptions, final
+    public void getReviewOptions(DataAuthorId authorId, UserSession session, boolean allOptions,
+                                 final
     ReviewOptionsReadyCallback callback) {
         if (isOffline()) {
             callback.onReviewOptionsReady(getOfflineOptions());
@@ -80,12 +100,16 @@ public class FactoryCommands {
         }
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType optionsType) {
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
+                                                                  optionsType) {
         return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType);
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType optionsType, DataAuthorId authorId) {
-        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType, authorId);
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
+                                                                  optionsType, DataAuthorId
+            authorId) {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType,
+                authorId);
     }
 
     public OptionsSelector newOptionsSelector() {
@@ -97,17 +121,45 @@ public class FactoryCommands {
     }
 
     public Command newLaunchViewCommand(final ReviewView<?> view, String name) {
-        return new Command(name) {
-            @Override
-            public void execute() {
-                int code = RequestCodeGenerator.getCode(view.getClass(), view.getLaunchTag());
-                getLauncher().launch(view, new UiLauncherArgs(code));
-            }
-        };
+        return new LaunchViewCommand(name, view, getLauncher());
+    }
+
+    public Command newLaunchListCommand(ReviewViewAdapter<?> unexpanded, FactoryReviewView
+            viewFactory) {
+        return newLaunchViewCommand(Strings.Commands.LIST, new CreateListView(unexpanded,
+                viewFactory));
+    }
+
+    public Command newLaunchAggregateCommand(ReviewViewAdapter<?> unexpanded, FactoryReviewView
+            viewFactory) {
+        return newLaunchViewCommand(Strings.Commands.AGGREGATE, new CreateAggregateView
+                (unexpanded, viewFactory));
+    }
+
+    public Command newLaunchDistributionCommand(ReviewViewAdapter<?> unexpanded,
+                                                FactoryReviewView viewFactory) {
+        return newLaunchViewCommand(Strings.Commands.DISTRIBUTION, new CreateDistributionView
+                (unexpanded, viewFactory));
     }
 
     public LaunchBespokeViewCommand newLaunchPagedCommand(@Nullable ReviewNode node) {
         return newLaunchBespokeViewCommand(node, Strings.Commands.PAGED, GvNode.TYPE);
+    }
+
+    public LaunchBespokeViewCommand newLaunchMappedCommand(@Nullable ReviewNode node) {
+        return newLaunchBespokeViewCommand(node, Strings.Commands.MAPPED, GvLocation.TYPE);
+    }
+
+    public LaunchBespokeViewCommand newLaunchPagedExpandedCommand(ReviewViewAdapter<?> unexpanded) {
+        return newLaunchBespokeExpandedCommand(Strings.Commands.PAGED, unexpanded, GvNode.TYPE);
+    }
+
+    public LaunchBespokeViewCommand newLaunchMappedExpandedCommand(ReviewViewAdapter<?> unexpanded) {
+        return newLaunchBespokeExpandedCommand(Strings.Commands.MAPPED, unexpanded, GvLocation.Reference.TYPE);
+    }
+
+    private LaunchBespokeViewCommand newLaunchBespokeExpandedCommand(String name, ReviewViewAdapter<?> unexpanded, GvDataType<?> dataType) {
+        return new LaunchBespokeExpandedCommand(name, getReviewLauncher(), unexpanded, dataType);
     }
 
     public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String
@@ -131,10 +183,6 @@ public class FactoryCommands {
                 getReviewLauncher().launchReviewsList(id);
             }
         };
-    }
-
-    public LaunchBespokeViewCommand newLaunchMappedCommand(@Nullable ReviewNode node) {
-        return newLaunchBespokeViewCommand(node, Strings.Commands.MAPPED, GvLocation.TYPE);
     }
 
     public Command newLaunchCreatorCommand(@Nullable final ReviewId template) {
@@ -185,6 +233,11 @@ public class FactoryCommands {
 
     private UiLauncher getLauncher() {
         return mApp.getUi().getLauncher();
+    }
+
+    private LaunchViewCommand newLaunchViewCommand(String name, LaunchViewCommand.ViewCreator
+            creator) {
+        return new LaunchViewCommand(name, creator, getLauncher());
     }
 
     @NonNull

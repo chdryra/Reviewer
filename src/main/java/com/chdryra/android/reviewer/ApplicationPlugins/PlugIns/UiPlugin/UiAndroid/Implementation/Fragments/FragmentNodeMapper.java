@@ -236,13 +236,17 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     private void plotLocations(IdableList<DataLocation> locations) {
         LongClickClusterManager<ReviewClusterItem> clusterManager = newClusterManager();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        int i = 0;
         for (DataLocation location : locations) {
             ReviewClusterItem item = new ReviewClusterItem(getReference(location), location);
             clusterManager.addItem(item);
             builder.include(item.getPosition());
+            i++;
         }
 
-        getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING));
+        if(i > 0) {
+            getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING));
+        }
     }
 
     private LongClickClusterManager<ReviewClusterItem> newClusterManager() {

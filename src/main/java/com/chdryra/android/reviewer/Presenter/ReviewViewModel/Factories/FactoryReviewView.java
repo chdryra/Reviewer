@@ -52,7 +52,6 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
  * Created by: Rizwan Choudrey
  * On: 26/11/2015
  * Email: rizwan.choudrey@gmail.com
- * <p>
  */
 
 public class FactoryReviewView {
@@ -151,20 +150,16 @@ public class FactoryReviewView {
     }
 
     public <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter) {
-        ReviewView view;
         try {
-            AdapterNodeFollowable adapt = (AdapterNodeFollowable) adapter;
-            view = newFollowableReviewView(adapt);
+            //TODO make type safe and less hacky
+            return (ReviewView<T>) newReviewViewNode((AdapterNodeFollowable) adapter);
         } catch (ClassCastException e) {
             ReviewViewActions<T> actions
                     = newReviewViewActions(mActionsFactory.newDataActions(adapter, this));
             ReviewViewParams params = mParamsFactory.newViewParams(getDataType(adapter));
 
-            view = newReviewView(adapter, actions, params);
+            return newReviewView(adapter, actions, params);
         }
-
-        //TODO make type safe
-        return (ReviewView<T>) view;
     }
 
     /***** private methods *****/
@@ -185,7 +180,7 @@ public class FactoryReviewView {
     }
 
     @NonNull
-    private ReviewView<?> newFollowableReviewView(AdapterNodeFollowable adapter) {
+    private ReviewView<?> newReviewViewNode(AdapterNodeFollowable adapter) {
         ReviewNode node = adapter.getNode();
         AuthorId followAuthor = adapter.getFollowAuthorId();
         FactoryActionsReviewView<GvNode> actionsFactory
