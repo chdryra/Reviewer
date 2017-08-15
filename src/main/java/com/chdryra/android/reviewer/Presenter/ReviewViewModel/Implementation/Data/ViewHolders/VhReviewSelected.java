@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -42,8 +43,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
@@ -106,6 +107,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private boolean mCancelBinding = false;
     private DelaySelectTask mBindingTask;
     private Bitmap mCover;
+    private ReviewOptionsSelector mOptions;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             FactoryCommands commandsFactory,
@@ -197,18 +199,63 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     public void inflate(final Context context, ViewGroup parent) {
         super.inflate(context, parent);
         View view = getView();
-        view.findViewById(SUBJECT_RATING).setAlpha(0.8f);
-        view.findViewById(TAGS).setAlpha(0.8f);
+        view.findViewById(SUBJECT_RATING).setAlpha(0.7f);
+        view.findViewById(TAGS).setAlpha(0.7f);
 
         interceptTouch(view.findViewById(PROFILE));
         interceptTouch(view.findViewById(OPTIONS));
 
+        View menu = view.findViewById(MENU_BUTTON);
+        View like = view.findViewById(LIKE_BUTTON);
+        View comment = view.findViewById(COMMENT_BUTTON);
+        View share = view.findViewById(SHARE_BUTTON);
         View bm = view.findViewById(BOOKMARK_BUTTON);
+
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    mOptions.execute();
+                }
+                return true;
+            }
+        });
+
+        like.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+
+        comment.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+
+        share.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    mOptions.getOptions().getShareCommand().execute();
+                }
+                return true;
+            }
+        });
+
         bm.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Toast.makeText(context, "bm", Toast.LENGTH_SHORT).show();
+                    mOptions.getOptions().getBookmarkCommand().execute();
                 }
                 return true;
             }
@@ -301,7 +348,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void bindToReview(ReviewReference review) {
         mReview = review;
+        DataAuthorId authorId = mReview.getAuthorId();
 
+        mOptions = mCommandsFactory.newReviewOptionsSelector
+                (ReviewOptionsSelector.SelectorType.BASIC, authorId);
         setDate(mReview.getPublishDate());
         mCache.addDate(mDate);
         onSubjectChanged(mReview.getSubject());
@@ -314,7 +364,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mReview.getLocations().bindToValue(mLocationsBinder);
         mReview.getTags().bindToValue(mTagsBinder);
         mNameBinder = new NameBinder(mReview.getReviewId());
-        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+        mAuthorsRepo.getReference(authorId).bindToValue(mNameBinder);
     }
 
     private void returned() {

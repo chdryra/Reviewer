@@ -64,7 +64,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchBespokeViewCommand click = getCommandsFactory().newLaunchPagedCommand(null);
-        ReviewOptionsSelector longClick = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.BASIC);
+        ReviewOptionsSelector longClick = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.BASIC);
         return new GridItemLaunchNodeView(click, longClick);
     }
     

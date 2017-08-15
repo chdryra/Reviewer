@@ -86,15 +86,15 @@ public class FactoryCommands {
         return new ReviewOptions(commands, share(reviewId), bookmark(session, reviewId));
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
-                                                                  optionsType) {
-        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType);
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.SelectorType
+                                                                  selectorType) {
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), selectorType);
     }
 
-    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
-                                                                  optionsType, DataAuthorId
+    public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.SelectorType
+                                                                  selectorType, DataAuthorId
                                                                   authorId) {
-        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType,
+        return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), selectorType,
                 authorId);
     }
 

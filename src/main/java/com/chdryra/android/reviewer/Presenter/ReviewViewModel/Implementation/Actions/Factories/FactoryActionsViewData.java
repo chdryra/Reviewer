@@ -128,9 +128,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     MenuOptionsItem<T> newOptionsMenuItem() {
         OptionsSelectAndExecute command;
         if(hasStamp()) {
-            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.ALL, mStamp.getDataAuthorId());
+            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL, mStamp.getDataAuthorId());
         } else {
-            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.ALL);
+            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL);
         }
         return new MaiOptionsCommand<>(command);
     }

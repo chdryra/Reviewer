@@ -326,7 +326,8 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         MenuAction<?> action;
         if (mIsPublished) {
             OptionsCommand command
-                    = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector.OptionsType.ALL, new NodeAuthorId(mNode));
+                    = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector
+                    .SelectorType.ALL, new NodeAuthorId(mNode));
             MaiOptionsCommand<GvData> mai = new MaiOptionsCommand<>(command);
             action = new MenuOptionsAppLevel(Strings.Menu.REVIEWS, upAction, mai, ui);
         } else {
