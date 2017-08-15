@@ -42,6 +42,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
@@ -84,6 +86,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
             {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME};
 
     private final AuthorsRepository mAuthorsRepo;
+    private final FactoryCommands mCommandsFactory;
     private final ReviewSelector mSelector;
     private final CacheVhReviewSelected mCache;
     private final TagsBinder mTagsBinder;
@@ -105,10 +108,12 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private Bitmap mCover;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
+                            FactoryCommands commandsFactory,
                             ReviewSelector selector,
                             CacheVhReviewSelected cache) {
         super(LAYOUT, VIEWS);
         mAuthorsRepo = authorsRepo;
+        mCommandsFactory = commandsFactory;
         mSelector = selector;
         mCache = cache;
         mCache.registerObserver(this);

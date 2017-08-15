@@ -48,6 +48,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.OptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.ShareCommand;
@@ -66,38 +68,22 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryCommands {
     private ApplicationSuite mApp;
 
-    public interface ReviewOptionsReadyCallback {
-        void onReviewOptionsReady(CommandList options);
-    }
-
     public void setApp(ApplicationSuite app) {
         mApp = app;
     }
 
-    public void getReviewOptions(DataAuthorId authorId, UserSession session, boolean allOptions,
-                                 final
-    ReviewOptionsReadyCallback callback) {
-        if (isOffline()) {
-            callback.onReviewOptionsReady(getOfflineOptions());
-            return;
+    public ReviewOptions newReviewOptions(DataAuthorId authorId, UserSession session) {
+        if (isOffline()) return new ReviewOptions(getOfflineOptions());
+
+        CommandList commands = new CommandList();
+        ReviewId reviewId = authorId.getReviewId();
+        commands.add(template(reviewId));
+        if (isReviewAuthor(authorId, session)) {
+            commands.add(edit(reviewId));
+            commands.add(delete(reviewId));
         }
 
-        final CommandList commands = getBasicReviewOptions(authorId, session);
-        if (allOptions) {
-            ReviewId reviewId = authorId.getReviewId();
-            commands.add(share(reviewId));
-            BookmarkCommand bookmark = bookmark(session, reviewId);
-            commands.add(bookmark);
-
-            bookmark.initialise(new BookmarkCommand.BookmarkCommandReadyCallback() {
-                @Override
-                public void onBookmarkCommandReady() {
-                    callback.onReviewOptionsReady(commands);
-                }
-            });
-        } else {
-            callback.onReviewOptionsReady(commands);
-        }
+        return new ReviewOptions(commands, share(reviewId), bookmark(session, reviewId));
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
@@ -107,7 +93,7 @@ public class FactoryCommands {
 
     public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.OptionsType
                                                                   optionsType, DataAuthorId
-            authorId) {
+                                                                  authorId) {
         return new ReviewOptionsSelector(newOptionsSelector(), this, getSession(), optionsType,
                 authorId);
     }
@@ -118,10 +104,6 @@ public class FactoryCommands {
 
     public Command newLaunchViewCommand(final ReviewView<?> view) {
         return newLaunchViewCommand(view, "");
-    }
-
-    public Command newLaunchViewCommand(final ReviewView<?> view, String name) {
-        return new LaunchViewCommand(name, view, getLauncher());
     }
 
     public Command newLaunchListCommand(ReviewViewAdapter<?> unexpanded, FactoryReviewView
@@ -154,12 +136,10 @@ public class FactoryCommands {
         return newLaunchBespokeExpandedCommand(Strings.Commands.PAGED, unexpanded, GvNode.TYPE);
     }
 
-    public LaunchBespokeViewCommand newLaunchMappedExpandedCommand(ReviewViewAdapter<?> unexpanded) {
-        return newLaunchBespokeExpandedCommand(Strings.Commands.MAPPED, unexpanded, GvLocation.Reference.TYPE);
-    }
-
-    private LaunchBespokeViewCommand newLaunchBespokeExpandedCommand(String name, ReviewViewAdapter<?> unexpanded, GvDataType<?> dataType) {
-        return new LaunchBespokeExpandedCommand(name, getReviewLauncher(), unexpanded, dataType);
+    public LaunchBespokeViewCommand newLaunchMappedExpandedCommand(ReviewViewAdapter<?>
+                                                                           unexpanded) {
+        return newLaunchBespokeExpandedCommand(Strings.Commands.MAPPED, unexpanded, GvLocation
+                .Reference.TYPE);
     }
 
     public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String
@@ -195,16 +175,6 @@ public class FactoryCommands {
         };
     }
 
-    public Command newLaunchEditorCommand(final ReviewId toEdit) {
-        return new Command() {
-            @Override
-            public void execute() {
-                getLauncher().launchEditUi(toEdit);
-                onExecutionComplete();
-            }
-        };
-    }
-
     private CommandList getOfflineOptions() {
         CommandList commands = new CommandList();
         commands.add(Command.NoAction(Strings.Commands.OFFLINE));
@@ -235,21 +205,30 @@ public class FactoryCommands {
         return mApp.getUi().getLauncher();
     }
 
+    private Command newLaunchViewCommand(final ReviewView<?> view, String name) {
+        return new LaunchViewCommand(name, view, getLauncher());
+    }
+
+    private LaunchBespokeViewCommand newLaunchBespokeExpandedCommand(String name,
+                                                                     ReviewViewAdapter<?>
+                                                                             unexpanded,
+                                                                     GvDataType<?> dataType) {
+        return new LaunchBespokeExpandedCommand(name, getReviewLauncher(), unexpanded, dataType);
+    }
+
+    private Command newLaunchEditorCommand(final ReviewId toEdit) {
+        return new Command() {
+            @Override
+            public void execute() {
+                getLauncher().launchEditUi(toEdit);
+                onExecutionComplete();
+            }
+        };
+    }
+
     private LaunchViewCommand newLaunchViewCommand(String name, LaunchViewCommand.ViewCreator
             creator) {
         return new LaunchViewCommand(name, creator, getLauncher());
-    }
-
-    @NonNull
-    private CommandList getBasicReviewOptions(DataAuthorId authorId, UserSession session) {
-        final CommandList commands = new CommandList();
-        ReviewId reviewId = authorId.getReviewId();
-        commands.add(template(reviewId));
-        if (isReviewAuthor(authorId, session)) {
-            commands.add(edit(reviewId));
-            commands.add(delete(reviewId));
-        }
-        return commands;
     }
 
     private boolean isReviewAuthor(DataAuthorId authorId, UserSession session) {

@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
@@ -20,6 +22,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConverterGv {
+    private final FactoryCommands mCommandsFactory;
+
+    public ConverterGv(FactoryCommands commandsFactory) {
+        mCommandsFactory = commandsFactory;
+    }
+
     public GvConverterSizes newConverterSizes(GvDataType<?> type) {
         return new GvConverterSizes(type);
     }
@@ -29,7 +37,7 @@ public class ConverterGv {
     }
 
     public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
-        return newConverterNodes(new FactoryVhMostRecent(repository));
+        return newConverterNodes(new FactoryVhMostRecent(repository, mCommandsFactory));
     }
 
     public GvConverterComments newConverterComments() {

@@ -38,7 +38,8 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
 
     private boolean mIsBookmarked = false;
     private boolean mLocked = false;
-    private boolean mErorChecking = false;
+    private boolean mInitialised = false;
+    private boolean mErrorChecking = false;
     private BookmarkCommandReadyCallback mCallback;
 
     public interface BookmarkCommandReadyCallback {
@@ -53,14 +54,22 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     }
 
     public void initialise(BookmarkCommandReadyCallback callback) {
-        mCallback = callback;
-        lock();
-        mBookmarks.hasEntry(mReviewId, this);
+        if(!mInitialised) {
+            mCallback = callback;
+            lock();
+            mBookmarks.hasEntry(mReviewId, this);
+        } else {
+            callback.onBookmarkCommandReady();
+        }
+    }
+
+    public boolean isInitialised() {
+        return mInitialised;
     }
 
     @Override
     public void execute() {
-        if (mLocked || mErorChecking) {
+        if (mLocked || mErrorChecking) {
             onExecutionComplete();
             return;
         }
@@ -93,13 +102,14 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
         if (message.isOk()) {
             mIsBookmarked = hasReview;
-            mErorChecking = false;
+            mErrorChecking = false;
             setName(mIsBookmarked ? UNBOOKMARK : BOOKMARK);
         } else {
-            mErorChecking = true;
+            mErrorChecking = true;
             setName(BOOKMARKS_UNAVAILABLE);
         }
         unlock();
+        mInitialised = true;
         mCallback.onBookmarkCommandReady();
     }
 
