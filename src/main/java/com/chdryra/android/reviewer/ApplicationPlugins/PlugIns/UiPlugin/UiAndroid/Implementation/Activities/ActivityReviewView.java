@@ -94,12 +94,24 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        return mView.onOptionSelected(requestCode, option);
+        boolean consumed = mView.onOptionSelected(requestCode, option);
+        if(!consumed) {
+            FragmentReviewView fragment = (FragmentReviewView) getFragment();
+            consumed = fragment.onOptionSelected(requestCode, option);
+        }
+
+        return consumed;
     }
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        return mView.onOptionsCancelled(requestCode);
+        boolean consumed = mView.onOptionsCancelled(requestCode);
+        if(!consumed) {
+            FragmentReviewView fragment = (FragmentReviewView) getFragment();
+            consumed = fragment.onOptionsCancelled(requestCode);
+        }
+
+        return consumed;
     }
 
     @Override

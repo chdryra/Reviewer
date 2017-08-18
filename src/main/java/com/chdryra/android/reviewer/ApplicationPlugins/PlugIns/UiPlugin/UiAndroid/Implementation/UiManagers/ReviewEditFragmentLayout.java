@@ -151,4 +151,13 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
         return new SubjectEditUi(reviewView, (EditText) mView.findViewById(SUBJECT));
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return false;
+    }
 }

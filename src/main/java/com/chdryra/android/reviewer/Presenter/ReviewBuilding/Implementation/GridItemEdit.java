@@ -38,41 +38,6 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
         mDataPacker = dataPacker;
     }
 
-    private void editData(T oldDatum, T newDatum) {
-        getEditor().replace(oldDatum, newDatum);
-    }
-
-    private void deleteData(T datum) {
-        getEditor().delete(datum);
-        onDataDeleted(datum);
-    }
-
-    void onDataDeleted(T datum) {
-
-    }
-
-    void updateEditor() {
-        getGridData().setUnsorted();
-        onUpdateEditor();
-        getEditor().update();
-    }
-
-    void onUpdateEditor() {
-
-    }
-
-    @Nullable
-    T unpackItem(Bundle args) {
-        return mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
-    }
-
-    @NonNull
-    Bundle packItem(T item) {
-        Bundle args = new Bundle();
-        if (item != null) mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
-        return args;
-    }
-
     @Override
     public void onGridItemClick(T item, int position, View v) {
         launchDefaultConfig(packItem(item));
@@ -99,11 +64,47 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
             T oldDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                 T newDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-                if(oldDatum != null && newDatum != null) editData(oldDatum, newDatum);
+                if (oldDatum != null && newDatum != null) editData(oldDatum, newDatum);
             } else if (oldDatum != null &&
                     ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
                 deleteData(oldDatum);
             }
         }
+    }
+
+    void onDataDeleted(T datum) {
+
+    }
+
+    void updateEditor() {
+        getGridData().setUnsorted();
+        onUpdateEditor();
+        getEditor().update();
+    }
+
+    void onUpdateEditor() {
+
+    }
+
+    @Nullable
+    T unpackItem(Bundle args) {
+        return mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
+    }
+
+    @NonNull
+    Bundle packItem(T item) {
+        Bundle args = new Bundle();
+        if (item != null)
+            mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
+        return args;
+    }
+
+    private void editData(T oldDatum, T newDatum) {
+        getEditor().replace(oldDatum, newDatum);
+    }
+
+    private void deleteData(T datum) {
+        getEditor().delete(datum);
+        onDataDeleted(datum);
     }
 }

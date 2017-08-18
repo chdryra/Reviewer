@@ -87,6 +87,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     @Override
     public void onAddedToPlaylistCallback(CallbackMessage message) {
         showToast(message.isOk() ? BOOKMARKED : message.getMessage());
+        mIsBookmarked = true;
         unlock();
         onExecutionComplete();
     }
@@ -94,6 +95,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     @Override
     public void onRemovedFromPlaylistCallback(CallbackMessage message) {
         showToast(message.isOk() ? UNBOOKMARKED : message.getMessage());
+        mIsBookmarked = false;
         unlock();
         onExecutionComplete();
     }

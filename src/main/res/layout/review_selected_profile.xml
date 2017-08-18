@@ -14,7 +14,7 @@
 
     <LinearLayout
         style="@style/LinearLayoutHorizontal"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:gravity="start|center">
 
         <ImageView

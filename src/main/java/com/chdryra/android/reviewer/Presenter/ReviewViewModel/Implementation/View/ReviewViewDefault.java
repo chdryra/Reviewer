@@ -182,11 +182,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         return mPerspective.getActions().onOptionsCancelled(requestCode);
     }
 
-    @Override
-    public void switchContainerTo(ReviewView<?> newReviewView) {
-        if(mContainer != null) mContainer.setReviewView(newReviewView);
-    }
-
     private void attachPerspective() {
         mPerspective.attachToActions(this);
         mPerspective.attachToAdapter(this);

@@ -52,7 +52,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private SubjectUi<?> mSubject;
     private SimpleViewUi<?, Float> mRatingBar;
     private ViewUi<?, ?> mSortButton;
-    private DataViewUi<?, ?> mDataView;
+    private RecyclerViewUi<?> mDataView;
     private ViewUi<?, ?> mViewSelector;
 
     @Override
@@ -130,7 +130,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private <T extends GvData> DataViewUi<?, ?> newDataViewUi(ReviewView<T> reviewView, CellDimensionsCalculator calculator) {
+    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(ReviewView<T> reviewView, CellDimensionsCalculator calculator) {
         return new RecyclerViewUi<>(reviewView, (RecyclerView) mView.findViewById(GRID),
                 calculator);
     }
@@ -156,4 +156,13 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         });
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mDataView.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mDataView.onOptionsCancelled(requestCode);
+    }
 }

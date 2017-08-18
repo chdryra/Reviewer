@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
@@ -28,7 +29,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReviewViewLayout {
+public interface ReviewViewLayout extends OptionSelectListener{
     View inflateLayout(LayoutInflater inflater, ViewGroup container);
 
     <T extends GvData> void attachReviewView(ReviewView<T> reviewView, CellDimensionsCalculator calculator);

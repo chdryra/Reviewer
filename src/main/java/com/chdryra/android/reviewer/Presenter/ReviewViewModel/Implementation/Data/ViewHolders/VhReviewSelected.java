@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -43,6 +42,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
@@ -55,14 +55,16 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * Created by: Rizwan Choudrey
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
- *
+ * <p>
  * This class is messy and poorly implemented. Highlights deficiencies in my ViewHolder pattern.
  * Ripe for a refactor and design rethink.
  */
 
 //TODO refactor and think about ViewHolder redesign.
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
-        .ReviewSelectorCallback, VhNode, ReviewReference.ReviewReferenceObserver {
+        .ReviewSelectorCallback, VhNode,
+        ReviewReference.ReviewReferenceObserver,
+        OptionSelectListener {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int PROFILE = R.id.user_profile;
     private static final int OPTIONS = R.id.social_options;
@@ -71,7 +73,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
     private static final int SUBJECT_RATING = R.id.subject_rating;
-    private static final int ABSTRACT = R.id.review_text_abstract;
     private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
@@ -80,11 +81,12 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
     private static final int BOOKMARK_BUTTON = R.id.bookmark_button;
-    private static final int MENU_BUTTON = R.id.bookmark_button;
+    private static final int MENU_BUTTON = R.id.menu_button;
     private static final long WAIT_TIME = 150L;
 
     private final static int[] VIEWS =
-            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME};
+            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME,
+                    PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON, BOOKMARK_BUTTON};
 
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
@@ -180,6 +182,73 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mBindingTask.execute(WAIT_TIME);
     }
 
+    @Override
+    public void inflate(final Context context, ViewGroup parent) {
+        super.inflate(context, parent);
+        View view = getView();
+        view.findViewById(SUBJECT_RATING).setAlpha(0.7f);
+        view.findViewById(TAGS).setAlpha(0.7f);
+
+        getView(PROFILE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickProfile();
+            }
+        });
+
+        getView(OPTIONS).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        getView(MENU_BUTTON).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickMenu();
+            }
+        });
+
+        getView(LIKE_BUTTON).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickLike();
+            }
+        });
+
+        getView(COMMENT_BUTTON).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickComment();
+            }
+        });
+
+        getView(SHARE_BUTTON).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickShare();
+            }
+        });
+
+        getView(BOOKMARK_BUTTON).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickBookmark();
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mOptions.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mOptions.onOptionsCancelled(requestCode);
+    }
+
     private void unbindFromCover() {
         mReview.getCover().unbindFromValue(mCoverBinder);
         mCoverBinder.unbind();
@@ -195,80 +264,32 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         refresh(node.getNode());
     }
 
-    @Override
-    public void inflate(final Context context, ViewGroup parent) {
-        super.inflate(context, parent);
-        View view = getView();
-        view.findViewById(SUBJECT_RATING).setAlpha(0.7f);
-        view.findViewById(TAGS).setAlpha(0.7f);
-
-        interceptTouch(view.findViewById(PROFILE));
-        interceptTouch(view.findViewById(OPTIONS));
-
-        View menu = view.findViewById(MENU_BUTTON);
-        View like = view.findViewById(LIKE_BUTTON);
-        View comment = view.findViewById(COMMENT_BUTTON);
-        View share = view.findViewById(SHARE_BUTTON);
-        View bm = view.findViewById(BOOKMARK_BUTTON);
-
-        menu.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    mOptions.execute();
-                }
-                return true;
-            }
-        });
-
-        like.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
-
-        comment.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-        });
-
-        share.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    mOptions.getOptions().getShareCommand().execute();
-                }
-                return true;
-            }
-        });
-
-        bm.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    mOptions.getOptions().getBookmarkCommand().execute();
-                }
-                return true;
-            }
-        });
+    private void clickBookmark() {
+        mOptions.getOptions().getBookmarkCommand().execute();
     }
 
-    private void interceptTouch(View profile) {
-        profile.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+    private void clickShare() {
+        mOptions.getOptions().getShareCommand().execute();
+    }
+
+    private void clickComment() {
+        underConstruction();
+    }
+
+    private void clickLike() {
+        underConstruction();
+    }
+
+    private void clickMenu() {
+        mOptions.execute();
+    }
+
+    private void clickProfile() {
+        underConstruction();
+    }
+
+    private void underConstruction() {
+        Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
     }
 
     private void selectAndBind(ReviewNode node) {
@@ -316,7 +337,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setAuthor(@Nullable NamedAuthor author) {
         mAuthor = author;
-        if(mAuthor != null) setText(PROFILE_NAME, mAuthor.getName());
+        if (mAuthor != null) setText(PROFILE_NAME, mAuthor.getName());
     }
 
     private void setDate(@Nullable DataDate publishDate) {

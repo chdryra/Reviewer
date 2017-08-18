@@ -19,6 +19,7 @@ import com.chdryra.android.mygenerallibrary.Ui.ViewHolderAbstract;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
@@ -64,25 +65,16 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
         View v = viewHolder.getView();
         v.setTag(viewHolder);
 
-        if(mCellHeight > 0) v.getLayoutParams().height = mCellHeight;
-        if(mCellWidth > 0) v.getLayoutParams().width = mCellWidth;
+        if (mCellHeight > 0) v.getLayoutParams().height = mCellHeight;
+        if (mCellWidth > 0) v.getLayoutParams().width = mCellWidth;
+
 
         return v;
     }
 
     @Override
-    protected void setOnLongClickListeners(View v) {
-        super.setOnLongClickListeners(v);
-    }
-
-    @Override
-    protected void setOnClickListeners(View v) {
-        super.setOnClickListeners(v);
-    }
-
-    @Override
     protected ViewHolderAbstract<T> newRecyclerViewHolder(View v, int viewType) {
-        return new RecyclerVh<>((ViewHolder) v.getTag());
+        return new ViewHolderOptionable<>((ViewHolder) v.getTag());
     }
 
     private ViewHolder createViewHolder(int viewType) {
@@ -90,17 +82,40 @@ class GvDataAdapter<T extends GvData> extends RecyclerAdapterBasic<T> {
                 .getViewHolder();
     }
 
-    private static class RecyclerVh<T extends GvData> extends ViewHolderAbstract<T> {
+    static class ViewHolderOptionable<T extends GvData> extends ViewHolderAbstract<T>
+            implements OptionSelectListener {
         private final ViewHolder mViewHolder;
 
-        private RecyclerVh(ViewHolder vh) {
+        private ViewHolderOptionable(ViewHolder vh) {
             super(vh.getView());
             mViewHolder = vh;
         }
 
         @Override
+        public boolean onOptionSelected(int requestCode, String option) {
+            OptionSelectListener delegate = getDelegate();
+            return delegate != null && delegate.onOptionSelected(requestCode, option);
+        }
+
+        @Override
+        public boolean onOptionsCancelled(int requestCode) {
+            OptionSelectListener delegate = getDelegate();
+            return delegate != null && delegate.onOptionsCancelled(requestCode);
+        }
+
+        @Override
         public void updateData(T data) {
             mViewHolder.updateView(data);
+        }
+
+        @Nullable
+        private OptionSelectListener getDelegate() {
+            try {
+                return (OptionSelectListener) mViewHolder;
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridItemAction<T extends GvData> extends ReviewViewAction<T> {
+
     void onGridItemClick(T item, int position, View v);
 
     void onGridItemLongClick(T item, int position, View v);

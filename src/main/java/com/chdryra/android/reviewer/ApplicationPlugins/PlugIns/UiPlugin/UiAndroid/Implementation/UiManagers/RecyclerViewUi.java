@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +19,7 @@ import com.chdryra.android.mygenerallibrary.Ui.RecyclerAdapterBasic;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
@@ -27,11 +28,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T> implements RecyclerAdapterBasic.OnItemClickListener<T>{
+public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T> implements
+        RecyclerAdapterBasic.OnItemClickListener<T>, OptionSelectListener {
     private final GridItemAction<T> mClickAction;
     private final CellDimensionsCalculator.Dimensions mDims;
+    private final GridLayoutManager mManager;
 
-    public RecyclerViewUi(final ReviewView<T> reviewView, RecyclerView view, CellDimensionsCalculator calculator) {
+    public RecyclerViewUi(final ReviewView<T> reviewView, RecyclerView view,
+                          CellDimensionsCalculator calculator) {
         super(view, new ReferenceValueGetter<GvDataList<T>>() {
             @Override
             public GvDataList<T> getValue() {
@@ -42,7 +46,8 @@ public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T
         ReviewViewParams.GridViewParams params = reviewView.getParams().getGridViewParams();
 
         int span = params.getCellWidth().getDivider();
-        getView().setLayoutManager(new GridLayoutManager(getView().getContext(), span));
+        mManager = new GridLayoutManager(getView().getContext(), span);
+        getView().setLayoutManager(mManager);
         getView().addItemDecoration(new GridItemDecoration(span, 10, false));
         mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 10);
 
@@ -53,7 +58,8 @@ public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T
 
     @Override
     public void update() {
-        getView().setAdapter(new GvDataAdapter<>(getReferenceValue(), mDims.getCellWidth(), mDims.getCellHeight(), this));
+        getView().setAdapter(new GvDataAdapter<>(getReferenceValue(), mDims.getCellWidth(),
+                mDims.getCellHeight(), this));
     }
 
     @Override
@@ -66,4 +72,53 @@ public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T
         mClickAction.onGridItemLongClick(datum, position, v);
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        boolean consumed = false;
+        int first = mManager.findFirstVisibleItemPosition();
+        int last = mManager.findLastVisibleItemPosition();
+        for(int i = first; i < last + 1; ++i) {
+            GvDataAdapter.ViewHolderOptionable<T> delegate = getClickDelegate(i);
+            if(delegate != null) consumed = delegate.onOptionSelected(requestCode, option);
+            if(consumed) break;
+        }
+
+        return consumed || mClickAction.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        boolean consumed = false;
+        int first = mManager.findFirstVisibleItemPosition();
+        int last = mManager.findLastVisibleItemPosition();
+        for(int i = first; i < last + 1; ++i) {
+            GvDataAdapter.ViewHolderOptionable<T> delegate = getClickDelegate(i);
+            if(delegate != null) consumed = delegate.onOptionsCancelled(requestCode);
+            if(consumed) break;
+        }
+
+        return consumed || mClickAction.onOptionsCancelled(requestCode);
+    }
+
+    private GvDataAdapter.ViewHolderOptionable<T> getClickDelegate(View v) {
+        RecyclerView.ViewHolder vh = getView().getChildViewHolder(v);
+        GvDataAdapter.ViewHolderOptionable<T> delegate = null;
+        try {
+            delegate = (GvDataAdapter.ViewHolderOptionable<T>) vh;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return delegate;
+    }
+
+    private GvDataAdapter.ViewHolderOptionable<T> getClickDelegate(int position) {
+        RecyclerView.ViewHolder vh = getView().findViewHolderForAdapterPosition(position);
+        GvDataAdapter.ViewHolderOptionable<T> delegate = null;
+        try {
+            delegate = (GvDataAdapter.ViewHolderOptionable<T>) vh;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return delegate;
+    }
 }

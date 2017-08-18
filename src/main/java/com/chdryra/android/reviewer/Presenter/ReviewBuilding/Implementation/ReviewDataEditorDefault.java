@@ -9,16 +9,13 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -137,10 +134,5 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     public void update() {
         updateRating();
         notifyDataObservers();
-    }
-
-    @Override
-    public final void switchContainerTo(ReviewView<?> newReviewView) {
-        throw new UnsupportedOperationException("Cannot change review view for editors!");
     }
 }

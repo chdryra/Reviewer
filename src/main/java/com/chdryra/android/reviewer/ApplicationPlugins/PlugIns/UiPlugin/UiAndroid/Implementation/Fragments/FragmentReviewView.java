@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.ReviewViewLayout;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 
@@ -35,7 +36,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContaine
  * On: 23/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentReviewView extends Fragment implements ReviewViewContainer {
+public class FragmentReviewView extends Fragment implements ReviewViewContainer, OptionSelectListener{
     private ReviewView<?> mReviewView;
     private ReviewViewLayout mLayout;
     private boolean mIsAttached = false;
@@ -116,6 +117,16 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         } else {
             AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
         }
+    }
+
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mLayout.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mLayout.onOptionsCancelled(requestCode);
     }
 
     @Override
