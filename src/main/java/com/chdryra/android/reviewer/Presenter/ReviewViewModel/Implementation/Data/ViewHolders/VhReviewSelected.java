@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,6 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -44,6 +44,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
@@ -64,7 +65,7 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
 public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         .ReviewSelectorCallback, VhNode,
         ReviewReference.ReviewReferenceObserver,
-        OptionSelectListener {
+        OptionSelectListener, BookmarkCommand.BookmarkObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int PROFILE = R.id.user_profile;
     private static final int OPTIONS = R.id.social_options;
@@ -82,6 +83,15 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int SHARE_BUTTON = R.id.share_button;
     private static final int BOOKMARK_BUTTON = R.id.bookmark_button;
     private static final int MENU_BUTTON = R.id.menu_button;
+    private static final int BOOKMARKED = R.drawable
+            .ic_bookmark_black_24dp;
+    private static final int UNBOOKMARKED = R.drawable
+            .ic_bookmark_border_black_24dp;
+    private static final int LIKED = R.drawable
+            .ic_favorite_black_24dp;
+    private static final int UNLIKED = R.drawable
+            .ic_favorite_border_black_24dp;
+
     private static final long WAIT_TIME = 150L;
 
     private final static int[] VIEWS =
@@ -110,6 +120,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private DelaySelectTask mBindingTask;
     private Bitmap mCover;
     private ReviewOptionsSelector mOptions;
+    private boolean mLiked = false;
 
     public VhReviewSelected(AuthorsRepository authorsRepo,
                             FactoryCommands commandsFactory,
@@ -136,6 +147,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     public void unbind() {
         if (mReview == null) return;
         mCancelBinding = true;
+        unbindFromBookmark();
         if (mCoverBinder != null) unbindFromCover();
         mReview.getComments().unbindFromValue(mCommentsBinder);
         mReview.getLocations().unbindFromValue(mLocationsBinder);
@@ -277,6 +289,8 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     private void clickLike() {
+        mLiked = !mLiked;
+        onLiked(mLiked);
         underConstruction();
     }
 
@@ -369,12 +383,12 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void bindToReview(ReviewReference review) {
         mReview = review;
-        DataAuthorId authorId = mReview.getAuthorId();
 
-        mOptions = mCommandsFactory.newReviewOptionsSelector
-                (ReviewOptionsSelector.SelectorType.BASIC, authorId);
+        setReviewOptions();
+
         setDate(mReview.getPublishDate());
         mCache.addDate(mDate);
+
         onSubjectChanged(mReview.getSubject());
         onRatingChanged(mReview.getRating());
 
@@ -385,7 +399,31 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mReview.getLocations().bindToValue(mLocationsBinder);
         mReview.getTags().bindToValue(mTagsBinder);
         mNameBinder = new NameBinder(mReview.getReviewId());
-        mAuthorsRepo.getReference(authorId).bindToValue(mNameBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+    }
+
+    private void setReviewOptions() {
+        if(mOptions != null) unbindFromBookmark();
+        mOptions = mCommandsFactory.newReviewOptionsSelector
+                (ReviewOptionsSelector.SelectorType.BASIC, mReview.getAuthorId());
+
+        mOptions.getOptions().getBookmarkCommand().addObserver(this);
+        onLiked(mLiked);
+    }
+
+    private void unbindFromBookmark() {
+        mOptions.getOptions().getBookmarkCommand().removeObserver(this);
+    }
+
+    @Override
+    public void onBookmarked(boolean isBookmarked) {
+        getView(BOOKMARK_BUTTON, ImageButton.class)
+                .setBackgroundResource(isBookmarked ? BOOKMARKED : UNBOOKMARKED);
+    }
+
+    public void onLiked(boolean isLiked) {
+        getView(LIKE_BUTTON, ImageButton.class)
+                .setBackgroundResource(isLiked ? LIKED : UNLIKED);
     }
 
     private void returned() {

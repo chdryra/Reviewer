@@ -59,7 +59,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     private void setOptions(final boolean executeOnSet) {
         mOptions = mFactory.newReviewOptions(mAuthorId, mSession);
         if (mOptions.hasBookmark()) {
-            mOptions.isBookmarkInitialised(new BookmarkCommand.BookmarkCommandReadyCallback() {
+            mOptions.initialiseBookmark(new BookmarkCommand.BookmarkReadyCallback() {
                 @Override
                 public void onBookmarkCommandReady() {
                     if (!mInitialised) {
@@ -74,6 +74,9 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         }
     }
 
+    public void initialiseBookmark(BookmarkCommand.BookmarkReadyCallback callback) {
+        mOptions.initialiseBookmark(callback);
+    }
     public void execute(DataAuthorId authorId) {
         mAuthorId = authorId;
         execute();

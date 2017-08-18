@@ -200,7 +200,8 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 if (result.isReference()) {
-                    callback.onEntryReady(mInfoConverter.convert(result.getReference()));
+                    ReviewListEntry entry = mInfoConverter.convert(result.getReference());
+                    callback.onEntryReady(entry.toInverseDate());
                 } else {
                     deleteFromPlaylistIfNecessary(result, id, callback);
                 }

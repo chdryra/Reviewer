@@ -89,6 +89,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterionFormatted;
@@ -364,7 +365,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode,
                 mRepo.getAuthorsRepository().getProfile(mNode.getAuthorId()).getProfileImage(),
                 placeholder, dims);
-        setLaunchOnClick(mCover, launchSummary());
+        setLaunchOnClick(mCover, getCommandsFactory().newLaunchBespokeViewCommand(mNode, "Images", GvImage.TYPE));
     }
 
     private void setTags(View v) {
@@ -418,7 +419,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void setDate(View v) {
-        mDate = newTextUi(v, DATE, Strings.Formatted.DATE, launchAuthor(),
+        mDate = newTextUi(v, DATE, Strings.Formatted.DATE, null,
                 new SimpleViewUi.ReferenceValueGetter<String>() {
                     @Override
                     public String getValue() {
@@ -429,13 +430,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void setRating(View v) {
-        Command onTouch = mIsPublished ? launchSummary() : null;
-        mRating = new RatingBarTouchable((RatingBar) v.findViewById(RATING), mNode, onTouch);
+        mRating = new RatingBarTouchable((RatingBar) v.findViewById(RATING), mNode, null);
     }
 
     private void setSubject(View v) {
-        mSubject = new SubjectNodeUi((TextView) v.findViewById(SUBJECT), mNode, launchAuthor());
-        setLaunchOnClick(mSubject, launchSummary());
+        mSubject = new SubjectNodeUi((TextView) v.findViewById(SUBJECT), mNode, null);
     }
 
     private void setImages(View v) {
@@ -537,7 +536,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         };
     }
 
-    private FormattedTextUi newTextUi(View v, int sectionId, String title, Command onClick,
+    private FormattedTextUi newTextUi(View v, int sectionId, String title, @Nullable Command onClick,
                                       SimpleViewUi.ReferenceValueGetter<String> getter) {
         FormattedTextUi ui = new FormattedTextUi(getSection(v, sectionId), title, getter);
         setLaunchOnClick(ui, onClick);

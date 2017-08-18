@@ -172,6 +172,8 @@ public class Strings {
         public static final String MAPPED = "Map";
         public static final String BOOKMARK = "Bookmark";
         public static final String UNBOOKMARK = "Unbookmark";
+        public static final String LIKE = "Like";
+        public static final String UNLIKE = "Unlike";
         public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";
         public static final String OFFLINE = "offline";
         public static final String DASHES = "- - -";
@@ -217,5 +219,6 @@ public class Strings {
 
     public static class Playlists {
         public static final String BOOKMARKS = "Bookmarks";
+        public static final String LIKED = "Liked";
     }
 }

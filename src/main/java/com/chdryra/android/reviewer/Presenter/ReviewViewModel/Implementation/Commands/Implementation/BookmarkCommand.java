@@ -16,6 +16,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/09/2016
@@ -40,10 +43,15 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     private boolean mLocked = false;
     private boolean mInitialised = false;
     private boolean mErrorChecking = false;
-    private BookmarkCommandReadyCallback mCallback;
+    private BookmarkReadyCallback mCallback;
+    private List<BookmarkObserver> mObservers;
 
-    public interface BookmarkCommandReadyCallback {
+    public interface BookmarkReadyCallback {
         void onBookmarkCommandReady();
+    }
+
+    public interface BookmarkObserver {
+        void onBookmarked(boolean isBookmarked);
     }
 
     public BookmarkCommand(ReviewId reviewId, Playlist bookmarks, CurrentScreen screen) {
@@ -51,9 +59,27 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         mReviewId = reviewId;
         mScreen = screen;
         mBookmarks = bookmarks;
+        mObservers = new ArrayList<>();
     }
 
-    public void initialise(BookmarkCommandReadyCallback callback) {
+    public void addObserver(BookmarkObserver observer) {
+        if(!mObservers.contains(observer)) {
+            mObservers.add(observer);
+            if(mInitialised) observer.onBookmarked(mIsBookmarked);
+        }
+    }
+
+    public void removeObserver(BookmarkObserver observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for(BookmarkObserver observer :mObservers) {
+            observer.onBookmarked(mIsBookmarked);
+        }
+    }
+
+    public void initialise(BookmarkReadyCallback callback) {
         if(!mInitialised) {
             mCallback = callback;
             lock();
@@ -88,6 +114,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     public void onAddedToPlaylistCallback(CallbackMessage message) {
         showToast(message.isOk() ? BOOKMARKED : message.getMessage());
         mIsBookmarked = true;
+        notifyObservers();
         unlock();
         onExecutionComplete();
     }
@@ -96,6 +123,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     public void onRemovedFromPlaylistCallback(CallbackMessage message) {
         showToast(message.isOk() ? UNBOOKMARKED : message.getMessage());
         mIsBookmarked = false;
+        notifyObservers();
         unlock();
         onExecutionComplete();
     }
@@ -112,6 +140,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         }
         unlock();
         mInitialised = true;
+        notifyObservers();
         mCallback.onBookmarkCommandReady();
     }
 
