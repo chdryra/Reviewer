@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
@@ -16,10 +17,10 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
-import io.fabric.sdk.android.Fabric;
+import com.twitter.sdk.android.core.TwitterConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,10 +34,18 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
 
     PlatformTwitter(Context context, SocialPublisherAsync publisher) {
         super(publisher);
-        TwitterAuthConfig authConfig
-                = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));
-        Fabric.with(context, new Twitter(authConfig));
+        initialiseTwitter(context);
         setAccessToken(getAccessToken());
+    }
+
+    private void initialiseTwitter(Context context) {
+        TwitterConfig config = new TwitterConfig.Builder(context)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(context.getString(KEY),
+                        context.getString(SECRET)))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
     }
 
     @Override

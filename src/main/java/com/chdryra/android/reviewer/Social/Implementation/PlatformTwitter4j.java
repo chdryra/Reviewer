@@ -12,8 +12,8 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import twitter4j.auth.AccessToken;
@@ -30,7 +30,8 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
 
     @Override
     protected AccessToken getAccessToken() {
-        TwitterSession session = Twitter.getSessionManager().getActiveSession();
+        TwitterSession session = TwitterCore.getInstance().getSessionManager()
+                .getActiveSession();
 
         if(session == null) return null;
 
@@ -55,8 +56,7 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
     public void logout() {
         PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
         publisher.logout();
-        Twitter.getSessionManager().clearActiveSession();
-        Twitter.logOut();
+        TwitterCore.getInstance().getSessionManager().clearActiveSession();
         setAccessToken(null);
     }
 }

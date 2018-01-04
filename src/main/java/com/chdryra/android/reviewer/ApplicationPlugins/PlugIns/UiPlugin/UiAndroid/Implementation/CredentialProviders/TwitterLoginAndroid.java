@@ -15,9 +15,9 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
@@ -60,7 +60,7 @@ public class TwitterLoginAndroid extends Callback<TwitterSession> implements
 
     @Override
     public void logout(LogoutCallback callback) {
-        Twitter.logOut();
+        TwitterCore.getInstance().getSessionManager().clearActiveSession();
         callback.onLoggedOut(CallbackMessage.ok());
     }
 

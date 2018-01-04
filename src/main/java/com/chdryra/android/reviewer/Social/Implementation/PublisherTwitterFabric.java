@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
+import com.google.android.gms.maps.model.LatLng;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
@@ -21,6 +22,8 @@ import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.StatusesService;
+
+import retrofit2.Call;
 
 /**
  * Created by: Rizwan Choudrey
@@ -50,11 +53,24 @@ public class PublisherTwitterFabric implements SocialPublisherAsync {
     public void publishAsync(Review review, SocialPublisherListener listener) {
         ReviewSummary summary = mSummariser.summarise(review);
         FormattedReview formatted = mFormatter.format(summary);
-
         TwitterApiClient client = TwitterCore.getInstance().getApiClient();
         StatusesService service = client.getStatusesService();
-        service.update(formatted.getBody(), null, null, null, null, null, null, null,
-                null, newCallback(listener));
+        LatLng latLng = null;
+        if(review.getLocations().getDataSize().getSize() > 0) {
+            latLng= review.getLocations().get(0).getLatLng();
+        }
+
+        Call<Tweet> update = service.update(formatted.getBody(),
+                null,
+                null,
+                latLng == null ? null : latLng.latitude,
+                latLng == null ? null : latLng.longitude,
+                null,
+                null,
+                null,
+                null);
+
+        update.enqueue(newCallback(listener));
     }
 
     @NonNull
