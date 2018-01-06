@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsProvider;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
-import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
@@ -45,25 +45,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncher
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserSession.SessionObserver {
-    private final FactoryCredentialsHandler mHandlerFactory;
-    private final FactoryCredentialsAuthenticator mAuthenticatorFactory;
+public class PresenterLogin implements ActivityResultListener, Authenticator.Callback, UserSession.SessionObserver {
+    private final FactoryCredentialsProvider mProviderFactory;
 
     private final AuthenticationSuite mAuth;
     private final CurrentScreen mScreen;
     private final LaunchableConfig mProfileEditor;
     private final LaunchableConfig mFeed;
     private final LoginListener mListener;
-    private CredentialsHandler mHandler;
+    private CredentialsProvider mCredentialsProvider;
 
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
         void onNewAccount(@Nullable AuthenticatedUser user);
 
-        void onAuthenticated();
-
         void onAuthenticationFailed(AuthenticationError error);
+
+        void onNewUserCreated(EmailPassword emailPassword);
 
         void onNoCurrentUser();
 
@@ -74,15 +73,13 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
                            LaunchableConfig profileEditor,
                            LaunchableConfig feed,
                            CurrentScreen screen,
-                           FactoryCredentialsHandler handlerFactory,
-                           FactoryCredentialsAuthenticator authenticatorFactory,
+                           FactoryCredentialsProvider providerFactory,
                            LoginListener listener) {
         mAuth = auth;
         mProfileEditor = profileEditor;
         mFeed = feed;
         mScreen = screen;
-        mHandlerFactory = handlerFactory;
-        mAuthenticatorFactory = authenticatorFactory;
+        mProviderFactory = providerFactory;
         mListener = listener;
     }
 
@@ -98,42 +95,33 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         return getUserSession().isAuthenticated();
     }
 
-    public void logIn(EmailPassword emailPassword) {
-        if (!mAuthenticating) authenticateWithCredentials(emailPassword);
+    public void logIn(EmailPasswordLogin login) {
+        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
     }
 
     public void logIn(FacebookLogin login) {
-        if (!mAuthenticating) {
-            authenticateWithCredentials(mHandlerFactory.newHandler(login,
-                    mAuthenticatorFactory.newFacebookAuthenticator(this)));
-        }
+        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
     }
 
     public void logIn(GoogleLogin login) {
-        if (!mAuthenticating) {
-            authenticateWithCredentials(mHandlerFactory.newHandler(login,
-                    mAuthenticatorFactory.newGoogleAuthenticator(this)));
-        }
+        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
     }
 
     public void logIn(TwitterLogin login) {
-        if (!mAuthenticating) {
-            authenticateWithCredentials(mHandlerFactory.newHandler(login,
-                    mAuthenticatorFactory.newTwitterAuthenticator(this)));
-        }
+        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
     }
 
     private void authenticationFinished() {
         mAuthenticating = false;
-        mHandler = null;
+        mCredentialsProvider = null;
     }
 
-    public void createUserAndLogin(final EmailPassword emailPassword) {
+    public void createUser(final EmailPassword emailPassword) {
         mAuth.getUserAccounts().createUser(emailPassword, new UserAccounts.CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
                 if(error == null) {
-                    logIn(emailPassword);
+                    mListener.onNewUserCreated(emailPassword);
                 } else {
                     mListener.onAuthenticationFailed(error);
                 }
@@ -159,31 +147,27 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         return new EmailValidation(email);
     }
 
-    public PasswordValidation validatePassword(String password) {
-        return new PasswordValidation(password);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == mProfileEditor.getDefaultRequestCode()
                 && resultCode == Activity.RESULT_OK) {
             mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
             getUserSession().refreshSession();
-        } else {
-            if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
+        } else if (mCredentialsProvider != null) {
+            mCredentialsProvider.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     @Override
     public void onAuthenticated(AuthenticatedUser user) {
-        //wait for onLogIn to be called
+        //wait for onLogIn to be called as a SessionObserver
     }
 
     @Override
     public void onLogIn(@Nullable UserAccount account,
                         @Nullable AuthenticationError error) {
         if (error == null && account != null) {
-            if (mListener != null) mListener.onAuthenticated();
+            onLoginComplete();
         } else {
             if(error == null) {
                 error = new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError
@@ -218,15 +202,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         }
     }
 
-    private void authenticateWithCredentials(CredentialsHandler handler) {
+    private void authenticate(CredentialsProvider provider) {
         mAuthenticating = true;
-        mHandler = handler;
-        mHandler.requestCredentials();
-    }
-
-    private void authenticateWithCredentials(EmailPassword emailPassword) {
-        mAuthenticating = true;
-        mAuthenticatorFactory.newEmailAuthenticator(this).authenticate(emailPassword);
+        mCredentialsProvider = provider;
+        mCredentialsProvider.requestCredentials();
     }
 
     public static class Builder {
@@ -236,8 +215,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             UiConfig config = ui.getConfig();
 
             return new PresenterLogin(auth, config.getProfileEditor(), config.getFeed(),
-                    ui.getCurrentScreen(), new FactoryCredentialsHandler(),
-                    new FactoryCredentialsAuthenticator(auth.getAuthenticator()), listener);
+                    ui.getCurrentScreen(),
+                    new FactoryCredentialsProvider(new FactoryCredentialsAuthenticator(auth.getAuthenticator())), listener);
         }
     }
 

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
@@ -19,14 +18,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsHandlerGoogle extends CredentialsHandlerBasic<GoogleSignInAccount, GoogleLoginCallback>
-        implements GoogleLoginCallback {
-    public CredentialsHandlerGoogle(GoogleLogin provider, CredentialsCallback<GoogleSignInAccount> callback) {
+public class CredentialsProviderGoogle extends CredentialsProviderBasic<GoogleSignInAccount, GoogleLogin.Callback>
+        implements GoogleLogin.Callback {
+    public CredentialsProviderGoogle(GoogleLogin provider, CredentialsCallback<GoogleSignInAccount> callback) {
         super(provider, callback);
     }
 
     @Override
-    protected GoogleLoginCallback getProviderCallback() {
+    protected GoogleLogin.Callback getProviderCallback() {
         return this;
     }
 
@@ -34,7 +33,7 @@ public class CredentialsHandlerGoogle extends CredentialsHandlerBasic<GoogleSign
     public void onSuccess(GoogleSignInResult result) {
         GoogleSignInAccount signInAccount = result.getSignInAccount();
         if(signInAccount != null) {
-            notifyOnSuccess(getProviderName(), signInAccount);
+            notifyOnSuccess(signInAccount);
         } else {
             onFailure(result);
         }
@@ -42,9 +41,7 @@ public class CredentialsHandlerGoogle extends CredentialsHandlerBasic<GoogleSign
 
     @Override
     public void onFailure(GoogleSignInResult result) {
-        String providerName = getProviderName();
-        AuthenticationError error = new AuthenticationError(providerName,
-                AuthenticationError.Reason.PROVIDER_ERROR, result.getStatus().getStatusMessage());
-        notifyOnFailure(getProviderName(), error);
+        String message = result.getStatus().getStatusMessage();
+        notifyOnFailure(message != null ? message : result.getStatus().toString());
     }
 }

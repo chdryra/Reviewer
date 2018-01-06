@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders;
 
 
 
@@ -24,7 +24,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.auth.api.Auth;
@@ -50,7 +49,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
     private static final String DIALOG_ERROR = "dialog_error";
 
     private final GoogleApiClient mGoogleApiClient;
-    private GoogleLoginCallback mListener;
+    private Callback mListener;
     private final Activity mActivity;
 
     private LogoutCallback mLogoutCallback;
@@ -74,7 +73,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
                 .build();
     }
 
-    private void setListener(GoogleLoginCallback listener) {
+    private void setListener(Callback listener) {
         mListener = listener;
     }
 
@@ -154,8 +153,8 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
     }
 
     @Override
-    public void requestSignIn(GoogleLoginCallback resultListener) {
-        setListener(resultListener);
+    public void login(Callback loginCallback) {
+        setListener(loginCallback);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         mActivity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
     }

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 
 /**
@@ -17,29 +17,21 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallbac
  * Email: rizwan.choudrey@gmail.com
  */
 public class CredentialsAuthenticator<T> implements CredentialsCallback<T> {
-    private final AuthenticatorCallback mCallback;
-    private final AuthenticationCall<T> mCall;
+    private final Authenticator<T> mAuthenticator;
+    private final Authenticator.Callback mCallback;
 
-    public interface AuthenticationCall<T> {
-        void authenticate(T credentials, AuthenticatorCallback callback);
-    }
-
-    public CredentialsAuthenticator(AuthenticatorCallback callback, AuthenticationCall<T> call) {
+    public CredentialsAuthenticator(Authenticator<T> authenticator, Authenticator.Callback callback) {
         mCallback = callback;
-        mCall = call;
-    }
-
-    public void authenticate(T credentials) {
-        mCall.authenticate(credentials, mCallback);
+        mAuthenticator = authenticator;
     }
 
     @Override
-    public void onCredentialsObtained(String provider, T credentials) {
-        authenticate(credentials);
+    public void onCredentialsObtained(Credentials<T> credentials) {
+        mAuthenticator.authenticate(credentials.getCredentials(), mCallback);
     }
 
     @Override
-    public void onCredentialsFailure(String provider, AuthenticationError error) {
+    public void onCredentialsFailure(AuthenticationError error) {
         mCallback.onAuthenticationError(error);
     }
 }

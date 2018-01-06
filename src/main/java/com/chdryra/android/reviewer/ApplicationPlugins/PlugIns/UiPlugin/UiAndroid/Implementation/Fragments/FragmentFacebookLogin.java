@@ -21,8 +21,9 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivitySocialAuthUi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FacebookLoginAndroid;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.FacebookLoginAndroid;
+
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.R;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -48,7 +49,7 @@ public class FragmentFacebookLogin extends Fragment{
     }
 
     @NonNull
-    private FacebookLoginCallback getActivityAsListener() {
+    private FacebookLogin.Callback getActivityAsListener() {
         final ActivitySocialAuthUi activity;
         try {
             activity = (ActivitySocialAuthUi) getActivity();
@@ -56,7 +57,7 @@ public class FragmentFacebookLogin extends Fragment{
             throw new RuntimeException("Activity should be ActivitySocialAuthUi!", e);
         }
 
-        return new FacebookLoginCallback() {
+        return new FacebookLogin.Callback() {
             @Override
             public void onSuccess(LoginResult result) {
                 activity.onSuccess(result);

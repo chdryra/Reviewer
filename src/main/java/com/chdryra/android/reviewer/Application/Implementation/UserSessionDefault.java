@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -100,13 +100,13 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     }
 
     @Override
-    public void logout(SessionProvider<?> googleHack) {
+    public void logout(LoginProvider<?> googleHack) {
         //From Firebase
         getAuthenticator().logout();
         //From twitter/fb (also if used for login)
         mSocialPlatforms.logout();
         //Google needs its own method
-        googleHack.logout(new SessionProvider.LogoutCallback() {
+        googleHack.logout(new LoginProvider.LogoutCallback() {
             @Override
             public void onLoggedOut(CallbackMessage message) {
                 notifySessionEnded(message);

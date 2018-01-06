@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders;
 
 
 import android.app.Fragment;
@@ -14,7 +14,6 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -40,7 +39,7 @@ public class FacebookLoginAndroid
     }
 
     private final Fragment mFragment;
-    private FacebookLoginCallback mListener;
+    private Callback mListener;
     private final CallbackManager mCallbackManager;
 
     public FacebookLoginAndroid(Fragment fragment) {
@@ -49,13 +48,13 @@ public class FacebookLoginAndroid
         LoginManager.getInstance().registerCallback(mCallbackManager, this);
     }
 
-    public void setListener(FacebookLoginCallback listener) {
+    public void setListener(Callback listener) {
         mListener = listener;
     }
 
     @Override
-    public void requestSignIn(FacebookLoginCallback resultListener) {
-        setListener(resultListener);
+    public void login(Callback loginCallback) {
+        setListener(loginCallback);
         LoginManager manager = LoginManager.getInstance();
         manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
     }

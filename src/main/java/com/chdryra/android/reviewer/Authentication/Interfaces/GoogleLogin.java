@@ -9,13 +9,18 @@
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GoogleLogin extends SessionProvider<GoogleLoginCallback> {
+public interface GoogleLogin extends LoginProvider<GoogleLogin.Callback> {
     GoogleSignInOptions DEFAULT_SIGN_IN = GoogleSignInOptions.DEFAULT_SIGN_IN;
     String NAME = "GoogleSignIn";
+
+    interface Callback extends BinaryResultCallback<GoogleSignInResult, GoogleSignInResult> {
+
+    }
 }

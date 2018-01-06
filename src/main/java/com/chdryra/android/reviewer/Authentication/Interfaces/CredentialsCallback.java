@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.Credentials;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +17,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
  * Email: rizwan.choudrey@gmail.com
  */
 public interface CredentialsCallback<T> {
-    void onCredentialsObtained(String provider, T credentials);
+    void onCredentialsObtained(Credentials<T> credentials);
 
-    void onCredentialsFailure(String provider, AuthenticationError error);
+    void onCredentialsFailure(AuthenticationError error);
 }

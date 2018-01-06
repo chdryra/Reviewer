@@ -21,10 +21,10 @@ class EmailValidator {
     private static final String EMAIL_REGEX =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final Pattern EMAI_PATTERN = Pattern.compile(EMAIL_REGEX);
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     public static boolean isValid(String target) {
-        return target != null && EMAI_PATTERN.matcher(target).matches();
+        return target != null && target.length() > 0 && EMAIL_PATTERN.matcher(target).matches();
     }
 
     public static boolean isValid(EditText editText) {

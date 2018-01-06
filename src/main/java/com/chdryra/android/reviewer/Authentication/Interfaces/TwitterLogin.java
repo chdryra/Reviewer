@@ -8,11 +8,19 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLogin extends SessionProvider<TwitterLoginCallback> {
+public interface TwitterLogin extends LoginProvider<TwitterLogin.Callback> {
     String NAME = "TwitterLogin";
+
+    interface Callback extends BinaryResultCallback<Result<TwitterSession>, TwitterException> {
+
+    }
 }

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -20,27 +19,25 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsHandlerTwitter extends CredentialsHandlerBasic<TwitterSession, TwitterLoginCallback>
-        implements TwitterLoginCallback {
-    public CredentialsHandlerTwitter(TwitterLogin provider, CredentialsCallback<TwitterSession> callback) {
+public class CredentialsProviderTwitter extends CredentialsProviderBasic<TwitterSession, TwitterLogin.Callback>
+        implements TwitterLogin.Callback {
+
+    public CredentialsProviderTwitter(TwitterLogin provider, CredentialsCallback<TwitterSession> callback) {
         super(provider, callback);
     }
 
     @Override
-    protected TwitterLoginCallback getProviderCallback() {
+    protected TwitterLogin.Callback getProviderCallback() {
         return this;
     }
 
     @Override
     public void onSuccess(Result<TwitterSession> result) {
-        notifyOnSuccess(getProviderName(), result.data);
+        notifyOnSuccess(result.data);
     }
 
     @Override
     public void onFailure(TwitterException result) {
-        String providerName = getProviderName();
-        AuthenticationError error = new AuthenticationError(providerName,
-                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
-        notifyOnFailure(getProviderName(), error);
+        notifyOnFailure(result.getMessage());
     }
 }

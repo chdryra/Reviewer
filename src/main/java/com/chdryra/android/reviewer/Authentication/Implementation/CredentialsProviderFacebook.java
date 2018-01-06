@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -20,28 +19,25 @@ import com.facebook.login.LoginResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsHandlerFacebook extends CredentialsHandlerBasic<AccessToken, FacebookLoginCallback>
-        implements FacebookLoginCallback {
+public class CredentialsProviderFacebook extends CredentialsProviderBasic<AccessToken, FacebookLogin.Callback>
+        implements FacebookLogin.Callback {
 
-    public CredentialsHandlerFacebook(FacebookLogin provider, CredentialsCallback<AccessToken> callback) {
-        super(provider, callback);
+    public CredentialsProviderFacebook(FacebookLogin login, CredentialsCallback<AccessToken> callback) {
+        super(login, callback);
     }
 
     @Override
     public void onSuccess(LoginResult result) {
-        notifyOnSuccess(getProviderName(), result.getAccessToken());
+        notifyOnSuccess(result.getAccessToken());
     }
 
     @Override
     public void onFailure(FacebookException result) {
-        String providerName = getProviderName();
-        AuthenticationError error = new AuthenticationError(providerName,
-                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
-        notifyOnFailure(providerName, error);
+        notifyOnFailure(result.getMessage());
     }
 
     @Override
-    protected FacebookLoginCallback getProviderCallback() {
+    protected FacebookLogin.Callback getProviderCallback() {
         return this;
     }
 }

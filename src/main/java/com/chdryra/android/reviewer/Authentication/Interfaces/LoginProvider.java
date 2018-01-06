@@ -8,15 +8,21 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLoginCallback extends BinaryResultCallback<Result<TwitterSession>, TwitterException> {
+public interface LoginProvider<T extends BinaryResultCallback> {
+    interface LogoutCallback {
+        void onLoggedOut(CallbackMessage message);
+    }
 
+    String getName();
+
+    void login(T loginCallback);
+
+    void logout(LogoutCallback callback);
 }
