@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.Credentials;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 
 /**
@@ -17,8 +19,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultList
  * On: 27/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CredentialsProvider extends ActivityResultListener {
-    void requestCredentials();
+public interface CredentialsProvider<Cred> extends ActivityResultListener {
+    interface Callback<Cred> {
+        void onCredentialsObtained(Credentials<Cred> credentials);
+
+        void onCredentialsFailure(AuthenticationError error);
+    }
+
+    void requestCredentials(Callback<Cred> callback);
 
     @Override
     void onActivityResult(int requestCode, int resultCode, Intent data);

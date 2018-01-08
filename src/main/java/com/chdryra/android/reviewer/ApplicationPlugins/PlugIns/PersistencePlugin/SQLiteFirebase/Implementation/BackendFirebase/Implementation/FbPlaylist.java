@@ -198,7 +198,7 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                                                       final EntryReadyCallback callback) {
         return new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 if (result.isReference()) {
                     ReviewListEntry entry = mInfoConverter.convert(result.getReference());
                     callback.onEntryReady(entry.toInverseDate());

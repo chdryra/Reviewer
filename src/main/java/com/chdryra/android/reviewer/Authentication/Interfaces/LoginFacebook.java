@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -17,7 +18,7 @@ import com.facebook.login.LoginResult;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FacebookLogin extends LoginProvider<FacebookLogin.Callback> {
+public interface LoginFacebook extends LoginProvider<LoginFacebook.Callback> {
     String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
     String NAME = "FacebookLogin";
 

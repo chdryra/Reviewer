@@ -410,12 +410,12 @@ public class TestReviews {
                     break;
                 }
             }
-            callback.onRepositoryCallback(new RepositoryResult(ret, message));
+            callback.onRepoCallback(new RepositoryResult(ret, message));
         }
 
         @Override
         public void getReviews(RepositoryCallback callback) {
-            callback.onRepositoryCallback(new RepositoryResult(mReviews, CallbackMessage.ok()));
+            callback.onRepoCallback(new RepositoryResult(mReviews, CallbackMessage.ok()));
         }
 
         @Override

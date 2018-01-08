@@ -59,7 +59,7 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
     private void launch(ReviewId review, final ReviewPack.TemplateOrEdit templateOrEdit) {
         mRepo.getReview(review, new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 Bundle args = new Bundle();
                 args.putSerializable(TEMPLATE_OR_EDIT, templateOrEdit);
                 EditUiLauncher.super.launch(result.getReview(), args);

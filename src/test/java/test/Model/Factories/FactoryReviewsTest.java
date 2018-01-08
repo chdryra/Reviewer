@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -72,7 +72,7 @@ public class FactoryReviewsTest {
     public void setup() {
         mAuthor = RandomAuthor.nextAuthor();
 
-        mFactory = new FactoryReviews(new FactoryMdReference(new FactoryReference(), new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
+        mFactory = new FactoryReviews(new FactoryMdReference(new FactoryReferences(), new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
         mFactory.setReviewStamper(new ReviewStamper() {
             @Override
             public ReviewStamp newStamp() {

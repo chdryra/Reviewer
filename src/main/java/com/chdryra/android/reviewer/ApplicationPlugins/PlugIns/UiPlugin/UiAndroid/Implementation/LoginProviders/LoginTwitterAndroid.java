@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginTwitter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -25,13 +25,13 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TwitterLoginAndroid extends com.twitter.sdk.android.core.Callback<TwitterSession> implements
-        ActivityResultListener, TwitterLogin {
+public class LoginTwitterAndroid extends com.twitter.sdk.android.core.Callback<TwitterSession> implements
+        ActivityResultListener, LoginTwitter {
     private Callback mListener;
     private final TwitterAuthClient mTwitterAuthClient;
     private final Activity mActivity;
 
-    public TwitterLoginAndroid(Activity activity) {
+    public LoginTwitterAndroid(Activity activity) {
         mActivity = activity;
         mTwitterAuthClient = new TwitterAuthClient();
     }

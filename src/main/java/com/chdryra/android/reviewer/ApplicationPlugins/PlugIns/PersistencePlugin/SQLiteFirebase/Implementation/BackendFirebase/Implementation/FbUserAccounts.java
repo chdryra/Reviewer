@@ -34,8 +34,8 @@ import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfil
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -226,7 +226,7 @@ public class FbUserAccounts implements UserAccounts {
                             UNKNOWN_USER_ERROR);
                 } else {
                     authUser.setAuthorId(authorId);
-                    AuthorProfile profile = mProfileFactory.newProfile(authUser.getAuthorId());
+                    ProfileAuthor profile = mProfileFactory.newProfile(authUser.getAuthorId());
                     callback.onAccount(newUserAccount(authUser, profile), null);
                 }
             }
@@ -240,11 +240,11 @@ public class FbUserAccounts implements UserAccounts {
     }
 
     @NonNull
-    private UserAccount newUserAccount(@Nullable AuthenticatedUser user, AuthorProfile profile) {
+    private UserAccount newUserAccount(@Nullable AuthenticatedUser user, ProfileAuthor profile) {
         if (user == null) {
             return mAccountFactory.newNullAccount();
         } else {
-            SocialProfile socialProfile
+            ProfileSocial socialProfile
                     = mReferencer.newSocialProfile(user.getAuthorId(), mDataRoot, mStructure);
             return mAccountFactory.newAccount(user, profile, socialProfile);
         }

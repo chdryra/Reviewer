@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
@@ -72,7 +72,7 @@ public class ReviewerDbRepository implements LocalRepository {
             if (review.getAuthorId().toString().equals(authorId.toString())) reviews.add(review);
         }
         CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
-        callback.onRepositoryCallback(new RepositoryResult(authorId, reviews, result));
+        callback.onRepoCallback(new RepositoryResult(authorId, reviews, result));
     }
 
     @Override
@@ -90,7 +90,7 @@ public class ReviewerDbRepository implements LocalRepository {
             result = CallbackMessage.error(subject + ": Problem adding review to database");
         }
 
-        callback.onAddedToRepoCallback(new RepositoryResult(review, result));
+        callback.onAddedToRepo(new RepositoryResult(review, result));
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ReviewerDbRepository implements LocalRepository {
             message = CallbackMessage.error("Review not found: " + reviewId);
         }
 
-        callback.onRepositoryCallback(new RepositoryResult(review, message));
+        callback.onRepoCallback(new RepositoryResult(review, message));
     }
 
     @Override
@@ -136,7 +136,7 @@ public class ReviewerDbRepository implements LocalRepository {
         } else {
             result = new RepositoryResult(CallbackMessage.error("Review not found"));
         }
-        callback.onRepositoryCallback(result);
+        callback.onRepoCallback(result);
 
         mDatabase.endTransaction(transactor);
     }
@@ -161,7 +161,7 @@ public class ReviewerDbRepository implements LocalRepository {
             result = CallbackMessage.error("Problems deleting review: " + reviewId);
         }
 
-        callback.onRemovedFromRepoCallback(new RepositoryResult(reviewId, result));
+        callback.onRemovedFromRepo(new RepositoryResult(reviewId, result));
     }
 
     @Override

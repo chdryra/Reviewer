@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 /**
@@ -15,7 +16,7 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface EmailPasswordLogin extends LoginProvider<EmailPasswordLogin.Callback> {
+public interface LoginEmailPassword extends LoginProvider<LoginEmailPassword.Callback> {
     String NAME = "EmailPasswordLogin";
 
     interface Callback extends BinaryResultCallback<EmailPassword, String> {

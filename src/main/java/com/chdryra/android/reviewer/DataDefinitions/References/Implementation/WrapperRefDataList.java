@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 
@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
 public class WrapperRefDataList<Value extends HasReviewId> extends StaticListReferenceBasic<Value, ReviewItemReference<Value>>
         implements RefDataList<Value> {
 
-    private final FactoryReference mFactory;
+    private final FactoryReferences mFactory;
 
-    public WrapperRefDataList(IdableList<Value> value, FactoryReference factory) {
+    public WrapperRefDataList(IdableList<Value> value, FactoryReferences factory) {
         super(value);
         mFactory = factory;
     }

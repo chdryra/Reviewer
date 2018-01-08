@@ -213,7 +213,7 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
         public void dereference(final DereferenceCallback<Review> callback) {
             mRepo.getReview(mId, new RepositoryCallback() {
                 @Override
-                public void onRepositoryCallback(RepositoryResult result) {
+                public void onRepoCallback(RepositoryResult result) {
                     DataValue<Review> value = result.isReview() ?
                             new DataValue<>(result.getReview()) :
                             new DataValue<Review>(result.getMessage());

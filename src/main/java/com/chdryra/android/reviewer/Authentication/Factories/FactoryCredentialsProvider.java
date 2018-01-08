@@ -12,12 +12,14 @@ import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsPro
 import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsProviderFacebook;
 import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsProviderGoogle;
 import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsProviderTwitter;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginEmailPassword;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginFacebook;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginGoogle;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginTwitter;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,29 +27,23 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsProvider {
-    private final FactoryCredentialsAuthenticator mAuthenticator;
 
-    public FactoryCredentialsProvider(FactoryCredentialsAuthenticator authenticator) {
-        mAuthenticator = authenticator;
+    public FactoryCredentialsProvider() {
     }
 
-    public CredentialsProvider newProvider(EmailPasswordLogin login,
-                                           Authenticator.Callback callback) {
-        return new CredentialsProviderEmailPassword(login, mAuthenticator.newEmailAuthenticator(callback));
+    public CredentialsProvider<EmailPassword> newCredentialsProvider(LoginEmailPassword login) {
+        return new CredentialsProviderEmailPassword(login);
     }
 
-    public CredentialsProvider newProvider(FacebookLogin login,
-                                           Authenticator.Callback callback) {
-        return new CredentialsProviderFacebook(login, mAuthenticator.newFacebookAuthenticator(callback));
+    public CredentialsProvider<com.facebook.AccessToken> newCredentialsProvider(LoginFacebook login) {
+        return new CredentialsProviderFacebook(login);
     }
 
-    public CredentialsProvider newProvider(GoogleLogin login,
-                                           Authenticator.Callback callback) {
-        return new CredentialsProviderGoogle(login, mAuthenticator.newGoogleAuthenticator(callback));
+    public CredentialsProvider<GoogleSignInAccount> newCredentialsProvider(LoginGoogle login) {
+        return new CredentialsProviderGoogle(login);
     }
 
-    public CredentialsProvider newProvider(TwitterLogin login,
-                                           Authenticator.Callback callback) {
-        return new CredentialsProviderTwitter(login, mAuthenticator.newTwitterAuthenticator(callback));
+    public CredentialsProvider<TwitterSession> newCredentialsProvider(LoginTwitter login) {
+        return new CredentialsProviderTwitter(login);
     }
 }

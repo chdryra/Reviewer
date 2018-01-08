@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasAuthorId;
 public interface UserAccount extends HasAuthorId{
     AuthenticatedUser getAccountHolder();
 
-    SocialProfile getSocialProfile();
+    ProfileSocial getSocialProfile();
 
-    AuthorProfile getAuthorProfile();
+    ProfileAuthor getAuthorProfile();
 }

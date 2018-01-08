@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -86,7 +86,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
     }
 
     public void getProfile(UserAccount account) {
-        account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
+        account.getAuthorProfile().getProfileSnapshot(new ProfileAuthor.ProfileCallback() {
             @Override
             public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
                 mListener.onProfileFetched(profile, message);
@@ -118,7 +118,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
             return;
         }
 
-        account.getAuthorProfile().getProfileSnapshot(new AuthorProfile.ProfileCallback() {
+        account.getAuthorProfile().getProfileSnapshot(new ProfileAuthor.ProfileCallback() {
             @Override
             public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
                 CallbackMessage updated = message.isOk() ?

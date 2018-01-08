@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
@@ -58,17 +58,17 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public AuthorsRepository getAuthorsRepository() {
+    public AuthorsRepository getAuthorsRepo() {
         return mAuthorsRepo;
     }
 
     @Override
-    public ReviewsSource getReviewsRepository() {
+    public ReviewsSource getReviewsRepo() {
         return mReviewsRepo;
     }
 
     @Override
-    public ReferencesRepository getFeed(SocialProfile profile) {
+    public ReferencesRepository getFeed(ProfileSocial profile) {
         return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
 
@@ -86,7 +86,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     private RepositoryCallback dereferenceOnReturn(final RepositoryCallback callback) {
         return new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 if (result.isReference()) dereference(result.getReference(), callback);
             }
         };
@@ -98,7 +98,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
             public void onDereferenced(DataValue<Review> review) {
                 RepositoryResult result
                         = new RepositoryResult(review.getData(), review.getMessage());
-                callback.onRepositoryCallback(result);
+                callback.onRepoCallback(result);
             }
         });
     }

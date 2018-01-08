@@ -125,7 +125,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                 CallbackMessage error = beError != null ?
                         CallbackMessage.error(beError.getMessage()) : CallbackMessage.error
                         ("Firebase cancelled");
-                callback.onRemovedFromRepoCallback(new RepositoryResult(reviewId, error));
+                callback.onRemovedFromRepo(new RepositoryResult(reviewId, error));
             }
         };
     }
@@ -160,7 +160,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                             ()));
                 }
 
-                callback.onAddedToRepoCallback(result);
+                callback.onAddedToRepo(result);
             }
         };
     }
@@ -178,7 +178,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                 ReviewId reviewId = new DatumReviewId(review.getReviewId());
                 if(message.isOk() && mCache.contains(reviewId)) mCache.remove(reviewId);
 
-                callback.onRemovedFromRepoCallback(new RepositoryResult(mConverter.convert
+                callback.onRemovedFromRepo(new RepositoryResult(mConverter.convert
                         (review), message));
             }
         };

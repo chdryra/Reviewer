@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -73,7 +73,7 @@ public class FactoryReviewViewAdapter {
     private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
-                                    FactoryReference referenceFactory,
+                                    FactoryReferences referenceFactory,
                                     FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
                                     AuthorsRepository authorsRepository,

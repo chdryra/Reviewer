@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterAuthorProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
@@ -38,7 +38,7 @@ public class FactoryAuthorProfile {
         mConverter = converter;
     }
 
-    public AuthorProfile newProfile(AuthorId authorId) {
+    public ProfileAuthor newProfile(AuthorId authorId) {
         return new FbAuthorProfile(authorId, mDataRoot, mStructure, mReferencer, new ConverterAuthorProfile(mConverter));
     }
 }

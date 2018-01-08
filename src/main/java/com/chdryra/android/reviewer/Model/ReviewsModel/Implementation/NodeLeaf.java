@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -36,9 +36,9 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 public class NodeLeaf extends ReviewNodeComponentBasic
         implements DataReference.InvalidationListener, ReviewReference.ReviewReferenceObserver {
     private final ReviewReference mReview;
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
 
-    public NodeLeaf(ReviewReference review, FactoryReference referenceFactory) {
+    public NodeLeaf(ReviewReference review, FactoryReferences referenceFactory) {
         mReview = review;
         mReferenceFactory = referenceFactory;
         mReview.registerObserver(this);

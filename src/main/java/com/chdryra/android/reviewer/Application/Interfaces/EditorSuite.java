@@ -35,9 +35,9 @@ public interface EditorSuite {
         void onDiscarded(boolean discardConfirmed);
     }
 
-    ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+    void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
 
-    ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit, ReviewPublisher publisher, PublishAction.PublishCallback callback);
+    void createReviewEditor(LocationClient client, Review toEdit, ReviewPublisher publisher, PublishAction.PublishCallback callback);
 
     ReviewEditor<?> getEditor();
 

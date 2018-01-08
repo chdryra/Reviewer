@@ -44,16 +44,14 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
     }
 
     @Override
-    public ReviewEditor<?> newReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
+    public void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
         mReviewEditor = mViewFactory.newReviewCreator(editMode, client, template);
-        return mReviewEditor;
     }
 
     @Override
-    public ReviewEditor<?> newReviewEditor(LocationClient client, Review toEdit, ReviewPublisher
+    public void createReviewEditor(LocationClient client, Review toEdit, ReviewPublisher
             publisher, PublishAction.PublishCallback callback) {
         mReviewEditor = mViewFactory.newReviewEditor(toEdit, client, publisher, callback);
-        return mReviewEditor;
     }
 
     @Override

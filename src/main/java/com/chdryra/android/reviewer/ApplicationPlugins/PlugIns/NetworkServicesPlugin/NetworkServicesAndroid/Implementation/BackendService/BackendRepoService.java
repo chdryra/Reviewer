@@ -76,7 +76,7 @@ public class BackendRepoService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getApplicationContext());
         RepositorySuite repository = app.getRepository();
-        mRepo = repository.getReviewsRepository().getMutableRepository(app.getAuthentication().getUserSession());
+        mRepo = repository.getReviewsRepo().getMutableRepository(app.getAuthentication().getUserSession());
         mPublisher = repository.getReviewPublisher();
 
         mReviewId = intent.getStringExtra(REVIEW_ID);
@@ -117,7 +117,7 @@ public class BackendRepoService extends IntentService {
 
     private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
         @Override
-        public void onAddedToRepoCallback(RepositoryResult result) {
+        public void onAddedToRepo(RepositoryResult result) {
             CallbackMessage message;
             String subject = "";
             if(result.isReview()) {
@@ -131,7 +131,7 @@ public class BackendRepoService extends IntentService {
         }
 
         @Override
-        public void onRemovedFromRepoCallback(RepositoryResult result) {
+        public void onRemovedFromRepo(RepositoryResult result) {
             CallbackMessage message;
             if (result.isError()) {
                 message = CallbackMessage.error(getErrorString(result, DELETE_ERROR));

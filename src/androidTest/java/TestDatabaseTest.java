@@ -54,7 +54,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
         mTestRepo.getRepository(new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 Collection<Review> reviews = result.getReviews();
                 populateRepository(reviews);
             }
@@ -65,11 +65,11 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     public void testDatabase() {
         mTestRepo.getRepository(new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 final Collection<Review> testReviews = result.getReviews();
                 mRepo.getRepository(new RepositoryCallback() {
                     @Override
-                    public void onRepositoryCallback(RepositoryResult result) {
+                    public void onRepoCallback(RepositoryResult result) {
                         Collection<Review> reviews = result.getReviews();
                         assertEquals(testReviews.size(), reviews.size());
                         Iterator<Review> testReviewsIt = testReviews.iterator();
@@ -96,12 +96,12 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         for (Review review : reviews) {
             mRepo.addReview(review, new MutableRepoCallback() {
                 @Override
-                public void onAddedToRepoCallback(RepositoryResult result) {
+                public void onAddedToRepo(RepositoryResult result) {
                     assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));
                 }
 
                 @Override
-                public void onRemovedFromRepoCallback(RepositoryResult result) {
+                public void onRemovedFromRepo(RepositoryResult result) {
 
                 }
             });

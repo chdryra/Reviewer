@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RepositoryCallback {
-    void onRepositoryCallback(RepositoryResult result);
+    void onRepoCallback(RepositoryResult result);
 }

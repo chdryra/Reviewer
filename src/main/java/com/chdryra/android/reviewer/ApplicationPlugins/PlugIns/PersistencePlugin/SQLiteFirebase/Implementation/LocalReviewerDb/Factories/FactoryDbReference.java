@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -42,13 +42,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbReference {
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
 
-    public FactoryDbReference(FactoryReference referenceFactory) {
+    public FactoryDbReference(FactoryReferences referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 
-    public FactoryReference getReferenceFactory() {
+    public FactoryReferences getReferenceFactory() {
         return mReferenceFactory;
     }
 

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
 
 import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
-import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
@@ -23,7 +23,7 @@ import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
 public interface LocationServicesApi {
     AddressesSuggester newAddressesSuggester();
 
-    AutoCompleterLocation newAutoCompleter(LocatedPlace locatedPlace);
+    LocationAutoCompleter newAutoCompleter(LocatedPlace locatedPlace);
 
     LocationDetailsFetcher newLocationDetailsFetcher();
 

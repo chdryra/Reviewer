@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Authentication.Factories;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsAuthenticator;
-import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -21,15 +21,15 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 27/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryCredentialsAuthenticator {
+public class FactoryCredentialsHandler {
     private final UserAuthenticator mUserAuthenticator;
 
-    public FactoryCredentialsAuthenticator(UserAuthenticator userAuthenticator) {
+    public FactoryCredentialsHandler(UserAuthenticator userAuthenticator) {
         mUserAuthenticator = userAuthenticator;
     }
 
-    public CredentialsAuthenticator<EmailPassword> newEmailAuthenticator(Authenticator.Callback callback) {
-        return new CredentialsAuthenticator<>(new Authenticator<EmailPassword>() {
+    public CredentialsHandler<EmailPassword> newEmailPasswordHandler(CredentialsAuthenticator.Callback callback) {
+        return new CredentialsHandler<>(new CredentialsAuthenticator<EmailPassword>() {
             @Override
             public void authenticate(EmailPassword credentials, Callback callback) {
                 mUserAuthenticator.authenticateUser(credentials, callback);
@@ -37,17 +37,17 @@ public class FactoryCredentialsAuthenticator {
         }, callback);
     }
 
-    public CredentialsAuthenticator<AccessToken> newFacebookAuthenticator(Authenticator.Callback callback) {
-        return new CredentialsAuthenticator<>(new Authenticator<AccessToken>() {
+    public CredentialsHandler<AccessToken> newFacebookHandler(CredentialsAuthenticator.Callback callback) {
+        return new CredentialsHandler<>(new CredentialsAuthenticator<AccessToken>() {
             @Override
             public void authenticate(AccessToken credentials, Callback callback) {
                 mUserAuthenticator.authenticateUser(credentials, callback);
             }
         }, callback);
     }
-    
-    public CredentialsAuthenticator<GoogleSignInAccount> newGoogleAuthenticator(Authenticator.Callback callback) {
-        return new CredentialsAuthenticator<>(new Authenticator<GoogleSignInAccount>() {
+
+    public CredentialsHandler<GoogleSignInAccount> newGoogleHandler(CredentialsAuthenticator.Callback callback) {
+        return new CredentialsHandler<>(new CredentialsAuthenticator<GoogleSignInAccount>() {
             @Override
             public void authenticate(GoogleSignInAccount credentials, Callback callback) {
                 mUserAuthenticator.authenticateUser(credentials, callback);
@@ -55,8 +55,8 @@ public class FactoryCredentialsAuthenticator {
         }, callback);
     }
 
-    public CredentialsAuthenticator<TwitterSession> newTwitterAuthenticator(Authenticator.Callback callback) {
-        return new CredentialsAuthenticator<>(new Authenticator<TwitterSession>() {
+    public CredentialsHandler<TwitterSession> newTwitterHandler(CredentialsAuthenticator.Callback callback) {
+        return new CredentialsHandler<>(new CredentialsAuthenticator<TwitterSession>() {
             @Override
             public void authenticate(TwitterSession credentials, Callback callback) {
                 mUserAuthenticator.authenticateUser(credentials, callback);

@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccountImpl;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 
 /**
@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
  */
 public class FactoryUserAccount {
     public UserAccount newAccount(AuthenticatedUser user,
-                                  AuthorProfile authorProfile,
-                                  SocialProfile socialProfile) {
+                                  ProfileAuthor authorProfile,
+                                  ProfileSocial socialProfile) {
         if(user.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }

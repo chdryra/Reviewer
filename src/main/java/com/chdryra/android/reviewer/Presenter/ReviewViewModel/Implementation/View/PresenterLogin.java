@@ -19,20 +19,20 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
-import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsProvider;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginEmailPassword;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginFacebook;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginGoogle;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginTwitter;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
@@ -45,16 +45,17 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncher
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, Authenticator.Callback, UserSession.SessionObserver {
+public class PresenterLogin implements ActivityResultListener, CredentialsAuthenticator.Callback,
+        UserSession.SessionObserver {
     private final FactoryCredentialsProvider mProviderFactory;
-
+    private final FactoryCredentialsHandler mHandlerFactory;
     private final AuthenticationSuite mAuth;
     private final CurrentScreen mScreen;
     private final LaunchableConfig mProfileEditor;
     private final LaunchableConfig mFeed;
     private final LoginListener mListener;
-    private CredentialsProvider mCredentialsProvider;
 
+    private CredentialsProvider<?> mCredentialsProvider;
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
@@ -74,12 +75,14 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
                            LaunchableConfig feed,
                            CurrentScreen screen,
                            FactoryCredentialsProvider providerFactory,
+                           FactoryCredentialsHandler handlerFactory,
                            LoginListener listener) {
         mAuth = auth;
         mProfileEditor = profileEditor;
         mFeed = feed;
         mScreen = screen;
         mProviderFactory = providerFactory;
+        mHandlerFactory = handlerFactory;
         mListener = listener;
     }
 
@@ -87,40 +90,35 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
         getUserSession().registerSessionObserver(this);
     }
 
-    private UserSession getUserSession() {
-        return mAuth.getUserSession();
-    }
-
     public boolean hasAuthenticatedUser() {
         return getUserSession().isAuthenticated();
     }
 
-    public void logIn(EmailPasswordLogin login) {
-        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
+    public void logIn(LoginEmailPassword login) {
+        authenticate(mProviderFactory.newCredentialsProvider(login),
+                mHandlerFactory.newEmailPasswordHandler(this));
     }
 
-    public void logIn(FacebookLogin login) {
-        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
+    public void logIn(LoginFacebook login) {
+        authenticate(mProviderFactory.newCredentialsProvider(login),
+                mHandlerFactory.newFacebookHandler(this));
     }
 
-    public void logIn(GoogleLogin login) {
-        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
+    public void logIn(LoginGoogle login) {
+        authenticate(mProviderFactory.newCredentialsProvider(login),
+                mHandlerFactory.newGoogleHandler(this));
     }
 
-    public void logIn(TwitterLogin login) {
-        if (!mAuthenticating) authenticate(mProviderFactory.newProvider(login, this));
+    public void logIn(LoginTwitter login) {
+        authenticate(mProviderFactory.newCredentialsProvider(login),
+                mHandlerFactory.newTwitterHandler(this));
     }
 
-    private void authenticationFinished() {
-        mAuthenticating = false;
-        mCredentialsProvider = null;
-    }
-
-    public void createUser(final EmailPassword emailPassword) {
+    public void createEmailPasswordUser(final EmailPassword emailPassword) {
         mAuth.getUserAccounts().createUser(emailPassword, new UserAccounts.CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
-                if(error == null) {
+                if (error == null) {
                     mListener.onNewUserCreated(emailPassword);
                 } else {
                     mListener.onAuthenticationFailed(error);
@@ -133,14 +131,8 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
         Bundle args = new Bundle();
         ParcelablePacker<AuthenticatedUser> packer = new ParcelablePacker<>();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, user, args);
-        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode()).setBundle(args));
-    }
-
-    public void onLoginComplete() {
-        getUserSession().unregisterSessionObserver(this);
-        mListener.onLoggedIn();
-        mFeed.launch();
-        mScreen.close();
+        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode())
+                .setBundle(args));
     }
 
     public EmailValidation validateEmail(String email) {
@@ -159,34 +151,49 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
     }
 
     @Override
-    public void onAuthenticated(AuthenticatedUser user) {
-        //wait for onLogIn to be called as a SessionObserver
-    }
-
-    @Override
     public void onLogIn(@Nullable UserAccount account,
                         @Nullable AuthenticationError error) {
         if (error == null && account != null) {
             onLoginComplete();
         } else {
-            if(error == null) {
+            if (error == null) {
                 error = new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError
                         .Reason.UNKNOWN_ERROR);
             }
             resolveError(account != null ? account.getAccountHolder() : null, error);
         }
-        authenticationFinished();
     }
 
     @Override
     public void onLogOut(UserAccount account, CallbackMessage message) {
+        //login screen doesn't care about logout.
+    }
 
+    @Override
+    public void onAuthenticated(AuthenticatedUser user) {
+        //wait for onLogIn to be called as a SessionObserver
     }
 
     @Override
     public void onAuthenticationError(AuthenticationError error) {
         resolveError(null, error);
+    }
+
+    private UserSession getUserSession() {
+        return mAuth.getUserSession();
+    }
+
+    private void authenticationFinished() {
+        mAuthenticating = false;
+        mCredentialsProvider = null;
+    }
+
+    private void onLoginComplete() {
         authenticationFinished();
+        getUserSession().unregisterSessionObserver(this);
+        mListener.onLoggedIn();
+        mFeed.launch();
+        mScreen.close();
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
@@ -200,12 +207,15 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
                 mListener.onAuthenticationFailed(error);
             }
         }
+        authenticationFinished();
     }
 
-    private void authenticate(CredentialsProvider provider) {
+    private <Cred> void authenticate(CredentialsProvider<Cred> provider,
+                                     CredentialsProvider.Callback<Cred> callback) {
+        if (mAuthenticating) return;
         mAuthenticating = true;
         mCredentialsProvider = provider;
-        mCredentialsProvider.requestCredentials();
+        provider.requestCredentials(callback);
     }
 
     public static class Builder {
@@ -216,7 +226,9 @@ public class PresenterLogin implements ActivityResultListener, Authenticator.Cal
 
             return new PresenterLogin(auth, config.getProfileEditor(), config.getFeed(),
                     ui.getCurrentScreen(),
-                    new FactoryCredentialsProvider(new FactoryCredentialsAuthenticator(auth.getAuthenticator())), listener);
+                    new FactoryCredentialsProvider(),
+                    new FactoryCredentialsHandler(auth.getAuthenticator()),
+                    listener);
         }
     }
 

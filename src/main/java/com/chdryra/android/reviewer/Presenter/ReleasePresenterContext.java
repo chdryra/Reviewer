@@ -106,8 +106,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(), paramsFactory);
 
 
-        AuthorsRepository authorRepo = persistenceContext.getAuthorsRepository();
-        ReviewsSource reviewsRepo = persistenceContext.getReviewsRepository();
+        AuthorsRepository authorRepo = persistenceContext.getAuthorsRepo();
+        ReviewsSource reviewsRepo = persistenceContext.getReviewsRepo();
 
         FactoryReviewViewActions actionsFactory
                 = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo, getCommandsFactory(), comparators, gvConverter);
@@ -136,7 +136,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         DataAggregatorParams params = paramsFactory.getDefaultParams();
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
         return new FactoryReviewViewAdapter(modelContext.getReviewsFactory(),
-                modelContext.getReferenceFactory(),
+                modelContext.getReferencesFactory(),
                 modelContext.getBucketerFactory(),
                 aggregater,
                 authorsRepository, reviewsSource, gvConverter);

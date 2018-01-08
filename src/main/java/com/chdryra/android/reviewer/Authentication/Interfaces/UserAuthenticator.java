@@ -31,13 +31,13 @@ public interface UserAuthenticator {
     @Nullable
     AuthenticatedUser getAuthenticatedUser();
 
-    void authenticateUser(EmailPassword emailPassword, Authenticator.Callback callback);
+    void authenticateUser(EmailPassword emailPassword, CredentialsAuthenticator.Callback callback);
 
-    void authenticateUser(AccessToken token, Authenticator.Callback callback);
+    void authenticateUser(AccessToken token, CredentialsAuthenticator.Callback callback);
 
-    void authenticateUser(TwitterSession session, Authenticator.Callback callback);
+    void authenticateUser(TwitterSession session, CredentialsAuthenticator.Callback callback);
 
-    void authenticateUser(GoogleSignInAccount account, Authenticator.Callback callback);
+    void authenticateUser(GoogleSignInAccount account, CredentialsAuthenticator.Callback callback);
 
     void registerObserver(UserStateObserver observer);
 

@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginGoogle;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.auth.api.Auth;
@@ -42,7 +42,7 @@ import com.google.android.gms.common.api.Status;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LoginGoogleAndroid implements ActivityResultListener, LoginGoogle, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final int GOOGLE_SIGN_IN = RequestCodeGenerator.getCode("GoogleSignIn");
     private static final int GOOGLE_CLIENT_ID = R.string.google_client_id;
     private static final int REQUEST_RESOLVE_ERROR = RequestCodeGenerator.getCode("GoogleSignInResolvingError");
@@ -55,7 +55,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, 
     private LogoutCallback mLogoutCallback;
     private boolean mResolvingError = false;
 
-    public GoogleLoginAndroid(Activity activity) {
+    public LoginGoogleAndroid(Activity activity) {
         mActivity = activity;
 
         GoogleSignInOptions options = new GoogleSignInOptions

@@ -59,7 +59,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -97,7 +97,7 @@ public class FactoryFbReference {
         mReferencerFactory = new FactoryListItemsReferencer(this);
     }
 
-    public SocialProfile newSocialProfile(@Nullable AuthorId id, Firebase root, FbSocialStructure social) {
+    public ProfileSocial newSocialProfile(@Nullable AuthorId id, Firebase root, FbSocialStructure social) {
         return id == null ? new NullSocialProfile() : new FbSocialProfile(id, root, social, this);
     }
 

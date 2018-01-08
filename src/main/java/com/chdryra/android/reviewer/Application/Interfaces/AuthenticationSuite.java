@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Application.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 
 /**
  * Created by: Rizwan Choudrey

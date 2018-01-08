@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -242,7 +242,7 @@ public class FactoryCommands {
 
     @NonNull
     private BookmarkCommand bookmark(UserSession session, ReviewId reviewId) {
-        return new BookmarkCommand(reviewId, getRepo().getReviewsRepository()
+        return new BookmarkCommand(reviewId, getRepo().getReviewsRepo()
                 .getMutableRepository(session).getBookmarks(), getScreen());
     }
 

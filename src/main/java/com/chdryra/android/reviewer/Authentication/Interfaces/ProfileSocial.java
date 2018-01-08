@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAut
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialProfile extends HasAuthorId{
+public interface ProfileSocial extends HasAuthorId{
     enum FollowUnfollow {FOLLOW, UNFOLLOW}
 
     interface FollowCallback {

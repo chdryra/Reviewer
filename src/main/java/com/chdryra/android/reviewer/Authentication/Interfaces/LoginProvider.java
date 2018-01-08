@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
@@ -15,14 +16,14 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface LoginProvider<T extends BinaryResultCallback> {
+public interface LoginProvider<LoginCb extends BinaryResultCallback> {
     interface LogoutCallback {
         void onLoggedOut(CallbackMessage message);
     }
 
     String getName();
 
-    void login(T loginCallback);
+    void login(LoginCb loginCallback);
 
     void logout(LogoutCallback callback);
 }

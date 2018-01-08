@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Interfaces.FbSocialStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.firebase.client.Firebase;
@@ -36,7 +36,7 @@ import java.util.Map;
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbSocialProfile implements SocialProfile {
+public class FbSocialProfile implements ProfileSocial {
     private AuthorId mId;
     private Firebase mRoot;
     private FbSocialStructure mStructure;

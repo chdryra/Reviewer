@@ -66,7 +66,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
     public void testGetReviews() {
         mRepo.getRepository(new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 Collection<Review> reviews = result.getReviews();
                 checkSize(reviews, 4);
                 Iterator<Review> it = reviews.iterator();

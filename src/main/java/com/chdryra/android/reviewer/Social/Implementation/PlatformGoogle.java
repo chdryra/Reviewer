@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Factories;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 

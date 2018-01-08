@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetails;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
@@ -86,7 +86,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private final LocationServicesApi mLocationServices;
     private final LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
-    private AutoCompleterLocation mAutoCompleter;
+    private LocationAutoCompleter mAutoCompleter;
 
     private LocationDetails mDetails;
 
@@ -254,9 +254,9 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private static class VhdLocatedPlaceFilter implements VhQueryFilter<VhdLocatedPlace> {
-        private final AutoCompleterLocation mAutoCompleter;
+        private final LocationAutoCompleter mAutoCompleter;
 
-        private VhdLocatedPlaceFilter(AutoCompleterLocation autoCompleter) {
+        private VhdLocatedPlaceFilter(LocationAutoCompleter autoCompleter) {
             mAutoCompleter = autoCompleter;
         }
 

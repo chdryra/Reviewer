@@ -55,7 +55,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onRepositoryCallback(RepositoryResult result) {
+    public void onRepoCallback(RepositoryResult result) {
         Review review = result.getReview();
         if (review == null || result.isError()) {
             mWorkStoreCallback.onFailed(review, mFetching, result.getMessage());
@@ -65,7 +65,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onAddedToRepoCallback(RepositoryResult result) {
+    public void onAddedToRepo(RepositoryResult result) {
         ReviewId id = result.getReviewId();
         String reviewId = id != null ? id.toString() : "";
         if(result.isReview()) {
@@ -76,7 +76,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onRemovedFromRepoCallback(RepositoryResult result) {
+    public void onRemovedFromRepo(RepositoryResult result) {
         ReviewId id = result.getReviewId();
         if (result.isError() || id == null) {
             mWorkStoreCallback.onFailed(null, id == null ? "" : id.toString(), result.getMessage());

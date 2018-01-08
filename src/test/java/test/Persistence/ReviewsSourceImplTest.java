@@ -275,7 +275,7 @@ public class ReviewsSourceImplTest {
     public void getReviewReturnsErrorIfReviewNotFound() {
         mSource.getReview(RandomReviewId.nextReviewId(), new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -286,7 +286,7 @@ public class ReviewsSourceImplTest {
         final Review review = getRandomReview();
         mSource.getReview(review.getReviewId(), new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 assertThat(result.getReview(), is(review));
             }
         });
@@ -296,10 +296,10 @@ public class ReviewsSourceImplTest {
     public void getReviewsReturnsReviewsInRepository() {
         mSource.getReviewsForAuthor(new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(final RepositoryResult fromSource) {
+            public void onRepoCallback(final RepositoryResult fromSource) {
                 mRepo.getRepository(new RepositoryCallback() {
                     @Override
-                    public void onRepositoryCallback(RepositoryResult fromRepo) {
+                    public void onRepoCallback(RepositoryResult fromRepo) {
                         assertThat(fromSource.getReview(), is(fromRepo.getReview()));
                     }
                 });

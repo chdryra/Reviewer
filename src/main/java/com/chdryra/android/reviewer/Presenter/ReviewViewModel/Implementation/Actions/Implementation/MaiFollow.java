@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
@@ -31,7 +31,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     private static final int UNFOLLOW_ICON = R.drawable.ic_menu_blocked_user;
 
     private AuthorId mAuthorId;
-    private SocialProfile.FollowUnfollow mActionType;
+    private ProfileSocial.FollowUnfollow mActionType;
     private Binder mBinder;
 
     public MaiFollow(AuthorId authorId) {
@@ -41,13 +41,13 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        String toast = mActionType == SocialProfile.FollowUnfollow.FOLLOW ?
+        String toast = mActionType == ProfileSocial.FollowUnfollow.FOLLOW ?
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
         getCurrentScreen().showToast(toast);
 
-        getProfile().followUnfollow(mAuthorId, mActionType, new SocialProfile.FollowCallback() {
+        getProfile().followUnfollow(mAuthorId, mActionType, new ProfileSocial.FollowCallback() {
             @Override
-            public void onFollowingCallback(AuthorId authorId, SocialProfile.FollowUnfollow type,
+            public void onFollowingCallback(AuthorId authorId, ProfileSocial.FollowUnfollow type,
                                             CallbackMessage message) {
                 String onCompletion = message.isError() ?
                         message.getMessage() : Strings.Toasts.DONE;
@@ -75,7 +75,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         getProfile().getFollowing().unbindFromItems(mBinder);
     }
 
-    private SocialProfile getProfile() {
+    private ProfileSocial getProfile() {
         return getApp().getSocial().getSocialProfile();
     }
 
@@ -84,13 +84,13 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     }
 
     private void setFollow() {
-        mActionType = SocialProfile.FollowUnfollow.FOLLOW;
+        mActionType = ProfileSocial.FollowUnfollow.FOLLOW;
         MenuItem item = getMenuItem();
         if (item != null) item.setIcon(FOLLOW_ICON);
     }
 
     private void setUnfollow() {
-        mActionType = SocialProfile.FollowUnfollow.UNFOLLOW;
+        mActionType = ProfileSocial.FollowUnfollow.UNFOLLOW;
         MenuItem item = getMenuItem();
         if (item != null) item.setIcon(UNFOLLOW_ICON);
     }

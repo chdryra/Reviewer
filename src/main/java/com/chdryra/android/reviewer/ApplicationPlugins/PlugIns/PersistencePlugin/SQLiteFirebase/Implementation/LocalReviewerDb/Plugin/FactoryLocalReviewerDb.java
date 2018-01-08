@@ -77,7 +77,7 @@ public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
     public LocalRepository newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
         FactoryReviews reviewsFactory = model.getReviewsFactory();
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, reviewsFactory, validator);
-        FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferenceFactory());
+        FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferencesFactory());
         return new ReviewerDbRepository(db, repoFactory, referenceFactory);
     }
 

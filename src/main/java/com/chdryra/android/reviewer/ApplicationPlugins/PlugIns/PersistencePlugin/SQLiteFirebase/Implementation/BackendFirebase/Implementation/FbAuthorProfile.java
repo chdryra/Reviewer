@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -32,7 +32,7 @@ import com.firebase.client.ValueEventListener;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FbAuthorProfile implements AuthorProfile {
+public class FbAuthorProfile implements ProfileAuthor {
     private final AuthorId mAuthorId;
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;

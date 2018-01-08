@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
@@ -41,7 +41,7 @@ public class SocialSuiteAndroid implements SocialSuite {
     }
 
     @Override
-    public SocialProfile getSocialProfile() {
+    public ProfileSocial getSocialProfile() {
         return mSession != null ? mSession.getAccount().getSocialProfile() : new NullSocialProfile();
     }
 

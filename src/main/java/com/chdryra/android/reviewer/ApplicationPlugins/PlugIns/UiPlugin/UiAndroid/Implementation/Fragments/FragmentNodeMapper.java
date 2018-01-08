@@ -171,7 +171,7 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
 
         IdableCollection<ReviewReference> reviews = new ReviewCluster(cluster).getUniqueReviews();
         ReviewNode node
-                = getApp().getRepository().getReviewsRepository().getMetaReview(reviews, subject);
+                = getApp().getRepository().getReviewsRepo().getMetaReview(reviews, subject);
 
         getApp().getUi().getLauncher().getReviewLauncher().launchAsList(node);
     }
@@ -258,7 +258,7 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         mRenderer = new ReviewClusterRenderer(activity, map, clusterManager, mReviews);
         clusterManager.setRenderer(mRenderer);
 
-        AuthorsRepository repo = getApp().getRepository().getAuthorsRepository();
+        AuthorsRepository repo = getApp().getRepository().getAuthorsRepo();
         mItemAdapter = new ReviewInfoWindowAdapter(activity, new ItemInfoFactory(mNode, this,
                 repo, mRenderer));
         mClusterAdapter = new ReviewInfoWindowAdapter(activity, new ClusterInfoFactory(mRenderer,

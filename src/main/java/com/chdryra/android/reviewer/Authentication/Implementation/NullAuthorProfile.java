@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.AuthorReferenceDefault;
 
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NullAuthorProfile implements AuthorProfile{
+public class NullAuthorProfile implements ProfileAuthor {
 
     public NullAuthorProfile() {
     }

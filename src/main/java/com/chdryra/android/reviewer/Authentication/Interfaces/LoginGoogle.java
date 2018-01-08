@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
@@ -16,7 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GoogleLogin extends LoginProvider<GoogleLogin.Callback> {
+public interface LoginGoogle extends LoginProvider<LoginGoogle.Callback> {
     GoogleSignInOptions DEFAULT_SIGN_IN = GoogleSignInOptions.DEFAULT_SIGN_IN;
     String NAME = "GoogleSignIn";
 

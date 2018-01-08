@@ -236,12 +236,12 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private void attemptEmailPasswordLogin() {
         if (!checkInternet()) return;
 
-        EmailAddress email = authenticateEmail();
+        EmailAddress email = validateEmail();
         if (email != null) {
             showLoggingInDialog();
             EmailPassword ep = new EmailPassword(email, new Password(mPassword.getText().toString()));
             if(mEmailSignUp) {
-                mPresenter.createUser(ep);
+                mPresenter.createEmailPasswordUser(ep);
             } else {
                 attemptEmailPasswordLogin(ep);
             }
@@ -253,7 +253,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     @Nullable
-    private EmailAddress authenticateEmail() {
+    private EmailAddress validateEmail() {
         EmailValidation emailValid = mPresenter.validateEmail(mEmail.getText().toString());
         if(!emailValid.isValid()) {
             makeToast(emailValid.getError().getMessage());

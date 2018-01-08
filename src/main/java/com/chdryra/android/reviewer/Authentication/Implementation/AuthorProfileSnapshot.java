@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorProfileSnapshot implements AuthorProfile{
+public class AuthorProfileSnapshot implements ProfileAuthor {
     private NamedAuthor mAuthor;
     private DateTime mDateJoined;
     private ProfileImage mProfilePhoto;

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
@@ -36,7 +36,7 @@ public interface AuthorsRepository {
 
     AuthorReference getReference(AuthorId authorId);
 
-    AuthorProfile getProfile(AuthorId authorId);
+    ProfileAuthor getProfile(AuthorId authorId);
 
     void getAuthorId(String name, AuthorIdCallback callback);
 

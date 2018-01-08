@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDa
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.SimpleRefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SimpleRefFirstSentence extends SimpleRefComment {
-    public SimpleRefFirstSentence(RefComment parent, FactoryReference referenceFactory) {
+    public SimpleRefFirstSentence(RefComment parent, FactoryReferences referenceFactory) {
         super(parent, referenceFactory, new FirstSentenceDereferencer(parent));
     }
 

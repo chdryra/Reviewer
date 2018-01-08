@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorProfile {
+public interface ProfileAuthor {
     interface ProfileCallback {
         void onProfile(AuthorProfileSnapshot profile, CallbackMessage message);
     }

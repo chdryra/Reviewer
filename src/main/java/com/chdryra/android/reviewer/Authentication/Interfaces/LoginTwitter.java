@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -17,7 +18,7 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLogin extends LoginProvider<TwitterLogin.Callback> {
+public interface LoginTwitter extends LoginProvider<LoginTwitter.Callback> {
     String NAME = "TwitterLogin";
 
     interface Callback extends BinaryResultCallback<Result<TwitterSession>, TwitterException> {

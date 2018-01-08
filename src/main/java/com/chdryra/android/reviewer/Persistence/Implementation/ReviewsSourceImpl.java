@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
@@ -130,7 +130,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         final NodeAsync asyncNode = newAsyncNode(null);
         getUniqueReviews(data, new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 if (!result.isError()) {
                     Collection<ReviewReference> reviews = result.getReferences();
                     ReviewNode meta = mReviewsFactory.createTree(reviews, subject);
@@ -149,7 +149,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         mReviewsRepo.getReference(id, new RepositoryCallback() {
 
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 ReviewReference review = result.getReference();
                 RepositoryResult repoResult = result;
                 if (result.isReference()) {
@@ -169,7 +169,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         mReviewsRepo.getReference(id, new RepositoryCallback() {
 
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 ReviewReference review = result.getReference();
                 RepositoryResult repoResult;
                 if (result.isError() || review == null) {
@@ -276,7 +276,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         }
 
         @Override
-        public void onRepositoryCallback(RepositoryResult result) {
+        public void onRepoCallback(RepositoryResult result) {
             mCurrentIndex++;
 
             if (result.isReference()) {
@@ -289,7 +289,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 CallbackMessage message = mErrors.size() > 0 ?
                         CallbackMessage.error("Errors fetching some opinions")
                         : CallbackMessage.ok(mMaxReviews + " opinions fetched");
-                mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, message));
+                mFinalCallback.onRepoCallback(new RepositoryResult(mFetched, message));
             }
         }
     }

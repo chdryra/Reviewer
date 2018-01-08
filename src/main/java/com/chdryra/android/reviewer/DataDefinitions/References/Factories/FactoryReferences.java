@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
  * On: 30/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReference {
+public class FactoryReferences {
     public SentencesCollector newSentencesCollector(IdableList<RefComment> comments) {
         return new SentencesCollector(comments);
     }

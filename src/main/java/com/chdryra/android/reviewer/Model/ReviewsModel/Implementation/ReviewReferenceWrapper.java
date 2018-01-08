@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -36,10 +36,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  */
 public class ReviewReferenceWrapper extends StaticItemReference<Review> implements ReviewReference {
     private final Review mReview;
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
 
     public ReviewReferenceWrapper(Review review,
-                                  FactoryReference referenceFactory) {
+                                  FactoryReferences referenceFactory) {
         super(review);
         mReview = review;
         mReferenceFactory = referenceFactory;

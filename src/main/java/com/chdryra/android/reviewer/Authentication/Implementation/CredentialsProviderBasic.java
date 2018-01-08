@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.LoginProvider;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -21,30 +20,30 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultList
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class CredentialsProviderBasic<Cred, Callback extends BinaryResultCallback>
-        implements CredentialsProvider {
-    private final LoginProvider<Callback> mProvider;
-    private final CredentialsCallback<Cred> mCallback;
+public abstract class CredentialsProviderBasic<Cred, ProvCb extends BinaryResultCallback>
+        implements CredentialsProvider<Cred> {
+    private final LoginProvider<ProvCb> mProvider;
 
-    CredentialsProviderBasic(LoginProvider<Callback> provider, CredentialsCallback<Cred> callback) {
+    private Callback<Cred> mCallback;
+
+    CredentialsProviderBasic(LoginProvider<ProvCb> provider) {
         mProvider = provider;
-        mCallback = callback;
     }
 
-    protected abstract Callback getProviderCallback();
+    protected abstract ProvCb getProviderCallback();
 
     void notifyOnSuccess(Cred credentials) {
         mCallback.onCredentialsObtained(new Credentials<>(mProvider.getName(), credentials));
     }
 
     void notifyOnFailure(String message) {
-        AuthenticationError error = new AuthenticationError(mProvider.getName(),
-                AuthenticationError.Reason.PROVIDER_ERROR, message);
-        mCallback.onCredentialsFailure(error);
+        mCallback.onCredentialsFailure(new AuthenticationError(mProvider.getName(),
+                AuthenticationError.Reason.PROVIDER_ERROR, message));
     }
 
     @Override
-    public void requestCredentials() {
+    public void requestCredentials(Callback<Cred> callback) {
+        mCallback = callback;
         mProvider.login(getProviderCallback());
     }
 

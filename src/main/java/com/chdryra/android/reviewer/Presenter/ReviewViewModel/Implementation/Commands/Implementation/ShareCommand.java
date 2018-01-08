@@ -46,7 +46,7 @@ public class ShareCommand extends Command {
     private RepositoryCallback fetchAndShare() {
         return new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 if (result.isReview()) {
                     mSharer.publish(result.getReview());
                 } else {

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDa
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.ListsDereferencer;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
@@ -45,7 +45,7 @@ public class TreeListReferences<Value extends HasReviewId,
         mReferenceFactory = referenceFactory;
     }
 
-    FactoryReference getReferenceFactory() {
+    FactoryReferences getReferenceFactory() {
         return mReferenceFactory.getReferenceFactory();
     }
 

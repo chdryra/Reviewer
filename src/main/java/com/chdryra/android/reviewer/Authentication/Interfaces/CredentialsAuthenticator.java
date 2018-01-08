@@ -16,12 +16,12 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
  * On: 06/01/2018
  * Email: rizwan.choudrey@gmail.com
  */
-public interface Authenticator<T> {
+public interface CredentialsAuthenticator<Cred> {
     interface Callback {
         void onAuthenticated(AuthenticatedUser user);
 
         void onAuthenticationError(AuthenticationError error);
     }
 
-    void authenticate(T credentials, Callback callback);
+    void authenticate(Cred credentials, Callback callback);
 }

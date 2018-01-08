@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewSt
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -137,14 +137,14 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     public static class CommentList
             extends ViewerReviewData<DataComment, GvComment.Reference, RefComment, RefCommentList> {
-        private final FactoryReference mReferenceFactory;
+        private final FactoryReferences mReferenceFactory;
         private boolean mIsSplit = false;
 
         public CommentList(RefCommentList reference,
                            GvConverterReferences<DataComment, GvComment.Reference, RefComment>
                                    converter,
                            @Nullable ReviewStamp stamp,
-                           FactoryReference referenceFactory) {
+                           FactoryReferences referenceFactory) {
             super(reference, converter, stamp);
             mReferenceFactory = referenceFactory;
         }

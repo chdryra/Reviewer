@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginEmailPassword;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginFacebook;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginGoogle;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginTwitter;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 /**
@@ -23,19 +23,19 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactorySessionProviders {
-    public EmailPasswordLogin newEmailPasswordLogin(EmailPassword emailPassword) {
-        return new EmailPasswordLoginAndroid(emailPassword);
+    public LoginEmailPassword newEmailPasswordLogin(EmailPassword emailPassword) {
+        return new LoginEmailPasswordAndroid(emailPassword);
     }
 
-    public FacebookLogin newFacebookLogin(Fragment fragment) {
-        return new FacebookLoginAndroid(fragment);
+    public LoginFacebook newFacebookLogin(Fragment fragment) {
+        return new LoginFacebookAndroid(fragment);
     }
 
-    public TwitterLogin newTwitterLogin(Fragment fragment) {
-        return new TwitterLoginAndroid(fragment.getActivity());
+    public LoginTwitter newTwitterLogin(Fragment fragment) {
+        return new LoginTwitterAndroid(fragment.getActivity());
     }
 
-    public GoogleLogin newGoogleLogin(Fragment fragment) {
-        return new GoogleLoginAndroid(fragment.getActivity());
+    public LoginGoogle newGoogleLogin(Fragment fragment) {
+        return new LoginGoogleAndroid(fragment.getActivity());
     }
 }

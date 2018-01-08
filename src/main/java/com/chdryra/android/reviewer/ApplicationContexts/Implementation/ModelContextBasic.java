@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucke
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ModelContextBasic implements ModelContext {
-    private FactoryReference mReferenceFactory;
+    private FactoryReferences mReferenceFactory;
     private FactoryReviews mReviewsFactory;
     private FactoryDataBucketer mBucketerFactory;
 
@@ -27,7 +27,7 @@ public abstract class ModelContextBasic implements ModelContext {
         mReviewsFactory = factoryReviews;
     }
 
-    protected void setReferenceFactory(FactoryReference referenceFactory) {
+    protected void setReferenceFactory(FactoryReferences referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 
@@ -41,7 +41,7 @@ public abstract class ModelContextBasic implements ModelContext {
     }
 
     @Override
-    public FactoryReference getReferenceFactory() {
+    public FactoryReferences getReferencesFactory() {
         return mReferenceFactory;
     }
 

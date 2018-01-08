@@ -47,12 +47,12 @@ public class StaticReviewsRepository implements ReferencesRepository {
 
         CallbackMessage message = result == null ? CallbackMessage.error(reviewId + " not found") :
                 CallbackMessage.ok();
-        callback.onRepositoryCallback(new RepositoryResult(result, message));
+        callback.onRepoCallback(new RepositoryResult(result, message));
     }
 
     @Override
     public void getReviews(RepositoryCallback callback) {
-        callback.onRepositoryCallback(new RepositoryResult(mReviews));
+        callback.onRepoCallback(new RepositoryResult(mReviews));
     }
 
     @Override
@@ -61,7 +61,7 @@ public class StaticReviewsRepository implements ReferencesRepository {
         for(Review review : mReviews) {
             if(review.getAuthorId().getAuthorId().equals(author.getAuthorId())) result.add(review);
         }
-        callback.onRepositoryCallback(new RepositoryResult(author, result));
+        callback.onRepoCallback(new RepositoryResult(author, result));
     }
 
     @Override

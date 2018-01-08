@@ -139,7 +139,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
         private void getReferenceFromSub(RepoHandler sub, final boolean doneOnResult) {
             sub.getRepo().getReference(mId, new RepositoryCallback() {
                 @Override
-                public void onRepositoryCallback(RepositoryResult result) {
+                public void onRepoCallback(RepositoryResult result) {
                     parseResult(result, doneOnResult);
                 }
             });
@@ -162,7 +162,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
             } else {
                 result = new RepositoryResult(CallbackMessage.error("Reference not found"));
             }
-            mCallback.onRepositoryCallback(result);
+            mCallback.onRepoCallback(result);
         }
     }
 
@@ -238,7 +238,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
             for(ReviewId id : mReviews) {
                 mRepo.getReference(id, new RepositoryCallback() {
                     @Override
-                    public void onRepositoryCallback(RepositoryResult result) {
+                    public void onRepoCallback(RepositoryResult result) {
                         if (!result.isReference()) subscriber.onReviewAdded(result.getReference());
                     }
                 });
@@ -252,7 +252,7 @@ public class RepositoryCollection<Key> implements ReferencesRepository {
                 for (ReviewId id : mReviews) {
                     mRepo.getReference(id, new RepositoryCallback() {
                         @Override
-                        public void onRepositoryCallback(RepositoryResult result) {
+                        public void onRepoCallback(RepositoryResult result) {
                             if (result.isReference()) notifyOnRemove(result.getReference());
                             if (++mUnsubscribeIndex == mReviews.size()) delete();
                         }

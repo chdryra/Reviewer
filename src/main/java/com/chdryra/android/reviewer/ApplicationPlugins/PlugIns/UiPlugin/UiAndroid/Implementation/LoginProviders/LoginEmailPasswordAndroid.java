@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginEmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 /**
@@ -20,12 +20,12 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class EmailPasswordLoginAndroid implements EmailPasswordLogin{
+public class LoginEmailPasswordAndroid implements LoginEmailPassword {
 
     private static final String EMAIL_PASSWORD = "EmailPassword";
     private final EmailPassword mEmailPassword;
 
-    public EmailPasswordLoginAndroid(EmailPassword emailPassword) {
+    public LoginEmailPasswordAndroid(EmailPassword emailPassword) {
         mEmailPassword = emailPassword;
     }
 

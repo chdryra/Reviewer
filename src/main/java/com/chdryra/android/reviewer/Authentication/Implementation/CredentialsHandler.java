@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsAuthenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 28/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsAuthenticator<T> implements CredentialsCallback<T> {
-    private final Authenticator<T> mAuthenticator;
-    private final Authenticator.Callback mCallback;
+public class CredentialsHandler<T> implements CredentialsProvider.Callback<T> {
+    private final CredentialsAuthenticator<T> mAuthenticator;
+    private final CredentialsAuthenticator.Callback mCallback;
 
-    public CredentialsAuthenticator(Authenticator<T> authenticator, Authenticator.Callback callback) {
+    public CredentialsHandler(CredentialsAuthenticator<T> authenticator, CredentialsAuthenticator.Callback callback) {
         mCallback = callback;
         mAuthenticator = authenticator;
     }

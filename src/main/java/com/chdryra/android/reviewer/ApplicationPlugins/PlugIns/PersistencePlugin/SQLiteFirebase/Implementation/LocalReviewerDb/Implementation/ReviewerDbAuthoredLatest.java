@@ -102,6 +102,6 @@ public class ReviewerDbAuthoredLatest implements ReferencesRepository, ReviewsSu
             repoResult = new RepositoryResult(CallbackMessage.error("Reference not found"));
         }
 
-        callback.onRepositoryCallback(repoResult);
+        callback.onRepoCallback(repoResult);
     }
 }

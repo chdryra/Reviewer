@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginFacebook;
 import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -19,11 +18,11 @@ import com.facebook.login.LoginResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsProviderFacebook extends CredentialsProviderBasic<AccessToken, FacebookLogin.Callback>
-        implements FacebookLogin.Callback {
+public class CredentialsProviderFacebook extends CredentialsProviderBasic<AccessToken, LoginFacebook.Callback>
+        implements LoginFacebook.Callback {
 
-    public CredentialsProviderFacebook(FacebookLogin login, CredentialsCallback<AccessToken> callback) {
-        super(login, callback);
+    public CredentialsProviderFacebook(LoginFacebook login) {
+        super(login);
     }
 
     @Override
@@ -37,7 +36,7 @@ public class CredentialsProviderFacebook extends CredentialsProviderBasic<Access
     }
 
     @Override
-    protected FacebookLogin.Callback getProviderCallback() {
+    protected LoginFacebook.Callback getProviderCallback() {
         return this;
     }
 }

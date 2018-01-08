@@ -99,9 +99,9 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
             PresenterReviewBuild presenter = new PresenterReviewBuild(app.getUi().getCurrentScreen());
             if(suite.getEditor() == null) {
                 if(mReview == null || mTemplateOrEdit == ReviewPack.TemplateOrEdit.TEMPLATE) {
-                    suite.newReviewCreator(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mReview);
+                    suite.createReviewCreator(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mReview);
                 } else {
-                    suite.newReviewEditor(client, mReview, publisher, presenter);
+                    suite.createReviewEditor(client, mReview, publisher, presenter);
                 }
             }
 

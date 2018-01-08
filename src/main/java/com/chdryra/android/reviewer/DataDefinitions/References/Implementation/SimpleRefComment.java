@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumCom
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
@@ -31,15 +31,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class SimpleRefComment extends SimpleItemReference<DataComment> implements RefComment {
     private RefComment mParent;
     private final boolean mIsHeadline;
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
 
-    public SimpleRefComment(boolean isHeadline, FactoryReference referenceFactory, Dereferencer<DataComment> dereferencer) {
+    public SimpleRefComment(boolean isHeadline, FactoryReferences referenceFactory, Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mIsHeadline = isHeadline;
         mReferenceFactory = referenceFactory;
     }
 
-    protected SimpleRefComment(RefComment parent, FactoryReference referenceFactory,
+    protected SimpleRefComment(RefComment parent, FactoryReferences referenceFactory,
                                Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mParent = parent;

@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -68,12 +68,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class FactoryGridDataViewer {
     private final FactoryReviewViewAdapter mAdapterFactory;
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
     private final AuthorsRepository mAuthorsRepository;
     private final ConverterGv mConverter;
 
     FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
-                          FactoryReference referenceFactory,
+                          FactoryReferences referenceFactory,
                           AuthorsRepository authorsRepository,
                           ConverterGv converter) {
         mAdapterFactory = adapterFactory;

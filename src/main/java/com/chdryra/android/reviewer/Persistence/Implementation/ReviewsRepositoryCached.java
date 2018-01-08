@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
@@ -63,7 +63,7 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         if(mCache.contains(reviewId)) {
             ReviewReference reference = mReviewsFactory.asReference(mCache.get(reviewId));
-            callback.onRepositoryCallback(new RepositoryResult(reference));
+            callback.onRepoCallback(new RepositoryResult(reference));
         } else {
             mArchive.getReference(reviewId, callback);
         }

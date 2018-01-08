@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.Application.Implementation.NetworkSuiteAndro
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UiSuiteAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.UserSessionDefault;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
@@ -99,11 +99,11 @@ public class FactoryApplicationSuite {
 
     private RepositorySuiteAndroid newRepositorySuite(PersistenceContext persistence,
                                                       NetworkContext network) {
-        return new RepositorySuiteAndroid(persistence.getReviewsRepository(),
-                persistence.getAuthorsRepository(),
+        return new RepositorySuiteAndroid(persistence.getReviewsRepo(),
+                persistence.getAuthorsRepo(),
                 persistence.getRepoFactory(),
                 network.getDeleterFactory(),
-                network.getPublisherFactory().newPublisher(persistence.getLocalRepository()));
+                network.getPublisherFactory().newPublisher(persistence.getLocalRepo()));
     }
 
     private SocialSuiteAndroid newSocialSuite(SocialContext social) {
@@ -118,7 +118,7 @@ public class FactoryApplicationSuite {
         FactoryReviewView viewFactory = presenter.getReviewViewFactory();
         UiConfig uiConfig = view.getUiConfig();
         UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
-                viewFactory, persistence.getReviewsRepository(), uiConfig);
+                viewFactory, persistence.getReviewsRepo(), uiConfig);
 
         return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),
                 viewFactory, presenter.getGvConverter());

@@ -39,7 +39,7 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
         if (isCorrectAuthor(review)) {
             getRepo().addReview(review, callback);
         } else {
-            callback.onAddedToRepoCallback(wrongAuthor());
+            callback.onAddedToRepo(wrongAuthor());
         }
     }
 
@@ -47,13 +47,13 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     public void removeReview(final ReviewId reviewId, final MutableRepoCallback callback) {
         getRepo().getReview(reviewId, new RepositoryCallback() {
             @Override
-            public void onRepositoryCallback(RepositoryResult result) {
+            public void onRepoCallback(RepositoryResult result) {
                 if (result.isReview()) {
                     Review review = result.getReview();
                     if (isCorrectAuthor(review)) {
                         getRepo().removeReview(reviewId, callback);
                     } else {
-                        callback.onRemovedFromRepoCallback(wrongAuthor());
+                        callback.onRemovedFromRepo(wrongAuthor());
                     }
                 }
             }

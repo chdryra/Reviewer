@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -92,19 +92,19 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
 
     @Override
     public void authenticateUser(EmailPassword emailPassword,
-                                 final Authenticator.Callback callback) {
+                                 final CredentialsAuthenticator.Callback callback) {
         String email = emailPassword.getEmail().toString();
         String password = emailPassword.getPassword().toString();
         mRoot.authWithPassword(email, password, getResultHandler(callback, EMAIL));
     }
 
     @Override
-    public void authenticateUser(AccessToken token, final Authenticator.Callback callback) {
+    public void authenticateUser(AccessToken token, final CredentialsAuthenticator.Callback callback) {
         mRoot.authWithOAuthToken(FACEBOOK, token.getToken(), getResultHandler(callback, FACEBOOK));
     }
 
     @Override
-    public void authenticateUser(TwitterSession session, final Authenticator.Callback callback) {
+    public void authenticateUser(TwitterSession session, final CredentialsAuthenticator.Callback callback) {
         TwitterAuthToken authToken = session.getAuthToken();
         Map<String, String> options = new HashMap<>();
         options.put("oauth_token", authToken.token);
@@ -115,7 +115,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
 
     @Override
     public void authenticateUser(final GoogleSignInAccount account,
-                                 final Authenticator.Callback callback) {
+                                 final CredentialsAuthenticator.Callback callback) {
         final String email = account.getEmail();
         final String id = account.getId();
         if (email == null || id == null) {
@@ -159,7 +159,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @NonNull
-    private Firebase.AuthResultHandler getResultHandler(final Authenticator.Callback callback, final
+    private Firebase.AuthResultHandler getResultHandler(final CredentialsAuthenticator.Callback callback, final
     String provider) {
         return new Firebase.AuthResultHandler() {
             @Override
@@ -175,11 +175,11 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
         };
     }
 
-    private void notifyNotAuthenticated(AuthenticationError error, Authenticator.Callback callback) {
+    private void notifyNotAuthenticated(AuthenticationError error, CredentialsAuthenticator.Callback callback) {
         callback.onAuthenticationError(error);
     }
 
-    private void notifyOnAuthenticated(AuthData authData, String provider, Authenticator.Callback
+    private void notifyOnAuthenticated(AuthData authData, String provider, CredentialsAuthenticator.Callback
             callback) {
         AuthenticatedUser user
                 = mUsersFactory.newAuthenticatedUser(provider, authData.getUid());
@@ -187,7 +187,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     private void createGoogleUser(final GoogleSignInAccount account,
-                                  final Authenticator.Callback callback) {
+                                  final CredentialsAuthenticator.Callback callback) {
         final String email = account.getEmail();
         final String password = account.getId();
 

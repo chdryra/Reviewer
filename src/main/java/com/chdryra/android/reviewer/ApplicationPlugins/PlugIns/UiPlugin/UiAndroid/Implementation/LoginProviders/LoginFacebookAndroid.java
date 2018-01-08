@@ -13,7 +13,7 @@ import android.app.Fragment;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginFacebook;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,8 +29,8 @@ import java.util.List;
  * On: 20/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FacebookLoginAndroid
-        implements FacebookLogin, ActivityResultListener, FacebookCallback<LoginResult> {
+public class LoginFacebookAndroid
+        implements LoginFacebook, ActivityResultListener, FacebookCallback<LoginResult> {
     private static final List<String> PERMISSIONS;
 
     static {
@@ -42,7 +42,7 @@ public class FacebookLoginAndroid
     private Callback mListener;
     private final CallbackManager mCallbackManager;
 
-    public FacebookLoginAndroid(Fragment fragment) {
+    public LoginFacebookAndroid(Fragment fragment) {
         mFragment = fragment;
         mCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallbackManager, this);

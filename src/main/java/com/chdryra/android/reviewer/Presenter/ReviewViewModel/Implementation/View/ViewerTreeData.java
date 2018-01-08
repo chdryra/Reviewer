@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
@@ -89,7 +89,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         public TreeCommentList(RefCommentList reference,
                                GvConverterReferences<DataComment, GvComment.Reference, RefComment> converter,
                                FactoryReviewViewAdapter adapterFactory,
-                               FactoryReference referenceFactory) {
+                               FactoryReferences referenceFactory) {
             super(reference, converter, null, referenceFactory);
             mAdapterFactory = adapterFactory;
         }

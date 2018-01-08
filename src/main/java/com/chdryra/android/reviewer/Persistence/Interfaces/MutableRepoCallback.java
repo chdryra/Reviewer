@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface MutableRepoCallback {
-    void onAddedToRepoCallback(RepositoryResult result);
+    void onAddedToRepo(RepositoryResult result);
 
-    void onRemovedFromRepoCallback(RepositoryResult result);
+    void onRemovedFromRepo(RepositoryResult result);
 }

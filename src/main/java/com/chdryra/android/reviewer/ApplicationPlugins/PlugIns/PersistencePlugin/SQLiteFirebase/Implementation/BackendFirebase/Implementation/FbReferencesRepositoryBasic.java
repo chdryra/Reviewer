@@ -148,7 +148,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() == null) {
-                    callback.onRepositoryCallback(new RepositoryResult(reviewId, NULL_AT_SOURCE));
+                    callback.onRepoCallback(new RepositoryResult(reviewId, NULL_AT_SOURCE));
                     return;
                 }
 
@@ -161,7 +161,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
                         } else {
                             result = new RepositoryResult(reviewId, REFERENCING_ERROR);
                         }
-                        callback.onRepositoryCallback(result);
+                        callback.onRepoCallback(result);
                     }
                 });
             }
@@ -169,7 +169,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 BackendError error = FirebaseBackend.backendError(firebaseError);
-                callback.onRepositoryCallback(new RepositoryResult(reviewId, CallbackMessage.error(error
+                callback.onRepoCallback(new RepositoryResult(reviewId, CallbackMessage.error(error
                         .getMessage())));
             }
         };

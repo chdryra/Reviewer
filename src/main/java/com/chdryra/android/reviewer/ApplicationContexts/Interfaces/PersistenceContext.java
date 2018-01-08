@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    LocalRepository getLocalRepository();
+    LocalRepository getLocalRepo();
 
-    ReviewsSource getReviewsRepository();
+    ReviewsSource getReviewsRepo();
 
-    AuthorsRepository getAuthorsRepository();
+    AuthorsRepository getAuthorsRepo();
 
     AccountsManager getAccountsManager();
 

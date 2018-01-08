@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReference;
+import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefCommentList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDataList;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -42,11 +42,11 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorData
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryMdReference {
-    private final FactoryReference mReferenceFactory;
+    private final FactoryReferences mReferenceFactory;
     private final FactoryNodeTraverser mTraverserFactory;
     private final FactoryVisitorReviewNode mVisitorFactory;
 
-    public FactoryMdReference(FactoryReference referenceFactory,
+    public FactoryMdReference(FactoryReferences referenceFactory,
                               FactoryNodeTraverser traverserFactory,
                               FactoryVisitorReviewNode visitorFactory) {
         mReferenceFactory = referenceFactory;
@@ -54,7 +54,7 @@ public class FactoryMdReference {
         mVisitorFactory = visitorFactory;
     }
 
-    public FactoryReference getReferenceFactory() {
+    public FactoryReferences getReferenceFactory() {
         return mReferenceFactory;
     }
 

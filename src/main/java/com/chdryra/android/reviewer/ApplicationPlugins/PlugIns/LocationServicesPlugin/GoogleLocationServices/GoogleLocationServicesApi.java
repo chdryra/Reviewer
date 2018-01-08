@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
 import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggesterAsync;
-import com.chdryra.android.mygenerallibrary.LocationServices.AutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.AddressesProviderGp;
 import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi
         .LocationDetailsFetcherGp;
@@ -53,8 +53,8 @@ public class GoogleLocationServicesApi implements LocationServicesApi {
     }
 
     @Override
-    public AutoCompleterLocation newAutoCompleter(LocatedPlace locatedPlace) {
-        return new AutoCompleterLocation(locatedPlace, new LocationPredicterGp(newGeoClient()));
+    public LocationAutoCompleter newAutoCompleter(LocatedPlace locatedPlace) {
+        return new LocationAutoCompleter(locatedPlace, new LocationPredicterGp(newGeoClient()));
     }
 
     @Override

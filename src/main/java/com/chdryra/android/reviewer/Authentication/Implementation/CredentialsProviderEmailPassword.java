@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPasswordLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.LoginEmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 /**
@@ -19,12 +18,11 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  */
 
 public class CredentialsProviderEmailPassword extends
-        CredentialsProviderBasic<EmailPassword, EmailPasswordLogin.Callback>
-        implements EmailPasswordLogin.Callback {
+        CredentialsProviderBasic<EmailPassword, LoginEmailPassword.Callback>
+        implements LoginEmailPassword.Callback {
 
-    public CredentialsProviderEmailPassword(EmailPasswordLogin login,
-                                            CredentialsCallback<EmailPassword> callback) {
-        super(login, callback);
+    public CredentialsProviderEmailPassword(LoginEmailPassword login) {
+        super(login);
     }
 
     @Override
@@ -38,7 +36,7 @@ public class CredentialsProviderEmailPassword extends
     }
 
     @Override
-    protected EmailPasswordLogin.Callback getProviderCallback() {
+    protected LoginEmailPassword.Callback getProviderCallback() {
         return this;
     }
 }
