@@ -96,14 +96,11 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         mProviderFactory = providerFactory;
         mHandlerFactory = handlerFactory;
         mListener = listener;
+        getUserSession().registerSessionObserver(this);
     }
 
     public boolean isInSession() {
         return checkInternet() && getUserSession().isAuthenticated();
-    }
-
-    public void startSessionObservation() {
-        getUserSession().registerSessionObserver(this);
     }
 
     public void logIn(LoginEmailPassword login) {

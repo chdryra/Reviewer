@@ -63,16 +63,4 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFragment.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFragment.closeDialogs(); //stop "Leaked window" error.
-    }
-
-    @Override
-    protected void onStop() {
-        mFragment.closeDialogs(); //stop "Leaked window" error.
-        super.onStop();
-    }
 }

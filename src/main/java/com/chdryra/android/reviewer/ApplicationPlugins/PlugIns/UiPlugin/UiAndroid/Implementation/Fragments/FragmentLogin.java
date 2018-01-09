@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,13 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .LoginProviders.FactoryLoginProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.FactoryLoginProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
@@ -54,22 +54,21 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private static final int TWITTER_BUTTON = R.id.login_button_twitter;
 
     private static final int EMAIL_LOGIN = R.id.login_email;
+    private static final int PROGRESS = R.id.progress_layout;
+    private static final int PROGRESS_TEXT = R.id.progress_text_view;
 
     private PresenterLogin mPresenter;
     private EditText mEmail;
     private EditText mPassword;
     private EditText mPasswordConfirm;
-    private ProgressDialog mProgress;
+    private FrameLayout mProgress;
+    private TextView mProgressText;
     private FactoryLoginProviders mLoginProviders;
 
     private boolean mEmailSignUp = false;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
-    }
-
-    public void closeDialogs() {
-        closeLoggingInDialog();
     }
 
     @Override
@@ -90,14 +89,16 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         Button googleButton = view.findViewById(GOOGLE_BUTTON);
         Button twitterButton = view.findViewById(TWITTER_BUTTON);
 
+        mProgress = view.findViewById(PROGRESS);
+        mProgressText = mProgress.findViewById(PROGRESS_TEXT);
+        hideProgress();
+
         mEmail = emailLoginLayout.findViewById(EMAIL);
         mPassword = emailLoginLayout.findViewById(PASSWORD);
         mPasswordConfirm = emailLoginLayout.findViewById(PASSWORD_CONFIRM);
         mPasswordConfirm.setVisibility(View.GONE);
-
         mLoginProviders = new FactoryLoginProviders();
         mPresenter = new PresenterLogin.Builder().build(getApp(), this);
-        mPresenter.startSessionObservation();
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
@@ -118,29 +119,27 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAuthenticationFailed(AuthenticationError error) {
-        closeLoggingInDialog();
+        hideProgress();
     }
 
     @Override
     public void onNoCurrentUser() {
-        if (mProgress != null) mProgress.setMessage(Strings.ProgressBar.NO_ONE_LOGGED_IN);
-        closeLoggingInDialog();
+        hideProgress();
     }
 
     @Override
     public void onLoggingIn() {
-        mProgress = ProgressDialog.show(getActivity(), Strings.ProgressBar.LOGGING_IN,
-                Strings.ProgressBar.PLEASE_WAIT, true);
+        showProgress(Strings.ProgressBar.LOGGING_IN);
     }
 
     @Override
     public void onLoggedIn() {
-        closeLoggingInDialog();
+        hideProgress();
     }
 
     @Override
     public void onNewAccount(@Nullable AuthenticatedUser user) {
-        closeLoggingInDialog();
+        hideProgress();
     }
 
     @Override
@@ -158,8 +157,13 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         return getApp().getUi().getCurrentScreen();
     }
 
-    private void closeLoggingInDialog() {
-        if (mProgress != null) mProgress.dismiss();
+    private void hideProgress() {
+        mProgress.setVisibility(View.INVISIBLE);
+    }
+
+    private void showProgress(String progressText) {
+        mProgress.setVisibility(View.VISIBLE);
+        mProgressText.setText(progressText);
     }
 
     private void bindButtonsToProviders(Button facebookButton,
@@ -213,7 +217,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     private void attemptEmailPasswordLogin() {
         EmailAddress email = validateEmail();
-        if(email == null) return;
+        if (email == null) return;
 
         Password password = validatePassword();
         if (password != null) {
@@ -247,7 +251,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
             return null;
         }
 
-        if(mEmailSignUp && !password.equals(passwordConfirm)) {
+        if (mEmailSignUp && !password.equals(passwordConfirm)) {
             makeToast("Passwords don't match...");
             return null;
         }
