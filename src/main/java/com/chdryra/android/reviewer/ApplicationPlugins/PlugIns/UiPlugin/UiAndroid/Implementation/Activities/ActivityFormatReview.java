@@ -72,7 +72,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
         boolean isPublished = NodeLauncher.isPublished(args);
 
-        mPager = (ViewPager) findViewById(PAGER);
+        mPager = findViewById(PAGER);
         mAdapter = new FormattedPagerAdapter(node, new NodeComparatorMostRecent(),
                 getSupportFragmentManager(), this, isPublished);
         mPager.setAdapter(mAdapter);

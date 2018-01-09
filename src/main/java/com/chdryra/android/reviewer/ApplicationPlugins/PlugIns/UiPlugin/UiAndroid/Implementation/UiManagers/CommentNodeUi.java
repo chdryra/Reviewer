@@ -69,8 +69,8 @@ public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
 
     private void updateView(int style, String comment, String headline) {
         TextView view = getValueView();
+        view.setTypeface(Typeface.DEFAULT, style);
         view.setText(comment);
-        view.setTypeface(view.getTypeface(), style);
         mHeadline.setText(headline);
     }
 }

@@ -38,7 +38,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private static final int LAYOUT = R.layout.fragment_review_view;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING_VALUE = R.id.rating_value;
-    private static final int RATING_NUMER = R.id.data_number;
+    private static final int RATING_NUMBER = R.id.data_number;
     private static final int BANNER = R.id.sort_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
@@ -143,7 +143,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE), (TextView) mView.findViewById(RATING_NUMER));
+        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE), (TextView) mView.findViewById(RATING_NUMBER));
     }
 
     @NonNull

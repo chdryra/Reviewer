@@ -123,7 +123,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private static final int IMAGE = R.id.image_formatted;
     private static final int SUBJECT = R.id.subject_formatted;
     private static final int RATING = R.id.rating_formatted;
-    private static final int SUBJECT_RATING_FORMATTED = R.id.subject_rating_formatted;
     private static final int HEADLINE = R.id.headline_formatted;
     private static final int AUTHOR = R.id.author_formatted;
     private static final int DATE = R.id.date_formatted;
@@ -189,11 +188,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getContext());
         mUi = app.getUi();
         mRepo = app.getRepository();
 
@@ -226,7 +225,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void noReview() {
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getContext());
         CurrentScreen currentScreen = app.getUi().getCurrentScreen();
         currentScreen.showToast(Strings.Toasts.REVIEW_NOT_FOUND);
         currentScreen.close();
@@ -320,7 +319,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void setMenu() {
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getContext());
         UiSuite ui = app.getUi();
         MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
 
@@ -439,7 +438,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void setImages(View v) {
         LinearLayout section = getSection(v, IMAGES);
-        RecyclerView grid = (RecyclerView) section.findViewById(DATA);
+        RecyclerView grid = section.findViewById(DATA);
         float padding = getResources().getDimensionPixelSize(IMAGE_PADDING);
         CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
         CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)
@@ -480,14 +479,14 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
         Command onClick = mIsPublished ? newLaunchViewCommand(dataType) : null;
         view.addItemDecoration(new PaddedItemDecoration(padding));
-        return new HorizontalGridUi<>(getActivity(), view, adapter, span, onClick);
+        return new HorizontalGridUi<>(getContext(), view, adapter, span, onClick);
     }
 
     public class PaddedItemDecoration extends RecyclerView.ItemDecoration {
 
         private final int mPadding;
 
-        public PaddedItemDecoration(int padding) {
+        PaddedItemDecoration(int padding) {
             mPadding = padding;
         }
 
@@ -506,15 +505,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         return mUi.getCommandsFactory().newLaunchAuthorCommand(mNode.getAuthorId());
     }
 
-    private Command launchSummary() {
-        return mUi.getCommandsFactory().newLaunchSummaryCommand(mNode.getReviewId());
-    }
-
     private <T extends HasReviewId, G extends GvData> DataExpandableUi<T>
     newDataUi(View v, int sectionId, String title, GvDataType<G> dataType,
               DataConverter<T, G, ?> converter, Class<? extends ViewHolder> vhClass,
               SimpleViewUi.ReferenceValueGetter<RefDataList<T>> getter) {
-        DataExpandableUi<T> ui = new DataExpandableUi<>(getActivity(), getSection
+        DataExpandableUi<T> ui = new DataExpandableUi<>(getContext(), getSection
                 (v, sectionId), title, getter, newVhFactory(vhClass), converter);
         setLaunchOnClick(ui, dataType);
         return ui;
