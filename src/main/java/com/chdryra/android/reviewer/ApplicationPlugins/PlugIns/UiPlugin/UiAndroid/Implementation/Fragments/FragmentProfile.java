@@ -85,16 +85,16 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
-        mImageView = (ImageView) view.findViewById(PROFILE_IMAGE);
-        mName = (EditText) view.findViewById(PROFILE_AUTHOR);
-        Button doneButton = (Button) view.findViewById(DONE_BUTTON);
+        mImageView = view.findViewById(PROFILE_IMAGE);
+        mName = view.findViewById(PROFILE_AUTHOR);
+        Button doneButton = view.findViewById(DONE_BUTTON);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createOrUpdateOrCancel();
             }
         });
-        Button cancelButton = (Button) view.findViewById(CANCEL_BUTTON);
+        Button cancelButton = view.findViewById(CANCEL_BUTTON);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,14 +237,18 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
             return;
         }
 
-        AuthorProfileSnapshot newProfile
-                = mPresenter.createUpdatedProfile(mProfile, name, mImage);
-        if (mUser.getAuthorId() == null) {
+        if(mProfile != null) {
+            AuthorProfileSnapshot newProfile
+                    = mPresenter.createUpdatedProfile(mProfile, name, mImage);
+            if (!mProfile.equals(newProfile)) {
+                makeToast(Strings.Toasts.UPDATING_PROFILE);
+                mPresenter.updateProfile(getUserAccount(), mProfile, newProfile);
+            } else {
+                setResultAndClose(CANCELED);
+            }
+        } else if (mUser.getAuthorId() == null) {
             makeToast(Strings.Toasts.CREATING_ACCOUNT);
-            mPresenter.createAccount(mUser, name, null);
-        } else if (mProfile != null && !mProfile.equals(newProfile)) {
-            makeToast(Strings.Toasts.UPDATING_PROFILE);
-            mPresenter.updateProfile(getUserAccount(), mProfile, newProfile);
+            mPresenter.createAccount(mUser, name, mImage);
         } else {
             setResultAndClose(CANCELED);
         }

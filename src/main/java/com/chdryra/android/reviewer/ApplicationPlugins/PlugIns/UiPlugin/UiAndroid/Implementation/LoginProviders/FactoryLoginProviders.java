@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactorySessionProviders {
+public class FactoryLoginProviders {
     public LoginEmailPassword newEmailPasswordLogin(EmailPassword emailPassword) {
         return new LoginEmailPasswordAndroid(emailPassword);
     }

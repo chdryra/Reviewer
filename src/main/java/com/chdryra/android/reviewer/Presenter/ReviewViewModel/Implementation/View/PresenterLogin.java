@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsProvider;
@@ -46,13 +49,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncher
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterLogin implements ActivityResultListener, CredentialsAuthenticator.Callback,
-        UserSession.SessionObserver {
-    private final FactoryCredentialsProvider mProviderFactory;
-    private final FactoryCredentialsHandler mHandlerFactory;
+        UserSession.SessionObserver, AlertListener {
+    private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUp");
+
     private final AuthenticationSuite mAuth;
+    private final NetworkSuite mNetwork;
     private final CurrentScreen mScreen;
     private final LaunchableConfig mProfileEditor;
     private final LaunchableConfig mFeed;
+    private final FactoryCredentialsProvider mProviderFactory;
+    private final FactoryCredentialsHandler mHandlerFactory;
     private final LoginListener mListener;
 
     private CredentialsProvider<?> mCredentialsProvider;
@@ -68,9 +74,14 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         void onNoCurrentUser();
 
         void onLoggedIn();
+
+        void onLoggingIn();
+
+        void onSignUp();
     }
 
     private PresenterLogin(AuthenticationSuite auth,
+                           NetworkSuite network,
                            LaunchableConfig profileEditor,
                            LaunchableConfig feed,
                            CurrentScreen screen,
@@ -78,6 +89,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
                            FactoryCredentialsHandler handlerFactory,
                            LoginListener listener) {
         mAuth = auth;
+        mNetwork = network;
         mProfileEditor = profileEditor;
         mFeed = feed;
         mScreen = screen;
@@ -86,12 +98,12 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         mListener = listener;
     }
 
-    public void startSessionObservation() {
-        getUserSession().registerSessionObserver(this);
+    public boolean isInSession() {
+        return checkInternet() && getUserSession().isAuthenticated();
     }
 
-    public boolean hasAuthenticatedUser() {
-        return getUserSession().isAuthenticated();
+    public void startSessionObservation() {
+        getUserSession().registerSessionObserver(this);
     }
 
     public void logIn(LoginEmailPassword login) {
@@ -115,6 +127,9 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
     }
 
     public void createEmailPasswordUser(final EmailPassword emailPassword) {
+        if (!checkInternet()) return;
+
+        mListener.onLoggingIn();
         mAuth.getUserAccounts().createUser(emailPassword, new UserAccounts.CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
@@ -127,14 +142,6 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         });
     }
 
-    public void launchMakeProfile(AuthenticatedUser user) {
-        Bundle args = new Bundle();
-        ParcelablePacker<AuthenticatedUser> packer = new ParcelablePacker<>();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, user, args);
-        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode())
-                .setBundle(args));
-    }
-
     public EmailValidation validateEmail(String email) {
         return new EmailValidation(email);
     }
@@ -143,7 +150,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == mProfileEditor.getDefaultRequestCode()
                 && resultCode == Activity.RESULT_OK) {
-            mScreen.showToast(Strings.Toasts.COMPLETING_SIGNUP);
+            makeToast(Strings.Toasts.COMPLETING_SIGNUP);
             getUserSession().refreshSession();
         } else if (mCredentialsProvider != null) {
             mCredentialsProvider.onActivityResult(requestCode, resultCode, data);
@@ -179,8 +186,31 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         resolveError(null, error);
     }
 
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        makeToast(Strings.Toasts.CONFIRM_PASSWORD);
+        mListener.onSignUp();
+    }
+
     private UserSession getUserSession() {
         return mAuth.getUserSession();
+    }
+
+    private void launchMakeProfile(AuthenticatedUser user) {
+        Bundle args = new Bundle();
+        ParcelablePacker<AuthenticatedUser> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, user, args);
+        mProfileEditor.launch(new UiLauncherArgs(mProfileEditor.getDefaultRequestCode())
+                .setBundle(args));
+    }
+
+    private void makeToast(String completingSignup) {
+        mScreen.showToast(completingSignup);
     }
 
     private void authenticationFinished() {
@@ -199,11 +229,16 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
         if (mListener != null) {
             if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+                if (user == null) {
+                    mScreen.showAlert(Strings.Alerts.SIGN_UP, SIGN_UP, this, new Bundle());
+                } else {
+                    launchMakeProfile(user);
+                }
                 mListener.onNewAccount(user);
             } else if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
                 mListener.onNoCurrentUser();
             } else {
-                mScreen.showToast(Strings.Toasts.LOGIN_UNSUCCESSFUL + ": " + error);
+                makeToast(Strings.Toasts.LOGIN_UNSUCCESSFUL + ": " + error);
                 mListener.onAuthenticationFailed(error);
             }
         }
@@ -212,19 +247,26 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
 
     private <Cred> void authenticate(CredentialsProvider<Cred> provider,
                                      CredentialsProvider.Callback<Cred> callback) {
-        if (mAuthenticating) return;
-        mAuthenticating = true;
-        mCredentialsProvider = provider;
-        provider.requestCredentials(callback);
+        if (!mAuthenticating && checkInternet()) {
+            mAuthenticating = true;
+            mCredentialsProvider = provider;
+            mListener.onLoggingIn();
+            provider.requestCredentials(callback);
+        }
+    }
+
+    private boolean checkInternet() {
+        return mNetwork.isOnline(mScreen);
     }
 
     public static class Builder {
         public PresenterLogin build(ApplicationInstance app, LoginListener listener) {
             AuthenticationSuite auth = app.getAuthentication();
+            NetworkSuite net = app.getNetwork();
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();
 
-            return new PresenterLogin(auth, config.getProfileEditor(), config.getFeed(),
+            return new PresenterLogin(auth, net, config.getProfileEditor(), config.getFeed(),
                     ui.getCurrentScreen(),
                     new FactoryCredentialsProvider(),
                     new FactoryCredentialsHandler(auth.getAuthenticator()),

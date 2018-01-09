@@ -42,13 +42,11 @@ public class ImageData {
         cover = image.isCover();
     }
 
-    public static String asString(@Nullable Bitmap bitmap) {
+    static String asString(@Nullable Bitmap bitmap) {
         if(bitmap == null) return "";
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        bitmap.recycle();
-        byte[] byteArray = stream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
     }
 
     @Nullable
