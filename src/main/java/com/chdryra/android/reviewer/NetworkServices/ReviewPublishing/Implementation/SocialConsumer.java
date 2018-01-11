@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .FactorySocialPublisher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +30,7 @@ import java.util.Map;
  */
 public class SocialConsumer extends QueueConsumer<Review> implements SocialUploader.Listener {
     private final FactorySocialPublisher mPublisherFactory;
-    private final Map<ReviewId, ArrayList<String>> mPlatformsMap;
+    private final Map<String, ArrayList<String>> mPlatformsMap;
     private final ArrayList<SocialUploader.Listener> mListeners;
 
     public SocialConsumer(FactorySocialPublisher publisherFactory) {
@@ -38,12 +39,12 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
         mListeners = new ArrayList<>();
     }
 
-    public void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
-        mPlatformsMap.put(reviewId, platforms);
+    void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
+        mPlatformsMap.put(reviewId.toString(), platforms);
     }
 
-    public void unsetPlatforms(ReviewId reviewId) {
-        mPlatformsMap.remove(reviewId);
+    void unsetPlatforms(ReviewId reviewId) {
+        unsetPlatforms(reviewId.toString());
     }
 
     public void registerListener(SocialUploader.Listener listener) {
@@ -55,21 +56,29 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
     }
 
     @Override
-    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage result) {
-        onWorkCompleted(reviewId.toString());
+    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms,
+                                   CallbackMessage result) {
         notifyOnFailure(reviewId, result);
+        onWorkCompleted(reviewId.toString());
     }
 
     @Override
     public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
                                       Collection<PublishResults> publishedNotOk, CallbackMessage
-                                                  result) {
-        onWorkCompleted(reviewId.toString());
+                                              result) {
         notifyOnSuccess(reviewId, publishedOk, publishedNotOk, result);
+        onWorkCompleted(reviewId.toString());
     }
 
     @Override
-    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+    protected void onWorkCompleted(String itemId) {
+        unsetPlatforms(itemId);
+        super.onWorkCompleted(itemId);
+    }
+
+    @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults
+            justUploaded) {
         for (SocialUploader.Listener listener : mListeners) {
             listener.onPublishingStatus(reviewId, percentage, justUploaded);
         }
@@ -77,14 +86,19 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
 
     @Override
     protected void OnFailedToRetrieve(String reviewId, CallbackMessage result) {
-        onWorkCompleted(reviewId);
         notifyOnFailure(new DatumReviewId(reviewId), result);
+        onWorkCompleted(reviewId);
     }
 
     @Override
     protected ItemWorker<Review> newWorker(String reviewId) {
         DatumReviewId id = new DatumReviewId(reviewId);
-        return new PublisherWorker(mPublisherFactory.newPublisher(id, mPlatformsMap.get(id)));
+        ArrayList<String> platformNames = mPlatformsMap.get(reviewId);
+        return new PublisherWorker(mPublisherFactory.newPublisher(id, platformNames));
+    }
+
+    private void unsetPlatforms(String itemId) {
+        mPlatformsMap.remove(itemId);
     }
 
     private void notifyOnSuccess(ReviewId reviewId, Collection<PublishResults> publishedOk,
@@ -97,14 +111,14 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
 
     private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
         for (SocialUploader.Listener listener : mListeners) {
-            listener.onPublishingFailed(reviewId, mPlatformsMap.remove(reviewId), result);
+            listener.onPublishingFailed(reviewId, mPlatformsMap.get(reviewId.toString()), result);
         }
     }
 
     private static class PublisherWorker implements ItemWorker<Review> {
         private final SocialUploader mPublisher;
 
-        public PublisherWorker(SocialUploader publisher) {
+        PublisherWorker(SocialUploader publisher) {
             mPublisher = publisher;
         }
 

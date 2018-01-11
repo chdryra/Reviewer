@@ -53,7 +53,7 @@ public class LoginUiDefault<T> implements LoginUi {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AUTHORISATION && ActivityResultCode.CANCEL.equals(resultCode)) {
+        if(requestCode == AUTHORISATION && ActivityResultCode.OK.equals(resultCode)) {
             T accessToken = mGetter.getAuthorisationToken();
             if (accessToken != null) {
                 mPlatform.setAccessToken(accessToken);

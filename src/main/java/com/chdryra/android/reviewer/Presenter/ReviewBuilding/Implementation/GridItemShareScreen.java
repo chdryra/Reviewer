@@ -27,7 +27,6 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     private static final String AUTHORISATION_NOT_RECEIVED = "authorisation not received";
 
     private final PlatformAuthoriser mAuthoriser;
-    private GvSocialPlatform mPlatformSeekingAuthorisation;
     private View mViewForAuthorisation;
 
     public GridItemShareScreen(PlatformAuthoriser authoriser) {
@@ -37,9 +36,9 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     @Override
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
         if (platform.isAuthorised()) {
-            pressPlatform(platform, v);
+            platform.press();
+            v.setActivated(platform.isChosen());
         } else {
-            mPlatformSeekingAuthorisation = platform;
             mViewForAuthorisation = v;
             mAuthoriser.seekAuthorisation(platform.getPlatform(), this);
         }
@@ -47,21 +46,14 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
 
     @Override
     public void onAuthorisationGiven(SocialPlatform<?> platform) {
-        pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
-        getReviewView().onDataChanged();
         makeToast(platform, AUTHORISATION_RECEIVED);
-        mPlatformSeekingAuthorisation = null;
+        mViewForAuthorisation.setActivated(true);
         mViewForAuthorisation = null;
     }
 
     @Override
     public void onAuthorisationRefused(SocialPlatform<?> platform) {
         makeToast(platform, AUTHORISATION_NOT_RECEIVED);
-    }
-
-    private void pressPlatform(GvSocialPlatform platform, View v) {
-        platform.press();
-        v.setActivated(platform.isChosen());
     }
 
     private void makeToast(SocialPlatform<?> platform, String message) {

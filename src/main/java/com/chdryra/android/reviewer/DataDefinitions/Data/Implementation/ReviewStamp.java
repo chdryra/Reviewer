@@ -117,10 +117,7 @@ public class ReviewStamp implements Validatable, ReviewId {
 
         ReviewStamp stamp = (ReviewStamp) o;
 
-        if (!mAuthorId.equals(stamp.mAuthorId)) return false;
-        if (!mDate.equals(stamp.mDate)) return false;
         return mId.equals(stamp.mId);
-
     }
 
     @Override

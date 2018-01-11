@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class FactorySocialPublisherService implements FactorySocialPublisher {
     private final Context mContext;
 
-    public FactorySocialPublisherService(Context context) {
+    FactorySocialPublisherService(Context context) {
         mContext = context;
     }
 

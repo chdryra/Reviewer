@@ -87,7 +87,7 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     private void throwIfNoReviewViewAttached() {
         if (!isAttached()) {
-            throw new UnattachedReviewViewException("   No ReviewView Attached");
+            throw new UnattachedReviewViewException("No ReviewView Attached");
         }
     }
 

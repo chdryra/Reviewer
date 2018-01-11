@@ -19,7 +19,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
@@ -80,7 +79,6 @@ public class SocialPublishingService extends IntentService {
     private void doPublish(Review review) {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getApplicationContext());
         SocialSuite social = app.getSocial();
-        RepositorySuite repo = app.getRepository();
 
         Collection<SocialPlatform<?>> platforms = new ArrayList<>();
         for (SocialPlatform<?> platform : social.getSocialPlatformList()) {

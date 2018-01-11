@@ -16,5 +16,4 @@ package com.chdryra.android.reviewer.Social.Implementation;
 public class PublishingAction {
     public static final String PUBLISHED = "PublishingAction.Review";
     public static final String PLATFORMS = "PublishingAction.Platforms";
-    public static final String RepoError = "PublishingAction.Error";
 }
