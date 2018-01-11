@@ -15,7 +15,9 @@ package com.chdryra.android.reviewer.Application.Implementation;
  */
 public class Strings {
     public static String APP_NAME = "StarTouch";
-    public static String REVIEW = "Opinion";
+    public static String APP_SITE = "http://bit.ly/2D0CjE6";
+    public static String REVIEW = "rating";
+    public static String REVIEWS = REVIEW + "s";
 
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";
@@ -24,11 +26,11 @@ public class Strings {
         public static final String EDIT_ON_MAP = "Edit on map?";
         public static final String ADD_ON_MAP = "Add using map?";
         public static final String EDIT_ON_BROWSER = "Edit on browser?";
-        public static final String DELETE_REVIEW = "published opinion";
+        public static final String DELETE_POST = "post";
         public static final String SIGN_UP = "Looks like you're new! Sign up?";
         public static final String SHOW_ON_MAP = "Show on map?";
-        public static final String DISCARD_REVIEW = "Discard opinion in progress?";
-        public static final String DISCARD_EDITS = "Discard new data and edits?";
+        public static final String DISCARD_REVIEW = "Discard " + REVIEW + " ?";
+        public static final String DISCARD_EDITS = "Discard edits?";
     }
 
     public static class Dialogs {
@@ -54,12 +56,9 @@ public class Strings {
         public static final String PUBLISHING = "Publishing...";
         public static final String PROBLEM_PUBLISHING = "Problem publishing";
         public static final String PROBLEM_UPLOADING_EDITS = "Problem uploading edits";
-        public static final String REVIEW_NOT_FOUND = "Opinion not found";
+        public static final String REVIEW_NOT_FOUND = REVIEW + " not found";
         public static final String COMPLETING_SIGNUP = "Completing sign up...";
         public static final String DELETING = "Deleting please wait...";
-        public static final String EMAIL_IS_INVALID = "Email is invalid";
-        public static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
-        public static final String PASSWORD_MISMATCH = "Passwords don't match";
         public static final String LOGIN_UNSUCCESSFUL = "Login unsuccessful";
         public static final String COPYING = "Copying...";
         public static final String LAUNCHING_EDITOR = "Launching editor...";
@@ -94,11 +93,10 @@ public class Strings {
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
         public static final String ADD = "add";
-        public static final String SUMMARY = "summary";
         public static final String SORTING = "sorting...";
         public static final String AUTHORS = "authors";
-        public static final String FULL_REVIEW = "Full opinion";
-        public static final String QUICK_REVIEW = "Quick opinion";
+        public static final String FULL_REVIEW = "Full " + REVIEW;
+        public static final String QUICK_REVIEW = "Quick " + REVIEW;
         public static final String DISTRIBUTION = "Distribution";
         public static final String AGGREGATE = "Aggregate";
         public static final String MAP = "Map";
@@ -128,23 +126,20 @@ public class Strings {
     }
 
     public static class ProgressBar {
-        public static final String NO_ONE_LOGGED_IN = "No one logged in";
         public static final String LOGGING_IN = "Logging in";
-        public static final String PLEASE_WAIT = "Please wait...";
     }
 
     public static class Menu {
         public static final String SHOW_SENTENCES = "show sentences";
         public static final String SHOW_HEADLINES = "show headlines";
-        public static final String REVIEWS = "opinions";
-        public static final String PAGE = "page";
+        public static final String REVIEWS = Strings.REVIEWS;
     }
 
     public static class Mapping {
         public static final String LOCATION = "location";
         public static final String LOCATIONS = "locations";
-        public static final String REVIEWS = "opinions";
-        public static final String REVIEW = "opinion";
+        public static final String REVIEWS = Strings.REVIEWS;
+        public static final String REVIEW = Strings.REVIEW;
     }
     
     public static class Placeholders {
@@ -172,8 +167,6 @@ public class Strings {
         public static final String MAPPED = "Map";
         public static final String BOOKMARK = "Bookmark";
         public static final String UNBOOKMARK = "Unbookmark";
-        public static final String LIKE = "Like";
-        public static final String UNLIKE = "Unlike";
         public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";
         public static final String OFFLINE = "offline";
         public static final String DASHES = "- - -";
@@ -196,8 +189,7 @@ public class Strings {
 
     public static class ReviewsList {
         public static final String FEED = "feed";
-        public static final String REVIEWS = "opinions";
-        public static final String BOOKMARKS = "bookmarks";
+        public static final String REVIEWS = Strings.REVIEWS;
     }
 
     public static class Formatted {
@@ -219,6 +211,5 @@ public class Strings {
 
     public static class Playlists {
         public static final String BOOKMARKS = "Bookmarks";
-        public static final String LIKED = "Liked";
     }
 }

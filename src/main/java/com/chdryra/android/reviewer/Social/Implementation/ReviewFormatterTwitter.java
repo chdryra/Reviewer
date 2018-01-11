@@ -22,6 +22,7 @@ import java.util.ArrayList;
  */
 public class ReviewFormatterTwitter implements ReviewFormatter {
     private static final String APP = ApplicationInstance.APP_NAME;
+    private static final String SITE = ApplicationInstance.APP_SITE;
     private static final int MAX_TAGS = 3;
 
     @Override
@@ -33,7 +34,6 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
         String body = "#" + title + ": ";
         ArrayList<String> headlines = summary.getHeadlines();
         if(headlines.size() > 0) body += headlines.get(0);
-        body += " #" + APP;
         int i = 0;
         for(String tag : summary.getTags()) {
             if (tag.equalsIgnoreCase(subjectTag)) continue;
@@ -41,6 +41,7 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
             if(++i == MAX_TAGS) break;
         }
 
+        body += " #" + APP + " " + SITE;
         return new FormattedReview(title, body);
     }
 }

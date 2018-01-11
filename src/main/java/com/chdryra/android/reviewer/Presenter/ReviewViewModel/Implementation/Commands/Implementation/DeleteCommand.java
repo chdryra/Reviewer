@@ -35,7 +35,7 @@ public class DeleteCommand extends Command implements AlertListener {
 
     @Override
     public void execute() {
-        mScreen.showDeleteConfirm(Strings.Alerts.DELETE_REVIEW, getRequestCode(), this);
+        mScreen.showDeleteConfirm(Strings.Alerts.DELETE_POST, getRequestCode(), this);
     }
 
     @Override
