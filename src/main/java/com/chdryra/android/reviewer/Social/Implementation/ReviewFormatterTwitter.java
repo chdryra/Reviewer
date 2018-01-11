@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class ReviewFormatterTwitter implements ReviewFormatter {
     private static final String APP = ApplicationInstance.APP_NAME;
-    private static final String SITE = ApplicationInstance.APP_SITE;
+    private static final String SITE = ApplicationInstance.APP_SITE_SHORT;
     private static final int MAX_TAGS = 3;
 
     @Override

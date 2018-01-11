@@ -15,7 +15,8 @@ package com.chdryra.android.reviewer.Application.Implementation;
  */
 public class Strings {
     public static String APP_NAME = "StarTouch";
-    public static String APP_SITE = "http://bit.ly/2D0CjE6";
+    public static String APP_SITE = "http:www.startouchapp.com";
+    public static String APP_SITE_SHORT = "http://bit.ly/2D0CjE6";
     public static String REVIEW = "rating";
     public static String REVIEWS = REVIEW + "s";
 

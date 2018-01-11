@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 public interface ApplicationInstance extends ApplicationSuite {
     String APP_NAME = Strings.APP_NAME;
     String APP_SITE = Strings.APP_SITE;
+    String APP_SITE_SHORT = Strings.APP_SITE_SHORT;
 
     void logout();
 

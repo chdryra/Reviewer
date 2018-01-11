@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class ReviewFormatterFacebook implements ReviewFormatter {
     private static final String APP = ApplicationInstance.APP_NAME;
+    private static final String SITE = ApplicationInstance.APP_SITE_SHORT;
 
     @Override
     public FormattedReview format(ReviewSummary summary) {
@@ -37,6 +38,8 @@ public class ReviewFormatterFacebook implements ReviewFormatter {
 
         String location = getLocationString(summary.getLocations());
         body += location.length() > 0 ? " @" + location : "";
+
+        body += " #" + APP + " " + SITE;
 
         return new FormattedReview(title, body);
     }

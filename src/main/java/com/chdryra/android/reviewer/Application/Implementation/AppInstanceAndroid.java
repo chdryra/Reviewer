@@ -19,14 +19,14 @@ import android.support.v4.app.ActivityCompat;
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
@@ -56,7 +56,26 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     private AppInstanceAndroid(Context context) {
         instantiate(context, LaunchState.TEST);
         mViewPacker = new ItemPacker<>();
+        //printHashKey(context);
     }
+
+//    //For FB
+//    private static void printHashKey(Context context) {
+//        String tag = "HASH";
+//        try {
+//            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+//            for (android.content.pm.Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                String hashKey = new String(Base64.encode(md.digest(), 0));
+//                Log.i(tag, "printHashKey() Hash Key: " + hashKey);
+//            }
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e(tag, "printHashKey()", e);
+//        } catch (Exception e) {
+//            Log.e(tag, "printHashKey()", e);
+//        }
+//    }
 
     public static AppInstanceAndroid getInstance(Context context) {
         if (sSingleton == null) {

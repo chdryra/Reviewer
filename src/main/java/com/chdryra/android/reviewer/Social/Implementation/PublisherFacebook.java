@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
@@ -50,17 +51,13 @@ public class PublisherFacebook implements SocialPublisherAsync {
         FormattedReview formatted = mFormatter.format(summary);
 
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(getAppLink())
+                .setContentUrl(Uri.parse(ApplicationInstance.APP_SITE))
                 .setContentTitle(formatted.getTitle())
                 .setContentDescription(formatted.getBody())
                 .build();
 
         ShareApi api = new ShareApi(content);
         if(api.canShare()) api.share(getShareCallback(listener));
-    }
-
-    private Uri getAppLink() {
-        return Uri.parse("http://www.teeqr.com");
     }
 
     @NonNull
