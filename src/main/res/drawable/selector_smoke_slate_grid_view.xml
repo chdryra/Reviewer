@@ -9,7 +9,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
     <item android:drawable="@color/Goldenrod" android:state_pressed="true"/>
-
     <item android:drawable="@android:color/transparent"/>
 
 </selector>

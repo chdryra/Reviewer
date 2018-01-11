@@ -55,7 +55,7 @@
     </style>
 
     <style name="Widget.GridCell.SmokeSlate">
-        <item name="android:background">@drawable/selector_smoke_slate_grid_cell</item>
+        <item name="android:foreground">@drawable/selector_smoke_slate_grid_cell</item>
     </style>
 
     <style name="Widget.GridView.SmokeSlate">
