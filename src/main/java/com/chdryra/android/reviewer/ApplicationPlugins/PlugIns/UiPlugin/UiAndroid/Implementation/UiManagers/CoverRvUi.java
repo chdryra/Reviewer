@@ -44,8 +44,8 @@ public class CoverRvUi extends CoverUi{
 
     @Override
     public void setViewValue(@Nullable Bitmap image) {
+        super.setViewValue(image);
         if (image != null) {
-            super.setViewValue(image);
             mGridView.setTransparent();
         } else {
             mGridView.setOpaque();
