@@ -56,6 +56,7 @@
 
     <style name="Widget.GridCell.SmokeSlate">
         <item name="android:foreground">@drawable/selector_smoke_slate_grid_cell</item>
+        <item name="cardBackgroundColor">?transBackground</item>
     </style>
 
     <style name="Widget.GridView.SmokeSlate">

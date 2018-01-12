@@ -24,7 +24,6 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -51,6 +50,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -335,9 +337,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     private void newStamp(@Nullable DataDate publishDate) {
-        String date = publishDate != null ? ReviewStamp.toReadableDate(publishDate) : "";
+        String date = publishDate != null ? formatDate(publishDate) : "";
         String text = date + (validateString(mLocation) ? " @" + mLocation : "");
         setText(STAMP, text);
+    }
+
+    private String formatDate(DataDate publishDate) {
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(publishDate.getTime()));
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {

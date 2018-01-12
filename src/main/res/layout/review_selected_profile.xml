@@ -9,12 +9,12 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutHorizontal.WrappedVertical"
-    android:id="@+id/profile">
+    style="@style/LinearLayoutHorizontal.WrappedVertical">
 
     <LinearLayout
         style="@style/LinearLayoutHorizontal"
-        android:layout_weight="5"
+        android:id="@+id/profile"
+        android:layout_weight="1"
         android:gravity="start|center">
 
         <ImageView
@@ -31,20 +31,28 @@
         <TextView
             android:id="@+id/profile_name"
             style="@style/TextViewGridCell.Bold.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|center"/>
 
     </LinearLayout>
+
+    <FrameLayout
+        style="@style/LinearLayoutHorizontal"
+        android:id="@+id/review_menu"
+        android:layout_weight="4"
+        android:gravity="end|center">
 
     <ImageButton
         android:id="@+id/menu_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="end|center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:layout_gravity="center"
+        android:layout_gravity="end|center"
         android:background="@drawable/ic_menu_black_24dp"/>
 
+</FrameLayout>
 </LinearLayout>
