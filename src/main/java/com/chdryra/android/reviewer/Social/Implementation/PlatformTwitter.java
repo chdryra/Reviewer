@@ -12,9 +12,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherAsync;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.twitter.sdk.android.core.DefaultLogger;
@@ -35,7 +35,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     PlatformTwitter(Context context, SocialPublisherAsync publisher) {
         super(publisher);
         initialiseTwitter(context);
-        setAccessToken(getAccessToken());
+        setAuthorisation(getAccessToken());
     }
 
     private void initialiseTwitter(Context context) {
@@ -49,7 +49,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     }
 
     @Override
-    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
         return new LoginUiDefault<>(loginLaunchable, this,
                 listener, new AuthorisationTokenGetter<T>() {
             @Override

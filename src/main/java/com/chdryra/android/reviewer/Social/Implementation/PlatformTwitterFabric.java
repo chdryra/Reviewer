@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;

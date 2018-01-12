@@ -64,6 +64,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
             return;
         }
 
+        notifyListeners();
         mBuildScreenConfig.launch();
     }
 

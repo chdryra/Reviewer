@@ -31,15 +31,18 @@ class AsyncSocialPublisher {
     }
 
     public void publish(Review review, SocialPublisherListener listener) {
-        new PublisherTask(review, listener).execute();
+        new PublisherTask(review, mPublisher, listener).execute();
     }
 
-    private class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
+    private static class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
         private final Review mReview;
+        private final SocialPublisher mPublisher;
         private final SocialPublisherListener mListener;
 
-        public PublisherTask(Review review, SocialPublisherListener listener) {
+        private PublisherTask(Review review, SocialPublisher publisher, SocialPublisherListener
+                listener) {
             mReview = review;
+            mPublisher = publisher;
             mListener = listener;
         }
 

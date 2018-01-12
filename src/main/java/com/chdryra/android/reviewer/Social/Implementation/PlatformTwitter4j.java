@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -46,10 +45,10 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
     }
 
     @Override
-    public void setAccessToken(@Nullable AccessToken token) {
+    public void setAuthorisation(@Nullable AccessToken token) {
         PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
         publisher.setAccessToken(token);
-        super.setAccessToken(token);
+        super.setAuthorisation(token);
     }
 
     @Override
@@ -57,6 +56,6 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
         PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
         publisher.logout();
         TwitterCore.getInstance().getSessionManager().clearActiveSession();
-        setAccessToken(null);
+        setAuthorisation(null);
     }
 }

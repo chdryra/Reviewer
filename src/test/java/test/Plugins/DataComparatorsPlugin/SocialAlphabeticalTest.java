@@ -10,7 +10,7 @@ package test.Plugins.DataComparatorsPlugin;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -100,7 +100,7 @@ public class SocialAlphabeticalTest extends ComparatorTest<DataSocialPlatform>{
         }
 
         @Override
-        public void getFollowers(FollowersListener listener) {
+        public void getFollowers(SocialPlatform.FollowersListener listener) {
             listener.onNumberFollowers(mFollowers);
         }
     }

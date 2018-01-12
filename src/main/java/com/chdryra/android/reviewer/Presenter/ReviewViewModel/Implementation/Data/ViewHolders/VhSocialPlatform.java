@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 
 /**
@@ -18,18 +19,30 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * platform name
  * above, number followers below.
  */
-public class VhSocialPlatform extends VhDualText {
-    private String mName;
+public class VhSocialPlatform extends VhDualText implements GvSocialPlatform.PlatformStateListener {
+    private static final String SHARE = Strings.Publish.SHARE;
+    private static final String CONNECTED = Strings.Publish.CONNECTED;
+    private static final String NOT_CONNECTED = Strings.Publish.NOT_CONNECTED;
 
     @Override
     public void updateView(ViewHolderData data) {
-        GvSocialPlatform platform = (GvSocialPlatform) data;
-        mName = platform.getName();
+        ((GvSocialPlatform) data).setListener(this);
+    }
 
+    @Override
+    public void onPlatformStateChange(GvSocialPlatform platform) {
+        String name = platform.getName();
         if(platform.isAuthorised()) {
-            super.updateView(mName, "connected");
+            if(platform.isChosen()) {
+                getView().setActivated(true);
+                super.updateView(platform.getName(), SHARE);
+            } else {
+                getView().setActivated(false);
+                super.updateView(platform.getName(), CONNECTED);
+            }
+
         } else {
-            super.updateView(mName, "not connected");
+            super.updateView(name, NOT_CONNECTED);
         }
     }
 }

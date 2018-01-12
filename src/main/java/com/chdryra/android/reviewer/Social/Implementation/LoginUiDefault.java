@@ -13,9 +13,9 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
@@ -32,11 +32,11 @@ public class LoginUiDefault<T> implements LoginUi {
     private final LaunchableUi mAuthorisationUi;
     private final SocialPlatform<T> mPlatform;
     private final AuthorisationTokenGetter<T> mGetter;
-    private final AuthorisationListener mListener;
+    private final PlatformAuthoriser.Callback mListener;
 
     public LoginUiDefault(LaunchableUi authorisationUi,
                           SocialPlatform<T> platform,
-                          AuthorisationListener listener,
+                          PlatformAuthoriser.Callback listener,
                           AuthorisationTokenGetter<T> getter) {
         mAuthorisationUi = authorisationUi;
         mPlatform = platform;
@@ -56,7 +56,7 @@ public class LoginUiDefault<T> implements LoginUi {
         if(requestCode == AUTHORISATION && ActivityResultCode.OK.equals(resultCode)) {
             T accessToken = mGetter.getAuthorisationToken();
             if (accessToken != null) {
-                mPlatform.setAccessToken(accessToken);
+                mPlatform.setAuthorisation(accessToken);
                 mListener.onAuthorisationGiven(mPlatform);
             } else {
                 mListener.onAuthorisationRefused(mPlatform);

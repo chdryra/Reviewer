@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
@@ -21,42 +22,36 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
-        implements AuthorisationListener {
-    private static final String AUTHORISATION_RECEIVED = "authorisation received";
+public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform> {
     private static final String AUTHORISATION_NOT_RECEIVED = "authorisation not received";
 
     private final PlatformAuthoriser mAuthoriser;
-    private View mViewForAuthorisation;
 
     public GridItemShareScreen(PlatformAuthoriser authoriser) {
         mAuthoriser = authoriser;
     }
 
     @Override
-    public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
+    public void onGridItemClick(final GvSocialPlatform platform, final int position, final View v) {
         if (platform.isAuthorised()) {
             platform.press();
-            v.setActivated(platform.isChosen());
         } else {
-            mViewForAuthorisation = v;
-            mAuthoriser.seekAuthorisation(platform.getPlatform(), this);
+            mAuthoriser.seekAuthorisation(platform.getPlatform(), callback(platform, position, v));
         }
     }
 
-    @Override
-    public void onAuthorisationGiven(SocialPlatform<?> platform) {
-        makeToast(platform, AUTHORISATION_RECEIVED);
-        mViewForAuthorisation.setActivated(true);
-        mViewForAuthorisation = null;
-    }
+    @NonNull
+    private PlatformAuthoriser.Callback callback(final GvSocialPlatform platform, final int position, final View v) {
+        return new PlatformAuthoriser.Callback() {
+            @Override
+            public void onAuthorisationGiven(SocialPlatform<?> socialPlatform) {
+                onGridItemLongClick(platform, position, v);
+            }
 
-    @Override
-    public void onAuthorisationRefused(SocialPlatform<?> platform) {
-        makeToast(platform, AUTHORISATION_NOT_RECEIVED);
-    }
-
-    private void makeToast(SocialPlatform<?> platform, String message) {
-        showToast(platform.getName() + ": " + message);
+            @Override
+            public void onAuthorisationRefused(SocialPlatform<?> platform) {
+                showToast(platform.getName() + ": " + AUTHORISATION_NOT_RECEIVED);
+            }
+        };
     }
 }

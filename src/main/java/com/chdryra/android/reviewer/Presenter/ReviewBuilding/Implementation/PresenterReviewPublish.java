@@ -24,7 +24,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultList
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -76,9 +75,9 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
     }
 
     @Override
-    public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
+    public void seekAuthorisation(SocialPlatform<?> platform, Callback callback) {
         if(mNetwork.isOnline(mUi.getCurrentScreen())) {
-            mAuthUi = platform.getLoginUi(mAuthLaunchable, listener);
+            mAuthUi = platform.getLoginUi(mAuthLaunchable, callback);
             mAuthUi.launchUi(mUi.getLauncher());
         }
     }

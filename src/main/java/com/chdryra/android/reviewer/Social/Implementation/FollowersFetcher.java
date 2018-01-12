@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.os.AsyncTask;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,14 +34,14 @@ class FollowersFetcher {
         return mGetter.getPlatformName();
     }
 
-    public void getFollowers(FollowersListener listener) {
+    public void getFollowers(SocialPlatform.FollowersListener listener) {
         new FollowersTask(listener).execute();
     }
 
     private class FollowersTask extends AsyncTask<Void, Void, Integer> {
-        private final FollowersListener mListener;
+        private final SocialPlatform.FollowersListener mListener;
 
-        public FollowersTask(FollowersListener listener) {
+        public FollowersTask(SocialPlatform.FollowersListener listener) {
             mListener = listener;
         }
 

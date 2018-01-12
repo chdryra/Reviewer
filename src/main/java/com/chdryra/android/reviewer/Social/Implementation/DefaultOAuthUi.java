@@ -12,8 +12,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
@@ -35,14 +35,14 @@ public class DefaultOAuthUi<T> implements
 
     private final LaunchableUi mAuthorisationUi;
     private final SocialPlatform<T> mPlatform;
-    private final AuthorisationListener mListener;
+    private final PlatformAuthoriser.Callback mListener;
     private final ParcelablePacker<OAuthRequest>mPacker;
 
     private UiLauncher mLauncher;
 
     public DefaultOAuthUi(LaunchableUi authorisationUi,
                           SocialPlatform<T> platform,
-                          AuthorisationListener listener,
+                          PlatformAuthoriser.Callback listener,
                           ParcelablePacker<OAuthRequest> packer) {
         mAuthorisationUi = authorisationUi;
         mPlatform = platform;
@@ -65,7 +65,7 @@ public class DefaultOAuthUi<T> implements
     @Override
     public void onResponseParsed(T token) {
         if (token != null) {
-            mPlatform.setAccessToken(token);
+            mPlatform.setAuthorisation(token);
             mListener.onAuthorisationGiven(mPlatform);
         } else {
             mListener.onAuthorisationRefused(mPlatform);

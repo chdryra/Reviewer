@@ -10,9 +10,17 @@ package com.chdryra.android.reviewer.Social.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 12/02/2016
+ * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FollowersListener {
-    void onNumberFollowers(int followers);
+public interface Authorisable<Token> {
+    interface AuthorisationListener {
+        void onAuthorised(boolean isAuthorised);
+    }
+
+    boolean isAuthorised();
+
+    void setAuthorisation(Token token);
+
+    void setAuthListener(AuthorisationListener listener);
 }

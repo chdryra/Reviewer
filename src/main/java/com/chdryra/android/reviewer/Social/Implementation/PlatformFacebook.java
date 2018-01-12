@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -61,12 +60,12 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
         if(accessToken != null) {
             Set<String> permissions = accessToken.getPermissions();
             if (permissions.contains(REQUIRED_PERMISSION)) {
-                setAccessToken(accessToken);
+                setAuthorisation(accessToken);
             } else {
-                setAccessToken(null);
+                setAuthorisation(null);
             }
         } else {
-            setAccessToken(null);
+            setAuthorisation(null);
         }
     }
 
@@ -95,7 +94,7 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     }
 
     @Override
-    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
         return new LoginUiDefault<>(loginLaunchable, this,
                 listener, new AuthorisationTokenGetter<AccessToken>() {
             @Override
@@ -108,6 +107,6 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     @Override
     public void logout() {
         LoginManager.getInstance().logOut();
-        setAccessToken(null);
+        setAuthorisation(null);
     }
 }

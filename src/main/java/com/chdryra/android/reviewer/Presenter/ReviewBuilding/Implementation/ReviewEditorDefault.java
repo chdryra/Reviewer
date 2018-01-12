@@ -152,6 +152,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public ReadyToBuildResult isReviewBuildable() {
+        setSubject();
         if(mAdapter.getSubject() == null || mAdapter.getSubject().length() == 0) {
             return ReadyToBuildResult.NoSubject;
         } else if(mAdapter.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {

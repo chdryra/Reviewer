@@ -12,10 +12,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -53,7 +52,7 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     }
 
     @Override
-    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
         return new LoginUiDefault<>(loginLaunchable, this, listener,
                 new AuthorisationTokenGetter<String>() {
             @Override
@@ -114,7 +113,7 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
             GoogleSignInAccount signInAccount = result.getSignInAccount();
             if(signInAccount != null) {
                 String id = signInAccount.getId();
-                if(id != null) setAccessToken(id);
+                if(id != null) setAuthorisation(id);
             }
         }
 

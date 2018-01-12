@@ -210,6 +210,12 @@ public class Strings {
         public static final String NO_COMMENT = "no comment";
     }
 
+    public static class Publish {
+        public static final String CONNECTED = "connected";
+        public static final String NOT_CONNECTED = "not " + CONNECTED;
+        public static final String SHARE = "share";
+    }
+
     public static class Playlists {
         public static final String BOOKMARKS = "Bookmarks";
     }

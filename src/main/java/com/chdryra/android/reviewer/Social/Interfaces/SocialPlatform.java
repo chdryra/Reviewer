@@ -18,12 +18,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
-public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
+public interface SocialPlatform<T> extends DataSocialPlatform, Authorisable<T> {
     SocialPublisherAsync getPublisher();
 
     OAuthRequester<T> getOAuthRequester();
 
-    LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener);
+    LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener);
 
     void logout();
 
@@ -33,7 +33,10 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     boolean isAuthorised();
 
     @Override
-    void setAccessToken(@Nullable T t);
+    void setAuthorisation(@Nullable T t);
+
+    @Override
+    void setAuthListener(AuthorisationListener listener);
 
     @Override
     String getName();

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015
@@ -18,6 +16,10 @@ import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 public interface DataSocialPlatform {
     String TYPE_NAME = "share";
     String DATA_NAME = "share";
+
+    interface FollowersListener {
+        void onNumberFollowers(int followers);
+    }
 
     String getName();
 

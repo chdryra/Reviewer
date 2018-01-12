@@ -23,7 +23,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     private final SocialPublisherAsync mPublisher;
     private OAuthRequester<T> mRequester;
-    private T mAccessToken;
+    private T mAuthToken;
+    private AuthorisationListener mAuthListener;
 
     SocialPlatformBasic(SocialPublisherAsync publisher) {
         mPublisher = publisher;
@@ -51,12 +52,18 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
 
     @Override
     public boolean isAuthorised() {
-        return mAccessToken != null;
+        return mAuthToken != null;
     }
 
     @Override
-    public void setAccessToken(@Nullable T token) {
-        mAccessToken = token;
+    public void setAuthorisation(@Nullable T token) {
+        mAuthToken = token;
+        if(mAuthListener != null) mAuthListener.onAuthorised(token != null);
+    }
+
+    @Override
+    public void setAuthListener(AuthorisationListener authListener) {
+        mAuthListener = authListener;
     }
 
     @Override
@@ -66,6 +73,6 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
 
     @Nullable
     T getAccessToken() {
-        return mAccessToken;
+        return mAuthToken;
     }
 }
