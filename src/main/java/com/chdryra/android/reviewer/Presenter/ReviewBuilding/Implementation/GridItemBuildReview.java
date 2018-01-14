@@ -68,6 +68,8 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mImageChooser == null) return;
+
         boolean correctCode = requestCode == getImageRequestCode();
         boolean isOk = ActivityResultCode.OK.equals(resultCode);
         boolean exists = mImageChooser.chosenImageExists(ActivityResultCode.get(resultCode), data);
