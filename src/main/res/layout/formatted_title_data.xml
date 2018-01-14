@@ -18,6 +18,6 @@
 
     <include
         android:id="@+id/section_data"
-        layout="@layout/review_data_list"/>
+        layout="@layout/data_list"/>
 
 </LinearLayout>

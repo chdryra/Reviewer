@@ -7,6 +7,6 @@
   -->
 
 <android.support.v7.widget.RecyclerView
-    android:id="@+id/recyclerview_data"
-    style="@style/FormattedRecyclerView"
+    android:id="@+id/data_grid"
+    style="@style/FormattedReview"
     xmlns:android="http://schemas.android.com/apk/res/android"/>

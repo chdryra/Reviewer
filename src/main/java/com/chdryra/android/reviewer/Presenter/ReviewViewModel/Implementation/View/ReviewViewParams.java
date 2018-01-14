@@ -16,23 +16,27 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewParams {
-    private final GridViewParams mGridViewParams = new GridViewParams();
-    private final SubjectParams mSubjectParams = new SubjectParams();
-    private final RatingBarParams mRatingBarParams = new RatingBarParams();
+    private Alpha mAlpha = Alpha.FOG;
+    private final Subject mSubjectParams = new Subject();
+    private final RatingBar mRatingBarParams = new RatingBar();
+    private final BannerButton mBannerButton = new BannerButton();
+    private final GridView mGridViewParams = new GridView();
+    private final ContextView mContextView = new ContextView();
 
     private boolean mCoverManager = true;
     private ViewType mViewType;
 
     public enum ViewType {EDIT, VIEW}
 
-    public enum GridViewAlpha {
+    public enum Alpha {
         TRANSPARENT(0),
-        MEDIUM(100),
+        GLASS(50),
+        FOG(200),
         OPAQUE(255);
 
         private final int mAlpha;
 
-        GridViewAlpha(int alpha) {
+        Alpha(int alpha) {
             this.mAlpha = alpha;
         }
 
@@ -67,16 +71,24 @@ public class ReviewViewParams {
         return mViewType;
     }
 
-    public GridViewParams getGridViewParams() {
-        return mGridViewParams;
-    }
-
-    public SubjectParams getSubjectParams() {
+    public Subject getSubjectParams() {
         return mSubjectParams;
     }
 
-    public RatingBarParams getRatingBarParams() {
+    public RatingBar getRatingBarParams() {
         return mRatingBarParams;
+    }
+
+    public BannerButton getBannerButtonParams() {
+        return mBannerButton;
+    }
+
+    public GridView getGridViewParams() {
+        return mGridViewParams;
+    }
+
+    public ContextView getContextViewParams() {
+        return mContextView;
     }
 
     public boolean manageCover() {
@@ -85,6 +97,8 @@ public class ReviewViewParams {
 
     public ReviewViewParams setViewType(ViewType type) {
         mViewType = type;
+        mRatingBarParams.setEditable(true);
+        mSubjectParams.setEditable(true);
         return this;
     }
 
@@ -93,28 +107,33 @@ public class ReviewViewParams {
         return this;
     }
 
-    public static class SubjectParams {
+    public ReviewViewParams setAlpha(Alpha alpha) {
+        mAlpha = alpha;
+        return this;
+    }
+
+    public class Subject {
         private boolean mIsEditable;
         private boolean mUpdateOnRefresh;
         private String mHint;
 
-        public SubjectParams() {
+        private Subject() {
             mIsEditable = false;
             mUpdateOnRefresh = true;
             mHint = Strings.EditTexts.Hints.SUBJECT;
         }
 
-        public SubjectParams setEditable(boolean editable) {
+        public Subject setEditable(boolean editable) {
             mIsEditable = editable;
             return this;
         }
 
-        public SubjectParams setUpdateOnRefresh(boolean updateOnRefresh) {
+        public Subject setUpdateOnRefresh(boolean updateOnRefresh) {
             mUpdateOnRefresh = updateOnRefresh;
             return this;
         }
 
-        public SubjectParams setHint(String hint) {
+        public Subject setHint(String hint) {
             mHint = hint;
             return this;
         }
@@ -130,27 +149,66 @@ public class ReviewViewParams {
         public String getHint() {
             return mHint;
         }
+
+        public int getAlpha() {
+            return mAlpha.getAlpha();
+        }
     }
 
-    public static class GridViewParams {
-        private GridViewAlpha mGridAlpha = GridViewAlpha.MEDIUM;
+    public class RatingBar {
+        private boolean mIsEditable;
+        private boolean mIsVisible;
+
+        private RatingBar() {
+            mIsEditable = false;
+            mIsVisible = true;
+        }
+
+        public RatingBar setEditable(boolean editable) {
+            mIsEditable = editable;
+            return this;
+        }
+
+        public RatingBar setVisible(boolean visible) {
+            mIsVisible = visible;
+            return this;
+        }
+
+        public boolean isEditable() {
+            return mIsEditable;
+        }
+
+        public boolean isVisible() {
+            return mIsVisible;
+        }
+
+        public int getAlpha() {
+            return mAlpha.getAlpha();
+        }
+    }
+
+    public class BannerButton {
+        private BannerButton() {
+
+        }
+
+        public int getAlpha() {
+            return mAlpha.getAlpha();
+        }
+    }
+
+    public class GridView {
         private CellDimension mCellWidth = CellDimension.HALF;
         private CellDimension mCellHeight = CellDimension.QUARTER;
 
-        public int getGridAlpha() {
-            return mGridAlpha.getAlpha();
-        }
-
-        public GridViewParams setGridAlpha(GridViewAlpha gridAlpha) {
-            mGridAlpha = gridAlpha;
-            return this;
+        private GridView() {
         }
 
         public CellDimension getCellWidth() {
             return mCellWidth;
         }
 
-        public GridViewParams setCellWidth(CellDimension cellWidth) {
+        public GridView setCellWidth(CellDimension cellWidth) {
             mCellWidth = cellWidth;
             return this;
         }
@@ -159,9 +217,23 @@ public class ReviewViewParams {
             return mCellHeight;
         }
 
-        public GridViewParams setCellHeight(CellDimension cellHeight) {
+        public GridView setCellHeight(CellDimension cellHeight) {
             mCellHeight = cellHeight;
             return this;
+        }
+
+        public int getAlpha() {
+            return mAlpha.getAlpha();
+        }
+    }
+
+    public class ContextView {
+        private ContextView() {
+
+        }
+
+        public int getAlpha() {
+            return mAlpha.getAlpha();
         }
     }
 }

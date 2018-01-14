@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.graphics.Bitmap;
@@ -22,8 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -38,12 +38,12 @@ import com.chdryra.android.reviewer.R;
 public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private static final int LAYOUT = R.layout.fragment_review_edit;
     private static final int SUBJECT = R.id.subject_edit_text;
-    private static final int RATING = R.id.review_rating;
+    private static final int RATING = R.id.review_rating_frame;
     private static final int BANNER = R.id.banner_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
-    private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
-    private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
+    private static final int CONTEXT_VIEW = R.id.contextual_view;
+    private static final int CONTEXT_BUTTON = R.id.contextual_button;
 
     private View mView;
 
@@ -52,7 +52,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private SubjectUi<?> mSubject;
     private SimpleViewUi<?, Float> mRatingBar;
     private ViewUi<?, ?> mBannerButton;
-    private DataViewUi<?, ?> mDataView;
+    private GridViewUi<?, ?> mDataView;
     private ViewUi<?, ?> mContextual;
 
     @Override
@@ -70,7 +70,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
         mBannerButton = newBannerButtonUi(reviewView);
         mDataView = newDataViewUi(reviewView, calculator);
         mCover = newCoverUi(reviewView);
-        mContextual = newContextualUi(reviewView);
+        mContextual = newContextUi(reviewView);
     }
 
     @Override
@@ -113,10 +113,19 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
         mCover.update();
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return false;
+    }
+
     @NonNull
-    private ViewUi<?, ?> newContextualUi(ReviewView<?> reviewView) {
-        return new ContextualUi(mView.findViewById(CONTEXTUAL_VIEW),
-                CONTEXTUAL_BUTTON, reviewView.getActions().getContextualAction());
+    private ViewUi<?, ?> newContextUi(ReviewView<?> reviewView) {
+        return new ContextUi(reviewView, mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON);
     }
 
     @NonNull
@@ -130,34 +139,24 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private <T extends GvData> DataViewUi<?, ?> newDataViewUi(ReviewView<T> reviewView, CellDimensionsCalculator calculator) {
+    private <T extends GvData> GridViewUi<?, ?> newDataViewUi(ReviewView<T> reviewView,
+                                                              CellDimensionsCalculator calculator) {
         return new RecyclerViewUi<>(reviewView, (RecyclerView) mView.findViewById(GRID),
                 calculator);
     }
 
     @NonNull
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi((Button) mView.findViewById(BANNER),
-                reviewView.getActions().getBannerButtonAction());
+        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER));
     }
 
     @NonNull
     private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingBarRvUi(reviewView, (RatingBar) mView.findViewById(RATING));
+        return new RatingBarRvUi(reviewView, (FrameLayout) mView.findViewById(RATING));
     }
 
     @NonNull
     private SubjectUi<?> newSubjectUi(ReviewView<?> reviewView) {
         return new SubjectEditUi(reviewView, (EditText) mView.findViewById(SUBJECT));
-    }
-
-    @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsCancelled(int requestCode) {
-        return false;
     }
 }

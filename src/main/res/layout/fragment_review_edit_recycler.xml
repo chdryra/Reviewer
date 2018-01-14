@@ -12,27 +12,25 @@
 
     <include
         android:id="@+id/subject_edit_text"
-        layout="@layout/review_subject_edit_text"/>
+        layout="@layout/subject_edit_text"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <include
-        android:id="@+id/review_rating"
-        layout="@layout/review_rating_point_five"/>
+        android:id="@+id/review_rating_frame"
+        layout="@layout/rating_point_five"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/banner_button"
-        layout="@layout/review_button"
-        android:background="@null"
-        android:textColor="?dominantText"/>
+        layout="@layout/banner_button"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/gridview_data"
-        layout="@layout/review_recycler_view"/>
+        layout="@layout/data_grid"/>
 
     <View style="@style/HorizontalDivider"/>
 

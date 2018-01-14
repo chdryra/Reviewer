@@ -28,22 +28,24 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RecyclerViewUi<T extends GvData> extends DataViewUi<RecyclerView, T> implements
+public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T> implements
         RecyclerAdapterBasic.OnItemClickListener<T>, OptionSelectListener {
     private final GridItemAction<T> mClickAction;
     private final CellDimensionsCalculator.Dimensions mDims;
     private final GridLayoutManager mManager;
 
-    public RecyclerViewUi(final ReviewView<T> reviewView, RecyclerView view,
+    public RecyclerViewUi(final ReviewView<T> reviewView,
+                          RecyclerView view,
                           CellDimensionsCalculator calculator) {
-        super(view, new ReferenceValueGetter<GvDataList<T>>() {
+        super(view, reviewView.getParams().getGridViewParams(),
+                new ReferenceValueGetter<GvDataList<T>>() {
             @Override
             public GvDataList<T> getValue() {
                 return reviewView.getGridData();
             }
-        }, reviewView);
+        });
 
-        ReviewViewParams.GridViewParams params = reviewView.getParams().getGridViewParams();
+        ReviewViewParams.GridView params = reviewView.getParams().getGridViewParams();
 
         int span = params.getCellWidth().getDivider();
         mManager = new GridLayoutManager(getView().getContext(), span);

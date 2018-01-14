@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.R;
  */
 public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         .ReviewSelectorCallback {
-    private static final int LAYOUT = R.layout.review_map_info_window;
+    private static final int LAYOUT = R.layout.map_info_window;
     private static final int ABSTRACT = R.id.review_abstract;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;

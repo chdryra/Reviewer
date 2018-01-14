@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
 import android.widget.TextView;
 
 /**

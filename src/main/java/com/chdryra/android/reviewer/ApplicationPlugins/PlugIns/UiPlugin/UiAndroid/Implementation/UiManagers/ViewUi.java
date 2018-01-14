@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
+
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -88,5 +90,10 @@ public abstract class ViewUi<V extends View, Value> {
                 ViewUi.this.onClick(view);
             }
         });
+    }
+
+    protected void setBackgroundAlpha(int alpha) {
+        Drawable background = getView().getBackground();
+        if (background != null) background.setAlpha(alpha);
     }
 }

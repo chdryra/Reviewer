@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
   ~ Unauthorized copying of this file via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ rizwan.choudrey@gmail.com
   ~
   -->
 
-<GridView
-    android:id="@+id/gridview_data"
-    style="@style/GridView"
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/data_grid"
+    style="@style/DataGrid"
     xmlns:android="http://schemas.android.com/apk/res/android"/>

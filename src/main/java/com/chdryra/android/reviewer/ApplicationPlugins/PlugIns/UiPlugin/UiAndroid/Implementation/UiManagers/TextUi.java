@@ -31,12 +31,4 @@ public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
             }
         });
     }
-
-    public int getTextColour() {
-        return getView().getTextColors().getDefaultColor();
-    }
-
-    public void setTextColour(int color) {
-        getView().setTextColor(color);
-    }
 }

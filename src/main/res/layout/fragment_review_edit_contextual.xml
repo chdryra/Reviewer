@@ -11,9 +11,7 @@
 
     <include
         android:id="@+id/contextual_button"
-        layout="@layout/review_button"
-        android:background="?transBackground"
-        android:textColor="?dominantText"/>
+        layout="@layout/banner_button"/>
 
     <View style="@style/HorizontalDivider"/>
 

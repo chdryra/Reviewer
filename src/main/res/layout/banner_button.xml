@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
   ~ Unauthorized copying of this file via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ rizwan.choudrey@gmail.com
   ~
   -->
 
-<RatingBar style="@style/RatingBarFiveStar.PointFiveStep"/>
+<Button style="@style/Button.Banner"/>

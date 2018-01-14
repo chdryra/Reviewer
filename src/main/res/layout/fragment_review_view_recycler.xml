@@ -24,7 +24,7 @@
 
     <include
         android:id="@+id/gridview_data"
-        layout="@layout/review_recycler_view"/>
+        layout="@layout/data_grid"/>
 
     <View style="@style/HorizontalDivider"/>
 

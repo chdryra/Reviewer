@@ -10,25 +10,27 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ContextualUi extends SimpleViewUi<Button, String> {
+public class ContextUi extends SimpleViewUi<Button, String> {
     private final ButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextualUi(final View view, final int buttonId, @Nullable final ButtonAction<?> action) {
+    public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId) {
         super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
+                ButtonAction<?> action = reviewView.getActions().getContextualAction();
                 return action != null ? action.getButtonTitle() : "";
             }
         }, new ViewValueGetter<String>() {
@@ -42,24 +44,25 @@ public class ContextualUi extends SimpleViewUi<Button, String> {
                 ((Button) view.findViewById(buttonId)).setText(value);
             }
         });
-        mAction = action;
-        initialise(view);
+        mAction = reviewView.getActions().getContextualAction();
+        initialise(view, reviewView.getParams().getContextViewParams());
     }
 
-    private void initialise(View view) {
+    private void initialise(View layout, ReviewViewParams.ContextView params) {
         if (mAction == null) {
-            view.setVisibility(View.GONE);
+            layout.setVisibility(View.GONE);
             mIsVisible = false;
             return;
         }
-
-        getView().setOnClickListener(new View.OnClickListener() {
+        Button button = getView();
+        setBackgroundAlpha(params.getAlpha());
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAction.onClick(v);
             }
         });
-        getView().setOnLongClickListener(new View.OnLongClickListener() {
+        button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return mAction.onLongClick(v);

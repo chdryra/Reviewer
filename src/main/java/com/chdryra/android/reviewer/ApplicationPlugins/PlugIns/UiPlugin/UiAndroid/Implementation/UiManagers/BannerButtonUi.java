@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,17 +24,18 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 public class BannerButtonUi extends TextUi<Button> {
     private final ButtonAction<?> mAction;
 
-    public BannerButtonUi(Button view, final ButtonAction<?> action) {
+    public BannerButtonUi(final ReviewView<?> reviewView, Button view) {
         super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
-                return action.getButtonTitle();
+                return reviewView.getActions().getBannerButtonAction().getButtonTitle();
             }
         });
 
-        mAction = action;
+        mAction = reviewView.getActions().getBannerButtonAction();
         mAction.setTitle(new ButtonTitle());
         setClickable();
+        setBackgroundAlpha(reviewView.getParams().getBannerButtonParams().getAlpha());
     }
 
     @Override

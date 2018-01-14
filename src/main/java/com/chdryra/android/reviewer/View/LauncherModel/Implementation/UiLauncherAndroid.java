@@ -105,8 +105,8 @@ public class UiLauncherAndroid implements UiLauncher {
         } else {
             permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsManager.PermissionsCallback() {
                 @Override
-                public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
-                    if(requestCode == PERMISSION_REQUEST
+                public void onPermissionsResult(int permRequest, List<PermissionResult> results) {
+                    if(permRequest == PERMISSION_REQUEST
                             && results.size() == 1 && results.get(0).isGranted(CAMERA)) {
                             launchChooser(chooser, requestCode);
                     }

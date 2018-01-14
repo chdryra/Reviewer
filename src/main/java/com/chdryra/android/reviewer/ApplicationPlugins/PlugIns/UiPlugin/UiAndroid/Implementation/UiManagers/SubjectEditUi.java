@@ -29,11 +29,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditUi extends SubjectUi<EditText> {
+public class SubjectEditUi extends SubjectRvUi<EditText> {
     private SubjectAction<?> mSubjectAction;
 
     public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
-        super(view, new ReferenceValueGetter<String>() {
+        super(view, reviewView.getParams().getSubjectParams(), new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
                 return reviewView.getSubject();
@@ -43,27 +43,26 @@ public class SubjectEditUi extends SubjectUi<EditText> {
     }
 
     private void initialise(ReviewView<?> reviewView) {
-        EditText mEditText = getView();
-
+        EditText editText = getView();
         setViewValue(reviewView.getSubject());
 
-        ReviewViewParams.SubjectParams params = reviewView.getParams().getSubjectParams();
+        ReviewViewParams.Subject params = getParams();
         boolean isEditable = params.isEditable();
         setSubjectRefresh(!isEditable && params.isUpdateOnRefresh());
-        if(isEditable) mEditText.setHint(params.getHint());
+        if(isEditable) editText.setHint(params.getHint());
 
-        mEditText.setFocusable(isEditable);
-        ((ClearableEditText) mEditText).makeClearable(isEditable);
+        editText.setFocusable(isEditable);
+        ((ClearableEditText) editText).makeClearable(isEditable);
         if (isEditable) {
             mSubjectAction = reviewView.getActions().getSubjectAction();
-            mEditText.setOnEditorActionListener(newSubjectActionListener());
-            mEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            editText.setOnEditorActionListener(newSubjectActionListener());
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean hasFocus) {
                     if(!hasFocus && getView().getText().length() > 0) setSubject();
                 }
             });
-            mEditText.addTextChangedListener(newSubjectChangeListener());
+            editText.addTextChangedListener(newSubjectChangeListener());
         }
 
         update();

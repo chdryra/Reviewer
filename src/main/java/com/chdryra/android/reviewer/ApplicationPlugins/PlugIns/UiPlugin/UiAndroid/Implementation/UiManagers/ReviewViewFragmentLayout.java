@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers;
 
 
 import android.graphics.Bitmap;
@@ -42,8 +42,8 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private static final int BANNER = R.id.sort_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
-    private static final int CONTEXTUAL_VIEW = R.id.view_selector_layout;
-    private static final int CONTEXTUAL_BUTTON = R.id.view_button;
+    private static final int CONTEXT_VIEW = R.id.view_selector_layout;
+    private static final int CONTEXT_BUTTON = R.id.view_button;
 
     private View mView;
 
@@ -70,7 +70,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         mSortButton = newBannerButtonUi(reviewView);
         mDataView = newDataViewUi(reviewView, calculator);
         mCover = newCoverUi(reviewView);
-        mViewSelector = newContextualUi(reviewView);
+        mViewSelector = newContextUi(reviewView);
     }
 
     @Override
@@ -113,10 +113,19 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         mCover.update();
     }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mDataView.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mDataView.onOptionsCancelled(requestCode);
+    }
+
     @NonNull
-    private ViewUi<?, ?> newContextualUi(ReviewView<?> reviewView) {
-        return new ContextualUi(mView.findViewById(CONTEXTUAL_VIEW),
-                CONTEXTUAL_BUTTON, reviewView.getActions().getContextualAction());
+    private ViewUi<?, ?> newContextUi(ReviewView<?> reviewView) {
+        return new ContextUi(reviewView, mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON);
     }
 
     @NonNull
@@ -130,39 +139,26 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(ReviewView<T> reviewView, CellDimensionsCalculator calculator) {
+    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(ReviewView<T> reviewView,
+                                                               CellDimensionsCalculator
+                                                                       calculator) {
         return new RecyclerViewUi<>(reviewView, (RecyclerView) mView.findViewById(GRID),
                 calculator);
     }
 
     @NonNull
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi((Button) mView.findViewById(BANNER),
-                reviewView.getActions().getBannerButtonAction());
+        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER));
     }
 
     @NonNull
     private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE), (TextView) mView.findViewById(RATING_NUMBER));
+        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING_VALUE),
+                (TextView) mView.findViewById(RATING_NUMBER));
     }
 
     @NonNull
     private SubjectUi<?> newSubjectUi(final ReviewView<?> reviewView) {
-        return new SubjectUi<>((TextView) mView.findViewById(SUBJECT), new ViewUi.ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return reviewView.getSubject();
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        return mDataView.onOptionSelected(requestCode, option);
-    }
-
-    @Override
-    public boolean onOptionsCancelled(int requestCode) {
-        return mDataView.onOptionsCancelled(requestCode);
+        return new SubjectViewUi(reviewView, (TextView) mView.findViewById(SUBJECT));
     }
 }

@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
@@ -30,56 +29,36 @@ public class FactoryReviewViewParams {
             ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
             ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
             params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);
-        } else if(dataType.equals(GvSize.Reference.TYPE)) {
-            params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
         }
 
         return params;
     }
 
-    public <T extends GvData> ReviewViewParams newEditParams(GvDataType<T> dataType) {
+    public ReviewViewParams newEditorParams(GvDataType<?> dataType) {
         return newViewParams(dataType).setViewType(ReviewViewParams.ViewType.EDIT);
     }
 
-    public ReviewViewParams newEditorParams(GvDataType<?> dataType) {
-        ReviewViewParams params = newEditParams(dataType);
-        params.getRatingBarParams().setEditable(true);
-        params.getSubjectParams().setEditable(true);
-
-        return params;
-    }
-
     public ReviewViewParams newSearchParams(GvDataType<?> dataType, String hint) {
-        ReviewViewParams params = newEditParams(dataType);
+        ReviewViewParams params = newEditorParams(dataType);
         params.getSubjectParams().setEditable(true).setUpdateOnRefresh(false).setHint(hint);
         params.getRatingBarParams().setVisible(false);
         return params;
     }
 
     public ReviewViewParams newReviewsListParams() {
-        ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.CellDimension wrapped = ReviewViewParams.CellDimension.WRAPPED;
-        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        params.setCoverManager(false);
-        params.getGridViewParams().setCellHeight(wrapped).setCellWidth(full).setGridAlpha(trans);
+        ReviewViewParams params = new ReviewViewParams().setCoverManager(false);
+        params.getGridViewParams().setCellHeight(wrapped).setCellWidth(full);
 
         return params;
     }
 
     public ReviewViewParams newBuildReviewParams() {
-        ReviewViewParams params = new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
-        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
-        params.getRatingBarParams().setEditable(true);
-        params.getSubjectParams().setEditable(true);
-
-        return params;
+        return new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
     }
 
     public ReviewViewParams newPublishParams() {
-        ReviewViewParams params = new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
-        params.getGridViewParams().setGridAlpha(ReviewViewParams.GridViewAlpha.MEDIUM);
-
-        return params;
+        return new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
     }
 }

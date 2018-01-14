@@ -21,7 +21,7 @@ import com.google.maps.android.clustering.Cluster;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhMapClusterWindow extends MapInfoWindow {
-    private static final int LAYOUT = R.layout.review_map_cluster_window;
+    private static final int LAYOUT = R.layout.map_cluster_window;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating_number;
     private static final int LOCATIONS = R.id.cluster_num_locations;
