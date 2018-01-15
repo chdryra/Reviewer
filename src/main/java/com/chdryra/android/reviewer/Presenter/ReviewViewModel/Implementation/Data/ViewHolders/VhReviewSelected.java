@@ -69,7 +69,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         ReviewReference.ReviewReferenceObserver,
         OptionSelectListener, BookmarkCommand.BookmarkObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
-    private static final int PROFILE = R.id.user_profile;
+    private static final int PROFILE = R.id.profile;
     private static final int OPTIONS = R.id.social_options;
     private static final int PROFILE_IMAGE = R.id.profile_image;
     private static final int PROFILE_NAME = R.id.profile_name;
@@ -79,7 +79,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int IMAGE = R.id.review_image;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
-    private static final int STAMP = R.id.review_stamp;
+    private static final int DATE_LOCATION = R.id.review_date_location;
     private static final int LIKE_BUTTON = R.id.like_button;
     private static final int COMMENT_BUTTON = R.id.comment_button;
     private static final int SHARE_BUTTON = R.id.share_button;
@@ -97,7 +97,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final long WAIT_TIME = 150L;
 
     private final static int[] VIEWS =
-            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, STAMP, PROFILE_IMAGE, PROFILE_NAME,
+            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE, PROFILE_NAME,
                     PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON, BOOKMARK_BUTTON};
 
     private final AuthorsRepository mAuthorsRepo;
@@ -332,14 +332,14 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         setDate(mCache.containsDate(reviewId) ? mCache.getDate(reviewId) : null);
     }
 
-    private void newStamp() {
-        newStamp(mDate);
+    private void newDateLocation() {
+        newDateLocation(mDate);
     }
 
-    private void newStamp(@Nullable DataDate publishDate) {
+    private void newDateLocation(@Nullable DataDate publishDate) {
         String date = publishDate != null ? formatDate(publishDate) : "";
         String text = date + (validateString(mLocation) ? " @" + mLocation : "");
-        setText(STAMP, text);
+        setText(DATE_LOCATION, text);
     }
 
     private String formatDate(DataDate publishDate) {
@@ -362,7 +362,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setDate(@Nullable DataDate publishDate) {
         mDate = publishDate;
-        newStamp();
+        newDateLocation();
     }
 
     private void setHeadline(IdableList<DataComment> value) {
@@ -384,7 +384,7 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setLocations(IdableList<? extends DataLocation> value) {
         mLocation = DataFormatter.formatLocationsShort(value);
-        newStamp();
+        newDateLocation();
     }
 
     private void bindToReview(ReviewReference review) {

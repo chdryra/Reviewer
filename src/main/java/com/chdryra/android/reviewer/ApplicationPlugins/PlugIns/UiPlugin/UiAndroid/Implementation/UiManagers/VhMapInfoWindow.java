@@ -49,7 +49,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private static final int LOCATION = R.id.cluster_num_locations;
     private static final int HEADLINE = R.id.review_headline;
     private static final int TAGS = R.id.review_tags;
-    private static final int STAMP = R.id.review_stamp;
+    private static final int STAMP = R.id.review_date_location;
     private static final int IMAGE = R.id.review_image;
     private static final int CALLBACKS = 3;
 

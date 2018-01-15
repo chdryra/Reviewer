@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
@@ -19,13 +18,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ViewUiBinder<T extends HasReviewId> implements Bindable{
+public class ViewUiBinder<T> implements Bindable{
     private final ViewUi<?, ? extends DataReference<T>> mView;
     private final BindableViewUi<T> mCastView;
 
     private boolean mIsBound = false;
 
-    public interface BindableViewUi<T extends HasReviewId> {
+    public interface BindableViewUi<T> {
         void update(T value);
 
         void onInvalidated();

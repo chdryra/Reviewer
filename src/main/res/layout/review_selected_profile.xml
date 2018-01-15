@@ -39,7 +39,7 @@
 
     <FrameLayout
         style="@style/LinearLayoutHorizontal"
-        android:id="@+id/review_menu"
+        android:id="@+id/review_options"
         android:layout_weight="4"
         android:gravity="end|center">
 

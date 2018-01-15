@@ -49,6 +49,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.MenuUpAppLevel;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.RatingBarTouchable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SimpleViewUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.StampNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.SubjectNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TagsNodeUi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ViewUi;
@@ -101,9 +102,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 24/10/2016
@@ -124,8 +122,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private static final int SUBJECT = R.id.subject_formatted;
     private static final int RATING = R.id.rating_formatted;
     private static final int HEADLINE = R.id.headline_formatted;
-    private static final int AUTHOR = R.id.author_formatted;
-    private static final int DATE = R.id.date_formatted;
+    private static final int STAMP = R.id.stamp_formatted;
     private static final int COMMENT = R.id.comment_formatted;
     private static final int TAGS = R.id.tags_formatted;
     private static final int CRITERIA = R.id.criteria_formatted;
@@ -151,8 +148,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private ViewUi<TextView, String> mSubject;
     private ViewUi<RatingBar, Float> mRating;
     private ViewUi<TextView, RefDataList<DataTag>> mTags;
-    private FormattedSectionUi<String> mAuthor;
-    private FormattedSectionUi<String> mDate;
+    private ViewUi<TextView, AuthorReference> mStamp;
     private FormattedSectionUi<RefCommentList> mComment;
     private FormattedSectionUi<RefDataList<DataCriterion>> mCriteria;
     private FormattedSectionUi<RefDataList<DataFact>> mFacts;
@@ -212,8 +208,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         setCover(v);
         setSubject(v);
         setRating(v);
-        setAuthor(v);
-        setDate(v);
+        setStamp(v);
         setComment(v);
         setTags(v);
         setCriteria(v);
@@ -339,16 +334,15 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void update() {
         mCover.update();
+        mImages.update();
         mSubject.update();
         mRating.update();
-        mAuthor.update();
-        mDate.update();
-        mComment.update();
+        mStamp.update();
         mTags.update();
+        mComment.update();
+        mLocations.update();
         mCriteria.update();
         mFacts.update();
-        mLocations.update();
-        mImages.update();
     }
 
     @Nullable
@@ -367,6 +361,19 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         setLaunchOnClick(mCover, getCommandsFactory().newLaunchBespokeViewCommand(mNode, "Images", GvImage.TYPE));
     }
 
+    private void setSubject(View v) {
+        mSubject = new SubjectNodeUi((TextView) v.findViewById(SUBJECT), mNode, null);
+    }
+
+    private void setRating(View v) {
+        mRating = new RatingBarTouchable((RatingBar) v.findViewById(RATING), mNode, null);
+    }
+
+    private void setStamp(View v) {
+        mStamp = new StampNodeUi((TextView) v.findViewById(STAMP), mNode, mRepo.getAuthorsRepo());
+        setLaunchOnClick(mStamp, launchAuthor());
+    }
+
     private void setTags(View v) {
         mTags = new TagsNodeUi((TextView) v.findViewById(TAGS), mNode);
         setLaunchOnClick(mTags, GvTag.TYPE);
@@ -375,6 +382,17 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private void setComment(View v) {
         mComment = new CommentNodeUi(getSection(v, COMMENT), (TextView) v.findViewById(HEADLINE),
                 mNode, launchView(GvComment.TYPE));
+    }
+
+    private void setLocations(View v) {
+        mLocations = newDataUi(v, LOCATIONS, Strings.Formatted.LOCATIONS, GvLocation.TYPE,
+                getConverter().newConverterLocations(), VhLocationFormatted.class,
+                new SimpleViewUi.ReferenceValueGetter<RefDataList<DataLocation>>() {
+                    @Override
+                    public RefDataList<DataLocation> getValue() {
+                        return mNode.getLocations();
+                    }
+                });
     }
 
     private void setCriteria(View v) {
@@ -397,43 +415,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
                         return mNode.getFacts();
                     }
                 });
-    }
-
-    private void setLocations(View v) {
-        mLocations = newDataUi(v, LOCATIONS, Strings.Formatted.LOCATIONS, GvLocation.TYPE,
-                getConverter().newConverterLocations(), VhLocationFormatted.class,
-                new SimpleViewUi.ReferenceValueGetter<RefDataList<DataLocation>>() {
-                    @Override
-                    public RefDataList<DataLocation> getValue() {
-                        return mNode.getLocations();
-                    }
-                });
-    }
-
-    private void setAuthor(View v) {
-        AuthorReference reference = mRepo.getAuthorsRepo().getReference(mNode.getAuthorId());
-        AuthorGetter getter = new AuthorGetter(reference);
-        mAuthor = newTextUi(v, AUTHOR, Strings.Formatted.AUTHOR, launchAuthor(), getter);
-        getter.setUiAndDereference(mAuthor);
-    }
-
-    private void setDate(View v) {
-        mDate = newTextUi(v, DATE, Strings.Formatted.DATE, null,
-                new SimpleViewUi.ReferenceValueGetter<String>() {
-                    @Override
-                    public String getValue() {
-                        Date date = new Date(mNode.getPublishDate().getTime());
-                        return DateFormat.getDateInstance(DateFormat.LONG).format(date);
-                    }
-                });
-    }
-
-    private void setRating(View v) {
-        mRating = new RatingBarTouchable((RatingBar) v.findViewById(RATING), mNode, null);
-    }
-
-    private void setSubject(View v) {
-        mSubject = new SubjectNodeUi((TextView) v.findViewById(SUBJECT), mNode, null);
     }
 
     private void setImages(View v) {

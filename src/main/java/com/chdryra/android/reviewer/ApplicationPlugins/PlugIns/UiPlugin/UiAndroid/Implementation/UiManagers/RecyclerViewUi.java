@@ -22,6 +22,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,6 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T> implements
         RecyclerAdapterBasic.OnItemClickListener<T>, OptionSelectListener {
+    private static final int SPACING = R.dimen.grid_spacing;
     private final GridItemAction<T> mClickAction;
     private final CellDimensionsCalculator.Dimensions mDims;
     private final GridLayoutManager mManager;
@@ -50,8 +52,9 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
         int span = params.getCellWidth().getDivider();
         mManager = new GridLayoutManager(getView().getContext(), span);
         getView().setLayoutManager(mManager);
-        getView().addItemDecoration(new GridItemDecoration(span, 10, false));
-        mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 10);
+        int spacing = (int) getView().getContext().getResources().getDimension(SPACING);
+        getView().addItemDecoration(new GridItemDecoration(span, spacing, false));
+        mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
 
         mClickAction = reviewView.getActions().getGridItemAction();
 

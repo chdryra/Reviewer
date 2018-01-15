@@ -7,19 +7,16 @@
   ~
   -->
 
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_formatted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?dominantBackground"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    android:focusableInTouchMode="false">
 
-    <LinearLayout style="@style/LinearLayoutVertical"
-                  android:background="?dominantBackground">
+    <LinearLayout style="@style/LinearLayoutVertical">
 
         <ImageView
             android:id="@+id/image_formatted"
@@ -30,8 +27,7 @@
 
         <LinearLayout
             style="@style/LinearLayoutVertical.WrappedVertical"
-            android:id="@+id/subject_rating_formatted"
-            android:background="?darkBackground">
+            android:id="@+id/subject_rating_formatted">
 
             <TextView
             android:id="@+id/subject_formatted"
@@ -49,6 +45,10 @@
                 android:background="?darkBackground"/>
             </FrameLayout>
 
+            <TextView
+                android:id="@+id/stamp_formatted"
+                style="@style/FormattedText.Stamp"
+                android:background="?darkBackground"/>
         </LinearLayout>
 
         <TextView
@@ -60,15 +60,11 @@
             style="@style/FormattedTitleValue"/>
 
         <include
-            android:id="@+id/author_formatted"
-            layout="@layout/formatted_title_value"/>
-
-        <include
-            android:id="@+id/date_formatted"
-            layout="@layout/formatted_title_value"/>
-
-        <include
             android:id="@+id/comment_formatted"
+            layout="@layout/formatted_title_value"/>
+
+        <include
+            android:id="@+id/locations_formatted"
             layout="@layout/formatted_title_value"/>
 
         <include
@@ -80,13 +76,8 @@
             layout="@layout/formatted_title_value"/>
 
         <include
-            android:id="@+id/locations_formatted"
-            layout="@layout/formatted_title_value"/>
-
-        <include
             android:id="@+id/images_formatted"
             layout="@layout/formatted_title_data"/>
 
     </LinearLayout>
 </ScrollView>
-
