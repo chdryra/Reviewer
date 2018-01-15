@@ -23,14 +23,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 
 public abstract class GridViewUi<V extends View, T extends GvData> extends ViewUi<V, GvDataList<T>> {
-
-    private final ReviewViewParams.GridView mParams;
-
     public GridViewUi(V view,
-                      ReviewViewParams.GridView params,
                       ReferenceValueGetter<GvDataList<T>> getter) {
         super(view, getter);
-        mParams = params;
     }
 
     void setOpaque() {

@@ -22,7 +22,7 @@
 
     <include
         android:id="@+id/main_view"
-        layout="@layout/fragment_review_view_recycler"
+        layout="@layout/fragment_review_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

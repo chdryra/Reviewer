@@ -9,9 +9,9 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutHorizontal.WrappedVertical"
-    android:background="@null">
+    style="@style/LinearLayoutHorizontal.WrappedVertical">
 
+    <!-- treated as a contextual view by ReviewVIewFragmentLayout -->
     <LinearLayout
         style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:id="@+id/view_selector_layout"
@@ -20,7 +20,7 @@
         <include
             android:id="@+id/view_button"
             layout="@layout/banner_button"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
@@ -28,30 +28,19 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/LinearLayoutHorizontal.WrappedVertical"
-        android:layout_weight="1">
-
-        <Button
-            android:id="@+id/rating_value"
-            style="@style/Button.Rating"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/data_number"
-            style="@style/Button.Rating"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <View style="@style/VerticalDivider"/>
-
     <include
-        android:id="@+id/sort_button"
+        android:id="@+id/rating_button"
         layout="@layout/banner_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
-</LinearLayout>
 
-    
+    <View style="@style/VerticalDivider"/>
+
+        <include
+            android:id="@+id/sort_button"
+            layout="@layout/banner_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+</LinearLayout>

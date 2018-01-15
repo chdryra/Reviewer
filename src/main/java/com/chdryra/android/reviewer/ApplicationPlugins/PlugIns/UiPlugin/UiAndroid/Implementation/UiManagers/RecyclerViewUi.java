@@ -37,7 +37,7 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
     public RecyclerViewUi(final ReviewView<T> reviewView,
                           RecyclerView view,
                           CellDimensionsCalculator calculator) {
-        super(view, reviewView.getParams().getGridViewParams(),
+        super(view,
                 new ReferenceValueGetter<GvDataList<T>>() {
             @Override
             public GvDataList<T> getValue() {

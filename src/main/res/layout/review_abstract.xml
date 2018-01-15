@@ -8,8 +8,7 @@
   -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutVertical.GridCell"
-    android:layout_height="wrap_content">
+    style="@style/LinearLayoutVertical.GridCell">
 
     <include layout="@layout/review_selected_profile"
              android:id="@+id/user_profile"

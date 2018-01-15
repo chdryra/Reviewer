@@ -171,7 +171,7 @@ public class FactoryReviewViewActions {
                     node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Buttons
-                    .AGGREGATE, false)).setComparators(getPlaceholderComparator("Review data"));
+                    .AGGREGATE, false)).setComparators(getPlaceholderComparator("Data"));
             factory = new FactoryActionsViewSummary((ActionsParameters<GvSize.Reference>)
                     params, node);
         } else {

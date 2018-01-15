@@ -29,18 +29,15 @@
 
         <LinearLayout
             style="@style/LinearLayoutVertical.WrappedVertical"
-            android:id="@+id/subject_rating_formatted"
-            android:background="?transDarkBackground">
+            android:id="@+id/subject_rating_formatted">
 
             <TextView
             android:id="@+id/subject_formatted"
-            style="@style/TextView.Subject.Bold"
-            android:background="@null"/>
+            style="@style/TextView.Subject.Bold"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null">
+                android:layout_height="match_parent">
 
             <RatingBar
                 android:id="@+id/rating_formatted"

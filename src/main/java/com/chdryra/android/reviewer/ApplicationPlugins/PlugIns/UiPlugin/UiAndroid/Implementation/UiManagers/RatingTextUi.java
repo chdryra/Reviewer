@@ -21,10 +21,8 @@ import com.chdryra.android.reviewer.Utils.RatingFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingTextUi extends RatingUi<TextView> {
-    private ReviewView<?> mReviewView;
-    private TextView mReviewsNum;
 
-    public RatingTextUi(final ReviewView<?> reviewView, final TextView ratingView, final TextView reviewsNum) {
+    public RatingTextUi(final ReviewView<?> reviewView, final TextView ratingView) {
         super(ratingView, new ReferenceValueGetter<Float>() {
                     @Override
                     public Float getValue() {
@@ -39,19 +37,18 @@ public class RatingTextUi extends RatingUi<TextView> {
                 new ViewValueSetter<Float>() {
                     @Override
                     public void setValue(Float value) {
-                        String text = RatingFormatter.twoSignificantDigits(reviewView.getRating()
-                        ) + "*";
-                        ratingView.setText(text);
+                        ratingView.setText(formatRating(reviewView));
                     }
                 });
 
-        mReviewView = reviewView;
-        mReviewsNum = reviewsNum;
+        setBackgroundAlpha(reviewView.getParams().getBannerButtonParams().getAlpha());
     }
 
-    @Override
-    public void update() {
-        super.update();
-        mReviewsNum.setText("(" + mReviewView.getGridData().size() + ")");
+    private static String formatRating(ReviewView<?> reviewView) {
+        String rating = RatingFormatter.twoSignificantDigits(reviewView.getRating()
+        ) + "*";
+        String reviews = "(" + reviewView.getGridData().size() + ")";
+
+        return rating + " " + reviews;
     }
 }
