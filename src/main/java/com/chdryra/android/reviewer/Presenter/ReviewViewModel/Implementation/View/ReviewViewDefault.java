@@ -146,11 +146,14 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public void updateCover() {
+        if(mContainer == null) return;
+
+        mContainer.setCover(null);
         if (getParams().manageCover()) {
             getAdapter().getCover(new ReviewViewAdapter.CoverCallback() {
                 @Override
                 public void onAdapterCover(GvImage cover) {
-                    if (mContainer != null) mContainer.setCover(cover);
+                    mContainer.setCover(cover);
                 }
             });
         }

@@ -18,7 +18,8 @@
         android:focusable="false"
         android:focusableInTouchMode="false">
 
-    <LinearLayout style="@style/LinearLayoutVertical">
+    <LinearLayout style="@style/LinearLayoutVertical"
+                  android:background="?dominantBackground">
 
         <ImageView
             android:id="@+id/image_formatted"
@@ -29,20 +30,25 @@
 
         <LinearLayout
             style="@style/LinearLayoutVertical.WrappedVertical"
-            android:id="@+id/subject_rating_formatted">
+            android:id="@+id/subject_rating_formatted"
+            android:background="?darkBackground">
 
             <TextView
             android:id="@+id/subject_formatted"
-            style="@style/TextView.Subject.Bold"/>
+            style="@style/TextView.Subject.Bold"
+            android:background="?darkBackground"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="?darkBackground">
 
             <RatingBar
                 android:id="@+id/rating_formatted"
-                style="@style/RatingBarFiveStar.Indicator.PointOneStep"/>
+                style="@style/RatingBarFiveStar.Indicator.PointOneStep"
+                android:background="?darkBackground"/>
             </FrameLayout>
+
         </LinearLayout>
 
         <TextView

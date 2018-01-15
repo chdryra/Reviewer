@@ -50,6 +50,7 @@ public class FactoryReviewViewParams {
         ReviewViewParams.CellDimension wrapped = ReviewViewParams.CellDimension.WRAPPED;
         ReviewViewParams params = new ReviewViewParams().setCoverManager(false);
         params.getGridViewParams().setCellHeight(wrapped).setCellWidth(full);
+        params.setAlpha(ReviewViewParams.Alpha.OPAQUE);
 
         return params;
     }
