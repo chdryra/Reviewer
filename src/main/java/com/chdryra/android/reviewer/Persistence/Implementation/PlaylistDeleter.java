@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
@@ -52,7 +53,7 @@ public class PlaylistDeleter implements PlaylistCallback {
     public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
         if (!hasReview && message.isOk()) {
             String name = mPlaylist.getName();
-            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok("Opinion  not in " + name));
+            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok(Strings.REVIEW + " not in " + name));
         } else {
             mPlaylist.removeEntry(mReviewId, this);
         }

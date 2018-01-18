@@ -66,6 +66,7 @@ public class ActivityFormatReview extends FragmentActivity implements Launchable
 
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
         if (args == null) throwNoReview();
+
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         ReviewNode node = app.unpackNode(args);
         if (node == null) throwNoReview();

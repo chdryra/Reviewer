@@ -10,14 +10,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Dialogs.Layouts.Implementation;
 
 import android.support.annotation.NonNull;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.R;
 
@@ -29,17 +30,8 @@ import com.chdryra.android.reviewer.R;
 public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     private static final int LAYOUT = R.layout.dialog_comment_add_edit;
     private static final int COMMENT = R.id.comment_edit_text;
-    private static final int BUTTON_LEFT = R.id.comment_edit_left;
-    private static final int BUTTON_MIDDLE = R.id.comment_edit_middle;
-    private static final int BUTTON_RIGHT = R.id.comment_edit_right;
-
-    private static final SparseArray<String> BUTTON_MAPPING = new SparseArray<>();
-
-    static {
-        BUTTON_MAPPING.put(BUTTON_LEFT, " " + Strings.Buttons.CommentEdit.SEPARATOR + " ");
-        BUTTON_MAPPING.put(BUTTON_MIDDLE, Strings.Buttons.CommentEdit.STAR);
-        BUTTON_MAPPING.put(BUTTON_RIGHT, Strings.Buttons.CommentEdit.HASHTAG);
-    }
+    private static final int BUTTON = R.id.comment_hash;
+    private static final String HASHTAG = Strings.Buttons.CommentEdit.HASHTAG;
 
     private GvComment mCurrent;
 
@@ -54,7 +46,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     @NonNull
     private static LayoutHolder newHolder() {
-        return new LayoutHolder(LAYOUT, COMMENT, BUTTON_LEFT, BUTTON_MIDDLE, BUTTON_RIGHT);
+        return new LayoutHolder(LAYOUT, COMMENT, BUTTON);
     }
 
     @Override
@@ -73,24 +65,17 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     @Override
     protected void onLayoutInflated() {
-        setupButton(BUTTON_LEFT);
-        setupButton(BUTTON_MIDDLE);
-        setupButton(BUTTON_RIGHT);
+        Button button = (Button) getView(BUTTON);
+        button.setText(HASHTAG);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getComment().getText().insert(getComment().getSelectionStart(), HASHTAG);
+            }
+        });
     }
 
     private EditText getComment() {
         return (EditText) getView(COMMENT);
-    }
-
-    private void setupButton(final int buttonId) {
-        Button button = (Button) getView(buttonId);
-        final String character = BUTTON_MAPPING.get(buttonId);
-        button.setText(character);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getComment().getText().insert(getComment().getSelectionStart(), character);
-            }
-        });
     }
 }
