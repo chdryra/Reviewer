@@ -28,30 +28,44 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishScreenAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhBucket;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterNodeFollowable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .AdapterCommentsAggregate;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .AdapterNodeFollowable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AuthorSearchAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .AuthorSearchAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeFlat;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAuthors;
@@ -80,7 +94,8 @@ public class FactoryReviewViewAdapter {
                                     ReviewsSource reviewSource,
                                     ConverterGv converter) {
         mReviewsFactory = reviewsFactory;
-        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepository, converter);
+        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepository,
+                converter);
         mBucketerFactory = bucketerFactory;
         mAggregator = aggregator;
         mConverter = converter;
@@ -91,9 +106,10 @@ public class FactoryReviewViewAdapter {
     //List reviews generating this datum
     public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum,
                                                                             @Nullable String title,
-                                                                            @Nullable AuthorId toFollow) {
+                                                                            @Nullable AuthorId
+                                                                                    toFollow) {
         HasReviewId dataValue = datum.getDataValue();
-        if(title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
+        if (title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
         return newReviewsListAdapter(mReviewSource.asMetaReview(datum, title), toFollow);
     }
 
@@ -102,7 +118,9 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(data, data.toString());
     }
 
-    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T> data, String title) {
+    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T>
+                                                                                 data, String
+            title) {
         return newReviewsListAdapter(mReviewSource.getMetaReview(data, title), null);
     }
 
@@ -120,7 +138,8 @@ public class FactoryReviewViewAdapter {
             collection.add(author, mReviewSource.getReviewsForAuthor(author));
         }
 
-        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepository.getReference(summaryOwner), title);
+        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepository.getReference
+                (summaryOwner), title);
 
         return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
     }
@@ -131,10 +150,6 @@ public class FactoryReviewViewAdapter {
                 mViewerFactory.newTreeSummaryViewer(node) :
                 mViewerFactory.newNodeSummaryViewer(node);
         return newNodeAdapter(node, viewer);
-    }
-
-    public ReviewViewAdapter<?> newTreeAdapter(ReviewNode node) {
-        return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
     }
 
     //View specific data for this review as a review (can't be expanded to a review list)
@@ -165,20 +180,6 @@ public class FactoryReviewViewAdapter {
         }
     }
 
-    //View for search screen
-    ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
-        return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
-                mAuthorsRepository, mConverter.newConverterAuthors());
-    }
-
-    //View for distribution screen
-    ReviewViewAdapter<?>
-    newBucketAdapter(ReviewNode node,
-                     ViewHolderFactory<VhBucket<Float, DataRating>> vhFactory) {
-        RatingBucketer bucketer = mBucketerFactory.newRatingsBucketer();
-        return newNodeAdapter(node, mViewerFactory.newBucketViewer(node, vhFactory, bucketer));
-    }
-
     //Old aggregate stuff
     public <T extends GvData> ReviewViewAdapter<?> newFlattenedReviewsListAdapter
     (GvCanonicalCollection<T> data) {
@@ -186,7 +187,7 @@ public class FactoryReviewViewAdapter {
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newAggregateToReviewsAdapter
-    (GvCanonicalCollection<T> data, String subject) {
+            (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> type = data.getGvDataType();
 
         if (type.equals(GvComment.TYPE)) {
@@ -214,6 +215,24 @@ public class FactoryReviewViewAdapter {
                                                                            String subject) {
         GridDataWrapper<T> viewer = mViewerFactory.newDataToReviewsViewer(data);
         return newMetaReviewAdapter(data, subject, viewer);
+    }
+
+    ReviewViewAdapter<?> newTreeAdapter(ReviewNode node) {
+        return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
+    }
+
+    //View for search screen
+    ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
+        return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
+                mAuthorsRepository, mConverter.newConverterAuthors());
+    }
+
+    //View for distribution screen
+    ReviewViewAdapter<?>
+    newBucketAdapter(ReviewNode node,
+                     ViewHolderFactory<VhBucket<Float, DataRating>> vhFactory) {
+        RatingBucketer bucketer = mBucketerFactory.newRatingsBucketer();
+        return newNodeAdapter(node, mViewerFactory.newBucketViewer(node, vhFactory, bucketer));
     }
 
     ReviewViewAdapter<GvNode> newFeedAdapter(ReviewNode node) {

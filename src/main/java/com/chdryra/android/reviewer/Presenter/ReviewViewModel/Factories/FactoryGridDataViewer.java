@@ -108,7 +108,7 @@ public class FactoryGridDataViewer {
     ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node) {
         ReviewStamp stamp = ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());
         return new ViewerReviewData.CommentList(node.getComments(),
-                mConverter.newConverterComments().getReferencesConverter(), stamp, mReferenceFactory);
+                mConverter.newConverterComments().getReferencesConverter(), stamp, mAdapterFactory, mReferenceFactory);
     }
 
     ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node) {
@@ -128,21 +128,21 @@ public class FactoryGridDataViewer {
         GridDataWrapper<?> viewer = null;
         if (dataType.equals(GvTag.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getTags(),
-                    mConverter.newConverterTags().getReferencesConverter(), stamp);
+                    mConverter.newConverterTags().getReferencesConverter(), mAdapterFactory, stamp);
         } else if (dataType.equals(GvCriterion.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getCriteria(),
-                    mConverter.newConverterCriteria().getReferencesConverter(), stamp);
+                    mConverter.newConverterCriteria().getReferencesConverter(), mAdapterFactory, stamp);
         } else if (dataType.equals(GvImage.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getImages(),
-                    mConverter.newConverterImages().getReferencesConverter(), stamp);
+                    mConverter.newConverterImages().getReferencesConverter(), mAdapterFactory, stamp);
         } else if (dataType.equals(GvComment.TYPE)) {
             viewer = newReviewCommentsViewer(node);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getLocations(),
-                    mConverter.newConverterLocations().getReferencesConverter(), stamp);
+                    mConverter.newConverterLocations().getReferencesConverter(), mAdapterFactory, stamp);
         } else if (dataType.equals(GvFact.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getFacts(),
-                    mConverter.newConverterFacts().getReferencesConverter(), stamp);
+                    mConverter.newConverterFacts().getReferencesConverter(), mAdapterFactory, stamp);
         }
 
         return viewer;

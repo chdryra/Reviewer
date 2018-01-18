@@ -33,17 +33,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         GvDataRef<GvRef, Value, ?>>
         extends ViewerReviewData.DataList<Value, GvRef> {
-    private final FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerTreeData(RefDataList<Value> reference,
                           GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
                           FactoryReviewViewAdapter adapterFactory) {
-        super(reference, converter, null);
-        mAdapterFactory = adapterFactory;
-    }
-
-    FactoryReviewViewAdapter getAdapterFactory() {
-        return mAdapterFactory;
+        super(reference, converter, adapterFactory, null);
     }
 
     @Override
@@ -52,17 +46,12 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
     }
 
     @Override
-    public ReviewViewAdapter<?> expandGridData() {
-        return mAdapterFactory.newReviewsListAdapter(getGridData());
-    }
-
-    @Override
     public ReviewViewAdapter<?> expandGridCell(GvRef datum) {
         return isExpandable(datum) ? newAdapter(datum) : null;
     }
 
     protected ReviewViewAdapter<?> newAdapter(GvRef datum) {
-        return mAdapterFactory.newReviewsListAdapter(datum, null, null);
+        return getAdapterFactory().newReviewsListAdapter(datum, null, null);
     }
 
     public static class TreeAuthorList extends ViewerTreeData<DataAuthorId, GvAuthorId.Reference> {
@@ -90,18 +79,13 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
                                GvConverterReferences<DataComment, GvComment.Reference, RefComment> converter,
                                FactoryReviewViewAdapter adapterFactory,
                                FactoryReferences referenceFactory) {
-            super(reference, converter, null, referenceFactory);
+            super(reference, converter, null, adapterFactory, referenceFactory);
             mAdapterFactory = adapterFactory;
         }
 
         @Override
         public boolean isExpandable(GvComment.Reference datum) {
             return getGridData().contains(datum);
-        }
-
-        @Override
-        public ReviewViewAdapter<?> expandGridData() {
-            return mAdapterFactory.newReviewsListAdapter(getGridData());
         }
 
         @Override

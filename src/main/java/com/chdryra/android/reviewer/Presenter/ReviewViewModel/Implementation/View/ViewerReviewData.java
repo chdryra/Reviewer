@@ -23,10 +23,13 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.Review
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataRefList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -42,15 +45,18 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     private final List mReference;
     private final GvConverterReferences<Value, GvRef, Reference> mConverter;
+    private final FactoryReviewViewAdapter mAdapterFactory;
     private final ReviewStamp mStamp;
 
     private GvDataRefList<GvRef> mCache;
 
     ViewerReviewData(List reference,
                      GvConverterReferences<Value, GvRef, Reference> converter,
+                     FactoryReviewViewAdapter adapterFactory,
                      @Nullable ReviewStamp stamp) {
         mReference = reference;
         mConverter = converter;
+        mAdapterFactory = adapterFactory;
         mStamp = stamp == null ? ReviewStamp.noStamp() : stamp;
         mCache = newDataList();
     }
@@ -67,9 +73,13 @@ public class ViewerReviewData<Value extends HasReviewId,
         notifyDataObservers();
     }
 
+    protected FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
     @Override
     public ReviewViewAdapter<?> expandGridData() {
-        return null;
+        return mAdapterFactory.newReviewsListAdapter(getGridData());
     }
 
     @Override
@@ -130,8 +140,8 @@ public class ViewerReviewData<Value extends HasReviewId,
 
         public DataList(RefDataList<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
-                        @Nullable ReviewStamp stamp) {
-            super(reference, converter, stamp);
+                        FactoryReviewViewAdapter adapterFactory, @Nullable ReviewStamp stamp) {
+            super(reference, converter, adapterFactory, stamp);
         }
     }
 
@@ -144,8 +154,8 @@ public class ViewerReviewData<Value extends HasReviewId,
                            GvConverterReferences<DataComment, GvComment.Reference, RefComment>
                                    converter,
                            @Nullable ReviewStamp stamp,
-                           FactoryReferences referenceFactory) {
-            super(reference, converter, stamp);
+                           FactoryReviewViewAdapter adapterFactory, FactoryReferences referenceFactory) {
+            super(reference, converter, adapterFactory, stamp);
             mReferenceFactory = referenceFactory;
         }
 
