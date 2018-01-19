@@ -715,7 +715,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             } else {
                 mCache.addCover(mReviewId, bitmap);
             }
-            if (!mCancel) setCover(bitmap);
+
+            if (notReinitialising()) setCover(bitmap);
         }
 
         private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
