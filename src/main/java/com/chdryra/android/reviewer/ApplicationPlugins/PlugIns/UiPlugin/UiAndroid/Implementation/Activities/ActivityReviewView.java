@@ -69,7 +69,6 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
         mView = createReviewView();
         if (mView == null) mView = retained;
-        if (mView == null) throw new RuntimeException("View is null!");
 
         return new FragmentReviewView();
     }

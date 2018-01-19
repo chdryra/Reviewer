@@ -25,12 +25,7 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BookmarkCommand extends Command implements PlaylistCallback {
-    private static final String BOOKMARKS = Strings.Playlists.BOOKMARKS;
     private static final String PLACEHOLDER = Strings.Commands.DASHES;
-    private static final String UNBOOKMARKING = Strings.Toasts.UNBOOKMARKING;
-    private static final String BOOKMARKING = Strings.Toasts.BOOKMARKING;
-    private static final String BOOKMARKED = Strings.Toasts.BOOKMARKED;
-    private static final String UNBOOKMARKED = Strings.Toasts.UNBOOKMARKED;
     private static final String UNBOOKMARK = Strings.Commands.UNBOOKMARK;
     private static final String BOOKMARK = Strings.Commands.BOOKMARK;
     private static final String BOOKMARKS_UNAVAILABLE = Strings.Commands.BOOKMARKS_OFFLINE;
@@ -44,13 +39,13 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     private boolean mInitialised = false;
     private boolean mErrorChecking = false;
     private BookmarkReadyCallback mCallback;
-    private List<BookmarkObserver> mObservers;
+    private List<BookmarkListener> mObservers;
 
     public interface BookmarkReadyCallback {
         void onBookmarkCommandReady();
     }
 
-    public interface BookmarkObserver {
+    public interface BookmarkListener {
         void onBookmarked(boolean isBookmarked);
     }
 
@@ -62,19 +57,19 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         mObservers = new ArrayList<>();
     }
 
-    public void addObserver(BookmarkObserver observer) {
+    public void addListener(BookmarkListener observer) {
         if(!mObservers.contains(observer)) {
             mObservers.add(observer);
             if(mInitialised) observer.onBookmarked(mIsBookmarked);
         }
     }
 
-    public void removeObserver(BookmarkObserver observer) {
+    public void removeListener(BookmarkListener observer) {
         if(mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     private void notifyObservers() {
-        for(BookmarkObserver observer :mObservers) {
+        for(BookmarkListener observer :mObservers) {
             observer.onBookmarked(mIsBookmarked);
         }
     }
@@ -102,17 +97,14 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
 
         lock();
         if (mIsBookmarked) {
-            showToast(UNBOOKMARKING);
             mBookmarks.removeEntry(mReviewId, this);
         } else {
-            showToast(BOOKMARKING);
             mBookmarks.addEntry(mReviewId, this);
         }
     }
 
     @Override
     public void onAddedToPlaylistCallback(CallbackMessage message) {
-        showToast(message.isOk() ? BOOKMARKED : message.getMessage());
         mIsBookmarked = true;
         notifyObservers();
         unlock();
@@ -121,7 +113,6 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
 
     @Override
     public void onRemovedFromPlaylistCallback(CallbackMessage message) {
-        showToast(message.isOk() ? UNBOOKMARKED : message.getMessage());
         mIsBookmarked = false;
         notifyObservers();
         unlock();
@@ -142,10 +133,6 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         mInitialised = true;
         notifyObservers();
         mCallback.onBookmarkCommandReady();
-    }
-
-    private void showToast(String toast) {
-        mScreen.showToast(toast);
     }
 
     private void lock() {

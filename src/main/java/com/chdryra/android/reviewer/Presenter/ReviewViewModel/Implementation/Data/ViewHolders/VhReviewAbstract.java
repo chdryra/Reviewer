@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -22,8 +23,11 @@ import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
@@ -42,12 +46,19 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.BookmarkCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ShareCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .CacheVhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -64,10 +75,10 @@ import java.util.Date;
  */
 
 //TODO refactor and think about ViewHolder redesign.
-public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
+public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         .ReviewSelectorCallback, VhNode,
         ReviewReference.ReviewReferenceObserver,
-        OptionSelectListener, BookmarkCommand.BookmarkObserver {
+        OptionSelectListener, BookmarkCommand.BookmarkListener {
     private static final int LAYOUT = R.layout.grid_cell_review_abstract;
     private static final int PROFILE = R.id.profile;
     private static final int OPTIONS = R.id.social_options;
@@ -94,50 +105,46 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     private static final int UNLIKED = R.drawable
             .ic_favorite_border_black_24dp;
 
-    private static final long WAIT_TIME = 150L;
+    private static final long WAIT_TIME = 100L;
 
     private final static int[] VIEWS =
-            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE, PROFILE_NAME,
-                    PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON, BOOKMARK_BUTTON};
+            {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE,
+                    PROFILE_NAME,
+                    PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON,
+                    BOOKMARK_BUTTON};
 
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
     private final ReviewSelector mSelector;
-    private final CacheVhReviewSelected mCache;
-    private final TagsBinder mTagsBinder;
-    private final CommentsBinder mCommentsBinder;
-    private final LocationsBinder mLocationsBinder;
+    private final CacheVhNode mCache;
+
+    private TagsBinder mTagsBinder;
+    private CommentsBinder mCommentsBinder;
+    private LocationsBinder mLocationsBinder;
     private NameBinder mNameBinder;
     private CoverBinder mCoverBinder;
-    private boolean mSelecting = false;
 
+    private ReviewOptionsSelector mOptions;
     private ReviewId mNodeId;
     private ReviewReference mReview;
-    private NamedAuthor mAuthor;
-    private DataDate mDate;
     private String mLocation;
 
     private int mNumReturned = 0;
+    private DelayedSelectTask mBindingTask;
+    private boolean mSelecting = false;
     private boolean mCancelBinding = false;
-    private DelaySelectTask mBindingTask;
-    private Bitmap mCover;
-    private ReviewOptionsSelector mOptions;
+
     private boolean mLiked = false;
 
-    public VhReviewSelected(AuthorsRepository authorsRepo,
+    public VhReviewAbstract(AuthorsRepository authorsRepo,
                             FactoryCommands commandsFactory,
                             ReviewSelector selector,
-                            CacheVhReviewSelected cache) {
+                            CacheVhNode cache) {
         super(LAYOUT, VIEWS);
         mAuthorsRepo = authorsRepo;
         mCommandsFactory = commandsFactory;
         mSelector = selector;
         mCache = cache;
-        mCache.registerObserver(this);
-
-        mCommentsBinder = new CommentsBinder();
-        mTagsBinder = new TagsBinder();
-        mLocationsBinder = new LocationsBinder();
     }
 
     @Override
@@ -159,7 +166,6 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         mSelector.unregister(mNodeId);
         mReview = null;
         mNodeId = null;
-        mCache.unregisterObserver(this);
     }
 
     @Override
@@ -180,19 +186,21 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     @Override
     public void onSubjectChanged(DataSubject newSubject) {
         mCache.addSubject(newSubject);
-        setText(SUBJECT, newSubject.getSubject());
+        setSubject(newSubject);
     }
 
     @Override
     public void onRatingChanged(DataRating newRating) {
         mCache.addRating(newRating);
-        setText(RATING, RatingFormatter.upToTwoSignificantDigits(newRating.getRating()));
+        setRating(newRating);
     }
 
     @Override
     public void refresh(ReviewNode node) {
         if (mBindingTask != null) mBindingTask.cancel(true);
-        mBindingTask = new DelaySelectTask(node);
+        mBindingTask = new DelayedSelectTask(this, node);
+        mSelecting = true;
+        mCancelBinding = false;
         mBindingTask.execute(WAIT_TIME);
     }
 
@@ -202,7 +210,26 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         View view = getView();
         view.findViewById(SUBJECT_RATING).setAlpha(0.7f);
         view.findViewById(TAGS).setAlpha(0.7f);
+        setButtons();
+    }
 
+    @Override
+    public boolean onOptionSelected(int requestCode, String option) {
+        return mOptions.onOptionSelected(requestCode, option);
+    }
+
+    @Override
+    public boolean onOptionsCancelled(int requestCode) {
+        return mOptions.onOptionsCancelled(requestCode);
+    }
+
+    @Override
+    public void onBookmarked(boolean isBookmarked) {
+        getView(BOOKMARK_BUTTON, ImageButton.class)
+                .setBackgroundResource(isBookmarked ? BOOKMARKED : UNBOOKMARKED);
+    }
+
+    private void setButtons() {
         getView(PROFILE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -253,37 +280,47 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         });
     }
 
-    @Override
-    public boolean onOptionSelected(int requestCode, String option) {
-        return mOptions.onOptionSelected(requestCode, option);
+    private void setSubject(DataSubject subject) {
+        setText(SUBJECT, subject.getSubject());
     }
 
-    @Override
-    public boolean onOptionsCancelled(int requestCode) {
-        return mOptions.onOptionsCancelled(requestCode);
+    private void onLiked(boolean isLiked) {
+        getView(LIKE_BUTTON, ImageButton.class)
+                .setBackgroundResource(isLiked ? LIKED : UNLIKED);
     }
 
     private void unbindFromCover() {
-        mReview.getCover().unbindFromValue(mCoverBinder);
         mCoverBinder.unbind();
         mCoverBinder = null;
     }
 
-    private void setNode(GvNode node) {
-        if (isBoundTo(node.getNode())) return;
+    private void setNode(GvNode gvNode) {
+        ReviewNode node = gvNode.getNode();
+        if (isBoundTo(node)) return;
+
         unbind();
-        mNodeId = node.getReviewId();
-        initialiseView(node);
-        node.setViewHolder(this);
-        refresh(node.getNode());
+        mNodeId = gvNode.getReviewId();
+        gvNode.setViewHolder(this);
+        initialiseView();
+        refresh(node);
     }
 
     private void clickBookmark() {
-        mOptions.getOptions().getBookmarkCommand().execute();
+        BookmarkCommand bookmarkCommand = mOptions.getOptions().getBookmarkCommand();
+        if (bookmarkCommand != null) {
+            bookmarkCommand.execute();
+        } else {
+            offline();
+        }
     }
 
     private void clickShare() {
-        mOptions.getOptions().getShareCommand().execute();
+        ShareCommand shareCommand = mOptions.getOptions().getShareCommand();
+        if (shareCommand != null) {
+            shareCommand.execute();
+        } else {
+            offline();
+        }
     }
 
     private void clickComment() {
@@ -308,42 +345,43 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         Toast.makeText(getView().getContext(), "Under construction...", Toast.LENGTH_SHORT).show();
     }
 
+    private void offline() {
+        Toast.makeText(getView().getContext(), "offline...", Toast.LENGTH_SHORT).show();
+    }
+
     private void selectAndBind(ReviewNode node) {
+        if (mCancelBinding) return;
         mBindingTask = null;
         mSelector.select(node, this);
     }
 
-    private void initialiseView(GvNode node) {
-        ReviewId reviewId = node.getReviewId();
-        setText(SUBJECT, mCache.containsSubject(reviewId) ?
-                mCache.getSubject(reviewId).getSubject() : Strings.EditTexts.FETCHING);
-        setText(RATING, RatingFormatter.upToTwoSignificantDigits(mCache.containsRating(reviewId) ?
-                mCache.getRating(reviewId).getRating() : 0f));
+    private void initialiseView() {
+        setSubject(mCache.containsSubject(mNodeId) ?
+                mCache.getSubject(mNodeId) : new DatumSubject(mNodeId, Strings.EditTexts.FETCHING));
+        setRating(mCache.containsRating(mNodeId) ?
+                mCache.getRating(mNodeId) : new DatumRating(mNodeId, 0f, 1));
 
-        setCover(mCache.containsCover(reviewId) ? mCache.getCover(reviewId) : null);
-        setHeadline(mCache.containsComments(reviewId) ? mCache.getComments(reviewId) : new
-                IdableDataList<DataComment>(reviewId));
-        setTags(mCache.containsTags(reviewId) ? mCache.getTags(reviewId) : new
-                IdableDataList<DataTag>(reviewId));
-        setLocations(mCache.containsLocations(reviewId) ? mCache.getLocations(reviewId) : new
-                IdableDataList<DataLocation>(reviewId));
-        setAuthor(mCache.containsAuthor(reviewId) ? mCache.getAuthor(reviewId) : new
+        setCover(mCache.containsCover(mNodeId) ? mCache.getCover(mNodeId) : null);
+        setComments(mCache.containsComments(mNodeId) ? mCache.getComments(mNodeId) : new
+                IdableDataList<DataComment>(mNodeId));
+        setTags(mCache.containsTags(mNodeId) ? mCache.getTags(mNodeId) : new
+                IdableDataList<DataTag>(mNodeId));
+        setLocations(mCache.containsLocations(mNodeId) ? mCache.getLocations(mNodeId) : new
+                IdableDataList<DataLocation>(mNodeId));
+        setAuthor(mCache.containsAuthor(mNodeId) ? mCache.getAuthor(mNodeId) : new
                 DefaultNamedAuthor());
-        setDate(mCache.containsDate(reviewId) ? mCache.getDate(reviewId) : null);
+        setDateLocation(mCache.containsDate(mNodeId) ? mCache.getDate(mNodeId) : null);
     }
 
-    private void newDateLocation() {
-        newDateLocation(mDate);
-    }
-
-    private void newDateLocation(@Nullable DataDate publishDate) {
+    private void setDateLocation(@Nullable DataDate publishDate) {
         String date = publishDate != null ? formatDate(publishDate) : "";
         String text = date + (validateString(mLocation) ? " @" + mLocation : "");
         setText(DATE_LOCATION, text);
     }
 
     private String formatDate(DataDate publishDate) {
-        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(publishDate.getTime()));
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(publishDate.getTime
+                ()));
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
@@ -356,16 +394,10 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {
-        mAuthor = author;
-        if (mAuthor != null) setText(PROFILE_NAME, mAuthor.getName());
+        if (author != null) setText(PROFILE_NAME, author.getName());
     }
 
-    private void setDate(@Nullable DataDate publishDate) {
-        mDate = publishDate;
-        newDateLocation();
-    }
-
-    private void setHeadline(IdableList<DataComment> value) {
+    private void setComments(IdableList<DataComment> value) {
         String headline = DataFormatter.getHeadlineQuote(value);
         if (headline.length() == 0) headline = Strings.Formatted.NO_COMMENT;
         setText(HEADLINE, headline);
@@ -384,70 +416,114 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
 
     private void setLocations(IdableList<? extends DataLocation> value) {
         mLocation = DataFormatter.formatLocationsShort(value);
-        newDateLocation();
+        setDateLocation(mReview != null ? mCache.containsDate(mReview.getReviewId()) ? mCache
+                .getDate(mReview.getReviewId()) : mReview.getPublishDate() : null);
     }
 
     private void bindToReview(ReviewReference review) {
         mReview = review;
-
+        ReviewId id = mReview.getReviewId();
         setReviewOptions();
 
-        setDate(mReview.getPublishDate());
-        mCache.addDate(mDate);
+        if (!mCache.containsDate(id)) mCache.addDate(mReview.getPublishDate());
+        if (!mCache.containsSubject(id)) mCache.addSubject(mReview.getSubject());
+        if (!mCache.containsRating(id)) mCache.addRating(mReview.getRating());
 
-        onSubjectChanged(mReview.getSubject());
-        onRatingChanged(mReview.getRating());
+        setDateLocation(mCache.getDate(id));
+        setSubject(mCache.getSubject(id));
+        setRating(mCache.getRating(id));
 
         mReview.registerObserver(this);
 
         mNumReturned = 0;
-        mReview.getComments().bindToValue(mCommentsBinder);
-        mReview.getLocations().bindToValue(mLocationsBinder);
-        mReview.getTags().bindToValue(mTagsBinder);
-        mNameBinder = new NameBinder(mReview.getReviewId());
-        mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+        bindComments();
+        bindLocations();
+        bindTags();
+        bindAuthor();
+    }
+
+    private void bindAuthor() {
+        ReviewId id = mReview.getReviewId();
+        if (mCache.containsAuthor(id)) {
+            setAuthor(mCache.getAuthor(id));
+            returned();
+        } else {
+            mNameBinder = new NameBinder(id);
+            mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+        }
+    }
+
+    private void bindTags() {
+        ReviewId id = mReview.getReviewId();
+        if (mCache.containsTags(id)) {
+            setTags(mCache.getTags(id));
+            returned();
+        } else {
+            mTagsBinder = new TagsBinder(id);
+            mReview.getTags().bindToValue(mTagsBinder);
+        }
+    }
+
+    private void bindLocations() {
+        ReviewId id = mReview.getReviewId();
+        if (mCache.containsLocations(id)) {
+            setLocations(mCache.getLocations(id));
+            returned();
+        } else {
+            mLocationsBinder = new LocationsBinder(id);
+            mReview.getLocations().bindToValue(mLocationsBinder);
+        }
+    }
+
+    private void bindComments() {
+        ReviewId id = mReview.getReviewId();
+        if (mCache.containsComments(id)) {
+            setComments(mCache.getComments(id));
+            returned();
+        } else {
+            mCommentsBinder = new CommentsBinder(id);
+            mReview.getComments().bindToValue(mCommentsBinder);
+        }
+    }
+
+    private void bindCover() {
+        ReviewId reviewId = mReview.getReviewId();
+        if (mCache.containsCover(reviewId)) {
+            setCover(mCache.getCover(reviewId));
+        } else {
+            mCoverBinder = new CoverBinder(reviewId, mReview.getAuthorId());
+            mReview.getCover().bindToValue(mCoverBinder);
+        }
+    }
+
+    private void returned() {
+        //Set cover only if everything else done and no more 'fast' scrolling
+        if (++mNumReturned == 4 && notReinitialising()) bindCover();
+    }
+
+    private void setRating(DataRating rating) {
+        setText(RATING, RatingFormatter.upToTwoSignificantDigits(rating.getRating()));
     }
 
     private void setReviewOptions() {
-        if(mOptions != null) unbindFromBookmark();
+        if (mOptions != null) unbindFromBookmark();
         mOptions = mCommandsFactory.newReviewOptionsSelector
                 (ReviewOptionsSelector.SelectorType.BASIC, mReview.getAuthorId());
 
-        mOptions.getOptions().getBookmarkCommand().addObserver(this);
+        BookmarkCommand bookmarkCommand = mOptions.getOptions().getBookmarkCommand();
+        if (bookmarkCommand != null) bookmarkCommand.addListener(this);
         onLiked(mLiked);
     }
 
     private void unbindFromBookmark() {
-        mOptions.getOptions().getBookmarkCommand().removeObserver(this);
+        BookmarkCommand bookmarkCommand = mOptions.getOptions().getBookmarkCommand();
+        if (bookmarkCommand != null) bookmarkCommand.removeListener(this);
+
     }
 
-    @Override
-    public void onBookmarked(boolean isBookmarked) {
-        getView(BOOKMARK_BUTTON, ImageButton.class)
-                .setBackgroundResource(isBookmarked ? BOOKMARKED : UNBOOKMARKED);
-    }
-
-    public void onLiked(boolean isLiked) {
-        getView(LIKE_BUTTON, ImageButton.class)
-                .setBackgroundResource(isLiked ? LIKED : UNLIKED);
-    }
-
-    private void returned() {
-        if (++mNumReturned == 4 && mReview != null && notReinitialising()) {
-            bindToCover();
-        }
-    }
-
-    private void bindToCover() {
-        mCoverBinder = new CoverBinder(mReview.getReviewId(), mAuthorsRepo.getProfile(mReview
-                .getAuthorId()).getProfileImage());
-        mReview.getCover().bindToValue(mCoverBinder);
-    }
-
+    @UiThread
     private void setCover(@Nullable Bitmap cover) {
-        if (mCover != null && mCover.sameAs(cover)) return;
-        mCover = cover;
-        setImage(IMAGE, mCover);
+        setImage(IMAGE, cover);
     }
 
     private boolean notReinitialising() {
@@ -455,114 +531,156 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
     }
 
     //hacky way of avoiding downloads spooling up if view is being scrolled fast.
-    private class DelaySelectTask extends DelayTask {
+    private static class DelayedSelectTask extends DelayTask {
+        private final VhReviewAbstract mViewholder;
         private final ReviewNode mNode;
 
-        private DelaySelectTask(ReviewNode node) {
+        private DelayedSelectTask(VhReviewAbstract viewholder, ReviewNode node) {
+            mViewholder = viewholder;
             mNode = node;
-            mSelecting = true;
-            mCancelBinding = false;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (!mCancelBinding) selectAndBind(mNode);
+            mViewholder.selectAndBind(mNode);
         }
     }
 
     private class NameBinder implements ReferenceBinder<NamedAuthor> {
-        private final ReviewId mReviewId;
+        private final ReviewId mId;
 
-        private NameBinder(ReviewId reviewId) {
-            mReviewId = reviewId;
+        private NameBinder(ReviewId id) {
+            mId = id;
         }
 
         @Override
         public void onInvalidated(DataReference<NamedAuthor> reference) {
-            mCache.removeAuthor(mReviewId);
             returned();
+            mCache.removeAuthor(mId);
             setAuthor(null);
         }
 
         @Override
         public void onReferenceValue(NamedAuthor value) {
-            boolean added = mCache.addAuthor(mReviewId, value);
             returned();
-            if (notReinitialising() && added) setAuthor(value);
+            mCache.addAuthor(mId, value);
+            if (notReinitialising()) setAuthor(value);
         }
     }
 
     private class TagsBinder extends ListBinder<DataTag> {
+        private TagsBinder(ReviewId reviewId) {
+            super(reviewId);
+        }
+
+        @Override
+        protected void addToCache(IdableList<DataTag> data) {
+            mCache.addTags(data);
+        }
+
+        @Override
+        protected void removeFromCache(ReviewId reviewId) {
+            mCache.removeTags(reviewId);
+        }
+
         @Override
         protected void onList(IdableList<DataTag> data) {
-            boolean newData = true;
-            if (data.size() > 0) {
-                newData = mCache.addTags(data);
-            } else {
-                mCache.removeTags(data.getReviewId());
-            }
-            if (newData) setTags(data);
+            setTags(data);
         }
     }
 
     private class LocationsBinder extends ListBinder<DataLocation> {
+        private LocationsBinder(ReviewId reviewId) {
+            super(reviewId);
+        }
+
+        @Override
+        protected void addToCache(IdableList<DataLocation> data) {
+            mCache.addLocations(data);
+        }
+
+        @Override
+        protected void removeFromCache(ReviewId reviewId) {
+            mCache.removeLocations(reviewId);
+        }
+
         @Override
         protected void onList(IdableList<DataLocation> data) {
-            boolean newData = true;
-            if (data.size() > 0) {
-                newData = mCache.addLocations(data);
-            } else {
-                mCache.removeLocations(data.getReviewId());
-            }
-            if (newData) setLocations(data);
+            setLocations(data);
         }
     }
 
     private class CommentsBinder extends ListBinder<DataComment> {
+        private CommentsBinder(ReviewId reviewId) {
+            super(reviewId);
+        }
+
+        @Override
+        protected void addToCache(IdableList<DataComment> data) {
+            mCache.addComments(data);
+        }
+
+        @Override
+        protected void removeFromCache(ReviewId reviewId) {
+            mCache.removeComments(reviewId);
+        }
+
         @Override
         protected void onList(IdableList<DataComment> data) {
-            boolean newData = true;
-            if (data.size() > 0) {
-                newData = mCache.addComments(data);
-            } else {
-                mCache.removeComments(data.getReviewId());
-            }
-            if (newData) setHeadline(data);
+            setComments(data);
         }
     }
 
     private abstract class ListBinder<T extends HasReviewId> implements
             ReferenceBinder<IdableList<T>> {
+        private final ReviewId mReviewId;
+
+        protected abstract void addToCache(IdableList<T> data);
+
+        protected abstract void removeFromCache(ReviewId reviewId);
+
         protected abstract void onList(IdableList<T> data);
+
+        private ListBinder(ReviewId reviewId) {
+            mReviewId = reviewId;
+        }
 
         @Override
         public void onReferenceValue(IdableList<T> value) {
             returned();
+            if (value.size() > 0) {
+                addToCache(value);
+            } else {
+                removeFromCache(value.getReviewId());
+            }
             if (notReinitialising()) onList(value);
         }
 
         @Override
         public void onInvalidated(DataReference<IdableList<T>> reference) {
             returned();
+            removeFromCache(mReviewId);
             onList(new IdableDataList<T>(mNodeId));
         }
     }
 
     private class CoverBinder implements ReferenceBinder<DataImage> {
         private final ReviewId mReviewId;
-        private final DataReference<ProfileImage> mProfileImage;
+        private final AuthorId mAuthorId;
+
+        private DataReference<ProfileImage> mProfileImage;
         private ProfileImageBinder mProfileImageBinder;
         private boolean mCancel = false;
 
-        private CoverBinder(ReviewId reviewId, DataReference<ProfileImage> profileImage) {
+        private CoverBinder(ReviewId reviewId, AuthorId authorId) {
             mReviewId = reviewId;
-            mProfileImage = profileImage;
-            mCancel = false;
+            mAuthorId = authorId;
         }
 
         public void unbind() {
             mCancel = true;
-            if (mProfileImageBinder != null) mProfileImage.unbindFromValue(mProfileImageBinder);
+            mReview.getCover().unbindFromValue(this);
+            unbindFromProfile();
         }
 
         @Override
@@ -582,18 +700,13 @@ public class VhReviewSelected extends ViewHolderBasic implements ReviewSelector
         }
 
         private void unbindFromProfile() {
-            if (mProfileImage != null) {
-                mProfileImage.unbindFromValue(mProfileImageBinder);
-                mProfileImageBinder = null;
-            }
+            if (mProfileImage != null) mProfileImage.unbindFromValue(mProfileImageBinder);
         }
 
         private void bindToProfileImage() {
-            if (mProfileImageBinder == null) {
-                notifyOnCover(null);
-                mProfileImageBinder = new ProfileImageBinder();
-                mProfileImage.bindToValue(mProfileImageBinder);
-            }
+            mProfileImage = mAuthorsRepo.getProfile(mAuthorId).getProfileImage();
+            mProfileImageBinder = new ProfileImageBinder();
+            mProfileImage.bindToValue(mProfileImageBinder);
         }
 
         private void notifyOnCover(@Nullable Bitmap bitmap) {

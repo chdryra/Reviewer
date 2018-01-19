@@ -52,13 +52,17 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         setOptions(false);
     }
 
+    private boolean checkOnline() {
+        return  !mOptions.isOffline();
+    }
+
     public ReviewOptions getOptions() {
         return mOptions;
     }
 
     private void setOptions(final boolean executeOnSet) {
         mOptions = mFactory.newReviewOptions(mAuthorId, mSession);
-        if (mOptions.hasBookmark()) {
+        if (checkOnline()) {
             mOptions.initialiseBookmark(new BookmarkCommand.BookmarkReadyCallback() {
                 @Override
                 public void onBookmarkCommandReady() {
@@ -74,9 +78,6 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         }
     }
 
-    public void initialiseBookmark(BookmarkCommand.BookmarkReadyCallback callback) {
-        mOptions.initialiseBookmark(callback);
-    }
     public void execute(DataAuthorId authorId) {
         mAuthorId = authorId;
         execute();

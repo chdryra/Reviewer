@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
@@ -60,15 +61,16 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         setContentView(LAYOUT);
 
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
-        if (args == null) throwNoReview();
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(this);
         ReviewNode node = app.unpackNode(args);
-        if (node == null) throwNoReview();
-        int index = NodeLauncher.getIndex(args);
+        if (node == null) {
+            noReview();
+            return;
+        }
 
-        mPager = (ViewPager) findViewById(PAGER);
+        mPager = findViewById(PAGER);
         mAdapter = new NodeDataPagerAdapter<>(getSupportFragmentManager(), getData(node), this);
-        mPager.setCurrentItem(index);
+        mPager.setCurrentItem(NodeLauncher.getIndex(args));
         mPager.setAdapter(mAdapter);
         mPager.addOnLayoutChangeListener(new FragmentInitialiser(app.getUi()));
     }
@@ -103,8 +105,9 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
         return mAdapter.getFragment(mPager.getCurrentItem());
     }
 
-    private void throwNoReview() {
-        throw new RuntimeException("No review found");
+    private void noReview() {
+        Toast.makeText(this, "No review found", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private class FragmentInitialiser implements ViewPager.OnLayoutChangeListener, ViewPager

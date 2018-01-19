@@ -135,13 +135,5 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mCount = 0;
         RefDataList<ReviewReference> reviews = node.getReviews();
         reviews.toItemReferences(this);
-//        if(node.isLeaf()) {
-//            mNumReviews = 1;
-//            ReviewReference reference = node.getReference();
-//            onDereferenced(reference != null ? new DataValue<>(reference) : new DataValue
-//                    <ReviewReference>());
-//        } else {
-//            node.getReviews().toItemReferences(this);
-//        }
     }
 }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
@@ -79,7 +80,10 @@ public abstract class FragmentViewData<DataType extends HasReviewId, T extends G
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if (args == null) throwNoReview();
+        if (args == null) {
+            noReview();
+            return;
+        }
 
         mPageId = args.getString(PAGE_ID);
 
@@ -126,7 +130,7 @@ public abstract class FragmentViewData<DataType extends HasReviewId, T extends G
         mMenu = new MenuUi(new MenuUpAppLevel(mDataType.getDataName(), upAction, ui));
     }
 
-    private void throwNoReview() {
-        throw new RuntimeException("No review found");
+    private void noReview() {
+        Toast.makeText(getActivity(), "No review found", Toast.LENGTH_SHORT).show();
     }
 }

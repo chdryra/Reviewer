@@ -111,7 +111,6 @@
     </style>
 
     <style name="Button.Banner">
-        <item name="android:background">@drawable/background</item>
         <item name="android:text">?dominantText</item>
     </style>
 

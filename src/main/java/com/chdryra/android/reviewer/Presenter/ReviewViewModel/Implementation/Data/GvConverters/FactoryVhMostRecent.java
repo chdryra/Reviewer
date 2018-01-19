@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Com
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewSelected;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewAbstract;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
@@ -41,12 +41,12 @@ public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
     private final AuthorsRepository mRepository;
     private final FactoryCommands mCommandsfactory;
 
-    private CacheVhReviewSelected mCache;
+    private CacheVhNode mCache;
 
     public FactoryVhMostRecent(AuthorsRepository repository, FactoryCommands commandsfactory) {
         mRepository = repository;
         mCommandsfactory = commandsfactory;
-        mCache = new CacheVhReviewSelected(this.<DataSubject>newCache(), this.<DataRating>newCache(),
+        mCache = new CacheVhNode(this.<DataSubject>newCache(), this.<DataRating>newCache(),
                 this.<NamedAuthor>newCache(), this.<DataDate>newCache(), this.<Bitmap>newCache(),
                 this.<IdableList<DataTag>>newCache(), this.<IdableList<DataComment>>newCache(),
                 this.<IdableList<DataLocation>>newCache());
@@ -59,7 +59,7 @@ public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
 
     @Override
     public VhNode newViewHolder() {
-        return new VhReviewSelected(mRepository,
+        return new VhReviewAbstract(mRepository,
                 mCommandsfactory, new ReviewSelector(new SelectorMostRecent()), mCache);
     }
 }

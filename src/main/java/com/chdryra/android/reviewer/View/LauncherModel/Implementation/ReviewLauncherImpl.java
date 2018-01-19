@@ -55,6 +55,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
+        if(args == null) return null;
         NodeLauncher<?> launcher = mLaunchers.get(args.getString(TYPE));
         return launcher != null ? launcher.unpack(args) : null;
     }

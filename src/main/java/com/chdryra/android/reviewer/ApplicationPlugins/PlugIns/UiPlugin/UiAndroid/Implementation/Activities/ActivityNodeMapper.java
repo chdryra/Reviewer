@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
@@ -50,12 +51,11 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
-        if (args == null) throwNoReview();
         ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (node == null) throwNoReview();
+        if (node == null) noReview();
+
         mNode = node;
-        boolean isPublished = NodeLauncher.isPublished(args);
-        return FragmentNodeMapper.newInstance(isPublished);
+        return FragmentNodeMapper.newInstance(NodeLauncher.isPublished(args));
     }
 
     @Override
@@ -68,7 +68,12 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
         return mNode;
     }
 
-    private void throwNoReview() {
-        throw new RuntimeException("No review found");
+    private Fragment noReview() {
+        try{
+            Toast.makeText(this, "No review found", Toast.LENGTH_SHORT).show();
+            return FragmentNodeMapper.newInstance(false);
+        } finally {
+            finish();
+        }
     }
 }
