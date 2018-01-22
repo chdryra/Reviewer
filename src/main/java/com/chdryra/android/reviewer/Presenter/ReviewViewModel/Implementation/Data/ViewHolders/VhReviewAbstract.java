@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -46,19 +45,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.BookmarkCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.ReviewOptionsSelector;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.ShareCommand;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .CacheVhNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
-        .DataFormatter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
@@ -105,7 +98,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private static final int UNLIKED = R.drawable
             .ic_favorite_border_black_24dp;
 
-    private static final long WAIT_TIME = 100L;
+    private static final long WAIT_TIME = 50L;
 
     private final static int[] VIEWS =
             {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE,
@@ -280,18 +273,9 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         });
     }
 
-    private void setSubject(DataSubject subject) {
-        setText(SUBJECT, subject.getSubject());
-    }
-
     private void onLiked(boolean isLiked) {
         getView(LIKE_BUTTON, ImageButton.class)
                 .setBackgroundResource(isLiked ? LIKED : UNLIKED);
-    }
-
-    private void unbindFromCover() {
-        mCoverBinder.unbind();
-        mCoverBinder = null;
     }
 
     private void setNode(GvNode gvNode) {
@@ -373,24 +357,18 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         setDateLocation(mCache.containsDate(mNodeId) ? mCache.getDate(mNodeId) : null);
     }
 
+    private void setSubject(DataSubject subject) {
+        setText(SUBJECT, subject.getSubject());
+    }
+
+    private void setRating(DataRating rating) {
+        setText(RATING, RatingFormatter.upToTwoSignificantDigits(rating.getRating()));
+    }
+
     private void setDateLocation(@Nullable DataDate publishDate) {
         String date = publishDate != null ? formatDate(publishDate) : "";
         String text = date + (validateString(mLocation) ? " @" + mLocation : "");
         setText(DATE_LOCATION, text);
-    }
-
-    private String formatDate(DataDate publishDate) {
-        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(publishDate.getTime
-                ()));
-    }
-
-    private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
-        String ignoreTag = TextUtils.toTag(getView(SUBJECT, TextView.class).getText().toString());
-        return DataFormatter.formatTags(tags, maxTags, ignoreTag);
-    }
-
-    private boolean validateString(@Nullable String string) {
-        return string != null && string.length() > 0;
     }
 
     private void setAuthor(@Nullable NamedAuthor author) {
@@ -420,15 +398,18 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
                 .getDate(mReview.getReviewId()) : mReview.getPublishDate() : null);
     }
 
+    private void setCover(@Nullable Bitmap cover) {
+        setImage(IMAGE, cover);
+    }
+
     private void bindToReview(ReviewReference review) {
         mReview = review;
         ReviewId id = mReview.getReviewId();
         setReviewOptions();
 
-        if (!mCache.containsDate(id)) mCache.addDate(mReview.getPublishDate());
-        if (!mCache.containsSubject(id)) mCache.addSubject(mReview.getSubject());
-        if (!mCache.containsRating(id)) mCache.addRating(mReview.getRating());
-
+        mCache.addDate(mReview.getPublishDate());
+        mCache.addSubject(mReview.getSubject());
+        mCache.addRating(mReview.getRating());
         setDateLocation(mCache.getDate(id));
         setSubject(mCache.getSubject(id));
         setRating(mCache.getRating(id));
@@ -496,13 +477,14 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
+    private void unbindFromCover() {
+        mCoverBinder.unbind();
+        mCoverBinder = null;
+    }
+
     private void returned() {
         //Set cover only if everything else done and no more 'fast' scrolling
         if (++mNumReturned == 4 && notReinitialising()) bindCover();
-    }
-
-    private void setRating(DataRating rating) {
-        setText(RATING, RatingFormatter.upToTwoSignificantDigits(rating.getRating()));
     }
 
     private void setReviewOptions() {
@@ -521,9 +503,18 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     }
 
-    @UiThread
-    private void setCover(@Nullable Bitmap cover) {
-        setImage(IMAGE, cover);
+    private String formatDate(DataDate publishDate) {
+        return DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(publishDate.getTime
+                ()));
+    }
+
+    private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
+        String ignoreTag = TextUtils.toTag(getView(SUBJECT, TextView.class).getText().toString());
+        return DataFormatter.formatTags(tags, maxTags, ignoreTag);
+    }
+
+    private boolean validateString(@Nullable String string) {
+        return string != null && string.length() > 0;
     }
 
     private boolean notReinitialising() {
@@ -653,6 +644,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             } else {
                 removeFromCache(value.getReviewId());
             }
+
             if (notReinitialising()) onList(value);
         }
 
@@ -704,9 +696,13 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
 
         private void bindToProfileImage() {
-            mProfileImage = mAuthorsRepo.getProfile(mAuthorId).getProfileImage();
-            mProfileImageBinder = new ProfileImageBinder();
-            mProfileImage.bindToValue(mProfileImageBinder);
+            if(mCache.containsProfile(mAuthorId)) {
+                notifyOnCover(mCache.getProfile(mAuthorId).getBitmap());
+            } else {
+                mProfileImage = mAuthorsRepo.getProfile(mAuthorId).getProfileImage();
+                mProfileImageBinder = new ProfileImageBinder();
+                mProfileImage.bindToValue(mProfileImageBinder);
+            }
         }
 
         private void notifyOnCover(@Nullable Bitmap bitmap) {
@@ -723,10 +719,12 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             @Override
             public void onInvalidated(DataReference<ProfileImage> reference) {
                 notifyOnCover(null);
+                mCache.removeProfile(mAuthorId);
             }
 
             @Override
             public void onReferenceValue(ProfileImage value) {
+                mCache.addProfile(value);
                 notifyOnCover(value.getBitmap());
             }
         }

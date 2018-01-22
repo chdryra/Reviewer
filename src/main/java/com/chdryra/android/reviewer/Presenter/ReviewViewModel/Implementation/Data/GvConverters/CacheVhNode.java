@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.graphics.Bitmap;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
@@ -20,6 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
@@ -29,23 +31,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  */
 
 public class CacheVhNode {
+    private final QueueCache<NamedAuthor> mAuthors;
+    private final QueueCache<ProfileImage> mProfiles;
     private final QueueCache<DataSubject> mSubjects;
     private final QueueCache<DataRating> mRatings;
     private final QueueCache<IdableList<DataComment>> mComments;
     private final QueueCache<IdableList<DataLocation>> mLocations;
     private final QueueCache<IdableList<DataTag>> mTags;
-    private final QueueCache<NamedAuthor> mAuthors;
     private final QueueCache<DataDate> mDates;
     private final QueueCache<Bitmap> mCovers;
 
-    CacheVhNode(QueueCache<DataSubject> subjects,
+    CacheVhNode(QueueCache<NamedAuthor> authors,
+                QueueCache<ProfileImage> profiles, 
+                QueueCache<DataSubject> subjects,
                 QueueCache<DataRating> ratings,
-                QueueCache<NamedAuthor> authors,
                 QueueCache<DataDate> dates,
                 QueueCache<Bitmap> covers,
                 QueueCache<IdableList<DataTag>> tags,
                 QueueCache<IdableList<DataComment>> headlines,
                 QueueCache<IdableList<DataLocation>> locations) {
+        mProfiles = profiles;
         mSubjects = subjects;
         mRatings = ratings;
         mComments = headlines;
@@ -93,6 +98,26 @@ public class CacheVhNode {
 
     public boolean containsAuthor(ReviewId reviewId) {
         return mAuthors.containsId(reviewId.toString());
+    }
+
+    public boolean addProfile(ProfileImage profile) {
+        AuthorId authorId = profile.getAuthorId();
+        boolean newProfile = !containsProfile(authorId)
+                || !mProfiles.get(authorId.toString()).getBitmap().sameAs(profile.getBitmap());
+        if (newProfile) mProfiles.add(authorId.toString(), profile);
+        return newProfile;
+    }
+
+    public ProfileImage getProfile(AuthorId authorId) {
+        return mProfiles.get(authorId.toString());
+    }
+
+    public void removeProfile(AuthorId authorId) {
+        mProfiles.remove(authorId.toString());
+    }
+
+    public boolean containsProfile(AuthorId authorId) {
+        return mProfiles.containsId(authorId.toString());
     }
 
     public void addDate(DataDate date) {
