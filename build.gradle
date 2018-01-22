@@ -33,6 +33,7 @@ dependencies {
     implementation('com.twitter.sdk.android:twitter-core:3.1.1')
     implementation 'com.firebase:firebase-client-android:2.5.2'
     implementation 'com.facebook.android:facebook-android-sdk:4.29.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //fixes FB dependency conflict
     implementation 'com.android.support:appcompat-v7:27.0.2'
