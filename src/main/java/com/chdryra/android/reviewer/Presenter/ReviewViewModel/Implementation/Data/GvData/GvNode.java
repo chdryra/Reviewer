@@ -69,7 +69,7 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo, Revie
 
     public void setViewHolder(VhNode viewHolder) {
         if(viewHolder.equals(mViewHolder)) return;
-        if(mViewHolder != null) unbind();
+        unbind();
         mViewHolder = viewHolder;
     }
 

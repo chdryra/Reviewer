@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -98,7 +99,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private static final int UNLIKED = R.drawable
             .ic_favorite_border_black_24dp;
 
-    private static final long WAIT_TIME = 50L;
+    private static final long WAIT_TIME = 250L;
 
     private final static int[] VIEWS =
             {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE,
@@ -130,6 +131,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     private boolean mLiked = false;
 
+    private long mLastTime = 0l;
+
     public VhReviewAbstract(AuthorsRepository authorsRepo,
                             FactoryCommands commandsFactory,
                             ReviewSelector selector,
@@ -149,7 +152,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     @Override
     public void unbind() {
         if (mReview == null) return;
-        mCancelBinding = true;
+        cancelBindingTask();
         unbindFromBookmark();
         if (mCoverBinder != null) mCoverBinder.unbind();
         if(mProfileBinder != null) {
@@ -164,6 +167,26 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         mSelector.unregister(mNodeId);
         mReview = null;
         mNodeId = null;
+    }
+
+    private void logTime(String what) {
+        long newTime = new Date().getTime();
+        if(mLastTime == 0l) mLastTime = newTime;
+        Log.d("VhReview", what + " " + this + ": " + String.valueOf(newTime - mLastTime));
+        mLastTime = newTime;
+    }
+
+    private void cancelBindingTask() {
+        if (mBindingTask != null) {
+            logTime("Cancelled");
+            mBindingTask.cancel(true);
+        }
+        deleteTask();
+        mCancelBinding = true;
+    }
+
+    private void deleteTask() {
+        mBindingTask = null;
     }
 
     @Override
@@ -195,10 +218,11 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     @Override
     public void refresh(ReviewNode node) {
-        if (mBindingTask != null) mBindingTask.cancel(true);
+        cancelBindingTask();
         mBindingTask = new DelayedSelectTask(this, node);
         mSelecting = true;
         mCancelBinding = false;
+        logTime("Started ");
         mBindingTask.execute(WAIT_TIME);
     }
 
@@ -287,9 +311,9 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         ReviewNode node = gvNode.getNode();
         if (isBoundTo(node)) return;
 
-        unbind();
-        mNodeId = gvNode.getReviewId();
+        logTime(gvNode.getSubject().getSubject());
         gvNode.setViewHolder(this);
+        mNodeId = gvNode.getReviewId();
         initialiseView();
         refresh(node);
     }
@@ -339,8 +363,9 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void selectAndBind(ReviewNode node) {
+        logTime("Completed");
         if (mCancelBinding) return;
-        mBindingTask = null;
+        deleteTask();
         mSelector.select(node, this);
     }
 

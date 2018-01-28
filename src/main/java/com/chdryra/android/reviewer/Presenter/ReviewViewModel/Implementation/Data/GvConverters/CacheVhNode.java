@@ -65,7 +65,7 @@ public class CacheVhNode {
         ReviewId reviewId = comments.getReviewId();
         boolean newComments = !containsComments(reviewId) || !getComments(reviewId).equals
                 (comments);
-        if (newComments) mComments.add(comments.getReviewId().toString(), comments);
+        mComments.add(comments.getReviewId().toString(), comments);
         return newComments;
     }
 
@@ -84,7 +84,7 @@ public class CacheVhNode {
     public boolean addAuthor(ReviewId reviewId, NamedAuthor author) {
         boolean newAuthor = !containsAuthor(reviewId)
                 || !mAuthors.get(reviewId.toString()).getName().equals(author.getName());
-        if (newAuthor) mAuthors.add(reviewId.toString(), author);
+        mAuthors.add(reviewId.toString(), author);
         return newAuthor;
     }
 
@@ -104,7 +104,7 @@ public class CacheVhNode {
         AuthorId authorId = profile.getAuthorId();
         boolean newProfile = !containsProfile(authorId)
                 || !mProfiles.get(authorId.toString()).getBitmap().sameAs(profile.getBitmap());
-        if (newProfile) mProfiles.add(authorId.toString(), profile);
+        mProfiles.add(authorId.toString(), profile);
         return newProfile;
     }
 
@@ -158,7 +158,7 @@ public class CacheVhNode {
 
     public void addCover(ReviewId reviewId, Bitmap bitmap) {
         boolean newCover = !containsCover(reviewId) || !getCover(reviewId).sameAs(bitmap);
-        if (newCover) mCovers.add(reviewId.toString(), bitmap);
+        mCovers.add(reviewId.toString(), bitmap);
     }
 
     public Bitmap getCover(ReviewId reviewId) {
@@ -177,7 +177,7 @@ public class CacheVhNode {
         ReviewId reviewId = locations.getReviewId();
         boolean newLocations = !containsLocations(reviewId) || !getLocations(reviewId).equals
                 (locations);
-        if (newLocations) mLocations.add(reviewId.toString(), locations);
+        mLocations.add(reviewId.toString(), locations);
         return newLocations;
     }
 
@@ -196,7 +196,7 @@ public class CacheVhNode {
     public boolean addTags(IdableList<DataTag> tags) {
         ReviewId reviewId = tags.getReviewId();
         boolean newTags = !containsTags(reviewId) || !getTags(reviewId).equals(tags);
-        if (newTags) mTags.add(reviewId.toString(), tags);
+        mTags.add(reviewId.toString(), tags);
         return newTags;
     }
 
@@ -213,8 +213,6 @@ public class CacheVhNode {
     }
 
     private <T extends HasReviewId> void addData(T datum, QueueCache<T> cache) {
-        ReviewId reviewId = datum.getReviewId();
-        boolean newDatum = !cache.containsId(reviewId.toString());
-        if (newDatum) cache.add(reviewId.toString(), datum);
+        cache.add(datum.getReviewId().toString(), datum);
     }
 }

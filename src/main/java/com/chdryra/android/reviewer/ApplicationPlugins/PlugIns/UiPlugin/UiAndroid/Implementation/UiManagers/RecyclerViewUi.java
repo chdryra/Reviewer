@@ -105,17 +105,6 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
         return consumed || mClickAction.onOptionsCancelled(requestCode);
     }
 
-    private GvDataAdapter.ViewHolderOptionable<T> getClickDelegate(View v) {
-        RecyclerView.ViewHolder vh = getView().getChildViewHolder(v);
-        GvDataAdapter.ViewHolderOptionable<T> delegate = null;
-        try {
-            delegate = (GvDataAdapter.ViewHolderOptionable<T>) vh;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return delegate;
-    }
-
     private GvDataAdapter.ViewHolderOptionable<T> getClickDelegate(int position) {
         RecyclerView.ViewHolder vh = getView().findViewHolderForAdapterPosition(position);
         GvDataAdapter.ViewHolderOptionable<T> delegate = null;

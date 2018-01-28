@@ -19,13 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityReviewView;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.CellDimensionsCalculator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewEditFragmentLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.ReviewViewLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.ReviewViewLayout;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -40,10 +36,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     private ReviewView<?> mReviewView;
     private ReviewViewLayout mLayout;
     private boolean mIsAttached = false;
-
-    public void setLayout(ReviewEditFragmentLayout layout) {
-        mLayout = layout;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

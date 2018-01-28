@@ -80,6 +80,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
 
     public void execute(DataAuthorId authorId) {
         mAuthorId = authorId;
+        mInitialised = false;
         execute();
     }
 
