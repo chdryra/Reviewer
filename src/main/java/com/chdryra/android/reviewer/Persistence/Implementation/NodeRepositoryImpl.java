@@ -88,7 +88,7 @@ public class NodeRepositoryImpl implements NodeRepository {
 
     @Override
     public ReviewNode getMetaReview(AuthorId id) {
-        return getMetaReview(getReviewsForAuthor(id), id, Strings.ReviewsList.REVIEWS);
+        return getMetaReview(getReviewsByAuthor(id), id, Strings.ReviewsList.REVIEWS);
     }
 
     @Override
@@ -116,8 +116,8 @@ public class NodeRepositoryImpl implements NodeRepository {
     }
 
     @Override
-    public ReviewCollection getBookmarks(UserSession session) {
-        return mReviewsRepo.getBookmarks(session);
+    public ReviewCollection getCollectionForAuthor(AuthorId authorId, String name) {
+        return mReviewsRepo.getCollectionForAuthor(authorId, );
     }
 
     @Override
@@ -126,8 +126,8 @@ public class NodeRepositoryImpl implements NodeRepository {
     }
 
     @Override
-    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
-        return mReviewsRepo.getReviewsForAuthor(authorId);
+    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
+        return mReviewsRepo.getReviewsByAuthor(authorId);
     }
 
     @Override

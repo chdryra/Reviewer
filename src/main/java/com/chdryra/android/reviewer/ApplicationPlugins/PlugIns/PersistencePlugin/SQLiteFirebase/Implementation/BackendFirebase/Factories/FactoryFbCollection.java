@@ -12,8 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Factories.BackendInfoConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.ConverterPlaylistItem;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterCollectionItem;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewCollection;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
@@ -52,8 +51,8 @@ public class FactoryFbCollection {
         mMasterRepo = masterRepo;
     }
 
-    public ReviewCollection newPlaylist(Firebase root, String name, AuthorId authorId, ReviewDereferencer dereferencer) {
+    public ReviewCollection newCollection(Firebase root, String name, AuthorId authorId, ReviewDereferencer dereferencer) {
         return new FbReviewCollection(root, mStructure, mEntryConverter, mReferencer, dereferencer, name, authorId,
-                mMasterRepo, mInfoConverter, new ConverterPlaylistItem());
+                mMasterRepo, mInfoConverter, new ConverterCollectionItem());
     }
 }

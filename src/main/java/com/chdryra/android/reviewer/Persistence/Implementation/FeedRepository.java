@@ -87,7 +87,7 @@ public class FeedRepository implements ReviewsRepository {
     private class Binder implements ListItemBinder<AuthorId> {
         @Override
         public void onItemAdded(AuthorId value) {
-            mRepos.add(value, mMasterRepo.getReviewsForAuthor(value));
+            mRepos.add(value, mMasterRepo.getReviewsByAuthor(value));
         }
 
         @Override
@@ -105,7 +105,7 @@ public class FeedRepository implements ReviewsRepository {
                 mRepos.remove(toRemoveId);
             }
             for (AuthorId toAddId : toAdd) {
-                mRepos.add(toAddId, mMasterRepo.getReviewsForAuthor(toAddId));
+                mRepos.add(toAddId, mMasterRepo.getReviewsByAuthor(toAddId));
             }
         }
 

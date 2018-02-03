@@ -56,7 +56,7 @@ public class FbReviewCollection extends FbReviewsRepositoryBasic implements Revi
     private final FbReviewsStructure mStructure;
     private final ReviewsRepository mMasterRepo;
     private final BackendInfoConverter mInfoConverter;
-    private final ConverterPlaylistItem mItemConverter;
+    private final ConverterCollectionItem mItemConverter;
     private final ArrayList<ReviewId> mStealthDeletion;
 
     public FbReviewCollection(Firebase dataBase,
@@ -68,7 +68,7 @@ public class FbReviewCollection extends FbReviewsRepositoryBasic implements Revi
                               AuthorId authorId,
                               ReviewsRepository masterRepo,
                               BackendInfoConverter infoConverter,
-                              ConverterPlaylistItem itemConverter) {
+                              ConverterCollectionItem itemConverter) {
         super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,
                 referencer, dereferencer);
         mName = name;

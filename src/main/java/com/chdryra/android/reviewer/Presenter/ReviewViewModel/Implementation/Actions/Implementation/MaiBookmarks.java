@@ -8,13 +8,16 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
+
+
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
+import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
@@ -40,9 +43,9 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        UserSession session = getApp().getAccounts().getUserSession();
-        ReviewCollection bookmarks = mRepo.getBookmarks(session);
-        ReviewNode node = mRepo.getMetaReview(bookmarks, session.getAuthorId(),  bookmarks.getName());
+        AuthorId authorId = getApp().getAccounts().getUserSession().getAuthorId();
+        ReviewCollection bookmarks = mRepo.getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS);
+        ReviewNode node = mRepo.getMetaReview(bookmarks, authorId,  bookmarks.getName());
         mLauncher.launch(mFactory.newListView(node, null), new UiLauncherArgs(CODE));
     }
 }

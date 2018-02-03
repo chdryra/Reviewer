@@ -54,7 +54,7 @@ public class FactoryReviewsRepository {
 
 
     public ReviewsRepository newFeed(AuthorId usersId, RefAuthorList following, ReviewsSource masterRepo) {
-        return new FeedRepository(usersId, following, masterRepo, masterRepo.getReviewsForAuthor(usersId), newRepoCollection());
+        return new FeedRepository(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
     }
 
     @NonNull

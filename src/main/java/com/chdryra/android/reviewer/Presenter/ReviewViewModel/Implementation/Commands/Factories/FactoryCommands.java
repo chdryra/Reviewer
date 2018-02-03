@@ -83,7 +83,7 @@ public class FactoryCommands {
             commands.add(delete(reviewId));
         }
 
-        return new ReviewOptions(commands, share(reviewId), bookmark(session, reviewId));
+        return new ReviewOptions(commands, share(reviewId), bookmark(session.getAuthorId(), reviewId));
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.SelectorType
@@ -241,8 +241,10 @@ public class FactoryCommands {
     }
 
     @NonNull
-    private BookmarkCommand bookmark(UserSession session, ReviewId reviewId) {
-        return new BookmarkCommand(reviewId, getRepo().getReviewsRepo().getBookmarks(session), getScreen());
+    private BookmarkCommand bookmark(AuthorId authorId, ReviewId reviewId) {
+        return new BookmarkCommand(reviewId,
+                getRepo().getReviewsRepo().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS),
+                getScreen());
     }
 
     @NonNull

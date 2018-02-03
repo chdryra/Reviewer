@@ -50,7 +50,7 @@ public class FbReviewsSource extends FbReviewsRepositoryBasic implements
     }
 
     @Override
-    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
+    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
@@ -61,8 +61,8 @@ public class FbReviewsSource extends FbReviewsRepositoryBasic implements
     }
 
     @Override
-    public ReviewCollection getBookmarks(UserSession session) {
-        return mAuthorsDbFactory.getBookmarks(getDataBase(), session.getAuthorId());
+    public ReviewCollection getCollectionForAuthor(AuthorId authorId, String name) {
+        return mAuthorsDbFactory.getReviewCollection(getDataBase(), authorId, name);
     }
 
     @Override

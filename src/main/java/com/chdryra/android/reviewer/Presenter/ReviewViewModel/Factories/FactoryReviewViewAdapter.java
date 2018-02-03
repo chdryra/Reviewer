@@ -139,7 +139,7 @@ public class FactoryReviewViewAdapter {
                                                       String title) {
         RepositoryCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
-            collection.add(author, mReviewSource.getReviewsForAuthor(author));
+            collection.add(author, mReviewSource.getReviewsByAuthor(author));
         }
 
         ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepository.getReference

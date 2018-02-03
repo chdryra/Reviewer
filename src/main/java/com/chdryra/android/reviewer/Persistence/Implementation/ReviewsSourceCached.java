@@ -42,8 +42,8 @@ public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSour
     }
 
     @Override
-    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
-        return mArchive.getReviewsForAuthor(authorId);
+    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
+        return mArchive.getReviewsByAuthor(authorId);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSour
     }
 
     @Override
-    public ReviewCollection getBookmarks(UserSession session) {
-        return mArchive.getBookmarks(session);
+    public ReviewCollection getCollectionForAuthor(AuthorId authorId, String name) {
+        return mArchive.getCollectionForAuthor(authorId, name);
     }
 
     @Override

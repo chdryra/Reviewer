@@ -23,7 +23,7 @@ import com.firebase.client.DataSnapshot;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterPlaylistItem implements SnapshotConverter<ReviewId> {
+public class ConverterCollectionItem implements SnapshotConverter<ReviewId> {
     @Override
     @Nullable
     public ReviewId convert(DataSnapshot snapshot) {
