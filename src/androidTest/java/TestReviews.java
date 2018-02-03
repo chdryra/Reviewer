@@ -44,7 +44,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -73,7 +73,7 @@ public class TestReviews {
     private FactoryReviews mFactory;
 
     //Static methods
-    public static ReviewsRepo getReviews(Instrumentation instr, TagsManager tagsManager) {
+    public static ReviewsArchive getReviews(Instrumentation instr, TagsManager tagsManager) {
         TestReviews testReviews = get(instr);
         IdableCollection<Review> reviews = testReviews.mReviews;
         if (reviews.size() == 0) {
@@ -390,7 +390,7 @@ public class TestReviews {
         }
     }
 
-    private static class StaticReviewsRepo implements ReviewsRepo {
+    private static class StaticReviewsRepo implements ReviewsArchive {
         private IdableCollection<Review> mReviews;
         private TagsManager mManger;
 

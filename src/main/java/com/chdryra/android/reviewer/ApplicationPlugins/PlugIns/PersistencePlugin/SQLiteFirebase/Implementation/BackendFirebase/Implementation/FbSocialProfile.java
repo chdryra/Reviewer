@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Follow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbDataReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbSocialStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -40,10 +39,10 @@ public class FbSocialProfile implements ProfileSocial {
     private AuthorId mId;
     private Firebase mRoot;
     private FbSocialStructure mStructure;
-    private FactoryFbReference mReferencer;
+    private FbDataReferencer mReferencer;
 
     public FbSocialProfile(AuthorId id, Firebase root, FbSocialStructure structure,
-                           FactoryFbReference referencer) {
+                           FbDataReferencer referencer) {
         mId = id;
         mRoot = root;
         mStructure = structure;

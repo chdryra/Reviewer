@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.Firebase;
@@ -34,7 +34,7 @@ public class FactoryAuthorsRepo {
     private final BackendReviewConverter mReviewConverter;
     private final BackendValidator mValidator;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private final FactoryFbReviewReference mReferencer;
+    private final FbReviewReferencer mReferencer;
     private final ReviewDereferencer mDereferencer;
     private final ReviewsCache mCache;
     private final FactoryFbCollection mCollectionFactory;
@@ -42,7 +42,7 @@ public class FactoryAuthorsRepo {
     public FactoryAuthorsRepo(BackendReviewConverter reviewConverter,
                               BackendValidator validator,
                               SnapshotConverter<ReviewListEntry> entryConverter,
-                              FactoryFbReviewReference referencer,
+                              FbReviewReferencer referencer,
                               ReviewDereferencer dereferencer,
                               ReviewsCache cache,
                               FactoryFbCollection collectionFactory) {
@@ -55,11 +55,11 @@ public class FactoryAuthorsRepo {
         mCollectionFactory = collectionFactory;
     }
 
-    public ReviewsRepo newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
+    public ReviewsArchive newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
         return new FbAuthorReviewsReadable(root, authorsDb, mEntryConverter, mReferencer, mDereferencer);
     }
 
-    public ReviewsRepoMutable newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
+    public ReviewsArchiveMutable newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
         return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
                 mValidator, mReferencer, mDereferencer, mCache);
     }

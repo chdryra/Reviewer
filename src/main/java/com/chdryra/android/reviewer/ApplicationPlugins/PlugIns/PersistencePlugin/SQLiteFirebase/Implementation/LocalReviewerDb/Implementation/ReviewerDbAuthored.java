@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -28,14 +28,14 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements ReviewsRepo, ReviewsSubscriber {
+public class ReviewerDbAuthored implements ReviewsArchive, ReviewsSubscriber {
     private final AuthorId mAuthorId;
-    private final ReviewerDbRepo mRepo;
+    private final ReviewerDbArchive mRepo;
     private final ReviewDereferencer mDereferencer;
     private final List<ReviewsSubscriber> mSubscribers;
 
     public ReviewerDbAuthored(AuthorId authorId,
-                              ReviewerDbRepo repo,
+                              ReviewerDbArchive repo,
                               ReviewDereferencer dereferencer) {
         mAuthorId = authorId;
         mRepo = repo;
@@ -43,7 +43,7 @@ public class ReviewerDbAuthored implements ReviewsRepo, ReviewsSubscriber {
         mSubscribers = new ArrayList<>();
     }
 
-    ReviewerDbRepo getRepo() {
+    ReviewerDbArchive getRepo() {
         return mRepo;
     }
 

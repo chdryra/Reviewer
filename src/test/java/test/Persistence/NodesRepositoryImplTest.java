@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepoImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
@@ -72,7 +72,7 @@ public class NodesRepositoryImplTest {
     @Mock
     private TagsManager mMockManager;
     private IdableCollection<Review> mReviews;
-    private ReviewsRepo mRepo;
+    private ReviewsArchive mRepo;
     private NodeRepo mSource;
 
     @Before
@@ -314,7 +314,7 @@ public class NodesRepositoryImplTest {
 
     @Test
     public void registerUnregisterObserverDelegatesToRepository() {
-        ReviewsRepo repo = mock(ReviewsRepo.class);
+        ReviewsArchive repo = mock(ReviewsArchive.class);
         NodeRepo source = new NodeRepoImpl(repo, getReviewFactory());
         ReviewsRepositoryObserver observer = mock(ReviewsRepositoryObserver.class);
         source.registerObserver(observer);

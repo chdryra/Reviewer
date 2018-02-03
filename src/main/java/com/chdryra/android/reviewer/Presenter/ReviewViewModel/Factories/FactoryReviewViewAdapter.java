@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsArchiveCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -137,7 +137,7 @@ public class FactoryReviewViewAdapter {
     public ReviewViewAdapter<?> newFeedSummaryAdapter(AuthorId summaryOwner,
                                                       Set<AuthorId> reviewAuthors,
                                                       String title) {
-        RepoCollection<AuthorId> collection = mReposFactory.newRepoCollection();
+        ReviewsArchiveCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsByAuthor(author));
         }

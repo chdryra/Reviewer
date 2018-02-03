@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbMutable extends ReviewerDbAuthored implements ReviewsRepoMutable {
-    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepo repo, ReviewDereferencer dereferencer) {
+public class ReviewerDbMutable extends ReviewerDbAuthored implements ReviewsArchiveMutable {
+    public ReviewerDbMutable(AuthorId authorId, ReviewerDbArchive repo, ReviewDereferencer dereferencer) {
         super(authorId, repo, dereferencer);
     }
 

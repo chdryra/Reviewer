@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -50,7 +50,7 @@ public class BackendRepoService extends IntentService {
     private String mReviewId;
     private ReviewPublisher mPublisher;
     private WorkerToken mToken;
-    private ReviewsRepoMutable mRepo;
+    private ReviewsArchiveMutable mRepo;
 
     public enum Service {
         UPLOAD(UPLOAD_COMPLETED),
@@ -75,7 +75,7 @@ public class BackendRepoService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getApplicationContext());
         RepositorySuite repository = app.getRepository();
-        mRepo = repository.getReviewsRepo().getMutableRepository(app.getAccounts().getUserSession());
+        mRepo = repository.getReviewsRepo().getMutableRepoForUser(app.getAccounts().getUserSession());
         mPublisher = repository.getReviewPublisher();
 
         mReviewId = intent.getStringExtra(REVIEW_ID);
@@ -114,7 +114,7 @@ public class BackendRepoService extends IntentService {
         }
     }
 
-    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepoMutable.Callback {
+    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsArchiveMutable.Callback {
         @Override
         public void onAddedToRepo(RepoResult result) {
             CallbackMessage message;

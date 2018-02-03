@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbDataReferencer;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
@@ -26,14 +26,14 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> implements RefCommentList {
-    private final FactoryFbReference mReferenceFactory;
+    private final FbDataReferencer mReferenceFactory;
 
     public FbRefCommentList(ReviewId id,
                             Firebase reference,
                             ReviewItemReference<DataSize> sizeReference,
                             IdableListConverter<DataComment> converter,
                             ListItemsReferencer<DataComment, RefComment> referencer,
-                            FactoryFbReference referenceFactory) {
+                            FbDataReferencer referenceFactory) {
         super(id, reference, sizeReference, converter, referencer);
         mReferenceFactory = referenceFactory;
     }

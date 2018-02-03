@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
@@ -95,7 +95,7 @@ public class UiSuiteAndroid implements UiSuite{
     @Override
     public ReviewViewNode newFeedView(RepositorySuite repository, ProfileSocial profile) {
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
-        ReviewsRepo feed = repository.getFeed(profile);
+        ReviewsArchive feed = repository.getFeed(profile);
         NodeRepo repo = repository.getReviewsRepo();
         ReviewNode node = repo.getMetaReview(feed, user, Strings.ReviewsList.FEED);
 

@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbDataReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryUserAccount;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -68,7 +67,7 @@ public class FbUserAccounts implements UserAccounts {
 
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
-    private final FactoryFbReference mReferencer;
+    private final FbDataReferencer mReferencer;
     private final UserProfileConverter mConverter;
     private final FactoryAuthorProfile mProfileFactory;
     private final FactoryAuthorProfileSnapshot mProfileSnapshotFactory;
@@ -85,7 +84,7 @@ public class FbUserAccounts implements UserAccounts {
 
     public FbUserAccounts(Firebase dataRoot,
                           FbUsersStructure structure,
-                          FactoryFbReference referencer,
+                          FbDataReferencer referencer,
                           UserProfileConverter converter,
                           FactoryAuthorProfile profileFactory,
                           FactoryAuthorProfileSnapshot profileSnapshotFactory,

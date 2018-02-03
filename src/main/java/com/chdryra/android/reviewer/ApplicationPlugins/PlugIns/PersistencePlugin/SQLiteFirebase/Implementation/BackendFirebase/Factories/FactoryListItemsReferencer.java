@@ -40,9 +40,9 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryListItemsReferencer {
-    private final FactoryFbReference mReferenceFactory;
+    private final FbDataReferencer mReferenceFactory;
 
-    public FactoryListItemsReferencer(FactoryFbReference referenceFactory) {
+    public FactoryListItemsReferencer(FbDataReferencer referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 

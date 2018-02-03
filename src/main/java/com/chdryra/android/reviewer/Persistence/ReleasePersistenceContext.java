@@ -8,17 +8,16 @@
 
 package com.chdryra.android.reviewer.Persistence;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PersistenceContextBasic;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .PersistencePlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,29 +30,20 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                                      DataValidator validator,
                                      PersistencePlugin plugin) {
 
-        setReposFactory(newRepoFactory(model, validator, plugin));
+        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, plugin.getCacheFactory());
+        setReposFactory(new FactoryReviewsRepo(cacheFactory));
 
-        setAccountsManager(plugin.newAccountsManager());
-
-        setLocalRepo(plugin.newLocalPersistence(model, validator));
+        setLocalRepo(plugin.newLocalReviewsRepo(model, validator));
 
         ReviewsCache cache = getRepoFactory().newCache();
 
-        setAuthorsRepo(plugin.getAuthorsPersistence());
-
-        ReviewsSource backend = plugin.newBackendPersistence(model, validator,
-                getRepoFactory(), cache);
-        ReviewsSource cachedRepo = getRepoFactory().newCachedRepo(backend,
-                cache, model.getReviewsFactory());
-        setNodeRepo(getRepoFactory().newReviewsSource(cachedRepo,
-                plugin.getAuthorsPersistence(), model.getReviewsFactory()));
-    }
-
-    @NonNull
-    private FactoryReviewsRepo newRepoFactory(ModelContext model,
-                                              DataValidator validator,
-                                              PersistencePlugin plugin) {
-        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, plugin.newCacheFactory());
-        return new FactoryReviewsRepo(cacheFactory);
+        Backend backend = plugin.getBackend();
+        setAccountsManager(backend.getAccountsManager());
+        setAuthorsRepo(backend.getAuthors());
+        ReviewsRepo reviews =
+                backend.getReviews(model, validator, getRepoFactory(), cache);
+        ReviewsRepo cachedReviews =
+                getRepoFactory().newCachedRepo(reviews, cache, model.getReviewsFactory());
+        setReviewsRepo(getRepoFactory().newReviewsSource(cachedReviews, getAuthorsRepo(), model.getReviewsFactory()));
     }
 }

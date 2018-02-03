@@ -27,11 +27,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -46,12 +46,12 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodeRepoImpl implements NodeRepo {
-    private final ReviewsSource mReviewsRepo;
+    private final ReviewsRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
     private final ReviewDereferencer mDereferencer;
 
-    public NodeRepoImpl(ReviewsSource reviewsRepo,
+    public NodeRepoImpl(ReviewsRepo reviewsRepo,
                         AuthorsRepo authorsRepo,
                         FactoryReviews reviewsFactory,
                         ReviewDereferencer dereferencer) {
@@ -111,8 +111,8 @@ public class NodeRepoImpl implements NodeRepo {
     }
 
     @Override
-    public ReviewsRepoMutable getMutableRepository(UserSession session) {
-        return mReviewsRepo.getMutableRepository(session);
+    public ReviewsArchiveMutable getMutableRepoForUser(UserSession session) {
+        return mReviewsRepo.getMutableRepoForUser(session);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class NodeRepoImpl implements NodeRepo {
     }
 
     @Override
-    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsArchive getReviewsByAuthor(AuthorId authorId) {
         return mReviewsRepo.getReviewsByAuthor(authorId);
     }
 
@@ -136,7 +136,7 @@ public class NodeRepoImpl implements NodeRepo {
     }
 
     @Override
-    public ReviewNode getMetaReview(ReviewsRepo repo, AuthorId owner, String subject) {
+    public ReviewNode getMetaReview(ReviewsArchive repo, AuthorId owner, String subject) {
         return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
     }
 

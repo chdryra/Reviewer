@@ -27,10 +27,10 @@ import com.firebase.client.Firebase;
 public class FactoryAuthorProfile {
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
-    private final FactoryFbReference mReferencer;
+    private final FbDataReferencer mReferencer;
     private final UserProfileConverter mConverter;
 
-    public FactoryAuthorProfile(Firebase dataRoot, FbUsersStructure structure, FactoryFbReference
+    public FactoryAuthorProfile(Firebase dataRoot, FbUsersStructure structure, FbDataReferencer
             referencer, UserProfileConverter converter) {
         mDataRoot = dataRoot;
         mStructure = structure;

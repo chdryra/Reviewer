@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 
 /**
@@ -27,7 +27,7 @@ public interface RepositorySuite {
 
     NodeRepo getReviewsRepo();
 
-    ReviewsRepo getFeed(ProfileSocial profile);
+    ReviewsArchive getFeed(ProfileSocial profile);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 

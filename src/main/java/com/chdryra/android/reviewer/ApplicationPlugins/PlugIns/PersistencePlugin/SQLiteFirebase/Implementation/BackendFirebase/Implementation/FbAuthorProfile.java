@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbDataReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
@@ -36,13 +36,13 @@ public class FbAuthorProfile implements ProfileAuthor {
     private final AuthorId mAuthorId;
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
-    private final FactoryFbReference mReferenceFactory;
+    private final FbDataReferencer mReferenceFactory;
     private final SnapshotConverter<AuthorProfileSnapshot> mConverter;
 
     public FbAuthorProfile(AuthorId authorId,
                            Firebase dataRoot,
                            FbUsersStructure structure,
-                           FactoryFbReference referenceFactory,
+                           FbDataReferencer referenceFactory,
                            SnapshotConverter<AuthorProfileSnapshot> converter) {
         mAuthorId = authorId;
         mDataRoot = dataRoot;

@@ -15,9 +15,9 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,8 +38,8 @@ import static org.hamcrest.MatcherAssert.*;
 @RunWith(AndroidJUnit4.class)
 public class TestDatabaseTest extends InstrumentationTestCase {
     private final String DB_NAME = "TestReviewer.db";
-    private ReviewsRepo mTestRepo;
-    private ReviewsRepoMutable mRepo;
+    private ReviewsArchive mTestRepo;
+    private ReviewsArchiveMutable mRepo;
     private Context mContext;
 
     @Before
@@ -48,7 +48,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationInstance instance = AppInstanceAndroid.getInstance();
-        mRepo = (ReviewsRepoMutable) instance.getReviews(instance.getUserSession().getAuthorId());
+        mRepo = (ReviewsArchiveMutable) instance.getReviews(instance.getUserSession().getAuthorId());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
         mTestRepo.getRepository(new RepoCallback() {
@@ -93,7 +93,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     private void populateRepository(Collection<Review> reviews) {
         deleteDatabaseIfNecessary();
         for (Review review : reviews) {
-            mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
+            mRepo.addReview(review, new ReviewsArchiveMutable.Callback() {
                 @Override
                 public void onAddedToRepo(RepoResult result) {
                     assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));

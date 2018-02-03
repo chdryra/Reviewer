@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 14/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NodeRepo extends ReviewsSource {
+public interface NodeRepo extends ReviewsRepo {
     ReviewNode asReviewNode(ReviewId id);
 
     ReviewNode asMetaReview(ReviewId id);
@@ -30,5 +30,5 @@ public interface NodeRepo extends ReviewsSource {
 
     ReviewNode getMetaReview(IdableCollection<?> data, String subject);
 
-    ReviewNode getMetaReview(ReviewsRepo repo, AuthorId owner, String subject);
+    ReviewNode getMetaReview(ReviewsArchive repo, AuthorId owner, String subject);
 }

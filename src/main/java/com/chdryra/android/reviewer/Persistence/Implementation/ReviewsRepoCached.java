@@ -13,12 +13,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 /**
@@ -26,15 +26,15 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
  * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSource {
+public class ReviewsRepoCached<T extends ReviewsRepo> implements ReviewsRepo {
     private final ReviewsCache mCache;
     private final T mArchive;
     private final FactoryReviews mReviewsFactory;
     private final ReviewDereferencer mDereferencer;
 
-    public ReviewsSourceCached(ReviewsCache cache,
-                               T archive,
-                               FactoryReviews reviewsFactory, ReviewDereferencer dereferencer) {
+    public ReviewsRepoCached(ReviewsCache cache,
+                             T archive,
+                             FactoryReviews reviewsFactory, ReviewDereferencer dereferencer) {
         mCache = cache;
         mArchive = archive;
         mReviewsFactory = reviewsFactory;
@@ -42,13 +42,13 @@ public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSour
     }
 
     @Override
-    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsArchive getReviewsByAuthor(AuthorId authorId) {
         return mArchive.getReviewsByAuthor(authorId);
     }
 
     @Override
-    public ReviewsRepoMutable getMutableRepository(UserSession session) {
-        return mArchive.getMutableRepository(session);
+    public ReviewsArchiveMutable getMutableRepoForUser(UserSession session) {
+        return mArchive.getMutableRepoForUser(session);
     }
 
     @Override

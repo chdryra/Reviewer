@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 
 /**
@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
-    private ReviewsRepoMutable mLocalRepo;
+    private ReviewsArchiveMutable mLocalRepo;
     private AuthorsRepo mAuthorsRepo;
     private AccountsManager mAccountsManager;
-    private NodeRepo mNodeRepo;
+    private NodeRepo mReviewsRepo;
     private FactoryReviewsRepo mRepoFactory;
 
-    protected void setLocalRepo(ReviewsRepoMutable localRepo) {
+    protected void setLocalRepo(ReviewsArchiveMutable localRepo) {
         mLocalRepo = localRepo;
     }
 
@@ -39,8 +39,8 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mAccountsManager = accountsManager;
     }
 
-    protected void setNodeRepo(NodeRepo nodeRepo) {
-        mNodeRepo = nodeRepo;
+    protected void setReviewsRepo(NodeRepo reviewsRepo) {
+        mReviewsRepo = reviewsRepo;
     }
 
     protected void setReposFactory(FactoryReviewsRepo repoFactory) {
@@ -49,11 +49,11 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
 
     @Override
     public NodeRepo getReviewsRepo() {
-        return mNodeRepo;
+        return mReviewsRepo;
     }
 
     @Override
-    public ReviewsRepoMutable getLocalRepo() {
+    public ReviewsArchiveMutable getLocalRepo() {
         return mLocalRepo;
     }
 

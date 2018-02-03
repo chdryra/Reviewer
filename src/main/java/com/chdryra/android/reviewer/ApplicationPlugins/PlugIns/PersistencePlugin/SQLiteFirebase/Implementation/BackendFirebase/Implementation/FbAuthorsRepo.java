@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbDataReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 
@@ -40,14 +40,14 @@ import java.util.ArrayList;
 public class FbAuthorsRepo implements AuthorsRepo {
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
-    private final FactoryFbReference mReferenceFactory;
+    private final FbDataReferencer mReferenceFactory;
     private final SnapshotConverter<NamedAuthor> mConverter;
     private final FactoryAuthorProfile mProfileFactory;
 
     public FbAuthorsRepo(Firebase dataRoot,
                          FbUsersStructure structure,
                          SnapshotConverter<NamedAuthor> converter,
-                         FactoryFbReference referenceFactory,
+                         FbDataReferencer referenceFactory,
                          FactoryAuthorProfile profileFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;

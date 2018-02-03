@@ -90,10 +90,10 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryFbReference {
+public class FbDataReferencer {
     private final FactoryListItemsReferencer mReferencerFactory;
 
-    public FactoryFbReference() {
+    public FbDataReferencer() {
         mReferencerFactory = new FactoryListItemsReferencer(this);
     }
 
