@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Factories.FactoryReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,14 +26,14 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
  */
 
 public class RepositorySuiteAndroid implements RepositorySuite {
-    private final ReviewsNodeRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
+    private final ReviewsNodeRepo mReviewsRepo;
     private final FactoryReviewsRepo mRepoFactory;
     private final FactoryReviewDeleter mDeleterFactory;
     private final ReviewPublisher mPublisher;
 
-    public RepositorySuiteAndroid(ReviewsNodeRepo reviewsRepo,
-                                  AuthorsRepo authorsRepo,
+    public RepositorySuiteAndroid(AuthorsRepo authorsRepo,
+                                  ReviewsNodeRepo reviewsRepo,
                                   FactoryReviewsRepo repoFactory,
                                   FactoryReviewDeleter deleterFactory,
                                   ReviewPublisher publisher) {
@@ -56,7 +56,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
 
     @Override
     public ReviewsRepoReadable getFeed(ProfileSocial profile) {
-        return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
+        return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), getReviews());
     }
 
     @Override

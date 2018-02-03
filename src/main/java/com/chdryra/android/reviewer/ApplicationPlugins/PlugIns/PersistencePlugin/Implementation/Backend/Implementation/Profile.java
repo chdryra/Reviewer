@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +28,7 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(AuthorProfileSnapshot profile) {
+    public Profile(AuthorProfile profile) {
         this.author = new Author(profile.getNamedAuthor());
         this.dateJoined = profile.getJoined().getTime();
         this.photo = ImageData.asString(profile.getImage().getBitmap());

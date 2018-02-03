@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileReference;
 import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 public class UserAccountImpl implements UserAccount {
     private final AuthorId mAuthorId;
     private final AuthenticatedUser mAccountHolder;
-    private final ProfileAuthor mAuthorProfile;
+    private final ProfileReference mAuthorProfile;
     private final ProfileSocial mSocialProfile;
 
     public UserAccountImpl(AuthenticatedUser accountHolder,
-                           ProfileAuthor authorProfile,
+                           ProfileReference authorProfile,
                            ProfileSocial socialProfile) {
         mAccountHolder = accountHolder;
         if(mAccountHolder.getAuthorId() == null) {
@@ -54,7 +54,7 @@ public class UserAccountImpl implements UserAccount {
     }
 
     @Override
-    public ProfileAuthor getAuthorProfile() {
+    public ProfileReference getAuthorProfile() {
         return mAuthorProfile;
     }
 

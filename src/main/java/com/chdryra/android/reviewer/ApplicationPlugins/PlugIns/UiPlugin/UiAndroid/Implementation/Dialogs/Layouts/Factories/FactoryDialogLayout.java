@@ -15,8 +15,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Configs.ConfigDialogLayouts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -45,9 +44,9 @@ public class FactoryDialogLayout {
     private static final String TAG = TagKeyGenerator.getTag(FactoryDialogLayout.class);
     private final Context mContext;
     private final ConfigDialogLayouts mConfig;
-    private final LocationServicesApi mServices;
+    private final LocationServices mServices;
 
-    public FactoryDialogLayout(Context context, ConfigDialogLayouts config, LocationServicesApi services) {
+    public FactoryDialogLayout(Context context, ConfigDialogLayouts config, LocationServices services) {
         mContext = context;
         mConfig = config;
         mServices = services;

@@ -9,23 +9,23 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin;
 
 
+
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
-        .FactoryBackendDeleter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
         .NetworkServicesAndroid.Implementation.BackendService.BackendReviewDeleterAndroid;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
         .NetworkServicesAndroid.Implementation.BackendService.ReviewDeleterReceiver;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryBackendDeleterService implements FactoryBackendDeleter {
+public class FactoryBackendDeleterService implements FactoryReviewDeleter {
     private final Context mContext;
 
     public FactoryBackendDeleterService(Context context) {

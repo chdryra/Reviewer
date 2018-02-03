@@ -38,7 +38,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
@@ -83,14 +83,14 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private final LocationServicesApi mLocationServices;
+    private final LocationServices mLocationServices;
     private final LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
     private LocationAutoCompleter mAutoCompleter;
 
     private LocationDetails mDetails;
 
-    public AddLocation(GvDataAdder adder, LocationServicesApi locationServices) {
+    public AddLocation(GvDataAdder adder, LocationServices locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newLocationDetailsFetcher();
@@ -189,7 +189,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (mCurrentLatLng != null) {
             onLatLngFound(mCurrentLatLng);
         } else {
-            AppInstanceAndroid.getInstance(mContext).getLocationServices().newLocationClient().connect(this);
+            AppInstanceAndroid.getInstance(mContext).getGeolocation().newLocationClient().connect(this);
         }
 
         return v;

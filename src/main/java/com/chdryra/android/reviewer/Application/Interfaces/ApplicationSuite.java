@@ -19,16 +19,16 @@ public interface ApplicationSuite {
     AccountsSuite getAccounts();
 
     RepositorySuite getRepository();
-
-    UiSuite getUi();
-
-    EditorSuite getEditor();
-
-    LocationServicesSuite getLocationServices();
+    
+    GeolocationSuite getGeolocation();
 
     SocialSuite getSocial();
 
     NetworkSuite getNetwork();
+
+    UiSuite getUi();
+
+    EditorSuite getEditor();
 
     PermissionsManager getPermissions();
 }

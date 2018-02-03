@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 
 /**
@@ -27,11 +27,11 @@ public class UserProfileConverter {
         mProfileFactory = profileFactory;
     }
 
-    public User toUser(AuthenticatedUser user, AuthorProfileSnapshot profile) {
+    public User toUser(AuthenticatedUser user, AuthorProfile profile) {
         return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
     }
 
-    public User toUser(AuthenticatedUser user, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile) {
+    public User toUser(AuthenticatedUser user, AuthorProfile oldProfile, AuthorProfile newProfile) {
         return new User(user.getProvider(), user.getProvidersId(), new Profile(oldProfile), new Profile(newProfile));
     }
 
@@ -43,7 +43,7 @@ public class UserProfileConverter {
         return new AuthenticatedUser();
     }
 
-    public AuthorProfileSnapshot newProfile(Profile profile) {
+    public AuthorProfile newProfile(Profile profile) {
         return mProfileFactory.newProfile(profile.getAuthor().getName(),
                 new AuthorIdParcelable(profile.getAuthor().getAuthorId()), profile.getDateJoined(),
                 ImageData.asBitmap(profile.getPhoto()));

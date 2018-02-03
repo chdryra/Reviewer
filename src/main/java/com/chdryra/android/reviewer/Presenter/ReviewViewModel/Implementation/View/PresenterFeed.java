@@ -12,8 +12,8 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
@@ -142,9 +142,9 @@ public class PresenterFeed implements ReviewPublisherListener {
         public PresenterFeed build(ApplicationInstance app, PresenterListener listener) {
             UiSuite ui = app.getUi();
             RepositorySuite repo = app.getRepository();
-            SocialSuite social = app.getSocial();
+            ProfileSocial profile = app.getAccounts().getUserSession().getAccount().getSocialProfile();
 
-            return new PresenterFeed(ui.newFeedView(repo, social.getSocialProfile()),
+            return new PresenterFeed(ui.newFeedView(repo, profile),
                     ui.getCurrentScreen(), repo.getReviewPublisher(), listener);
         }
     }

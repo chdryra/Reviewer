@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroi
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
@@ -145,8 +145,8 @@ public abstract class DialogGvDataEdit<T extends GvDataParcelable>
     }
 
     private void setLayout() {
-        LocationServicesApi services = AppInstanceAndroid.getInstance(getActivity())
-                .getLocationServices().getApi();
+        LocationServices services = AppInstanceAndroid.getInstance(getActivity())
+                .getGeolocation().getLocationServices();
         FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new
                 DefaultLayoutConfig(), services);
         mLayout = layoutFactory.newLayout(mDataType, this);

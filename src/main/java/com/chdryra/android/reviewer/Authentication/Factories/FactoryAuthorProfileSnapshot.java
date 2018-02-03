@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Authentication.Factories;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
@@ -27,16 +27,16 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorProfileSnapshot {
-    public AuthorProfileSnapshot newProfile(String name, AuthorId id, long dateJoined, @Nullable Bitmap photo) {
+    public AuthorProfile newProfile(String name, AuthorId id, long dateJoined, @Nullable Bitmap photo) {
         NamedAuthor author = new DefaultNamedAuthor(name, id);
-        return new AuthorProfileSnapshot(author, new DatumDateTime(dateJoined), new DefaultProfileImage(id, photo));
+        return new AuthorProfile(author, new DatumDateTime(dateJoined), new DefaultProfileImage(id, photo));
     }
 
-    public AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo) {
+    public AuthorProfile newProfile(String name, @Nullable Bitmap photo) {
         return newProfile(name, AuthorIdGenerator.newId(), new Date().getTime(), photo);
     }
 
-    public AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo) {
+    public AuthorProfile newUpdatedProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo) {
         NamedAuthor author = oldProfile.getNamedAuthor();
         if(name == null || name.length() == 0) name = author.getName();
 

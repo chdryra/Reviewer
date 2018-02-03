@@ -8,10 +8,8 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
-        .FactoryBackendUploader;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
-        .FactorySocialPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.FactoryReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.BackendConsumer;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation
         .ReviewPublisherImpl;
@@ -27,10 +25,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewPublisher {
-    private final FactoryBackendUploader mUploaderFactory;
+    private final FactoryReviewUploader mUploaderFactory;
     private final FactorySocialPublisher mPublisherFactory;
 
-    public FactoryReviewPublisher(FactoryBackendUploader uploaderFactory,
+    public FactoryReviewPublisher(FactoryReviewUploader uploaderFactory,
                                   FactorySocialPublisher publisherFactory) {
         mUploaderFactory = uploaderFactory;
         mPublisherFactory = publisherFactory;

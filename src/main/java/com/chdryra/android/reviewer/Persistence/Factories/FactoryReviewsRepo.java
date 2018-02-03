@@ -8,21 +8,19 @@
 
 package com.chdryra.android.reviewer.Persistence.Factories;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepoCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsNodeRepoImpl;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepoCached;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,9 +34,9 @@ public class FactoryReviewsRepo {
         mCacheFactory = cacheFactory;
     }
 
-    public ReviewsNodeRepo newReviewsSource(ReviewsRepo reviewsRepo,
-                                            AuthorsRepo authorsRepo,
-                                            FactoryReviews reviewsFactory) {
+    public ReviewsNodeRepo newReviewsNodeRepo(ReviewsRepo reviewsRepo,
+                                              AuthorsRepo authorsRepo,
+                                              FactoryReviews reviewsFactory) {
         return new ReviewsNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
     }
 
@@ -57,7 +55,6 @@ public class FactoryReviewsRepo {
         return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
     }
 
-    @NonNull
     public ReviewDereferencer newDereferencer() {
         return new ReviewDereferencer();
     }

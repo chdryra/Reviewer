@@ -49,9 +49,9 @@ import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextVie
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionResult;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
-import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.chdryra.android.mygenerallibrary.LocationServices.StringAutoCompleterLocation;
 import com.chdryra.android.mygenerallibrary.LocationServices.UserLocatedPlace;
@@ -333,7 +333,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void setLocationServices() {
-        LocationServicesApi services = getLocationServices().getApi();
+        LocationServices services = getLocationServices().getLocationServices();
         mPlaceSearcher = services.newPlaceSearcher();
         mAddressSuggester = services.newAddressesSuggester();
     }
@@ -576,7 +576,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void updateSuggestionAdapters() {
-        LocationServicesApi api = getLocationServices().getApi();
+        LocationServices api = getLocationServices().getLocationServices();
         mAutoCompleter = new StringAutoCompleterLocation(api.newAutoCompleter(new UserLocatedPlace(mNewLatLng)));
         mSearchAdapter = new StringFilterAdapter(getActivity(), new ArrayList<String>(), mAutoCompleter);
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
@@ -585,8 +585,8 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mAddressSuggester.fetchAddresses(mNewLatLng, NUMBER_DEFAULT_NAMES, this);
     }
 
-    private LocationServicesSuite getLocationServices() {
-        return AppInstanceAndroid.getInstance(getActivity()).getLocationServices();
+    private GeolocationSuite getLocationServices() {
+        return AppInstanceAndroid.getInstance(getActivity()).getGeolocation();
     }
 
     @NonNull

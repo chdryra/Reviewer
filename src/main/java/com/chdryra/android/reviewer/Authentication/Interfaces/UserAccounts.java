@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 
@@ -33,22 +33,22 @@ public interface UserAccounts {
     }
 
     interface UpdateProfileCallback {
-        void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error);
+        void onAccountUpdated(AuthorProfile profile, @Nullable AuthenticationError error);
     }
 
     interface CreateAccountCallback {
-        void onAccountCreated(UserAccount account, AuthorProfileSnapshot profile, @Nullable AuthenticationError error);
+        void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable AuthenticationError error);
     }
 
-    AuthorProfileSnapshot newProfile(String name, @Nullable Bitmap photo);
+    AuthorProfile newProfile(String name, @Nullable Bitmap photo);
 
-    AuthorProfileSnapshot newUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String name, @Nullable Bitmap photo);
+    AuthorProfile newUpdatedProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void createAccount(AuthenticatedUser authUser, AuthorProfileSnapshot profile, CreateAccountCallback callback);
+    void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
 
-    void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile, UpdateProfileCallback callback);
+    void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile newProfile, UpdateProfileCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

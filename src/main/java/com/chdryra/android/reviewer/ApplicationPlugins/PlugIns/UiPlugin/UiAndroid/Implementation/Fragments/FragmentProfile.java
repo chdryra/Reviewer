@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -63,7 +63,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
 
     private PresenterProfile mPresenter;
     private AuthenticatedUser mUser;
-    private AuthorProfileSnapshot mProfile;
+    private AuthorProfile mProfile;
     private EditText mName;
     private ImageView mImageView;
 
@@ -140,7 +140,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     }
 
     @Override
-    public void onProfileFetched(AuthorProfileSnapshot profile, CallbackMessage message) {
+    public void onProfileFetched(AuthorProfile profile, CallbackMessage message) {
         if (message.isOk()) {
             setProfile(profile);
             unlock();
@@ -150,12 +150,12 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     }
 
     @Override
-    public void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message) {
+    public void onProfileCreated(AuthorProfile profile, CallbackMessage message) {
         toastAndClose(message);
     }
 
     @Override
-    public void onProfileUpdated(AuthorProfileSnapshot newProfile, CallbackMessage message) {
+    public void onProfileUpdated(AuthorProfile newProfile, CallbackMessage message) {
         toastAndClose(message);
     }
 
@@ -191,7 +191,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         mPresenter.launchImageChooser();
     }
 
-    private void setProfile(AuthorProfileSnapshot profile) {
+    private void setProfile(AuthorProfile profile) {
         mProfile = profile;
         mName.setText(mProfile.getNamedAuthor().getName());
         ProfileImage image = profile.getImage();
@@ -238,7 +238,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         }
 
         if(mProfile != null) {
-            AuthorProfileSnapshot newProfile
+            AuthorProfile newProfile
                     = mPresenter.createUpdatedProfile(mProfile, name, mImage);
             if (!mProfile.equals(newProfile)) {
                 makeToast(Strings.Toasts.UPDATING_PROFILE);

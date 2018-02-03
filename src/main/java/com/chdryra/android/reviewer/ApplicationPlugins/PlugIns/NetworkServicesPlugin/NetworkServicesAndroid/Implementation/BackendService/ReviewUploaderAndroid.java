@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUploaderAndroid
-        extends BackendReviewAndroid<ReviewUploaderReceiver, ReviewUploader.Listener>
+        extends BackendReviewAndroid<ReviewUploaderReceiver, ReviewUploader.Callback>
         implements ReviewUploader {
 
     public ReviewUploaderAndroid(Context context, ReviewUploaderReceiver receiver) {

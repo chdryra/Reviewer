@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Persistence.Factories;
 import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryPersistentCache;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsCacheHybrid;
@@ -28,11 +27,11 @@ public class FactoryReviewsCache {
 
     private final ModelContext mModelContext;
     private final DataValidator mValidator;
-    private final FactoryPersistentCache mCacheFactory;
+    private final com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryReviewsCache mCacheFactory;
 
     public FactoryReviewsCache(ModelContext modelContext,
                                DataValidator validator,
-                               FactoryPersistentCache cacheFactory) {
+                               com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryReviewsCache cacheFactory) {
         mModelContext = modelContext;
         mValidator = validator;
         mCacheFactory = cacheFactory;

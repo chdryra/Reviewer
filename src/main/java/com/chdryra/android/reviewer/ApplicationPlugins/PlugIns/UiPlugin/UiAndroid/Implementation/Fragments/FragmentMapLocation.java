@@ -188,7 +188,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getLocationServices()
+        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getGeolocation()
                 .newLocationClient();
         mLocationClient.connect(this);
     }

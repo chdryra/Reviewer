@@ -12,7 +12,9 @@ import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
+import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
@@ -76,7 +78,8 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     }
 
     private ProfileSocial getProfile() {
-        return getApp().getSocial().getSocialProfile();
+        UserSession session = getApp().getAccounts().getUserSession();
+        return session.isInSession() ? session.getAccount().getSocialProfile() : new NullSocialProfile();
     }
 
     private boolean isAuthor(AuthorId value) {

@@ -21,5 +21,5 @@ public interface UserAccount extends HasAuthorId{
 
     ProfileSocial getSocialProfile();
 
-    ProfileAuthor getAuthorProfile();
+    ProfileReference getAuthorProfile();
 }

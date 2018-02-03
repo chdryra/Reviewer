@@ -10,6 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .FactoryReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
@@ -18,7 +23,7 @@ import android.content.Context;
 public interface NetworkServicesPlugin {
     FactorySocialPublisher getSocialPublisherFactory(Context context);
 
-    FactoryBackendUploader getBackendUploaderFactory(Context context);
+    FactoryReviewUploader getBackendUploaderFactory(Context context);
 
-    FactoryBackendDeleter getBackendDeleterFactory(Context context);
+    FactoryReviewDeleter getBackendDeleterFactory(Context context);
 }

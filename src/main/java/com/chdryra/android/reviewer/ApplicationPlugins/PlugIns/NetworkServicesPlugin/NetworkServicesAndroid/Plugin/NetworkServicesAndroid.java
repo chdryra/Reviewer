@@ -8,12 +8,16 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin;
 
+
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendDeleter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .NetworkServicesPlugin;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .FactoryReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .FactorySocialPublisher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,12 +26,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
  */
 public class NetworkServicesAndroid implements NetworkServicesPlugin {
     private final FactorySocialPublisherService mSocialPublisherFactory;
-    private final FactoryBackendUploaderService mUploaderfactory;
+    private final FactoryReviewUploaderService mUploaderfactory;
     private final FactoryBackendDeleterService mDeleterFactory;
 
     public NetworkServicesAndroid(Context context) {
         mSocialPublisherFactory = new FactorySocialPublisherService(context);
-        mUploaderfactory = new FactoryBackendUploaderService(context);
+        mUploaderfactory = new FactoryReviewUploaderService(context);
         mDeleterFactory = new FactoryBackendDeleterService(context);
     }
 
@@ -37,12 +41,12 @@ public class NetworkServicesAndroid implements NetworkServicesPlugin {
     }
 
     @Override
-    public FactoryBackendUploader getBackendUploaderFactory(Context context) {
+    public FactoryReviewUploader getBackendUploaderFactory(Context context) {
         return mUploaderfactory;
     }
 
     @Override
-    public FactoryBackendDeleter getBackendDeleterFactory(Context context) {
+    public FactoryReviewDeleter getBackendDeleterFactory(Context context) {
         return mDeleterFactory;
     }
 }

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploaderReceiver extends BackendRepoServiceReceiver<ReviewUploader.Listener>
+public class ReviewUploaderReceiver extends BackendRepoServiceReceiver<ReviewUploader.Callback>
         implements HasReviewId {
 
     public ReviewUploaderReceiver(ReviewId reviewId) {
@@ -28,8 +28,8 @@ public class ReviewUploaderReceiver extends BackendRepoServiceReceiver<ReviewUpl
     }
 
     @Override
-    protected void notifyListener(ReviewUploader.Listener listener, DatumReviewId reviewId,
+    protected void notifyListener(ReviewUploader.Callback callback, DatumReviewId reviewId,
                                   CallbackMessage result) {
-        listener.onUploadedToBackend(reviewId, result);
+        callback.onReviewUploaded(reviewId, result);
     }
 }

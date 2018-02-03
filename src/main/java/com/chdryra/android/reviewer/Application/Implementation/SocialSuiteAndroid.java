@@ -11,13 +11,10 @@ package com.chdryra.android.reviewer.Application.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
-import com.chdryra.android.reviewer.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
@@ -27,31 +24,28 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  */
 
 public class SocialSuiteAndroid implements SocialSuite {
-    private SocialPlatformList mList;
-    private UserSession mSession;
+    private final SocialPlatformList mList;
+    private final ReviewSummariser mSummariser;
+    private final ReviewFormatter mFormatter;
+
     private Activity mActivity;
 
-    public SocialSuiteAndroid(SocialPlatformList list) {
+    public SocialSuiteAndroid(SocialPlatformList list,
+                              ReviewSummariser summariser,
+                              ReviewFormatter formatter) {
         mList = list;
+        mSummariser = summariser;
+        mFormatter = formatter;
     }
 
     @Override
-    public SocialPlatformList getSocialPlatformList() {
+    public SocialPlatformList getSocialPlatforms() {
         return mList;
     }
 
     @Override
-    public ProfileSocial getSocialProfile() {
-        return mSession != null ? mSession.getAccount().getSocialProfile() : new NullSocialProfile();
-    }
-
-    @Override
     public SocialPublisher newPublisher() {
-        return new PublisherAndroid(mActivity, new ReviewSummariser(), new ReviewFormatterTwitter());
-    }
-
-    public void setSession(UserSession session) {
-        mSession = session;
+        return new PublisherAndroid(mActivity, mSummariser, mFormatter);
     }
 
     public void setActivity(Activity activity) {

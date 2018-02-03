@@ -10,8 +10,7 @@ package test.Plugins.PersistencePlugin.AndroidSqLiteDb;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Implementation.DbEntryType;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation
         .SqLiteTypeDefinitions;
 
 import org.junit.Before;

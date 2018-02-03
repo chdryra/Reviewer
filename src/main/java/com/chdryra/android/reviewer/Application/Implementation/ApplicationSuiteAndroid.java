@@ -21,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManagerAndroi
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
@@ -43,7 +43,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack
 public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.SessionObserver,
         ActivityCompat.OnRequestPermissionsResultCallback {
     private final AccountsSuiteAndroid mAuth;
-    private final LocationServicesSuiteAndroid mLocation;
+    private final GeolocationSuiteAndroid mLocation;
     private final UiSuiteAndroid mUi;
     private final RepositorySuiteAndroid mRepository;
     private final EditorSuiteAndroid mBuilder;
@@ -54,7 +54,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private Activity mActivity;
 
     public ApplicationSuiteAndroid(AccountsSuiteAndroid auth,
-                                   LocationServicesSuiteAndroid location,
+                                   GeolocationSuiteAndroid location,
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
                                    EditorSuiteAndroid builder,
@@ -86,7 +86,6 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     private void setSession() {
         UserSession session = getAccounts().getUserSession();
         mUi.setSession(session);
-        mSocial.setSession(session);
     }
 
     void setReturnResult(ActivityResultCode result) {
@@ -99,7 +98,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Override
-    public LocationServicesSuite getLocationServices() {
+    public GeolocationSuite getGeolocation() {
         return mLocation;
     }
 

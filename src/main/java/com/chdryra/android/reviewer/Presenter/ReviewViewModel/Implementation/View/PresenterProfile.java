@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfileSnapshot;
-import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileReference;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ActivityResultListener;
@@ -55,11 +55,11 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
     public interface ProfileListener {
         void onImageChosen(GvImage image, CallbackMessage message);
 
-        void onProfileFetched(AuthorProfileSnapshot profile, CallbackMessage message);
+        void onProfileFetched(AuthorProfile profile, CallbackMessage message);
 
-        void onProfileCreated(AuthorProfileSnapshot profile, CallbackMessage message);
+        void onProfileCreated(AuthorProfile profile, CallbackMessage message);
 
-        void onProfileUpdated(@Nullable AuthorProfileSnapshot newProfile, CallbackMessage message);
+        void onProfileUpdated(@Nullable AuthorProfile newProfile, CallbackMessage message);
 
         void onNameTaken(CallbackMessage message);
     }
@@ -81,25 +81,25 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
         }
     }
 
-    public AuthorProfileSnapshot createUpdatedProfile(AuthorProfileSnapshot oldProfile, @Nullable String newName, @Nullable Bitmap photo) {
+    public AuthorProfile createUpdatedProfile(AuthorProfile oldProfile, @Nullable String newName, @Nullable Bitmap photo) {
         return mAccounts.newUpdatedProfile(oldProfile, newName, photo);
     }
 
     public void getProfile(UserAccount account) {
-        account.getAuthorProfile().getProfileSnapshot(new ProfileAuthor.ProfileCallback() {
+        account.getAuthorProfile().dereference(new ProfileReference.Callback() {
             @Override
-            public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
+            public void onProfile(AuthorProfile profile, CallbackMessage message) {
                 mListener.onProfileFetched(profile, message);
             }
         });
     }
 
-    public void updateProfile(UserAccount account, AuthorProfileSnapshot oldProfile, AuthorProfileSnapshot newProfile) {
+    public void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile newProfile) {
         mAccounts.updateProfile(account, oldProfile, newProfile, this);
     }
 
     @Override
-    public void onAccountUpdated(AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
+    public void onAccountUpdated(AuthorProfile profile, @Nullable AuthenticationError error) {
         CallbackMessage message = CallbackMessage.ok(Strings.Callbacks.PROFILE_UPDATED);
         if(error != null) {
             if(error.is(AuthenticationError.Reason.NAME_TAKEN)) {
@@ -112,15 +112,15 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
     }
 
     @Override
-    public void onAccountCreated(UserAccount account, AuthorProfileSnapshot profile, @Nullable AuthenticationError error) {
+    public void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable AuthenticationError error) {
         if(error != null && error.is(AuthenticationError.Reason.NAME_TAKEN)) {
             notifyNameTaken(profile);
             return;
         }
 
-        account.getAuthorProfile().getProfileSnapshot(new ProfileAuthor.ProfileCallback() {
+        account.getAuthorProfile().dereference(new ProfileReference.Callback() {
             @Override
-            public void onProfile(AuthorProfileSnapshot profile, CallbackMessage message) {
+            public void onProfile(AuthorProfile profile, CallbackMessage message) {
                 CallbackMessage updated = message.isOk() ?
                         CallbackMessage.ok(Strings.Callbacks.PROFILE_CREATED) : message;
                 mListener.onProfileCreated(profile, updated);
@@ -128,7 +128,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
         });
     }
 
-    private void notifyNameTaken(AuthorProfileSnapshot profile) {
+    private void notifyNameTaken(AuthorProfile profile) {
         String nameTaken = profile.getNamedAuthor().getName() + " " + Strings.Callbacks.NAME_TAKEN;
         mListener.onNameTaken(CallbackMessage.error(nameTaken));
     }

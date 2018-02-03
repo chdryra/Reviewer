@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Application.Implementation.AccountsSuiteAndr
 import com.chdryra.android.reviewer.Application.Implementation.ApplicationSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.EditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.InSessionStamper;
-import com.chdryra.android.reviewer.Application.Implementation.LocationServicesSuiteAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.GeolocationSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.NetworkSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
@@ -40,6 +40,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReleaseNetworkContext;
 import com.chdryra.android.reviewer.Persistence.ReleasePersistenceContext;
 import com.chdryra.android.reviewer.Presenter.ReleasePresenterContext;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.ReleaseSocialContext;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -67,7 +69,7 @@ public class FactoryApplicationSuite {
 
         AccountsSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         PermissionsManagerAndroid permissions = new PermissionsManagerAndroid(context);
-        LocationServicesSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions));
+        GeolocationSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions));
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         EditorSuiteAndroid editor = newReviewEditorSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, editor);
@@ -92,21 +94,20 @@ public class FactoryApplicationSuite {
         return new AccountsSuiteAndroid(accountsManager, session);
     }
 
-    private LocationServicesSuiteAndroid newLocationServicesSuite(LocationServicesApi services) {
-        return new LocationServicesSuiteAndroid(services);
+    private GeolocationSuiteAndroid newLocationServicesSuite(LocationServices services) {
+        return new GeolocationSuiteAndroid(services);
     }
 
     private RepositorySuiteAndroid newRepositorySuite(PersistenceContext persistence,
                                                       NetworkContext network) {
-        return new RepositorySuiteAndroid(persistence.getReviewsRepo(),
-                persistence.getAuthorsRepo(),
+        return new RepositorySuiteAndroid(persistence.getAuthorsRepo(), persistence.getReviewsRepo(),
                 persistence.getRepoFactory(),
                 network.getDeleterFactory(),
                 network.getPublisherFactory().newPublisher(persistence.getLocalRepo()));
     }
 
     private SocialSuiteAndroid newSocialSuite(SocialContext social) {
-        return new SocialSuiteAndroid(social.getSocialPlatforms());
+        return new SocialSuiteAndroid(social.getSocialPlatforms(), new ReviewSummariser(), new ReviewFormatterTwitter());
     }
 
     private UiSuiteAndroid newUiSuite(PersistenceContext persistence,

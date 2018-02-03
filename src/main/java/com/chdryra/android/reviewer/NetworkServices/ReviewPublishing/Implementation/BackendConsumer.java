@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.UploadListener;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.FactoryReviewUploader;
 
 import java.util.ArrayList;
 
@@ -26,9 +26,9 @@ import java.util.ArrayList;
  */
 public class BackendConsumer extends QueueConsumer<Review> {
     private final ArrayList<UploadListener> mListeners;
-    private final FactoryBackendUploader mFactory;
+    private final FactoryReviewUploader mFactory;
 
-    public BackendConsumer(FactoryBackendUploader factory) {
+    public BackendConsumer(FactoryReviewUploader factory) {
         mFactory = factory;
         mListeners = new ArrayList<>();
     }
@@ -78,7 +78,7 @@ public class BackendConsumer extends QueueConsumer<Review> {
         }
     }
 
-    private class BackendUploadWorker implements ItemWorker<Review>, ReviewUploader.Listener{
+    private class BackendUploadWorker implements ItemWorker<Review>, ReviewUploader.Callback {
         private final ReviewUploader mUploader;
 
         private BackendUploadWorker(ReviewUploader uploader) {
@@ -92,7 +92,7 @@ public class BackendConsumer extends QueueConsumer<Review> {
         }
 
         @Override
-        public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
+        public void onReviewUploaded(ReviewId reviewId, CallbackMessage result) {
             onUploadComplete(reviewId, result);
         }
 

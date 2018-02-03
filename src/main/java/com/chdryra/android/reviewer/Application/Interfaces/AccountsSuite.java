@@ -21,9 +21,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 public interface AccountsSuite {
     UserAuthenticator getAuthenticator();
 
-    UserSession getUserSession();
-
     UserAccounts getUserAccounts();
+
+    UserSession getUserSession();
 
     void logout();
 }

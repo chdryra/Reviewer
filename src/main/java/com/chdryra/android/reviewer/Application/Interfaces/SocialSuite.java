@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Application.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
@@ -19,9 +18,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  */
 
 public interface SocialSuite {
-    SocialPlatformList getSocialPlatformList();
-
-    ProfileSocial getSocialProfile();
+    SocialPlatformList getSocialPlatforms();
 
     SocialPublisher newPublisher();
 }

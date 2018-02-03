@@ -81,7 +81,7 @@ public class SocialPublishingService extends IntentService {
         SocialSuite social = app.getSocial();
 
         Collection<SocialPlatform<?>> platforms = new ArrayList<>();
-        for (SocialPlatform<?> platform : social.getSocialPlatformList()) {
+        for (SocialPlatform<?> platform : social.getSocialPlatforms()) {
             if (mPlatforms.contains(platform.getName())) platforms.add(platform);
         }
 

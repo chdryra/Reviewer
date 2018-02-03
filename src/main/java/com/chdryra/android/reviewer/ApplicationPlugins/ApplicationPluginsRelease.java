@@ -10,16 +10,31 @@ package com.chdryra.android.reviewer.ApplicationPlugins;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin.DataComparatorsDefault;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.GoogleLocationServices.LocationServicesGoogle;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin.NetworkServicesAndroid;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Plugin.SQLiteFirebase;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Plugin.DataComparatorsDefault;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin
+        .GoogleLocationServices.LocationServicesGoogle;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .NetworkServicesPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Plugin.NetworkServicesAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.BackendPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.LocalPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .PersistencePlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Plugin.LocalReviewerDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Plugin.SqlLiteDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Plugin.BackendFirebase;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Plugin.DefaultPersistence;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 
@@ -29,8 +44,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationPluginsRelease implements ApplicationPlugins {
-    private static final String PERSISTENCE_NAME = "Reviewer";
-    private static final int PERSISTENCE_VER = 1;
+    private static final String DB_NAME = "Reviewer";
+    private static final int DB_VER = 1;
 
     private final Context mContext;
 
@@ -50,7 +65,9 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
 
     @Override
     public PersistencePlugin getPersistence() {
-        return new SQLiteFirebase(mContext, PERSISTENCE_NAME, PERSISTENCE_VER);
+        LocalPlugin local = new LocalReviewerDb(mContext, DB_NAME, DB_VER, new SqlLiteDb());
+        BackendPlugin backend = new BackendFirebase(mContext);
+        return new DefaultPersistence(local, backend);
     }
 
     @Override

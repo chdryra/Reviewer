@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuit
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.SocialSuite;
@@ -118,8 +118,8 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     }
 
     @Override
-    public LocationServicesSuite getLocationServices() {
-        return mApp.getLocationServices();
+    public GeolocationSuite getGeolocation() {
+        return mApp.getGeolocation();
     }
 
     @Override

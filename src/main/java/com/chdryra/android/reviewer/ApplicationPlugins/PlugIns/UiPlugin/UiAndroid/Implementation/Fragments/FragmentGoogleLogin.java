@@ -62,7 +62,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         super.onCreate(savedInstanceState);
 
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
+        SocialPlatformList platforms = app.getSocial().getSocialPlatforms();
         PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
         if(google == null) throw new RuntimeException("Google not found!");
         mOptions = google.getSignInOptions();

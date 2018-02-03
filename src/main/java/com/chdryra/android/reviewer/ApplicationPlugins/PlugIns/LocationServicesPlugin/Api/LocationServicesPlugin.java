@@ -16,5 +16,5 @@ import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocationServicesPlugin {
-    LocationServicesApi getApi(PermissionsManager permissions);
+    LocationServices getApi(PermissionsManager permissions);
 }

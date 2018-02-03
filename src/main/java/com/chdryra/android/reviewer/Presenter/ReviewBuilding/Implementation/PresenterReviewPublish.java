@@ -99,7 +99,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
                     app.getNetwork(), app.getEditor(), authLaunchable);
 
             ReviewEditor<?> editor = app.getEditor().getEditor();
-            SocialPlatformList platforms = app.getSocial().getSocialPlatformList();
+            SocialPlatformList platforms = app.getSocial().getSocialPlatforms();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
 
             ReviewView<?> reviewView = ui.newPublishView(editor, publisher, platforms,

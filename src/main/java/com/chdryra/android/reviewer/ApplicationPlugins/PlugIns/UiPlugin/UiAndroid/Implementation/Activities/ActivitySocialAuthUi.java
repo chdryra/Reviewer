@@ -45,7 +45,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
         if(request != null) return FragmentOAuthLogin.newInstance(request);
 
         AppInstanceAndroid.setActivity(this);
-        SocialPlatformList platforms = AppInstanceAndroid.getInstance(this).getSocial().getSocialPlatformList();
+        SocialPlatformList platforms = AppInstanceAndroid.getInstance(this).getSocial().getSocialPlatforms();
 
         String platform = getBundledPlatform();
 

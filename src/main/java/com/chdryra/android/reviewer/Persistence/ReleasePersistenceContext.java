@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.Persistence;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PersistenceContextBasic;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.BackendPlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.LocalPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .PersistencePlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
@@ -30,20 +31,21 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                                      DataValidator validator,
                                      PersistencePlugin plugin) {
 
-        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, plugin.getCacheFactory());
+        LocalPlugin local = plugin.getLocal();
+        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, local.getCacheFactory());
         setReposFactory(new FactoryReviewsRepo(cacheFactory));
 
-        setLocalRepo(plugin.newLocalReviewsRepo(model, validator));
+        setLocalRepo(local.newReviewsRepo(model, validator));
 
         ReviewsCache cache = getRepoFactory().newCache();
 
-        Backend backend = plugin.getBackend();
+        BackendPlugin backend = plugin.getBackend();
         setAccountsManager(backend.getAccounts());
         setAuthorsRepo(backend.getAuthors());
         ReviewsRepo reviews =
                 backend.getReviews(model, validator, getRepoFactory(), cache);
         ReviewsRepo cachedReviews =
                 getRepoFactory().newCachedRepo(reviews, cache, model.getReviewsFactory());
-        setReviewsRepo(getRepoFactory().newReviewsSource(cachedReviews, getAuthorsRepo(), model.getReviewsFactory()));
+        setReviewsRepo(getRepoFactory().newReviewsNodeRepo(cachedReviews, getAuthorsRepo(), model.getReviewsFactory()));
     }
 }

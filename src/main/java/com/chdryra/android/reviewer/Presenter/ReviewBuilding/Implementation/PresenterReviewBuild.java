@@ -93,7 +93,7 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
         }
 
         public PresenterReviewBuild build(ApplicationInstance app) {
-            LocationClient client = app.getLocationServices().newLocationClient();
+            LocationClient client = app.getGeolocation().newLocationClient();
             EditorSuite suite = app.getEditor();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
             PresenterReviewBuild presenter = new PresenterReviewBuild(app.getUi().getCurrentScreen());
