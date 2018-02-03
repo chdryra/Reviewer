@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
 
@@ -33,7 +33,7 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewsSource extends FbReviewsRepositoryBasic implements
+public class FbReviewsSource extends FbReviewsRepoBasic implements
         ReviewsSource {
     private final FactoryAuthorsRepo mAuthorsDbFactory;
     private final FbReviewsStructure mStructure;
@@ -50,12 +50,12 @@ public class FbReviewsSource extends FbReviewsRepositoryBasic implements
     }
 
     @Override
-    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
     @Override
-    public MutableRepository getMutableRepository(UserSession session) {
+    public ReviewsRepoMutable getMutableRepository(UserSession session) {
         return mAuthorsDbFactory.newAuthorsDbMutable(getDataBase(), getAuthorsDb(session
                 .getAuthorId()));
     }

@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,17 +21,17 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
-    private MutableRepository mLocalRepo;
-    private AuthorsRepository mAuthorsRepo;
+    private ReviewsRepoMutable mLocalRepo;
+    private AuthorsRepo mAuthorsRepo;
     private AccountsManager mAccountsManager;
-    private NodeRepository mNodeRepository;
-    private FactoryReviewsRepository mRepoFactory;
+    private NodeRepo mNodeRepo;
+    private FactoryReviewsRepo mRepoFactory;
 
-    protected void setLocalRepository(MutableRepository localRepo) {
+    protected void setLocalRepo(ReviewsRepoMutable localRepo) {
         mLocalRepo = localRepo;
     }
 
-    protected void setAuthorsRepository(AuthorsRepository authorsRepo) {
+    protected void setAuthorsRepo(AuthorsRepo authorsRepo) {
         mAuthorsRepo = authorsRepo;
     }
 
@@ -39,26 +39,26 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mAccountsManager = accountsManager;
     }
 
-    protected void setNodeRepository(NodeRepository nodeRepository) {
-        mNodeRepository = nodeRepository;
+    protected void setNodeRepo(NodeRepo nodeRepo) {
+        mNodeRepo = nodeRepo;
     }
 
-    protected void setReposFactory(FactoryReviewsRepository repoFactory) {
+    protected void setReposFactory(FactoryReviewsRepo repoFactory) {
         mRepoFactory = repoFactory;
     }
 
     @Override
-    public NodeRepository getReviewsRepo() {
-        return mNodeRepository;
+    public NodeRepo getReviewsRepo() {
+        return mNodeRepo;
     }
 
     @Override
-    public MutableRepository getLocalRepo() {
+    public ReviewsRepoMutable getLocalRepo() {
         return mLocalRepo;
     }
 
     @Override
-    public AuthorsRepository getAuthorsRepo() {
+    public AuthorsRepo getAuthorsRepo() {
         return mAuthorsRepo;
     }
 
@@ -68,7 +68,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public FactoryReviewsRepository getRepoFactory() {
+    public FactoryReviewsRepo getRepoFactory() {
         return mRepoFactory;
     }
 }

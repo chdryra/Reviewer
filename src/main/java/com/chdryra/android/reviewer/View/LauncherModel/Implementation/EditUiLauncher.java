@@ -15,9 +15,9 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -28,9 +28,9 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
     private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
     private final EditorSuite mBuilder;
-    private final NodeRepository mRepo;
+    private final NodeRepo mRepo;
 
-    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, NodeRepository repo) {
+    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, NodeRepo repo) {
         super(ui);
         mBuilder = builder;
         mRepo = repo;
@@ -57,9 +57,9 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
     }
 
     private void launch(ReviewId review, final ReviewPack.TemplateOrEdit templateOrEdit) {
-        mRepo.getReview(review, new RepositoryCallback() {
+        mRepo.getReview(review, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 Bundle args = new Bundle();
                 args.putSerializable(TEMPLATE_OR_EDIT, templateOrEdit);
                 EditUiLauncher.super.launch(result.getReview(), args);

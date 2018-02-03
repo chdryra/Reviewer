@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -36,7 +36,7 @@ public class ConverterGv {
         return new GvConverterImages(newConverterDates());
     }
 
-    public GvConverterReviewNode newConverterNodes(AuthorsRepository repository) {
+    public GvConverterReviewNode newConverterNodes(AuthorsRepo repository) {
         return newConverterNodes(new FactoryVhMostRecent(repository, mCommandsFactory));
     }
 
@@ -64,7 +64,7 @@ public class ConverterGv {
         return new GvConverterSubjects();
     }
 
-    public GvConverterAuthorIds newConverterAuthorsIds(AuthorsRepository repo) {
+    public GvConverterAuthorIds newConverterAuthorsIds(AuthorsRepo repo) {
         return new GvConverterAuthorIds(repo);
     }
 

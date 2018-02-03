@@ -28,9 +28,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
@@ -57,21 +57,21 @@ public class SQLiteFirebase implements PersistencePlugin {
     }
 
     @Override
-    public MutableRepository newLocalPersistence(ModelContext model,
-                                                 DataValidator validator) {
+    public ReviewsRepoMutable newLocalPersistence(ModelContext model,
+                                                  DataValidator validator) {
         return mLocalFactory.newPersistence(model, validator);
     }
 
     @Override
     public ReviewsSource newBackendPersistence(ModelContext model,
                                                DataValidator validator,
-                                               FactoryReviewsRepository repoFactory,
+                                               FactoryReviewsRepo repoFactory,
                                                ReviewsCache cache) {
         return mBackend.newReviewsRepo(model, validator, repoFactory, cache);
     }
 
     @Override
-    public AuthorsRepository getAuthorsPersistence() {
+    public AuthorsRepo getAuthorsPersistence() {
         return mBackend.getAuthorsRepo();
     }
 

@@ -14,7 +14,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.ReviewerDbRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowEntryImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowTagImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableReviews;
@@ -30,9 +32,9 @@ import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManager
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.testutils.RandomString;
 
@@ -72,7 +74,7 @@ public class ReviewerDbRepositoryTest {
     private TableTags mTagsTable;
     private TagsManager mTagsManager;
     private TableRowList<RowTag> mTags;
-    private ReviewerDbRepository mRepo;
+    private ReviewerDbRepo mRepo;
     @Mock
     private TableTransactor mTransactor;
 
@@ -81,7 +83,7 @@ public class ReviewerDbRepositoryTest {
         when(mDb.getReviewsTable()).thenReturn(mReviewsTable);
         when(mDb.getTagsTable()).thenReturn(mTagsTable);
         mTagsManager = new TagsManagerImpl();
-        mRepo = new ReviewerDbRepository(mDb, mTagsManager);
+        mRepo = new ReviewerDbRepo(mDb, mTagsManager);
         mTags = new TableRowList<>();
     }
 
@@ -95,9 +97,9 @@ public class ReviewerDbRepositoryTest {
         final TableTransactor mockDb = mockWriteTransaction();
         final Review review = RandomReview.nextReview();
         when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(true);
-        mRepo.addReview(review, new MutableRepoCallback() {
+        mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
                 Review reviewPassed = result.getReview();
                 assertThat(reviewPassed, is(review));
                 verify(mDb).addReviewToDb(review, mTagsManager, mockDb);
@@ -105,7 +107,7 @@ public class ReviewerDbRepositoryTest {
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
 
             }
         });
@@ -116,14 +118,14 @@ public class ReviewerDbRepositoryTest {
         final TableTransactor mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
         when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(false);
-        mRepo.addReview(review, new MutableRepoCallback() {
+        mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
 
             }
         });
@@ -140,15 +142,15 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(true);
 
-        mRepo.addReview(review, new MutableRepoCallback() {
+        mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
                 verify(observer1).onReviewAdded(review);
                 verify(observer2).onReviewAdded(review);
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
 
             }
         });
@@ -165,15 +167,15 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(false);
 
-        mRepo.addReview(review, new MutableRepoCallback() {
+        mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
                 verifyZeroInteractions(observer1, observer2);
                 assertThat(result.isError(),is(true));
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
 
             }
         });
@@ -185,9 +187,9 @@ public class ReviewerDbRepositoryTest {
         final RowEntry<RowReview, String> clause
                 = asClause(RowReview.class, RowReview.REVIEW_ID, id.toString());
         final TableTransactor mockTransactor = mockReadTransaction();
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 verify(mDb).loadReviewsWhere(mReviewsTable, clause, mockTransactor);
             }
         });
@@ -198,9 +200,9 @@ public class ReviewerDbRepositoryTest {
         ReviewId id = RandomReviewId.nextReviewId();
         ArrayList<Review> reviews = new ArrayList<>();
         mockLoadFromDb(id, reviews);
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.isError(),is(true));
                 assertThat(result.getReview(), is(nullValue()));
             }
@@ -214,9 +216,9 @@ public class ReviewerDbRepositoryTest {
         ArrayList<Review> reviews = new ArrayList<>();
         reviews.add(review);
         mockLoadFromDb(id, reviews);
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.getReview(), is(review));
                 assertThat(result.isError(),is(false));
             }
@@ -235,9 +237,9 @@ public class ReviewerDbRepositoryTest {
         assertThat(mTagsManager.getTags(id.toString()).size(), is(0));
 
         final TableTransactor transactor = mockReadTransaction();
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 verify(mDb).loadTable(mDb.getTagsTable(), transactor);
                 ItemTagCollection tags = mTagsManager.getTags(id.toString());
                 assertThat(tags.size(), is(1));
@@ -257,16 +259,16 @@ public class ReviewerDbRepositoryTest {
 
         final TableTransactor transactor = mockReadTransaction();
 
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 verify(mDb, atMost(1)).loadTable(mDb.getTagsTable(), transactor);
             }
         });
 
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 verify(mDb, atMost(1)).loadTable(mDb.getTagsTable(), transactor);
             }
         });
@@ -282,9 +284,9 @@ public class ReviewerDbRepositoryTest {
 
         mockLoadFromDb(id, reviews);
 
-        mRepo.getReview(id, new RepositoryCallback() {
+        mRepo.getReview(id, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
                 assertThat(result.getReview(), is(nullValue()));
             }
@@ -294,9 +296,9 @@ public class ReviewerDbRepositoryTest {
     @Test
     public void getReviewsCallsLoadReviewsFromDbWhere() {
         final TableTransactor mockTransactor = mockReadTransaction();
-        mRepo.getReviews(new RepositoryCallback() {
+        mRepo.getReviews(new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 verify(mDb).loadReviews(mockTransactor);
             }
         });
@@ -311,9 +313,9 @@ public class ReviewerDbRepositoryTest {
 
         TableTransactor mockDb = mockReadTransaction();
         when(mDb.loadReviews(mockDb)).thenReturn(reviews);
-        mRepo.getReviews(new RepositoryCallback() {
+        mRepo.getReviews(new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.isError(),is(false));
                 assertThat(result.getReviews(), is(reviews));
             }
@@ -325,14 +327,14 @@ public class ReviewerDbRepositoryTest {
         final TableTransactor mockTransactor = mockWriteTransaction();
         final ReviewId id = RandomReviewId.nextReviewId();
         when(mDb.deleteReviewFromDb(id, mTagsManager, mockTransactor)).thenReturn(true);
-        mRepo.removeReview(id, new MutableRepoCallback() {
+        mRepo.removeReview(id, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
 
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
                 verify(mDb).deleteReviewFromDb(id, mTagsManager, mockTransactor);
                 assertThat(result.isError(), is(false));
             }
@@ -344,14 +346,14 @@ public class ReviewerDbRepositoryTest {
         final TableTransactor mockTransactor = mockWriteTransaction();
         final ReviewId id = RandomReviewId.nextReviewId();
         when(mDb.deleteReviewFromDb(id, mTagsManager, mockTransactor)).thenReturn(false);
-        mRepo.removeReview(id, new MutableRepoCallback() {
+        mRepo.removeReview(id, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
 
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -368,14 +370,14 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id, mTagsManager, mockDb)).thenReturn(true);
 
-        mRepo.removeReview(id, new MutableRepoCallback() {
+        mRepo.removeReview(id, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
 
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
                 verify(observer1).onReviewRemoved(id);
                 verify(observer2).onReviewRemoved(id);
             }
@@ -393,14 +395,14 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id, mTagsManager, mockDb)).thenReturn(false);
 
-        mRepo.removeReview(id, new MutableRepoCallback() {
+        mRepo.removeReview(id, new ReviewsRepoMutable.Callback() {
             @Override
-            public void onAddedToRepo(RepositoryResult result) {
+            public void onAddedToRepo(RepoResult result) {
 
             }
 
             @Override
-            public void onRemovedFromRepo(RepositoryResult result) {
+            public void onRemovedFromRepo(RepoResult result) {
                 verifyZeroInteractions(observer1, observer2);
                 assertThat(result.isError(),is(true));
             }

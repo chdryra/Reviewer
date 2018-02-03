@@ -29,12 +29,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepositoryImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepoImpl;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -48,7 +48,7 @@ import java.util.Random;
 
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
-import test.TestUtils.StaticReviewsRepository;
+import test.TestUtils.StaticReviewsRepo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -72,8 +72,8 @@ public class NodesRepositoryImplTest {
     @Mock
     private TagsManager mMockManager;
     private IdableCollection<Review> mReviews;
-    private ReviewsRepository mRepo;
-    private NodeRepository mSource;
+    private ReviewsRepo mRepo;
+    private NodeRepo mSource;
 
     @Before
     public void setUp() {
@@ -81,15 +81,15 @@ public class NodesRepositoryImplTest {
         for (int i = 0; i < NUM; ++i) {
             mReviews.add(RandomReview.nextReview());
         }
-        mRepo = new StaticReviewsRepository(mReviews, mMockManager);
-        mSource = new NodeRepositoryImpl(mRepo, getReviewFactory());
+        mRepo = new StaticReviewsRepo(mReviews, mMockManager);
+        mSource = new NodeRepoImpl(mRepo, getReviewFactory());
     }
 
     @Test
     public void asMetaReview_ReviewId_ReturnsErrorIfNoReviewFound() {
-        mSource.getMetaReview(RandomReviewId.nextReviewId(), new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(RandomReviewId.nextReviewId(), new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -98,15 +98,15 @@ public class NodesRepositoryImplTest {
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithOneChildOnly() {
         Review review = getRandomReview();
-        mSource.getMetaReview(review.getReviewId(), new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(review.getReviewId(), new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNumChildren(getNode(result), 1);
             }
         });
     }
 
-    private ReviewNode getNode(RepositoryResult result) {
+    private ReviewNode getNode(RepoResult result) {
         assertThat(result.isError(), is(false));
         ReviewNode node = result.getReviewNodeComponent();
         assertThat(node, not(nullValue()));
@@ -116,9 +116,9 @@ public class NodesRepositoryImplTest {
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithCorrectChildNode() {
         final Review expectedReview = getRandomReview();
-        mSource.getMetaReview(expectedReview.getReviewId(), new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(expectedReview.getReviewId(), new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertCorrectReview(getNode(result).getChildren().get(0), expectedReview);
             }
         });
@@ -127,9 +127,9 @@ public class NodesRepositoryImplTest {
     @Test
     public void asMetaReview_Data_ReturnsErrorIfNoReviewFound() {
         VerboseDatum datum = new VerboseDatum(RandomReviewId.nextReviewId());
-        mSource.asMetaReview(datum, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(datum, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -139,9 +139,9 @@ public class NodesRepositoryImplTest {
     public void asMetaReview_Data_ReturnsMetaReviewWithOneChildOnlyForDatum() {
         Review review = getRandomReview();
         VerboseDatum datum = new VerboseDatum(review.getReviewId());
-        mSource.asMetaReview(datum, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(datum, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNumChildren(getNode(result), 1);
             }
         });
@@ -151,9 +151,9 @@ public class NodesRepositoryImplTest {
     public void asMetaReview_Data_ReturnsMetaReviewWithCorrectChildNodeForDatum() {
         final Review expectedReview = getRandomReview();
         VerboseDatum datum = new VerboseDatum(expectedReview.getReviewId());
-        mSource.asMetaReview(datum, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(datum, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertCorrectReview(getNode(result).getChildren().get(0), expectedReview);
             }
         });
@@ -170,9 +170,9 @@ public class NodesRepositoryImplTest {
             collection.add(new VerboseDatum(id));
         }
 
-        mSource.asMetaReview(collection, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(collection, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNumChildren(getNode(result), 1);
             }
         });
@@ -188,10 +188,10 @@ public class NodesRepositoryImplTest {
             collection.add(new VerboseDatum(id));
         }
 
-        mSource.asMetaReview(collection, RandomString.nextWord(), new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(collection, RandomString.nextWord(), new NodeRepo.ReviewsSourceCallback() {
 
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 ReviewNode review = getNode(result);
                 assertThat(review.getChildren().size(), is(1));
                 assertCorrectReview(review.getChildren().get(0), expectedReview);
@@ -205,9 +205,9 @@ public class NodesRepositoryImplTest {
             () {
         VerboseCollection collection = getItemsDataCollection();
         assertThat(collection.size(), is(mReviews.size() + 1));
-        mSource.asMetaReview(collection, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(collection, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNumChildren(getNode(result), mReviews.size());
             }
         });
@@ -220,9 +220,9 @@ public class NodesRepositoryImplTest {
         VerboseCollection collection = getItemsDataCollection();
         final String subject = RandomString.nextWord();
 
-        mSource.asMetaReview(collection, subject, new NodeRepository.ReviewsSourceCallback() {
+        mSource.asMetaReview(collection, subject, new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNodeHasCorrectData(subject, getNode(result));
             }
         });
@@ -236,9 +236,9 @@ public class NodesRepositoryImplTest {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        mSource.getMetaReview(collection, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(collection, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -249,9 +249,9 @@ public class NodesRepositoryImplTest {
     getMetaReviewReturnsMetaReviewWithCorrectNumberChildren() {
         VerboseCollection collection = getItemsDataCollection();
         assertThat(collection.size(), is(mReviews.size() + 1));
-        mSource.getMetaReview(collection, "", new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(collection, "", new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNumChildren(getNode(result), mReviews.size());
             }
         });
@@ -263,9 +263,9 @@ public class NodesRepositoryImplTest {
         VerboseCollection collection = getItemsDataCollection();
         final String subject = RandomString.nextWord();
 
-        mSource.getMetaReview(collection, subject, new NodeRepository.ReviewsSourceCallback() {
+        mSource.getMetaReview(collection, subject, new NodeRepo.ReviewsSourceCallback() {
             @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
+            public void onMetaReviewCallback(RepoResult result) {
                 assertNodeHasCorrectData(subject, getNode(result));
             }
         });
@@ -273,9 +273,9 @@ public class NodesRepositoryImplTest {
 
     @Test
     public void getReviewReturnsErrorIfReviewNotFound() {
-        mSource.getReview(RandomReviewId.nextReviewId(), new RepositoryCallback() {
+        mSource.getReview(RandomReviewId.nextReviewId(), new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
             }
         });
@@ -284,9 +284,9 @@ public class NodesRepositoryImplTest {
     @Test
     public void getReviewReturnsCorrectReviewWhenFound() {
         final Review review = getRandomReview();
-        mSource.getReview(review.getReviewId(), new RepositoryCallback() {
+        mSource.getReview(review.getReviewId(), new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 assertThat(result.getReview(), is(review));
             }
         });
@@ -294,12 +294,12 @@ public class NodesRepositoryImplTest {
 
     @Test
     public void getReviewsReturnsReviewsInRepository() {
-        mSource.getReviewsByAuthor(new RepositoryCallback() {
+        mSource.getReviewsByAuthor(new RepoCallback() {
             @Override
-            public void onRepoCallback(final RepositoryResult fromSource) {
-                mRepo.getRepository(new RepositoryCallback() {
+            public void onRepoCallback(final RepoResult fromSource) {
+                mRepo.getRepository(new RepoCallback() {
                     @Override
-                    public void onRepoCallback(RepositoryResult fromRepo) {
+                    public void onRepoCallback(RepoResult fromRepo) {
                         assertThat(fromSource.getReview(), is(fromRepo.getReview()));
                     }
                 });
@@ -314,8 +314,8 @@ public class NodesRepositoryImplTest {
 
     @Test
     public void registerUnregisterObserverDelegatesToRepository() {
-        ReviewsRepository repo = mock(ReviewsRepository.class);
-        NodeRepository source = new NodeRepositoryImpl(repo, getReviewFactory());
+        ReviewsRepo repo = mock(ReviewsRepo.class);
+        NodeRepo source = new NodeRepoImpl(repo, getReviewFactory());
         ReviewsRepositoryObserver observer = mock(ReviewsRepositoryObserver.class);
         source.registerObserver(observer);
         verify(repo).registerObserver(observer);

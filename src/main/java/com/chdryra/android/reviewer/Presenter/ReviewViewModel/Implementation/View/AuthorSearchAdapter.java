@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
@@ -26,11 +26,11 @@ import java.util.List;
  */
 public class AuthorSearchAdapter extends ReviewViewAdapterImpl<GvAuthor>
         implements ReviewViewAdapter.Filterable<GvAuthor> {
-    private AuthorsRepository mRepo;
+    private AuthorsRepo mRepo;
     private DataConverter<NamedAuthor, GvAuthor, GvAuthorList> mConverter;
 
     public AuthorSearchAdapter(ViewerAuthors wrapper,
-                               AuthorsRepository repo,
+                               AuthorsRepo repo,
                                DataConverter<NamedAuthor, GvAuthor, GvAuthorList> converter) {
         super(wrapper);
         mRepo = repo;
@@ -39,7 +39,7 @@ public class AuthorSearchAdapter extends ReviewViewAdapterImpl<GvAuthor>
 
     @Override
     public void filterGrid(String query, final Filterable.Callback callback) {
-        mRepo.search(query, new AuthorsRepository.SearchAuthorsCallback() {
+        mRepo.search(query, new AuthorsRepo.SearchAuthorsCallback() {
             @Override
             public void onAuthors(List<NamedAuthor> suggestions, CallbackMessage message) {
                 GvAuthorList data;

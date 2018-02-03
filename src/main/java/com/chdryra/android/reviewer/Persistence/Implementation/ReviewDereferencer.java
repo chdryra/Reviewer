@@ -15,8 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,26 +25,26 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  */
 
 public class ReviewDereferencer {
-    public void getReview(ReviewId id, ReviewsRepository repo, final RepositoryCallback callback) {
+    public void getReview(ReviewId id, ReviewsRepo repo, final RepoCallback callback) {
         repo.getReference(id, dereferenceOnReturn(callback));
     }
 
     @NonNull
-    private RepositoryCallback dereferenceOnReturn(final RepositoryCallback callback) {
-        return new RepositoryCallback() {
+    private RepoCallback dereferenceOnReturn(final RepoCallback callback) {
+        return new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 if (result.isReference()) dereference(result.getReference(), callback);
             }
         };
     }
 
-    private void dereference(ReviewReference reference, final RepositoryCallback callback) {
+    private void dereference(ReviewReference reference, final RepoCallback callback) {
         reference.dereference(new DataReference.DereferenceCallback<Review>() {
             @Override
             public void onDereferenced(DataValue<Review> review) {
-                RepositoryResult result
-                        = new RepositoryResult(review.getData(), review.getMessage());
+                RepoResult result
+                        = new RepoResult(review.getData(), review.getMessage());
                 callback.onRepoCallback(result);
             }
         });

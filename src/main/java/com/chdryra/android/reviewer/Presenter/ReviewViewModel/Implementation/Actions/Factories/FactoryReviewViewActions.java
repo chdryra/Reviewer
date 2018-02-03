@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -66,13 +66,13 @@ import java.util.Comparator;
 //TODO refactor and think about ReviewView redesign.
 public class FactoryReviewViewActions {
     private final UiConfig mConfig;
-    private final NodeRepository mReviewsRepo;
-    private final AuthorsRepository mAuthorsRepo;
+    private final NodeRepo mReviewsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
     private final DataComparatorsApi mComparators;
     private final ConverterGv mConverter;
 
-    public FactoryReviewViewActions(UiConfig config, NodeRepository reviewsRepo, AuthorsRepository
+    public FactoryReviewViewActions(UiConfig config, NodeRepo reviewsRepo, AuthorsRepo
             authorsRepo, FactoryCommands commandsFactory, DataComparatorsApi comparators,
                                     ConverterGv converter) {
         mConfig = config;

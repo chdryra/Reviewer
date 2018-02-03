@@ -15,22 +15,21 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewStore implements MutableRepoCallback, RepositoryCallback, WorkStore<Review> {
-    private final MutableRepository mRepo;
+public class ReviewStore implements ReviewsRepoMutable.Callback, RepoCallback, WorkStore<Review> {
+    private final ReviewsRepoMutable mRepo;
     private WorkStoreCallback<Review> mWorkStoreCallback;
     private String mFetching;
 
-    public ReviewStore(MutableRepository repo) {
+    public ReviewStore(ReviewsRepoMutable repo) {
         mRepo = repo;
     }
 
@@ -55,7 +54,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onRepoCallback(RepositoryResult result) {
+    public void onRepoCallback(RepoResult result) {
         Review review = result.getReview();
         if (review == null || result.isError()) {
             mWorkStoreCallback.onFailed(review, mFetching, result.getMessage());
@@ -65,7 +64,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onAddedToRepo(RepositoryResult result) {
+    public void onAddedToRepo(RepoResult result) {
         ReviewId id = result.getReviewId();
         String reviewId = id != null ? id.toString() : "";
         if(result.isReview()) {
@@ -76,7 +75,7 @@ public class ReviewStore implements MutableRepoCallback, RepositoryCallback, Wor
     }
 
     @Override
-    public void onRemovedFromRepo(RepositoryResult result) {
+    public void onRemovedFromRepo(RepoResult result) {
         ReviewId id = result.getReviewId();
         if (result.isError() || id == null) {
             mWorkStoreCallback.onFailed(null, id == null ? "" : id.toString(), result.getMessage());

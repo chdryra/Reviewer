@@ -44,7 +44,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
@@ -107,7 +107,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
                     PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON,
                     BOOKMARK_BUTTON};
 
-    private final AuthorsRepository mAuthorsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
     private final ReviewSelector mSelector;
     private final CacheVhNode mCache;
@@ -133,7 +133,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     private long mLastTime = 0l;
 
-    public VhReviewAbstract(AuthorsRepository authorsRepo,
+    public VhReviewAbstract(AuthorsRepo authorsRepo,
                             FactoryCommands commandsFactory,
                             ReviewSelector selector,
                             CacheVhNode cache) {

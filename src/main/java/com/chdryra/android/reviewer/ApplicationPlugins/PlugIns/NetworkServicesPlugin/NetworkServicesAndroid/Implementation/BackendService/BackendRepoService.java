@@ -23,9 +23,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -51,7 +50,7 @@ public class BackendRepoService extends IntentService {
     private String mReviewId;
     private ReviewPublisher mPublisher;
     private WorkerToken mToken;
-    private MutableRepository mRepo;
+    private ReviewsRepoMutable mRepo;
 
     public enum Service {
         UPLOAD(UPLOAD_COMPLETED),
@@ -115,9 +114,9 @@ public class BackendRepoService extends IntentService {
         }
     }
 
-    private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
+    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepoMutable.Callback {
         @Override
-        public void onAddedToRepo(RepositoryResult result) {
+        public void onAddedToRepo(RepoResult result) {
             CallbackMessage message;
             String subject = "";
             if(result.isReview()) {
@@ -131,7 +130,7 @@ public class BackendRepoService extends IntentService {
         }
 
         @Override
-        public void onRemovedFromRepo(RepositoryResult result) {
+        public void onRemovedFromRepo(RepoResult result) {
             CallbackMessage message;
             if (result.isError()) {
                 message = CallbackMessage.error(getErrorString(result, DELETE_ERROR));
@@ -161,7 +160,7 @@ public class BackendRepoService extends IntentService {
 
 
     @NonNull
-    private String getErrorString(RepositoryResult result, int error) {
+    private String getErrorString(RepoResult result, int error) {
         return getString(error) + " - " + result.getMessage();
     }
 }

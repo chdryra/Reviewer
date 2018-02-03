@@ -16,10 +16,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsSource extends ReviewsRepository {
-    ReviewsRepository getReviewsByAuthor(AuthorId authorId);
+public interface ReviewsSource extends ReviewsRepo {
+    ReviewsRepo getReviewsByAuthor(AuthorId authorId);
 
     ReviewCollection getCollectionForAuthor(AuthorId authorId, String name);
 
-    MutableRepository getMutableRepository(UserSession session);
+    ReviewsRepoMutable getMutableRepository(UserSession session);
 }

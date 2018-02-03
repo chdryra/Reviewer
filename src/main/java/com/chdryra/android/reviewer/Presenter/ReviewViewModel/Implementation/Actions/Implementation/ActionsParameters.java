@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
@@ -25,7 +25,7 @@ public class ActionsParameters<T extends GvData> {
     private final GvDataType<T> mDataType;
     private final FactoryReviewView mFactoryView;
     private final FactoryCommands mFactoryCommands;
-    private final AuthorsRepository mRepo;
+    private final AuthorsRepo mRepo;
     private final UiLauncher mLauncher;
 
     private LaunchableConfig mGridItemConfig;
@@ -36,7 +36,7 @@ public class ActionsParameters<T extends GvData> {
     public ActionsParameters(GvDataType<T> dataType,
                              FactoryReviewView factoryView,
                              FactoryCommands factoryCommands,
-                             AuthorsRepository repo,
+                             AuthorsRepo repo,
                              UiLauncher launcher) {
         mDataType = dataType;
         mFactoryView = factoryView;
@@ -67,7 +67,7 @@ public class ActionsParameters<T extends GvData> {
         return this;
     }
 
-    public AuthorsRepository getRepo() {
+    public AuthorsRepo getRepo() {
         return mRepo;
     }
 

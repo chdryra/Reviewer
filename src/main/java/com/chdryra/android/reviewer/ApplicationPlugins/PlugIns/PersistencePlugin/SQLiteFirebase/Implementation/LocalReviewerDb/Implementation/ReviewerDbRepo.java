@@ -25,10 +25,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -41,13 +40,13 @@ import java.util.List;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepository implements MutableRepository {
+public class ReviewerDbRepo implements ReviewsRepoMutable {
     private final ReviewerDb mDatabase;
     private final List<ReviewsSubscriber> mSubscribers;
     private final FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbRepository(ReviewerDb database,
-                                FactoryDbReference referenceFactory) {
+    public ReviewerDbRepo(ReviewerDb database,
+                          FactoryDbReference referenceFactory) {
         mDatabase = database;
         mReferenceFactory = referenceFactory;
         mSubscribers = new ArrayList<>();
@@ -57,7 +56,7 @@ public class ReviewerDbRepository implements MutableRepository {
         return mDatabase;
     }
 
-    public void getReviews(AuthorId authorId, RepositoryCallback callback) {
+    public void getReviews(AuthorId authorId, RepoCallback callback) {
         //TODO push author clause to SQL
         Collection<Review> allReviews = getAllReviews();
         ArrayList<Review> reviews = new ArrayList<>();
@@ -65,11 +64,11 @@ public class ReviewerDbRepository implements MutableRepository {
             if (review.getAuthorId().toString().equals(authorId.toString())) reviews.add(review);
         }
         CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
-        callback.onRepoCallback(new RepositoryResult(authorId, reviews, result));
+        callback.onRepoCallback(new RepoResult(authorId, reviews, result));
     }
 
     @Override
-    public void addReview(Review review, MutableRepoCallback callback) {
+    public void addReview(Review review, Callback callback) {
         TableTransactor db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, db);
         mDatabase.endTransaction(db);
@@ -83,11 +82,11 @@ public class ReviewerDbRepository implements MutableRepository {
             result = CallbackMessage.error(subject + ": Problem adding review to database");
         }
 
-        callback.onAddedToRepo(new RepositoryResult(review, result));
+        callback.onAddedToRepo(new RepoResult(review, result));
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         Iterator<Review> iterator = getReviewIterator(reviewId);
         Review review = null;
         if (iterator.hasNext()) review = iterator.next();
@@ -99,11 +98,11 @@ public class ReviewerDbRepository implements MutableRepository {
             message = CallbackMessage.error("Review not found: " + reviewId);
         }
 
-        callback.onRepoCallback(new RepositoryResult(review, message));
+        callback.onRepoCallback(new RepoResult(review, message));
     }
 
     @Override
-    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReference(ReviewId reviewId, RepoCallback callback) {
         RowEntry<RowReview, String> reviewClause
                 = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
 
@@ -113,11 +112,11 @@ public class ReviewerDbRepository implements MutableRepository {
                 reviewClause, transactor);
         Iterator<RowReview> iterator = reviews.iterator();
 
-        RepositoryResult result;
+        RepoResult result;
         if (iterator.hasNext()) {
-            result = new RepositoryResult(newReference(iterator.next()));
+            result = new RepoResult(newReference(iterator.next()));
         } else {
-            result = new RepositoryResult(CallbackMessage.error("Review not found"));
+            result = new RepoResult(CallbackMessage.error("Review not found"));
         }
         callback.onRepoCallback(result);
 
@@ -125,7 +124,7 @@ public class ReviewerDbRepository implements MutableRepository {
     }
 
     @Override
-    public void removeReview(ReviewId reviewId, MutableRepoCallback callback) {
+    public void removeReview(ReviewId reviewId, Callback callback) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
         Iterator<Review> iterator = getReviewIterator(reviewId);
         Review review = null;
@@ -144,7 +143,7 @@ public class ReviewerDbRepository implements MutableRepository {
             result = CallbackMessage.error("Problems deleting review: " + reviewId);
         }
 
-        callback.onRemovedFromRepo(new RepositoryResult(reviewId, result));
+        callback.onRemovedFromRepo(new RepoResult(reviewId, result));
     }
 
     @Override

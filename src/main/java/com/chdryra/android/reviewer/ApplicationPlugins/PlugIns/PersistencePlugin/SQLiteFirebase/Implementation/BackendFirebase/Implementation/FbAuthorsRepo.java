@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -37,18 +37,18 @@ import java.util.ArrayList;
  * On: 16/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorsRepository implements AuthorsRepository {
+public class FbAuthorsRepo implements AuthorsRepo {
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
     private final FactoryFbReference mReferenceFactory;
     private final SnapshotConverter<NamedAuthor> mConverter;
     private final FactoryAuthorProfile mProfileFactory;
 
-    public FbAuthorsRepository(Firebase dataRoot,
-                               FbUsersStructure structure,
-                               SnapshotConverter<NamedAuthor> converter,
-                               FactoryFbReference referenceFactory,
-                               FactoryAuthorProfile profileFactory) {
+    public FbAuthorsRepo(Firebase dataRoot,
+                         FbUsersStructure structure,
+                         SnapshotConverter<NamedAuthor> converter,
+                         FactoryFbReference referenceFactory,
+                         FactoryAuthorProfile profileFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mReferenceFactory = referenceFactory;

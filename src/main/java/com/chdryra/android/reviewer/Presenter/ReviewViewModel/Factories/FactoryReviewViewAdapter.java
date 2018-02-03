@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -80,30 +80,30 @@ import java.util.Set;
  */
 public class FactoryReviewViewAdapter {
     private final FactoryReviews mReviewsFactory;
-    private final FactoryReviewsRepository mReposFactory;
+    private final FactoryReviewsRepo mReposFactory;
     private final FactoryGridDataViewer mViewerFactory;
     private final FactoryDataBucketer mBucketerFactory;
     private final GvDataAggregator mAggregator;
-    private final AuthorsRepository mAuthorsRepository;
-    private final NodeRepository mReviewSource;
+    private final AuthorsRepo mAuthorsRepo;
+    private final NodeRepo mReviewSource;
     private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
                                     FactoryReferences referenceFactory,
-                                    FactoryReviewsRepository reposFactory,
+                                    FactoryReviewsRepo reposFactory,
                                     FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
-                                    AuthorsRepository authorsRepository,
-                                    NodeRepository reviewSource,
+                                    AuthorsRepo authorsRepo,
+                                    NodeRepo reviewSource,
                                     ConverterGv converter) {
         mReviewsFactory = reviewsFactory;
         mReposFactory = reposFactory;
-        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepository,
+        mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepo,
                 converter);
         mBucketerFactory = bucketerFactory;
         mAggregator = aggregator;
         mConverter = converter;
-        mAuthorsRepository = authorsRepository;
+        mAuthorsRepo = authorsRepo;
         mReviewSource = reviewSource;
     }
 
@@ -137,12 +137,12 @@ public class FactoryReviewViewAdapter {
     public ReviewViewAdapter<?> newFeedSummaryAdapter(AuthorId summaryOwner,
                                                       Set<AuthorId> reviewAuthors,
                                                       String title) {
-        RepositoryCollection<AuthorId> collection = mReposFactory.newRepoCollection();
+        RepoCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsByAuthor(author));
         }
 
-        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepository.getReference
+        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepo.getReference
                 (summaryOwner), title);
 
         return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));
@@ -228,7 +228,7 @@ public class FactoryReviewViewAdapter {
     //View for search screen
     ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
         return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
-                mAuthorsRepository, mConverter.newConverterAuthors());
+                mAuthorsRepo, mConverter.newConverterAuthors());
     }
 
     //View for distribution screen
@@ -286,7 +286,7 @@ public class FactoryReviewViewAdapter {
     }
 
     private DataReference<ProfileImage> getProfileImage(ReviewNode node) {
-        return mAuthorsRepository.getProfile(node.getAuthorId()).getProfileImage();
+        return mAuthorsRepo.getProfile(node.getAuthorId()).getProfileImage();
     }
 
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter

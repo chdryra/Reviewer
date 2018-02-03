@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ReviewLauncher;
 
@@ -33,7 +33,7 @@ implements DataReference.DereferenceCallback<NamedAuthor>{
     private final AuthorId mAuthorId;
     private final String mDate;
 
-    public ButtonAuthorReviews(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepository repo) {
+    public ButtonAuthorReviews(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepo repo) {
         super(stamp.toReadableDate());
         mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();

@@ -45,8 +45,8 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefDat
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
  * Created by: Rizwan Choudrey
@@ -55,10 +55,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  */
 public class ReviewerDbReference extends SimpleItemReference<Review> implements ReviewReference {
     private final DataReviewInfo mInfo;
-    private final ReviewerDbRepository mRepo;
+    private final ReviewerDbRepo mRepo;
     private final FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepository repo, FactoryDbReference referenceFactory) {
+    public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepo repo, FactoryDbReference referenceFactory) {
         super(new ReviewDereferencer(info.getReviewId(), repo));
         mInfo = info;
         mRepo = repo;
@@ -197,9 +197,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
 
     private static class ReviewDereferencer implements Dereferencer<Review> {
         private final ReviewId mId;
-        private final ReviewerDbRepository mRepo;
+        private final ReviewerDbRepo mRepo;
 
-        private ReviewDereferencer(ReviewId id, ReviewerDbRepository repo) {
+        private ReviewDereferencer(ReviewId id, ReviewerDbRepo repo) {
             mId = id;
             mRepo = repo;
         }
@@ -211,9 +211,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
 
         @Override
         public void dereference(final DereferenceCallback<Review> callback) {
-            mRepo.getReview(mId, new RepositoryCallback() {
+            mRepo.getReview(mId, new RepoCallback() {
                 @Override
-                public void onRepoCallback(RepositoryResult result) {
+                public void onRepoCallback(RepoResult result) {
                     DataValue<Review> value = result.isReview() ?
                             new DataValue<>(result.getReview()) :
                             new DataValue<Review>(result.getMessage());

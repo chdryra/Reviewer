@@ -42,9 +42,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -73,7 +73,7 @@ public class TestReviews {
     private FactoryReviews mFactory;
 
     //Static methods
-    public static ReviewsRepository getReviews(Instrumentation instr, TagsManager tagsManager) {
+    public static ReviewsRepo getReviews(Instrumentation instr, TagsManager tagsManager) {
         TestReviews testReviews = get(instr);
         IdableCollection<Review> reviews = testReviews.mReviews;
         if (reviews.size() == 0) {
@@ -84,7 +84,7 @@ public class TestReviews {
             testReviews.mReviews = reviews;
         }
 
-        return new StaticReviewsRepository(reviews, tagsManager);
+        return new StaticReviewsRepo(reviews, tagsManager);
     }
 
     private TestReviews(Instrumentation instr) {
@@ -390,17 +390,17 @@ public class TestReviews {
         }
     }
 
-    private static class StaticReviewsRepository implements ReviewsRepository {
+    private static class StaticReviewsRepo implements ReviewsRepo {
         private IdableCollection<Review> mReviews;
         private TagsManager mManger;
 
-        public StaticReviewsRepository(IdableCollection<Review> reviews, TagsManager manger) {
+        public StaticReviewsRepo(IdableCollection<Review> reviews, TagsManager manger) {
             mReviews = reviews;
             mManger = manger;
         }
 
         @Override
-        public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        public void getReview(ReviewId reviewId, RepoCallback callback) {
             Review ret = null;
             CallbackMessage message = CallbackMessage.error("Review not found");
             for(Review review : mReviews) {
@@ -410,16 +410,16 @@ public class TestReviews {
                     break;
                 }
             }
-            callback.onRepoCallback(new RepositoryResult(ret, message));
+            callback.onRepoCallback(new RepoResult(ret, message));
         }
 
         @Override
-        public void getReviews(RepositoryCallback callback) {
-            callback.onRepoCallback(new RepositoryResult(mReviews, CallbackMessage.ok()));
+        public void getReviews(RepoCallback callback) {
+            callback.onRepoCallback(new RepoResult(mReviews, CallbackMessage.ok()));
         }
 
         @Override
-        public void getReviews(NamedAuthor author, RepositoryCallback callback) {
+        public void getReviews(NamedAuthor author, RepoCallback callback) {
 
         }
 

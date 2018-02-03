@@ -13,10 +13,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
@@ -42,12 +42,12 @@ public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSour
     }
 
     @Override
-    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
         return mArchive.getReviewsByAuthor(authorId);
     }
 
     @Override
-    public MutableRepository getMutableRepository(UserSession session) {
+    public ReviewsRepoMutable getMutableRepository(UserSession session) {
         return mArchive.getMutableRepository(session);
     }
 
@@ -67,17 +67,17 @@ public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSour
     }
 
     @Override
-    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReference(ReviewId reviewId, RepoCallback callback) {
         if(mCache.contains(reviewId)) {
             ReviewReference reference = mReviewsFactory.asReference(mCache.get(reviewId));
-            callback.onRepoCallback(new RepositoryResult(reference));
+            callback.onRepoCallback(new RepoResult(reference));
         } else {
             mArchive.getReference(reviewId, callback);
         }
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         mDereferencer.getReview(reviewId, this, callback);
     }
 }

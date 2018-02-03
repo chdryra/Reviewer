@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,13 +20,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    MutableRepository getLocalRepo();
+    NodeRepo getReviewsRepo();
 
-    NodeRepository getReviewsRepo();
+    AuthorsRepo getAuthorsRepo();
 
-    AuthorsRepository getAuthorsRepo();
+    ReviewsRepoMutable getLocalRepo();
 
     AccountsManager getAccountsManager();
 
-    FactoryReviewsRepository getRepoFactory();
+    FactoryReviewsRepo getRepoFactory();
 }

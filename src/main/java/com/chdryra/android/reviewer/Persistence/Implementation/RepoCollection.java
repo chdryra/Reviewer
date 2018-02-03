@@ -13,8 +13,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -28,18 +28,18 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RepositoryCollection<Key> implements ReviewsRepository {
+public class RepoCollection<Key> implements ReviewsRepo {
     private final ReviewDereferencer mDereferencer;
     private Map<Key, RepoHandler> mRepoHandlers;
     private List<ReviewsSubscriber> mSubscribers;
 
-    public RepositoryCollection(ReviewDereferencer dereferencer) {
+    public RepoCollection(ReviewDereferencer dereferencer) {
         mDereferencer = dereferencer;
         mRepoHandlers = new HashMap<>();
         mSubscribers = new ArrayList<>();
     }
 
-    public void add(Key id, ReviewsRepository repo) {
+    public void add(Key id, ReviewsRepo repo) {
         if (!mRepoHandlers.containsKey(id)) {
             RepoHandler handler = new RepoHandler(id, repo);
             mRepoHandlers.put(id, handler);
@@ -75,12 +75,12 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
     }
 
     @Override
-    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReference(ReviewId reviewId, RepoCallback callback) {
         new ReferenceFinder(reviewId, callback).execute();
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         mDereferencer.getReview(reviewId, this, callback);
     }
 
@@ -114,11 +114,11 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
 
     private class ReferenceFinder {
         private ReviewId mId;
-        private RepositoryCallback mCallback;
+        private RepoCallback mCallback;
         private int mNumReturned;
         private boolean mDone;
 
-        private ReferenceFinder(ReviewId id, RepositoryCallback callback) {
+        private ReferenceFinder(ReviewId id, RepoCallback callback) {
             mId = id;
             mCallback = callback;
         }
@@ -144,15 +144,15 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
         }
 
         private void getReferenceFromSub(RepoHandler sub, final boolean doneOnResult) {
-            sub.getRepo().getReference(mId, new RepositoryCallback() {
+            sub.getRepo().getReference(mId, new RepoCallback() {
                 @Override
-                public void onRepoCallback(RepositoryResult result) {
+                public void onRepoCallback(RepoResult result) {
                     parseResult(result, doneOnResult);
                 }
             });
         }
 
-        private void parseResult(RepositoryResult result, boolean doneOnResult) {
+        private void parseResult(RepoResult result, boolean doneOnResult) {
             ReviewReference reference = result.getReference();
             if (result.isReference()) {
                 doCallback(reference);
@@ -163,11 +163,11 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
 
         private void doCallback(@Nullable ReviewReference reference) {
             mDone = true;
-            RepositoryResult result;
+            RepoResult result;
             if (reference != null) {
-                result = new RepositoryResult(reference);
+                result = new RepoResult(reference);
             } else {
-                result = new RepositoryResult(CallbackMessage.error("Reference not found"));
+                result = new RepoResult(CallbackMessage.error("Reference not found"));
             }
             mCallback.onRepoCallback(result);
         }
@@ -175,14 +175,14 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
 
     private class RepoHandler implements ReviewsSubscriber {
         private Key mRepoId;
-        private ReviewsRepository mRepo;
+        private ReviewsRepo mRepo;
         private List<ReviewId> mReviews;
         private boolean mSubscribed = false;
 
         private boolean mLocked = false;
         private int mUnsubscribeIndex = 0;
 
-        private RepoHandler(Key repoId, ReviewsRepository repo) {
+        private RepoHandler(Key repoId, ReviewsRepo repo) {
             mRepoId = repoId;
             mRepo = repo;
             mReviews = new ArrayList<>();
@@ -226,7 +226,7 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
             return mSubscribed;
         }
 
-        private ReviewsRepository getRepo() {
+        private ReviewsRepo getRepo() {
             return mRepo;
         }
 
@@ -243,9 +243,9 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
 
         private void notifyNewSubscriber(final ReviewsSubscriber subscriber) {
             for (ReviewId id : mReviews) {
-                mRepo.getReference(id, new RepositoryCallback() {
+                mRepo.getReference(id, new RepoCallback() {
                     @Override
-                    public void onRepoCallback(RepositoryResult result) {
+                    public void onRepoCallback(RepoResult result) {
                         if (!result.isReference()) subscriber.onReviewAdded(result.getReference());
                     }
                 });
@@ -257,9 +257,9 @@ public class RepositoryCollection<Key> implements ReviewsRepository {
                 mLocked = true;
                 mUnsubscribeIndex = 0;
                 for (ReviewId id : mReviews) {
-                    mRepo.getReference(id, new RepositoryCallback() {
+                    mRepo.getReference(id, new RepoCallback() {
                         @Override
-                        public void onRepoCallback(RepositoryResult result) {
+                        public void onRepoCallback(RepoResult result) {
                             if (result.isReference()) notifyOnRemove(result.getReference());
                             if (++mUnsubscribeIndex == mReviews.size()) delete();
                         }

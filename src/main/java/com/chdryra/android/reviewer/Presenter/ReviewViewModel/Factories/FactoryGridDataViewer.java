@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewSt
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
@@ -69,16 +69,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class FactoryGridDataViewer {
     private final FactoryReviewViewAdapter mAdapterFactory;
     private final FactoryReferences mReferenceFactory;
-    private final AuthorsRepository mAuthorsRepository;
+    private final AuthorsRepo mAuthorsRepo;
     private final ConverterGv mConverter;
 
     FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory,
                           FactoryReferences referenceFactory,
-                          AuthorsRepository authorsRepository,
+                          AuthorsRepo authorsRepo,
                           ConverterGv converter) {
         mAdapterFactory = adapterFactory;
         mReferenceFactory = referenceFactory;
-        mAuthorsRepository = authorsRepository;
+        mAuthorsRepo = authorsRepo;
         mConverter = converter;
     }
 
@@ -90,11 +90,11 @@ public class FactoryGridDataViewer {
     }
 
     GridDataWrapper<GvNode> newFeedViewer(ReviewNode node) {
-        return new ViewerFeed(node, mConverter.newConverterNodes(mAuthorsRepository), mAdapterFactory);
+        return new ViewerFeed(node, mConverter.newConverterNodes(mAuthorsRepo), mAdapterFactory);
     }
 
     GridDataWrapper<GvNode> newChildViewer(ReviewNode node) {
-        return new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepository), mAdapterFactory);
+        return new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepo), mAdapterFactory);
     }
 
     GridDataWrapper<?> newTreeSummaryViewer(ReviewNode node) {
@@ -118,7 +118,7 @@ public class FactoryGridDataViewer {
 
     ViewerTreeData.TreeAuthorList newTreeAuthorsViewer(ReviewNode node) {
         return new ViewerTreeData.TreeAuthorList(node.getAuthorIds(),
-                mConverter.newConverterAuthorsIds(mAuthorsRepository).getReferencesConverter(), mAdapterFactory);
+                mConverter.newConverterAuthorsIds(mAuthorsRepo).getReferencesConverter(), mAdapterFactory);
     }
 
     @Nullable

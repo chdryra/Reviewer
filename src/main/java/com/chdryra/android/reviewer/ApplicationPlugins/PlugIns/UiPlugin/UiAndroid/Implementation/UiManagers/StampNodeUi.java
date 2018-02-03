@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -32,7 +32,7 @@ public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements Vi
     private DataDate mDate;
     private ViewUiBinder<NamedAuthor> mBinder;
 
-    public StampNodeUi(TextView stamp, final ReviewNode node, final AuthorsRepository repo) {
+    public StampNodeUi(TextView stamp, final ReviewNode node, final AuthorsRepo repo) {
         super(stamp, new ReferenceValueGetter<AuthorReference>() {
             @Override
             public AuthorReference getValue() {

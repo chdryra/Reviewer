@@ -14,10 +14,10 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -28,14 +28,14 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements ReviewsRepository, ReviewsSubscriber {
+public class ReviewerDbAuthored implements ReviewsRepo, ReviewsSubscriber {
     private final AuthorId mAuthorId;
-    private final ReviewerDbRepository mRepo;
+    private final ReviewerDbRepo mRepo;
     private final ReviewDereferencer mDereferencer;
     private final List<ReviewsSubscriber> mSubscribers;
 
     public ReviewerDbAuthored(AuthorId authorId,
-                              ReviewerDbRepository repo,
+                              ReviewerDbRepo repo,
                               ReviewDereferencer dereferencer) {
         mAuthorId = authorId;
         mRepo = repo;
@@ -43,7 +43,7 @@ public class ReviewerDbAuthored implements ReviewsRepository, ReviewsSubscriber 
         mSubscribers = new ArrayList<>();
     }
 
-    ReviewerDbRepository getRepo() {
+    ReviewerDbRepo getRepo() {
         return mRepo;
     }
 
@@ -109,13 +109,13 @@ public class ReviewerDbAuthored implements ReviewsRepository, ReviewsSubscriber 
     }
 
     @Override
-    public void getReference(ReviewId reviewId, final RepositoryCallback callback) {
-        mRepo.getReference(reviewId, new RepositoryCallback() {
+    public void getReference(ReviewId reviewId, final RepoCallback callback) {
+        mRepo.getReference(reviewId, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
-                RepositoryResult repoResult = result;
+            public void onRepoCallback(RepoResult result) {
+                RepoResult repoResult = result;
                 if (!result.isReference()) {
-                    repoResult = new RepositoryResult(CallbackMessage.error("Error retrieving reference"));
+                    repoResult = new RepoResult(CallbackMessage.error("Error retrieving reference"));
                 }
                 callback.onRepoCallback(repoResult);
             }
@@ -123,7 +123,7 @@ public class ReviewerDbAuthored implements ReviewsRepository, ReviewsSubscriber 
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         mDereferencer.getReview(reviewId, this, callback);
     }
 }

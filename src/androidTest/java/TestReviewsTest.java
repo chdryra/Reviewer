@@ -26,9 +26,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.R;
 
 import org.junit.Before;
@@ -52,7 +52,7 @@ import static org.hamcrest.MatcherAssert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class TestReviewsTest extends InstrumentationTestCase{
-    private ReviewsRepository mRepo;
+    private ReviewsRepo mRepo;
 
     @Before
     @Override
@@ -64,9 +64,9 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
     @Test
     public void testGetReviews() {
-        mRepo.getRepository(new RepositoryCallback() {
+        mRepo.getRepository(new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 Collection<Review> reviews = result.getReviews();
                 checkSize(reviews, 4);
                 Iterator<Review> it = reviews.iterator();

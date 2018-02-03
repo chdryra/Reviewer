@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
@@ -23,12 +23,12 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  */
 public class ShareCommand extends Command {
     private final ReviewId mReviewId;
-    private final ReviewsRepository mRepo;
+    private final ReviewsRepo mRepo;
     private final CurrentScreen mScreen;
     private final SocialPublisher mSharer;
 
     public ShareCommand(ReviewId reviewId,
-                        ReviewsRepository repo,
+                        ReviewsRepo repo,
                         CurrentScreen screen,
                         SocialPublisher sharer) {
         super(Strings.Commands.SHARE);
@@ -43,10 +43,10 @@ public class ShareCommand extends Command {
         mRepo.getReview(mReviewId, fetchAndShare());
     }
 
-    private RepositoryCallback fetchAndShare() {
-        return new RepositoryCallback() {
+    private RepoCallback fetchAndShare() {
+        return new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 if (result.isReview()) {
                     mSharer.publish(result.getReview());
                 } else {

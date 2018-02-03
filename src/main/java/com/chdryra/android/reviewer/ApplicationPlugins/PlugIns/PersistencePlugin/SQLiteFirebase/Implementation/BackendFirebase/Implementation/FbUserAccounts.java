@@ -41,7 +41,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -72,7 +72,7 @@ public class FbUserAccounts implements UserAccounts {
     private final UserProfileConverter mConverter;
     private final FactoryAuthorProfile mProfileFactory;
     private final FactoryAuthorProfileSnapshot mProfileSnapshotFactory;
-    private final AuthorsRepository mAuthorsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final FactoryUserAccount mAccountFactory;
 
     private interface CheckNameExistsCallback {
@@ -89,7 +89,7 @@ public class FbUserAccounts implements UserAccounts {
                           UserProfileConverter converter,
                           FactoryAuthorProfile profileFactory,
                           FactoryAuthorProfileSnapshot profileSnapshotFactory,
-                          AuthorsRepository authorsRepo,
+                          AuthorsRepo authorsRepo,
                           FactoryUserAccount accountFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
@@ -199,13 +199,13 @@ public class FbUserAccounts implements UserAccounts {
 
     private void checkNameExists(String name, final CheckNameExistsCallback callback) {
         mAuthorsRepo.getAuthorId(name,
-                new AuthorsRepository.AuthorIdCallback() {
+                new AuthorsRepo.AuthorIdCallback() {
                     @Override
                     public void onAuthorId(DataReference<AuthorId> authorId,
                                            CallbackMessage message) {
                         if (message.isOk()) {
                             callback.onNameExists();
-                        } else if (AuthorsRepository.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
+                        } else if (AuthorsRepo.Error.NAME_NOT_FOUND.name().equals(message.getMessage())) {
                             callback.onNameDoesNotExist();
                         } else {
                             callback.onError(message);

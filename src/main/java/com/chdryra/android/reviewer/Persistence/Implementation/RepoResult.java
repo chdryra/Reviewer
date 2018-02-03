@@ -25,7 +25,7 @@ import java.util.Collection;
  * On: 22/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RepositoryResult {
+public class RepoResult {
     private AuthorId mAuthorId;
     private Review mReview;
     private ReviewNode mNode;
@@ -35,47 +35,47 @@ public class RepositoryResult {
     private final Collection<ReviewReference> mReferences = new ArrayList<>();
     private final CallbackMessage mMessage;
 
-    public RepositoryResult(CallbackMessage message) {
+    public RepoResult(CallbackMessage message) {
         mMessage = message;
     }
 
-    public RepositoryResult(ReviewId id, CallbackMessage message) {
+    public RepoResult(ReviewId id, CallbackMessage message) {
         mId = id;
         mMessage = message;
     }
 
-    public RepositoryResult(AuthorId authorId, Collection<Review> reviews, CallbackMessage message) {
+    public RepoResult(AuthorId authorId, Collection<Review> reviews, CallbackMessage message) {
         mAuthorId = authorId;
         mReviews.addAll(reviews);
         mMessage = message;
     }
 
-    public RepositoryResult(Collection<ReviewReference> references, CallbackMessage message) {
+    public RepoResult(Collection<ReviewReference> references, CallbackMessage message) {
         mReferences.addAll(references);
         mMessage = message;
     }
 
-    public RepositoryResult(Review review) {
+    public RepoResult(Review review) {
         this(review, CallbackMessage.ok());
     }
 
-    public RepositoryResult(@Nullable Review review, CallbackMessage message) {
+    public RepoResult(@Nullable Review review, CallbackMessage message) {
         mReview = review;
         mId = review != null ? mReview.getReviewId() : null;
         mMessage = message;
     }
-    public RepositoryResult(ReviewReference reference) {
+    public RepoResult(ReviewReference reference) {
         this(reference, CallbackMessage.ok());
     }
 
 
-    private RepositoryResult(@Nullable ReviewReference reference, CallbackMessage message) {
+    private RepoResult(@Nullable ReviewReference reference, CallbackMessage message) {
         mReference = reference;
         mId = reference != null ? mReference.getReviewId() : null;
         mMessage = message;
     }
 
-    public RepositoryResult(ReviewNode node, CallbackMessage message) {
+    public RepoResult(ReviewNode node, CallbackMessage message) {
         mNode = node;
         mId = node != null ? node.getReviewId() : null;
         mMessage = message;

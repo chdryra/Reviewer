@@ -12,9 +12,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,11 +23,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
  */
 
 public interface RepositorySuite {
-    AuthorsRepository getAuthorsRepo();
+    AuthorsRepo getAuthorsRepo();
 
-    NodeRepository getReviewsRepo();
+    NodeRepo getReviewsRepo();
 
-    ReviewsRepository getFeed(ProfileSocial profile);
+    ReviewsRepo getFeed(ProfileSocial profile);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 

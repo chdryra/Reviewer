@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorEqualsReviewId;
 import com.google.android.gms.maps.model.Marker;
@@ -24,12 +24,12 @@ import com.google.android.gms.maps.model.Marker;
 public class ItemInfoFactory implements ReviewInfoWindowAdapter.InfoWindowFactory {
     private final ReviewNode mNode;
     private final InfoWindowLauncher mLauncher;
-    private final AuthorsRepository mRepo;
+    private final AuthorsRepo mRepo;
     private final ReviewClusterRenderer mRenderer;
 
     public ItemInfoFactory(ReviewNode node,
                            InfoWindowLauncher launcher,
-                           AuthorsRepository repo,
+                           AuthorsRepo repo,
                            ReviewClusterRenderer renderer) {
         mNode = node;
         mLauncher = launcher;

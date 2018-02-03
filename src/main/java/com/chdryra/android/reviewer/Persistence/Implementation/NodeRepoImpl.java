@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -45,16 +45,16 @@ import java.util.Set;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodeRepositoryImpl implements NodeRepository {
+public class NodeRepoImpl implements NodeRepo {
     private final ReviewsSource mReviewsRepo;
-    private final AuthorsRepository mAuthorsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
     private final ReviewDereferencer mDereferencer;
 
-    public NodeRepositoryImpl(ReviewsSource reviewsRepo,
-                              AuthorsRepository authorsRepo,
-                              FactoryReviews reviewsFactory,
-                              ReviewDereferencer dereferencer) {
+    public NodeRepoImpl(ReviewsSource reviewsRepo,
+                        AuthorsRepo authorsRepo,
+                        FactoryReviews reviewsFactory,
+                        ReviewDereferencer dereferencer) {
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mReviewsFactory = reviewsFactory;
@@ -72,7 +72,7 @@ public class NodeRepositoryImpl implements NodeRepository {
     }
 
     @Override
-    public void getReview(ReviewId reviewId, final RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, final RepoCallback callback) {
         mDereferencer.getReview(reviewId, this, callback);
     }
 
@@ -111,22 +111,22 @@ public class NodeRepositoryImpl implements NodeRepository {
     }
 
     @Override
-    public MutableRepository getMutableRepository(UserSession session) {
+    public ReviewsRepoMutable getMutableRepository(UserSession session) {
         return mReviewsRepo.getMutableRepository(session);
     }
 
     @Override
     public ReviewCollection getCollectionForAuthor(AuthorId authorId, String name) {
-        return mReviewsRepo.getCollectionForAuthor(authorId, );
+        return mReviewsRepo.getCollectionForAuthor(authorId, name);
     }
 
     @Override
-    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReference(ReviewId reviewId, RepoCallback callback) {
         mReviewsRepo.getReference(reviewId, callback);
     }
 
     @Override
-    public ReviewsRepository getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
         return mReviewsRepo.getReviewsByAuthor(authorId);
     }
 
@@ -136,20 +136,20 @@ public class NodeRepositoryImpl implements NodeRepository {
     }
 
     @Override
-    public ReviewNode getMetaReview(ReviewsRepository repo, AuthorId owner, String subject) {
+    public ReviewNode getMetaReview(ReviewsRepo repo, AuthorId owner, String subject) {
         return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
     }
 
     @NonNull
     private ReviewNode newAsyncMetaReview(IdableCollection<?> data, final String subject) {
         final NodeAsync asyncNode = newAsyncNode(null);
-        getUniqueReviews(data, new RepositoryCallback() {
+        getUniqueReviews(data, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 if (!result.isError()) {
                     Collection<ReviewReference> reviews = result.getReferences();
                     ReviewNode meta = mReviewsFactory.createTree(reviews, subject);
-                    result = new RepositoryResult(meta, result.getMessage());
+                    result = new RepoResult(meta, result.getMessage());
                 }
 
                 asyncNode.onCallback(result);
@@ -161,15 +161,15 @@ public class NodeRepositoryImpl implements NodeRepository {
 
     private ReviewNode newAsyncReview(ReviewId id) {
         final NodeAsync asyncNode = newAsyncNode(id);
-        mReviewsRepo.getReference(id, new RepositoryCallback() {
+        mReviewsRepo.getReference(id, new RepoCallback() {
 
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 ReviewReference review = result.getReference();
-                RepositoryResult repoResult = result;
+                RepoResult repoResult = result;
                 if (result.isReference()) {
                     ReviewNode node = mReviewsFactory.createLeafNode(review);
-                    repoResult = new RepositoryResult(node, result.getMessage());
+                    repoResult = new RepoResult(node, result.getMessage());
                 }
 
                 asyncNode.onCallback(repoResult);
@@ -181,17 +181,17 @@ public class NodeRepositoryImpl implements NodeRepository {
 
     private ReviewNode newAsyncTree(ReviewId id) {
         final NodeAsync asyncNode = newAsyncNode(id);
-        mReviewsRepo.getReference(id, new RepositoryCallback() {
+        mReviewsRepo.getReference(id, new RepoCallback() {
 
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 ReviewReference review = result.getReference();
-                RepositoryResult repoResult;
+                RepoResult repoResult;
                 if (result.isError() || review == null) {
                     repoResult = result;
                 } else {
                     ReviewNode node = mReviewsFactory.createTree(review);
-                    repoResult = new RepositoryResult(node, result.getMessage());
+                    repoResult = new RepoResult(node, result.getMessage());
                 }
 
                 asyncNode.onCallback(repoResult);
@@ -250,7 +250,7 @@ public class NodeRepositoryImpl implements NodeRepository {
 //    }
 
     private void getUniqueReviews(final IdableCollection<?> data,
-                                  final RepositoryCallback callback) {
+                                  final RepoCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
             getReference(data.get(i).getReviewId(), uniqueCallback);
@@ -265,7 +265,7 @@ public class NodeRepositoryImpl implements NodeRepository {
             mId = id;
         }
 
-        private void onCallback(RepositoryResult result) {
+        private void onCallback(RepoResult result) {
             if (result.isReviewNode()) setNode(result.getReviewNode());
         }
 
@@ -275,14 +275,14 @@ public class NodeRepositoryImpl implements NodeRepository {
         }
     }
 
-    private class UniqueCallback implements RepositoryCallback {
+    private class UniqueCallback implements RepoCallback {
         private final ArrayList<CallbackMessage> mErrors;
-        private final RepositoryCallback mFinalCallback;
+        private final RepoCallback mFinalCallback;
         private final Set<ReviewReference> mFetched;
         private final int mMaxReviews;
         private int mCurrentIndex;
 
-        private UniqueCallback(int maxReviews, RepositoryCallback finalCallback) {
+        private UniqueCallback(int maxReviews, RepoCallback finalCallback) {
             mMaxReviews = maxReviews;
             mFinalCallback = finalCallback;
             mCurrentIndex = 0;
@@ -291,7 +291,7 @@ public class NodeRepositoryImpl implements NodeRepository {
         }
 
         @Override
-        public void onRepoCallback(RepositoryResult result) {
+        public void onRepoCallback(RepoResult result) {
             mCurrentIndex++;
 
             if (result.isReference()) {
@@ -304,7 +304,7 @@ public class NodeRepositoryImpl implements NodeRepository {
                 CallbackMessage message = mErrors.size() > 0 ?
                         CallbackMessage.error("Errors fetching some " + Strings.REVIEWS)
                         : CallbackMessage.ok(mMaxReviews + " " + Strings.REVIEWS + " fetched");
-                mFinalCallback.onRepoCallback(new RepositoryResult(mFetched, message));
+                mFinalCallback.onRepoCallback(new RepoResult(mFetched, message));
             }
         }
     }

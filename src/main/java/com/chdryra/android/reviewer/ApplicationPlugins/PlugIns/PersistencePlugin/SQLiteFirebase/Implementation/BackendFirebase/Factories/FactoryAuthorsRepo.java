@@ -19,10 +19,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.firebase.client.Firebase;
 
 /**
@@ -55,11 +55,11 @@ public class FactoryAuthorsRepo {
         mCollectionFactory = collectionFactory;
     }
 
-    public ReviewsRepository newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
+    public ReviewsRepo newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
         return new FbAuthorReviewsReadable(root, authorsDb, mEntryConverter, mReferencer, mDereferencer);
     }
 
-    public MutableRepository newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
+    public ReviewsRepoMutable newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
         return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
                 mValidator, mReferencer, mDereferencer, mCache);
     }

@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -42,7 +42,7 @@ public class FactoryUiLauncher {
 
     public UiLauncherAndroid newLauncher(EditorSuite builder,
                                          FactoryReviewView viewFactory,
-                                         NodeRepository masterRepo,
+                                         NodeRepo masterRepo,
                                          UiConfig config) {
         List<NodeLauncher<?>> launchers = new ArrayList<>();
         launchers.add(newLauncher(config, GvNode.TYPE));

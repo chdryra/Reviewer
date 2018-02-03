@@ -16,24 +16,23 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepository {
-    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepository repo, ReviewDereferencer dereferencer) {
+public class ReviewerDbMutable extends ReviewerDbAuthored implements ReviewsRepoMutable {
+    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepo repo, ReviewDereferencer dereferencer) {
         super(authorId, repo, dereferencer);
     }
 
     @Override
-    public void addReview(Review review, MutableRepoCallback callback) {
+    public void addReview(Review review, Callback callback) {
         if (isCorrectAuthor(review)) {
             getRepo().addReview(review, callback);
         } else {
@@ -42,10 +41,10 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     @Override
-    public void removeReview(final ReviewId reviewId, final MutableRepoCallback callback) {
-        getReview(reviewId, new RepositoryCallback() {
+    public void removeReview(final ReviewId reviewId, final Callback callback) {
+        getReview(reviewId, new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 if (result.isReview()) {
                     Review review = result.getReview();
                     if (isCorrectAuthor(review)) {
@@ -59,7 +58,7 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         getRepo().getReview(reviewId, callback);
     }
 
@@ -68,7 +67,7 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     @NonNull
-    private RepositoryResult wrongAuthor() {
-        return new RepositoryResult(CallbackMessage.error("Wrong author"));
+    private RepoResult wrongAuthor() {
+        return new RepoResult(CallbackMessage.error("Wrong author"));
     }
 }

@@ -17,7 +17,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefCommentList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.DbRefDataList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.ReviewerDbRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
@@ -52,13 +54,13 @@ public class FactoryDbReference {
         return mReferenceFactory;
     }
 
-    public ReviewReference newReference(RowReview review, ReviewerDbRepository repo) {
+    public ReviewReference newReference(RowReview review, ReviewerDbRepo repo) {
         ReviewId id = review.getReviewId();
         ReviewInfo info = new ReviewInfo(id, review, review, new DatumAuthorId(id, review.getAuthorId()), review);
         return new ReviewerDbReference(info, repo, this);
     }
 
-    public ReviewReference newReference(Review review, ReviewerDbRepository repo) {
+    public ReviewReference newReference(Review review, ReviewerDbRepo repo) {
         ReviewId id = review.getReviewId();
         ReviewInfo info = new ReviewInfo(id, review.getSubject(), review.getRating(), review.getAuthorId(), review.getPublishDate());
         return new ReviewerDbReference(info, repo, this);

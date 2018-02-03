@@ -14,11 +14,10 @@ import android.test.InstrumentationTestCase;
 import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,8 +38,8 @@ import static org.hamcrest.MatcherAssert.*;
 @RunWith(AndroidJUnit4.class)
 public class TestDatabaseTest extends InstrumentationTestCase {
     private final String DB_NAME = "TestReviewer.db";
-    private ReviewsRepository mTestRepo;
-    private MutableRepository mRepo;
+    private ReviewsRepo mTestRepo;
+    private ReviewsRepoMutable mRepo;
     private Context mContext;
 
     @Before
@@ -49,12 +48,12 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationInstance instance = AppInstanceAndroid.getInstance();
-        mRepo = (MutableRepository) instance.getReviews(instance.getUserSession().getAuthorId());
+        mRepo = (ReviewsRepoMutable) instance.getReviews(instance.getUserSession().getAuthorId());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
-        mTestRepo.getRepository(new RepositoryCallback() {
+        mTestRepo.getRepository(new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 Collection<Review> reviews = result.getReviews();
                 populateRepository(reviews);
             }
@@ -63,13 +62,13 @@ public class TestDatabaseTest extends InstrumentationTestCase {
 
     @Test
     public void testDatabase() {
-        mTestRepo.getRepository(new RepositoryCallback() {
+        mTestRepo.getRepository(new RepoCallback() {
             @Override
-            public void onRepoCallback(RepositoryResult result) {
+            public void onRepoCallback(RepoResult result) {
                 final Collection<Review> testReviews = result.getReviews();
-                mRepo.getRepository(new RepositoryCallback() {
+                mRepo.getRepository(new RepoCallback() {
                     @Override
-                    public void onRepoCallback(RepositoryResult result) {
+                    public void onRepoCallback(RepoResult result) {
                         Collection<Review> reviews = result.getReviews();
                         assertEquals(testReviews.size(), reviews.size());
                         Iterator<Review> testReviewsIt = testReviews.iterator();
@@ -94,14 +93,14 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     private void populateRepository(Collection<Review> reviews) {
         deleteDatabaseIfNecessary();
         for (Review review : reviews) {
-            mRepo.addReview(review, new MutableRepoCallback() {
+            mRepo.addReview(review, new ReviewsRepoMutable.Callback() {
                 @Override
-                public void onAddedToRepo(RepositoryResult result) {
+                public void onAddedToRepo(RepoResult result) {
                     assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));
                 }
 
                 @Override
-                public void onRemovedFromRepo(RepositoryResult result) {
+                public void onRemovedFromRepo(RepoResult result) {
 
                 }
             });

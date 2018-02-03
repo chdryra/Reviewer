@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -32,10 +32,10 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
     private static final int CODE = RequestCodeGenerator.getCode(MaiBookmarks.class);
 
     private final UiLauncher mLauncher;
-    private final NodeRepository mRepo;
+    private final NodeRepo mRepo;
     private final FactoryReviewView mFactory;
 
-    public MaiBookmarks(UiLauncher launcher, NodeRepository repo, FactoryReviewView factory) {
+    public MaiBookmarks(UiLauncher launcher, NodeRepo repo, FactoryReviewView factory) {
         mLauncher = launcher;
         mFactory = factory;
         mRepo = repo;

@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.firebase.client.Firebase;
 
 /**
@@ -37,7 +37,7 @@ public class FactoryFbCollection {
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final BackendInfoConverter mInfoConverter;
     private final FactoryFbReviewReference mReferencer;
-    private ReviewsRepository mMasterRepo;
+    private ReviewsRepo mMasterRepo;
 
     public FactoryFbCollection(FbReviewsStructure structure, SnapshotConverter<ReviewListEntry>
             entryConverter, BackendInfoConverter infoConverter, FactoryFbReviewReference referencer) {
@@ -47,7 +47,7 @@ public class FactoryFbCollection {
         mReferencer = referencer;
     }
 
-    public void setMasterRepo(ReviewsRepository masterRepo) {
+    public void setMasterRepo(ReviewsRepo masterRepo) {
         mMasterRepo = masterRepo;
     }
 

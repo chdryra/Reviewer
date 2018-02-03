@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -51,7 +51,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private final FactoryCommands mFactoryCommands;
     private final UiLauncher mLauncher;
     private final ReviewStamp mStamp;
-    private final AuthorsRepository mRepo;
+    private final AuthorsRepo mRepo;
     private final ComparatorCollection<? super T> mComparators;
 
     private LaunchableConfig mGridItemConfig;

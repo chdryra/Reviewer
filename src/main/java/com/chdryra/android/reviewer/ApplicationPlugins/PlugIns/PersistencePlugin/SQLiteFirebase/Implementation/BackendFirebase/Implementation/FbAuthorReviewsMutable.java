@@ -24,10 +24,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -41,7 +40,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements MutableRepository {
+public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements ReviewsRepoMutable {
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
     private final ReviewsCache mCache;
@@ -61,14 +60,14 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
     }
 
     @Override
-    public void addReview(Review review, MutableRepoCallback callback) {
+    public void addReview(Review review, Callback callback) {
         ReviewDb reviewDb = mConverter.convert(review);
         Map<String, Object> map = getUpdatesMap(reviewDb, DbUpdater.UpdateType.INSERT_OR_UPDATE);
         getDataBase().updateChildren(map, newAddListener(reviewDb, callback));
     }
 
     @Override
-    public void removeReview(ReviewId reviewId, MutableRepoCallback callback) {
+    public void removeReview(ReviewId reviewId, Callback callback) {
         getReviewEntry(reviewId, newGetAndDeleteListener(reviewId, callback));
     }
 
@@ -104,7 +103,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
 
     @NonNull
     private ValueEventListener newGetAndDeleteListener(final ReviewId reviewId, final
-    MutableRepoCallback callback) {
+    Callback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -118,7 +117,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                 CallbackMessage error = beError != null ?
                         CallbackMessage.error(beError.getMessage()) : CallbackMessage.error
                         ("Firebase cancelled");
-                callback.onRemovedFromRepo(new RepositoryResult(reviewId, error));
+                callback.onRemovedFromRepo(new RepoResult(reviewId, error));
             }
         };
     }
@@ -128,28 +127,28 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
         return firebaseError != null ? FirebaseBackend.backendError(firebaseError) : null;
     }
 
-    private void doDelete(ReviewDb review, MutableRepoCallback callback) {
+    private void doDelete(ReviewDb review, Callback callback) {
         Map<String, Object> deleteMap = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
         getDataBase().updateChildren(deleteMap, newDeleteListener(review, callback));
     }
 
     @NonNull
     private Firebase.CompletionListener newAddListener(final ReviewDb review,
-                                                       final MutableRepoCallback callback) {
+                                                       final Callback callback) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                RepositoryResult result;
+                RepoResult result;
                 if (firebaseError == null) {
                     Review added = mConverter.convert(review);
-                    result = new RepositoryResult(added);
+                    result = new RepoResult(added);
                     ReviewId reviewId = added.getReviewId();
                     if(mCache.contains(reviewId)) {
                         mCache.remove(reviewId);
                         mCache.add(added);
                     }
                 } else {
-                    result = new RepositoryResult(CallbackMessage.error(firebaseError.getMessage
+                    result = new RepoResult(CallbackMessage.error(firebaseError.getMessage
                             ()));
                 }
 
@@ -160,7 +159,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
 
     @NonNull
     private Firebase.CompletionListener newDeleteListener(final ReviewDb review,
-                                                          final MutableRepoCallback callback) {
+                                                          final Callback callback) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -171,7 +170,7 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                 ReviewId reviewId = new DatumReviewId(review.getReviewId());
                 if(message.isOk() && mCache.contains(reviewId)) mCache.remove(reviewId);
 
-                callback.onRemovedFromRepo(new RepositoryResult(mConverter.convert
+                callback.onRemovedFromRepo(new RepoResult(mConverter.convert
                         (review), message));
             }
         };

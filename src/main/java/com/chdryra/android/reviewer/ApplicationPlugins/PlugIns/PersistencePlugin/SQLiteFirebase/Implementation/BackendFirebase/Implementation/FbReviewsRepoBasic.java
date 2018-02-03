@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -40,7 +40,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
+public abstract class FbReviewsRepoBasic implements ReviewsRepo {
     protected static final CallbackMessage NULL_AT_SOURCE
             = CallbackMessage.error("Null at source");
     private static final CallbackMessage REFERENCING_ERROR
@@ -57,11 +57,11 @@ public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    FbReviewsRepositoryBasic(Firebase dataBase,
-                             FbReviews structure,
-                             SnapshotConverter<ReviewListEntry> entryConverter,
-                             FactoryFbReviewReference referencer,
-                             ReviewDereferencer dereferencer) {
+    FbReviewsRepoBasic(Firebase dataBase,
+                       FbReviews structure,
+                       SnapshotConverter<ReviewListEntry> entryConverter,
+                       FactoryFbReviewReference referencer,
+                       ReviewDereferencer dereferencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
@@ -88,13 +88,13 @@ public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
     }
 
     @Override
-    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReference(ReviewId reviewId, RepoCallback callback) {
         Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
         doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
         mDereferencer.getReview(reviewId, this, callback);
     }
 
@@ -126,7 +126,7 @@ public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                FbReviewsRepositoryBasic.this.onChildRemoved(dataSnapshot, subscriber);
+                FbReviewsRepoBasic.this.onChildRemoved(dataSnapshot, subscriber);
             }
 
             @Override
@@ -152,23 +152,23 @@ public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
 
     @NonNull
     private ValueEventListener newGetReferenceListener(final ReviewId reviewId,
-                                                       final RepositoryCallback callback) {
+                                                       final RepoCallback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() == null) {
-                    callback.onRepoCallback(new RepositoryResult(reviewId, NULL_AT_SOURCE));
+                    callback.onRepoCallback(new RepoResult(reviewId, NULL_AT_SOURCE));
                     return;
                 }
 
                 newReference(dataSnapshot, new ReferenceReadyCallback() {
                     @Override
                     public void onReferenceReady(ReviewReference reference) {
-                        RepositoryResult result;
+                        RepoResult result;
                         if(reference != null) {
-                            result = new RepositoryResult(reference);
+                            result = new RepoResult(reference);
                         } else {
-                            result = new RepositoryResult(reviewId, REFERENCING_ERROR);
+                            result = new RepoResult(reviewId, REFERENCING_ERROR);
                         }
                         callback.onRepoCallback(result);
                     }
@@ -178,7 +178,7 @@ public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 BackendError error = FirebaseBackend.backendError(firebaseError);
-                callback.onRepoCallback(new RepositoryResult(reviewId, CallbackMessage.error(error
+                callback.onRepoCallback(new RepoResult(reviewId, CallbackMessage.error(error
                         .getMessage())));
             }
         };

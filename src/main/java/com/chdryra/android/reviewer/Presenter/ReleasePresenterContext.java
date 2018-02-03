@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
         .DataComparatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -107,8 +107,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(), paramsFactory);
 
 
-        AuthorsRepository authorRepo = persistenceContext.getAuthorsRepo();
-        NodeRepository reviewsRepo = persistenceContext.getReviewsRepo();
+        AuthorsRepo authorRepo = persistenceContext.getAuthorsRepo();
+        NodeRepo reviewsRepo = persistenceContext.getReviewsRepo();
 
         FactoryReviewViewActions actionsFactory
                 = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo, getCommandsFactory(), comparators, gvConverter);
@@ -130,9 +130,9 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private FactoryReviewViewAdapter newAdaptersFactory(ModelContext modelContext,
-                                    FactoryReviewsRepository reposFactory,
-                                    NodeRepository nodeRepository,
-                                    AuthorsRepository authorsRepository,
+                                    FactoryReviewsRepo reposFactory,
+                                    NodeRepo nodeRepo,
+                                    AuthorsRepo authorsRepo,
                                     ConverterGv gvConverter,
                                     DataAggregatorsApi aggregator) {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
@@ -143,7 +143,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 reposFactory,
                 modelContext.getBucketerFactory(),
                 aggregater,
-                authorsRepository, nodeRepository, gvConverter);
+                authorsRepo, nodeRepo, gvConverter);
     }
 
     private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(ModelContext modelContext,

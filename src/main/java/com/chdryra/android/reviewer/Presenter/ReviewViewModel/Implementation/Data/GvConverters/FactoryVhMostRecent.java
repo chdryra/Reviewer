@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
@@ -38,12 +38,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
     private static final int CACHE_MAX = 50;
 
-    private final AuthorsRepository mRepository;
+    private final AuthorsRepo mRepository;
     private final FactoryCommands mCommandsfactory;
 
     private CacheVhNode mCache;
 
-    public FactoryVhMostRecent(AuthorsRepository repository, FactoryCommands commandsfactory) {
+    public FactoryVhMostRecent(AuthorsRepo repository, FactoryCommands commandsfactory) {
         mRepository = repository;
         mCommandsfactory = commandsfactory;
         mCache = new CacheVhNode(this.<NamedAuthor>newCache(), this.<ProfileImage>newCache(),

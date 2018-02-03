@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
@@ -56,7 +56,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private final ReviewNode mNode;
     private final DataLocation mLocationName;
     private final InfoWindowLauncher mLauncher;
-    private final AuthorsRepository mAuthorsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final ReviewSelector mSelector;
     private final InfoUpdateListener mListener;
 
@@ -75,7 +75,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
                            ReviewNode node,
                            ReviewSelector selector,
                            InfoWindowLauncher launcher,
-                           AuthorsRepository authorsRepo,
+                           AuthorsRepo authorsRepo,
                            InfoUpdateListener listener) {
         super(LAYOUT, new int[]{LAYOUT, ABSTRACT, IMAGE, SUBJECT, RATING, LOCATION, HEADLINE,
                 TAGS, STAMP});

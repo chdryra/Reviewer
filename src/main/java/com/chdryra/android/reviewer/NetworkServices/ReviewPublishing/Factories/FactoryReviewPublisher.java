@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementat
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewStore;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.SocialConsumer;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +36,7 @@ public class FactoryReviewPublisher {
         mPublisherFactory = publisherFactory;
     }
 
-    public ReviewPublisher newPublisher(MutableRepository repo) {
+    public ReviewPublisher newPublisher(ReviewsRepoMutable repo) {
         ReviewQueue queue = new ReviewQueue(new ReviewStore(repo));
         BackendConsumer backend = new BackendConsumer(mUploaderFactory);
         SocialConsumer social = new SocialConsumer(mPublisherFactory);

@@ -39,8 +39,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.ConverterNamedAuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbAuthenticator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.FbAuthorsRepository;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorsRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsSource;
 
 
@@ -58,9 +57,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
@@ -75,7 +74,7 @@ public class BackendFirebase implements Backend {
     private final FirebaseStructure mStructure;
     private final UserProfileConverter mConverter;
     private final FactoryFbReference mDataReferencer;
-    private final AuthorsRepository mAuthorsRepo;
+    private final AuthorsRepo mAuthorsRepo;
     private final FactoryAuthorProfileSnapshot mFactoryProfileSnapshot;
     private final FactoryAuthorProfile mFactoryAuthorProfile;
 
@@ -87,13 +86,13 @@ public class BackendFirebase implements Backend {
         mConverter = new UserProfileConverter(mFactoryProfileSnapshot);
         mDataReferencer = new FactoryFbReference();
         mFactoryAuthorProfile = new FactoryAuthorProfile(mDatabase, mStructure, mDataReferencer, mConverter);
-        mAuthorsRepo = new FbAuthorsRepository(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryAuthorProfile);
+        mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryAuthorProfile);
     }
 
     @Override
     public ReviewsSource newReviewsRepo(ModelContext model,
                                         DataValidator validator,
-                                        FactoryReviewsRepository repoFactory,
+                                        FactoryReviewsRepo repoFactory,
                                         ReviewsCache cache) {
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter reviewConverter
@@ -128,7 +127,7 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public AuthorsRepository getAuthorsRepo() {
+    public AuthorsRepo getAuthorsRepo() {
         return mAuthorsRepo;
     }
 }

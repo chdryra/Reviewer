@@ -22,7 +22,7 @@ import java.util.List;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorsRepository {
+public interface AuthorsRepo {
     int SEARCH_LIMIT = 8;
     enum Error{NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
 

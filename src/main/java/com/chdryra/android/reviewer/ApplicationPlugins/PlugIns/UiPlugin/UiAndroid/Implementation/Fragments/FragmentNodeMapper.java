@@ -50,7 +50,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Utils.ParcelablePacker;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
@@ -258,7 +258,7 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         mRenderer = new ReviewClusterRenderer(activity, map, clusterManager, mReviews);
         clusterManager.setRenderer(mRenderer);
 
-        AuthorsRepository repo = getApp().getRepository().getAuthorsRepo();
+        AuthorsRepo repo = getApp().getRepository().getAuthorsRepo();
         mItemAdapter = new ReviewInfoWindowAdapter(activity, new ItemInfoFactory(mNode, this,
                 repo, mRenderer));
         mClusterAdapter = new ReviewInfoWindowAdapter(activity, new ClusterInfoFactory(mRenderer,

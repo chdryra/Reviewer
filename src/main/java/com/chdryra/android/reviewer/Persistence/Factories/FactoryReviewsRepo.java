@@ -13,33 +13,33 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
+import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepo;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceCached;
-import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepositoryImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepoImpl;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewsRepository {
+public class FactoryReviewsRepo {
     private final FactoryReviewsCache mCacheFactory;
 
-    public FactoryReviewsRepository(FactoryReviewsCache cacheFactory) {
+    public FactoryReviewsRepo(FactoryReviewsCache cacheFactory) {
         mCacheFactory = cacheFactory;
     }
 
-    public NodeRepository newReviewsSource(ReviewsSource reviewsRepo,
-                                           AuthorsRepository authorsRepo,
-                                           FactoryReviews reviewsFactory) {
-        return new NodeRepositoryImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
+    public NodeRepo newReviewsSource(ReviewsSource reviewsRepo,
+                                     AuthorsRepo authorsRepo,
+                                     FactoryReviews reviewsFactory) {
+        return new NodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
     }
 
     public ReviewsSource newCachedRepo(ReviewsSource archive,
@@ -53,8 +53,8 @@ public class FactoryReviewsRepository {
     }
 
 
-    public ReviewsRepository newFeed(AuthorId usersId, RefAuthorList following, ReviewsSource masterRepo) {
-        return new FeedRepository(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
+    public ReviewsRepo newFeed(AuthorId usersId, RefAuthorList following, ReviewsSource masterRepo) {
+        return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
     }
 
     @NonNull
@@ -62,7 +62,7 @@ public class FactoryReviewsRepository {
         return new ReviewDereferencer();
     }
 
-    public RepositoryCollection<AuthorId> newRepoCollection() {
-        return new RepositoryCollection<>(newDereferencer());
+    public RepoCollection<AuthorId> newRepoCollection() {
+        return new RepoCollection<>(newDereferencer());
     }
 }

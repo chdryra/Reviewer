@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorIdList;
 
@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class GvConverterAuthorIds extends
         GvConverterReviewData.RefDataList<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId.Reference> {
-    private final AuthorsRepository mRepo;
+    private final AuthorsRepo mRepo;
 
-    public GvConverterAuthorIds(AuthorsRepository repo) {
+    public GvConverterAuthorIds(AuthorsRepo repo) {
         super(GvAuthorIdList.class, GvAuthorId.Reference.TYPE);
         mRepo = repo;
     }
