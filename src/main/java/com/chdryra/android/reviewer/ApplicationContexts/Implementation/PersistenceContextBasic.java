@@ -12,8 +12,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
-    private ReviewsArchiveMutable mLocalRepo;
+    private ReviewsRepoMutable mLocalRepo;
     private AuthorsRepo mAuthorsRepo;
     private AccountsManager mAccountsManager;
-    private NodeRepo mReviewsRepo;
+    private ReviewsNodeRepo mReviewsRepo;
     private FactoryReviewsRepo mRepoFactory;
 
-    protected void setLocalRepo(ReviewsArchiveMutable localRepo) {
+    protected void setLocalRepo(ReviewsRepoMutable localRepo) {
         mLocalRepo = localRepo;
     }
 
@@ -39,7 +39,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mAccountsManager = accountsManager;
     }
 
-    protected void setReviewsRepo(NodeRepo reviewsRepo) {
+    protected void setReviewsRepo(ReviewsNodeRepo reviewsRepo) {
         mReviewsRepo = reviewsRepo;
     }
 
@@ -48,12 +48,12 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public NodeRepo getReviewsRepo() {
+    public ReviewsNodeRepo getReviewsRepo() {
         return mReviewsRepo;
     }
 
     @Override
-    public ReviewsArchiveMutable getLocalRepo() {
+    public ReviewsRepoMutable getLocalRepo() {
         return mLocalRepo;
     }
 

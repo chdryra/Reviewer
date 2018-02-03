@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
@@ -17,22 +15,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepo extends ReviewsArchive {
-    ReviewsArchive getReviewsByAuthor(AuthorId authorId);
-
-    ReviewCollection getCollectionForAuthor(AuthorId authorId, String name);
-
-    ReviewsArchiveMutable getMutableRepoForUser(UserSession session);
-
-    @Override
+public interface ReviewsRepo {
     void subscribe(ReviewsSubscriber subscriber);
 
-    @Override
     void unsubscribe(ReviewsSubscriber subscriber);
 
-    @Override
     void getReference(ReviewId reviewId, RepoCallback callback);
 
-    @Override
     void getReview(ReviewId reviewId, RepoCallback callback);
 }

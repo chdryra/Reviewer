@@ -243,7 +243,7 @@ public class FactoryCommands {
     @NonNull
     private BookmarkCommand bookmark(AuthorId authorId, ReviewId reviewId) {
         return new BookmarkCommand(reviewId,
-                getRepo().getReviewsRepo().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS),
+                getRepo().getReviews().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS),
                 getScreen());
     }
 
@@ -260,6 +260,6 @@ public class FactoryCommands {
 
     @NonNull
     private ShareCommand share(ReviewId reviewId) {
-        return new ShareCommand(reviewId, getRepo().getReviewsRepo(), getScreen(), mApp.getSocial().newPublisher());
+        return new ShareCommand(reviewId, getRepo().getReviews(), getScreen(), mApp.getSocial().newPublisher());
     }
 }

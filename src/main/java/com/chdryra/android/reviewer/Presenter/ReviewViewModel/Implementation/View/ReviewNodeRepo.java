@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNo
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ import java.util.List;
 public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, ReviewNode {
     private static final long WAIT_TIME = 200L;
     private final FactoryReviewNode mNodeFactory;
-    private ReviewsArchive mRepo;
+    private ReviewsRepo mRepo;
     private List<ReviewReference> mBatchPending;
     private DelayAddChildTask mTask;
 
     ReviewNodeRepo(DataReviewInfo meta,
-                   ReviewsArchive repo,
+                   ReviewsRepo repo,
                    FactoryMdReference referenceFactory,
                    FactoryReviewNode nodeFactory) {
         super(meta, referenceFactory);

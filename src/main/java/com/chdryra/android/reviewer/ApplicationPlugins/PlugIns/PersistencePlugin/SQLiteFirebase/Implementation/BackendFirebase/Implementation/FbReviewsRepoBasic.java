@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.ChildEventListener;
@@ -40,7 +40,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReviewsArchiveBasic implements ReviewsArchive {
+public abstract class FbReviewsRepoBasic implements ReviewsRepo {
     protected static final CallbackMessage NULL_AT_SOURCE
             = CallbackMessage.error("Null at source");
     private static final CallbackMessage REFERENCING_ERROR
@@ -57,11 +57,11 @@ public abstract class FbReviewsArchiveBasic implements ReviewsArchive {
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    FbReviewsArchiveBasic(Firebase dataBase,
-                          FbReviews structure,
-                          SnapshotConverter<ReviewListEntry> entryConverter,
-                          FbReviewReferencer referencer,
-                          ReviewDereferencer dereferencer) {
+    FbReviewsRepoBasic(Firebase dataBase,
+                       FbReviews structure,
+                       SnapshotConverter<ReviewListEntry> entryConverter,
+                       FbReviewReferencer referencer,
+                       ReviewDereferencer dereferencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
@@ -126,7 +126,7 @@ public abstract class FbReviewsArchiveBasic implements ReviewsArchive {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                FbReviewsArchiveBasic.this.onChildRemoved(dataSnapshot, subscriber);
+                FbReviewsRepoBasic.this.onChildRemoved(dataSnapshot, subscriber);
             }
 
             @Override

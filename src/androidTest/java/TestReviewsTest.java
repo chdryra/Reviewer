@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.R;
 
@@ -52,7 +52,7 @@ import static org.hamcrest.MatcherAssert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class TestReviewsTest extends InstrumentationTestCase{
-    private ReviewsArchive mRepo;
+    private ReviewsRepo mRepo;
 
     @Before
     @Override

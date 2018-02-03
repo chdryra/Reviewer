@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsArchiveMutable extends ReviewsArchive {
+public interface ReviewsRepoMutable extends ReviewsRepo {
     interface Callback {
         void onAddedToRepo(RepoResult result);
 

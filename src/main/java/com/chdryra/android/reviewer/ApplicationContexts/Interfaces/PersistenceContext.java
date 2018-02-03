@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    NodeRepo getReviewsRepo();
+    ReviewsNodeRepo getReviewsRepo();
 
     AuthorsRepo getAuthorsRepo();
 
-    ReviewsArchiveMutable getLocalRepo();
+    ReviewsRepoMutable getLocalRepo();
 
     AccountsManager getAccountsManager();
 

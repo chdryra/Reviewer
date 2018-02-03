@@ -25,13 +25,13 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewerDbContract;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewTransactor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbArchive;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,11 +59,11 @@ public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
     }
 
     @Override
-    public ReviewsArchiveMutable newPersistence(ModelContext model, DataValidator validator) {
+    public ReviewsRepoMutable newPersistence(ModelContext model, DataValidator validator) {
         FactoryReviews reviewsFactory = model.getReviewsFactory();
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, reviewsFactory, validator);
         FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferencesFactory());
-        return new ReviewerDbArchive(db, referenceFactory);
+        return new ReviewerDbRepo(db, referenceFactory);
     }
 
     public ReviewerDb newReviewerDb(String name, int version, ReviewMaker recreater, DataValidator validator) {

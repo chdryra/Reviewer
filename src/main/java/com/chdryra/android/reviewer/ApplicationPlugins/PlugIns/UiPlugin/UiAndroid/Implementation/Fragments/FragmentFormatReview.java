@@ -385,7 +385,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER);
 
         mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode,
-                mRepo.getAuthorsRepo().getProfile(mNode.getAuthorId()).getProfileImage(),
+                mRepo.getAuthors().getProfile(mNode.getAuthorId()).getProfileImage(),
                 placeholder, dims);
         setLaunchOnClick(mCover, getCommandsFactory().newLaunchBespokeViewCommand(mNode,
                 "Images", GvImage.TYPE));
@@ -400,7 +400,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void setStamp(View v) {
-        mStamp = new StampNodeUi((TextView) v.findViewById(STAMP), mNode, mRepo.getAuthorsRepo());
+        mStamp = new StampNodeUi((TextView) v.findViewById(STAMP), mNode, mRepo.getAuthors());
         setLaunchOnClick(mStamp, launchAuthor());
     }
 

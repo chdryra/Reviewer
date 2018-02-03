@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -46,8 +46,8 @@ public class SQLiteFirebase implements PersistencePlugin {
     }
 
     @Override
-    public ReviewsArchiveMutable newLocalReviewsRepo(ModelContext model,
-                                                     DataValidator validator) {
+    public ReviewsRepoMutable newLocalReviewsRepo(ModelContext model,
+                                                  DataValidator validator) {
         return mLocalFactory.newPersistence(model, validator);
     }
 

@@ -13,9 +13,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -29,19 +29,19 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedRepo implements ReviewsArchive {
+public class FeedRepo implements ReviewsRepo {
     private RefAuthorList mFollowing;
-    private ReviewsRepo mMasterRepo;
-    private ReviewsArchiveCollection<AuthorId> mRepos;
+    private ReviewsSource mMasterRepo;
+    private RepoCollection<AuthorId> mRepos;
     private List<ReviewsSubscriber> mSubscribers;
     private boolean mInitialised = false;
     private Binder mBinder;
 
     public FeedRepo(AuthorId usersId,
                     RefAuthorList following,
-                    ReviewsRepo masterRepo,
-                    ReviewsArchive initialFeed,
-                    ReviewsArchiveCollection<AuthorId> repos) {
+                    ReviewsSource masterRepo,
+                    ReviewsRepo initialFeed,
+                    RepoCollection<AuthorId> repos) {
         mFollowing = following;
         mMasterRepo = masterRepo;
         mRepos = repos;

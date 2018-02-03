@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 public interface Backend {
     AccountsManager getAccountsManager();
 
-    ReviewsRepo getReviews(ModelContext model, DataValidator validator,
-                           FactoryReviewsRepo repoFactory, ReviewsCache cache);
+    ReviewsSource getReviews(ModelContext model, DataValidator validator,
+                             FactoryReviewsRepo repoFactory, ReviewsCache cache);
 
     AuthorsRepo getAuthors();
 }

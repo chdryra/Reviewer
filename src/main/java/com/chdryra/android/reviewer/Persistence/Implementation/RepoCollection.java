@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -28,20 +28,20 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
+public class RepoCollection<Key> implements ReviewsRepo {
     private final ReviewDereferencer mDereferencer;
-    private Map<Key, ArchiveHandler> mRepoHandlers;
+    private Map<Key, RepoHandler> mRepoHandlers;
     private List<ReviewsSubscriber> mSubscribers;
 
-    public ReviewsArchiveCollection(ReviewDereferencer dereferencer) {
+    public RepoCollection(ReviewDereferencer dereferencer) {
         mDereferencer = dereferencer;
         mRepoHandlers = new HashMap<>();
         mSubscribers = new ArrayList<>();
     }
 
-    public void add(Key id, ReviewsArchive repo) {
+    public void add(Key id, ReviewsRepo repo) {
         if (!mRepoHandlers.containsKey(id)) {
-            ArchiveHandler handler = new ArchiveHandler(id, repo);
+            RepoHandler handler = new RepoHandler(id, repo);
             mRepoHandlers.put(id, handler);
             if (mSubscribers.size() > 0) handler.subscribe();
         }
@@ -57,7 +57,7 @@ public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
     public void subscribe(ReviewsSubscriber subscriber) {
         if (!mSubscribers.contains(subscriber)) {
             mSubscribers.add(subscriber);
-            for (ArchiveHandler sub : mRepoHandlers.values()) {
+            for (RepoHandler sub : mRepoHandlers.values()) {
                 if (mSubscribers.size() == 1 && !sub.isSubscribed()) {
                     sub.subscribe();
                 } else {
@@ -127,7 +127,7 @@ public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
             mNumReturned = 0;
             mDone = false;
             boolean idFound = false;
-            for (ArchiveHandler sub : mRepoHandlers.values()) {
+            for (RepoHandler sub : mRepoHandlers.values()) {
                 if (mDone) break;
                 if (sub.hasReviewId(mId)) {
                     idFound = true;
@@ -137,13 +137,13 @@ public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
             }
 
             if (!idFound) {
-                for (ArchiveHandler sub : mRepoHandlers.values()) {
+                for (RepoHandler sub : mRepoHandlers.values()) {
                     getReferenceFromSub(sub, false);
                 }
             }
         }
 
-        private void getReferenceFromSub(ArchiveHandler sub, final boolean doneOnResult) {
+        private void getReferenceFromSub(RepoHandler sub, final boolean doneOnResult) {
             sub.getRepo().getReference(mId, new RepoCallback() {
                 @Override
                 public void onRepoCallback(RepoResult result) {
@@ -173,16 +173,16 @@ public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
         }
     }
 
-    private class ArchiveHandler implements ReviewsSubscriber {
+    private class RepoHandler implements ReviewsSubscriber {
         private Key mRepoId;
-        private ReviewsArchive mRepo;
+        private ReviewsRepo mRepo;
         private List<ReviewId> mReviews;
         private boolean mSubscribed = false;
 
         private boolean mLocked = false;
         private int mUnsubscribeIndex = 0;
 
-        private ArchiveHandler(Key repoId, ReviewsArchive repo) {
+        private RepoHandler(Key repoId, ReviewsRepo repo) {
             mRepoId = repoId;
             mRepo = repo;
             mReviews = new ArrayList<>();
@@ -226,7 +226,7 @@ public class ReviewsArchiveCollection<Key> implements ReviewsArchive {
             return mSubscribed;
         }
 
-        private ReviewsArchive getRepo() {
+        private ReviewsRepo getRepo() {
             return mRepo;
         }
 

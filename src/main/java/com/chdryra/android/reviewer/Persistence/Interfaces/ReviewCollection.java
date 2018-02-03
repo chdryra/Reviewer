@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewCollection extends ReviewsArchive {
+public interface ReviewCollection extends ReviewsRepo {
     interface Callback {
         void onAddedToCollection(CallbackMessage message);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -22,10 +22,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
 
 /**
@@ -33,29 +33,29 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewsRepo extends FbReviewsArchiveBasic implements
-        ReviewsRepo {
+public class FbReviewsSource extends FbReviewsRepoBasic implements
+        ReviewsSource {
     private final FactoryAuthorsRepo mAuthorsDbFactory;
     private final FbReviewsStructure mStructure;
 
-    public FbReviewsRepo(Firebase dataBase,
-                         FbReviewsStructure structure,
-                         ConverterEntry entryConverter,
-                         FbReviewReferencer referencer,
-                         ReviewDereferencer dereferencer,
-                         FactoryAuthorsRepo authorsDbFactory) {
+    public FbReviewsSource(Firebase dataBase,
+                           FbReviewsStructure structure,
+                           ConverterEntry entryConverter,
+                           FbReviewReferencer referencer,
+                           ReviewDereferencer dereferencer,
+                           FactoryAuthorsRepo authorsDbFactory) {
         super(dataBase, structure, entryConverter, referencer, dereferencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }
 
     @Override
-    public ReviewsArchive getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
     @Override
-    public ReviewsArchiveMutable getMutableRepoForUser(UserSession session) {
+    public ReviewsRepoMutable getMutableRepoForUser(UserSession session) {
         return mAuthorsDbFactory.newAuthorsDbMutable(getDataBase(), getAuthorsDb(session
                 .getAuthorId()));
     }

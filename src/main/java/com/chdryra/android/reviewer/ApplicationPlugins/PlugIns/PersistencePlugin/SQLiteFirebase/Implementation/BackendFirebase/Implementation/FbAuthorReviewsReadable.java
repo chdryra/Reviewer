@@ -24,7 +24,7 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsReadable extends FbReviewsArchiveBasic {
+public class FbAuthorReviewsReadable extends FbReviewsRepoBasic {
     private final FbAuthorsReviews mStructure;
 
     public FbAuthorReviewsReadable(Firebase dataBase,

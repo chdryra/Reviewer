@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsArchiveCollection;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -85,7 +85,7 @@ public class FactoryReviewViewAdapter {
     private final FactoryDataBucketer mBucketerFactory;
     private final GvDataAggregator mAggregator;
     private final AuthorsRepo mAuthorsRepo;
-    private final NodeRepo mReviewSource;
+    private final ReviewsNodeRepo mReviewSource;
     private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
@@ -94,7 +94,7 @@ public class FactoryReviewViewAdapter {
                                     FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
                                     AuthorsRepo authorsRepo,
-                                    NodeRepo reviewSource,
+                                    ReviewsNodeRepo reviewSource,
                                     ConverterGv converter) {
         mReviewsFactory = reviewsFactory;
         mReposFactory = reposFactory;
@@ -137,7 +137,7 @@ public class FactoryReviewViewAdapter {
     public ReviewViewAdapter<?> newFeedSummaryAdapter(AuthorId summaryOwner,
                                                       Set<AuthorId> reviewAuthors,
                                                       String title) {
-        ReviewsArchiveCollection<AuthorId> collection = mReposFactory.newRepoCollection();
+        RepoCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsByAuthor(author));
         }

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -28,9 +28,9 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
     private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
     private final EditorSuite mBuilder;
-    private final NodeRepo mRepo;
+    private final ReviewsNodeRepo mRepo;
 
-    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, NodeRepo repo) {
+    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, ReviewsNodeRepo repo) {
         super(ui);
         mBuilder = builder;
         mRepo = repo;

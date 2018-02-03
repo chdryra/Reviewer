@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable
 public interface PersistencePlugin {
     FactoryPersistentCache getCacheFactory();
 
-    ReviewsArchiveMutable newLocalReviewsRepo(ModelContext modelContext,
-                                              DataValidator validator);
+    ReviewsRepoMutable newLocalReviewsRepo(ModelContext modelContext,
+                                           DataValidator validator);
 
     Backend getBackend();
 }

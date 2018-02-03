@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchiveMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -40,7 +40,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements ReviewsArchiveMutable {
+public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements ReviewsRepoMutable {
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
     private final ReviewsCache mCache;

@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterNamedAuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbAuthorsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsSource;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbStructUsersLed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbUserAccounts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
 
 /**
@@ -71,10 +71,10 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public ReviewsRepo getReviews(ModelContext model,
-                                  DataValidator validator,
-                                  FactoryReviewsRepo repoFactory,
-                                  ReviewsCache cache) {
+    public ReviewsSource getReviews(ModelContext model,
+                                    DataValidator validator,
+                                    FactoryReviewsRepo repoFactory,
+                                    ReviewsCache cache) {
         BackendInfoConverter infoConverter = new BackendInfoConverter();
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter reviewConverter
@@ -88,7 +88,7 @@ public class BackendFirebase implements Backend {
         FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator,
                 entryConverter, referencer, repoFactory.newDereferencer(), cache, collectionFactory);
 
-        ReviewsRepo masterRepo = new FbReviewsRepo(mDatabase, mStructure,
+        ReviewsSource masterRepo = new FbReviewsSource(mDatabase, mStructure,
                 entryConverter, referencer, repoFactory.newDereferencer(), authorsDbFactory);
 
         collectionFactory.setMasterRepo(masterRepo);

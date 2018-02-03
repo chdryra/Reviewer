@@ -16,8 +16,8 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.Re
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsArchive;
-import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepo;
  */
 
 public class RepositorySuiteAndroid implements RepositorySuite {
-    private final NodeRepo mReviewsRepo;
+    private final ReviewsNodeRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviewsRepo mRepoFactory;
     private final FactoryReviewDeleter mDeleterFactory;
     private final ReviewPublisher mPublisher;
 
-    public RepositorySuiteAndroid(NodeRepo reviewsRepo,
+    public RepositorySuiteAndroid(ReviewsNodeRepo reviewsRepo,
                                   AuthorsRepo authorsRepo,
                                   FactoryReviewsRepo repoFactory,
                                   FactoryReviewDeleter deleterFactory,
@@ -45,17 +45,17 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public AuthorsRepo getAuthorsRepo() {
+    public AuthorsRepo getAuthors() {
         return mAuthorsRepo;
     }
 
     @Override
-    public NodeRepo getReviewsRepo() {
+    public ReviewsNodeRepo getReviews() {
         return mReviewsRepo;
     }
 
     @Override
-    public ReviewsArchive getFeed(ProfileSocial profile) {
+    public ReviewsRepo getFeed(ProfileSocial profile) {
         return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
 
