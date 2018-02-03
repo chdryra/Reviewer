@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
 import com.chdryra.android.reviewer.Application.Factories.FactoryApplicationSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
@@ -113,8 +113,8 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     }
 
     @Override
-    public AuthenticationSuite getAuthentication() {
-        return mApp.getAuthentication();
+    public AccountsSuite getAccounts() {
+        return mApp.getAccounts();
     }
 
     @Override

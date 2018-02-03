@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     private AuthorReference mAuthorRef;
-    private ReviewsSource mRepo;
+    private NodeRepository mRepo;
     private LaunchableConfig mProfileEditor;
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
@@ -49,7 +49,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     }
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
-                                     ReviewsSource repo,
+                                     NodeRepository repo,
                                      LaunchableConfig profileEditor) {
         this(parameters, null);
         mRepo = repo;
@@ -69,7 +69,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     }
     
     @NonNull
-    private MenuAction<GvNode> newFeedMenu(ReviewsSource repo, LaunchableConfig profileEditor) {
+    private MenuAction<GvNode> newFeedMenu(NodeRepository repo, LaunchableConfig profileEditor) {
         UiLauncher launcher = getLauncher();
         MaiCommand<GvNode> newReview = new MaiCommand<>
                 (getCommandsFactory().newLaunchCreatorCommand(null));

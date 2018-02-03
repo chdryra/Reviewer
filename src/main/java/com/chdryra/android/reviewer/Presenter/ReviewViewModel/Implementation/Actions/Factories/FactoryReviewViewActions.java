@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
@@ -66,13 +66,13 @@ import java.util.Comparator;
 //TODO refactor and think about ReviewView redesign.
 public class FactoryReviewViewActions {
     private final UiConfig mConfig;
-    private final ReviewsSource mReviewsRepo;
+    private final NodeRepository mReviewsRepo;
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
     private final DataComparatorsApi mComparators;
     private final ConverterGv mConverter;
 
-    public FactoryReviewViewActions(UiConfig config, ReviewsSource reviewsRepo, AuthorsRepository
+    public FactoryReviewViewActions(UiConfig config, NodeRepository reviewsRepo, AuthorsRepository
             authorsRepo, FactoryCommands commandsFactory, DataComparatorsApi comparators,
                                     ConverterGv converter) {
         mConfig = config;
@@ -171,7 +171,7 @@ public class FactoryReviewViewActions {
                     node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
             params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Buttons
-                    .AGGREGATE, false)).setComparators(getPlaceholderComparator("Data"));
+                    .FILTER, false)).setComparators(getPlaceholderComparator("Data"));
             factory = new FactoryActionsViewSummary((ActionsParameters<GvSize.Reference>)
                     params, node);
         } else {
@@ -277,7 +277,7 @@ public class FactoryReviewViewActions {
             }
         });
 
-        list.add(new Command(Strings.Buttons.AGGREGATE) {
+        list.add(new Command(Strings.Buttons.FILTER) {
             @Override
             public void execute() {
                 mCommandsFactory.newLaunchViewCommand(viewFactory.newAggregateView(node)).execute();

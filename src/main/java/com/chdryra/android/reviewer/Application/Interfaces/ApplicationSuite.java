@@ -16,15 +16,15 @@ import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationSuite {
-    AuthenticationSuite getAuthentication();
-
-    LocationServicesSuite getLocationServices();
-
-    UiSuite getUi();
+    AccountsSuite getAccounts();
 
     RepositorySuite getRepository();
 
+    UiSuite getUi();
+
     EditorSuite getEditor();
+
+    LocationServicesSuite getLocationServices();
 
     SocialSuite getSocial();
 

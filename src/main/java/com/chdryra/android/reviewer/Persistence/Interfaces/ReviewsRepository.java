@@ -8,16 +8,19 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepository extends ReferencesRepository {
-    ReferencesRepository getReviewsForAuthor(AuthorId authorId);
+public interface ReviewsRepository {
+    void subscribe(ReviewsSubscriber subscriber);
 
-    MutableRepository getMutableRepository(UserSession session);
+    void unsubscribe(ReviewsSubscriber subscriber);
+
+    void getReference(ReviewId reviewId, RepositoryCallback callback);
+
+    void getReview(ReviewId reviewId, RepositoryCallback callback);
 }

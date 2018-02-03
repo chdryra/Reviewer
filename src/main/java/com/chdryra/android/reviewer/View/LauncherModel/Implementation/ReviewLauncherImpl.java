@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -35,17 +35,17 @@ import java.util.Map;
  */
 public class ReviewLauncherImpl implements ReviewLauncher {
     private static final String TYPE = TagKeyGenerator.getKey(ReviewLauncherImpl.class, "DataType");
-    private final ReviewsSource mReviewsSource;
+    private final NodeRepository mNodeRepository;
     private final FactoryReviewView mViewFactory;
     private final Map<String, NodeLauncher<?>> mLaunchers;
 
     private UiLauncher mUiLauncher;
     private AuthorId mSessionAuthor;
 
-    public ReviewLauncherImpl(ReviewsSource reviewsSource,
+    public ReviewLauncherImpl(NodeRepository nodeRepository,
                               List<NodeLauncher<?>> nodeLaunchers,
                               FactoryReviewView viewFactory) {
-        mReviewsSource = reviewsSource;
+        mNodeRepository = nodeRepository;
         mViewFactory = viewFactory;
         mLaunchers = new HashMap<>();
         for(NodeLauncher<?> launcher : nodeLaunchers) {
@@ -70,7 +70,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchAsList(ReviewId reviewId) {
-        launchAsList(mReviewsSource.asMetaReview(reviewId));
+        launchAsList(mNodeRepository.asMetaReview(reviewId));
     }
 
     @Override
@@ -80,13 +80,13 @@ public class ReviewLauncherImpl implements ReviewLauncher {
 
     @Override
     public void launchSummary(final ReviewId reviewId) {
-        ReviewNode node = mReviewsSource.asReviewNode(reviewId);
+        ReviewNode node = mNodeRepository.asReviewNode(reviewId);
         launchView(mViewFactory.newSummaryView(node), getRequestCode(node));
     }
 
     @Override
     public void launchReviewsList(AuthorId authorId) {
-        ReviewNode node = mReviewsSource.getMetaReview(authorId);
+        ReviewNode node = mNodeRepository.getMetaReview(authorId);
         launchView(newListView(node), getRequestCode(node));
     }
 

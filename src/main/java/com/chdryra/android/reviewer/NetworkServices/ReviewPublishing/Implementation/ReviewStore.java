@@ -16,8 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 
 /**
@@ -26,11 +26,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewStore implements MutableRepoCallback, RepositoryCallback, WorkStore<Review> {
-    private final LocalRepository mRepo;
+    private final MutableRepository mRepo;
     private WorkStoreCallback<Review> mWorkStoreCallback;
     private String mFetching;
 
-    public ReviewStore(LocalRepository repo) {
+    public ReviewStore(MutableRepository repo) {
         mRepo = repo;
     }
 

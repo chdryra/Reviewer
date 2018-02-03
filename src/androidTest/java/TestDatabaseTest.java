@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 
@@ -39,7 +39,7 @@ import static org.hamcrest.MatcherAssert.*;
 @RunWith(AndroidJUnit4.class)
 public class TestDatabaseTest extends InstrumentationTestCase {
     private final String DB_NAME = "TestReviewer.db";
-    private ReferencesRepository mTestRepo;
+    private ReviewsRepository mTestRepo;
     private MutableRepository mRepo;
     private Context mContext;
 

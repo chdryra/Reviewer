@@ -13,9 +13,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,14 +25,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 public interface PersistencePlugin {
     FactoryPersistentCache newCacheFactory();
 
-    LocalRepository newLocalPersistence(ModelContext modelContext,
-                                        DataValidator validator,
-                                        FactoryReviewsRepository repoFactory);
+    MutableRepository newLocalPersistence(ModelContext modelContext,
+                                          DataValidator validator);
 
-    ReviewsRepository newBackendPersistence(ModelContext modelContext,
-                                            DataValidator validator,
-                                            FactoryReviewsRepository repoFactory,
-                                            ReviewsCache cache);
+    ReviewsSource newBackendPersistence(ModelContext modelContext,
+                                        DataValidator validator,
+                                        FactoryReviewsRepository repoFactory,
+                                        ReviewsCache cache);
 
     AuthorsRepository getAuthorsPersistence();
 

@@ -31,7 +31,7 @@ public class MaiProfile<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        AuthenticatedUser user = getApp().getAuthentication().getUserSession().getUser();
+        AuthenticatedUser user = getApp().getAccounts().getUserSession().getUser();
         Bundle args = new Bundle();
         ParcelablePacker<AuthenticatedUser> packer = new ParcelablePacker<>();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, user, args);

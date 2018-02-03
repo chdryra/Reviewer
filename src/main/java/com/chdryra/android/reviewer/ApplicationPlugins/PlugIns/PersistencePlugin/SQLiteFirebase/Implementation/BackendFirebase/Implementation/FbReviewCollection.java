@@ -29,11 +29,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Implementation.PlaylistDeleter;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewCollectionDeleter;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.DataSnapshot;
@@ -50,26 +50,27 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist {
+public class FbReviewCollection extends FbReviewsRepositoryBasic implements ReviewCollection {
     private final String mName;
     private final AuthorId mAuthorId;
     private final FbReviewsStructure mStructure;
-    private final ReferencesRepository mMasterRepo;
+    private final ReviewsRepository mMasterRepo;
     private final BackendInfoConverter mInfoConverter;
     private final ConverterPlaylistItem mItemConverter;
     private final ArrayList<ReviewId> mStealthDeletion;
 
-    public FbPlaylist(Firebase dataBase,
-                      FbReviewsStructure structure,
-                      SnapshotConverter<ReviewListEntry> entryConverter,
-                      FactoryFbReviewReference referencer,
-                      String name,
-                      AuthorId authorId,
-                      ReferencesRepository masterRepo,
-                      BackendInfoConverter infoConverter,
-                      ConverterPlaylistItem itemConverter) {
+    public FbReviewCollection(Firebase dataBase,
+                              FbReviewsStructure structure,
+                              SnapshotConverter<ReviewListEntry> entryConverter,
+                              FactoryFbReviewReference referencer,
+                              ReviewDereferencer dereferencer,
+                              String name,
+                              AuthorId authorId,
+                              ReviewsRepository masterRepo,
+                              BackendInfoConverter infoConverter,
+                              ConverterPlaylistItem itemConverter) {
         super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,
-                referencer);
+                referencer, dereferencer);
         mName = name;
         mAuthorId = authorId;
         mStructure = structure;
@@ -95,17 +96,17 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @Override
-    public void addEntry(ReviewId reviewId, PlaylistCallback callback) {
+    public void addEntry(ReviewId reviewId, Callback callback) {
         update(reviewId, DbUpdater.UpdateType.INSERT_OR_UPDATE, callback);
     }
 
     @Override
-    public void removeEntry(ReviewId reviewId, PlaylistCallback callback) {
+    public void removeEntry(ReviewId reviewId, Callback callback) {
         update(reviewId, DbUpdater.UpdateType.DELETE, callback);
     }
 
     @Override
-    public void hasEntry(ReviewId reviewId, final PlaylistCallback callback) {
+    public void hasEntry(ReviewId reviewId, final Callback callback) {
         mStructure.getPlaylistEntryDb(getDataBase(), mAuthorId, mName, reviewId)
                 .addListenerForSingleValueEvent(checkForEntry(callback));
     }
@@ -132,11 +133,11 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @NonNull
-    private ValueEventListener checkForEntry(final PlaylistCallback callback) {
+    private ValueEventListener checkForEntry(final Callback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.onPlaylistHasReviewCallback(dataSnapshot.getValue() != null,
+                callback.onCollectionHasReview(dataSnapshot.getValue() != null,
                         CallbackMessage.ok());
             }
 
@@ -144,12 +145,12 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
             public void onCancelled(FirebaseError firebaseError) {
                 CallbackMessage error = CallbackMessage.error(FirebaseBackend
                         .backendError(firebaseError).getMessage());
-                callback.onPlaylistHasReviewCallback(false, error);
+                callback.onCollectionHasReview(false, error);
             }
         };
     }
 
-    private void update(ReviewId reviewId, DbUpdater.UpdateType updateType, PlaylistCallback
+    private void update(ReviewId reviewId, DbUpdater.UpdateType updateType, Callback
             callback) {
         Map<String, Object> updates = getUpdatesMap(reviewId, updateType);
         getDataBase().updateChildren(updates, updateDoneListener(callback, updateType));
@@ -157,11 +158,11 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
 
     private void notifyCallback(CallbackMessage message,
                                 DbUpdater.UpdateType updateType,
-                                PlaylistCallback callback) {
+                                Callback callback) {
         if (updateType.equals(DbUpdater.UpdateType.INSERT_OR_UPDATE)) {
-            callback.onAddedToPlaylistCallback(message);
+            callback.onAddedToCollection(message);
         } else {
-            callback.onRemovedFromPlaylistCallback(message);
+            callback.onRemovedFromCollection(message);
         }
     }
 
@@ -176,7 +177,7 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
     }
 
     @NonNull
-    private Firebase.CompletionListener updateDoneListener(final PlaylistCallback callback,
+    private Firebase.CompletionListener updateDoneListener(final Callback callback,
                                                            final DbUpdater.UpdateType updateType) {
         return new Firebase.CompletionListener() {
             @Override
@@ -214,8 +215,8 @@ public class FbPlaylist extends FbReferencesRepositoryBasic implements Playlist 
                                                final EntryReadyCallback callback) {
         if (result.isError() && result.getMessage().equals(NULL_AT_SOURCE)) {
             mStealthDeletion.add(id);
-            PlaylistDeleter deleter
-                    = new PlaylistDeleter(id, FbPlaylist.this, new PlaylistDeleter
+            ReviewCollectionDeleter deleter
+                    = new ReviewCollectionDeleter(id, FbReviewCollection.this, new ReviewCollectionDeleter
                     .DeleteCallback() {
                 @Override
                 public void onDeletedFromPlaylist(String playlistName,

@@ -11,9 +11,8 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -41,10 +40,9 @@ public class FactoryUiLauncher {
         mDefaultActivity = defaultActivity;
     }
 
-    public UiLauncherAndroid newLauncher(RepositorySuite repository,
-                                         EditorSuite builder,
+    public UiLauncherAndroid newLauncher(EditorSuite builder,
                                          FactoryReviewView viewFactory,
-                                         ReviewsSource masterRepo,
+                                         NodeRepository masterRepo,
                                          UiConfig config) {
         List<NodeLauncher<?>> launchers = new ArrayList<>();
         launchers.add(newLauncher(config, GvNode.TYPE));
@@ -53,7 +51,7 @@ public class FactoryUiLauncher {
         ReviewLauncherImpl reviewLauncher
                 = new ReviewLauncherImpl(masterRepo, launchers, viewFactory);
 
-        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, repository);
+        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, masterRepo);
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
     }
 

@@ -13,8 +13,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +23,14 @@ import java.util.List;
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BookmarkCommand extends Command implements PlaylistCallback {
+public class BookmarkCommand extends Command implements ReviewCollection.Callback {
     private static final String PLACEHOLDER = Strings.Commands.DASHES;
     private static final String UNBOOKMARK = Strings.Commands.UNBOOKMARK;
     private static final String BOOKMARK = Strings.Commands.BOOKMARK;
     private static final String BOOKMARKS_UNAVAILABLE = Strings.Commands.BOOKMARKS_OFFLINE;
 
     private final ReviewId mReviewId;
-    private final Playlist mBookmarks;
+    private final ReviewCollection mBookmarks;
     private final CurrentScreen mScreen;
 
     private boolean mIsBookmarked = false;
@@ -49,7 +48,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
         void onBookmarked(boolean isBookmarked);
     }
 
-    public BookmarkCommand(ReviewId reviewId, Playlist bookmarks, CurrentScreen screen) {
+    public BookmarkCommand(ReviewId reviewId, ReviewCollection bookmarks, CurrentScreen screen) {
         super(PLACEHOLDER);
         mReviewId = reviewId;
         mScreen = screen;
@@ -104,7 +103,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     }
 
     @Override
-    public void onAddedToPlaylistCallback(CallbackMessage message) {
+    public void onAddedToCollection(CallbackMessage message) {
         mIsBookmarked = true;
         notifyObservers();
         unlock();
@@ -112,7 +111,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     }
 
     @Override
-    public void onRemovedFromPlaylistCallback(CallbackMessage message) {
+    public void onRemovedFromCollection(CallbackMessage message) {
         mIsBookmarked = false;
         notifyObservers();
         unlock();
@@ -120,7 +119,7 @@ public class BookmarkCommand extends Command implements PlaylistCallback {
     }
 
     @Override
-    public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
+    public void onCollectionHasReview(boolean hasReview, CallbackMessage message) {
         if (message.isOk()) {
             mIsBookmarked = hasReview;
             mErrorChecking = false;

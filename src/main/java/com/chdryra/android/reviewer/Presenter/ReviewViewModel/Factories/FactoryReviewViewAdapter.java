@@ -21,9 +21,10 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataRe
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryDataBucketer;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -79,21 +80,24 @@ import java.util.Set;
  */
 public class FactoryReviewViewAdapter {
     private final FactoryReviews mReviewsFactory;
+    private final FactoryReviewsRepository mReposFactory;
     private final FactoryGridDataViewer mViewerFactory;
     private final FactoryDataBucketer mBucketerFactory;
     private final GvDataAggregator mAggregator;
     private final AuthorsRepository mAuthorsRepository;
-    private final ReviewsSource mReviewSource;
+    private final NodeRepository mReviewSource;
     private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
                                     FactoryReferences referenceFactory,
+                                    FactoryReviewsRepository reposFactory,
                                     FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
                                     AuthorsRepository authorsRepository,
-                                    ReviewsSource reviewSource,
+                                    NodeRepository reviewSource,
                                     ConverterGv converter) {
         mReviewsFactory = reviewsFactory;
+        mReposFactory = reposFactory;
         mViewerFactory = new FactoryGridDataViewer(this, referenceFactory, authorsRepository,
                 converter);
         mBucketerFactory = bucketerFactory;
@@ -133,7 +137,7 @@ public class FactoryReviewViewAdapter {
     public ReviewViewAdapter<?> newFeedSummaryAdapter(AuthorId summaryOwner,
                                                       Set<AuthorId> reviewAuthors,
                                                       String title) {
-        RepositoryCollection<AuthorId> collection = new RepositoryCollection<>();
+        RepositoryCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
             collection.add(author, mReviewSource.getReviewsForAuthor(author));
         }

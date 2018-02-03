@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.firebase.client.Firebase;
 
 /**
@@ -23,14 +24,15 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsReadable extends FbReferencesRepositoryBasic {
+public class FbAuthorReviewsReadable extends FbReviewsRepositoryBasic {
     private final FbAuthorsReviews mStructure;
 
     public FbAuthorReviewsReadable(Firebase dataBase,
                                    FbAuthorsReviews structure,
                                    SnapshotConverter<ReviewListEntry> entryConverter,
-                                   FactoryFbReviewReference referencer) {
-        super(dataBase, structure, entryConverter, referencer);
+                                   FactoryFbReviewReference referencer,
+                                   ReviewDereferencer dereferencer) {
+        super(dataBase, structure, entryConverter, referencer, dereferencer);
         mStructure = structure;
     }
 

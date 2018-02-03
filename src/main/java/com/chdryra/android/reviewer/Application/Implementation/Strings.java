@@ -64,10 +64,6 @@ public class Strings {
         public static final String COPYING = "Copying...";
         public static final String LAUNCHING_EDITOR = "Launching editor...";
         public static final String FOLLOWING = "Following...";
-        public static final String BOOKMARKING = "Bookmarking...";
-        public static final String UNBOOKMARKING = "Unbookmarking...";
-        public static final String BOOKMARKED = "Bookmarked";
-        public static final String UNBOOKMARKED = "Unbookmarked";
         public static final String UNFOLLOWING = "Unfollowing...";
         public static final String DONE = "Done";
         public static final String LOGGING_OUT = "Logging out...";
@@ -84,7 +80,7 @@ public class Strings {
         public static final String URL = "link";
         public static final String CREATE = "create";
         public static final String SHARE = "share";
-        public static final String SUMMARY = "summary";
+        public static final String FILTER = "filter";
         public static final String PREVIEW = "preview";
         public static final String SEARCH = "search";
         public static final String EDIT = "edit";
@@ -99,7 +95,7 @@ public class Strings {
         public static final String FULL_REVIEW = "Full " + REVIEW;
         public static final String QUICK_REVIEW = "Quick " + REVIEW;
         public static final String DISTRIBUTION = "Distribution";
-        public static final String AGGREGATE = "Aggregate";
+        public static final String FILTER = "Filter";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
         public static final String LIST = "List";

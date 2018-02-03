@@ -21,7 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.ChildEventListener;
@@ -39,7 +40,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReferencesRepositoryBasic implements ReferencesRepository {
+public abstract class FbReviewsRepositoryBasic implements ReviewsRepository {
     protected static final CallbackMessage NULL_AT_SOURCE
             = CallbackMessage.error("Null at source");
     private static final CallbackMessage REFERENCING_ERROR
@@ -49,19 +50,22 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FbReviews mStructure;
     private final FactoryFbReviewReference mReferencer;
+    private final ReviewDereferencer mDereferencer;
     private final Map<String, ChildEventListener> mSubscribers;
 
     protected abstract Firebase getAggregatesDb(ReviewListEntry entry);
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    FbReferencesRepositoryBasic(Firebase dataBase,
-                                FbReviews structure,
-                                SnapshotConverter<ReviewListEntry> entryConverter,
-                                FactoryFbReviewReference referencer) {
+    FbReviewsRepositoryBasic(Firebase dataBase,
+                             FbReviews structure,
+                             SnapshotConverter<ReviewListEntry> entryConverter,
+                             FactoryFbReviewReference referencer,
+                             ReviewDereferencer dereferencer) {
         mDataBase = dataBase;
         mEntryConverter = entryConverter;
         mStructure = structure;
+        mDereferencer = dereferencer;
         mSubscribers = new HashMap<>();
         mReferencer = referencer;
     }
@@ -87,6 +91,11 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
         doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        mDereferencer.getReview(reviewId, this, callback);
     }
 
     Firebase getDataBase() {
@@ -117,7 +126,7 @@ public abstract class FbReferencesRepositoryBasic implements ReferencesRepositor
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                FbReferencesRepositoryBasic.this.onChildRemoved(dataSnapshot, subscriber);
+                FbReviewsRepositoryBasic.this.onChildRemoved(dataSnapshot, subscriber);
             }
 
             @Override

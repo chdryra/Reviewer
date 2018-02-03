@@ -16,10 +16,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MutableRepository extends ReferencesRepository{
+public interface MutableRepository extends ReviewsRepository {
     void addReview(Review review, MutableRepoCallback callback);
 
     void removeReview(ReviewId reviewId, MutableRepoCallback callback);
-
-    Playlist getBookmarks();
 }

@@ -12,13 +12,13 @@
 
     <include
         android:id="@+id/subject_text"
-        layout="@layout/subject_edit_text"/>
+        layout="@layout/subject_text_view"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <include
         android:id="@+id/review_rating"
-        layout="@layout/rating_point_five"/>
+        layout="@layout/rating_point_five_indicator"/>
 
     <View style="@style/HorizontalDivider"/>
 

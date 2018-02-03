@@ -17,12 +17,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,8 +28,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepository {
-    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepository repo) {
-        super(authorId, repo);
+    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepository repo, ReviewDereferencer dereferencer) {
+        super(authorId, repo, dereferencer);
     }
 
     @Override
@@ -45,7 +43,7 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
 
     @Override
     public void removeReview(final ReviewId reviewId, final MutableRepoCallback callback) {
-        getRepo().getReview(reviewId, new RepositoryCallback() {
+        getReview(reviewId, new RepositoryCallback() {
             @Override
             public void onRepoCallback(RepositoryResult result) {
                 if (result.isReview()) {
@@ -61,53 +59,8 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     @Override
-    public Playlist getBookmarks() {
-        return nullPlaylist();
-    }
-
-    @NonNull
-    private Playlist nullPlaylist() {
-        return new Playlist() {
-            @Override
-            public String getName() {
-                return "null";
-            }
-
-            @Override
-            public void addEntry(ReviewId reviewId, PlaylistCallback callback) {
-                callback.onAddedToPlaylistCallback(error());
-            }
-
-            @Override
-            public void removeEntry(ReviewId reviewId, PlaylistCallback callback) {
-                callback.onRemovedFromPlaylistCallback(error());
-            }
-
-            @Override
-            public void hasEntry(ReviewId reviewId, PlaylistCallback callback) {
-                callback.onPlaylistHasReviewCallback(false, error());
-            }
-
-            @Override
-            public void subscribe(ReviewsSubscriber subscriber) {
-
-            }
-
-            @Override
-            public void unsubscribe(ReviewsSubscriber subscriber) {
-
-            }
-
-            @Override
-            public void getReference(ReviewId reviewId, RepositoryCallback callback) {
-
-            }
-
-            @NonNull
-            private CallbackMessage error() {
-                return CallbackMessage.error("null playlist");
-            }
-        };
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        getRepo().getReview(reviewId, callback);
     }
 
     private boolean isCorrectAuthor(Review review) {

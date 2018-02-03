@@ -14,10 +14,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 /**
@@ -25,28 +26,34 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
  * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsRepositoryCached<T extends ReviewsRepository>
-        implements ReviewsRepository {
+public class ReviewsSourceCached<T extends ReviewsSource> implements ReviewsSource {
     private final ReviewsCache mCache;
     private final T mArchive;
     private final FactoryReviews mReviewsFactory;
+    private final ReviewDereferencer mDereferencer;
 
-    public ReviewsRepositoryCached(ReviewsCache cache,
-                                   T archive,
-                                   FactoryReviews reviewsFactory) {
+    public ReviewsSourceCached(ReviewsCache cache,
+                               T archive,
+                               FactoryReviews reviewsFactory, ReviewDereferencer dereferencer) {
         mCache = cache;
         mArchive = archive;
         mReviewsFactory = reviewsFactory;
+        mDereferencer = dereferencer;
     }
 
     @Override
-    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
+    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
         return mArchive.getReviewsForAuthor(authorId);
     }
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
         return mArchive.getMutableRepository(session);
+    }
+
+    @Override
+    public ReviewCollection getBookmarks(UserSession session) {
+        return mArchive.getBookmarks(session);
     }
 
     @Override
@@ -67,5 +74,10 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
         } else {
             mArchive.getReference(reviewId, callback);
         }
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        mDereferencer.getReview(reviewId, this, callback);
     }
 }

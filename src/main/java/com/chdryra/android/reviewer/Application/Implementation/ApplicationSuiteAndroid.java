@@ -19,7 +19,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManagerAndroid;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.ReviewPack
  */
 public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.SessionObserver,
         ActivityCompat.OnRequestPermissionsResultCallback {
-    private final AuthenticationSuiteAndroid mAuth;
+    private final AccountsSuiteAndroid mAuth;
     private final LocationServicesSuiteAndroid mLocation;
     private final UiSuiteAndroid mUi;
     private final RepositorySuiteAndroid mRepository;
@@ -53,7 +53,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
 
     private Activity mActivity;
 
-    public ApplicationSuiteAndroid(AuthenticationSuiteAndroid auth,
+    public ApplicationSuiteAndroid(AccountsSuiteAndroid auth,
                                    LocationServicesSuiteAndroid location,
                                    UiSuiteAndroid ui,
                                    RepositorySuiteAndroid repository,
@@ -84,7 +84,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     private void setSession() {
-        UserSession session = getAuthentication().getUserSession();
+        UserSession session = getAccounts().getUserSession();
         mUi.setSession(session);
         mSocial.setSession(session);
     }
@@ -94,7 +94,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     @Override
-    public AuthenticationSuite getAuthentication() {
+    public AccountsSuite getAccounts() {
         return mAuth;
     }
 
@@ -156,7 +156,7 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     }
 
     public void logout() {
-        getAuthentication().logout();
+        getAccounts().logout();
     }
 
     ReviewPack unpackReview(Bundle args) {

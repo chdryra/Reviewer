@@ -21,21 +21,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class FactoryReviewViewParams {
     public <T extends GvData> ReviewViewParams newViewParams(GvDataType<T> dataType) {
-        ReviewViewParams params = new ReviewViewParams();
-        if (dataType.equals(GvImage.TYPE) || dataType.equals(GvImage.Reference.TYPE)) {
-            ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
-            params.getGridViewParams().setCellHeight(half).setCellWidth(half);
-        } else if(dataType.equals(GvBucket.TYPE)) {
-            ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
-            ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
-            params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);
-        }
-
-        return params;
+        return newParams(ReviewViewParams.ViewType.VIEW, dataType);
     }
 
     public ReviewViewParams newEditorParams(GvDataType<?> dataType) {
-        return newViewParams(dataType).setViewType(ReviewViewParams.ViewType.EDIT);
+        return newParams(ReviewViewParams.ViewType.EDIT, dataType);
     }
 
     public ReviewViewParams newSearchParams(GvDataType<?> dataType, String hint) {
@@ -56,10 +46,25 @@ public class FactoryReviewViewParams {
     }
 
     public ReviewViewParams newBuildReviewParams() {
-        return new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
+        return new ReviewViewParams(ReviewViewParams.ViewType.EDIT).setEditable();
     }
 
     public ReviewViewParams newPublishParams() {
-        return new ReviewViewParams().setViewType(ReviewViewParams.ViewType.EDIT);
+        return new ReviewViewParams(ReviewViewParams.ViewType.EDIT);
+    }
+
+    private <T extends GvData> ReviewViewParams newParams(ReviewViewParams.ViewType viewType,
+                                                          GvDataType<T> dataType) {
+        ReviewViewParams params = new ReviewViewParams(viewType);
+        if (dataType.equals(GvImage.TYPE) || dataType.equals(GvImage.Reference.TYPE)) {
+            ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
+            params.getGridViewParams().setCellHeight(half).setCellWidth(half);
+        } else if (dataType.equals(GvBucket.TYPE)) {
+            ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+            ReviewViewParams.CellDimension eighth = ReviewViewParams.CellDimension.EIGHTH;
+            params.getGridViewParams().setCellHeight(eighth).setCellWidth(full);
+        }
+
+        return params;
     }
 }

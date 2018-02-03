@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface AuthenticationSuite {
+public interface AccountsSuite {
     UserAuthenticator getAuthenticator();
 
     UserSession getUserSession();

@@ -14,9 +14,10 @@
     android:layout_height="wrap_content"
     android:clickable="false"
     android:focusable="false"
-    android:focusableInTouchMode="false">
+    android:focusableInTouchMode="false"
+    android:background="@drawable/background">
 
-    <LinearLayout style="@style/LinearLayoutVertical">
+    <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical">
 
         <ImageView
             android:id="@+id/image_formatted"

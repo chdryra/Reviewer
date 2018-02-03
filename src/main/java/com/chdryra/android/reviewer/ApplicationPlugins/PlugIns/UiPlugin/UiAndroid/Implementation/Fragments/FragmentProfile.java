@@ -184,7 +184,7 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     }
 
     private UserAccount getUserAccount() {
-        return getApp().getAuthentication().getUserSession().getAccount();
+        return getApp().getAccounts().getUserSession().getAccount();
     }
 
     private void launchImageChooser() {

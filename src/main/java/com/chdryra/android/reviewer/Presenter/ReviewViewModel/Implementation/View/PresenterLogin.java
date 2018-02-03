@@ -18,7 +18,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.reviewer.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.reviewer.Application.Interfaces.UiSuite;
@@ -52,7 +52,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         UserSession.SessionObserver, AlertListener {
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUp");
 
-    private final AuthenticationSuite mAuth;
+    private final AccountsSuite mAuth;
     private final NetworkSuite mNetwork;
     private final CurrentScreen mScreen;
     private final LaunchableConfig mProfileEditor;
@@ -80,7 +80,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
         void onSignUp();
     }
 
-    private PresenterLogin(AuthenticationSuite auth,
+    private PresenterLogin(AccountsSuite auth,
                            NetworkSuite network,
                            LaunchableConfig profileEditor,
                            LaunchableConfig feed,
@@ -258,7 +258,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
 
     public static class Builder {
         public PresenterLogin build(ApplicationInstance app, LoginListener listener) {
-            AuthenticationSuite auth = app.getAuthentication();
+            AccountsSuite auth = app.getAccounts();
             NetworkSuite net = app.getNetwork();
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();

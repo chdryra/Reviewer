@@ -8,19 +8,21 @@
 
 package com.chdryra.android.reviewer.Persistence.Factories;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthored;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepository;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryCollection;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceCached;
+import com.chdryra.android.reviewer.Persistence.Implementation.NodeRepositoryImpl;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,16 +36,16 @@ public class FactoryReviewsRepository {
         mCacheFactory = cacheFactory;
     }
 
-    public ReviewsSource newReviewsSource(ReviewsRepository reviewsRepo,
-                                          AuthorsRepository authorsRepo,
-                                          FactoryReviews reviewsFactory) {
-        return new ReviewsSourceImpl(reviewsRepo, authorsRepo, reviewsFactory);
+    public NodeRepository newReviewsSource(ReviewsSource reviewsRepo,
+                                           AuthorsRepository authorsRepo,
+                                           FactoryReviews reviewsFactory) {
+        return new NodeRepositoryImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
     }
 
-    public ReviewsRepository newCachedRepo(ReviewsRepository archive,
-                                              ReviewsCache cache,
-                                              FactoryReviews reviewsFactory) {
-        return new ReviewsRepositoryCached<>(cache, archive, reviewsFactory);
+    public ReviewsSource newCachedRepo(ReviewsSource archive,
+                                       ReviewsCache cache,
+                                       FactoryReviews reviewsFactory) {
+        return new ReviewsSourceCached<>(cache, archive, reviewsFactory, newDereferencer());
     }
 
     public ReviewsCache newCache() {
@@ -51,11 +53,16 @@ public class FactoryReviewsRepository {
     }
 
 
-    public ReferencesRepository newAuthorsRepo(AuthorId authorId, ReviewerDbRepository repo) {
-        return new ReviewerDbAuthored(authorId, repo);
+    public ReviewsRepository newFeed(AuthorId usersId, RefAuthorList following, ReviewsSource masterRepo) {
+        return new FeedRepository(usersId, following, masterRepo, masterRepo.getReviewsForAuthor(usersId), newRepoCollection());
     }
 
-    public ReferencesRepository newFeed(AuthorId usersId, RefAuthorList following, ReviewsRepository masterRepo) {
-        return new FeedRepository(usersId, following, masterRepo, masterRepo.getReviewsForAuthor(usersId));
+    @NonNull
+    public ReviewDereferencer newDereferencer() {
+        return new ReviewDereferencer();
+    }
+
+    public RepositoryCollection<AuthorId> newRepoCollection() {
+        return new RepositoryCollection<>(newDereferencer());
     }
 }

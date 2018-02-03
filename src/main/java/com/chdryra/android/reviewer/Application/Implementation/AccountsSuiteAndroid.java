@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Application.Implementation;
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.Application.Interfaces.AuthenticationSuite;
+import com.chdryra.android.reviewer.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.LoginGoogleAndroid;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
@@ -23,12 +23,12 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class AuthenticationSuiteAndroid implements AuthenticationSuite {
+public class AccountsSuiteAndroid implements AccountsSuite {
     private AccountsManager mManager;
     private UserSession mSession;
     private LoginGoogleAndroid mGoogleLogin;
 
-    public AuthenticationSuiteAndroid(AccountsManager manager, UserSession session) {
+    public AccountsSuiteAndroid(AccountsManager manager, UserSession session) {
         mManager = manager;
         mSession = session;
     }

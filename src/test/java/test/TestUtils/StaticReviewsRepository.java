@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollec
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * On: 17/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticReviewsRepository implements ReferencesRepository {
+public class StaticReviewsRepository implements ReviewsRepository {
     private IdableCollection<Review> mReviews;
     private TagsManager mTagsManager;
 

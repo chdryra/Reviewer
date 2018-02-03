@@ -13,9 +13,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.RefAuthorList;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -29,9 +29,9 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedRepository implements ReferencesRepository {
+public class FeedRepository implements ReviewsRepository {
     private RefAuthorList mFollowing;
-    private ReviewsRepository mMasterRepo;
+    private ReviewsSource mMasterRepo;
     private RepositoryCollection<AuthorId> mRepos;
     private List<ReviewsSubscriber> mSubscribers;
     private boolean mInitialised = false;
@@ -39,11 +39,12 @@ public class FeedRepository implements ReferencesRepository {
 
     public FeedRepository(AuthorId usersId,
                           RefAuthorList following,
-                          ReviewsRepository masterRepo,
-                          ReferencesRepository initialFeed) {
+                          ReviewsSource masterRepo,
+                          ReviewsRepository initialFeed,
+                          RepositoryCollection<AuthorId> repos) {
         mFollowing = following;
         mMasterRepo = masterRepo;
-        mRepos = new RepositoryCollection<>();
+        mRepos = repos;
         mRepos.add(usersId, initialFeed);
         mSubscribers = new ArrayList<>();
     }
@@ -67,6 +68,12 @@ public class FeedRepository implements ReferencesRepository {
         //TODO Not the best implementation....
         if (!mInitialised) initialise();
         mRepos.getReference(reviewId, callback);
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        if (!mInitialised) initialise();
+        mRepos.getReview(reviewId, callback);
     }
 
     private void initialise() {

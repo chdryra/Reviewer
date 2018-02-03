@@ -14,8 +14,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Factories.BackendInfoConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ConverterPlaylistItem;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.FbPlaylist;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewCollection;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -23,8 +22,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.firebase.client.Firebase;
 
 /**
@@ -33,14 +33,14 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FactoryFbPlaylist {
+public class FactoryFbCollection {
     private final FbReviewsStructure mStructure;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final BackendInfoConverter mInfoConverter;
     private final FactoryFbReviewReference mReferencer;
-    private ReferencesRepository mMasterRepo;
+    private ReviewsRepository mMasterRepo;
 
-    public FactoryFbPlaylist(FbReviewsStructure structure, SnapshotConverter<ReviewListEntry>
+    public FactoryFbCollection(FbReviewsStructure structure, SnapshotConverter<ReviewListEntry>
             entryConverter, BackendInfoConverter infoConverter, FactoryFbReviewReference referencer) {
         mStructure = structure;
         mEntryConverter = entryConverter;
@@ -48,12 +48,12 @@ public class FactoryFbPlaylist {
         mReferencer = referencer;
     }
 
-    public void setMasterRepo(ReferencesRepository masterRepo) {
+    public void setMasterRepo(ReviewsRepository masterRepo) {
         mMasterRepo = masterRepo;
     }
 
-    public Playlist newPlaylist(Firebase root, String name, AuthorId authorId) {
-        return new FbPlaylist(root, mStructure, mEntryConverter, mReferencer, name, authorId,
+    public ReviewCollection newPlaylist(Firebase root, String name, AuthorId authorId, ReviewDereferencer dereferencer) {
+        return new FbReviewCollection(root, mStructure, mEntryConverter, mReferencer, dereferencer, name, authorId,
                 mMasterRepo, mInfoConverter, new ConverterPlaylistItem());
     }
 }

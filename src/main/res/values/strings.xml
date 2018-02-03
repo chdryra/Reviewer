@@ -26,7 +26,7 @@
     <string name="activity_title_locations">locations</string>
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
-    <string name="activity_title_login">login</string>
+    <string name="activity_title_login">Startouch</string>
     <string name="activity_title_profile">profile</string>
 
     <!-- EditTexts -->

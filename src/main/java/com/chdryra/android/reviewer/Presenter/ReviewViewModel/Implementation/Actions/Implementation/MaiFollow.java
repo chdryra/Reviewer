@@ -61,7 +61,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         if(!isAttached()) return;
 
         MenuItem menuItem = getMenuItem();
-        AuthorId userId = getApp().getAuthentication().getUserSession().getAuthorId();
+        AuthorId userId = getApp().getAccounts().getUserSession().getAuthorId();
         if(menuItem != null && userId.toString().equals(mAuthorId.toString())) {
             menuItem.setVisible(false);
         } else {

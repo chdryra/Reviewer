@@ -67,6 +67,10 @@ public class ReviewViewParams {
         mViewType = ViewType.VIEW;
     }
 
+    public ReviewViewParams(ViewType viewType) {
+        mViewType = viewType;
+    }
+
     public ViewType getViewType() {
         return mViewType;
     }
@@ -95,8 +99,7 @@ public class ReviewViewParams {
         return mCoverManager;
     }
 
-    public ReviewViewParams setViewType(ViewType type) {
-        mViewType = type;
+    public ReviewViewParams setEditable() {
         mRatingBarParams.setEditable(true);
         mSubjectParams.setEditable(true);
         return this;

@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -27,14 +28,18 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscriber {
+public class ReviewerDbAuthored implements ReviewsRepository, ReviewsSubscriber {
     private final AuthorId mAuthorId;
     private final ReviewerDbRepository mRepo;
+    private final ReviewDereferencer mDereferencer;
     private final List<ReviewsSubscriber> mSubscribers;
 
-    public ReviewerDbAuthored(AuthorId authorId, ReviewerDbRepository repo) {
+    public ReviewerDbAuthored(AuthorId authorId,
+                              ReviewerDbRepository repo,
+                              ReviewDereferencer dereferencer) {
         mAuthorId = authorId;
         mRepo = repo;
+        mDereferencer = dereferencer;
         mSubscribers = new ArrayList<>();
     }
 
@@ -115,5 +120,10 @@ public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscrib
                 callback.onRepoCallback(repoResult);
             }
         });
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        mDereferencer.getReview(reviewId, this, callback);
     }
 }

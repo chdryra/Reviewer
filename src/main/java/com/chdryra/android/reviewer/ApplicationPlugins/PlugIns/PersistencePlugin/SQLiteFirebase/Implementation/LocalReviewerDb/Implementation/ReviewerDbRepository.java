@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
@@ -26,12 +25,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -45,17 +41,14 @@ import java.util.List;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepository implements LocalRepository {
+public class ReviewerDbRepository implements MutableRepository {
     private final ReviewerDb mDatabase;
     private final List<ReviewsSubscriber> mSubscribers;
     private final FactoryDbReference mReferenceFactory;
-    private final FactoryReviewsRepository mRepoFactory;
 
     public ReviewerDbRepository(ReviewerDb database,
-                                FactoryReviewsRepository repoFactory,
                                 FactoryDbReference referenceFactory) {
         mDatabase = database;
-        mRepoFactory = repoFactory;
         mReferenceFactory = referenceFactory;
         mSubscribers = new ArrayList<>();
     }
@@ -107,16 +100,6 @@ public class ReviewerDbRepository implements LocalRepository {
         }
 
         callback.onRepoCallback(new RepositoryResult(review, message));
-    }
-
-    @Override
-    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
-        return mRepoFactory.newAuthorsRepo(authorId, this);
-    }
-
-    @Override
-    public MutableRepository getMutableRepository(UserSession session) {
-        return new ReviewerDbMutable(session.getAuthorId(), this);
     }
 
     @Override

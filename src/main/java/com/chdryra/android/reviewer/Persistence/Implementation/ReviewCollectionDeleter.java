@@ -12,50 +12,49 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.PlaylistCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlaylistDeleter implements PlaylistCallback {
+public class ReviewCollectionDeleter implements ReviewCollection.Callback {
     private final ReviewId mReviewId;
-    private final Playlist mPlaylist;
+    private final ReviewCollection mReviewCollection;
     private final DeleteCallback mCallback;
 
     public interface DeleteCallback {
         void onDeletedFromPlaylist(String playlistName, ReviewId reviewId, CallbackMessage message);
     }
 
-    public PlaylistDeleter(ReviewId reviewId, Playlist playlist, DeleteCallback callback) {
+    public ReviewCollectionDeleter(ReviewId reviewId, ReviewCollection reviewCollection, DeleteCallback callback) {
         mReviewId = reviewId;
-        mPlaylist = playlist;
+        mReviewCollection = reviewCollection;
         mCallback = callback;
     }
 
     public void delete() {
-        mPlaylist.hasEntry(mReviewId, this);
+        mReviewCollection.hasEntry(mReviewId, this);
     }
 
     @Override
-    public void onAddedToPlaylistCallback(CallbackMessage message) {
+    public void onAddedToCollection(CallbackMessage message) {
 
     }
 
     @Override
-    public void onRemovedFromPlaylistCallback(CallbackMessage message) {
-        mCallback.onDeletedFromPlaylist(mPlaylist.getName(), mReviewId, message);
+    public void onRemovedFromCollection(CallbackMessage message) {
+        mCallback.onDeletedFromPlaylist(mReviewCollection.getName(), mReviewId, message);
     }
 
     @Override
-    public void onPlaylistHasReviewCallback(boolean hasReview, CallbackMessage message) {
+    public void onCollectionHasReview(boolean hasReview, CallbackMessage message) {
         if (!hasReview && message.isOk()) {
-            String name = mPlaylist.getName();
+            String name = mReviewCollection.getName();
             mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok(Strings.REVIEW + " not in " + name));
         } else {
-            mPlaylist.removeEntry(mReviewId, this);
+            mReviewCollection.removeEntry(mReviewId, this);
         }
     }
 }

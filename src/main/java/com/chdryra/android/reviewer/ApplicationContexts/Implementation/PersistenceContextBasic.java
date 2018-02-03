@@ -12,8 +12,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,13 +21,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
-    private LocalRepository mLocalRepo;
+    private MutableRepository mLocalRepo;
     private AuthorsRepository mAuthorsRepo;
     private AccountsManager mAccountsManager;
-    private ReviewsSource mReviewsSource;
+    private NodeRepository mNodeRepository;
     private FactoryReviewsRepository mRepoFactory;
 
-    protected void setLocalRepository(LocalRepository localRepo) {
+    protected void setLocalRepository(MutableRepository localRepo) {
         mLocalRepo = localRepo;
     }
 
@@ -39,8 +39,8 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mAccountsManager = accountsManager;
     }
 
-    protected void setReviewsSource(ReviewsSource reviewsSource) {
-        mReviewsSource = reviewsSource;
+    protected void setNodeRepository(NodeRepository nodeRepository) {
+        mNodeRepository = nodeRepository;
     }
 
     protected void setReposFactory(FactoryReviewsRepository repoFactory) {
@@ -48,12 +48,12 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public ReviewsSource getReviewsRepo() {
-        return mReviewsSource;
+    public NodeRepository getReviewsRepo() {
+        return mNodeRepository;
     }
 
     @Override
-    public LocalRepository getLocalRepo() {
+    public MutableRepository getLocalRepo() {
         return mLocalRepo;
     }
 

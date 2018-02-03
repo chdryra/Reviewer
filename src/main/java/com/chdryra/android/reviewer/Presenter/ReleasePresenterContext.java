@@ -24,8 +24,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
         .DataComparatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -107,7 +108,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
 
         AuthorsRepository authorRepo = persistenceContext.getAuthorsRepo();
-        ReviewsSource reviewsRepo = persistenceContext.getReviewsRepo();
+        NodeRepository reviewsRepo = persistenceContext.getReviewsRepo();
 
         FactoryReviewViewActions actionsFactory
                 = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo, getCommandsFactory(), comparators, gvConverter);
@@ -116,6 +117,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 incrementorFactory, getImageChooserFactory());
         FactoryReviewViewAdapter adapterFactory
                 = newAdaptersFactory(modelContext,
+                persistenceContext.getRepoFactory(),
                 reviewsRepo,
                 authorRepo,
                 gvConverter,
@@ -128,7 +130,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private FactoryReviewViewAdapter newAdaptersFactory(ModelContext modelContext,
-                                    ReviewsSource reviewsSource,
+                                    FactoryReviewsRepository reposFactory,
+                                    NodeRepository nodeRepository,
                                     AuthorsRepository authorsRepository,
                                     ConverterGv gvConverter,
                                     DataAggregatorsApi aggregator) {
@@ -137,9 +140,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
         return new FactoryReviewViewAdapter(modelContext.getReviewsFactory(),
                 modelContext.getReferencesFactory(),
+                reposFactory,
                 modelContext.getBucketerFactory(),
                 aggregater,
-                authorsRepository, reviewsSource, gvConverter);
+                authorsRepository, nodeRepository, gvConverter);
     }
 
     private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(ModelContext modelContext,

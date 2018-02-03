@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepoTitler;
 import com.google.android.gms.maps.model.LatLng;
@@ -107,7 +107,7 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNode createTree(ReferencesRepository repo, AuthorReference treeOwner, String
+    public ReviewNode createTree(ReviewsRepository repo, AuthorReference treeOwner, String
             title) {
         return newReviewNodeAuthored(getMetaInfo(treeOwner.getAuthorId()), repo,
                 new NodeTitler.AuthorsTree(treeOwner, title));
@@ -183,7 +183,7 @@ public class FactoryReviews implements ReviewMaker {
 
     @NonNull
     private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
-                                                 ReferencesRepository reviews,
+                                                 ReviewsRepository reviews,
                                                  NodeTitler titler) {
         return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
                 mNodeFactory, titler);

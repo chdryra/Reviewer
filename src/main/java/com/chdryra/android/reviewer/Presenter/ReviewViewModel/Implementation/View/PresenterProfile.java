@@ -168,7 +168,7 @@ public class PresenterProfile implements UserAccounts.CreateAccountCallback,
 
     public static class Builder {
         public PresenterProfile build(ApplicationInstance app, String profileImageName, ProfileListener listener) {
-            return new PresenterProfile(app.getAuthentication().getUserAccounts(),
+            return new PresenterProfile(app.getAccounts().getUserAccounts(),
                     app.getEditor().newImageChooser(profileImageName),
                     app.getUi().getLauncher(), listener);
         }

@@ -26,8 +26,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryAuthorsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbPlaylist;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbCollection;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -42,8 +41,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Implementation.FbAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbAuthorsRepository;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.FbReviewsRepository;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewsSource;
+
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.FbStructUsersLed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -59,9 +59,10 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
 
 /**
@@ -90,10 +91,10 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public ReviewsRepository newReviewsRepo(ModelContext model,
-                                            DataValidator validator,
-                                            FactoryReviewsRepository repoFactory,
-                                            ReviewsCache cache) {
+    public ReviewsSource newReviewsRepo(ModelContext model,
+                                        DataValidator validator,
+                                        FactoryReviewsRepository repoFactory,
+                                        ReviewsCache cache) {
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter reviewConverter
                 = new BackendReviewConverter(beValidator, model.getReviewsFactory());
@@ -101,14 +102,16 @@ public class BackendFirebase implements Backend {
         BackendInfoConverter infoConverter = new BackendInfoConverter();
         FactoryFbReviewReference referencer
                 = new FactoryFbReviewReference(mDataReferencer, infoConverter, reviewConverter, cache);
+        ReviewDereferencer dereferencer = repoFactory.newDereferencer();
 
         ConverterEntry entryConverter = new ConverterEntry();
-        FactoryFbPlaylist playlistFactory = new FactoryFbPlaylist(mStructure, entryConverter, infoConverter, referencer);
-        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator,
-                entryConverter, referencer, cache, playlistFactory);
+        FactoryFbCollection playlistFactory = new FactoryFbCollection(mStructure, entryConverter, infoConverter, referencer);
 
-        ReviewsRepository masterRepo = new FbReviewsRepository(mDatabase, mStructure,
-                entryConverter, referencer, authorsDbFactory);
+        FactoryAuthorsRepo authorsDbFactory = new FactoryAuthorsRepo(reviewConverter, beValidator,
+                entryConverter, referencer, dereferencer, cache, playlistFactory);
+
+        ReviewsSource masterRepo = new FbReviewsSource(mDatabase, mStructure,
+                entryConverter, referencer, dereferencer, authorsDbFactory);
         playlistFactory.setMasterRepo(masterRepo);
 
         return masterRepo;

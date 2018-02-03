@@ -37,7 +37,7 @@ public class FactoryActionsViewSummary extends FactoryActionsViewData<GvSize.Ref
 
     @Override
     public MenuAction<GvSize.Reference> newMenu() {
-        return new MenuViewDataDefault<>(Strings.Screens.SUMMARY, newOptionsMenuItem());
+        return new MenuViewDataDefault<>(Strings.Screens.FILTER, newOptionsMenuItem());
     }
 
     @Override

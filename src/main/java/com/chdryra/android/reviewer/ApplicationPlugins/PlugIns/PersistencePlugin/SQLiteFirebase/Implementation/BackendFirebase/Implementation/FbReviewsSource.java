@@ -21,9 +21,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorId
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.firebase.client.Firebase;
 
 /**
@@ -31,23 +33,24 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
-        ReviewsRepository {
+public class FbReviewsSource extends FbReviewsRepositoryBasic implements
+        ReviewsSource {
     private final FactoryAuthorsRepo mAuthorsDbFactory;
     private final FbReviewsStructure mStructure;
 
-    public FbReviewsRepository(Firebase dataBase,
-                               FbReviewsStructure structure,
-                               ConverterEntry entryConverter,
-                               FactoryFbReviewReference referencer,
-                               FactoryAuthorsRepo authorsDbFactory) {
-        super(dataBase, structure, entryConverter, referencer);
+    public FbReviewsSource(Firebase dataBase,
+                           FbReviewsStructure structure,
+                           ConverterEntry entryConverter,
+                           FactoryFbReviewReference referencer,
+                           ReviewDereferencer dereferencer,
+                           FactoryAuthorsRepo authorsDbFactory) {
+        super(dataBase, structure, entryConverter, referencer, dereferencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }
 
     @Override
-    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
+    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newAuthorsDbReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
@@ -55,6 +58,11 @@ public class FbReviewsRepository extends FbReferencesRepositoryBasic implements
     public MutableRepository getMutableRepository(UserSession session) {
         return mAuthorsDbFactory.newAuthorsDbMutable(getDataBase(), getAuthorsDb(session
                 .getAuthorId()));
+    }
+
+    @Override
+    public ReviewCollection getBookmarks(UserSession session) {
+        return mAuthorsDbFactory.getBookmarks(getDataBase(), session.getAuthorId());
     }
 
     @Override

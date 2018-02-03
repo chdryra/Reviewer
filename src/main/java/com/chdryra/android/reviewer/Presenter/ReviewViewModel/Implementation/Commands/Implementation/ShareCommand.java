@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Co
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
@@ -23,12 +23,12 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  */
 public class ShareCommand extends Command {
     private final ReviewId mReviewId;
-    private final RepositorySuite mRepo;
+    private final ReviewsRepository mRepo;
     private final CurrentScreen mScreen;
     private final SocialPublisher mSharer;
 
     public ShareCommand(ReviewId reviewId,
-                        RepositorySuite repo,
+                        ReviewsRepository repo,
                         CurrentScreen screen,
                         SocialPublisher sharer) {
         super(Strings.Commands.SHARE);

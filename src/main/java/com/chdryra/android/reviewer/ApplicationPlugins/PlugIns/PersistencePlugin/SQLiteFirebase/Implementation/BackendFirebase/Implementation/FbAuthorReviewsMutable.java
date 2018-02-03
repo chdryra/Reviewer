@@ -25,9 +25,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -45,7 +45,6 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
     private final ReviewsCache mCache;
-    private final Playlist mBookmarks;
 
     public FbAuthorReviewsMutable(Firebase dataBase,
                                   FbAuthorsReviews structure,
@@ -53,13 +52,12 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
                                   BackendReviewConverter converter,
                                   BackendValidator validator,
                                   FactoryFbReviewReference referencer,
-                                  ReviewsCache cache,
-                                  Playlist bookmarks) {
-        super(dataBase, structure, entryConverter, referencer);
+                                  ReviewDereferencer dereferencer,
+                                  ReviewsCache cache) {
+        super(dataBase, structure, entryConverter, referencer, dereferencer);
         mConverter = converter;
         mValidator = validator;
         mCache = cache;
-        mBookmarks = bookmarks;
     }
 
     @Override
@@ -72,11 +70,6 @@ public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements M
     @Override
     public void removeReview(ReviewId reviewId, MutableRepoCallback callback) {
         getReviewEntry(reviewId, newGetAndDeleteListener(reviewId, callback));
-    }
-
-    @Override
-    public Playlist getBookmarks() {
-        return mBookmarks;
     }
 
     private void getReviewEntry(ReviewId id, ValueEventListener onReviewFound) {

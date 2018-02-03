@@ -14,19 +14,25 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryPersistentCache;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Plugin.BackendFirebase;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .FactoryPersistentCache;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .PersistencePlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Plugin.BackendFirebase;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,17 +57,16 @@ public class SQLiteFirebase implements PersistencePlugin {
     }
 
     @Override
-    public LocalRepository newLocalPersistence(ModelContext model,
-                                               DataValidator validator,
-                                               FactoryReviewsRepository repoFactory) {
-        return mLocalFactory.newPersistence(model, validator, repoFactory);
+    public MutableRepository newLocalPersistence(ModelContext model,
+                                                 DataValidator validator) {
+        return mLocalFactory.newPersistence(model, validator);
     }
 
     @Override
-    public ReviewsRepository newBackendPersistence(ModelContext model,
-                                                   DataValidator validator,
-                                                   FactoryReviewsRepository repoFactory,
-                                                   ReviewsCache cache) {
+    public ReviewsSource newBackendPersistence(ModelContext model,
+                                               DataValidator validator,
+                                               FactoryReviewsRepository repoFactory,
+                                               ReviewsCache cache) {
         return mBackend.newReviewsRepo(model, validator, repoFactory, cache);
     }
 

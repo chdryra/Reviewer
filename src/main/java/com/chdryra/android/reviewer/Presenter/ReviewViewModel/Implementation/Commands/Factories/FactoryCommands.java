@@ -190,7 +190,7 @@ public class FactoryCommands {
     }
 
     private UserSession getSession() {
-        return mApp.getAuthentication().getUserSession();
+        return mApp.getAccounts().getUserSession();
     }
 
     private RepositorySuite getRepo() {
@@ -242,8 +242,7 @@ public class FactoryCommands {
 
     @NonNull
     private BookmarkCommand bookmark(UserSession session, ReviewId reviewId) {
-        return new BookmarkCommand(reviewId, getRepo().getReviewsRepo()
-                .getMutableRepository(session).getBookmarks(), getScreen());
+        return new BookmarkCommand(reviewId, getRepo().getReviewsRepo().getBookmarks(session), getScreen());
     }
 
     @NonNull
@@ -259,6 +258,6 @@ public class FactoryCommands {
 
     @NonNull
     private ShareCommand share(ReviewId reviewId) {
-        return new ShareCommand(reviewId, getRepo(), getScreen(), mApp.getSocial().newPublisher());
+        return new ShareCommand(reviewId, getRepo().getReviewsRepo(), getScreen(), mApp.getSocial().newPublisher());
     }
 }

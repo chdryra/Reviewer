@@ -8,27 +8,18 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 14/12/2015
+ * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsSource extends ReviewsRepository {
-    ReviewNode asReviewNode(ReviewId id);
+    ReviewsRepository getReviewsForAuthor(AuthorId authorId);
 
-    ReviewNode asMetaReview(ReviewId id);
+    MutableRepository getMutableRepository(UserSession session);
 
-    ReviewNode getMetaReview(AuthorId id);
-
-    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
-
-    ReviewNode getMetaReview(IdableCollection<?> data, String subject);
-
-    ReviewNode getMetaReview(ReferencesRepository repo, AuthorId owner, String subject);
+    ReviewCollection getBookmarks(UserSession session);
 }

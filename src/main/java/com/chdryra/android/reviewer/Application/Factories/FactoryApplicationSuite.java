@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Application.Factories;
 import android.content.Context;
 
 import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManagerAndroid;
+import com.chdryra.android.reviewer.Application.Implementation.AccountsSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.ApplicationSuiteAndroid;
-import com.chdryra.android.reviewer.Application.Implementation.AuthenticationSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.EditorSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.InSessionStamper;
 import com.chdryra.android.reviewer.Application.Implementation.LocationServicesSuiteAndroid;
@@ -20,10 +20,7 @@ import com.chdryra.android.reviewer.Application.Implementation.NetworkSuiteAndro
 import com.chdryra.android.reviewer.Application.Implementation.RepositorySuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.SocialSuiteAndroid;
 import com.chdryra.android.reviewer.Application.Implementation.UiSuiteAndroid;
-import com.chdryra.android.reviewer.Authentication.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.Application.Interfaces.EditorSuite;
-import com.chdryra.android.reviewer.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
@@ -34,7 +31,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AccountsManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReleaseModelContext;
 import com.chdryra.android.reviewer.NetworkServices.ReleaseNetworkContext;
@@ -66,21 +65,21 @@ public class FactoryApplicationSuite {
                 new ReleasePresenterContext(context, model, view, persistence, device,
                         plugins.getDataComparators(), plugins.getDataAggregators(), validator);
 
-        AuthenticationSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
+        AccountsSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         PermissionsManagerAndroid permissions = new PermissionsManagerAndroid(context);
         LocationServicesSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions));
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         EditorSuiteAndroid editor = newReviewEditorSuite(presenter);
-        UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, repo, editor);
+        UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
         NetworkSuiteAndroid networkSuite = new NetworkSuiteAndroid(context);
 
         return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite, networkSuite, permissions);
     }
 
-    private AuthenticationSuiteAndroid newAuthenticationSuite(ModelContext model,
-                                                              PersistenceContext persistence,
-                                                              SocialContext social) {
+    private AccountsSuiteAndroid newAuthenticationSuite(ModelContext model,
+                                                        PersistenceContext persistence,
+                                                        SocialContext social) {
         AccountsManager accountsManager = persistence.getAccountsManager();
         SocialPlatformList socialPlatforms = social.getSocialPlatforms();
 
@@ -90,7 +89,7 @@ public class FactoryApplicationSuite {
         session.registerSessionObserver(reviewStamper);
         model.getReviewsFactory().setReviewStamper(reviewStamper);
 
-        return new AuthenticationSuiteAndroid(accountsManager, session);
+        return new AccountsSuiteAndroid(accountsManager, session);
     }
 
     private LocationServicesSuiteAndroid newLocationServicesSuite(LocationServicesApi services) {
@@ -113,11 +112,10 @@ public class FactoryApplicationSuite {
     private UiSuiteAndroid newUiSuite(PersistenceContext persistence,
                                       ViewContext view,
                                       PresenterContext presenter,
-                                      RepositorySuite repo,
                                       EditorSuite builder) {
         FactoryReviewView viewFactory = presenter.getReviewViewFactory();
         UiConfig uiConfig = view.getUiConfig();
-        UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(repo, builder,
+        UiLauncherAndroid uiLauncher = view.getLauncherFactory().newLauncher(builder,
                 viewFactory, persistence.getReviewsRepo(), uiConfig);
 
         return new UiSuiteAndroid(uiConfig, uiLauncher, presenter.getCommandsFactory(),

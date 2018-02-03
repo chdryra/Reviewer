@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataVali
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,17 +35,17 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
 
         setAccountsManager(plugin.newAccountsManager());
 
-        setLocalRepository(plugin.newLocalPersistence(model, validator, getRepoFactory()));
+        setLocalRepository(plugin.newLocalPersistence(model, validator));
 
         ReviewsCache cache = getRepoFactory().newCache();
 
         setAuthorsRepository(plugin.getAuthorsPersistence());
 
-        ReviewsRepository backend = plugin.newBackendPersistence(model, validator,
+        ReviewsSource backend = plugin.newBackendPersistence(model, validator,
                 getRepoFactory(), cache);
-        ReviewsRepository cachedRepo = getRepoFactory().newCachedRepo(backend,
+        ReviewsSource cachedRepo = getRepoFactory().newCachedRepo(backend,
                 cache, model.getReviewsFactory());
-        setReviewsSource(getRepoFactory().newReviewsSource(cachedRepo,
+        setNodeRepository(getRepoFactory().newReviewsSource(cachedRepo,
                 plugin.getAuthorsPersistence(), model.getReviewsFactory()));
     }
 

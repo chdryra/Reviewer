@@ -25,9 +25,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.Firebase;
 
@@ -41,31 +43,37 @@ public class FactoryAuthorsRepo {
     private final BackendValidator mValidator;
     private final SnapshotConverter<ReviewListEntry> mEntryConverter;
     private final FactoryFbReviewReference mReferencer;
+    private final ReviewDereferencer mDereferencer;
     private final ReviewsCache mCache;
-    private final FactoryFbPlaylist mPlaylistFactory;
+    private final FactoryFbCollection mCollectionFactory;
 
     public FactoryAuthorsRepo(BackendReviewConverter reviewConverter,
                               BackendValidator validator,
                               SnapshotConverter<ReviewListEntry> entryConverter,
                               FactoryFbReviewReference referencer,
+                              ReviewDereferencer dereferencer,
                               ReviewsCache cache,
-                              FactoryFbPlaylist playlistFactory) {
+                              FactoryFbCollection collectionFactory) {
         mReviewConverter = reviewConverter;
         mValidator = validator;
         mEntryConverter = entryConverter;
         mReferencer = referencer;
+        mDereferencer = dereferencer;
         mCache = cache;
-        mPlaylistFactory = playlistFactory;
+        mCollectionFactory = collectionFactory;
     }
 
-    public ReferencesRepository newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
-        return new FbAuthorReviewsReadable(root, authorsDb, mEntryConverter, mReferencer);
+    public ReviewsRepository newAuthorsDbReadable(Firebase root, FbAuthorsReviews authorsDb) {
+        return new FbAuthorReviewsReadable(root, authorsDb, mEntryConverter, mReferencer, mDereferencer);
     }
 
     public MutableRepository newAuthorsDbMutable(Firebase root, FbAuthorsReviews authorsDb) {
-        Playlist bookmarks = mPlaylistFactory.newPlaylist(root, Strings.Playlists.BOOKMARKS,
-                authorsDb.getAuthorId());
         return new FbAuthorReviewsMutable(root, authorsDb, mEntryConverter, mReviewConverter,
-                mValidator, mReferencer, mCache, bookmarks);
+                mValidator, mReferencer, mDereferencer, mCache);
+    }
+
+    public ReviewCollection getBookmarks(Firebase root, AuthorId authorId) {
+        return mCollectionFactory.newPlaylist(root, Strings.Playlists.BOOKMARKS,
+                authorId, mDereferencer);
     }
 }

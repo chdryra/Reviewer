@@ -28,10 +28,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
@@ -44,16 +45,20 @@ import java.util.Set;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsSourceImpl implements ReviewsSource {
-    private final ReviewsRepository mReviewsRepo;
+public class NodeRepositoryImpl implements NodeRepository {
+    private final ReviewsSource mReviewsRepo;
     private final AuthorsRepository mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
+    private final ReviewDereferencer mDereferencer;
 
-    public ReviewsSourceImpl(ReviewsRepository reviewsRepo, AuthorsRepository authorsRepo,
-                             FactoryReviews reviewsFactory) {
+    public NodeRepositoryImpl(ReviewsSource reviewsRepo,
+                              AuthorsRepository authorsRepo,
+                              FactoryReviews reviewsFactory,
+                              ReviewDereferencer dereferencer) {
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mReviewsFactory = reviewsFactory;
+        mDereferencer = dereferencer;
     }
 
     @Override
@@ -64,6 +69,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public void unsubscribe(ReviewsSubscriber subscriber) {
         mReviewsRepo.unsubscribe(subscriber);
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, final RepositoryCallback callback) {
+        mDereferencer.getReview(reviewId, this, callback);
     }
 
     @Override
@@ -106,12 +116,17 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
+    public ReviewCollection getBookmarks(UserSession session) {
+        return mReviewsRepo.getBookmarks(session);
+    }
+
+    @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         mReviewsRepo.getReference(reviewId, callback);
     }
 
     @Override
-    public ReferencesRepository getReviewsForAuthor(AuthorId authorId) {
+    public ReviewsRepository getReviewsForAuthor(AuthorId authorId) {
         return mReviewsRepo.getReviewsForAuthor(authorId);
     }
 
@@ -121,7 +136,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReviewNode getMetaReview(ReferencesRepository repo, AuthorId owner, String subject) {
+    public ReviewNode getMetaReview(ReviewsRepository repo, AuthorId owner, String subject) {
         return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
     }
 

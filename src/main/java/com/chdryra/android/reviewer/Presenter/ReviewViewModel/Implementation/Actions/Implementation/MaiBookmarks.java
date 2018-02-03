@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.Playlist;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.reviewer.Persistence.Interfaces.NodeRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.UiLauncherArgs;
@@ -29,10 +29,10 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
     private static final int CODE = RequestCodeGenerator.getCode(MaiBookmarks.class);
 
     private final UiLauncher mLauncher;
-    private final ReviewsSource mRepo;
+    private final NodeRepository mRepo;
     private final FactoryReviewView mFactory;
 
-    public MaiBookmarks(UiLauncher launcher, ReviewsSource repo, FactoryReviewView factory) {
+    public MaiBookmarks(UiLauncher launcher, NodeRepository repo, FactoryReviewView factory) {
         mLauncher = launcher;
         mFactory = factory;
         mRepo = repo;
@@ -40,8 +40,8 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
 
     @Override
     public void doAction(MenuItem item) {
-        UserSession session = getApp().getAuthentication().getUserSession();
-        Playlist bookmarks = mRepo.getMutableRepository(session).getBookmarks();
+        UserSession session = getApp().getAccounts().getUserSession();
+        ReviewCollection bookmarks = mRepo.getBookmarks(session);
         ReviewNode node = mRepo.getMetaReview(bookmarks, session.getAuthorId(),  bookmarks.getName());
         mLauncher.launch(mFactory.newListView(node, null), new UiLauncherArgs(CODE));
     }
