@@ -12,7 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsAuthenticator;
@@ -48,8 +49,8 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     private final Firebase mRoot;
     private final UserProfileConverter mUsersFactory;
     private final UserAccounts mAccounts;
-    private AuthenticatedUser mLoggedIn;
     private final ArrayList<UserStateObserver> mObservers;
+    private AuthenticatedUser mLoggedIn;
 
     public FbAuthenticator(Firebase root,
                            UserAccounts accounts,
@@ -99,12 +100,14 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @Override
-    public void authenticateUser(AccessToken token, final CredentialsAuthenticator.Callback callback) {
+    public void authenticateUser(AccessToken token, final CredentialsAuthenticator.Callback
+            callback) {
         mRoot.authWithOAuthToken(FACEBOOK, token.getToken(), getResultHandler(callback, FACEBOOK));
     }
 
     @Override
-    public void authenticateUser(TwitterSession session, final CredentialsAuthenticator.Callback callback) {
+    public void authenticateUser(TwitterSession session, final CredentialsAuthenticator.Callback
+            callback) {
         TwitterAuthToken authToken = session.getAuthToken();
         Map<String, String> options = new HashMap<>();
         options.put("oauth_token", authToken.token);
@@ -159,7 +162,8 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
     }
 
     @NonNull
-    private Firebase.AuthResultHandler getResultHandler(final CredentialsAuthenticator.Callback callback, final
+    private Firebase.AuthResultHandler getResultHandler(final CredentialsAuthenticator.Callback
+                                                                    callback, final
     String provider) {
         return new Firebase.AuthResultHandler() {
             @Override
@@ -175,11 +179,13 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
         };
     }
 
-    private void notifyNotAuthenticated(AuthenticationError error, CredentialsAuthenticator.Callback callback) {
+    private void notifyNotAuthenticated(AuthenticationError error, CredentialsAuthenticator
+            .Callback callback) {
         callback.onAuthenticationError(error);
     }
 
-    private void notifyOnAuthenticated(AuthData authData, String provider, CredentialsAuthenticator.Callback
+    private void notifyOnAuthenticated(AuthData authData, String provider,
+                                       CredentialsAuthenticator.Callback
             callback) {
         AuthenticatedUser user
                 = mUsersFactory.newAuthenticatedUser(provider, authData.getUid());
@@ -196,12 +202,12 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
         AuthenticationError pwError
                 = new AuthenticationError(GOOGLE, AuthenticationError.Reason.INVALID_CREDENTIALS);
 
-        if(email == null) {
+        if (email == null) {
             notifyNotAuthenticated(emailError, callback);
             return;
         }
 
-        if(password == null) {
+        if (password == null) {
             notifyNotAuthenticated(pwError, callback);
             return;
         }
@@ -218,7 +224,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
         mAccounts.createUser(ep, new UserAccounts.CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
-                if(error == null) {
+                if (error == null) {
                     authenticateUser(account, callback);
                 } else {
                     notifyNotAuthenticated(error, callback);

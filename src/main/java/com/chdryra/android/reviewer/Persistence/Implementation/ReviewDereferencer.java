@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.References.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
  */
 
 public class ReviewDereferencer {
-    public void getReview(ReviewId id, ReviewsRepo repo, final RepoCallback callback) {
+    public void getReview(ReviewId id, ReviewsRepoReadable repo, final RepoCallback callback) {
         repo.getReference(id, dereferenceOnReturn(callback));
     }
 

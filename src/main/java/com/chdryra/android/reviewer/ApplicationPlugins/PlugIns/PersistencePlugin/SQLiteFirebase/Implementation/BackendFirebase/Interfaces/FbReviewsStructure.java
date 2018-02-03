@@ -25,7 +25,7 @@ public interface FbReviewsStructure extends FbReviewsUpdateable {
     String PLAYLISTS = "Playlists";
     String PLAYLIST_INDEX = "NamesIndex";
 
-    FbAuthorsReviews getAuthorsDb(AuthorId authorId);
+    FbAuthorsDb getAuthorsDb(AuthorId authorId);
 
     Firebase getListEntriesDb(Firebase root, AuthorId authorId);
 

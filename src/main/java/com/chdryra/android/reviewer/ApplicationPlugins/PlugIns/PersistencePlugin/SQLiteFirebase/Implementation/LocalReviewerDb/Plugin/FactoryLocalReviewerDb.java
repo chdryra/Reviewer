@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,7 +59,7 @@ public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
     }
 
     @Override
-    public ReviewsRepoMutable newPersistence(ModelContext model, DataValidator validator) {
+    public ReviewsRepoWriteable newPersistence(ModelContext model, DataValidator validator) {
         FactoryReviews reviewsFactory = model.getReviewsFactory();
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, reviewsFactory, validator);
         FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferencesFactory());

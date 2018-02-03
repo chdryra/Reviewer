@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdRefere
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.T
     private final DataReviewInfo mMeta;
 
     public ReviewNodeRepoTitler(DataReviewInfo meta,
-                                ReviewsRepo repo,
+                                ReviewsRepoReadable repo,
                                 FactoryMdReference referenceFactory,
                                 FactoryReviewNode nodeFactory,
                                 NodeTitler titler) {

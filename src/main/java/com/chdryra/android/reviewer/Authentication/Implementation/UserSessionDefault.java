@@ -41,9 +41,9 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
 
     private UserAccount mAccount;
 
-    public UserSessionDefault(AccountsManager accountsManager,
+    public UserSessionDefault(AccountsManager usersManager,
                               SocialPlatformList socialPlatforms) {
-        mManager = accountsManager;
+        mManager = usersManager;
         mSocialPlatforms = socialPlatforms;
 
         mObservers = new ArrayList<>();

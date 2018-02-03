@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollec
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * On: 17/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticReviewsRepo implements ReviewsRepo {
+public class StaticReviewsRepo implements ReviewsRepoReadable {
     private IdableCollection<Review> mReviews;
     private TagsManager mTagsManager;
 

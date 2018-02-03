@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,5 +19,5 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryLocalPersistence {
-    ReviewsRepoMutable newPersistence(ModelContext model, DataValidator validator);
+    ReviewsRepoWriteable newPersistence(ModelContext model, DataValidator validator);
 }

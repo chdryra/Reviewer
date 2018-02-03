@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.Interfaces.Re
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 
 /**
@@ -55,7 +55,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public ReviewsRepo getFeed(ProfileSocial profile) {
+    public ReviewsRepoReadable getFeed(ProfileSocial profile) {
         return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), mReviewsRepo);
     }
 

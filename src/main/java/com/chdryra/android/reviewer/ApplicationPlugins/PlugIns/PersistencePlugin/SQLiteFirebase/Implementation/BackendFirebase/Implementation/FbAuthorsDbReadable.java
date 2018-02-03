@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbReviewReferencer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
@@ -24,19 +24,19 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsReadable extends FbReviewsRepoBasic {
-    private final FbAuthorsReviews mStructure;
+public class FbAuthorsDbReadable extends FbReviewsRepoBasic {
+    private final FbAuthorsDb mStructure;
 
-    public FbAuthorReviewsReadable(Firebase dataBase,
-                                   FbAuthorsReviews structure,
-                                   SnapshotConverter<ReviewListEntry> entryConverter,
-                                   FbReviewReferencer referencer,
-                                   ReviewDereferencer dereferencer) {
+    public FbAuthorsDbReadable(Firebase dataBase,
+                               FbAuthorsDb structure,
+                               SnapshotConverter<ReviewListEntry> entryConverter,
+                               FbReviewReferencer referencer,
+                               ReviewDereferencer dereferencer) {
         super(dataBase, structure, entryConverter, referencer, dereferencer);
         mStructure = structure;
     }
 
-    FbAuthorsReviews getStructure() {
+    FbAuthorsDb getStructure() {
         return mStructure;
     }
 

@@ -27,11 +27,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -46,12 +46,12 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
-    private final ReviewsSource mReviewsRepo;
+    private final ReviewsRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
     private final ReviewDereferencer mDereferencer;
 
-    public ReviewsNodeRepoImpl(ReviewsSource reviewsRepo,
+    public ReviewsNodeRepoImpl(ReviewsRepo reviewsRepo,
                                AuthorsRepo authorsRepo,
                                FactoryReviews reviewsFactory,
                                ReviewDereferencer dereferencer) {
@@ -101,18 +101,11 @@ public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
             return getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                     subject);
         }
-//        ReviewId id = getSingleSourceId(datum);
-//        if (id != null) {
-//            asMetaReviewNullable(id, callback);
-//        } else {
-//            getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
-//                    subject, callback);
-//        }
     }
 
     @Override
-    public ReviewsRepoMutable getMutableRepoForUser(UserSession session) {
-        return mReviewsRepo.getMutableRepoForUser(session);
+    public ReviewsRepoWriteable getRepoForUser(UserSession session) {
+        return mReviewsRepo.getRepoForUser(session);
     }
 
     @Override
@@ -126,7 +119,7 @@ public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
     }
 
     @Override
-    public ReviewsRepo getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepoReadable getReviewsByAuthor(AuthorId authorId) {
         return mReviewsRepo.getReviewsByAuthor(authorId);
     }
 
@@ -136,7 +129,7 @@ public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
     }
 
     @Override
-    public ReviewNode getMetaReview(ReviewsRepo repo, AuthorId owner, String subject) {
+    public ReviewNode getMetaReview(ReviewsRepoReadable repo, AuthorId owner, String subject) {
         return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
     }
 

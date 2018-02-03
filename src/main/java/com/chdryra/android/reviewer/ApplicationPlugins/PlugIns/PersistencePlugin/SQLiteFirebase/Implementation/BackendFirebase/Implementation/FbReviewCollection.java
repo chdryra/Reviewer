@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.ReviewCollectionD
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.DataSnapshot;
@@ -53,7 +53,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
     private final String mName;
     private final AuthorId mAuthorId;
     private final FbReviewsStructure mStructure;
-    private final ReviewsRepo mMasterRepo;
+    private final ReviewsRepoReadable mMasterRepo;
     private final BackendInfoConverter mInfoConverter;
     private final ConverterCollectionItem mItemConverter;
     private final ArrayList<ReviewId> mStealthDeletion;
@@ -65,7 +65,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
                               ReviewDereferencer dereferencer,
                               String name,
                               AuthorId authorId,
-                              ReviewsRepo masterRepo,
+                              ReviewsRepoReadable masterRepo,
                               BackendInfoConverter infoConverter,
                               ConverterCollectionItem itemConverter) {
         super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumRev
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 
 /**
@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewStore implements ReviewsRepoMutable.Callback, RepoCallback, WorkStore<Review> {
-    private final ReviewsRepoMutable mRepo;
+public class ReviewStore implements ReviewsRepoWriteable.Callback, RepoCallback, WorkStore<Review> {
+    private final ReviewsRepoWriteable mRepo;
     private WorkStoreCallback<Review> mWorkStoreCallback;
     private String mFetching;
 
-    public ReviewStore(ReviewsRepoMutable repo) {
+    public ReviewStore(ReviewsRepoWriteable repo) {
         mRepo = repo;
     }
 

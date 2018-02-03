@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.ChildEventListener;
@@ -40,7 +40,7 @@ import java.util.Map;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReviewsRepoBasic implements ReviewsRepo {
+public abstract class FbReviewsRepoBasic implements ReviewsRepoReadable {
     protected static final CallbackMessage NULL_AT_SOURCE
             = CallbackMessage.error("Null at source");
     private static final CallbackMessage REFERENCING_ERROR

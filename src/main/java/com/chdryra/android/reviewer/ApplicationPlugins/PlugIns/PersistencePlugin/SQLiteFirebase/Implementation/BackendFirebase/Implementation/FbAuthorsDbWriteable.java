@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FbReviewReferencer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -40,19 +40,19 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorReviewsMutable extends FbAuthorReviewsReadable implements ReviewsRepoMutable {
+public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements ReviewsRepoWriteable {
     private final BackendReviewConverter mConverter;
     private final BackendValidator mValidator;
     private final ReviewsCache mCache;
 
-    public FbAuthorReviewsMutable(Firebase dataBase,
-                                  FbAuthorsReviews structure,
-                                  SnapshotConverter<ReviewListEntry> entryConverter,
-                                  BackendReviewConverter converter,
-                                  BackendValidator validator,
-                                  FbReviewReferencer referencer,
-                                  ReviewDereferencer dereferencer,
-                                  ReviewsCache cache) {
+    public FbAuthorsDbWriteable(Firebase dataBase,
+                                FbAuthorsDb structure,
+                                SnapshotConverter<ReviewListEntry> entryConverter,
+                                BackendReviewConverter converter,
+                                BackendValidator validator,
+                                FbReviewReferencer referencer,
+                                ReviewDereferencer dereferencer,
+                                ReviewsCache cache) {
         super(dataBase, structure, entryConverter, referencer, dereferencer);
         mConverter = converter;
         mValidator = validator;

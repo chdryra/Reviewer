@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepoMutable extends ReviewsRepo {
+public interface ReviewsRepoWriteable extends ReviewsRepoReadable {
     interface Callback {
         void onAddedToRepo(RepoResult result);
 

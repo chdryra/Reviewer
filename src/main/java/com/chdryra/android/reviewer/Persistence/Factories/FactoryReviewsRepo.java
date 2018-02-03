@@ -16,12 +16,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceCached;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepoCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsNodeRepoImpl;
 import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsNodeRepo;
 
 /**
@@ -36,16 +36,16 @@ public class FactoryReviewsRepo {
         mCacheFactory = cacheFactory;
     }
 
-    public ReviewsNodeRepo newReviewsSource(ReviewsSource reviewsRepo,
+    public ReviewsNodeRepo newReviewsSource(ReviewsRepo reviewsRepo,
                                             AuthorsRepo authorsRepo,
                                             FactoryReviews reviewsFactory) {
         return new ReviewsNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
     }
 
-    public ReviewsSource newCachedRepo(ReviewsSource archive,
-                                       ReviewsCache cache,
-                                       FactoryReviews reviewsFactory) {
-        return new ReviewsSourceCached<>(cache, archive, reviewsFactory, newDereferencer());
+    public ReviewsRepo newCachedRepo(ReviewsRepo archive,
+                                     ReviewsCache cache,
+                                     FactoryReviews reviewsFactory) {
+        return new ReviewsRepoCached<>(cache, archive, reviewsFactory, newDereferencer());
     }
 
     public ReviewsCache newCache() {
@@ -53,7 +53,7 @@ public class FactoryReviewsRepo {
     }
 
 
-    public ReviewsRepo newFeed(AuthorId usersId, RefAuthorList following, ReviewsSource masterRepo) {
+    public ReviewsRepoReadable newFeed(AuthorId usersId, RefAuthorList following, ReviewsRepo masterRepo) {
         return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
     }
 

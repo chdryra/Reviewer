@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
@@ -28,7 +28,7 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RepoCollection<Key> implements ReviewsRepo {
+public class RepoCollection<Key> implements ReviewsRepoReadable {
     private final ReviewDereferencer mDereferencer;
     private Map<Key, RepoHandler> mRepoHandlers;
     private List<ReviewsSubscriber> mSubscribers;
@@ -39,7 +39,7 @@ public class RepoCollection<Key> implements ReviewsRepo {
         mSubscribers = new ArrayList<>();
     }
 
-    public void add(Key id, ReviewsRepo repo) {
+    public void add(Key id, ReviewsRepoReadable repo) {
         if (!mRepoHandlers.containsKey(id)) {
             RepoHandler handler = new RepoHandler(id, repo);
             mRepoHandlers.put(id, handler);
@@ -175,14 +175,14 @@ public class RepoCollection<Key> implements ReviewsRepo {
 
     private class RepoHandler implements ReviewsSubscriber {
         private Key mRepoId;
-        private ReviewsRepo mRepo;
+        private ReviewsRepoReadable mRepo;
         private List<ReviewId> mReviews;
         private boolean mSubscribed = false;
 
         private boolean mLocked = false;
         private int mUnsubscribeIndex = 0;
 
-        private RepoHandler(Key repoId, ReviewsRepo repo) {
+        private RepoHandler(Key repoId, ReviewsRepoReadable repo) {
             mRepoId = repoId;
             mRepo = repo;
             mReviews = new ArrayList<>();
@@ -226,7 +226,7 @@ public class RepoCollection<Key> implements ReviewsRepo {
             return mSubscribed;
         }
 
-        private ReviewsRepo getRepo() {
+        private ReviewsRepoReadable getRepo() {
             return mRepo;
         }
 
