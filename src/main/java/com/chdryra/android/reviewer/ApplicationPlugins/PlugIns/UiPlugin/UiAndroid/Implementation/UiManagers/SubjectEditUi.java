@@ -31,6 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class SubjectEditUi extends SubjectRvUi<EditText> {
     private SubjectAction<?> mSubjectAction;
+    private CharSequence mHint;
 
     public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
         super(view, reviewView.getParams().getSubjectParams(), new ReferenceValueGetter<String>() {
@@ -43,25 +44,28 @@ public class SubjectEditUi extends SubjectRvUi<EditText> {
     }
 
     private void initialise(ReviewView<?> reviewView) {
-        EditText editText = getView();
+        final EditText editText = getView();
+        mHint = editText.getHint();
         setViewValue(reviewView.getSubject());
 
-        ReviewViewParams.Subject params = getParams();
+        final ReviewViewParams.Subject params = getParams();
         boolean isEditable = params.isEditable();
         setSubjectRefresh(!isEditable && params.isUpdateOnRefresh());
-        if(isEditable) editText.setHint(params.getHint());
-
         editText.setFocusable(isEditable);
         ((ClearableEditText) editText).makeClearable(isEditable);
+
         if (isEditable) {
+            editText.setHint(params.getHint());
             mSubjectAction = reviewView.getActions().getSubjectAction();
             editText.setOnEditorActionListener(newSubjectActionListener());
+
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean hasFocus) {
                     if(!hasFocus && getView().getText().length() > 0) setSubject();
                 }
             });
+
             editText.addTextChangedListener(newSubjectChangeListener());
         }
 

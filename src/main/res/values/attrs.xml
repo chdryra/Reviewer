@@ -14,4 +14,5 @@
     <attr name="transDarkBackground" format="color"/>
     <attr name="dominantText" format="color"/>
     <attr name="inverseText" format="color"/>
+    <attr name="hintText" format="color"/>
 </resources>

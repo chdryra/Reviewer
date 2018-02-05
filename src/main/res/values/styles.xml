@@ -283,6 +283,7 @@
         <item name="android:background">@drawable/background</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/subject_text_padding</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="TextView.Subject.Bold">
@@ -326,11 +327,15 @@
 
     <style name="EditTextCapWords.Done.Subject">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:background">@drawable/background</item>
         <item name="android:cursorVisible">false</item>
         <item name="android:gravity">center</item>
         <item name="android:hint">@string/edit_text_subject_hint</item>
+        <item name="android:textColorHint">?hintText</item>
         <item name="android:padding">@dimen/subject_text_padding</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textCursorDrawable">@drawable/subject_cursor</item>
     </style>
 
     <style name="EditTextCapSentences.AutoComplete">

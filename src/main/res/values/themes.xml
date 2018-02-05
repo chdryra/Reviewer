@@ -9,7 +9,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <color name="Slate">#778899</color>
-    <color name="TransSlate">#CC778899</color>
+    <color name="TransSlate">#88778899</color>
     <color name="DarkSlate">#708090</color>
     <color name="Smoke">#F5F5F5</color>
     <color name="TransSmoke">#CCF5F5F5</color>
