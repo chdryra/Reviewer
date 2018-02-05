@@ -54,6 +54,7 @@ public class ContextUi extends SimpleViewUi<Button, String> {
             mIsVisible = false;
             return;
         }
+
         Button button = getView();
         setBackgroundAlpha(params.getAlpha());
         button.setOnClickListener(new View.OnClickListener() {

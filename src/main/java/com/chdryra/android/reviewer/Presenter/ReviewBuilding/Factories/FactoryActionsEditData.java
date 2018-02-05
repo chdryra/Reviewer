@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
@@ -19,9 +20,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ButtonAdd;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DoneEditingButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDeleteAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiPreviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiUpDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditDataDefault;
@@ -80,8 +81,14 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     @Override
     public MenuAction<T> newMenu() {
-        return new MenuEditDataDefault<>(geDataName(), newUpAction(),
-                newDoneAction(), newDeleteAction(), newPreviewAction());
+        return new MenuEditDataDefault<>(geDataName(), newUpAction(), newDeleteAction(),
+                newPreviewAction());
+    }
+
+    @Nullable
+    @Override
+    public ButtonAction<T> newContextButton() {
+        return new DoneEditingButton<>(true);
     }
 
     LaunchableConfig getAdderConfig() {
@@ -118,11 +125,6 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
     @NonNull
     MenuActionItem<T> newPreviewAction() {
         return new MaiPreviewDataEditor<>(mCommandsFactory.newLaunchPagedCommand(null));
-    }
-
-    @NonNull
-    MenuActionItem<T> newDoneAction() {
-        return new MaiDoneAction<>(true);
     }
 
     @NonNull

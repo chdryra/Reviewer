@@ -13,25 +13,20 @@
         android:id="@+id/menu_item_average_rating"
         android:icon="@drawable/ic_action_add_to_queue"
         android:showAsAction="always|withText"
-        android:title="@string/menu_average_rating"
-        tools:ignore="AlwaysShowAction"/>
-
-    <item
-        android:id="@+id/menu_item_preview"
-        android:icon="@drawable/ic_menu_view"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/menu_preview_review"/>
+        tools:ignore="AppCompatResource"
+        android:title="@string/menu_average_rating"/>
 
     <item
         android:id="@+id/menu_item_delete"
         android:icon="@drawable/ic_menu_delete"
         android:showAsAction="ifRoom|withText"
+        tools:ignore="AppCompatResource"
         android:title="@string/gl_menu_delete"/>
 
     <item
-        android:id="@+id/menu_item_done"
-        android:icon="@drawable/ic_checkmark_holo_light"
+        android:id="@+id/menu_item_preview"
+        android:icon="@drawable/ic_menu_view"
         android:showAsAction="always|withText"
-        android:title="@string/gl_menu_done"
-        tools:ignore="AlwaysShowAction"/>
+        tools:ignore="AppCompatResource"
+        android:title="@string/menu_preview_review"/>
 </menu>

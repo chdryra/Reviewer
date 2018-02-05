@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -90,22 +89,18 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private static final int SHARE_BUTTON = R.id.share_button;
     private static final int BOOKMARK_BUTTON = R.id.bookmark_button;
     private static final int MENU_BUTTON = R.id.menu_button;
-    private static final int BOOKMARKED = R.drawable
-            .ic_bookmark_black_24dp;
-    private static final int UNBOOKMARKED = R.drawable
-            .ic_bookmark_border_black_24dp;
-    private static final int LIKED = R.drawable
-            .ic_favorite_black_24dp;
-    private static final int UNLIKED = R.drawable
-            .ic_favorite_border_black_24dp;
+    private static final int BOOKMARKED = R.drawable.ic_bookmark_black_24dp;
+    private static final int UNBOOKMARKED = R.drawable.ic_bookmark_border_black_24dp;
+    private static final int LIKED = R.drawable.ic_favorite_black_24dp;
+    private static final int UNLIKED = R.drawable.ic_favorite_border_black_24dp;
 
     private static final long WAIT_TIME = 250L;
 
     private final static int[] VIEWS =
             {LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, DATE_LOCATION, PROFILE_IMAGE,
-                    PROFILE_NAME,
-                    PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON, COMMENT_BUTTON,
-                    BOOKMARK_BUTTON};
+                    PROFILE_NAME, PROFILE, MENU_BUTTON, OPTIONS, LIKE_BUTTON, SHARE_BUTTON,
+                    COMMENT_BUTTON, BOOKMARK_BUTTON};
+    private static final int PROFILE_PLACEHOLDER = R.drawable.ic_face_black_36dp;
 
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryCommands mCommandsFactory;
@@ -131,8 +126,6 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     private boolean mLiked = false;
 
-    private long mLastTime = 0l;
-
     public VhReviewAbstract(AuthorsRepo authorsRepo,
                             FactoryCommands commandsFactory,
                             ReviewSelector selector,
@@ -155,38 +148,20 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         cancelBindingTask();
         unbindFromBookmark();
         if (mCoverBinder != null) mCoverBinder.unbind();
-        if(mProfileBinder != null) {
-            mAuthorsRepo.getProfile(mReview.getAuthorId()).getProfileImage().unbindFromValue(mProfileBinder);
+        if (mProfileBinder != null) {
+            mAuthorsRepo.getProfile(mReview.getAuthorId()).getProfileImage().unbindFromValue
+                    (mProfileBinder);
         }
-        if(mCommentsBinder != null) mReview.getComments().unbindFromValue(mCommentsBinder);
-        if(mLocationsBinder != null) mReview.getLocations().unbindFromValue(mLocationsBinder);
-        if(mTagsBinder != null) mReview.getTags().unbindFromValue(mTagsBinder);
-        if(mNameBinder != null) mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
-        if(mReview != null) mReview.unregisterObserver(this);
+        if (mCommentsBinder != null) mReview.getComments().unbindFromValue(mCommentsBinder);
+        if (mLocationsBinder != null) mReview.getLocations().unbindFromValue(mLocationsBinder);
+        if (mTagsBinder != null) mReview.getTags().unbindFromValue(mTagsBinder);
+        if (mNameBinder != null)
+            mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+        if (mReview != null) mReview.unregisterObserver(this);
 
         mSelector.unregister(mNodeId);
         mReview = null;
         mNodeId = null;
-    }
-
-    private void logTime(String what) {
-        long newTime = new Date().getTime();
-        if(mLastTime == 0l) mLastTime = newTime;
-        Log.d("VhReview", what + " " + this + ": " + String.valueOf(newTime - mLastTime));
-        mLastTime = newTime;
-    }
-
-    private void cancelBindingTask() {
-        if (mBindingTask != null) {
-            logTime("Cancelled");
-            mBindingTask.cancel(true);
-        }
-        deleteTask();
-        mCancelBinding = true;
-    }
-
-    private void deleteTask() {
-        mBindingTask = null;
     }
 
     @Override
@@ -222,7 +197,6 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         mBindingTask = new DelayedSelectTask(this, node);
         mSelecting = true;
         mCancelBinding = false;
-        logTime("Started ");
         mBindingTask.execute(WAIT_TIME);
     }
 
@@ -249,6 +223,18 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     public void onBookmarked(boolean isBookmarked) {
         getView(BOOKMARK_BUTTON, ImageButton.class)
                 .setBackgroundResource(isBookmarked ? BOOKMARKED : UNBOOKMARKED);
+    }
+
+    private void cancelBindingTask() {
+        if (mBindingTask != null) {
+            mBindingTask.cancel(true);
+        }
+        deleteTask();
+        mCancelBinding = true;
+    }
+
+    private void deleteTask() {
+        mBindingTask = null;
     }
 
     private void setButtons() {
@@ -311,7 +297,6 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         ReviewNode node = gvNode.getNode();
         if (isBoundTo(node)) return;
 
-        logTime(gvNode.getSubject().getSubject());
         gvNode.setViewHolder(this);
         mNodeId = gvNode.getReviewId();
         initialiseView();
@@ -363,7 +348,6 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void selectAndBind(ReviewNode node) {
-        logTime("Completed");
         if (mCancelBinding) return;
         deleteTask();
         mSelector.select(node, this);
@@ -433,12 +417,17 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void setProfileImage(@Nullable Bitmap profile) {
-        setImage(PROFILE_IMAGE, profile);
+        if(profile == null) {
+            getView(PROFILE_IMAGE).setBackgroundResource(PROFILE_PLACEHOLDER);
+        } else {
+            setImage(PROFILE_IMAGE, profile);
+        }
     }
 
     private void bindToReview(ReviewReference review) {
         mReview = review;
         ReviewId id = mReview.getReviewId();
+
         setReviewOptions();
 
         mCache.addDate(mReview.getPublishDate());
@@ -450,6 +439,10 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
         mReview.registerObserver(this);
 
+        bindToReviewData();
+    }
+
+    private void bindToReviewData() {
         mNumReturned = 0;
         bindAuthor();
         bindComments();
@@ -711,13 +704,6 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             mAuthorId = authorId;
         }
 
-        private void unbind() {
-            mHasCover = false;
-            mCancel = true;
-            mReview.getCover().unbindFromValue(this);
-            unbindFromProfile();
-        }
-
         @Override
         public void onInvalidated(DataReference<DataImage> reference) {
             bindToProfileImage();
@@ -735,13 +721,20 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             }
         }
 
+        private void unbind() {
+            mHasCover = false;
+            mCancel = true;
+            mReview.getCover().unbindFromValue(this);
+            unbindFromProfile();
+        }
+
         private void unbindFromProfile() {
-            if(mProfileBinder != null) mProfileBinder.setCoverBinder(null);
+            if (mProfileBinder != null) mProfileBinder.setCoverBinder(null);
         }
 
         private void bindToProfileImage() {
             mHasCover = false;
-            if(mCache.containsProfile(mAuthorId)) {
+            if (mCache.containsProfile(mAuthorId)) {
                 notifyOnCover(mCache.getProfile(mAuthorId).getBitmap());
             } else {
                 mProfileBinder.setCoverBinder(this);
@@ -759,9 +752,9 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
 
         private void onProfileImage(@Nullable Bitmap profileImage) {
-            if(mHasCover) return;
+            if (mHasCover) return;
             notifyOnCover(profileImage);
-            if(profileImage == null) {
+            if (profileImage == null) {
                 mCache.removeCover(mReviewId);
             } else {
                 mCache.addCover(mReviewId, profileImage);
@@ -778,31 +771,31 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             mAuthorId = authorId;
         }
 
-        private void setCoverBinder(@Nullable CoverBinder coverBinder) {
-            if(mProfileRetrieved && coverBinder != null) {
-                Bitmap bitmap = null;
-                if(mCache.containsProfile(mAuthorId)) {
-                    bitmap = mCache.getProfile(mAuthorId).getBitmap();
-                }
-                coverBinder.onProfileImage(bitmap);
-            }
-
-            mCoverBinder = coverBinder;
-        }
-
         @Override
         public void onInvalidated(DataReference<ProfileImage> reference) {
             setProfileImage(null);
             mCache.removeProfile(mAuthorId);
-            if(mCoverBinder != null) mCoverBinder.onProfileImage(null);
+            if (mCoverBinder != null) mCoverBinder.onProfileImage(null);
         }
 
         @Override
         public void onReferenceValue(ProfileImage value) {
             mCache.addProfile(value);
             setProfileImage(value.getBitmap());
-            if(mCoverBinder != null) mCoverBinder.onProfileImage(value.getBitmap());
+            if (mCoverBinder != null) mCoverBinder.onProfileImage(value.getBitmap());
             mProfileRetrieved = true;
+        }
+
+        private void setCoverBinder(@Nullable CoverBinder coverBinder) {
+            if (mProfileRetrieved && coverBinder != null) {
+                Bitmap bitmap = null;
+                if (mCache.containsProfile(mAuthorId)) {
+                    bitmap = mCache.getProfile(mAuthorId).getBitmap();
+                }
+                coverBinder.onProfileImage(bitmap);
+            }
+
+            mCoverBinder = coverBinder;
         }
     }
 }

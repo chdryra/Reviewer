@@ -40,7 +40,7 @@ public class FactoryActionsCommentsEdit extends FactoryActionsEditData<GvComment
 
     @Override
     public MenuAction<GvComment> newMenu() {
-        return new MenuEditComments(newUpAction(), newDoneAction(), newDeleteAction(),
+        return new MenuEditComments(newUpAction(), newDeleteAction(),
                 newPreviewAction(), new MaiSplitCommentVals());
     }
 }

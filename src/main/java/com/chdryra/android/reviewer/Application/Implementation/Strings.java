@@ -98,6 +98,7 @@ public class Strings {
         public static final String FILTER = "Filter";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
+        public static final String DONE = "Done";
         public static final String LIST = "List";
 
         public static class CommentEdit {

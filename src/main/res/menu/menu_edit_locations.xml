@@ -13,26 +13,21 @@
         android:id="@+id/menu_item_map_locations"
         android:icon="@drawable/ic_menu_mapmode"
         android:showAsAction="always|withText"
-        android:title="@string/menu_sentences"
-        tools:ignore="AlwaysShowAction"/>
+        tools:ignore="AppCompatResource"
+        android:title="@string/menu_sentences"/>
+
+    <item
+        android:id="@+id/menu_item_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="always|withText"
+            tools:ignore="AppCompatResource"
+        android:title="@string/gl_menu_delete"/>
 
     <item
         android:id="@+id/menu_item_preview"
         android:icon="@drawable/ic_menu_view"
         android:showAsAction="ifRoom|withText"
+        tools:ignore="AppCompatResource"
         android:title="@string/menu_preview_review"/>
-
-    <item
-        android:id="@+id/menu_item_delete"
-        android:icon="@drawable/ic_menu_delete"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/gl_menu_delete"/>
-
-    <item
-        android:id="@+id/menu_item_done"
-        android:icon="@drawable/ic_checkmark_holo_light"
-        android:showAsAction="always|withText"
-        android:title="@string/gl_menu_done"
-        tools:ignore="AlwaysShowAction"/>
 
 </menu>

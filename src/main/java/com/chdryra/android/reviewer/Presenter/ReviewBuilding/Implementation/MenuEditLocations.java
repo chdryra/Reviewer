@@ -23,17 +23,15 @@ public class MenuEditLocations extends MenuEditData<GvLocation> {
     private static final int MENU = R.menu.menu_edit_locations;
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
-    private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_MAP_ID = R.id.menu_item_map_locations;
 
     public MenuEditLocations(MenuActionItem<GvLocation> upAction,
-                             MenuActionItem<GvLocation> doneAction,
                              MenuActionItem<GvLocation> deleteAction,
                              MenuActionItem<GvLocation> previewAction,
                              MenuActionItem<GvLocation> mapAction) {
         super(TYPE.getDataName(), MENU,
-                new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
-                upAction, doneAction, deleteAction, previewAction);
+                new int[]{MENU_DELETE_ID, MENU_PREVIEW_ID},
+                upAction, deleteAction, previewAction);
         bindMenuActionItem(mapAction, MENU_MAP_ID, false);
     }
 }

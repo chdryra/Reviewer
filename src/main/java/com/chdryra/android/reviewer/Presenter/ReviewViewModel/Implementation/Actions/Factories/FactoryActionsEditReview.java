@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Application.Implementation.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ConfirmEditsButton;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.FinishEditsButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
@@ -44,7 +44,7 @@ public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParc
     @Nullable
     @Override
     public ButtonAction<GC> newContextButton() {
-        return new ConfirmEditsButton<>(mPublishAction);
+        return new FinishEditsButton<>(mPublishAction);
     }
 
     @NonNull

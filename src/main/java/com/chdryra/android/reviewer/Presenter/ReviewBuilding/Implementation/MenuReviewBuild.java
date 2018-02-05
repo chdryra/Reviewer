@@ -61,9 +61,6 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
     @Override
     public void onEditMode(ReviewEditor.EditMode mode) {
         MenuItem item = getItem(MENU_AVERAGE_ID);
-        if(item != null) {
-            //item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
-            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-        }
+        if(item != null) item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
     }
 }

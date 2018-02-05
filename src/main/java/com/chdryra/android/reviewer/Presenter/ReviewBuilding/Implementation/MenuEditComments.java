@@ -25,20 +25,18 @@ public class MenuEditComments extends MenuEditData<GvComment>
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
     private static final int MENU = R.menu.menu_edit_comments;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
-    private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
 
     private final MaiSplitCommentVals mSplitter;
 
     public MenuEditComments(MenuActionItem<GvComment> upAction,
-                            MenuActionItem<GvComment> doneAction,
                             MenuActionItem<GvComment> deleteAction,
                             MenuActionItem<GvComment> previewAction,
                             MaiSplitCommentVals splitter) {
         super(TYPE.getDataName(), MENU,
-                new int[]{MENU_DONE_ID, MENU_DELETE_ID, MENU_PREVIEW_ID},
-                upAction, doneAction, deleteAction, previewAction);
+                new int[]{MENU_DELETE_ID, MENU_PREVIEW_ID},
+                upAction, deleteAction, previewAction);
         mSplitter = splitter;
         bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);
     }

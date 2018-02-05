@@ -91,7 +91,6 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
         ReviewViewParams params = mParamsFactory.newBuildReviewParams();
 
         return new ReviewEditorDefault<>(adapter, actions, params, mConfig.getUiLauncher(),
-                mFactoryDataEditor,
-                mFactoryFileIncrementor, mFactoryImageChooser);
+                mFactoryDataEditor, mFactoryFileIncrementor, mFactoryImageChooser);
     }
 }

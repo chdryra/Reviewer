@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEd
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ConfirmEditsButton<GC extends GvDataList<? extends GvDataParcelable>> extends UploadButton<GC> {
-    public ConfirmEditsButton(PublishAction publishAction) {
+public class FinishEditsButton<GC extends GvDataList<? extends GvDataParcelable>> extends UploadButton<GC> {
+    public FinishEditsButton(PublishAction publishAction) {
         super(Strings.Buttons.FINISH_EDITING, publishAction);
     }
 

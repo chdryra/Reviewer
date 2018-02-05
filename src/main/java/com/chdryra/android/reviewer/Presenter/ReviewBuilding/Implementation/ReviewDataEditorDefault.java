@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,12 +26,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewViewDefault<T>
         implements ReviewDataEditor<T> {
+    private final DataBuilderAdapter<T> mBuilder;
+
     private String mSubject;
     private float mRating;
-
     private boolean mRatingIsAverage;
-
-    private final DataBuilderAdapter<T> mBuilder;
 
     public ReviewDataEditorDefault(DataBuilderAdapter<T> builder,
                                    ReviewViewActions<T> actions,
@@ -52,16 +53,12 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         update();
     }
 
-    private void updateRating() {
-        if(mRatingIsAverage) setRating(mBuilder.getCriteriaAverage(), false);
-    }
-
     @Override
     public void setRating(float rating, boolean fromUser) {
         mRating = rating;
-        if(fromUser) {
+        if (fromUser) {
             setRatingIsAverage(false);
-        } else if(getContainer() != null) {
+        } else if (getContainer() != null) {
             getContainer().setRating(mRating);
         }
     }
@@ -134,5 +131,9 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     public void update() {
         updateRating();
         notifyDataObservers();
+    }
+
+    private void updateRating() {
+        if (mRatingIsAverage) setRating(mBuilder.getCriteriaAverage(), false);
     }
 }

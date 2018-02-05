@@ -12,10 +12,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
 
 import java.util.ArrayList;
 
@@ -24,8 +22,7 @@ import java.util.ArrayList;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class UploadButton<T extends GvData> extends ButtonActionNone<T>
-        implements ButtonAction<T> {
+public abstract class UploadButton<T extends GvData> extends ButtonActionNone<T> {
     private final String mTitle;
     private final PublishAction mPublishAction;
 

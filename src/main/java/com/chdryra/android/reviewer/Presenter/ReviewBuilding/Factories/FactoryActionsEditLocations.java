@@ -51,7 +51,7 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
 
     @Override
     public MenuAction<GvLocation> newMenu() {
-        return new MenuEditLocations(newUpAction(), newDoneAction(), newDeleteAction(),
+        return new MenuEditLocations(newUpAction(), newDeleteAction(),
                 newPreviewAction(),
                 new MaiMapLocations(getCommandsFactory().newLaunchMappedCommand(null)));
     }

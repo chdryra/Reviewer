@@ -34,7 +34,7 @@ public class FactoryActionsCriteriaEdit extends FactoryActionsEditData<GvCriteri
 
     @Override
     public MenuAction<GvCriterion> newMenu() {
-        return new MenuEditCriteria(newUpAction(), newDoneAction(), newDeleteAction(),
+        return new MenuEditCriteria(newUpAction(), newDeleteAction(),
                 newPreviewAction(), new MaiRatingAverage<GvCriterion>());
     }
 }

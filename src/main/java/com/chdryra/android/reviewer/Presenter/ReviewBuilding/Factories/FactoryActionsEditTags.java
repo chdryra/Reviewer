@@ -8,15 +8,16 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuActionItem;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MaiDoneAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DoneEditingButton;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryCommands;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.UiConfig;
@@ -43,9 +44,9 @@ public class FactoryActionsEditTags extends FactoryActionsEditData<GvTag> {
         return new SubjectEditTags(mTagAdjuster);
     }
 
-    @NonNull
+    @Nullable
     @Override
-    MenuActionItem<GvTag> newDoneAction() {
-        return new MaiDoneAction<>(false);
+    public ButtonAction<GvTag> newContextButton() {
+        return new DoneEditingButton<>(false);
     }
 }

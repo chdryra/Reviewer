@@ -18,22 +18,20 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuEditData<T extends GvData> extends MenuActionNone<T> {
+class MenuEditData<T extends GvData> extends MenuActionNone<T> {
     MenuEditData(String title,
                  int menuId, int[] itemIds,
                  MenuActionItem<T> upAction,
-                 MenuActionItem<T> doneAction,
                  MenuActionItem<T> deleteAction,
                  MenuActionItem<T> previewAction) {
 
         super(menuId, title, upAction);
-        if(itemIds.length != 3) {
+        if(itemIds.length != 2) {
             throw new IllegalArgumentException("itemIds should be length 3");
         }
 
-        bindMenuActionItem(doneAction, itemIds[0], true);
-        bindMenuActionItem(deleteAction, itemIds[1], false);
-        bindMenuActionItem(previewAction, itemIds[2], false);
+        bindMenuActionItem(deleteAction, itemIds[0], false);
+        bindMenuActionItem(previewAction, itemIds[1], false);
     }
 
     ReviewDataEditor<T> getEditor() {
