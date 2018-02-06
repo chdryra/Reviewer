@@ -6,19 +6,19 @@
  * Date: 4 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.Configs;
+package com.chdryra.android.startouch.test.View.Configs;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchablesList;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.Application.ApplicationInstance;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfigsHolder;
+import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchablesList;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;
 import java.util.Arrays;

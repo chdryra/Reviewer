@@ -10,10 +10,10 @@ package test.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
 import org.junit.Rule;
 import org.junit.Test;

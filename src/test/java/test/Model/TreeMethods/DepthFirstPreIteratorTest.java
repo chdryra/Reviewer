@@ -8,10 +8,10 @@
 
 package test.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation
         .DepthFirstPreIterator;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import org.junit.Rule;
 import org.junit.Test;

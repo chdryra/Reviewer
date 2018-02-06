@@ -8,10 +8,10 @@
 
 package test.Model.ReviewsModel.MdConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterLocations;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.MdConverterLocations;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;

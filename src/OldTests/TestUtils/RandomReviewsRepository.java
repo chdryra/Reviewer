@@ -1,10 +1,10 @@
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.Implementation
+import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
+import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel.Implementation
         .ReviewNodeRepository;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 
 /**

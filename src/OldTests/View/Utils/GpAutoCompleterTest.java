@@ -6,14 +6,14 @@
  * Date: 18 March, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.Utils;
+package com.chdryra.android.startouch.test.View.Utils;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
-import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
+import com.chdryra.android.startouch.LocationServices.Implementation.AutoCompleterLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.LocationServices.Interfaces.AutoCompleter;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;

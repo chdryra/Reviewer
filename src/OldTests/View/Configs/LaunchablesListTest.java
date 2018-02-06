@@ -6,15 +6,15 @@
  * Date: 3 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.Configs;
+package com.chdryra.android.startouch.test.View.Configs;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchablesList;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchablesList;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
 

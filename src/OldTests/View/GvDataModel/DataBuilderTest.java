@@ -6,19 +6,19 @@
  * Date: 15 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataModel;
+package com.chdryra.android.startouch.test.View.GvDataModel;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;
 

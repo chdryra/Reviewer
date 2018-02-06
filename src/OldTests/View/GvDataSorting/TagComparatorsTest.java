@@ -1,10 +1,10 @@
-package com.chdryra.android.reviewer.test.View.GvDataSorting;
+package com.chdryra.android.startouch.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.TagComparators;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
+import com.chdryra.android.startouch.Algorithms.DataSorting.TagComparators;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.test.TestUtils.ComparatorTester;
 
 import java.util.Comparator;
 

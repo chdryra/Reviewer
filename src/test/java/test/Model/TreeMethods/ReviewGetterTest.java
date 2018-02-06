@@ -8,10 +8,10 @@
 
 package test.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ReviewGetter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.ReviewGetter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import org.junit.Test;
 

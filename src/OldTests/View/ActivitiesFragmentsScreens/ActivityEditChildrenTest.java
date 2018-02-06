@@ -6,14 +6,14 @@
  * Date: 5 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
+import com.chdryra.android.startouch.R;
+import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
 
 /**
  * Created by: Rizwan Choudrey

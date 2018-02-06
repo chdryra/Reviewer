@@ -8,14 +8,14 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 /**

@@ -6,7 +6,7 @@
  * Date: 11 May, 2015
  */
 
-package com.chdryra.android.reviewer.test.ReviewsProviderModel;
+package com.chdryra.android.startouch.test.ReviewsProviderModel;
 
 import junit.framework.TestCase;
 

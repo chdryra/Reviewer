@@ -1,16 +1,16 @@
-package com.chdryra.android.reviewer.test.Model.ReviewData;
+package com.chdryra.android.startouch.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
-import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
-import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.test.TestUtils.MdDataUtils;
+import com.chdryra.android.startouch.test.TestUtils.RandomReviewId;
+import com.chdryra.android.startouch.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
 

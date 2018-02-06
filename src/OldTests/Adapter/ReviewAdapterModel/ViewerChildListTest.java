@@ -6,29 +6,29 @@
  * Date: 12 May, 2015
  */
 
-package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
+package com.chdryra.android.startouch.test.Adapter.ReviewAdapterModel;
 
 import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverviewList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
-import com.chdryra.android.reviewer.test.TestUtils.RandomReviewsRepository;
-import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
+import com.chdryra.android.startouch.test.TestUtils.RandomReviewsRepository;
+import com.chdryra.android.startouch.test.TestUtils.ReviewMocker;
 
 /**
  * Created by: Rizwan Choudrey

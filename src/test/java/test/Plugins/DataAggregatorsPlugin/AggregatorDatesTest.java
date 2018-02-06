@@ -10,12 +10,12 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 
 import java.util.ArrayList;
 import java.util.Calendar;

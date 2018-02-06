@@ -6,7 +6,7 @@
  * Date: 8 June, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import junit.framework.Assert;
 

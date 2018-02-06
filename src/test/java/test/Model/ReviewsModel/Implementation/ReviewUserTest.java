@@ -8,9 +8,9 @@
 
 package test.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewUser;
 
 import org.junit.Before;
 import org.junit.Rule;

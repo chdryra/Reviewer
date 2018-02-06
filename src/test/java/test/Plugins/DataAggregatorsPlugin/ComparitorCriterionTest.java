@@ -9,10 +9,10 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterion;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

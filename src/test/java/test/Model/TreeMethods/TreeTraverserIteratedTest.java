@@ -10,10 +10,10 @@ package test.Model.TreeMethods;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TreeTraverserIterated;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TreeTraverserIterated;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.TreeTraverser;
+import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.junit.Test;
 

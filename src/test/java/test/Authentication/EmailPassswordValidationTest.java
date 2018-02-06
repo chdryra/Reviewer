@@ -8,8 +8,8 @@
 
 package test.Authentication;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
-import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.startouch.Authentication.Implementation.EmailPasswordValidation;
+import com.chdryra.android.startouch.Utils.EmailPassword;
 
 import org.junit.Test;
 

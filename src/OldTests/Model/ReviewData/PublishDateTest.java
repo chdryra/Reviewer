@@ -6,11 +6,11 @@
  * Date: 11 June, 2015
  */
 
-package com.chdryra.android.reviewer.test.Model.ReviewData;
+package com.chdryra.android.startouch.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 
 import junit.framework.TestCase;
 

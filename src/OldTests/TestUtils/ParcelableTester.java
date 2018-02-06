@@ -6,7 +6,7 @@
  * Date: 25 March, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import android.os.Bundle;
 import android.os.Parcelable;

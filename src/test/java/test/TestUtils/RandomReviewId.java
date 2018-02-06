@@ -8,8 +8,8 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey

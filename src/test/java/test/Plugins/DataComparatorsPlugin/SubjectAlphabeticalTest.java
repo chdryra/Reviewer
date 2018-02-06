@@ -8,9 +8,9 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SubjectComparator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SubjectComparator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

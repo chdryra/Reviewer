@@ -6,7 +6,7 @@
  * Date: 2 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -18,58 +18,58 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
-import com.chdryra.android.reviewer.Application.ReviewViewPacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters
+import com.chdryra.android.startouch.Application.ReviewViewPacker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters
         .ConverterMd;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataConverters;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverters;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceAuthored;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
+import com.chdryra.android.startouch.Persistence.Implementation.ReviewsSourceAuthored;
+import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
 import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryConfiguredGridUi;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryChildListView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryConfiguredGridUi;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryChildListView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverviewList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
-import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
+import com.chdryra.android.startouch.R;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
+import com.chdryra.android.startouch.test.TestUtils.RandomRating;
+import com.chdryra.android.startouch.test.TestUtils.SoloUtils;
 import com.chdryra.android.testutils.RandomString;
 import com.robotium.solo.Solo;
 

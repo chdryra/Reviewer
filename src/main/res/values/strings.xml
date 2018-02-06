@@ -105,8 +105,8 @@
     <string name="publishing_error">publishing error</string>
 
     <!-- Keys -->
-    <string name="key_google_api">AIzaSyAijd_EYrICD78hz3NlE03sWlyG26cjvEc</string>
-    <string name="google_client_id">333308281121-einfbtdarlq1053len5ssu8si28911k0.apps.googleusercontent.com</string>
+    <string name="key_google_api">AIzaSyARijOo8PayXdHWq_OQue4YENb6K75w-zo</string>
+    <string name="google_client_id">752076960621-2bdcbr0fbq0b7lcd8eipb73ct906fien.apps.googleusercontent.com</string>
     <string name="consumer_key_twitter">S1cZ1sRDt4pbUP49MCduMt0IQ</string>
     <string name="consumer_secret_twitter">mUhFe14zIdh1E3wg9kPrad2hsk6rHHlquZ2eFXjK1p5I3EmqsX</string>
     <string name="consumer_key_tumblr">5DQowY8DHyhvKycydG2bJc6RytQ6OjSzgFB0XvzjB9rKTVkgx5</string>

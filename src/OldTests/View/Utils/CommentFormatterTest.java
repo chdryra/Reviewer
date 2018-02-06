@@ -6,11 +6,11 @@
  * Date: 3 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.Utils;
+package com.chdryra.android.startouch.test.View.Utils;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;

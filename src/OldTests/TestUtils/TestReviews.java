@@ -6,7 +6,7 @@
  * Date: 27 April, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import android.app.Instrumentation;
 import android.content.Context;
@@ -16,26 +16,26 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
+import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Model.UserModel.AuthorId;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
+import com.chdryra.android.startouch.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.Assert;

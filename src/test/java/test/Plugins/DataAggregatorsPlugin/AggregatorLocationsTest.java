@@ -12,12 +12,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

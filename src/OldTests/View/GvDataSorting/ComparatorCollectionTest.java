@@ -1,9 +1,9 @@
-package com.chdryra.android.reviewer.test.View.GvDataSorting;
+package com.chdryra.android.startouch.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Algorithms.DataSorting.ComparatorCollection;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
 import junit.framework.TestCase;
 

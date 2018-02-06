@@ -8,9 +8,9 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CommentHeadlineThenAlphabetical;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CommentHeadlineThenAlphabetical;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

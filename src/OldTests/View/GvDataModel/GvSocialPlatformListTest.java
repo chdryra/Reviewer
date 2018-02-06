@@ -6,14 +6,14 @@
  * Date: 15 January, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataModel;
+package com.chdryra.android.startouch.test.View.GvDataModel;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
 /**
  * Created by: Rizwan Choudrey

@@ -6,7 +6,7 @@
  * Date: 3 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -15,30 +15,30 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.startouch.Application.ApplicationInstance;
+import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
-import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
-import com.chdryra.android.reviewer.test.TestUtils.SoloUtils;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
+import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
+import com.chdryra.android.startouch.test.TestUtils.SoloUtils;
 import com.chdryra.android.testutils.CallBackSignaler;
 
 import java.util.HashMap;

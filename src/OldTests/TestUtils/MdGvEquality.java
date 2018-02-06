@@ -6,23 +6,23 @@
  * Date: 10 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrlList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrlList;
 
 import junit.framework.Assert;
 

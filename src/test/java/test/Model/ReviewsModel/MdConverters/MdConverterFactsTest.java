@@ -8,12 +8,12 @@
 
 package test.Model.ReviewsModel.MdConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterFacts;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterUrl;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.MdConverterFacts;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.MdConverterUrl;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

@@ -6,21 +6,21 @@
  * Date: 4 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;

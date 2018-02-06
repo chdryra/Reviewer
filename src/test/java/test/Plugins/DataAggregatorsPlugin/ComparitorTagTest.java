@@ -9,10 +9,10 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorTag;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

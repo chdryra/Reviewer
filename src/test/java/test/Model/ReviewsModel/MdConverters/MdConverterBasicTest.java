@@ -8,11 +8,11 @@
 
 package test.Model.ReviewsModel.MdConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterBasic;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.MdConverterBasic;
 
 import org.junit.Rule;
 import org.junit.Test;

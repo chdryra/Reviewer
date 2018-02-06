@@ -6,12 +6,12 @@
  * Date: 2 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap;
 
 /**
  * Created by: Rizwan Choudrey

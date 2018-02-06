@@ -6,7 +6,7 @@
  * Date: 7 January, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.Dialogs;
+package com.chdryra.android.startouch.test.View.Dialogs;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,14 +18,14 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 
-import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
-import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
+import com.chdryra.android.startouch.test.TestUtils.DialogEditListener;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.CallBackSignaler;
 import com.robotium.solo.Solo;
 

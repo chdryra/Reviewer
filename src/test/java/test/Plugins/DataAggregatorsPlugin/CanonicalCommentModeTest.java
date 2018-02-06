@@ -8,10 +8,10 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Factories.FactoryNullData;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalCommentMode;
 
 import test.TestUtils.RandomReviewId;

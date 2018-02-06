@@ -8,32 +8,32 @@
 
 package test.Model.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewStamper;
-import com.chdryra.android.reviewer.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewDataHolder;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewStamper;
+import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdConverter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.ConverterMd;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTraverser;
+import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.testutils.RandomString;
 
 import org.hamcrest.Matchers;

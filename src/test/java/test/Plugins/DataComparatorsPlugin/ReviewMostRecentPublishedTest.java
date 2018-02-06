@@ -10,13 +10,13 @@ package test.Plugins.DataComparatorsPlugin;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataReviewSummary;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewSummary;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

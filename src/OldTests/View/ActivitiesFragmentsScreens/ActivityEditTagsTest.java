@@ -6,9 +6,9 @@
  * Date: 2 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

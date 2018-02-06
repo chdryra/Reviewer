@@ -9,14 +9,14 @@
 package test.TestUtils;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;

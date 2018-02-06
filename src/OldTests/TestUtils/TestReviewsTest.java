@@ -6,7 +6,7 @@
  * Date: 27 April, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,20 +15,20 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.startouch.R;
 
 import java.io.IOException;
 import java.io.InputStream;

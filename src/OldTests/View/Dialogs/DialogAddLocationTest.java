@@ -6,17 +6,17 @@
  * Date: 16 March, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.Dialogs;
+package com.chdryra.android.startouch.test.View.Dialogs;
 
 import android.location.Location;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.CallBackSignaler;
 import com.google.android.gms.maps.model.LatLng;
 

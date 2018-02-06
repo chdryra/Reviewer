@@ -6,7 +6,7 @@
  * Date: 9 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
+package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,10 +14,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.KeyEvent;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.startouch.R;
 import com.chdryra.android.testutils.RandomString;
 
 /**

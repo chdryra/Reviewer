@@ -8,11 +8,11 @@
 
 package test.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TagsGetter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.Model.Factories.FactoryTagsManager;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TagsGetter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 

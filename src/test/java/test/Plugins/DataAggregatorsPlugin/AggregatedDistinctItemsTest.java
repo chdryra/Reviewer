@@ -10,19 +10,19 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Factories
         .FactoryDataAggregatorParams;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedData;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,23 +1,23 @@
-package com.chdryra.android.reviewer.test.ReviewsProviderModel;
+package com.chdryra.android.startouch.test.ReviewsProviderModel;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Application.ApplicationInstance;
+import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
-import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
-import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
+import com.chdryra.android.startouch.test.TestUtils.RandomReviewId;
+import com.chdryra.android.startouch.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;

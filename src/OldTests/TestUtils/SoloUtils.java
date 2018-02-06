@@ -6,7 +6,7 @@
  * Date: 30 April, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import android.app.Activity;
 import android.graphics.Point;

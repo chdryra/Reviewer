@@ -6,14 +6,14 @@
  * Date: 6 July, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.GvDataAggregation;
+package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.ComparitorReview;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.ComparitorReview;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
+import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.ExceptionTester;
 
 import junit.framework.TestCase;

@@ -6,7 +6,7 @@
  * Date: 9 June, 2015
  */
 
-package com.chdryra.android.reviewer.test.Model.TreeMethods;
+package com.chdryra.android.startouch.test.Model.TreeMethods;
 
 import junit.framework.TestCase;
 

@@ -1,11 +1,11 @@
-package com.chdryra.android.reviewer.test.View.GvDataSorting;
+package com.chdryra.android.startouch.test.View.GvDataSorting;
 
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ImageComparators;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
+import com.chdryra.android.startouch.Algorithms.DataSorting.ImageComparators;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.test.TestUtils.ComparatorTester;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

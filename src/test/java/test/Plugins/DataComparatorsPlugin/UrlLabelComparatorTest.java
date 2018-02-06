@@ -8,10 +8,10 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.UrlLabelComparator;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumFact;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.UrlLabelComparator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

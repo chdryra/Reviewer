@@ -6,10 +6,10 @@
  * Date: 7 January, 2015
  */
 
-package com.chdryra.android.reviewer.test.View.Dialogs;
+package com.chdryra.android.startouch.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

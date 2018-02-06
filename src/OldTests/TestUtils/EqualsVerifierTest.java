@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import android.test.suitebuilder.annotation.SmallTest;
 

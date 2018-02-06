@@ -51,7 +51,7 @@ android {
         multiDexEnabled true
         versionCode 1
         versionName "0.5"
-        applicationId "com.chdryra.android.reviewer"
+        applicationId "com.chdryra.android.startouch"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

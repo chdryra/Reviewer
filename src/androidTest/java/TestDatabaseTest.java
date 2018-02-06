@@ -11,13 +11,13 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
-import com.chdryra.android.reviewer.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.reviewer.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepoResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepoWriteable;
+import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 import org.junit.Before;
 import org.junit.Test;

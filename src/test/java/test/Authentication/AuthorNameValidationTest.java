@@ -8,7 +8,7 @@
 
 package test.Authentication;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
+import com.chdryra.android.startouch.Authentication.Implementation.AuthorNameValidation;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

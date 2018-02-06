@@ -6,16 +6,16 @@
  * Date: 10 April, 2015
  */
 
-package com.chdryra.android.reviewer.test.Database;
+package com.chdryra.android.startouch.test.Database;
 
 import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
 
-import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
+import com.chdryra.android.startouch.test.TestUtils.MdDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;

@@ -10,14 +10,14 @@ package test.Model.TreeMethods;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDataGetter;
+import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeDataGetter;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorDataGetter;
 
 import org.junit.Test;
 

@@ -8,12 +8,12 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

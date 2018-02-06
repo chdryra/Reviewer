@@ -6,9 +6,9 @@
  * Date: 10 June, 2015
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.testutils.RandomDate;
 
 /**

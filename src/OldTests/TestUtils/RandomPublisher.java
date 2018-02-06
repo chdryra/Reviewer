@@ -1,8 +1,8 @@
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 
 /**
  * Created by: Rizwan Choudrey

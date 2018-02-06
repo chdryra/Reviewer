@@ -6,13 +6,13 @@
  * Date: 17 February, 2015
  */
 
-package com.chdryra.android.reviewer.test.Model.ReviewStructure;
+package com.chdryra.android.startouch.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTree;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
 

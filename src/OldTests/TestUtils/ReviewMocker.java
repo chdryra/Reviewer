@@ -6,15 +6,15 @@
  * Date: 4 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.testutils.RandomString;
 
 /**

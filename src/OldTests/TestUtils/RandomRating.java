@@ -6,7 +6,7 @@
  * Date: 19 December, 2014
  */
 
-package com.chdryra.android.reviewer.test.TestUtils;
+package com.chdryra.android.startouch.test.TestUtils;
 
 import java.util.Random;
 

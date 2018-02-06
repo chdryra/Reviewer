@@ -1,14 +1,14 @@
-package com.chdryra.android.reviewer.test.View.GvDataSorting;
+package com.chdryra.android.startouch.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.ReviewOverviewComparators;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+import com.chdryra.android.startouch.Algorithms.DataSorting.ReviewOverviewComparators;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
-import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
-import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
-import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
-import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
+import com.chdryra.android.startouch.test.TestUtils.ComparatorTester;
+import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
+import com.chdryra.android.startouch.test.TestUtils.RandomRating;
+import com.chdryra.android.startouch.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomString;
 
