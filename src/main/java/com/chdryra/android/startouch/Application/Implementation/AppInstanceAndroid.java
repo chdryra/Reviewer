@@ -11,14 +11,10 @@ package com.chdryra.android.startouch.Application.Implementation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Base64;
-import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
@@ -42,9 +38,6 @@ import com.chdryra.android.startouch.View.LauncherModel.Implementation.ReviewPac
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 /**
  * Singleton that controls app-wide duties.
  */
@@ -63,26 +56,26 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     private AppInstanceAndroid(Context context) {
         instantiate(context, LaunchState.TEST);
         mViewPacker = new ItemPacker<>();
-        printHashKey(context);
+        //printHashKey(context);
     }
 
-//    //For FB
-    private static void printHashKey(Context context) {
-        String tag = "FB_HASH";
-        try {
-            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (android.content.pm.Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.i(tag, "printHashKey() Hash Key: " + hashKey);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(tag, "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e(tag, "printHashKey()", e);
-        }
-    }
+//    //For FB if incorrect hashkey error
+//    private static void printHashKey(Context context) {
+//        String tag = "FB_HASH";
+//        try {
+//            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+//            for (android.content.pm.Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                String hashKey = new String(Base64.encode(md.digest(), 0));
+//                Log.i(tag, "printHashKey() Hash Key: " + hashKey);
+//            }
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e(tag, "printHashKey()", e);
+//        } catch (Exception e) {
+//            Log.e(tag, "printHashKey()", e);
+//        }
+//    }
 
     public static AppInstanceAndroid getInstance(Context context) {
         if (sSingleton == null) {
