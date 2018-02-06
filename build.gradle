@@ -50,7 +50,7 @@ android {
         targetSdkVersion 27
         multiDexEnabled true
         versionCode 1
-        versionName "0.1"
+        versionName "0.5"
         applicationId "com.chdryra.android.reviewer"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
