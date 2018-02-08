@@ -47,8 +47,8 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     private final ReviewBuilderAdapter<?> mAdapter;
     private final UiLauncher mLauncher;
     private final FactoryReviewDataEditor mEditorFactory;
-    private final ButtonReviewBuild<GC> mBannerButton;
-    private final GridItemBuildReview<GC> mGridItem;
+    private final BuildScreenEditMode<GC> mBannerButton;
+    private final BuildScreenDataEdit<GC> mGridItem;
     private final ArrayList<ModeListener> mModeListeners;
     private final FactoryFileIncrementor mIncrementorFactory;
     private final FactoryImageChooser mImageChooserFactory;
@@ -71,8 +71,8 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
 
-        mBannerButton = (ButtonReviewBuild<GC>) actions.getBannerButtonAction();
-        mGridItem = (GridItemBuildReview<GC>) actions.getGridItemAction();
+        mBannerButton = (BuildScreenEditMode<GC>) actions.getBannerButtonAction();
+        mGridItem = (BuildScreenDataEdit<GC>) actions.getGridItemAction();
 
         mModeListeners = new ArrayList<>();
 

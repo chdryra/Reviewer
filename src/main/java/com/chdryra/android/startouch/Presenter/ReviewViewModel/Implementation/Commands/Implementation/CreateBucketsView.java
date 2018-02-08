@@ -20,13 +20,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  * On: 26/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CreateDistributionView extends CreateView {
-    public CreateDistributionView(ReviewViewAdapter<?> unexpanded, FactoryReviewView viewFactory) {
+public class CreateBucketsView extends CreateView {
+    public CreateBucketsView(ReviewViewAdapter<?> unexpanded, FactoryReviewView viewFactory) {
         super(viewFactory, unexpanded);
     }
 
     @Override
     protected ReviewView<?> createView(AdapterReviewNode<?> adapter) {
-        return getViewFactory().newDistributionView(adapter.getNode());
+        return getViewFactory().newBucketsView(adapter.getNode());
     }
 }

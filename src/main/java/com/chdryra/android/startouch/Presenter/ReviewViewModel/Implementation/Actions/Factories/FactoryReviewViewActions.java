@@ -170,15 +170,14 @@ public class FactoryReviewViewActions {
             factory = new FactoryActionsViewImages((ActionsParameters<GvImage.Reference>) params,
                     node);
         } else if (node != null && dataType.equals(GvSize.Reference.TYPE)) {
-            params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Buttons
+            params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Commands
                     .FILTER, false)).setComparators(getPlaceholderComparator("Data"));
             factory = new FactoryActionsViewSummary((ActionsParameters<GvSize.Reference>)
                     params, node);
         } else {
             if (dataType.equals(GvBucket.TYPE) && node != null) {
                 params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings
-                        .Buttons
-                        .DISTRIBUTION, false)).setComparators(getPlaceholderComparator("High-Low"));
+                        .Commands.BUCKETS, false)).setComparators(getPlaceholderComparator("High-Low"));
             }
 
             factory = new FactoryActionsViewData<>(params);
@@ -204,7 +203,7 @@ public class FactoryReviewViewActions {
     private ActionsParameters<GvNode> newListActionParams(ReviewNode node, FactoryReviewView
             viewFactory, boolean withFollow) {
         ActionsParameters<GvNode> params = newActionParams(GvNode.TYPE, viewFactory);
-        params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Buttons.LIST,
+        params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Commands.LIST,
                 withFollow)).setComparators(mComparators.newReviewComparators());
         return params;
     }
@@ -248,7 +247,7 @@ public class FactoryReviewViewActions {
         CommandList list = new CommandList(name);
         list.add(mCommandsFactory.newLaunchListCommand(adapter, viewFactory));
         list.add(mCommandsFactory.newLaunchAggregateCommand(adapter, viewFactory));
-        list.add(mCommandsFactory.newLaunchDistributionCommand(adapter, viewFactory));
+        list.add(mCommandsFactory.newLaunchBucketsCommand(adapter, viewFactory));
         list.add(mCommandsFactory.newLaunchMappedExpandedCommand(adapter));
         list.add(mCommandsFactory.newLaunchPagedExpandedCommand(adapter));
         return list;
@@ -260,7 +259,7 @@ public class FactoryReviewViewActions {
                                                   String defaultView,
                                                   final boolean withFollowForList) {
         CommandList list = new CommandList(defaultView);
-        list.add(new Command(Strings.Buttons.LIST) {
+        list.add(new Command(Strings.Commands.LIST) {
             @Override
             public void execute() {
                 mCommandsFactory.newLaunchViewCommand(viewFactory.newListView(node,
@@ -269,15 +268,15 @@ public class FactoryReviewViewActions {
             }
         });
 
-        list.add(new Command(Strings.Buttons.DISTRIBUTION) {
+        list.add(new Command(Strings.Commands.BUCKETS) {
             @Override
             public void execute() {
-                mCommandsFactory.newLaunchViewCommand(viewFactory.newDistributionView(node))
+                mCommandsFactory.newLaunchViewCommand(viewFactory.newBucketsView(node))
                         .execute();
             }
         });
 
-        list.add(new Command(Strings.Buttons.FILTER) {
+        list.add(new Command(Strings.Commands.FILTER) {
             @Override
             public void execute() {
                 mCommandsFactory.newLaunchViewCommand(viewFactory.newAggregateView(node)).execute();

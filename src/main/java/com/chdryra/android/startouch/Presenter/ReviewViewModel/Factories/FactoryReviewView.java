@@ -139,7 +139,7 @@ public class FactoryReviewView {
         return newReviewView(mAdapterFactory.newTreeAdapter(node));
     }
 
-    public ReviewView<?> newDistributionView(ReviewNode node) {
+    public ReviewView<?> newBucketsView(ReviewNode node) {
         return newReviewView(mAdapterFactory.newBucketAdapter(node,
                 new ViewHolderFactory<VhBucket<Float, DataRating>>() {
                     @Override

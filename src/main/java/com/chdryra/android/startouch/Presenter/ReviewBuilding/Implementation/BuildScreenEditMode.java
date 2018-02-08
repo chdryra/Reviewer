@@ -21,14 +21,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ButtonReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
+public class BuildScreenEditMode<GC extends GvDataList<? extends GvDataParcelable>>
         extends ButtonActionNone<GC> {
     private static final ReviewEditor.EditMode FULL = ReviewEditor.EditMode.FULL;
     private static final ReviewEditor.EditMode QUICK = ReviewEditor.EditMode.QUICK;
 
     private ReviewEditor.EditMode mMode;
 
-    public ButtonReviewBuild(ReviewEditor.EditMode defaultMode) {
+    public BuildScreenEditMode(ReviewEditor.EditMode defaultMode) {
         mMode = defaultMode;
         setTitle(mMode.getLabel());
     }

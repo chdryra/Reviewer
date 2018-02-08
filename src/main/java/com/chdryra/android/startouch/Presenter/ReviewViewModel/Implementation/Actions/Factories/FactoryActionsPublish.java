@@ -14,15 +14,13 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenShare;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenPlatform;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishButton;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenPublish;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 
 /**
@@ -50,12 +48,12 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
 
     @Override
     public ButtonAction<GvSocialPlatform> newBannerButton() {
-        return new ButtonActionNone<>(TITLE);
+        return new ShareScreenShare(TITLE);
     }
 
     @Override
     public GridItemAction<GvSocialPlatform> newGridItem() {
-        return new GridItemShareScreen(mAuthoriser);
+        return new ShareScreenPlatform(mAuthoriser);
     }
 
     @Override
@@ -66,6 +64,6 @@ public class FactoryActionsPublish extends FactoryActionsNone<GvSocialPlatform> 
     @Nullable
     @Override
     public ButtonAction<GvSocialPlatform> newContextButton() {
-        return new PublishButton(mEditor, mPublishAction, mPlatforms);
+        return new ShareScreenPublish(mEditor, mPublishAction, mPlatforms);
     }
 }

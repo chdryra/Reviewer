@@ -37,16 +37,8 @@ public class CommandList extends ArrayList<Command> implements Collection<Comman
         super(c);
     }
 
-    public CommandList(int initialCapacity) {
-        super(initialCapacity);
-    }
-
     public String getListName() {
         return mName;
-    }
-
-    public void setListName(String name) {
-        mName = name;
     }
 
     public ArrayList<String> getCommandNames() {

@@ -31,8 +31,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
         .Implementation.CommandList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.CreateAggregateView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
-        .Implementation.CreateDistributionView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CreateBucketsView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.CreateListView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
@@ -114,13 +113,13 @@ public class FactoryCommands {
 
     public Command newLaunchAggregateCommand(ReviewViewAdapter<?> unexpanded, FactoryReviewView
             viewFactory) {
-        return newLaunchViewCommand(Strings.Commands.AGGREGATE, new CreateAggregateView
+        return newLaunchViewCommand(Strings.Commands.FILTER, new CreateAggregateView
                 (unexpanded, viewFactory));
     }
 
-    public Command newLaunchDistributionCommand(ReviewViewAdapter<?> unexpanded,
-                                                FactoryReviewView viewFactory) {
-        return newLaunchViewCommand(Strings.Commands.DISTRIBUTION, new CreateDistributionView
+    public Command newLaunchBucketsCommand(ReviewViewAdapter<?> unexpanded,
+                                           FactoryReviewView viewFactory) {
+        return newLaunchViewCommand(Strings.Commands.BUCKETS, new CreateBucketsView
                 (unexpanded, viewFactory));
     }
 
@@ -145,15 +144,6 @@ public class FactoryCommands {
     public LaunchBespokeViewCommand newLaunchBespokeViewCommand(@Nullable ReviewNode node, String
             commandName, GvDataType<?> dataType) {
         return new LaunchBespokeViewCommand(commandName, getReviewLauncher(), node, dataType);
-    }
-
-    public Command newLaunchSummaryCommand(final ReviewId id) {
-        return new Command() {
-            @Override
-            public void execute() {
-                getReviewLauncher().launchSummary(id);
-            }
-        };
     }
 
     public Command newLaunchAuthorCommand(final AuthorId id) {

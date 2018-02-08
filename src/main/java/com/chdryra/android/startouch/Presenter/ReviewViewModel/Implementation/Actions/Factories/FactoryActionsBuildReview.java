@@ -20,15 +20,15 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.RatingBarActio
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenShareButton;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ButtonReviewBuild;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.GridItemBuildReview;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenShare;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenEditMode;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenDataEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiPreviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiUpEditor;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MenuReviewBuild;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.RatingEditBuildScreen;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenMenu;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenRatingEdit;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenSubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
@@ -60,28 +60,28 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
 
     @Override
     public SubjectAction<GC> newSubject() {
-        return new SubjectEditBuildScreen<>();
+        return new BuildScreenSubjectEdit<>();
     }
 
     @Override
     public RatingBarAction<GC> newRatingBar() {
-        return new RatingEditBuildScreen<>();
+        return new BuildScreenRatingEdit<>();
     }
 
     @Override
     public ButtonAction<GC> newBannerButton() {
-        return new ButtonReviewBuild<>(mDefaultEditMode);
+        return new BuildScreenEditMode<>(mDefaultEditMode);
     }
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new GridItemBuildReview<>(mConfig, mConfig.getUiLauncher(), mDefaultEditMode, mLocationClient);
+        return new BuildScreenDataEdit<>(mConfig, mConfig.getUiLauncher(), mDefaultEditMode, mLocationClient);
     }
 
     @Override
     public MenuAction<GC> newMenu() {
         LaunchBespokeViewCommand command = mFactoryCommands.newLaunchPagedCommand(null);
-        return new MenuReviewBuild<>(getMenuTitle(), new MaiUpEditor<GC>(),
+        return new BuildScreenMenu<>(getMenuTitle(), new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
     }
 
@@ -93,6 +93,6 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
     @Nullable
     @Override
     public ButtonAction<GC> newContextButton() {
-        return new BuildScreenShareButton<>(mConfig.getPublish());
+        return new BuildScreenShare<>(mConfig.getPublish());
     }
 }

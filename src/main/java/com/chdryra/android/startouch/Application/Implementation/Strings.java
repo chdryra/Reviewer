@@ -94,12 +94,9 @@ public class Strings {
         public static final String AUTHORS = "authors";
         public static final String FULL_REVIEW = "Full " + REVIEW;
         public static final String QUICK_REVIEW = "Quick " + REVIEW;
-        public static final String DISTRIBUTION = "Distribution";
-        public static final String FILTER = "Filter";
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
         public static final String DONE = "Done";
-        public static final String LIST = "List";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";
@@ -168,9 +165,9 @@ public class Strings {
         public static final String BOOKMARKS_OFFLINE = "(Bookmarks offline)";
         public static final String OFFLINE = "offline";
         public static final String DASHES = "- - -";
-        public static final String AGGREGATE = "Aggregate";
+        public static final String FILTER = "Filter";
+        public static final String BUCKETS = "Buckets";
         public static final String LIST = "List";
-        public static final String DISTRIBUTION = "Distribution";
     }
     
     public static class Comparators {

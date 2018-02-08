@@ -46,10 +46,6 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
         mOptions.add(command);
     }
 
-    public void addOption(int position, Command command) {
-        mOptions.add(position, command);
-    }
-
     protected void setCurrentlySelected(String optionName) {
         Command option = null;
         for(int i = 0; i < mOptions.size(); ++i) {

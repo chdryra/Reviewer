@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewE
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingEditBuildScreen<GC extends GvDataList<? extends GvDataParcelable>>
+public class BuildScreenRatingEdit<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements RatingBarAction<GC>{
     @Override

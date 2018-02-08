@@ -42,7 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends
+public class BuildScreenDataEdit<GC extends GvDataList<? extends GvDataParcelable>> extends
         ReviewEditorActionBasic<GC>
         implements GridItemAction<GC>, LocationClient.Locatable, ImageChooser.ImageChooserListener,
         ActivityResultListener {
@@ -54,7 +54,7 @@ public class GridItemBuildReview<GC extends GvDataList<? extends GvDataParcelabl
     private LatLng mLatLng;
     private ReviewEditor.EditMode mUiType;
 
-    public GridItemBuildReview(UiConfig config, UiLauncher launcher, ReviewEditor.EditMode
+    public BuildScreenDataEdit(UiConfig config, UiLauncher launcher, ReviewEditor.EditMode
             uiType, LocationClient locationClient) {
         mConfig = config;
         mLauncher = launcher;

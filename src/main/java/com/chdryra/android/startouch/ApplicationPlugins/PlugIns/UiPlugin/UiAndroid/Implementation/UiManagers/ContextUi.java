@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers;
 
 
 import android.view.View;
@@ -27,6 +27,10 @@ public class ContextUi extends SimpleViewUi<Button, String> {
     private boolean mIsVisible = true;
 
     public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId) {
+        this(reviewView, view, buttonId, TitleDecorator.NO_DECOR);
+    }
+
+    public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId, final TitleDecorator formatter) {
         super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
@@ -36,16 +40,21 @@ public class ContextUi extends SimpleViewUi<Button, String> {
         }, new ViewValueGetter<String>() {
             @Override
             public String getValue() {
-                return ((Button) view.findViewById(buttonId)).getText().toString().trim();
+                return formatter.unDecorate(((Button) view.findViewById(buttonId)).getText().toString().trim());
             }
-        },new ViewValueSetter<String>() {
+        }, new ViewValueSetter<String>() {
             @Override
             public void setValue(String value) {
-                ((Button) view.findViewById(buttonId)).setText(value);
+                ((Button) view.findViewById(buttonId)).setText(formatter.decorate(value));
             }
         });
         mAction = reviewView.getActions().getContextualAction();
         initialise(view, reviewView.getParams().getContextViewParams());
+    }
+
+    @Override
+    public void update() {
+        if (mIsVisible) super.update();
     }
 
     private void initialise(View layout, ReviewViewParams.ContextView params) {
@@ -70,10 +79,5 @@ public class ContextUi extends SimpleViewUi<Button, String> {
             }
         });
         update();
-    }
-
-    @Override
-    public void update() {
-        if(mIsVisible) super.update();
     }
 }

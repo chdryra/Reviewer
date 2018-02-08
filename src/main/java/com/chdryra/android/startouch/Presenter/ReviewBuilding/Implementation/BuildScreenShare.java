@@ -25,7 +25,7 @@ import java.util.List;
  * On: 27/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcelable>>
+public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements ButtonAction<GC> {
     private final LaunchableConfig mBuildScreenConfig;
@@ -34,7 +34,7 @@ public class BuildScreenShareButton<GC extends GvDataList<? extends GvDataParcel
     private ButtonTitle mButtonTitle;
     private String mTitle;
 
-    public BuildScreenShareButton(LaunchableConfig buildScreenConfig) {
+    public BuildScreenShare(LaunchableConfig buildScreenConfig) {
         mBuildScreenConfig = buildScreenConfig;
         mListeners = new ArrayList<>();
     }

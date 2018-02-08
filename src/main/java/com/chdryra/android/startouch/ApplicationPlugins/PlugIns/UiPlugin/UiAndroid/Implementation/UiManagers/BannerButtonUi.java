@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
         .UiManagers;
 
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,19 +22,34 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BannerButtonUi extends TextUi<Button> {
+public class BannerButtonUi extends SimpleViewUi<Button, String> {
+    private static final TitleDecorator FORMAT = TitleDecorator.NO_DECOR;
     private final ButtonAction<?> mAction;
 
     public BannerButtonUi(final ReviewView<?> reviewView, Button view) {
+        this(reviewView, view, FORMAT);
+    }
+
+    public BannerButtonUi(final ReviewView<?> reviewView, final Button view, final TitleDecorator decorator) {
         super(view, new ReferenceValueGetter<String>() {
             @Override
             public String getValue() {
                 return reviewView.getActions().getBannerButtonAction().getButtonTitle();
             }
+        }, new ViewValueGetter<String>() {
+            @Override
+            public String getValue() {
+                return decorator.unDecorate(view.getText().toString().trim());
+            }
+        }, new ViewValueSetter<String>() {
+            @Override
+            public void setValue(@Nullable String value) {
+                view.setText(value != null ? decorator.decorate(value) : "");
+            }
         });
 
         mAction = reviewView.getActions().getBannerButtonAction();
-        mAction.setTitle(new ButtonTitle());
+        mAction.setTitle(new ButtonTitle(decorator));
         setClickable();
         setBackgroundAlpha(reviewView.getParams().getBannerButtonParams().getAlpha());
     }
@@ -49,9 +65,15 @@ public class BannerButtonUi extends TextUi<Button> {
     }
 
     private class ButtonTitle implements ButtonAction.ButtonTitle {
+        private final TitleDecorator mFormatter;
+
+        public ButtonTitle(TitleDecorator formatter) {
+            mFormatter = formatter;
+        }
+
         @Override
         public void update(String title) {
-            getView().setText(title);
+            getView().setText(mFormatter.decorate(title));
         }
     }
 }

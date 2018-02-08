@@ -231,7 +231,7 @@ public class FactoryReviewViewAdapter {
                 mAuthorsRepo, mConverter.newConverterAuthors());
     }
 
-    //View for distribution screen
+    //View for buckets   screen
     ReviewViewAdapter<?>
     newBucketAdapter(ReviewNode node,
                      ViewHolderFactory<VhBucket<Float, DataRating>> vhFactory) {

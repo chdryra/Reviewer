@@ -22,12 +22,12 @@ import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform> {
+public class ShareScreenPlatform extends GridItemActionNone<GvSocialPlatform> {
     private static final String AUTHORISATION_NOT_RECEIVED = "authorisation not received";
 
     private final PlatformAuthoriser mAuthoriser;
 
-    public GridItemShareScreen(PlatformAuthoriser authoriser) {
+    public ShareScreenPlatform(PlatformAuthoriser authoriser) {
         mAuthoriser = authoriser;
     }
 

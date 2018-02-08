@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.R;
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
+public class BuildScreenMenu<GC extends GvDataList<? extends GvDataParcelable>>
         extends MenuActionNone<GC> implements ReviewEditor.ModeListener{
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
@@ -30,7 +30,7 @@ public class MenuReviewBuild<GC extends GvDataList<? extends GvDataParcelable>>
 
     private ReviewEditor<GC> mEditor;
 
-    public MenuReviewBuild(String title, MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
+    public BuildScreenMenu(String title, MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
         super(MENU, title, upAction);
         bindMenuActionItem(preview, MENU_PREVIEW_ID, false);
         bindMenuActionItem(averageRating, MENU_AVERAGE_ID, false);

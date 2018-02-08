@@ -45,6 +45,11 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private static final int CONTEXT_VIEW = R.id.contextual_view;
     private static final int CONTEXT_BUTTON = R.id.contextual_button;
 
+    private static final TitleDecorator CONTEXT_DECORATOR
+            = new TitleDecorator("-", " ", TitleDecorator.Style.WRAP);
+    private static final TitleDecorator BANNER_DECORATOR
+            = new TitleDecorator("/", "", TitleDecorator.Style.END);
+
     private View mView;
 
     private MenuUi mMenu;
@@ -125,7 +130,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private ViewUi<?, ?> newContextUi(ReviewView<?> reviewView) {
-        return new ContextUi(reviewView, mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON);
+        return new ContextUi(reviewView, mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON, CONTEXT_DECORATOR);
     }
 
     @NonNull
@@ -147,7 +152,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER));
+        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER), BANNER_DECORATOR);
     }
 
     @NonNull

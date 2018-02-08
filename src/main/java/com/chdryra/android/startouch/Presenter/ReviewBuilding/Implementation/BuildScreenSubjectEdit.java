@@ -17,7 +17,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditBuildScreen<GC extends GvDataList<? extends GvDataParcelable>>
+public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements SubjectAction<GC>{
     @Override

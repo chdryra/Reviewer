@@ -23,11 +23,11 @@ import java.util.ArrayList;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishButton extends UploadButton<GvSocialPlatform> {
+public class ShareScreenPublish extends UploadButton<GvSocialPlatform> {
     private final ReviewEditor<?> mEditor;
     private final GvSocialPlatformList mPlatforms;
 
-    public PublishButton(ReviewEditor<?> editor, PublishAction publishAction, GvSocialPlatformList platforms) {
+    public ShareScreenPublish(ReviewEditor<?> editor, PublishAction publishAction, GvSocialPlatformList platforms) {
         super(Strings.Buttons.PUBLISH, publishAction);
         mEditor = editor;
         mPlatforms = platforms;

@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 
 public class GvBucket<BucketingValue, Data> extends GvDataBasic<GvBucket> {
     public static final GvDataType<GvBucket> TYPE
-            = new GvDataType<>(GvBucket.class, "distribution", "distribution");
+            = new GvDataType<>(GvBucket.class, "bucket");
 
     private final Bucket<BucketingValue, Data> mBucket;
     private final int mTotalItems;
