@@ -222,7 +222,7 @@
         <!-- Key for GMaps and setting up Google Play -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/key_google_api" />
+            android:value="@string/key_google_places_api" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

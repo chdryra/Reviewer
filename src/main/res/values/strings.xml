@@ -106,6 +106,7 @@
 
     <!-- Keys -->
     <string name="key_google_api">AIzaSyARijOo8PayXdHWq_OQue4YENb6K75w-zo</string>
+    <string name="key_google_places_api">AIzaSyADrwTMU_Q2Q2lE8n2bTwZ2dN9M414l6xw</string>
     <string name="google_client_id">752076960621-2bdcbr0fbq0b7lcd8eipb73ct906fien.apps.googleusercontent.com</string>
     <string name="consumer_key_twitter">S1cZ1sRDt4pbUP49MCduMt0IQ</string>
     <string name="consumer_secret_twitter">mUhFe14zIdh1E3wg9kPrad2hsk6rHHlquZ2eFXjK1p5I3EmqsX</string>

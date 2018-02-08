@@ -157,9 +157,9 @@ public abstract class FragmentMapLocation extends Fragment implements
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(LAYOUT, container, false);
 
-        mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
-        mDoneButton = (Button) v.findViewById(DONE_BUTTON);
-        mMapView = (MapView) v.findViewById(MAP_VIEW);
+        mGotoReviewButton = v.findViewById(REVIEW_BUTTON);
+        mDoneButton = v.findViewById(DONE_BUTTON);
+        mMapView = v.findViewById(MAP_VIEW);
 
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(new OnMapReadyCallback() {
