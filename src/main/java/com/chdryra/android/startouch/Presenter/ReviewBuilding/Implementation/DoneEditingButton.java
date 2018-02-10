@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;

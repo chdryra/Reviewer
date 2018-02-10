@@ -3,7 +3,7 @@ package com.chdryra.android.startouch.test.View.GvDataAggregation;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
+import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Aggregater;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;

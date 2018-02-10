@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
-import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
+import com.chdryra.android.corelibrary.Aggregation.ComparatorString;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 
 /**

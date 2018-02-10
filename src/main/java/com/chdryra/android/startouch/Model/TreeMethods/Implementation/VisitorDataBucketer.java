@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Model.TreeMethods.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
+import com.chdryra.android.corelibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeDataGetter;

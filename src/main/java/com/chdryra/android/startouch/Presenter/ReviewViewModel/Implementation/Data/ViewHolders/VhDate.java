@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.Viewholder.VHDataStringGetter;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 
 import java.text.DateFormat;

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Bucketing.Bucket;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;

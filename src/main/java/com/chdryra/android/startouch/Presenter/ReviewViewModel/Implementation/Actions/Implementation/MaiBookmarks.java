@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;

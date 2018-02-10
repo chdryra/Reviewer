@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;

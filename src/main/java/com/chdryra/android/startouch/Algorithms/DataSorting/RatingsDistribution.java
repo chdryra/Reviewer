@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.Algorithms.DataSorting;
 
-import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
-import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
+import com.chdryra.android.corelibrary.Bucketing.Bucket;
+import com.chdryra.android.corelibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.RatingDefinition;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 

@@ -8,7 +8,7 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;

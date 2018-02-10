@@ -8,8 +8,8 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemCounter;
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.Aggregation.ItemCounter;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

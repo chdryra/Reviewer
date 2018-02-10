@@ -11,11 +11,11 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparators
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.Comparators.DataGetter;
-import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
+import com.chdryra.android.corelibrary.Comparators.DataGetter;
+import com.chdryra.android.corelibrary.Comparators.NamedComparator;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollectionImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DataGetters;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.FactoryComparators;

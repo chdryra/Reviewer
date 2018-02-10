@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.widget.RatingBar;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.startouch.R;
 

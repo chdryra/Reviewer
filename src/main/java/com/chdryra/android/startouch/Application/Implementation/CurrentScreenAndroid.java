@@ -16,7 +16,7 @@ import android.support.v4.app.NavUtils;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
+import com.chdryra.android.corelibrary.Dialogs.AlertListener;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 

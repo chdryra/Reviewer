@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;

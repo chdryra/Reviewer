@@ -14,8 +14,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentNodeMapper;

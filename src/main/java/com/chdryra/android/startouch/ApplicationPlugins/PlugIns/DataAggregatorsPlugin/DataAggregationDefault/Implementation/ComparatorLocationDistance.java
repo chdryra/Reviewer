@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceFloat;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceFloat;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngDistance;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.LocationUtils.LatLngDistance;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

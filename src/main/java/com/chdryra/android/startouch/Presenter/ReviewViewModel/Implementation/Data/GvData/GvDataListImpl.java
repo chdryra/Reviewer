@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.VhDataList;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;

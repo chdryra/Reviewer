@@ -11,8 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.InMemoryCache;
-import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
+import com.chdryra.android.corelibrary.CacheUtils.InMemoryCache;
+import com.chdryra.android.corelibrary.CacheUtils.QueueCache;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;

@@ -20,8 +20,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.firebase.client.DataSnapshot;
 import com.google.android.gms.maps.model.LatLng;
 

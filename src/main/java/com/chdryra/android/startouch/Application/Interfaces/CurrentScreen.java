@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Application.Interfaces;
 import android.app.DialogFragment;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
+import com.chdryra.android.corelibrary.Dialogs.AlertListener;
 
 /**
  * Created by: Rizwan Choudrey

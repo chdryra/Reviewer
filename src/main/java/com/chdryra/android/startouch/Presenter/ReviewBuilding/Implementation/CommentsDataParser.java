@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;

@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServices
 
 import android.content.Context;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleterCallback;

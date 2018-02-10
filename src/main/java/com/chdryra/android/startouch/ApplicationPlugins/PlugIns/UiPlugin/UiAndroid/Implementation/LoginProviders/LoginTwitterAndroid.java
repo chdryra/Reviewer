@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 import android.app.Activity;
 import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Authentication.Interfaces.LoginTwitter;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.twitter.sdk.android.core.Result;

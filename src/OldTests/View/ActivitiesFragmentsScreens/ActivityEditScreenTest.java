@@ -13,11 +13,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
+import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.corelibrary.Dialogs.DialogDeleteConfirm;
 import com.chdryra.android.startouch.Application.ApplicationInstance;
 import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;

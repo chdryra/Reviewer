@@ -11,9 +11,9 @@ package com.chdryra.android.startouch.test.Model.TagsModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;

@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
+import com.chdryra.android.corelibrary.CacheUtils.QueueCache;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryQueueCache;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryLocalReviewerDb;

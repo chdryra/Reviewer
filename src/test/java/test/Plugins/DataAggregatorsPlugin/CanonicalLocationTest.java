@@ -8,7 +8,7 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
+import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;

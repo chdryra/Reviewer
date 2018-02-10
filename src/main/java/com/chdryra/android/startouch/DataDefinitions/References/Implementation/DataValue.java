@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey

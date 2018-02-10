@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerPersistence;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

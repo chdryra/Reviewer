@@ -44,9 +44,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.ItemTagImpl;
-import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

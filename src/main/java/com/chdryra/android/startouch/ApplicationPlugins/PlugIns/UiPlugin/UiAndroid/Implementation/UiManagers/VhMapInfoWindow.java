@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;

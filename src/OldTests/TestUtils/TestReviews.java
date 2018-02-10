@@ -14,8 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAu
 import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;

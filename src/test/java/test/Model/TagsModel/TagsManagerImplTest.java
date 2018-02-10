@@ -10,10 +10,10 @@ package test.Model.TagsModel;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

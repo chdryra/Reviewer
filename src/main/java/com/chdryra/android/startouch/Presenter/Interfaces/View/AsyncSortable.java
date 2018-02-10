@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.Interfaces.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 
 import java.util.Comparator;
 

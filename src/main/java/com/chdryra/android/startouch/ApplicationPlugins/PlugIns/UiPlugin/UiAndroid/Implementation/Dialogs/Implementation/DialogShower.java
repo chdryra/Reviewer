@@ -13,7 +13,7 @@ import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
 
 /**
  * Takes care of showing requested dialogs via a static <code>show(.)</code> method.

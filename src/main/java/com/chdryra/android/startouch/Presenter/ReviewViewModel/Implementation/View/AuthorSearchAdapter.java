@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;

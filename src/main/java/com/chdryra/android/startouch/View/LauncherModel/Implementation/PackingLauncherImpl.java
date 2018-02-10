@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.View.LauncherModel.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
+import com.chdryra.android.corelibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.PackingLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;

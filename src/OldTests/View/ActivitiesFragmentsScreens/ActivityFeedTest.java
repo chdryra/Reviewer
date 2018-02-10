@@ -33,12 +33,12 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewsSourceAuthored;
 import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.mygenerallibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;

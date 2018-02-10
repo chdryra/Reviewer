@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
+import com.chdryra.android.corelibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.startouch.Social.Implementation.PlatformFacebook;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;

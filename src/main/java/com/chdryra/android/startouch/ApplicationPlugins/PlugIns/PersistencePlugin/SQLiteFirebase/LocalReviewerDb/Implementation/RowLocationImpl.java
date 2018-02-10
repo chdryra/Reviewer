@@ -21,8 +21,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;

@@ -11,8 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
-import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
+import com.chdryra.android.corelibrary.Bucketing.Bucket;
+import com.chdryra.android.corelibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.startouch.Algorithms.DataSorting.DataBucketer;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;

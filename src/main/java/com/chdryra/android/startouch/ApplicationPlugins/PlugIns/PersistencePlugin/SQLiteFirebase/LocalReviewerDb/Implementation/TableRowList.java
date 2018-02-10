@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
+import com.chdryra.android.corelibrary.Collections.SortableListImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 
 /**

@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogTwoButtonFragment;
+import com.chdryra.android.corelibrary.Dialogs.DialogTwoButtonFragment;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation

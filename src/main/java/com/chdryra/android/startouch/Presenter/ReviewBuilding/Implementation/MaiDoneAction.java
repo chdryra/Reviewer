@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
 /**

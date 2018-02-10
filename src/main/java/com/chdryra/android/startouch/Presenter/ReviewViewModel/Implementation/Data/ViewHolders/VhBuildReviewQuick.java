@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 

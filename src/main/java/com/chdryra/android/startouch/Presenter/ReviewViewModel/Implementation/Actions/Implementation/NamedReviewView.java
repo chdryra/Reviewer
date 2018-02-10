@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 
 
-import com.chdryra.android.mygenerallibrary.Collections.CollectionIdable;
+import com.chdryra.android.corelibrary.Collections.CollectionIdable;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 

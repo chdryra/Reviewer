@@ -13,9 +13,9 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.C
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;

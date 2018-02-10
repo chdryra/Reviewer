@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 
-import com.chdryra.android.mygenerallibrary.Ui.PagerAdapterBasic;
+import com.chdryra.android.corelibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;

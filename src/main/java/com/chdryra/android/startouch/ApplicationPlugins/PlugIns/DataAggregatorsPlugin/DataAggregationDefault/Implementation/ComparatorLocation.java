@@ -10,11 +10,11 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceFloat;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceFloat;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey

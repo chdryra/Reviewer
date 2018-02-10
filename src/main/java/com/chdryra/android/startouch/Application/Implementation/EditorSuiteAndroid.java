@@ -11,9 +11,9 @@ package com.chdryra.android.startouch.Application.Implementation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.Dialogs.AlertListener;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;

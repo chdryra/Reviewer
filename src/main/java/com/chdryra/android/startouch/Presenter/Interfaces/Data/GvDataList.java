@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.Interfaces.Data;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**

@@ -12,8 +12,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.C
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 
 /**
  * Created by: Rizwan Choudrey

@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparators
 
 
 
-import com.chdryra.android.mygenerallibrary.Comparators.DataGetter;
+import com.chdryra.android.corelibrary.Comparators.DataGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;

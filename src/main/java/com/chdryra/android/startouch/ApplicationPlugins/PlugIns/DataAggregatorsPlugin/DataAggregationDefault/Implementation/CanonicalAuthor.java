@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey

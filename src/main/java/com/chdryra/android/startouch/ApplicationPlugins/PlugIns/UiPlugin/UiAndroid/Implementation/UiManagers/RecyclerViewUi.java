@@ -14,8 +14,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.Ui.GridItemDecoration;
-import com.chdryra.android.mygenerallibrary.Ui.RecyclerAdapterBasic;
+import com.chdryra.android.corelibrary.Ui.GridItemDecoration;
+import com.chdryra.android.corelibrary.Ui.RecyclerAdapterBasic;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;

@@ -10,7 +10,7 @@
 package com.chdryra.android.startouch.Authentication.Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorReferenceDefault;

@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;

@@ -8,10 +8,10 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLocation;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceLocation;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;

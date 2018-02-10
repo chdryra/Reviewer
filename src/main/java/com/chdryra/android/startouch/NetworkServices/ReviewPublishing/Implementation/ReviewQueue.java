@@ -9,9 +9,9 @@
 package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation;
 
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStore;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.AsyncWorkQueueImpl;
+import com.chdryra.android.corelibrary.AsyncUtils.WorkStore;
+import com.chdryra.android.corelibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.corelibrary.AsyncUtils.AsyncWorkQueueImpl;
 
 /**
  * Created by: Rizwan Choudrey

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VHDualString;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.VHDualString;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.R;
 
 /**

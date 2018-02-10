@@ -28,9 +28,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.corelibrary.Activities.FragmentDeleteDone;
+import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Implementation.Strings;

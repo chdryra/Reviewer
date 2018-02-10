@@ -8,7 +8,7 @@
 
 package test.DataAggregation;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 
 import org.junit.Rule;
 import org.junit.Test;

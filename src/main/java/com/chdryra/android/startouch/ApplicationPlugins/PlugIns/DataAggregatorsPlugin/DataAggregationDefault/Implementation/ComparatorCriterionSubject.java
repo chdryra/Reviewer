@@ -11,8 +11,8 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.Aggregation.ComparatorString;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 
 /**

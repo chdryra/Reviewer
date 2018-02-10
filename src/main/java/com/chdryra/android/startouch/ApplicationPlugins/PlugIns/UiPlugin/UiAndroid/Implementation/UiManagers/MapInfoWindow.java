@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.google.android.gms.maps.model.Marker;
 
 /**

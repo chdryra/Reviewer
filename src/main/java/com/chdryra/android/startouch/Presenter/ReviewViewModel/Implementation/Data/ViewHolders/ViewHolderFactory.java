@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 
 /**
  * Created by: Rizwan Choudrey

@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.Application.Implementation;
 
 import android.app.Activity;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientGoogle;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.startouch.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 

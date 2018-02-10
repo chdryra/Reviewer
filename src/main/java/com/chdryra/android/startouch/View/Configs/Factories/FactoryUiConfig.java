@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.View.Configs.Factories;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;

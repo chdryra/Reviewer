@@ -11,8 +11,8 @@ package com.chdryra.android.startouch.Social.Implementation;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.startouch.Social.Interfaces.LoginUi;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;

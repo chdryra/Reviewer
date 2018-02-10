@@ -11,13 +11,13 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemCounter;
+import com.chdryra.android.corelibrary.Aggregation.ItemCounter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey

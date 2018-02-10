@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
+import com.chdryra.android.corelibrary.Comparators.NamedComparator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.AsyncSortable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;

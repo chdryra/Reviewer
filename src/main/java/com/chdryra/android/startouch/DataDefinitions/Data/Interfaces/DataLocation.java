@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

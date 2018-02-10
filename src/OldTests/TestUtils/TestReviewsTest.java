@@ -14,7 +14,7 @@ import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.Imaging.ImageHelper;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
@@ -26,8 +26,8 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageLi
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.R;
 
 import java.io.IOException;

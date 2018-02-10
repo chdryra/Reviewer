@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Utils;
 
-import com.chdryra.android.mygenerallibrary.NumberUtils.NumberFormatter;
+import com.chdryra.android.corelibrary.NumberUtils.NumberFormatter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.RatingDefinition;
 
 /**

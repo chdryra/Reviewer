@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
 
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 
 /**
  * Created by: Rizwan Choudrey

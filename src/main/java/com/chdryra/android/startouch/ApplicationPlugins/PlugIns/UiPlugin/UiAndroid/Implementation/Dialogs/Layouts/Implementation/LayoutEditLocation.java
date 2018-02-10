@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.GvDataEditor;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.startouch.R;
 import com.google.android.gms.maps.model.LatLng;

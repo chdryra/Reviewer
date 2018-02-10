@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
+import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;

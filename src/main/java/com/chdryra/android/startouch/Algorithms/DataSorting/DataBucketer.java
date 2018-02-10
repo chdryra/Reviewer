@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Algorithms.DataSorting;
 
-import com.chdryra.android.mygenerallibrary.Bucketing.BucketDistribution;
+import com.chdryra.android.corelibrary.Bucketing.BucketDistribution;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 

@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
+import com.chdryra.android.corelibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;

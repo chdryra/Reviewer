@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.Interfaces.Data;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;

@@ -11,7 +11,7 @@ package test.Persistence;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
+import com.chdryra.android.corelibrary.Collections.SortableListImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewN
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewsNodeRepoImpl;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;

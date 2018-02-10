@@ -12,12 +12,12 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparators
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.Comparators.BooleanComparator;
-import com.chdryra.android.mygenerallibrary.Comparators.DataComparator;
-import com.chdryra.android.mygenerallibrary.Comparators.DataGetter;
-import com.chdryra.android.mygenerallibrary.Comparators.FloatComparator;
-import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
-import com.chdryra.android.mygenerallibrary.Comparators.StringComparator;
+import com.chdryra.android.corelibrary.Comparators.BooleanComparator;
+import com.chdryra.android.corelibrary.Comparators.DataComparator;
+import com.chdryra.android.corelibrary.Comparators.DataGetter;
+import com.chdryra.android.corelibrary.Comparators.FloatComparator;
+import com.chdryra.android.corelibrary.Comparators.NamedComparator;
+import com.chdryra.android.corelibrary.Comparators.StringComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
 import java.util.Comparator;

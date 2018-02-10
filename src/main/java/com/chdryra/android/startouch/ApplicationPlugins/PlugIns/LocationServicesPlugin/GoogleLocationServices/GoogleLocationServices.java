@@ -13,21 +13,21 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationService
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggester;
-import com.chdryra.android.mygenerallibrary.LocationServices.AddressesSuggesterAsync;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationAutoCompleter;
-import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.AddressesProviderGp;
-import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi
+import com.chdryra.android.corelibrary.LocationServices.AddressesSuggester;
+import com.chdryra.android.corelibrary.LocationServices.AddressesSuggesterAsync;
+import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.AddressesProviderGp;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi
         .LocationDetailsFetcherGp;
-import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.LocationPredicterGp;
-import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.LocationPredicterGp;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi
         .NearestPlacesSuggesterGp;
-import com.chdryra.android.mygenerallibrary.LocationServices.GooglePlacesApi.PlaceSearcherGp;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationDetailsFetcher;
-import com.chdryra.android.mygenerallibrary.LocationServices.NearestPlacesSuggester;
-import com.chdryra.android.mygenerallibrary.LocationServices.PlaceSearcher;
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.PlaceSearcherGp;
+import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationDetailsFetcher;
+import com.chdryra.android.corelibrary.LocationServices.NearestPlacesSuggester;
+import com.chdryra.android.corelibrary.LocationServices.PlaceSearcher;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;

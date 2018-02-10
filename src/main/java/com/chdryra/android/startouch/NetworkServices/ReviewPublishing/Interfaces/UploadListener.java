@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey

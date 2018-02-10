@@ -11,11 +11,11 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollectionImpl;
-import com.chdryra.android.mygenerallibrary.Comparators.NamedComparator;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollectionImpl;
+import com.chdryra.android.corelibrary.Comparators.NamedComparator;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;

@@ -17,10 +17,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.DelayTask;
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;

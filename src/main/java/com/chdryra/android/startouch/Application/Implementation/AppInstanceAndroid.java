@@ -16,10 +16,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.ItemPacker;
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+import com.chdryra.android.corelibrary.CacheUtils.ItemPacker;
+import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.chdryra.android.startouch.Application.Factories.FactoryApplicationSuite;
 import com.chdryra.android.startouch.Application.Interfaces.AccountsSuite;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;

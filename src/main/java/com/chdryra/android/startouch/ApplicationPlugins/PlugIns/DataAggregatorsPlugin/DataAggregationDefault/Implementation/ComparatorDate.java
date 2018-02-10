@@ -10,9 +10,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 import java.util.Calendar;
 import java.util.Date;

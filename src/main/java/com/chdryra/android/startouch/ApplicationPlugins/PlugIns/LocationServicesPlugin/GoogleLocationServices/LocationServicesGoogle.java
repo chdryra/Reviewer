@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationService
 
 import android.content.Context;
 
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManager;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 

@@ -14,9 +14,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.mygenerallibrary.Ui.RecyclerAdapterBasic;
-import com.chdryra.android.mygenerallibrary.Ui.ViewHolderAbstract;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Ui.RecyclerAdapterBasic;
+import com.chdryra.android.corelibrary.Ui.ViewHolderAbstract;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;

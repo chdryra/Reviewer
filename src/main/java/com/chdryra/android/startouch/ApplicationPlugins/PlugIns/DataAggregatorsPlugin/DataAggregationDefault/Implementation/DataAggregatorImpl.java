@@ -16,13 +16,13 @@ import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.A
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.AggregatedListImpl;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceLevel;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceLevel;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 
 /**

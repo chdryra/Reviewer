@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;

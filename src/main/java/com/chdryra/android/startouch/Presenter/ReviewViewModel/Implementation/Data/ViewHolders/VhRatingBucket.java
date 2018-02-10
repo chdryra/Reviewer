@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.widget.ProgressBar;
 
-import com.chdryra.android.mygenerallibrary.Bucketing.Bucket;
+import com.chdryra.android.corelibrary.Bucketing.Bucket;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.startouch.R;

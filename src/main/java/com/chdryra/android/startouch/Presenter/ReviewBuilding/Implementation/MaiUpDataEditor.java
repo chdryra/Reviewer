@@ -12,9 +12,9 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.Dialogs.AlertListener;
+import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 

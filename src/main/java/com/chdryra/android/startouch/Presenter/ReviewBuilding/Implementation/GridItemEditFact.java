@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;

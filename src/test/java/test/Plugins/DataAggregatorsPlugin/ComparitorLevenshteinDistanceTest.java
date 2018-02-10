@@ -8,9 +8,9 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.mygenerallibrary.Aggregation.DifferencePercentage;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
-import com.chdryra.android.mygenerallibrary.Aggregation.ComparatorString;
+import com.chdryra.android.corelibrary.Aggregation.ComparatorString;
 
 import org.junit.Before;
 import org.junit.Test;

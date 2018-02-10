@@ -10,14 +10,14 @@
     style="@style/LinearLayoutVertical.WrappedVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText
+    <com.chdryra.android.corelibrary.Widgets.ClearableEditText
         android:id="@+id/fact_label_edit_text"
         style="@style/EditTextCapSentences.Next"
         android:hint="@string/edit_text_fact_name_hint"/>
 
     <View style="@style/HorizontalDivider"/>
 
-    <com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText
+    <com.chdryra.android.corelibrary.Widgets.ClearableEditText
         android:id="@+id/fact_value_edit_text"
         style="@style/EditTextCapSentences.Add"
         android:hint="@string/edit_text_fact_value_hint"/>

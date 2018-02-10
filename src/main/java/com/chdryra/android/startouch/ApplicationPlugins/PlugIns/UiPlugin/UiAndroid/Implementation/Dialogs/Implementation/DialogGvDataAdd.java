@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
+import com.chdryra.android.corelibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;

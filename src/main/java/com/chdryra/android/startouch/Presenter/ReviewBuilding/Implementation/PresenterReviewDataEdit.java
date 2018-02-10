@@ -11,8 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.Dialogs.AlertListener;
+import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;

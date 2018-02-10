@@ -19,7 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;

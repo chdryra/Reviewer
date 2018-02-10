@@ -5,7 +5,7 @@ import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .ReviewNodeRepository;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.mygenerallibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

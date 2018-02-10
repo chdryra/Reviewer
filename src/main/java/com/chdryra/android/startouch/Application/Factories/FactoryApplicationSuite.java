@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Application.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.mygenerallibrary.Permissions.PermissionsManagerAndroid;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManagerAndroid;
 import com.chdryra.android.startouch.Application.Implementation.AccountsSuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.ApplicationSuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.EditorSuiteAndroid;

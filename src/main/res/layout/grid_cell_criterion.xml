@@ -6,7 +6,7 @@
   ~
   -->
 
-<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+<com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -34,4 +34,4 @@
             android:stepSize="0.5"/>
     </LinearLayout>
 
-</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>
+</com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout>

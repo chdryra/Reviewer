@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
 
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

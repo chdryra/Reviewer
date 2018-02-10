@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.test.View.Dialogs;
 
 import android.location.Location;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
-import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.corelibrary.Dialogs.DialogCancelAddDoneFragment;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;

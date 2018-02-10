@@ -11,14 +11,14 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
+import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.mygenerallibrary.Aggregation.ItemGetter;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

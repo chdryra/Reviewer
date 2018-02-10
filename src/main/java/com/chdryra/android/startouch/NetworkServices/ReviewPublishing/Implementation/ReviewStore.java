@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implement
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStore;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.corelibrary.AsyncUtils.WorkStore;
+import com.chdryra.android.corelibrary.AsyncUtils.WorkStoreCallback;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;

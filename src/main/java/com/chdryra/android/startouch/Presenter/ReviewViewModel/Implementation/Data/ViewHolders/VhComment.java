@@ -8,9 +8,9 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.corelibrary.Viewholder.VHDataStringGetter;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * .GvCommentList.GvComment}. Shows comment
  * headline
  * <p>
- * A {@link VhText} with an appropriately defined {@link com.chdryra.android.mygenerallibrary
+ * A {@link VhText} with an appropriately defined {@link com.chdryra.android.corelibrary
  * .VHDataStringGetter}.
  * </p>
  */

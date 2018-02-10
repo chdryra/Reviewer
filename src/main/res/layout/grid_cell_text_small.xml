@@ -6,7 +6,7 @@
   ~
   -->
 
-<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
+<com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -14,5 +14,5 @@
         android:id="@+id/grid_cell_text_view_small"
         style="@style/TextViewGridCell.Wrapped.Small"/>
 
-</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>
+</com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout>
 

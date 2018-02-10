@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;

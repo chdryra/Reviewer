@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories;
 
 import android.app.Activity;
 
-import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.DataBuilderGridCell;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;

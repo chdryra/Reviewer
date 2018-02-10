@@ -8,9 +8,9 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationProvider;
-import com.chdryra.android.mygenerallibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
+import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

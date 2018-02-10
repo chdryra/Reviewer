@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;

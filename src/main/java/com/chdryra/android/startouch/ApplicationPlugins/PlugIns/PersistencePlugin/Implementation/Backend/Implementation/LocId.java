@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 
 /**
  * Created by: Rizwan Choudrey

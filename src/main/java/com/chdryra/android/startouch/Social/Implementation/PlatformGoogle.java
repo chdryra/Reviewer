@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Social.Implementation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
+import com.chdryra.android.corelibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.startouch.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.startouch.Social.Interfaces.LoginUi;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;

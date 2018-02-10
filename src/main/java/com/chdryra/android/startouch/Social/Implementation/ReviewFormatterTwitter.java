@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Social.Implementation;
 
-import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.startouch.Utils.RatingFormatter;

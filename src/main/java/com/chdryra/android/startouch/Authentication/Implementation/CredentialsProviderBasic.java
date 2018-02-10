@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Authentication.Implementation;
 
 import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.BinaryResultCallback;
+import com.chdryra.android.corelibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.startouch.Authentication.Interfaces.CredentialsProvider;
 import com.chdryra.android.startouch.Authentication.Interfaces.LoginProvider;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
+import com.chdryra.android.corelibrary.FileUtils.FileIncrementor;
 
 import java.io.File;
 

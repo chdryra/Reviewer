@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
-import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
+import com.chdryra.android.corelibrary.CacheUtils.QueueCache;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewMaker;
