@@ -19,6 +19,7 @@ public class Strings {
     public static String APP_SITE_SHORT = "http://bit.ly/2D0CjE6";
     public static String REVIEW = "rating";
     public static String REVIEWS = REVIEW + "s";
+    public static String REVIEWS_CAP = "Ratings";
 
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";

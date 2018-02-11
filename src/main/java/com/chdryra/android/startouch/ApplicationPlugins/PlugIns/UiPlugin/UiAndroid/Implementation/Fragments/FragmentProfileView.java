@@ -25,7 +25,8 @@ import android.widget.TextView;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.TitleDecorator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.TitleDecorator;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
@@ -37,7 +38,8 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListR
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 import com.chdryra.android.startouch.R;
 
 import java.util.Collection;
@@ -54,8 +56,8 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
     private static final int PROFILE_AUTHOR = R.id.profile_name;
     private static final int RATINGS_BUTTON = R.id.wide_button;
     private static final int SOCIAL_BUTTON = R.id.wide_button;
-    private static final int FOLLOWERS_VIEW = R.id.followers_view;
-    private static final int FOLLOWING_VIEW = R.id.following_view;
+    private static final int FOLLOWERS = R.id.followers;
+    private static final int FOLLOWING = R.id.following;
     private static final int IMAGE_PLACEHOLDER = R.drawable.ic_face_black_36dp;
 
     private static final TitleDecorator DECORATOR = Styles.TitleDecorators.DONE_BUTTON;
@@ -84,17 +86,16 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         mPhoto = view.findViewById(PROFILE_IMAGE);
         mName = view.findViewById(PROFILE_AUTHOR);
         Button ratingsButton = view.findViewById(RATINGS_BUTTON);
-        ratingsButton.setText(DECORATOR.decorate(Strings.REVIEWS));
+        Button followers = view.findViewById(FOLLOWERS);
+        Button following = view.findViewById(FOLLOWING);
+
+        ratingsButton.setText(DECORATOR.decorate(Strings.REVIEWS_CAP));
         ratingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchAuthorRatings();
             }
         });
-
-        Button followers = view.findViewById(FOLLOWERS_VIEW).findViewById(SOCIAL_BUTTON);
-        Button following = view.findViewById(FOLLOWING_VIEW).findViewById(SOCIAL_BUTTON);
-
         mPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
 
         if(!setAuthor()) {
@@ -113,7 +114,8 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
     @Override
     public void onStop() {
         super.onStop();
-
+        mFollwers.unbind();
+        mFollowing.unbind();
     }
 
     @Override
@@ -145,6 +147,7 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
             mList = list;
             mView = view;
             mStem = stem;
+            mView.setText(Strings.EditTexts.FETCHING);
             mList.bindToItems(this);
         }
 

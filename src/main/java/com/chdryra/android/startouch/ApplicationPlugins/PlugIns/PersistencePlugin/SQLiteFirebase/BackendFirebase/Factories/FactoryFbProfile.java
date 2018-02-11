@@ -47,7 +47,7 @@ public class FactoryFbProfile {
     }
 
     public SocialProfileRef newSocialProfile(AuthorId authorId) {
-        return new FbSocialProfileRef(mStructure.getSocialDb(mDataRoot, authorId),
+        return new FbSocialProfileRef(mDataRoot,
                 new ConverterSocialProfile(authorId), authorId, mStructure, mReferencer);
     }
 }

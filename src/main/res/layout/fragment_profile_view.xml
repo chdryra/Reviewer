@@ -46,16 +46,16 @@
         android:gravity="center">
 
         <include
-            android:id="@+id/followers_view"
-            layout="@layout/wide_button"
+            android:id="@+id/followers"
+            layout="@layout/banner_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
 
         <include
-            android:id="@+id/following_view"
-            layout="@layout/wide_button"
+            android:id="@+id/following"
+            layout="@layout/banner_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>

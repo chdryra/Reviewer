@@ -40,16 +40,18 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbSocialProfileRef extends FbRefData<SocialProfile> implements SocialProfileRef {
+    private final Firebase mRootReference;
     private AuthorId mAuthorId;
     private FbSocialStructure mStructure;
     private FbDataReferencer mReferencer;
 
-    public FbSocialProfileRef(Firebase reference,
+    public FbSocialProfileRef(Firebase rootReference,
                               SnapshotConverter<SocialProfile> converter,
                               AuthorId authorId,
                               FbSocialStructure structure,
                               FbDataReferencer referencer) {
-        super(reference, converter);
+        super(structure.getSocialDb(rootReference, authorId), converter);
+        mRootReference = rootReference;
         mAuthorId = authorId;
         mStructure = structure;
         mReferencer = referencer;
@@ -62,12 +64,12 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
 
     @Override
     public RefAuthorList getFollowing() {
-        return mReferencer.newAuthorList(mStructure.getFollowingDb(getReference(), mAuthorId));
+        return mReferencer.newAuthorList(mStructure.getFollowingDb(mRootReference, mAuthorId));
     }
 
     @Override
     public RefAuthorList getFollowers() {
-        return mReferencer.newAuthorList(mStructure.getFollowersDb(getReference(), mAuthorId));
+        return mReferencer.newAuthorList(mStructure.getFollowersDb(mRootReference, mAuthorId));
     }
 
     @Override
@@ -78,7 +80,7 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
         DbUpdater<Follow> updater = mStructure.getSocialUpdater();
         Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, authorId), updateType);
 
-        getReference().updateChildren(map, new Firebase.CompletionListener() {
+        mRootReference.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 callback.onFollowingCallback(authorId, type, getCallbackMessage(firebaseError));
