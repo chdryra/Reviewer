@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -28,8 +28,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -52,7 +51,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 public class UiSuiteAndroid implements UiSuite{
     private final UiConfig mUiConfig;
     private final UiLauncherAndroid mUiLauncher;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryLaunchCommands mCommandsFactory;
     private final FactoryReviewView mViewFactory;
     private final ConverterGv mConverter;
 
@@ -61,7 +60,7 @@ public class UiSuiteAndroid implements UiSuite{
 
     public UiSuiteAndroid(UiConfig uiConfig,
                           UiLauncherAndroid uiLauncher,
-                          FactoryCommands commandsFactory,
+                          FactoryLaunchCommands commandsFactory,
                           FactoryReviewView viewFactory,
                           ConverterGv converter) {
         mUiConfig = uiConfig;
@@ -93,7 +92,7 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Override
-    public ReviewViewNode newFeedView(RepositorySuite repository, ProfileSocial profile) {
+    public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfileRef profile) {
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
         ReviewsRepoReadable feed = repository.getFeed(profile);
         ReviewsNodeRepo repo = repository.getReviews();
@@ -117,7 +116,7 @@ public class UiSuiteAndroid implements UiSuite{
     }
 
     @Override
-    public FactoryCommands getCommandsFactory() {
+    public FactoryLaunchCommands getCommandsFactory() {
         return mCommandsFactory;
     }
 

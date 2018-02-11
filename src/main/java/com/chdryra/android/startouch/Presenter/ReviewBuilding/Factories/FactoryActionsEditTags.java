@@ -16,8 +16,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Don
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -33,7 +32,7 @@ public class FactoryActionsEditTags extends FactoryActionsEditData<GvTag> {
 
     public FactoryActionsEditTags(UiConfig config,
                                   FactoryGvData dataFactory,
-                                  FactoryCommands commandsFactory,
+                                  FactoryLaunchCommands commandsFactory,
                                   TagAdjuster tagAdjuster) {
         super(TYPE, config, dataFactory, commandsFactory);
         mTagAdjuster = tagAdjuster;

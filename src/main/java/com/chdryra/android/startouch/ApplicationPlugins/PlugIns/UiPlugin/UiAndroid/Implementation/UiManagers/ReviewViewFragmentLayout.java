@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.Styles;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.R;
@@ -44,8 +46,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private static final int CONTEXT_VIEW = R.id.view_selector_layout;
     private static final int CONTEXT_BUTTON = R.id.view_button;
 
-    private static final TitleDecorator DECORATOR
-            = new TitleDecorator("/", "", TitleDecorator.Style.END);
+    private static final TitleDecorator DECORATOR = Styles.TitleDecorators.OPTION_BUTTON;
 
     private View mView;
 

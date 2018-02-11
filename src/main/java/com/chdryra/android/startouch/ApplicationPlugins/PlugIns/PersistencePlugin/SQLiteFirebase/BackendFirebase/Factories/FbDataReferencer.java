@@ -10,10 +10,8 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterAuthorId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterProfileImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComments;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterCriterion;
@@ -21,6 +19,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterIdNamedAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterProfileImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterReviewTag;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterSize;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbListReference;
@@ -28,15 +27,11 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbRefData;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbRefDatalist;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbReviewItemRef;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbSocialProfile;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.IdableListConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ListConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ListItemsReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbSocialStructure;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.ReviewItemConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -49,8 +44,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation
-        .AuthorReferenceDefault;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorReferenceDefault;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SentencesCollector;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
@@ -74,10 +68,6 @@ public class FbDataReferencer {
         mReferencerFactory = new FactoryListItemsReferencer(this);
     }
 
-    public ProfileSocial newSocialProfile(@Nullable AuthorId id, Firebase root, FbSocialStructure social) {
-        return id == null ? new NullSocialProfile() : new FbSocialProfile(id, root, social, this);
-    }
-
     public RefAuthorList newAuthorList(Firebase ref) {
         ConverterAuthorId converter = new ConverterAuthorId.AsIndex();
         return new FbListReference.AuthorList(ref, new ListConverter<>(converter), converter);
@@ -87,7 +77,7 @@ public class FbDataReferencer {
         return new FbRefData<>(ref, new ConverterAuthorId());
     }
 
-    public AuthorReference newNamedAuthor(Firebase ref, AuthorId id) {
+    public AuthorReference newAuthorName(Firebase ref, AuthorId id) {
         return new AuthorReferenceDefault(id, new FbRefData<>(ref, new ConverterIdNamedAuthor()));
     }
 

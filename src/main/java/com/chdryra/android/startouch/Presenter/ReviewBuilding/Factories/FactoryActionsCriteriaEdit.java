@@ -12,7 +12,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiRatingAverage;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MenuEditCriteria;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -28,7 +28,7 @@ public class FactoryActionsCriteriaEdit extends FactoryActionsEditData<GvCriteri
 
     public FactoryActionsCriteriaEdit(UiConfig config,
                                       FactoryGvData dataFactory,
-                                      FactoryCommands commandsFactory) {
+                                      FactoryLaunchCommands commandsFactory) {
         super(TYPE, config, dataFactory, commandsFactory);
     }
 

@@ -31,7 +31,7 @@ public interface ReviewerDbContract extends DbContract {
 
     DbTable<RowImage> getImagesTable();
 
-    DbTable<RowAuthor> getAuthorsTable();
+    DbTable<RowAuthorName> getAuthorsTable();
 
     DbTable<RowTag> getTagsTable();
 }

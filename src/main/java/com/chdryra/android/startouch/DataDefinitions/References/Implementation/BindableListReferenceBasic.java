@@ -8,6 +8,10 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -37,6 +41,13 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         mValueBinders = new ArrayList<>();
         mItemBinders = new ArrayList<>();
         mDelegate = new ItemBindersDelegate<>(this);
+    }
+
+
+    @Nullable
+    @Override
+    protected IdableList<T> getNullValue() {
+        return new IdableDataList<>(new DatumReviewId());
     }
 
     @Override

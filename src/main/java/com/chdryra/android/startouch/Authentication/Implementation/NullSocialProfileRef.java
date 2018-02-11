@@ -8,11 +8,13 @@
 
 package com.chdryra.android.startouch.Authentication.Implementation;
 
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
  * On: 25/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NullSocialProfile implements ProfileSocial {
+public class NullSocialProfileRef implements SocialProfileRef {
     private final static AuthorId AUTHOR_ID = new DatumAuthorId();
     private final RefAuthorList FOLLOWING = new NullRefAuthorList();
     private final RefAuthorList FOLLOWERS = new NullRefAuthorList();
@@ -43,6 +45,41 @@ public class NullSocialProfile implements ProfileSocial {
 
     @Override
     public void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback) {
+
+    }
+
+    @Override
+    public void dereference(DereferenceCallback<SocialProfile> callback) {
+
+    }
+
+    @Override
+    public void bindToValue(ReferenceBinder<SocialProfile> binder) {
+
+    }
+
+    @Override
+    public void unbindFromValue(ReferenceBinder<SocialProfile> binder) {
+
+    }
+
+    @Override
+    public void registerListener(InvalidationListener listener) {
+
+    }
+
+    @Override
+    public void unregisterListener(InvalidationListener listener) {
+
+    }
+
+    @Override
+    public boolean isValidReference() {
+        return false;
+    }
+
+    @Override
+    public void invalidate() {
 
     }
 

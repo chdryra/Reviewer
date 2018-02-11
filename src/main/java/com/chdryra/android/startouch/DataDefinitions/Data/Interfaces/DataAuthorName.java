@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataAuthor extends HasReviewId, NamedAuthor, DataAuthorId {
+public interface DataAuthorName extends HasReviewId, AuthorName, DataAuthorId {
     @Override
     String getName();
 

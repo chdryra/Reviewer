@@ -9,7 +9,7 @@
 package test.TestUtils;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -56,7 +56,7 @@ public class StaticReviewsRepo implements ReviewsRepoReadable {
     }
 
     @Override
-    public void getReviews(NamedAuthor author, RepoCallback callback) {
+    public void getReviews(AuthorName author, RepoCallback callback) {
         ArrayList<Review> result = new ArrayList<>();
         for(Review review : mReviews) {
             if(review.getAuthorId().getAuthorId().equals(author.getAuthorId())) result.add(review);

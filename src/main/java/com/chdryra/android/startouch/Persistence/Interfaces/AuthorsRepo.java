@@ -9,9 +9,10 @@
 package com.chdryra.android.startouch.Persistence.Interfaces;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 
@@ -27,7 +28,7 @@ public interface AuthorsRepo {
     enum Error{NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
 
     interface SearchAuthorsCallback {
-        void onAuthors(List<NamedAuthor> suggestions, CallbackMessage message);
+        void onAuthors(List<AuthorName> suggestions, CallbackMessage message);
     }
 
     interface AuthorIdCallback {
@@ -36,7 +37,9 @@ public interface AuthorsRepo {
 
     AuthorReference getReference(AuthorId authorId);
 
-    ProfileReference getProfile(AuthorId authorId);
+    AuthorProfileRef getAuthorProfile(AuthorId authorId);
+
+    SocialProfileRef getSocialProfile(AuthorId authorId);
 
     void getAuthorId(String name, AuthorIdCallback callback);
 

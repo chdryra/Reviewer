@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.FinishEditsButton;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 
@@ -33,11 +33,11 @@ public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParc
 
     public FactoryActionsEditReview(GvDataType<GC> dataType,
                                     UiConfig config,
-                                    FactoryCommands factoryCommands,
+                                    FactoryLaunchCommands factoryLaunchCommands,
                                     ReviewEditor.EditMode defaultEditMode,
                                     LocationClient locationClient,
                                     PublishAction publishAction) {
-        super(dataType, config, factoryCommands, defaultEditMode, locationClient);
+        super(dataType, config, factoryLaunchCommands, defaultEditMode, locationClient);
         mPublishAction = publishAction;
     }
 

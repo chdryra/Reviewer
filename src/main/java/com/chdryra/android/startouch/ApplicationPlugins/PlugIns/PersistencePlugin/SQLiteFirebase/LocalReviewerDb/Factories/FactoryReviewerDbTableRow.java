@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorNameImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowCommentImpl;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowCriterionImpl;
@@ -21,7 +21,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowLocationImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowReviewImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowTagImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
@@ -52,7 +54,7 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
         mConstructorMap = new HashMap<>();
         mConstructorMap.put(RowReview.class, RowReviewImpl.class);
         mConstructorMap.put(RowCriterion.class, RowCriterionImpl.class);
-        mConstructorMap.put(RowAuthor.class, RowAuthorImpl.class);
+        mConstructorMap.put(RowAuthorName.class, RowAuthorNameImpl.class);
         mConstructorMap.put(RowTag.class, RowTagImpl.class);
         mConstructorMap.put(RowComment.class, RowCommentImpl.class);
         mConstructorMap.put(RowFact.class, RowFactImpl.class);

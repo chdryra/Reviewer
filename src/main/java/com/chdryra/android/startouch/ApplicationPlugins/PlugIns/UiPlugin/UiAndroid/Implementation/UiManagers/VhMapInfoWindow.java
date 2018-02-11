@@ -18,12 +18,12 @@ import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -65,7 +65,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private final NameBinder mNameBinder;
 
     private ReviewReference mReview;
-    private NamedAuthor mAuthor;
+    private AuthorName mAuthor;
     private int mCallbacks;
 
     private boolean mShowAbstract = false;
@@ -203,7 +203,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         return DataFormatter.formatTags(tags, maxTags, ignoreTag);
     }
 
-    private void setAuthor(@Nullable NamedAuthor author) {
+    private void setAuthor(@Nullable AuthorName author) {
         mAuthor = author;
         newFooter();
     }
@@ -233,14 +233,14 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         notifyListener(false);
     }
 
-    private class NameBinder implements ReferenceBinder<NamedAuthor> {
+    private class NameBinder implements ReferenceBinder<AuthorName> {
         @Override
-        public void onInvalidated(DataReference<NamedAuthor> reference) {
+        public void onInvalidated(DataReference<AuthorName> reference) {
             setAuthor(null);
         }
 
         @Override
-        public void onReferenceValue(NamedAuthor value) {
+        public void onReferenceValue(AuthorName value) {
             setAuthor(value);
         }
     }

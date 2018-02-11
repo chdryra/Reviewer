@@ -30,7 +30,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Rat
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsNone;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
@@ -44,13 +44,13 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsNone<T> {
     private final UiConfig mUiConfig;
     private final FactoryGvData mDataFactory;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryLaunchCommands mCommandsFactory;
     private final ParcelablePacker<T> mPacker;
 
     public FactoryActionsEditData(GvDataType<T> dataType,
                                   UiConfig uiConfig,
                                   FactoryGvData dataFactory,
-                                  FactoryCommands commandsFactory) {
+                                  FactoryLaunchCommands commandsFactory) {
         super(dataType);
         mUiConfig = uiConfig;
         mDataFactory = dataFactory;
@@ -136,7 +136,7 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
         return getDataType().getDataName();
     }
 
-    FactoryCommands getCommandsFactory() {
+    FactoryLaunchCommands getCommandsFactory() {
         return mCommandsFactory;
     }
 }

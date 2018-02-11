@@ -23,9 +23,7 @@ public interface ReviewLauncher extends UiLauncherWrapper {
 
     void launchAsList(ReviewNode node);
 
-    void launchSummary(ReviewId reviewId);
-
-    void launchReviewsList(AuthorId authorId);
+    void launchAsList(AuthorId authorId);
 
     void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean isPublished);
 }

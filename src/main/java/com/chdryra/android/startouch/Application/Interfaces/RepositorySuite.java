@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Application.Interfaces;
 
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
@@ -27,7 +27,7 @@ public interface RepositorySuite {
 
     ReviewsNodeRepo getReviews();
 
-    ReviewsRepoReadable getFeed(ProfileSocial profile);
+    ReviewsRepoReadable getFeed(SocialProfileRef profile);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 

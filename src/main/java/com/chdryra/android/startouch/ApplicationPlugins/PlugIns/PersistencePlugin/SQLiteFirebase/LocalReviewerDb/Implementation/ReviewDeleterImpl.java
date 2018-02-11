@@ -19,7 +19,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewDeleterDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -71,8 +73,8 @@ public class ReviewDeleterImpl implements ReviewDeleterDb {
 
         TableRowList<RowReview> authored = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
         if (authored.size() == 0) {
-            RowEntry<RowAuthor, String> userIdClause
-                    = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, userId);
+            RowEntry<RowAuthorName, String> userIdClause
+                    = asClause(RowAuthorName.class, RowAuthorName.AUTHOR_ID, userId);
             deleteFromTable(db.getAuthorsTable(), userIdClause, transactor);
         }
     }

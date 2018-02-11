@@ -30,7 +30,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Bui
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenRatingEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenSubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -42,18 +42,18 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
  */
 public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
     private final UiConfig mConfig;
-    private final FactoryCommands mFactoryCommands;
+    private final FactoryLaunchCommands mFactoryLaunchCommands;
     private final LocationClient mLocationClient;
     private final ReviewEditor.EditMode mDefaultEditMode;
 
     public FactoryActionsBuildReview(GvDataType<GC> dataType,
                                      UiConfig config,
-                                     FactoryCommands factoryCommands,
+                                     FactoryLaunchCommands factoryLaunchCommands,
                                      ReviewEditor.EditMode defaultEditMode,
                                      LocationClient locationClient) {
         super(dataType);
         mConfig = config;
-        mFactoryCommands = factoryCommands;
+        mFactoryLaunchCommands = factoryLaunchCommands;
         mLocationClient = locationClient;
         mDefaultEditMode = defaultEditMode;
     }
@@ -80,7 +80,7 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
 
     @Override
     public MenuAction<GC> newMenu() {
-        LaunchBespokeViewCommand command = mFactoryCommands.newLaunchPagedCommand(null);
+        LaunchBespokeViewCommand command = mFactoryLaunchCommands.newLaunchPagedCommand(null);
         return new BuildScreenMenu<>(getMenuTitle(), new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
     }

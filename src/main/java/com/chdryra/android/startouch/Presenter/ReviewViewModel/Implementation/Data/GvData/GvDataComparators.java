@@ -30,7 +30,7 @@ public class GvDataComparators {
     private GvDataComparators(DataComparatorsApi comparatorsFactory) {
         mMap = new ComparatorMappings();
         mMap.put(GvSubject.TYPE, comparatorsFactory.newSubjectComparators().getDefault());
-        mMap.put(GvAuthor.TYPE, comparatorsFactory.newAuthorComparators().getDefault());
+        mMap.put(GvAuthorName.TYPE, comparatorsFactory.newAuthorComparators().getDefault());
         mMap.put(GvCriterion.TYPE, comparatorsFactory.newCriterionComparators().getDefault());
         mMap.put(GvComment.TYPE, comparatorsFactory.newCommentComparators().getDefault());
         mMap.put(GvDate.TYPE, comparatorsFactory.newDateTimeComparators().getDefault());

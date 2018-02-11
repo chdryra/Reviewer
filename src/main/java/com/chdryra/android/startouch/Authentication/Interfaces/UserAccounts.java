@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.startouch.Utils.EmailPassword;
 
 
@@ -42,7 +41,7 @@ public interface UserAccounts {
 
     AuthorProfile newProfile(String name, @Nullable Bitmap photo);
 
-    AuthorProfile newUpdatedProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo);
+    AuthorProfile newProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 

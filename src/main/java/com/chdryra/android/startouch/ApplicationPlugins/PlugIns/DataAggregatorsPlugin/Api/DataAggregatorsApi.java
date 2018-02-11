@@ -13,7 +13,7 @@ import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceLocation;
 import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
@@ -29,7 +29,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataAggregatorsApi {
-    DataAggregator<DataAuthor> newAuthorsAggregator(DifferenceBoolean threshold);
+    DataAggregator<DataAuthorName> newAuthorsAggregator(DifferenceBoolean threshold);
 
     DataAggregator<DataSubject> newSubjectsAggregator(DifferencePercentage threshold);
 

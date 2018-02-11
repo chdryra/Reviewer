@@ -32,7 +32,7 @@ public interface UiConfig {
 
     LaunchableConfig getLogin();
 
-    LaunchableConfig getProfileEditor();
+    LaunchableConfig    getProfile();
 
     LaunchableConfig getFeed();
 

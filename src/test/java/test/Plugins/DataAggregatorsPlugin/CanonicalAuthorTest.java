@@ -11,10 +11,10 @@ package test.Plugins.DataAggregatorsPlugin;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -53,9 +53,9 @@ public class CanonicalAuthorTest {
     @Test
     public void ifNoDataThenReturnsNullAuthor() {
         ReviewId reviewId = RandomReviewId.nextReviewId();
-        IdableList<DataAuthor> authors = new IdableDataList<>(reviewId);
+        IdableList<DataAuthorName> authors = new IdableDataList<>(reviewId);
 
-        DataAuthor canonical = mCanonical.getCanonical(authors);
+        DataAuthorName canonical = mCanonical.getCanonical(authors);
 
         assertThat(canonical, is(FactoryNullData.nullAuthor(reviewId)));
     }
@@ -63,10 +63,10 @@ public class CanonicalAuthorTest {
     @Test
     public void ifMoreThanOneAuthorReferencedInListThenReturnsInvalidAuthor() {
         ReviewId reviewId = RandomReviewId.nextReviewId();
-        IdableList<DataAuthor> authors = getReferenceAuthors(reviewId);
+        IdableList<DataAuthorName> authors = getReferenceAuthors(reviewId);
         authors.add(RandomAuthor.nextDataAuthor());
 
-        DataAuthor canonical = mCanonical.getCanonical(authors);
+        DataAuthorName canonical = mCanonical.getCanonical(authors);
 
         assertThat(canonical, is(FactoryNullData.nullAuthor(reviewId)));
     }
@@ -74,9 +74,9 @@ public class CanonicalAuthorTest {
     @Test
     public void ifAllAuthorsTheSameInListThenReturnsAppropriateAuthor() {
         ReviewId reviewId = RandomReviewId.nextReviewId();
-        IdableList<DataAuthor> authors = getReferenceAuthors(reviewId);
+        IdableList<DataAuthorName> authors = getReferenceAuthors(reviewId);
 
-        DataAuthor canonical = mCanonical.getCanonical(authors);
+        DataAuthorName canonical = mCanonical.getCanonical(authors);
 
         assertThat(canonical.getReviewId().toString(), is(reviewId.toString()));
         assertThat(canonical.getName(), is(mAuthorName));
@@ -84,15 +84,15 @@ public class CanonicalAuthorTest {
     }
 
     @NonNull
-    private IdableList<DataAuthor> getReferenceAuthors(ReviewId reviewId) {
-        IdableList<DataAuthor> authors = new IdableDataList<>(reviewId);
+    private IdableList<DataAuthorName> getReferenceAuthors(ReviewId reviewId) {
+        IdableList<DataAuthorName> authors = new IdableDataList<>(reviewId);
         for(int i = 0; i < NUM; ++i) {
             authors.add(getReferenceAuthor());
         }
         return authors;
     }
 
-    private DatumAuthor getReferenceAuthor() {
-        return new DatumAuthor(RandomReviewId.nextReviewId(), mAuthorName, mAuthorId);
+    private DatumAuthorName getReferenceAuthor() {
+        return new DatumAuthorName(RandomReviewId.nextReviewId(), mAuthorName, mAuthorId);
     }
 }

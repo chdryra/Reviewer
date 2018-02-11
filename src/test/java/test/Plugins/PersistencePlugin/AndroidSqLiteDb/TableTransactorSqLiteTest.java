@@ -23,6 +23,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation
         .EntryToStringConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation
@@ -38,12 +40,12 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories
         .FactoryReviewerDbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorNameImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowEntryImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowFactImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
@@ -199,10 +201,10 @@ public class TableTransactorSqLiteTest {
 
     @Test
     public void insertRowDoesNotInsertAndReturnsFalseIfIdInTable() {
-        DbTable<RowAuthor> table = mContract.getAuthorsTable();
-        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        DbTable<RowAuthorName> table = mContract.getAuthorsTable();
+        RowAuthorName row = new RowAuthorNameImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthorName.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, true);
 
@@ -212,10 +214,10 @@ public class TableTransactorSqLiteTest {
 
     @Test
     public void insertRowDoesInsertAndReturnsTrueIfIdNotInTable() {
-        DbTable<RowAuthor> table = mContract.getAuthorsTable();
-        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        DbTable<RowAuthorName> table = mContract.getAuthorsTable();
+        RowAuthorName row = new RowAuthorNameImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthorName.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, false);
 
@@ -225,10 +227,10 @@ public class TableTransactorSqLiteTest {
 
     @Test
     public void insertRowReturnsFalseIfInsertTriedAndMinusOneReturned() {
-        DbTable<RowAuthor> table = mContract.getAuthorsTable();
-        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        DbTable<RowAuthorName> table = mContract.getAuthorsTable();
+        RowAuthorName row = new RowAuthorNameImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthorName.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, false);
 

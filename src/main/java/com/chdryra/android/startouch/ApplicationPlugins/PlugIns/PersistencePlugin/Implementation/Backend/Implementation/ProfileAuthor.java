@@ -10,14 +10,14 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Profile {
+public class ProfileAuthor {
     public static String AUTHOR = "author";
     public static String PHOTO = "photo";
 
@@ -25,11 +25,11 @@ public class Profile {
     private long dateJoined;
     private String photo;
 
-    public Profile() {
+    public ProfileAuthor() {
     }
 
-    public Profile(AuthorProfile profile) {
-        this.author = new Author(profile.getNamedAuthor());
+    public ProfileAuthor(AuthorProfile profile) {
+        this.author = new Author(profile.getAuthor());
         this.dateJoined = profile.getJoined().getTime();
         this.photo = ImageData.asString(profile.getImage().getBitmap());
     }

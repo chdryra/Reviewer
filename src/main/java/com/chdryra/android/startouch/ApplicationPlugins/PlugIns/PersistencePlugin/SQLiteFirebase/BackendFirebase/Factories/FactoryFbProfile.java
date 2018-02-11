@@ -12,9 +12,12 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterAuthorProfile;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbAuthorProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterSocialProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbAuthorProfileRef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbSocialProfileRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
@@ -24,13 +27,13 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FactoryAuthorProfile {
+public class FactoryFbProfile {
     private final Firebase mDataRoot;
     private final FbUsersStructure mStructure;
     private final FbDataReferencer mReferencer;
     private final UserProfileConverter mConverter;
 
-    public FactoryAuthorProfile(Firebase dataRoot, FbUsersStructure structure, FbDataReferencer
+    public FactoryFbProfile(Firebase dataRoot, FbUsersStructure structure, FbDataReferencer
             referencer, UserProfileConverter converter) {
         mDataRoot = dataRoot;
         mStructure = structure;
@@ -38,7 +41,13 @@ public class FactoryAuthorProfile {
         mConverter = converter;
     }
 
-    public ProfileReference newProfile(AuthorId authorId) {
-        return new FbAuthorProfile(authorId, mDataRoot, mStructure, mReferencer, new ConverterAuthorProfile(mConverter));
+    public AuthorProfileRef newAuthorProfile(AuthorId authorId) {
+        return new FbAuthorProfileRef(mStructure.getProfileDb(mDataRoot, authorId),
+                new ConverterAuthorProfile(mConverter), authorId, mReferencer);
+    }
+
+    public SocialProfileRef newSocialProfile(AuthorId authorId) {
+        return new FbSocialProfileRef(mStructure.getSocialDb(mDataRoot, authorId),
+                new ConverterSocialProfile(authorId), authorId, mStructure, mReferencer);
     }
 }

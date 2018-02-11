@@ -31,7 +31,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 import java.util.Comparator;
 
@@ -48,10 +48,10 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<NamedAuthor> newAuthorComparators() {
-        NamedComparator<NamedAuthor> aToZ
-                = aToZ(upper(NamedAuthor.TYPE_NAME), new DataGetters.NamedAuthorName());
-        ComparatorCollection<NamedAuthor> comparators = new ComparatorCollectionImpl<>(aToZ);
+    public ComparatorCollection<AuthorName> newAuthorComparators() {
+        NamedComparator<AuthorName> aToZ
+                = aToZ(upper(AuthorName.TYPE_NAME), new DataGetters.NamedAuthorName());
+        ComparatorCollection<AuthorName> comparators = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse(false));
 
         return comparators;

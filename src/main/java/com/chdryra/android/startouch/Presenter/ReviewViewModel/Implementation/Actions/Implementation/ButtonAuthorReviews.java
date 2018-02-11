@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLaunche
  */
 
 public class ButtonAuthorReviews<T extends GvData> extends ButtonActionNone<T>
-implements DataReference.DereferenceCallback<NamedAuthor>{
+implements DataReference.DereferenceCallback<AuthorName>{
     private final ReviewLauncher mLauncher;
     private final AuthorId mAuthorId;
     private final String mDate;
@@ -43,12 +43,12 @@ implements DataReference.DereferenceCallback<NamedAuthor>{
 
     @Override
     public void onClick(View v) {
-        mLauncher.launchReviewsList(mAuthorId);
+        mLauncher.launchAsList(mAuthorId);
         notifyListeners();
     }
 
     @Override
-    public void onDereferenced(DataValue<NamedAuthor> value) {
+    public void onDereferenced(DataValue<AuthorName> value) {
         if(value.hasValue()) setTitle(value.getData().getName() + " " + mDate);
     }
 }

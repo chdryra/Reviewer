@@ -10,8 +10,7 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Author;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
@@ -53,7 +52,7 @@ public class StructureNamesIdsMapImplTest extends StructureTestBasic<User>{
 
     private Author getAuthor(StructureTester<User> tester) {
         User user = tester.getTestData();
-        Profile profile = user.getProfile();
+        ProfileAuthor profile = user.getProfile();
         assertNotNull(profile);
         return profile.getAuthor();
     }

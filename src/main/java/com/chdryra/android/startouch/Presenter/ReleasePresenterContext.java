@@ -44,8 +44,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.Factory
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
@@ -65,7 +64,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregatorsPlugin,
                                    DataValidator validator) {
-        setFactoryCommands(new FactoryCommands());
+        setFactoryLaunchCommands(new FactoryLaunchCommands());
 
         setConverter(new ConverterGv(getCommandsFactory()));
 

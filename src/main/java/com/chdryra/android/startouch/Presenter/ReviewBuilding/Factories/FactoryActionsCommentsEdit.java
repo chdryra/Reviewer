@@ -14,7 +14,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Gri
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MenuEditComments;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -29,7 +29,7 @@ public class FactoryActionsCommentsEdit extends FactoryActionsEditData<GvComment
 
     FactoryActionsCommentsEdit(UiConfig config,
                                FactoryGvData dataFactory,
-                               FactoryCommands commandsFactory) {
+                               FactoryLaunchCommands commandsFactory) {
         super(TYPE, config, dataFactory, commandsFactory);
     }
 

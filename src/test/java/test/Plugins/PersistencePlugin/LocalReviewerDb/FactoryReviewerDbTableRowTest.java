@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories
         .FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -72,7 +72,7 @@ public class FactoryReviewerDbTableRowTest {
 
     @Test
     public void emptyRowAuthor() {
-        checkEmptyRowConstruction(RowAuthor.class);
+        checkEmptyRowConstruction(RowAuthorName.class);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class FactoryReviewerDbTableRowTest {
 
     @Test
     public void newRowAuthorWithAuthorConstructor() {
-        RowAuthor row = mFactory.newRow(RowAuthor.class, RandomAuthor.nextAuthor());
+        RowAuthorName row = mFactory.newRow(RowAuthorName.class, RandomAuthor.nextAuthor());
 
         assertThat(row, not(nullValue()));
         assertThat(row.hasData(mValidator), is(true));
@@ -142,10 +142,10 @@ public class FactoryReviewerDbTableRowTest {
     @Test
     public void newRowAuthorWithRowValuesConstructor() {
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowAuthor.AUTHOR_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
-        values.put(RowAuthor.AUTHOR_NAME, RandomString.nextWord());
+        values.put(RowAuthorName.AUTHOR_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
+        values.put(RowAuthorName.AUTHOR_NAME, RandomString.nextWord());
 
-        RowAuthor row = mFactory.newRow(RowAuthor.class, values);
+        RowAuthorName row = mFactory.newRow(RowAuthorName.class, values);
 
         assertThat(row, not(nullValue()));
         assertThat(row.hasData(mValidator), is(true));

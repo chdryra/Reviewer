@@ -29,7 +29,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
@@ -173,7 +175,7 @@ public class ReviewDeleterImplTest {
     public void deleteAuthorDoesCallTransactorIfAuthorNoLongerAuthorsAnotherReview() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME,
-                asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, review.getAuthorId()));
+                asClause(RowAuthorName.class, RowAuthorName.AUTHOR_ID, review.getAuthorId()));
     }
 
     private <DbRow extends DbTableRow> void checkCaptures(ArrayList<RowEntry<DbRow, ?>> clauses) {

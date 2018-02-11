@@ -14,8 +14,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.firebase.client.DataSnapshot;
 
 /**
@@ -23,12 +23,12 @@ import com.firebase.client.DataSnapshot;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterNamedAuthorId implements SnapshotConverter<NamedAuthor> {
+public class ConverterNamedAuthorId implements SnapshotConverter<AuthorName> {
     @Override
     @Nullable
-    public NamedAuthor convert(DataSnapshot snapshot) {
+    public AuthorName convert(DataSnapshot snapshot) {
         String id = snapshot.getValue(String.class);
         String name = snapshot.getKey();
-        return name != null ? new DefaultNamedAuthor(name, new AuthorIdParcelable(id)) : null;
+        return name != null ? new AuthorNameDefault(name, new AuthorIdParcelable(id)) : null;
     }
 }

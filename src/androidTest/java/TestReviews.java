@@ -16,7 +16,7 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.Imaging.ImageHelper;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
@@ -29,7 +29,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumUr
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -65,7 +65,7 @@ import static org.junit.Assert.fail;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestReviews {
-    private static DefaultNamedAuthor AUTHOR = new DefaultNamedAuthor("Riz", new AuthorIdParcelable("123"));
+    private static AuthorNameDefault AUTHOR = new AuthorNameDefault("Riz", new AuthorIdParcelable("123"));
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;
@@ -419,7 +419,7 @@ public class TestReviews {
         }
 
         @Override
-        public void getReviews(NamedAuthor author, RepoCallback callback) {
+        public void getReviews(AuthorName author, RepoCallback callback) {
 
         }
 

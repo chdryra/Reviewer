@@ -13,8 +13,8 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.startouch.Authentication.Implementation.UserAccountImpl;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 
 /**
@@ -24,8 +24,8 @@ import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
  */
 public class FactoryUserAccount {
     public UserAccount newAccount(AuthenticatedUser user,
-                                  ProfileReference authorProfile,
-                                  ProfileSocial socialProfile) {
+                                  AuthorProfileRef authorProfile,
+                                  SocialProfileRef socialProfile) {
         if(user.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }

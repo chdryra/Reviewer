@@ -6,24 +6,40 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Follow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbAuthorsDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureAuthorsNamesMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureAuthorsUsersMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructurePlaylist;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureUsersAuthorsMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.StructureBuilder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Follow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbAuthorsDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureAuthorsNamesMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureAuthorsUsersMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureNamesAuthorsMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructurePlaylist;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureUsersAuthorsMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.StructureBuilder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -58,6 +74,15 @@ public class FbStructUsersLed implements FirebaseStructure {
         return Path.path(root, elements);
     }
 
+    public String pathToCollectionNamesIndex(String name, AuthorId authorId) {
+        return path(pathToCollectionNames(authorId), name);
+    }
+
+    public String pathToCollectionEntry(String name, AuthorId authorId, ReviewId reviewId) {
+        return path(pathToCollection(name, authorId), StructureCollectionImpl.relativePathToReview
+                (reviewId.toString()));
+    }
+
     @Override
     public FbAuthorsDb getAuthorsDb(AuthorId authorId) {
         return new FbAuthorsReviewsDb(authorId, this);
@@ -84,11 +109,14 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public DbUpdater<ReviewId> getPlaylistUpdater(final String name, final AuthorId authorId) {
-        StructurePlaylist playlist = new StructurePlaylistImpl(pathToPlaylist(name, authorId));
-        StructurePlaylistNames names = new StructurePlaylistNames(pathToPlaylistNamesIndex(name, authorId));
-        StructureBuilder<ReviewId> builderPlaylist = new StructureBuilder<>();
-        return builderPlaylist.add(playlist).add(names).build();
+    public DbUpdater<ReviewId> getCollectionUpdater(final String name, final AuthorId authorId) {
+        StructurePlaylist collection = new StructureCollectionImpl(pathToCollection(name,
+                authorId));
+        StructureCollectionNames names = new StructureCollectionNames(pathToCollectionNamesIndex
+                (name,
+                authorId));
+        StructureBuilder<ReviewId> builderCollection = new StructureBuilder<>();
+        return builderCollection.add(collection).add(names).build();
     }
 
     @Override
@@ -102,13 +130,14 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getPlaylistDb(Firebase root, AuthorId authorId, String playlistName) {
-        return root.child(pathToPlaylist(playlistName, authorId));
+    public Firebase getCollectionDb(Firebase root, AuthorId authorId, String playlistName) {
+        return root.child(pathToCollection(playlistName, authorId));
     }
 
     @Override
-    public Firebase getPlaylistEntryDb(Firebase root, AuthorId authorId, String playlistName, ReviewId reviewId) {
-        return root.child(pathToPlaylistEntry(playlistName, authorId, reviewId));
+    public Firebase getCollectionEntryDb(Firebase root, AuthorId authorId, String collectionName,
+                                         ReviewId reviewId) {
+        return root.child(pathToCollectionEntry(collectionName, authorId, reviewId));
     }
 
     @Override
@@ -147,8 +176,8 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getAuthorNameMappingDb(Firebase root, AuthorId id) {
-        return root.child(pathToAuthorNameMapping(id.toString()));
+    public Firebase getAuthorNameMappingDb(Firebase root, AuthorId authorId) {
+        return root.child(pathToAuthorNameMapping(authorId.toString()));
     }
 
     @Override
@@ -164,6 +193,11 @@ public class FbStructUsersLed implements FirebaseStructure {
     @Override
     public Firebase getReviewDb(Firebase root, AuthorId authorId, ReviewId reviewId) {
         return root.child(pathToReview(authorId, reviewId));
+    }
+
+    @Override
+    public Firebase getSocialDb(Firebase root, AuthorId authorId) {
+        return root.child(pathToSocial(authorId.toString()));
     }
 
     //************Private**********//
@@ -225,7 +259,8 @@ public class FbStructUsersLed implements FirebaseStructure {
         DbStructure<User> profileUpdate = new UserStructureUpdater(profile);
         DbStructure<User> nameAuthorsUpdate = new UserStructureUpdater(mNamesAuthorsMap);
         DbStructure<User> authorsNamesUpdate = new UserStructureUpdater(mAuthorsNamesMap);
-        mProfileUpdater = builderProfile.add(profileUpdate).add(nameAuthorsUpdate).add(authorsNamesUpdate).build();
+        mProfileUpdater = builderProfile.add(profileUpdate).add(nameAuthorsUpdate).add
+                (authorsNamesUpdate).build();
     }
 
     private void initialiseSocialDb() {
@@ -248,10 +283,6 @@ public class FbStructUsersLed implements FirebaseStructure {
 
         StructureBuilder<Follow> builderUser = new StructureBuilder<>();
         mSocialUpdater = builderUser.add(following).add(followers).build();
-    }
-
-    private Firebase getSocialDb(Firebase root, AuthorId authorId) {
-        return root.child(pathToSocial(authorId.toString()));
     }
 
     private AuthorId toAuthorId(ReviewDb review) {
@@ -283,7 +314,8 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     private String pathToListEntry(AuthorId authorId, ReviewId reviewId) {
-        return path(pathToReviewsList(authorId), mReviewsList.relativePathToReview(reviewId.toString()));
+        return path(pathToReviewsList(authorId), mReviewsList.relativePathToReview(reviewId
+                .toString()));
     }
 
     private String pathToUserAuthorMapping(String userId) {
@@ -334,20 +366,12 @@ public class FbStructUsersLed implements FirebaseStructure {
         return path(pathToAuthor(authorId.toString()), REVIEWS_LIST);
     }
 
-    private String pathToPlaylist(String name, AuthorId authorId) {
+    private String pathToCollection(String name, AuthorId authorId) {
         return path(pathToAuthor(authorId.toString()), PLAYLISTS, name);
     }
 
-    private String pathToPlaylistNames(AuthorId authorId) {
+    private String pathToCollectionNames(AuthorId authorId) {
         return path(pathToAuthor(authorId.toString()), PLAYLISTS, PLAYLIST_INDEX);
-    }
-
-    public String pathToPlaylistNamesIndex(String name, AuthorId authorId) {
-        return path(pathToPlaylistNames(authorId), name);
-    }
-
-    public String pathToPlaylistEntry(String name, AuthorId authorId, ReviewId reviewId) {
-        return path(pathToPlaylist(name, authorId), StructurePlaylistImpl.relativePathToReview(reviewId.toString()));
     }
 
     private String pathToAggregates(AuthorId authorId) {

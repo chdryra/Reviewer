@@ -9,12 +9,12 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorReference extends DataReference<NamedAuthor>, HasAuthorId{
+public interface AuthorReference extends DataReference<AuthorName>, HasAuthorId{
 }

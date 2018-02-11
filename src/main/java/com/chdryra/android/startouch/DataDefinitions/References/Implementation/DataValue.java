@@ -8,6 +8,9 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 
 /**
@@ -19,9 +22,9 @@ public class DataValue<T> {
     private T mData;
     private final CallbackMessage mMessage;
 
-    public DataValue(T data) {
+    public DataValue(@Nullable T data) {
         mData = data;
-        mMessage = CallbackMessage.ok();
+        mMessage = data != null ? CallbackMessage.ok() : getError();
     }
 
     public DataValue(CallbackMessage message) {
@@ -29,7 +32,12 @@ public class DataValue<T> {
     }
 
     public DataValue() {
-        mMessage = CallbackMessage.error("Invalid reference");
+        mMessage = getError();
+    }
+
+    @NonNull
+    private CallbackMessage getError() {
+        return CallbackMessage.error("Invalid reference");
     }
 
     public boolean hasValue() {

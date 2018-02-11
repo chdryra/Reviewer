@@ -31,7 +31,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishScreenAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvAuthorList;
@@ -226,7 +226,7 @@ public class FactoryReviewViewAdapter {
     }
 
     //View for search screen
-    ReviewViewAdapter.Filterable<GvAuthor> newFollowSearchAdapter() {
+    ReviewViewAdapter.Filterable<GvAuthorName> newFollowSearchAdapter() {
         return new AuthorSearchAdapter(new ViewerAuthors(new GvAuthorList()),
                 mAuthorsRepo, mConverter.newConverterAuthors());
     }
@@ -286,7 +286,7 @@ public class FactoryReviewViewAdapter {
     }
 
     private DataReference<ProfileImage> getProfileImage(ReviewNode node) {
-        return mAuthorsRepo.getProfile(node.getAuthorId()).getProfileImage();
+        return mAuthorsRepo.getAuthorProfile(node.getAuthorId()).getProfileImage();
     }
 
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter

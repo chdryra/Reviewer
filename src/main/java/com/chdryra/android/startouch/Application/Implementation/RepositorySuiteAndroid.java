@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Application.Implementation;
 
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleter;
@@ -55,7 +55,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public ReviewsRepoReadable getFeed(ProfileSocial profile) {
+    public ReviewsRepoReadable getFeed(SocialProfileRef profile) {
         return mRepoFactory.newFeed(profile.getAuthorId(), profile.getFollowing(), getReviews());
     }
 

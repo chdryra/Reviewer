@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparators
 
 
 import com.chdryra.android.corelibrary.Comparators.DataGetter;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
@@ -23,7 +24,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,9 +32,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor
  */
 
 public class DataGetters {
-    public static class NamedAuthorName implements DataGetter<NamedAuthor, String> {
+    public static class NamedAuthorName implements DataGetter<AuthorName, String> {
         @Override
-        public String getData(NamedAuthor item) {
+        public String getData(AuthorName item) {
             return item.getName();
         }
     }

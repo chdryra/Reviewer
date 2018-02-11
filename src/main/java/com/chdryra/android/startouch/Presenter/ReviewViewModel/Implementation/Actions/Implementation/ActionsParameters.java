@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewS
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 public class ActionsParameters<T extends GvData> {
     private final GvDataType<T> mDataType;
     private final FactoryReviewView mFactoryView;
-    private final FactoryCommands mFactoryCommands;
+    private final FactoryLaunchCommands mFactoryLaunchCommands;
     private final AuthorsRepo mRepo;
     private final UiLauncher mLauncher;
 
@@ -35,12 +35,12 @@ public class ActionsParameters<T extends GvData> {
 
     public ActionsParameters(GvDataType<T> dataType,
                              FactoryReviewView factoryView,
-                             FactoryCommands factoryCommands,
+                             FactoryLaunchCommands factoryLaunchCommands,
                              AuthorsRepo repo,
                              UiLauncher launcher) {
         mDataType = dataType;
         mFactoryView = factoryView;
-        mFactoryCommands = factoryCommands;
+        mFactoryLaunchCommands = factoryLaunchCommands;
         mRepo = repo;
         mLauncher = launcher;
     }
@@ -53,8 +53,8 @@ public class ActionsParameters<T extends GvData> {
         return mFactoryView;
     }
 
-    public FactoryCommands getFactoryCommands() {
-        return mFactoryCommands;
+    public FactoryLaunchCommands getFactoryLaunchCommands() {
+        return mFactoryLaunchCommands;
     }
 
     @Nullable

@@ -10,70 +10,55 @@
 package com.chdryra.android.startouch.Authentication.Implementation;
 
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ProfileImageDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorReferenceDefault;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataReferenceWrapper;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorProfile implements ProfileReference {
-    private NamedAuthor mAuthor;
+public class AuthorProfileDefault implements AuthorProfile {
+    private AuthorName mAuthor;
     private DateTime mDateJoined;
     private ProfileImage mProfilePhoto;
 
-    public AuthorProfile() {
+    public AuthorProfileDefault() {
+        this(new AuthorNameDefault(), new DatumDateTime(), new ProfileImageDefault());
     }
 
-    public AuthorProfile(NamedAuthor author, DateTime dateJoined, @Nullable ProfileImage profilePhoto) {
+    public AuthorProfileDefault(AuthorName author, DateTime dateJoined, ProfileImage profilePhoto) {
         mAuthor = author;
         mDateJoined = dateJoined;
         mProfilePhoto = profilePhoto;
     }
 
-    public NamedAuthor getNamedAuthor() {
+    @Override
+    public AuthorName getAuthor() {
         return mAuthor;
     }
 
+    @Override
     public DateTime getJoined() {
         return mDateJoined;
     }
 
+    @Override
     public ProfileImage getImage() {
         return mProfilePhoto;
     }
 
     @Override
-    public AuthorReference getAuthor() {
-        return new AuthorReferenceDefault(mAuthor.getAuthorId(), new DataReferenceWrapper<>(mAuthor));
-    }
-
-    @Override
-    public DataReference<ProfileImage> getProfileImage() {
-        return new DataReferenceWrapper<>(mProfilePhoto);
-    }
-
-    @Override
-    public void dereference(Callback callback) {
-        callback.onProfile(this, CallbackMessage.ok());
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AuthorProfile)) return false;
+        if (!(o instanceof AuthorProfileDefault)) return false;
 
-        AuthorProfile that = (AuthorProfile) o;
+        AuthorProfileDefault that = (AuthorProfileDefault) o;
 
         if (!mAuthor.getName().equals(that.mAuthor.getName())) return false;
         if (!mAuthor.getAuthorId().toString().equals(that.mAuthor.getAuthorId().toString())) return false;

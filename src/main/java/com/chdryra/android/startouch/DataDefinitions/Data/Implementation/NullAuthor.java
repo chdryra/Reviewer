@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,5 +16,5 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullAuthor {
-    public static final NamedAuthor AUTHOR = new DefaultNamedAuthor("NULL", new AuthorIdParcelable("NULL"));
+    public static final AuthorName AUTHOR = new AuthorNameDefault("NULL", new AuthorIdParcelable("NULL"));
 }

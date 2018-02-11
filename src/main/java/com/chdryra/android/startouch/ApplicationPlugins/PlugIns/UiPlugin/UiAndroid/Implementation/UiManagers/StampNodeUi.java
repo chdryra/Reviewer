@@ -12,9 +12,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 import android.widget.TextView;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -28,9 +28,9 @@ import java.util.Date;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements ViewUiBinder.BindableViewUi<NamedAuthor>{
+public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements ViewUiBinder.BindableViewUi<AuthorName>{
     private DataDate mDate;
-    private ViewUiBinder<NamedAuthor> mBinder;
+    private ViewUiBinder<AuthorName> mBinder;
 
     public StampNodeUi(TextView stamp, final ReviewNode node, final AuthorsRepo repo) {
         super(stamp, new ReferenceValueGetter<AuthorReference>() {
@@ -44,13 +44,13 @@ public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements Vi
     }
 
     @Override
-    public void update(NamedAuthor value) {
+    public void update(AuthorName value) {
         setView(value);
     }
 
     @Override
     public void onInvalidated() {
-        setView(new DatumAuthor());
+        setView(new DatumAuthorName());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements Vi
         mBinder.bind();
     }
 
-    private void setView(NamedAuthor author) {
+    private void setView(AuthorName author) {
         String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(mDate
                 .getTime()));
         getView().setText(author.getName() + " / " + date);

@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
@@ -142,7 +142,7 @@ public class PresenterFeed implements ReviewPublisherListener {
         public PresenterFeed build(ApplicationInstance app, PresenterListener listener) {
             UiSuite ui = app.getUi();
             RepositorySuite repo = app.getRepository();
-            ProfileSocial profile = app.getAccounts().getUserSession().getAccount().getSocialProfile();
+            SocialProfileRef profile = app.getAccounts().getUserSession().getAccount().getSocialProfile();
 
             return new PresenterFeed(ui.newFeedView(repo, profile),
                     ui.getCurrentScreen(), repo.getReviewPublisher(), listener);

@@ -9,8 +9,8 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
 
 import org.junit.Before;
@@ -40,35 +40,35 @@ public class ComparitorAuthorTest {
 
     @Test
     public void sameAuthorReturnsDifferenceBooleanOfFalse() {
-        NamedAuthor lhs = RandomAuthor.nextAuthor();
-        NamedAuthor rhs = new DefaultNamedAuthor(lhs.getName(), lhs.getAuthorId());
+        AuthorName lhs = RandomAuthor.nextAuthor();
+        AuthorName rhs = new AuthorNameDefault(lhs.getName(), lhs.getAuthorId());
         checkComparisonHasDifference(lhs, rhs, false);
     }
 
     @Test
     public void differentAuthorsReturnsDifferenceBooleanOfTrue() {
-        NamedAuthor lhs = RandomAuthor.nextAuthor();
-        NamedAuthor rhs = RandomAuthor.nextAuthor();
+        AuthorName lhs = RandomAuthor.nextAuthor();
+        AuthorName rhs = RandomAuthor.nextAuthor();
         checkComparisonHasDifference(lhs, rhs, true);
     }
 
     @Test
     public void sameNamesDifferentUserIdsThrowsRuntimeException() {
         expectedException.expect(RuntimeException.class);
-        NamedAuthor lhs = RandomAuthor.nextAuthor();
-        NamedAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DefaultNamedAuthor(lhs.getName(), rhs.getAuthorId()));
+        AuthorName lhs = RandomAuthor.nextAuthor();
+        AuthorName rhs = RandomAuthor.nextAuthor();
+        mComparitor.compare(lhs, new AuthorNameDefault(lhs.getName(), rhs.getAuthorId()));
     }
 
     @Test
     public void differentNamesSameUserIdsThrowsRuntimeException() {
         expectedException.expect(RuntimeException.class);
-        NamedAuthor lhs = RandomAuthor.nextAuthor();
-        NamedAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DefaultNamedAuthor(rhs.getName(), lhs.getAuthorId()));
+        AuthorName lhs = RandomAuthor.nextAuthor();
+        AuthorName rhs = RandomAuthor.nextAuthor();
+        mComparitor.compare(lhs, new AuthorNameDefault(rhs.getName(), lhs.getAuthorId()));
     }
 
-    private void checkComparisonHasDifference(NamedAuthor lhs, NamedAuthor rhs, boolean
+    private void checkComparisonHasDifference(AuthorName lhs, AuthorName rhs, boolean
             expected) {
         DifferenceBoolean calculated1 = mComparitor.compare(lhs, rhs);
         DifferenceBoolean calculated2 = mComparitor.compare(rhs, lhs);

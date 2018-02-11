@@ -10,12 +10,13 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 
@@ -24,20 +25,20 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor {
+public class RowAuthorNameImpl extends RowTableBasic<RowAuthorName> implements RowAuthorName {
     private String mUserId;
     private String mName;
 
-    public RowAuthorImpl(NamedAuthor author) {
+    public RowAuthorNameImpl(AuthorName author) {
         mUserId = author.getAuthorId().toString();
         mName = author.getName();
     }
 
     //Via reflection
-    public RowAuthorImpl() {
+    public RowAuthorNameImpl() {
     }
 
-    public RowAuthorImpl(RowValues values) {
+    public RowAuthorNameImpl(RowValues values) {
         mUserId = values.getValue(AUTHOR_ID.getName(), AUTHOR_ID.getType());
         mName = values.getValue(AUTHOR_NAME.getName(), AUTHOR_NAME.getType());
     }
@@ -73,11 +74,11 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     }
 
     @Override
-    protected RowEntry<RowAuthor, ?> getEntry(int position) {
+    protected RowEntry<RowAuthorName, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(RowAuthor.class, AUTHOR_ID, mUserId);
+            return new RowEntryImpl<>(RowAuthorName.class, AUTHOR_ID, mUserId);
         } else if(position == 1){
-            return new RowEntryImpl<>(RowAuthor.class, AUTHOR_NAME, mName);
+            return new RowEntryImpl<>(RowAuthorName.class, AUTHOR_NAME, mName);
         } else {
             throw noElement();
         }
@@ -86,9 +87,9 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RowAuthorImpl)) return false;
+        if (!(o instanceof RowAuthorNameImpl)) return false;
 
-        RowAuthorImpl that = (RowAuthorImpl) o;
+        RowAuthorNameImpl that = (RowAuthorNameImpl) o;
 
         if (mUserId != null ? !mUserId.equals(that.mUserId) : that.mUserId != null) return false;
         return !(mName != null ? !mName.equals(that.mName) : that.mName != null);

@@ -12,10 +12,10 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.firebase.client.DataSnapshot;
 
 /**
@@ -33,7 +33,7 @@ public class ConverterAuthorProfile implements SnapshotConverter<AuthorProfile> 
     @Nullable
     @Override
     public AuthorProfile convert(DataSnapshot snapshot) {
-        Profile value = snapshot.getValue(Profile.class);
+        ProfileAuthor value = snapshot.getValue(ProfileAuthor.class);
         if(value == null) return null;
         return mConverter.newProfile(value);
     }

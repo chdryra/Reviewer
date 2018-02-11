@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.Styles;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.R;
@@ -43,12 +45,10 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
     private static final int CONTEXT_VIEW = R.id.contextual_view;
-    private static final int CONTEXT_BUTTON = R.id.contextual_button;
+    private static final int CONTEXT_BUTTON = R.id.wide_button;
 
-    private static final TitleDecorator CONTEXT_DECORATOR
-            = new TitleDecorator("-", " ", TitleDecorator.Style.WRAP);
-    private static final TitleDecorator BANNER_DECORATOR
-            = new TitleDecorator("/", "", TitleDecorator.Style.END);
+    private static final TitleDecorator CONTEXT_DECORATOR = Styles.TitleDecorators.DONE_BUTTON;
+    private static final TitleDecorator BANNER_DECORATOR = Styles.TitleDecorators.OPTION_BUTTON;
 
     private View mView;
 

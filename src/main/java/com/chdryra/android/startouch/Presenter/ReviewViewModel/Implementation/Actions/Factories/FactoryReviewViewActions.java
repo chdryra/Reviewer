@@ -31,11 +31,11 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Pub
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -68,12 +68,12 @@ public class FactoryReviewViewActions {
     private final UiConfig mConfig;
     private final ReviewsNodeRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryLaunchCommands mCommandsFactory;
     private final DataComparatorsApi mComparators;
     private final ConverterGv mConverter;
 
     public FactoryReviewViewActions(UiConfig config, ReviewsNodeRepo reviewsRepo, AuthorsRepo
-            authorsRepo, FactoryCommands commandsFactory, DataComparatorsApi comparators,
+            authorsRepo, FactoryLaunchCommands commandsFactory, DataComparatorsApi comparators,
                                     ConverterGv converter) {
         mConfig = config;
         mReviewsRepo = reviewsRepo;
@@ -111,7 +111,7 @@ public class FactoryReviewViewActions {
     public FactoryActionsReviewView<GvNode> newFeedActions
             (ReviewNode node, FactoryReviewView viewFactory) {
         ActionsParameters<GvNode> params = newListActionParams(node, viewFactory, false);
-        return new FactoryActionsViewReviews(params, mReviewsRepo, mConfig.getProfileEditor());
+        return new FactoryActionsViewReviews(params, mReviewsRepo);
     }
 
     public FactoryActionsReviewView<GvNode> newListActions(ReviewNode node,
@@ -127,7 +127,7 @@ public class FactoryReviewViewActions {
                                                                        FactoryReviewView
                                                                                viewFactory) {
         FactoryActionsSearch<?> factoryActions;
-        if (dataType.equals(GvAuthor.TYPE)) {
+        if (dataType.equals(GvAuthorName.TYPE)) {
             factoryActions = new FactoryActionsSearch.Author(getLauncher(), viewFactory);
         } else {
             factoryActions = new FactoryActionsSearch<>(dataType, getLauncher(), viewFactory);

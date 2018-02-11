@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 
@@ -22,9 +22,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
-    private DataReference<NamedAuthor> mReference;
-    private NamedAuthor mAuthor;
+public class VhAuthorId extends VhText implements ReferenceBinder<AuthorName>{
+    private DataReference<AuthorName> mReference;
+    private AuthorName mAuthor;
 
     @Override
     public void updateView(ViewHolderData data) {
@@ -38,18 +38,18 @@ public class VhAuthorId extends VhText implements ReferenceBinder<NamedAuthor>{
     }
 
     @Override
-    public void onReferenceValue(NamedAuthor value) {
+    public void onReferenceValue(AuthorName value) {
         mAuthor = value;
         updateView(value.getName());
     }
 
     @Override
-    public void onInvalidated(DataReference<NamedAuthor> reference) {
+    public void onInvalidated(DataReference<AuthorName> reference) {
         updateView("");
     }
 
     @Nullable
-    public NamedAuthor getAuthor() {
+    public AuthorName getAuthor() {
         return mAuthor;
     }
 }

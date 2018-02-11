@@ -8,9 +8,9 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ public class Author {
     public Author() {
     }
 
-    public Author(NamedAuthor author) {
+    public Author(AuthorName author) {
         name = author.getName();
         authorId = author.getAuthorId().toString();
     }
@@ -37,8 +37,8 @@ public class Author {
         return authorId;
     }
 
-    public NamedAuthor toDataAuthor() {
-        return new DefaultNamedAuthor(name, new AuthorIdParcelable(authorId));
+    public AuthorName toDataAuthor() {
+        return new AuthorNameDefault(name, new AuthorIdParcelable(authorId));
     }
 
     public static int size() {

@@ -12,14 +12,16 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorNameImpl;
+
+
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -34,32 +36,32 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImpl>{
+public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorName, RowAuthorNameImpl>{
 
     public RowAuthorImplTest() {
-        super(RowAuthor.AUTHOR_ID.getName(), 2);
+        super(RowAuthorName.AUTHOR_ID.getName(), 2);
     }
 
     @Test
     public void constructionWithDataAuthorAndGetters() {
         AuthorId id = AuthorIdGenerator.newId();
         String name = RandomString.nextWord();
-        NamedAuthor author = new DefaultNamedAuthor(name, id);
+        AuthorName author = new AuthorNameDefault(name, id);
 
-        RowAuthorImpl row = new RowAuthorImpl(author);
+        RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.getAuthorId().toString(), is(id.toString()));
         assertThat(row.getName(), is(name));
     }
 
     @Test
     public void constructionWithRowValuesAndGetters() {
-        RowAuthor reference = newRow();
+        RowAuthorName reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowAuthor.AUTHOR_ID, reference.getAuthorId().toString());
-        values.put(RowAuthor.AUTHOR_NAME, reference.getName());
+        values.put(RowAuthorName.AUTHOR_ID, reference.getAuthorId().toString());
+        values.put(RowAuthorName.AUTHOR_NAME, reference.getName());
 
-        RowAuthorImpl row = new RowAuthorImpl(values);
+        RowAuthorNameImpl row = new RowAuthorNameImpl(values);
         assertThat(row.hasData(new DataValidator()), is(true));
 
         assertThat(row.getAuthorId().toString(), is(reference.getAuthorId().toString()));
@@ -68,49 +70,49 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
     @Test
     public void constructionWithDataAuthorWithInvalidUserIdMakesRowAuthorInvalid() {
-        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), new AuthorIdParcelable(""));
-        RowAuthorImpl row = new RowAuthorImpl(author);
+        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), new AuthorIdParcelable(""));
+        RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
     public void constructionWithDataAuthorWithInvalidNameMakesRowAuthorInvalid() {
-        NamedAuthor author = new DefaultNamedAuthor("", AuthorIdGenerator.newId());
-        RowAuthorImpl row = new RowAuthorImpl(author);
+        AuthorName author = new AuthorNameDefault("", AuthorIdGenerator.newId());
+        RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
     public void constructionWithValidDataAuthorMakesRowAuthorValid() {
-        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
-        RowAuthorImpl row = new RowAuthorImpl(author);
+        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), AuthorIdGenerator.newId());
+        RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.hasData(new DataValidator()), is(true));
     }
 
     @Test
     public void iteratorReturnsDataInOrder() {
-        RowAuthorImpl row = newRow();
+        RowAuthorNameImpl row = newRow();
 
-        ArrayList<RowEntry<RowAuthor, ?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowAuthorName, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(2));
 
-        checkEntry(entries.get(0), RowAuthor.AUTHOR_ID, row.getAuthorId().toString());
-        checkEntry(entries.get(1), RowAuthor.AUTHOR_NAME, row.getName());
+        checkEntry(entries.get(0), RowAuthorName.AUTHOR_ID, row.getAuthorId().toString());
+        checkEntry(entries.get(1), RowAuthorName.AUTHOR_NAME, row.getName());
     }
 
     @NonNull
     @Override
-    protected RowAuthorImpl newRow() {
+    protected RowAuthorNameImpl newRow() {
         AuthorId id = AuthorIdGenerator.newId();
         String name = RandomString.nextWord();
-        NamedAuthor author = new DefaultNamedAuthor(name, id);
+        AuthorName author = new AuthorNameDefault(name, id);
 
-        return new RowAuthorImpl(author);
+        return new RowAuthorNameImpl(author);
     }
 
     @Override
-    protected String getRowId(RowAuthorImpl row) {
+    protected String getRowId(RowAuthorNameImpl row) {
         return row.getAuthorId().toString();
     }
 }

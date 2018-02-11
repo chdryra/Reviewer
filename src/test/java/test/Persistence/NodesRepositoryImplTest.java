@@ -14,9 +14,9 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Collections.SortableListImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -66,7 +66,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class NodesRepositoryImplTest {
     private static final int NUM = 5;
-    private static final NamedAuthor AUTHOR = new DefaultNamedAuthor("Author", AuthorIdGenerator.newId());
+    private static final AuthorName AUTHOR = new AuthorNameDefault("Author", AuthorIdGenerator.newId());
     private static final Random RAND = new Random();
 
     @Mock

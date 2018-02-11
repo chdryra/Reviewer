@@ -11,7 +11,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContractImpl implements ReviewerDbContract {
-    private final DbTable<RowAuthor> mAuthorsTable;
+    private final DbTable<RowAuthorName> mAuthorsTable;
     private final DbTable<RowTag> mTagsTable;
     private final DbTable<RowReview> mReviewsTable;
     private final DbTable<RowCriterion> mCriteriaTable;
@@ -44,7 +46,7 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
     private final ArrayList<DbTable<? extends DbTableRow>> mTablesList;
     private final ArrayList<String> mTableNames;
 
-    public ReviewerDbContractImpl(DbTable<RowAuthor> authorsTable, DbTable<RowTag> tagsTable,
+    public ReviewerDbContractImpl(DbTable<RowAuthorName> authorsTable, DbTable<RowTag> tagsTable,
                                   DbTable<RowReview> reviewsTable, DbTable<RowCriterion>
                                           criteriaTable, DbTable<RowComment> commentsTable,
                                   DbTable<RowFact> factsTable, DbTable<RowImage> imagesTable,
@@ -115,7 +117,7 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
     }
 
     @Override
-    public DbTable<RowAuthor> getAuthorsTable() {
+    public DbTable<RowAuthorName> getAuthorsTable() {
         return mAuthorsTable;
     }
 

@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
@@ -23,30 +23,30 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBind
 
 public class AuthorReferenceDefault implements AuthorReference {
     private final AuthorId mAuthorId;
-    private final DataReference<NamedAuthor> mReference;
+    private final DataReference<AuthorName> mReference;
 
     public AuthorReferenceDefault() {
         mAuthorId = new DatumAuthorId();
         mReference = new NullDataReference<>();
     }
 
-    public AuthorReferenceDefault(AuthorId authorId, DataReference<NamedAuthor> reference) {
+    public AuthorReferenceDefault(AuthorId authorId, DataReference<AuthorName> reference) {
         mAuthorId = authorId;
         mReference = reference;
     }
 
     @Override
-    public void dereference(DereferenceCallback<NamedAuthor> callback) {
+    public void dereference(DereferenceCallback<AuthorName> callback) {
         mReference.dereference(callback);
     }
 
     @Override
-    public void bindToValue(ReferenceBinder<NamedAuthor> binder) {
+    public void bindToValue(ReferenceBinder<AuthorName> binder) {
         mReference.bindToValue(binder);
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<NamedAuthor> binder) {
+    public void unbindFromValue(ReferenceBinder<AuthorName> binder) {
         mReference.unbindFromValue(binder);
     }
 

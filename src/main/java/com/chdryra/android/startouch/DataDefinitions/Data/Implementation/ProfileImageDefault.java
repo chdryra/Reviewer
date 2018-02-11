@@ -19,23 +19,26 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImag
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DefaultProfileImage implements ProfileImage {
+public class ProfileImageDefault implements ProfileImage {
     private Bitmap mBitmap;
     private AuthorId mAuthorId;
 
-    public DefaultProfileImage() {
+    public ProfileImageDefault() {
+        mAuthorId = new DatumAuthorId();
+        mBitmap = null;
     }
 
-    public DefaultProfileImage(AuthorId authorId) {
+    public ProfileImageDefault(AuthorId authorId) {
         this(authorId, null);
     }
 
-    public DefaultProfileImage(AuthorId authorId, @Nullable Bitmap bitmap) {
+    public ProfileImageDefault(AuthorId authorId, @Nullable Bitmap bitmap) {
         mAuthorId = authorId;
         mBitmap = bitmap;
     }
 
     @Override
+    @Nullable
     public Bitmap getBitmap() {
         return mBitmap;
     }
@@ -53,9 +56,9 @@ public class DefaultProfileImage implements ProfileImage {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultProfileImage)) return false;
+        if (!(o instanceof ProfileImageDefault)) return false;
 
-        DefaultProfileImage that = (DefaultProfileImage) o;
+        ProfileImageDefault that = (ProfileImageDefault) o;
 
         if (mBitmap != null ? !mBitmap.equals(that.mBitmap) : that.mBitmap != null) return false;
         return mAuthorId != null ? mAuthorId.equals(that.mAuthorId) : that.mAuthorId == null;

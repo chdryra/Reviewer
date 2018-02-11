@@ -31,7 +31,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
@@ -131,7 +131,7 @@ public class FactoryReviewView {
     }
 
     public ReviewView<?> newSearchView() {
-        ReviewViewAdapter.Filterable<GvAuthor> adapter = mAdapterFactory.newFollowSearchAdapter();
+        ReviewViewAdapter.Filterable<GvAuthorName> adapter = mAdapterFactory.newFollowSearchAdapter();
         return newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
     }
 

@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewSummary;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -75,7 +75,7 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
     
     private class Review implements DataReviewSummary {
         private DateTime mDate;
-        private NamedAuthor mAuthor;
+        private AuthorName mAuthor;
         private String mHeadline;
         private ArrayList<String> mTags;
         private String mLocation;
@@ -110,7 +110,7 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
         }
 
         @Override
-        public NamedAuthor getAuthorId() {
+        public AuthorName getAuthorId() {
             return mAuthor;
         }
 

@@ -19,6 +19,7 @@ public class DatumDateTime implements DateTime {
     private long mTime;
 
     public DatumDateTime() {
+        mTime = 0;
     }
 
     public DatumDateTime(long time) {

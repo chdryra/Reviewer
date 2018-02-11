@@ -98,8 +98,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
         .Implementation.MaiOptionsCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.MaiUpAppLevel;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
@@ -306,7 +305,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         if (getContainer() != null) getContainer().remove(this);
     }
 
-    private FactoryCommands getCommandsFactory() {
+    private FactoryLaunchCommands getCommandsFactory() {
         return mUi.getCommandsFactory();
     }
 
@@ -350,7 +349,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         MenuAction<?> action;
         if (mIsPublished) {
             OptionsCommand command
-                    = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector
+                    = getCommandsFactory().getOptionsFactory().newReviewOptionsSelector(ReviewOptionsSelector
                     .SelectorType.ALL, new NodeAuthorId(mNode));
             MaiOptionsCommand<GvData> mai = new MaiOptionsCommand<>(command);
             action = new MenuOptionsAppLevel(Strings.Menu.REVIEWS, upAction, mai, ui);
@@ -385,7 +384,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         Bitmap placeholder = BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER);
 
         mCover = new CoverNodeBannerUi((ImageView) v.findViewById(IMAGE), mNode,
-                mRepo.getAuthors().getProfile(mNode.getAuthorId()).getProfileImage(),
+                mRepo.getAuthors().getAuthorProfile(mNode.getAuthorId()).getProfileImage(),
                 placeholder, dims);
         setLaunchOnClick(mCover, getCommandsFactory().newLaunchBespokeViewCommand(mNode,
                 "Images", GvImage.TYPE));

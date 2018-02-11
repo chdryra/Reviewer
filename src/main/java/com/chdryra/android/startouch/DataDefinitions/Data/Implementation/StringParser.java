@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -23,7 +24,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Utils.RatingFormatter;
@@ -39,7 +39,7 @@ import java.util.Date;
  */
 
 public class StringParser {
-    public static String parse(NamedAuthor author) {
+    public static String parse(AuthorName author) {
         return author.getName();
     }
 

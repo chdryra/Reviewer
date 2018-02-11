@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.startouch.Authentication.Implementation.NullAuthorProfile;
-import com.chdryra.android.startouch.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Implementation.NullAuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Implementation.NullSocialProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -44,12 +44,12 @@ public class NullUserAccount implements UserAccount {
     }
 
     @Override
-    public ProfileSocial getSocialProfile() {
-        return new NullSocialProfile();
+    public SocialProfileRef getSocialProfile() {
+        return new NullSocialProfileRef();
     }
 
     @Override
-    public ProfileReference getAuthorProfile() {
-        return new NullAuthorProfile();
+    public AuthorProfileRef getAuthorProfile() {
+        return new NullAuthorProfileRef();
     }
 }

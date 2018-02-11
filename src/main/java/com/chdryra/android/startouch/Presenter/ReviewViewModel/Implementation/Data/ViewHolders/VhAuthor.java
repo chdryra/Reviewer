@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import com.chdryra.android.corelibrary.Viewholder.VHDataStringGetter;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,7 +23,7 @@ public class VhAuthor extends VhText {
         super(new VHDataStringGetter() {
             @Override
             public String getString(ViewHolderData data) {
-                GvAuthor author = (GvAuthor) data;
+                GvAuthorName author = (GvAuthorName) data;
                 return author.getName();
             }
         });

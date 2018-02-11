@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComparatorsApi {
-    ComparatorCollection<NamedAuthor> newAuthorComparators();
+    ComparatorCollection<AuthorName> newAuthorComparators();
 
     ComparatorCollection<DataComment> newCommentComparators();
 

@@ -13,7 +13,9 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+
+
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -21,15 +23,15 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerAuthors extends GridDataWrapperBasic<GvAuthor> {
-    private static final GvDataType<GvAuthor> TYPE = GvAuthor.TYPE;
-    private GvDataList<GvAuthor> mData;
+public class ViewerAuthors extends GridDataWrapperBasic<GvAuthorName> {
+    private static final GvDataType<GvAuthorName> TYPE = GvAuthorName.TYPE;
+    private GvDataList<GvAuthorName> mData;
 
-    public ViewerAuthors(GvDataList<GvAuthor> data) {
+    public ViewerAuthors(GvDataList<GvAuthorName> data) {
         mData = data;
     }
 
-    public void setData(GvDataList<GvAuthor> data) {
+    public void setData(GvDataList<GvAuthorName> data) {
         mData = data;
         notifyDataObservers();
     }
@@ -40,18 +42,18 @@ public class ViewerAuthors extends GridDataWrapperBasic<GvAuthor> {
     }
 
     @Override
-    public GvDataList<GvAuthor> getGridData() {
+    public GvDataList<GvAuthorName> getGridData() {
         return mData;
     }
 
     @Override
-    public boolean isExpandable(GvAuthor datum) {
+    public boolean isExpandable(GvAuthorName datum) {
         return mData.contains(datum);
     }
 
     @Nullable
     @Override
-    public ReviewViewAdapter<?> expandGridCell(GvAuthor datum) {
+    public ReviewViewAdapter<?> expandGridCell(GvAuthorName datum) {
         return null;
     }
 

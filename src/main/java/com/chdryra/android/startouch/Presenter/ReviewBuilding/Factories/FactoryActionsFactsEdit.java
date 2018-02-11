@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ButtonAddFacts;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.GridItemEditFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
@@ -31,7 +31,7 @@ public class FactoryActionsFactsEdit extends FactoryActionsEditData<GvFact> {
 
     public FactoryActionsFactsEdit(UiConfig config,
                                    FactoryGvData dataFactory,
-                                   FactoryCommands commandsFactory) {
+                                   FactoryLaunchCommands commandsFactory) {
         super(TYPE, config, dataFactory, commandsFactory);
     }
 

@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Tag
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -36,12 +36,12 @@ public class FactoryEditActions {
     private final Map<GvDataType<?>, FactoryActionsEditData<?>> mFactoriesMap;
     private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryLaunchCommands mCommandsFactory;
 
     public FactoryEditActions(UiConfig config,
                               FactoryGvData dataFactory,
                               UiLauncher launcher,
-                              FactoryCommands commandsFactory,
+                              FactoryLaunchCommands commandsFactory,
                               ImageChooser imageChooser) {
         mConfig = config;
         mDataFactory = dataFactory;

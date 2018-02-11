@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.Collection;
@@ -63,6 +65,11 @@ public abstract class BindableReferenceBasic<T> extends DataReferenceBasic<T> {
     }
 
     protected void invalidReference(DereferenceCallback<T> callback) {
-        callback.onDereferenced(new DataValue<T>());
+        callback.onDereferenced(new DataValue<>(getNullValue()));
+    }
+
+    @Nullable
+    protected T getNullValue() {
+        return null;
     }
 }

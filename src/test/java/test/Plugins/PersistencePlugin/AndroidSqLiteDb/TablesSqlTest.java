@@ -9,11 +9,14 @@
 package test.Plugins.PersistencePlugin.AndroidSqLiteDb;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
+
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation.SqLiteTypeDefinitions;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation.TablesSql;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbContract;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.testutils.RandomString;
@@ -146,7 +149,7 @@ public class TablesSqlTest {
 
     @Test
     public void getFromTableWhereQueryNonNullColumnAndColumnNotInTableThrowsIllegalArgumentExcpetion() {
-        DbTable<RowAuthor> table = mContract.getAuthorsTable();
+        DbTable<RowAuthorName> table = mContract.getAuthorsTable();
         String column = RowReview.SUBJECT.getName();
 
         mExpectedException.expect(IllegalArgumentException.class);
@@ -157,8 +160,8 @@ public class TablesSqlTest {
 
     @Test
     public void getFromTableWhereQueryNonNullColumnNullValueButColumnNotNullableThrowsIllegalArgumentExcpetion() {
-        DbTable<RowAuthor> table = mContract.getAuthorsTable();
-        String column = RowAuthor.AUTHOR_NAME.getName();
+        DbTable<RowAuthorName> table = mContract.getAuthorsTable();
+        String column = RowAuthorName.AUTHOR_NAME.getName();
 
         mExpectedException.expect(IllegalArgumentException.class);
         mExpectedException.expectMessage("Column " + column + " not nullable");
@@ -172,7 +175,7 @@ public class TablesSqlTest {
         String name = "Riz";
 
         TablesSql.Query query = mSql.getFromTableWhereQuery(mContract.getAuthorsTable(),
-                RowAuthor.AUTHOR_NAME.getName(), name);
+                RowAuthorName.AUTHOR_NAME.getName(), name);
 
         assertThat(query.getQuery(), is(expected));
         assertThat(query.getArgs().length, is(1));
@@ -202,7 +205,7 @@ public class TablesSqlTest {
 
     @Test
     public void bindColumnWithValue() {
-        String column = RowAuthor.AUTHOR_NAME.getName();
+        String column = RowAuthorName.AUTHOR_NAME.getName();
         String value = "Riz";
         TablesSql.Query query = mSql.bindColumnWithValue(column, value);
         assertThat(query.getQuery(), is(column + " = ?"));

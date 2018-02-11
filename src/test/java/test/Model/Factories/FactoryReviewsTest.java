@@ -9,7 +9,7 @@
 package test.Model.Factories;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
@@ -64,7 +64,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
  */
 public class FactoryReviewsTest {
     private static final int NUM = 3;
-    private NamedAuthor mAuthor;
+    private AuthorName mAuthor;
     private FactoryReviews mFactory;
     private DataMocker mDataMocker;
 
@@ -405,7 +405,7 @@ public class FactoryReviewsTest {
         assertThat(review.getPublishDate().getTime(), lessThanOrEqualTo(new Date().getTime()));
     }
 
-    private void checkAuthor(NamedAuthor author, Review review) {
+    private void checkAuthor(AuthorName author, Review review) {
         assertThat(review.getAuthorId().getReviewId(), is(review.getReviewId()));
         assertThat(review.getAuthorId().getName(), is(author.getName()));
         assertThat(review.getAuthorId().getAuthorId(), is(author.getAuthorId()));

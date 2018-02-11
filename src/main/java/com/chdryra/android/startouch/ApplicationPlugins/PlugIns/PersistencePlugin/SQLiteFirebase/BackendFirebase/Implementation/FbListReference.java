@@ -9,19 +9,23 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
 
 
-import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.ItemBindersDelegate;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -127,6 +131,13 @@ public class FbListReference<T, C extends Collection<T>> extends FbRefData<C> im
                           SnapshotConverter<List<AuthorId>> listConverter,
                           SnapshotConverter<AuthorId> itemConverter) {
             super(reference, listConverter, itemConverter);
+        }
+
+
+        @Nullable
+        @Override
+        protected List<AuthorId> getNullValue() {
+            return new ArrayList<>();
         }
     }
 }

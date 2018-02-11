@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 
@@ -20,6 +21,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
 public interface ProfileImage extends HasAuthorId, Validatable{
     String TYPE_NAME = "profileImage";
 
+    @Nullable
     Bitmap getBitmap();
 
     @Override

@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.Authentication.Interfaces;
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
 
 /**
@@ -18,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAu
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ProfileSocial extends HasAuthorId{
+public interface SocialProfileRef extends HasAuthorId, DataReference<SocialProfile>{
     enum FollowUnfollow {FOLLOW, UNFOLLOW}
 
     interface FollowCallback {

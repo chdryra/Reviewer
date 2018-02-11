@@ -8,8 +8,7 @@
 
 package com.chdryra.android.startouch.Authentication.Interfaces;
 
-import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
@@ -19,14 +18,10 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataR
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ProfileReference {
-    interface Callback {
-        void onProfile(AuthorProfile profile, CallbackMessage message);
-    }
+public interface AuthorProfileRef extends DataReference<AuthorProfile>{
+    AuthorId getAuthorId();
 
     AuthorReference getAuthor();
 
     DataReference<ProfileImage> getProfileImage();
-
-    void dereference(Callback callback);
 }

@@ -9,13 +9,11 @@
 package test.TestUtils;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -28,12 +26,12 @@ public class RandomAuthor {
         return AuthorIdGenerator.newId();
     }
 
-    public static NamedAuthor nextAuthor() {
-        return new DefaultNamedAuthor(RandomString.nextWord(), nextAuthorId());
+    public static AuthorName nextAuthor() {
+        return new AuthorNameDefault(RandomString.nextWord(), nextAuthorId());
     }
 
-    public static DataAuthor nextDataAuthor() {
-        return new DatumAuthor(RandomReviewId.nextReviewId(), RandomString.nextWord(),
+    public static DataAuthorName nextDataAuthor() {
+        return new DatumAuthorName(RandomReviewId.nextReviewId(), RandomString.nextWord(),
                 nextAuthorId());
     }
 }

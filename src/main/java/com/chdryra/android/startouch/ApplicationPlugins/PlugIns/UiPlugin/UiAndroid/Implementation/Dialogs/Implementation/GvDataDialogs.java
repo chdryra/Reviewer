@@ -8,7 +8,9 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+
+
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
@@ -128,9 +130,9 @@ public class GvDataDialogs {
         }
     }
 
-    public static class ViewAuthor extends DialogGvDataView<GvAuthor> {
+    public static class ViewAuthor extends DialogGvDataView<GvAuthorName> {
         public ViewAuthor() {
-            super(GvAuthor.TYPE);
+            super(GvAuthorName.TYPE);
         }
     }
 

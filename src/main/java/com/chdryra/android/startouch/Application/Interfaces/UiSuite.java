@@ -8,13 +8,13 @@
 
 package com.chdryra.android.startouch.Application.Interfaces;
 
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
@@ -38,7 +38,7 @@ public interface UiSuite {
 
     ReviewView<?> newDataView(ReviewNode review, GvDataType<?> type);
 
-    ReviewViewNode newFeedView(RepositorySuite repository, ProfileSocial profile);
+    ReviewViewNode newFeedView(RepositorySuite repository, SocialProfileRef profile);
 
     ReviewView<?> newPublishView(ReviewEditor<?> editor,
                                  ReviewPublisher publisher,
@@ -48,7 +48,7 @@ public interface UiSuite {
 
     ConverterGv getGvConverter();
 
-    FactoryCommands getCommandsFactory();
+    FactoryLaunchCommands getCommandsFactory();
 
     void returnToFeedScreen();
 }

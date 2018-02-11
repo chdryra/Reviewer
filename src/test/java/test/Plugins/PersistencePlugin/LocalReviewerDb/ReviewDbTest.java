@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorNameImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowCommentImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowCriterionImpl;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowEntryImpl;
@@ -34,7 +34,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -43,9 +45,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -107,7 +109,7 @@ public class ReviewDbTest {
         when(mDb.getReviewsTable().getRowClass()).thenReturn(RowReview.class);
 
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
-        when(mDb.getAuthorsTable().getRowClass()).thenReturn(RowAuthor.class);
+        when(mDb.getAuthorsTable().getRowClass()).thenReturn(RowAuthorName.class);
 
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
         when(mDb.getTagsTable().getRowClass()).thenReturn(RowTag.class);
@@ -137,16 +139,16 @@ public class ReviewDbTest {
         RowReview row = newRow();
         ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
-        NamedAuthor author = new DatumAuthor(row.getReviewId(),
+        AuthorName author = new DatumAuthorName(row.getReviewId(),
                 RandomString.nextWord(), new AuthorIdParcelable(row.getAuthorId()));
-        RowAuthor rowAuthor = new RowAuthorImpl(author);
+        RowAuthorName rowAuthor = new RowAuthorNameImpl(author);
 
-        DbTable<RowAuthor> authorsTable = mDb.getAuthorsTable();
-        RowEntry<RowAuthor, String> authorClause
-                = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, row.getAuthorId());
+        DbTable<RowAuthorName> authorsTable = mDb.getAuthorsTable();
+        RowEntry<RowAuthorName, String> authorClause
+                = asClause(RowAuthorName.class, RowAuthorName.AUTHOR_ID, row.getAuthorId());
         when(mDb.getUniqueRowWhere(authorsTable, authorClause, mTransactor)).thenReturn(rowAuthor);
 
-        DataAuthor authorOut = reviewDb.getAuthorId();
+        DataAuthorName authorOut = reviewDb.getAuthorId();
 
         verify(mDb).getUniqueRowWhere(authorsTable, authorClause, mTransactor);
         assertThat(authorOut, is(author));

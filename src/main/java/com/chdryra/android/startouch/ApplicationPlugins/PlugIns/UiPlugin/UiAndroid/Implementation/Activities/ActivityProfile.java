@@ -17,10 +17,10 @@ import android.os.Bundle;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfile;
-
-
-import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfileEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfileView;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
@@ -28,7 +28,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLaunche
 public class ActivityProfile extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityProfile.class);
     private static final String KEY = TagKeyGenerator.getKey(ActivityProfile.class, "Key");
-    private FragmentProfile mFragment;
+
+    private ActivityResultListener mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,10 @@ public class ActivityProfile extends ActivitySingleFragment implements Launchabl
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle bundleArgs = getIntent().getBundleExtra(KEY);
-        ParcelablePacker<AuthenticatedUser> unpacker = new ParcelablePacker<>();
-        AuthenticatedUser args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
-        mFragment = FragmentProfile.newInstance(args);
-        return mFragment;
+        ParcelablePacker<GvAuthorId> unpacker = new ParcelablePacker<>();
+        GvAuthorId args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
+        mFragment = args != null ? FragmentProfileView.newInstance(args) : FragmentProfileEdit.newInstance();
+        return (Fragment) mFragment;
     }
 
     @Override

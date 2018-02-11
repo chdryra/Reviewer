@@ -18,8 +18,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.Factory
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -34,12 +33,12 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryReviewDataEditor {
     private final UiConfig mConfig;
     private final FactoryGvData mDataFactory;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryLaunchCommands mCommandsFactory;
     private final FactoryReviewViewParams mParamsFactory;
 
     public FactoryReviewDataEditor(UiConfig config,
                                    FactoryGvData dataFactory,
-                                   FactoryCommands commandsFactory,
+                                   FactoryLaunchCommands commandsFactory,
                                    FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mDataFactory = dataFactory;

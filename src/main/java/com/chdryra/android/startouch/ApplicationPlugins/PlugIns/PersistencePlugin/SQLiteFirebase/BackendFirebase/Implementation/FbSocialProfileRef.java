@@ -17,10 +17,16 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .Backend.Implementation.BackendError;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Follow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbDataReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbSocialStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbDataReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbSocialStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.firebase.client.Firebase;
@@ -33,33 +39,35 @@ import java.util.Map;
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbSocialProfile implements ProfileSocial {
-    private AuthorId mId;
-    private Firebase mRoot;
+public class FbSocialProfileRef extends FbRefData<SocialProfile> implements SocialProfileRef {
+    private AuthorId mAuthorId;
     private FbSocialStructure mStructure;
     private FbDataReferencer mReferencer;
 
-    public FbSocialProfile(AuthorId id, Firebase root, FbSocialStructure structure,
-                           FbDataReferencer referencer) {
-        mId = id;
-        mRoot = root;
+    public FbSocialProfileRef(Firebase reference,
+                              SnapshotConverter<SocialProfile> converter,
+                              AuthorId authorId,
+                              FbSocialStructure structure,
+                              FbDataReferencer referencer) {
+        super(reference, converter);
+        mAuthorId = authorId;
         mStructure = structure;
         mReferencer = referencer;
     }
 
     @Override
     public AuthorId getAuthorId() {
-        return mId;
+        return mAuthorId;
     }
 
     @Override
     public RefAuthorList getFollowing() {
-        return mReferencer.newAuthorList(mStructure.getFollowingDb(mRoot, mId));
+        return mReferencer.newAuthorList(mStructure.getFollowingDb(getReference(), mAuthorId));
     }
 
     @Override
     public RefAuthorList getFollowers() {
-        return mReferencer.newAuthorList(mStructure.getFollowersDb(mRoot, mId));
+        return mReferencer.newAuthorList(mStructure.getFollowersDb(getReference(), mAuthorId));
     }
 
     @Override
@@ -68,9 +76,9 @@ public class FbSocialProfile implements ProfileSocial {
                 DbUpdater.UpdateType.INSERT_OR_UPDATE : DbUpdater.UpdateType.DELETE;
 
         DbUpdater<Follow> updater = mStructure.getSocialUpdater();
-        Map<String, Object> map = updater.getUpdatesMap(new Follow(mId, authorId), updateType);
+        Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, authorId), updateType);
 
-        mRoot.updateChildren(map, new Firebase.CompletionListener() {
+        getReference().updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                 callback.onFollowingCallback(authorId, type, getCallbackMessage(firebaseError));

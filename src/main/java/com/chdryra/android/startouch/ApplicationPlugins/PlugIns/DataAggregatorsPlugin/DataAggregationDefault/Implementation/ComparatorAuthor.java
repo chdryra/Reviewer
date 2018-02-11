@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregators
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 /**
@@ -21,9 +21,9 @@ import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparatorAuthor implements DifferenceComparator<NamedAuthor, DifferenceBoolean> {
+public class ComparatorAuthor implements DifferenceComparator<AuthorName, DifferenceBoolean> {
     @Override
-    public DifferenceBoolean compare(@NonNull NamedAuthor lhs, @NonNull NamedAuthor rhs) {
+    public DifferenceBoolean compare(@NonNull AuthorName lhs, @NonNull AuthorName rhs) {
         boolean sameId = lhs.getAuthorId().equals(rhs.getAuthorId());
         boolean sameName = lhs.getName().equals(rhs.getName());
 

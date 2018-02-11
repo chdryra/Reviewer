@@ -263,7 +263,7 @@ public class PresenterLogin implements ActivityResultListener, CredentialsAuthen
             UiSuite ui = app.getUi();
             UiConfig config = ui.getConfig();
 
-            return new PresenterLogin(auth, net, config.getProfileEditor(), config.getFeed(),
+            return new PresenterLogin(auth, net, config.getProfile(), config.getFeed(),
                     ui.getCurrentScreen(),
                     new FactoryCredentialsProvider(),
                     new FactoryCredentialsHandler(auth.getAuthenticator()),

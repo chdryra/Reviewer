@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
@@ -39,8 +39,8 @@ public class UserStructureUpdater extends DbStructureBasic<User> {
         User oldUser = user.getCurrentUser();
         User newUser = user.getUpdatedUser();
 
-        Profile oldProfile = oldUser.getProfile();
-        Profile newProfile = newUser.getProfile();
+        ProfileAuthor oldProfile = oldUser.getProfile();
+        ProfileAuthor newProfile = newUser.getProfile();
 
         if(oldProfile == null || newProfile == null || oldProfile == newProfile) return noUpdates();
 

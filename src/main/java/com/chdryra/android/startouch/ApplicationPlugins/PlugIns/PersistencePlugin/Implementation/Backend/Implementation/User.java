@@ -22,8 +22,8 @@ public class User {
     private String mProviderName;
     private String mProviderUserId;
     private String mAuthorId;
-    private Profile mProfile;
-    private Profile mNewProfile;
+    private ProfileAuthor mProfile;
+    private ProfileAuthor mNewProfile;
 
     public User() {
     }
@@ -39,11 +39,11 @@ public class User {
         mAuthorId = authorId;
     }
 
-    public User(String providerName, String providerUserId, Profile profile) {
+    public User(String providerName, String providerUserId, ProfileAuthor profile) {
         this(providerName, providerUserId, profile, null);
     }
 
-    public User(String providerName, String providerUserId, Profile oldProfile, @Nullable Profile newProfile) {
+    public User(String providerName, String providerUserId, ProfileAuthor oldProfile, @Nullable ProfileAuthor newProfile) {
         mProviderName = providerName;
         mProviderUserId = providerUserId;
         mAuthorId = oldProfile.getAuthor().getAuthorId();
@@ -68,7 +68,7 @@ public class User {
     }
 
     @Nullable
-    public Profile getProfile() {
+    public ProfileAuthor getProfile() {
         return mProfile;
     }
 
@@ -77,7 +77,7 @@ public class User {
     }
 
     @NonNull
-    private User newUser(Profile profile) {
+    private User newUser(ProfileAuthor profile) {
         return new User(mProviderName, mProviderUserId, profile, null);
     }
 

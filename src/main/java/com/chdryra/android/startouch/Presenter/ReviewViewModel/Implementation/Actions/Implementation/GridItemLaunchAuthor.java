@@ -11,7 +11,9 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 import android.view.View;
 
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+
+
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -20,7 +22,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
+public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthorName> {
     private ReviewLauncher mLauncher;
 
     public GridItemLaunchAuthor(UiLauncher launcher, FactoryReviewView launchableFactory) {
@@ -29,12 +31,12 @@ public class GridItemLaunchAuthor extends GridItemLauncher<GvAuthor> {
     }
 
     @Override
-    public void onGridItemClick(GvAuthor item, int position, View v) {
-        mLauncher.launchReviewsList(item.getAuthorId());
+    public void onGridItemClick(GvAuthorName item, int position, View v) {
+        mLauncher.launchAsList(item.getAuthorId());
     }
 
     @Override
-    public void onGridItemLongClick(GvAuthor item, int position, View v) {
+    public void onGridItemLongClick(GvAuthorName item, int position, View v) {
         onGridItemClick(item, position, v);
     }
 }

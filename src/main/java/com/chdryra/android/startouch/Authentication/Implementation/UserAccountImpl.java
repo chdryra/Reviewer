@@ -9,8 +9,8 @@
 package com.chdryra.android.startouch.Authentication.Implementation;
 
 
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileReference;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
@@ -22,12 +22,12 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 public class UserAccountImpl implements UserAccount {
     private final AuthorId mAuthorId;
     private final AuthenticatedUser mAccountHolder;
-    private final ProfileReference mAuthorProfile;
-    private final ProfileSocial mSocialProfile;
+    private final AuthorProfileRef mAuthorProfile;
+    private final SocialProfileRef mSocialProfile;
 
     public UserAccountImpl(AuthenticatedUser accountHolder,
-                           ProfileReference authorProfile,
-                           ProfileSocial socialProfile) {
+                           AuthorProfileRef authorProfile,
+                           SocialProfileRef socialProfile) {
         mAccountHolder = accountHolder;
         if(mAccountHolder.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
@@ -37,7 +37,7 @@ public class UserAccountImpl implements UserAccount {
         mSocialProfile = socialProfile;
 
         String id = mAuthorId.toString();
-        if(!id.equals(mAuthorProfile.getAuthor().getAuthorId().toString()) ||
+        if(!id.equals(mAuthorProfile.getAuthorId().toString()) ||
            !id.equals(mSocialProfile.getAuthorId().toString())     ) {
             throw new IllegalArgumentException("AuthorIds should match!");
         }
@@ -54,12 +54,12 @@ public class UserAccountImpl implements UserAccount {
     }
 
     @Override
-    public ProfileReference getAuthorProfile() {
+    public AuthorProfileRef getAuthorProfile() {
         return mAuthorProfile;
     }
 
     @Override
-    public ProfileSocial getSocialProfile() {
+    public SocialProfileRef getSocialProfile() {
         return mSocialProfile;
     }
 }

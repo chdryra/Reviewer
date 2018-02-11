@@ -79,13 +79,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchSummary(final ReviewId reviewId) {
-        ReviewNode node = mReviewsNodeRepo.asReviewNode(reviewId);
-        launchView(mViewFactory.newSummaryView(node), getRequestCode(node));
-    }
-
-    @Override
-    public void launchReviewsList(AuthorId authorId) {
+    public void launchAsList(AuthorId authorId) {
         ReviewNode node = mReviewsNodeRepo.getMetaReview(authorId);
         launchView(newListView(node), getRequestCode(node));
     }

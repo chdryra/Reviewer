@@ -23,16 +23,20 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructurePlaylistNames extends DbStructureBasic<ReviewId> implements StructurePlaylist {
-    public StructurePlaylistNames(String path) {
+public class StructureCollectionImpl extends DbStructureBasic<ReviewId> implements StructurePlaylist {
+    public StructureCollectionImpl(String path) {
         setPathToStructure(path);
+    }
+
+    public static String relativePathToReview(String reviewId) {
+        return reviewId;
     }
 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewId reviewId, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        updates.atPath(reviewId).putValue(true);
+        updates.atPath(reviewId, relativePathToReview(reviewId.toString())).putValue(true);
 
         return updates.toMap();
     }

@@ -22,7 +22,7 @@
 
     <include
         android:id="@+id/contextual_view"
-        layout="@layout/fragment_review_edit_contextual"
+        layout="@layout/wide_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>

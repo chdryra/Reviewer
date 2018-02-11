@@ -10,7 +10,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LinearLayoutVertical.GridCell">
 
-    <include layout="@layout/review_selected_profile"
+    <include layout="@layout/review_abstract_profile"
              android:id="@+id/user_profile"
              android:layout_width="match_parent"
              android:layout_height="36dp">

@@ -10,8 +10,7 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Author;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.StructureUserProfileImpl;
@@ -52,7 +51,7 @@ public class StructureUserProfileImplTest extends StructureTestBasic<User> {
     @Override
     public void testStructure(StructureTester<User> tester) {
         User user = tester.getTestData();
-        Profile profile = user.getProfile();
+        ProfileAuthor profile = user.getProfile();
         assertNotNull(profile);
         Author author = profile.getAuthor();
 

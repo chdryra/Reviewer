@@ -10,7 +10,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryForeignKeyConstraint;
@@ -28,7 +30,7 @@ public class TableReviews extends ReviewerDbTableImpl<RowReview> {
     public static final String NAME = "Reviews";
 
     public TableReviews(FactoryDbColumnDef columnFactory,
-                        DbTable<? extends RowAuthor> authorsTable,
+                        DbTable<? extends RowAuthorName> authorsTable,
                         FactoryForeignKeyConstraint constraintFactory) {
         super(NAME, RowReview.class, columnFactory);
 

@@ -15,7 +15,7 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
@@ -69,7 +69,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
     }
 
     @Nullable
-    public DataReference<NamedAuthor> getReference() {
+    public DataReference<AuthorName> getReference() {
         return mReference;
     }
 
@@ -172,7 +172,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         }
 
         @Nullable
-        public NamedAuthor getNamedAuthor() {
+        public AuthorName getNamedAuthor() {
             VhDataRef refHolder = (VhDataRef) getReferenceViewHolder();
             if(refHolder == null) return null;
             VhAuthorId valueHolder = (VhAuthorId) refHolder.getValueHolder();

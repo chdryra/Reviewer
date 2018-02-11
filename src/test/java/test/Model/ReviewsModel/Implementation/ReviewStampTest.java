@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
 import org.junit.Rule;
@@ -38,7 +38,7 @@ public class ReviewStampTest {
     
     @Test
     public void validToStringFormatting() {
-        NamedAuthor author = newAuthor();
+        AuthorName author = newAuthor();
         DateTime date = newDate();
 
         ReviewStamp id = ReviewStamp.newStamp(author, date);
@@ -54,13 +54,13 @@ public class ReviewStampTest {
     }
 
     @NonNull
-    private NamedAuthor newAuthor() {
+    private AuthorName newAuthor() {
         return RandomAuthor.nextAuthor();
     }
 
     @Test
     public void testEquals() {
-        NamedAuthor author = newAuthor();
+        AuthorName author = newAuthor();
         DateTime date = newDate();
 
         ReviewStamp id1 = ReviewStamp.newStamp(author, date);
@@ -71,9 +71,9 @@ public class ReviewStampTest {
 
     @Test
     public void testNotEquals() {
-        NamedAuthor author1 = newAuthor();
+        AuthorName author1 = newAuthor();
         DateTime date1 = newDate();
-        NamedAuthor author2 = newAuthor();
+        AuthorName author2 = newAuthor();
         DateTime date2 = newDate();
 
         ReviewStamp id11 = ReviewStamp.newStamp(author1, date1);

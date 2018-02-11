@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
@@ -18,21 +18,21 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumAuthor implements DataAuthor {
+public class DatumAuthorName implements DataAuthorName {
     private ReviewId mReviewId;
     private String mName;
     private AuthorId mAuthorId;
 
-    public DatumAuthor() {
+    public DatumAuthorName() {
     }
 
-    public DatumAuthor(ReviewId reviewId, String name, AuthorId authorId) {
+    public DatumAuthorName(ReviewId reviewId, String name, AuthorId authorId) {
         mReviewId = reviewId;
         mName = name;
         mAuthorId = authorId;
     }
 
-    public DatumAuthor(ReviewId reviewId, NamedAuthor author) {
+    public DatumAuthorName(ReviewId reviewId, AuthorName author) {
         mReviewId = reviewId;
         mName = author.getName();
         mAuthorId = author.getAuthorId();
@@ -50,7 +50,7 @@ public class DatumAuthor implements DataAuthor {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate((NamedAuthor)this);
+        return dataValidator.validate((AuthorName)this);
     }
 
     @Override
@@ -61,9 +61,9 @@ public class DatumAuthor implements DataAuthor {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DatumAuthor)) return false;
+        if (!(o instanceof DatumAuthorName)) return false;
 
-        DatumAuthor that = (DatumAuthor) o;
+        DatumAuthorName that = (DatumAuthorName) o;
 
         if (!mReviewId.equals(that.mReviewId)) return false;
         if (!mName.equals(that.mName)) return false;
@@ -81,6 +81,6 @@ public class DatumAuthor implements DataAuthor {
 
     @Override
     public String toString() {
-        return StringParser.parse((NamedAuthor)this);
+        return StringParser.parse((AuthorName)this);
     }
 }

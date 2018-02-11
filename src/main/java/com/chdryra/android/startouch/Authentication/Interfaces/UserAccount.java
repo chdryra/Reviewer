@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId
 public interface UserAccount extends HasAuthorId{
     AuthenticatedUser getAccountHolder();
 
-    ProfileSocial getSocialProfile();
+    SocialProfileRef getSocialProfile();
 
-    ProfileReference getAuthorProfile();
+    AuthorProfileRef getAuthorProfile();
 }

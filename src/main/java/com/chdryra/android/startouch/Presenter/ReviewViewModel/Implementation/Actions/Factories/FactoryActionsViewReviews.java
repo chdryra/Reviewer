@@ -15,21 +15,19 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Autho
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ActionsParameters;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ActionsParameters;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfile;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfileEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -40,7 +38,6 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     private AuthorReference mAuthorRef;
     private ReviewsNodeRepo mRepo;
-    private LaunchableConfig mProfileEditor;
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
                                      @Nullable AuthorReference authorRef) {
@@ -49,33 +46,31 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     }
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
-                                     ReviewsNodeRepo repo,
-                                     LaunchableConfig profileEditor) {
-        this(parameters, null);
+                                     ReviewsNodeRepo repo) {
+        super(parameters);
         mRepo = repo;
-        mProfileEditor = profileEditor;
     }
 
     @Override
     public MenuAction<GvNode> newMenu() {
-        return mRepo != null ? newFeedMenu(mRepo, mProfileEditor) : newDefaultMenu();
+        return mRepo != null ? newFeedMenu(mRepo) : newDefaultMenu();
     }
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchBespokeViewCommand click = getCommandsFactory().newLaunchPagedCommand(null);
-        ReviewOptionsSelector longClick = getCommandsFactory().newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.BASIC);
+        ReviewOptionsSelector longClick = getCommandsFactory().getOptionsFactory().newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.BASIC);
         return new GridItemLaunchNodeView(click, longClick);
     }
     
     @NonNull
-    private MenuAction<GvNode> newFeedMenu(ReviewsNodeRepo repo, LaunchableConfig profileEditor) {
+    private MenuAction<GvNode> newFeedMenu(ReviewsNodeRepo repo) {
         UiLauncher launcher = getLauncher();
         MaiCommand<GvNode> newReview = new MaiCommand<>
                 (getCommandsFactory().newLaunchCreatorCommand(null));
         MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, repo, getViewFactory());
         MaiSearch<GvNode> search = new MaiSearch<>(launcher, getViewFactory());
-        MaiProfile<GvNode> profile = new MaiProfile<>(profileEditor);
+        MaiProfileEdit<GvNode> profile = new MaiProfileEdit<>(getCommandsFactory().newLaunchProfileCommand( ));
         MaiLogout<GvNode> logout = new MaiLogout<>();
 
         return new MenuFeed<>(newReview, bookmarks, search, profile, logout);

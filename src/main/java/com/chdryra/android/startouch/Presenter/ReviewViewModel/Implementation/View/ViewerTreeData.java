@@ -12,7 +12,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
@@ -65,7 +65,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
 
         @Override
         protected ReviewViewAdapter<?> newAdapter(GvAuthorId.Reference datum) {
-            NamedAuthor author = datum.getNamedAuthor();
+            AuthorName author = datum.getNamedAuthor();
             String name = author != null ? author.getName() : null;
             AuthorId id = author != null ? author.getAuthorId() : null;
             return getAdapterFactory().newReviewsListAdapter(datum, name, id);

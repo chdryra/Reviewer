@@ -20,7 +20,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -183,7 +185,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public DbTable<RowAuthor> getAuthorsTable() {
+    public DbTable<RowAuthorName> getAuthorsTable() {
         return mTables.getAuthorsTable();
     }
 
@@ -222,7 +224,7 @@ public class ReviewerDbImpl implements ReviewerDb {
             reviewClauses = new HashSet<>();
             reviewClauses.add((RowEntry<RowReview, ?>) clause);
         } else if (table.equals(getAuthorsTable())) {
-            reviewClauses = resolveAsAuthorsConstraint((RowEntry<RowAuthor, ?>) clause, transactor);
+            reviewClauses = resolveAsAuthorsConstraint((RowEntry<RowAuthorName, ?>) clause, transactor);
         } else {
             reviewClauses = resolveAsDataConstraint(table, clause, transactor);
         }
@@ -231,11 +233,11 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthor,
+    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthorName,
             Type> clause,
                                                                               TableTransactor
                                                                                       transactor) {
-        RowAuthor row = getUniqueRowWhere(getAuthorsTable(), clause, transactor);
+        RowAuthorName row = getUniqueRowWhere(getAuthorsTable(), clause, transactor);
 
         HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
         if (row.hasData(mDataValidator)) {

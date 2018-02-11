@@ -22,6 +22,7 @@ public class AuthenticationError {
         INVALID_CREDENTIALS("Credentials are invalid"),
         AUTHORISATION_REFUSED("Authorisation refused"),
         UNKNOWN_USER("Unknown user"),
+        UNKNOWN_AUTHOR("Unknown author"),
         EMAIL_TAKEN("Email is already taken"),
         NAME_TAKEN("Name is already taken"),
         NETWORK_ERROR("Internet is having a rest"),

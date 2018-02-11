@@ -26,18 +26,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.CellDimensionsCalculator;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.PresenterProfile;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.PresenterProfileEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -46,23 +45,21 @@ import com.chdryra.android.startouch.R;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentProfile extends Fragment implements PresenterProfile.ProfileListener, ActivityResultListener {
-    private static final String ARGS = TagKeyGenerator.getKey(FragmentProfile.class, "Args");
+public class FragmentProfileEdit extends Fragment implements PresenterProfileEdit.ProfileListener, ActivityResultListener {
     private static final String PROFILE_IMAGE_FILENAME = "Profile" + ApplicationInstance.APP_NAME;
-    private static final int LAYOUT = R.layout.fragment_profile;
-    private static final int PROFILE_IMAGE = R.id.image_view_profile_photo;
+    private static final int LAYOUT = R.layout.fragment_profile_edit;
+    private static final int PROFILE_IMAGE = R.id.profile_photo;
     private static final int PROFILE_AUTHOR = R.id.edit_text_author_name;
     private static final int CANCEL_BUTTON = R.id.cancel_button;
     private static final int DONE_BUTTON = R.id.done_button;
     private static final int OK = Activity.RESULT_OK;
     private static final int CANCELED = Activity.RESULT_CANCELED;
-    private static final int IMAGE_PLACEHOLDER = R.drawable.image_placeholder;
+    private static final int IMAGE_PLACEHOLDER = R.drawable.ic_face_black_36dp;
 
     private static final ReviewViewParams.CellDimension HALF = ReviewViewParams.CellDimension.HALF;
     private static final int IMAGE_PADDING = R.dimen.profile_image_padding;
 
-    private PresenterProfile mPresenter;
-    private AuthenticatedUser mUser;
+    private PresenterProfileEdit mPresenter;
     private AuthorProfile mProfile;
     private EditText mName;
     private ImageView mImageView;
@@ -71,13 +68,8 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     private String mLockReason;
     private Bitmap mImage;
 
-    public static FragmentProfile newInstance(AuthenticatedUser user) {
-        FragmentProfile fragment = new FragmentProfile();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ARGS, user);
-        fragment.setArguments(bundle);
-
-        return fragment;
+    public static FragmentProfileEdit newInstance() {
+        return new FragmentProfileEdit();
     }
 
     @Nullable
@@ -105,11 +97,9 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         setImageView();
 
         ApplicationInstance app = getApp();
-        mPresenter = new PresenterProfile.Builder().build(app, PROFILE_IMAGE_FILENAME, this);
+        mPresenter = new PresenterProfileEdit.Builder().build(app, PROFILE_IMAGE_FILENAME, this);
 
-        if (!setUser()) {
-            lock("No user");
-        } else if (mUser.getAuthorId() != null) {
+        if (app.getAccounts().getUserSession().getAuthorId() != null) {
             lock(Strings.EditTexts.FETCHING);
             mName.setText(Strings.EditTexts.FETCHING);
             mPresenter.getProfile(getUserAccount());
@@ -160,8 +150,8 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
     }
 
     @Override
-    public void onNameTaken(CallbackMessage message) {
-        mName.setText(mProfile != null ? mProfile.getNamedAuthor().getName() : null);
+    public void onProfileError(CallbackMessage message) {
+        mName.setText(mProfile != null ? mProfile.getAuthor().getName() : null);
         makeToast(message.getMessage());
     }
 
@@ -193,12 +183,12 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
 
     private void setProfile(AuthorProfile profile) {
         mProfile = profile;
-        mName.setText(mProfile.getNamedAuthor().getName());
+        mName.setText(mProfile.getAuthor().getName());
         ProfileImage image = profile.getImage();
         setImage(image.getBitmap());
     }
 
-    private void setImage(Bitmap bitmap) {
+    private void setImage(@Nullable Bitmap bitmap) {
         mImage = bitmap;
         if(mImage != null) {
             mImageView.setImageBitmap(mImage);
@@ -222,14 +212,8 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
         mLocked = false;
     }
 
-    private boolean setUser() {
-        Bundle args = getArguments();
-        if (args == null) return false;
-        mUser = args.getParcelable(ARGS);
-        return mUser != null;
-    }
-
     private void createOrUpdateOrCancel() {
+        AuthenticatedUser user = getApp().getAccounts().getUserSession().getUser();
         String name = mName.getText().toString();
         if (mLocked) {
             makeToast(mLockReason);
@@ -246,9 +230,9 @@ public class FragmentProfile extends Fragment implements PresenterProfile.Profil
             } else {
                 setResultAndClose(CANCELED);
             }
-        } else if (mUser.getAuthorId() == null) {
+        } else if (user.getAuthorId() == null) {
             makeToast(Strings.Toasts.CREATING_ACCOUNT);
-            mPresenter.createAccount(mUser, name, mImage);
+            mPresenter.createAccount(user, name, mImage);
         } else {
             setResultAndClose(CANCELED);
         }

@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -132,7 +132,7 @@ public class ReviewLoaderStaticTest {
     public void loadReviewCallsDbGetUniqueWhereForAuthorWithUserIdColEqualsIdValClause() {
         RowReview review = newRowReview();
         checkLoadClassDb(review, TableAuthors.NAME,
-                asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, review.getAuthorId()));
+                asClause(RowAuthorName.class, RowAuthorName.AUTHOR_ID, review.getAuthorId()));
     }
 
     @Test
@@ -213,7 +213,7 @@ public class ReviewLoaderStaticTest {
         TableAuthors authors = mock(TableAuthors.class);
         when(mDb.getAuthorsTable()).thenReturn(authors);
         when(authors.getName()).thenReturn(TableAuthors.NAME);
-        when(authors.getRowClass()).thenReturn(RowAuthor.class);
+        when(authors.getRowClass()).thenReturn(RowAuthorName.class);
 
         TableTags tags = mock(TableTags.class);
         when(mDb.getTagsTable()).thenReturn(tags);
@@ -366,7 +366,7 @@ public class ReviewLoaderStaticTest {
         }
 
         @Override
-        public DbTable<RowAuthor> getAuthorsTable() {
+        public DbTable<RowAuthorName> getAuthorsTable() {
             return null;
         }
 

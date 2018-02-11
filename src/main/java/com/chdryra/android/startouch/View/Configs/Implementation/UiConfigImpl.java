@@ -33,7 +33,7 @@ public final class UiConfigImpl implements UiConfig {
     private final Map<String, LaunchableConfig> mBespokeDataViewersMap;
     private final Map<String, LaunchableConfig> mBespokeDatumViewersMap;
     private final LaunchableConfig mLogin;
-    private final LaunchableConfig mSignUp;
+    private final LaunchableConfig mProfile;
     private final LaunchableConfig mFeed;
     private final LaunchableConfig mPublish;
     private final LaunchableConfig mOptions;
@@ -45,7 +45,7 @@ public final class UiConfigImpl implements UiConfig {
                         Map<String, LaunchableConfig> bespokeDataViewersMap,
                         Map<String, LaunchableConfig> bespokeDatumViewersMap,
                         LaunchableConfig login,
-                        LaunchableConfig signUp,
+                        LaunchableConfig profile,
                         LaunchableConfig feed,
                         LaunchableConfig publish,
                         LaunchableConfig options) {
@@ -59,7 +59,7 @@ public final class UiConfigImpl implements UiConfig {
         mBespokeDatumViewersMap = bespokeDatumViewersMap;
 
         mLogin = login;
-        mSignUp = signUp;
+        mProfile = profile;
         mFeed = feed;
         mPublish = publish;
         mOptions = options;
@@ -108,8 +108,8 @@ public final class UiConfigImpl implements UiConfig {
     }
 
     @Override
-    public LaunchableConfig getProfileEditor() {
-        return mSignUp;
+    public LaunchableConfig getProfile() {
+        return mProfile;
     }
 
     @Override
@@ -136,7 +136,7 @@ public final class UiConfigImpl implements UiConfig {
     public void setUiLauncher(UiLauncher launcher) {
         mLauncher = launcher;
         mLogin.setLauncher(mLauncher);
-        mSignUp.setLauncher(mLauncher);
+        mProfile.setLauncher(mLauncher);
         mFeed.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);

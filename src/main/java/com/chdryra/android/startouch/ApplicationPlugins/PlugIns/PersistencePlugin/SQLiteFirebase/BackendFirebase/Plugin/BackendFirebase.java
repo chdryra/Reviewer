@@ -22,8 +22,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .Backend.Implementation.BackendValidator;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .BackendFirebase.Factories.FactoryAuthorProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbProfile;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .BackendFirebase.Factories.FactoryFbCollection;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -76,7 +75,7 @@ public class BackendFirebase implements BackendPlugin {
     private final FbDataReferencer mDataReferencer;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryAuthorProfileSnapshot mFactoryProfileSnapshot;
-    private final FactoryAuthorProfile mFactoryAuthorProfile;
+    private final FactoryFbProfile mFactoryProfile;
 
     public BackendFirebase(Context context) {
         Firebase.setAndroidContext(context);
@@ -85,8 +84,8 @@ public class BackendFirebase implements BackendPlugin {
         mFactoryProfileSnapshot = new FactoryAuthorProfileSnapshot();
         mConverter = new UserProfileConverter(mFactoryProfileSnapshot);
         mDataReferencer = new FbDataReferencer();
-        mFactoryAuthorProfile = new FactoryAuthorProfile(mDatabase, mStructure, mDataReferencer, mConverter);
-        mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryAuthorProfile);
+        mFactoryProfile = new FactoryFbProfile(mDatabase, mStructure, mDataReferencer, mConverter);
+        mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryProfile);
     }
 
     @Override
@@ -118,7 +117,8 @@ public class BackendFirebase implements BackendPlugin {
     @Override
     public AccountsManager getAccounts() {
         UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
-                mFactoryAuthorProfile, mFactoryProfileSnapshot,
+
+                mFactoryProfile, mFactoryProfileSnapshot,
                 mAuthorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);
 

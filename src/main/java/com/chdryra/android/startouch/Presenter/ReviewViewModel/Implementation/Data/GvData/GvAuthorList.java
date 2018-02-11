@@ -16,7 +16,7 @@ import android.os.Parcelable;
  * On: 18/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvAuthorList extends GvDataListParcelable<GvAuthor> {
+public class GvAuthorList extends GvDataListParcelable<GvAuthorName> {
     public static final Parcelable.Creator<GvAuthorList> CREATOR = new Parcelable
             .Creator<GvAuthorList>() {
         @Override
@@ -32,7 +32,7 @@ public class GvAuthorList extends GvDataListParcelable<GvAuthor> {
 
     //Constructors
     public GvAuthorList() {
-        super(GvAuthor.TYPE, new GvReviewId());
+        super(GvAuthorName.TYPE, new GvReviewId());
     }
 
     public GvAuthorList(Parcel in) {
@@ -40,7 +40,7 @@ public class GvAuthorList extends GvDataListParcelable<GvAuthor> {
     }
 
     public GvAuthorList(GvReviewId id) {
-        super(GvAuthor.TYPE, id);
+        super(GvAuthorName.TYPE, id);
     }
 
     public GvAuthorList(GvAuthorList data) {

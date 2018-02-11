@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
@@ -24,9 +24,9 @@ public class MenuFollow<T extends GvData> extends MenuActionNone<T> {
     private static final int FOLLOW = R.id.menu_item_follow;
     private static final int MENU = R.menu.menu_follow;
 
-    private DataReference<NamedAuthor> mAuthor;
+    private DataReference<AuthorName> mAuthor;
 
-    public MenuFollow(MenuActionItem<T> follow, DataReference<NamedAuthor> author) {
+    public MenuFollow(MenuActionItem<T> follow, DataReference<AuthorName> author) {
         super(MENU, "", true);
         bindMenuActionItem(follow, FOLLOW, false);
         mAuthor = author;
@@ -35,9 +35,9 @@ public class MenuFollow<T extends GvData> extends MenuActionNone<T> {
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        mAuthor.dereference(new DataReference.DereferenceCallback<NamedAuthor>() {
+        mAuthor.dereference(new DataReference.DereferenceCallback<AuthorName>() {
             @Override
-            public void onDereferenced(DataValue<NamedAuthor> value) {
+            public void onDereferenced(DataValue<AuthorName> value) {
                 if(value.hasValue()) getCurrentScreen().setTitle(value.getData().getName());
             }
         });

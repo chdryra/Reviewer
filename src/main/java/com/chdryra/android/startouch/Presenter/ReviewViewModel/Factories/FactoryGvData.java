@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
@@ -119,7 +119,7 @@ public class FactoryGvData {
             add(GvImage.TYPE, GvImageList.class);
             add(GvLocation.TYPE, GvLocationList.class);
             add(GvUrl.TYPE, GvUrlList.class);
-            add(GvAuthor.TYPE, GvAuthorList.class);
+            add(GvAuthorName.TYPE, GvAuthorList.class);
             add(GvDate.TYPE, GvDateList.class);
             add(GvSubject.TYPE, GvSubjectList.class);
         }

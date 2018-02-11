@@ -19,7 +19,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+
+
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -71,13 +73,13 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
         return new MenuActionNone<>(Strings.Screens.SEARCH);
     }
 
-    public static class Author extends FactoryActionsSearch<GvAuthor> {
+    public static class Author extends FactoryActionsSearch<GvAuthorName> {
         public Author(UiLauncher launcher, FactoryReviewView factory) {
-            super(GvAuthor.TYPE, launcher, factory);
+            super(GvAuthorName.TYPE, launcher, factory);
         }
 
         @Override
-        public GridItemAction<GvAuthor> newGridItem() {
+        public GridItemAction<GvAuthorName> newGridItem() {
             return new GridItemLaunchAuthor(getLauncher(), getReviewViewFactory());
         }
     }

@@ -10,20 +10,20 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Holds Author data. Currently only wraps a name and unique {@link AuthorIdGenerator}.
  */
-public class DefaultNamedAuthor implements NamedAuthor {
+public class AuthorNameDefault implements AuthorName {
     private AuthorId mId;
     private String mName;
 
-    public DefaultNamedAuthor() {
+    public AuthorNameDefault() {
         this("", new AuthorIdParcelable(""));
     }
 
-    public DefaultNamedAuthor(String name, AuthorId id) {
+    public AuthorNameDefault(String name, AuthorId id) {
         mName = name;
         mId = id;
     }
@@ -46,9 +46,9 @@ public class DefaultNamedAuthor implements NamedAuthor {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DefaultNamedAuthor)) return false;
+        if (!(o instanceof AuthorNameDefault)) return false;
 
-        DefaultNamedAuthor author = (DefaultNamedAuthor) o;
+        AuthorNameDefault author = (AuthorNameDefault) o;
 
         return !(mId != null ? !mId.equals(author.mId) : author.mId != null)
                 && !(mName != null ? !mName.equals(author.mName) : author.mName != null);

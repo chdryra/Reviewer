@@ -12,8 +12,8 @@ import android.view.MenuItem;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Authentication.Implementation.NullSocialProfile;
-import com.chdryra.android.startouch.Authentication.Interfaces.ProfileSocial;
+import com.chdryra.android.startouch.Authentication.Implementation.NullSocialProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -33,7 +33,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     private static final int UNFOLLOW_ICON = R.drawable.ic_menu_blocked_user;
 
     private AuthorId mAuthorId;
-    private ProfileSocial.FollowUnfollow mActionType;
+    private SocialProfileRef.FollowUnfollow mActionType;
     private Binder mBinder;
 
     public MaiFollow(AuthorId authorId) {
@@ -43,13 +43,13 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
 
     @Override
     public void doAction(MenuItem item) {
-        String toast = mActionType == ProfileSocial.FollowUnfollow.FOLLOW ?
+        String toast = mActionType == SocialProfileRef.FollowUnfollow.FOLLOW ?
                 Strings.Toasts.FOLLOWING : Strings.Toasts.UNFOLLOWING;
         getCurrentScreen().showToast(toast);
 
-        getProfile().followUnfollow(mAuthorId, mActionType, new ProfileSocial.FollowCallback() {
+        getProfile().followUnfollow(mAuthorId, mActionType, new SocialProfileRef.FollowCallback() {
             @Override
-            public void onFollowingCallback(AuthorId authorId, ProfileSocial.FollowUnfollow type,
+            public void onFollowingCallback(AuthorId authorId, SocialProfileRef.FollowUnfollow type,
                                             CallbackMessage message) {
                 String onCompletion = message.isError() ?
                         message.getMessage() : Strings.Toasts.DONE;
@@ -77,9 +77,9 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         getProfile().getFollowing().unbindFromItems(mBinder);
     }
 
-    private ProfileSocial getProfile() {
+    private SocialProfileRef getProfile() {
         UserSession session = getApp().getAccounts().getUserSession();
-        return session.isInSession() ? session.getAccount().getSocialProfile() : new NullSocialProfile();
+        return session.isInSession() ? session.getAccount().getSocialProfile() : new NullSocialProfileRef();
     }
 
     private boolean isAuthor(AuthorId value) {
@@ -87,13 +87,13 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
     }
 
     private void setFollow() {
-        mActionType = ProfileSocial.FollowUnfollow.FOLLOW;
+        mActionType = SocialProfileRef.FollowUnfollow.FOLLOW;
         MenuItem item = getMenuItem();
         if (item != null) item.setIcon(FOLLOW_ICON);
     }
 
     private void setUnfollow() {
-        mActionType = ProfileSocial.FollowUnfollow.UNFOLLOW;
+        mActionType = SocialProfileRef.FollowUnfollow.UNFOLLOW;
         MenuItem item = getMenuItem();
         if (item != null) item.setIcon(UNFOLLOW_ICON);
     }

@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import com.chdryra.android.startouch.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 
 /**
@@ -28,11 +28,11 @@ public class UserProfileConverter {
     }
 
     public User toUser(AuthenticatedUser user, AuthorProfile profile) {
-        return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
+        return new User(user.getProvider(), user.getProvidersId(), new ProfileAuthor(profile));
     }
 
     public User toUser(AuthenticatedUser user, AuthorProfile oldProfile, AuthorProfile newProfile) {
-        return new User(user.getProvider(), user.getProvidersId(), new Profile(oldProfile), new Profile(newProfile));
+        return new User(user.getProvider(), user.getProvidersId(), new ProfileAuthor(oldProfile), new ProfileAuthor(newProfile));
     }
 
     public AuthenticatedUser newAuthenticatedUser(String providerName, String providerUserId) {
@@ -43,7 +43,7 @@ public class UserProfileConverter {
         return new AuthenticatedUser();
     }
 
-    public AuthorProfile newProfile(Profile profile) {
+    public AuthorProfile newProfile(ProfileAuthor profile) {
         return mProfileFactory.newProfile(profile.getAuthor().getName(),
                 new AuthorIdParcelable(profile.getAuthor().getAuthorId()), profile.getDateJoined(),
                 ImageData.asBitmap(profile.getPhoto()));

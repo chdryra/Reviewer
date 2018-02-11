@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.corelibrary.CacheUtils.QueueCache;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
@@ -20,7 +21,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -31,7 +31,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  */
 
 public class CacheVhNode {
-    private final QueueCache<NamedAuthor> mAuthors;
+    private final QueueCache<AuthorName> mAuthors;
     private final QueueCache<ProfileImage> mProfiles;
     private final QueueCache<DataSubject> mSubjects;
     private final QueueCache<DataRating> mRatings;
@@ -41,7 +41,7 @@ public class CacheVhNode {
     private final QueueCache<DataDate> mDates;
     private final QueueCache<Bitmap> mCovers;
 
-    CacheVhNode(QueueCache<NamedAuthor> authors,
+    CacheVhNode(QueueCache<AuthorName> authors,
                 QueueCache<ProfileImage> profiles, 
                 QueueCache<DataSubject> subjects,
                 QueueCache<DataRating> ratings,
@@ -81,14 +81,14 @@ public class CacheVhNode {
         return mComments.containsId(reviewId.toString());
     }
 
-    public boolean addAuthor(ReviewId reviewId, NamedAuthor author) {
+    public boolean addAuthor(ReviewId reviewId, AuthorName author) {
         boolean newAuthor = !containsAuthor(reviewId)
                 || !mAuthors.get(reviewId.toString()).getName().equals(author.getName());
         mAuthors.add(reviewId.toString(), author);
         return newAuthor;
     }
 
-    public NamedAuthor getAuthor(ReviewId reviewId) {
+    public AuthorName getAuthor(ReviewId reviewId) {
         return mAuthors.get(reviewId.toString());
     }
 

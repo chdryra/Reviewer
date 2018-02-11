@@ -31,7 +31,10 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
+
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryReviewOptions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelectAndExecute;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
@@ -48,7 +51,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
     private final FactoryReviewView mFactoryView;
-    private final FactoryCommands mFactoryCommands;
+    private final FactoryLaunchCommands mFactoryLaunchCommands;
     private final UiLauncher mLauncher;
     private final ReviewStamp mStamp;
     private final AuthorsRepo mRepo;
@@ -60,7 +63,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public FactoryActionsViewData(ActionsParameters<T> parameters) {
         super(parameters.getDataType());
         mFactoryView = parameters.getFactoryView();
-        mFactoryCommands = parameters.getFactoryCommands();
+        mFactoryLaunchCommands = parameters.getFactoryLaunchCommands();
         mLauncher = parameters.getLauncher();
         mStamp = parameters.getStamp();
         mRepo = parameters.getRepo();
@@ -74,7 +77,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     }
 
     protected OptionsSelector newSelector() {
-        return getCommandsFactory().newOptionsSelector();
+        return getCommandsFactory().getOptionsFactory().newOptionsSelector();
     }
 
     @Override
@@ -116,8 +119,8 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         return mFactoryView;
     }
 
-    FactoryCommands getCommandsFactory() {
-        return mFactoryCommands;
+    FactoryLaunchCommands getCommandsFactory() {
+        return mFactoryLaunchCommands;
     }
 
     LaunchableConfig getGridItemConfig() {
@@ -127,10 +130,11 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @NonNull
     MenuOptionsItem<T> newOptionsMenuItem() {
         OptionsSelectAndExecute command;
+        FactoryReviewOptions factory = mFactoryLaunchCommands.getOptionsFactory();
         if(hasStamp()) {
-            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL, mStamp.getDataAuthorId());
+            command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL, mStamp.getDataAuthorId());
         } else {
-            command = mFactoryCommands.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL);
+            command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL);
         }
         return new MaiOptionsCommand<>(command);
     }

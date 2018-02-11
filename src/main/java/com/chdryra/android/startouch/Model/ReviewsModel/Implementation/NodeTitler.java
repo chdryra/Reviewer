@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
@@ -45,13 +45,13 @@ public abstract class NodeTitler<T> {
         return mBinder;
     }
 
-    public static class AuthorsTree extends NodeTitler<NamedAuthor> implements ReferenceBinder<NamedAuthor>{
+    public static class AuthorsTree extends NodeTitler<AuthorName> implements ReferenceBinder<AuthorName>{
         private static final String SEPARATOR = "/";
 
         private String mTitle;
         private String mStem;
 
-        public AuthorsTree(DataReference<NamedAuthor> reference, String stem) {
+        public AuthorsTree(DataReference<AuthorName> reference, String stem) {
             super(reference);
             mStem = stem;
             mTitle = mStem;
@@ -64,13 +64,13 @@ public abstract class NodeTitler<T> {
         }
 
         @Override
-        public void onReferenceValue(NamedAuthor value) {
+        public void onReferenceValue(AuthorName value) {
             mTitle = value.getName() + SEPARATOR + mStem;
             fireForBinder();
         }
 
         @Override
-        public void onInvalidated(DataReference<NamedAuthor> reference) {
+        public void onInvalidated(DataReference<AuthorName> reference) {
             mTitle = mStem;
             fireForBinder();
         }

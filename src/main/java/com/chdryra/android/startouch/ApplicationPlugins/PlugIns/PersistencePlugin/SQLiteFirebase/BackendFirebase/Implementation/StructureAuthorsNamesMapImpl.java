@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureAuthorsNamesMap;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
@@ -37,7 +37,7 @@ public class StructureAuthorsNamesMapImpl extends DbStructureBasic<User> impleme
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
-        Profile profile = user.getProfile();
+        ProfileAuthor profile = user.getProfile();
         if(profile == null) return noUpdates();
 
         String name = profile.getAuthor().getName();

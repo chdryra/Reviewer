@@ -13,8 +13,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.C
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
-        .FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +22,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  */
 
 public class ReviewOptionsSelector extends OptionsSelectAndExecute {
-    private final FactoryCommands mFactory;
+    private final FactoryLaunchCommands mFactory;
     private final UserSession mSession;
     private final SelectorType mSelectorType;
     private DataAuthorId mAuthorId;
@@ -33,7 +32,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     public enum SelectorType {ALL, BASIC}
 
     public ReviewOptionsSelector(OptionsSelector optionsCommand,
-                                 FactoryCommands factory,
+                                 FactoryLaunchCommands factory,
                                  UserSession Session,
                                  SelectorType selectorType) {
         super(Strings.Commands.REVIEW_OPTIONS, optionsCommand);
@@ -43,7 +42,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     }
 
     public ReviewOptionsSelector(OptionsSelector optionsCommand,
-                                 FactoryCommands factory,
+                                 FactoryLaunchCommands factory,
                                  UserSession session,
                                  SelectorType selectorType,
                                  DataAuthorId authorId) {
@@ -61,7 +60,7 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
     }
 
     private void setOptions(final boolean executeOnSet) {
-        mOptions = mFactory.newReviewOptions(mAuthorId, mSession);
+        mOptions = mFactory.getOptionsFactory().newReviewOptions(mAuthorId, mSession);
         if (checkOnline()) {
             mOptions.initialiseBookmark(new BookmarkCommand.BookmarkReadyCallback() {
                 @Override

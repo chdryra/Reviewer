@@ -101,7 +101,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
 
     @Override
     public void hasEntry(ReviewId reviewId, final Callback callback) {
-        mStructure.getPlaylistEntryDb(getDataBase(), mAuthorId, mName, reviewId)
+        mStructure.getCollectionEntryDb(getDataBase(), mAuthorId, mName, reviewId)
                 .addListenerForSingleValueEvent(checkForEntry(callback));
     }
 
@@ -185,7 +185,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
 
     @NonNull
     private Map<String, Object> getUpdatesMap(ReviewId reviewId, DbUpdater.UpdateType type) {
-        return mStructure.getPlaylistUpdater(mName, mAuthorId).getUpdatesMap(reviewId, type);
+        return mStructure.getCollectionUpdater(mName, mAuthorId).getUpdatesMap(reviewId, type);
     }
 
     @NonNull
@@ -246,7 +246,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
 
         @Override
         public Firebase getListEntriesDb(Firebase root) {
-            return mRootStructure.getPlaylistDb(root, mPlaylistOwner, mPlaylistName);
+            return mRootStructure.getCollectionDb(root, mPlaylistOwner, mPlaylistName);
         }
 
         @Override

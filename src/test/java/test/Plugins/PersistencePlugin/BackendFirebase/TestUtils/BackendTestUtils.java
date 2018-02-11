@@ -22,13 +22,12 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .Backend.Implementation.LatitudeLongitude;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Location;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfileDefault;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
@@ -52,8 +51,8 @@ public class BackendTestUtils {
     }
 
     @NonNull
-    public static Profile randomProfile() {
-        return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
+    public static ProfileAuthor randomProfile() {
+        return new ProfileAuthor(new AuthorProfileDefault(RandomAuthor.nextAuthor(),
                 RandomDataDate.nextDateTime()));
     }
 

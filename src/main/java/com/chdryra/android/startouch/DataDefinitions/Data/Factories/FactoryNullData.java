@@ -8,7 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Factories;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLo
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
@@ -38,8 +38,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 public class FactoryNullData {
     private static final AuthorId NULL_USER_ID = new AuthorIdParcelable(AuthorId.NULL_ID_STRING);
 
-    public static DataAuthor nullAuthor(ReviewId id) {
-        return new DatumAuthor(id, "", NULL_USER_ID);
+    public static DataAuthorName nullAuthor(ReviewId id) {
+        return new DatumAuthorName(id, "", NULL_USER_ID);
     }
 
     public static DataComment nullComment(ReviewId id) {

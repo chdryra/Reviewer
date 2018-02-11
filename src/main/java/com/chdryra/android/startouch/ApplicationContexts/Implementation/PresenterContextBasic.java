@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.ApplicationContexts.Implementation;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 
 /**
@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PresenterContextBasic implements PresenterContext {
-    private FactoryCommands mFactoryCommands;
+    private FactoryLaunchCommands mFactoryLaunchCommands;
     private FactoryReviewView mFactoryReviewView;
     private FactoryImageChooser mFactoryImageChooser;
     private ConverterGv mConverter;
@@ -28,8 +28,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     protected PresenterContextBasic() {
     }
 
-    protected void setFactoryCommands(FactoryCommands factoryCommands) {
-        mFactoryCommands = factoryCommands;
+    protected void setFactoryLaunchCommands(FactoryLaunchCommands factoryLaunchCommands) {
+        mFactoryLaunchCommands = factoryLaunchCommands;
     }
 
     protected void setFactoryReviewView(FactoryReviewView factoryReviewView) {
@@ -51,8 +51,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public FactoryCommands getCommandsFactory() {
-        return mFactoryCommands;
+    public FactoryLaunchCommands getCommandsFactory() {
+        return mFactoryLaunchCommands;
     }
 
     @Override

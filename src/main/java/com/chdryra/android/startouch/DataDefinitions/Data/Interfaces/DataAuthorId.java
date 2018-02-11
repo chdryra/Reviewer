@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataAuthorId extends HasReviewId, AuthorId, Validatable {
-    String TYPE_NAME = NamedAuthor.TYPE_NAME;
+    String TYPE_NAME = AuthorName.TYPE_NAME;
 
     @Override
     boolean hasData(DataValidator dataValidator);

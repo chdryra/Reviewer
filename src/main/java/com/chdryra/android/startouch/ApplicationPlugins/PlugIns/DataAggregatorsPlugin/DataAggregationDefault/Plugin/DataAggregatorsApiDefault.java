@@ -14,7 +14,7 @@ import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceLocation;
 import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
@@ -71,7 +71,7 @@ public class DataAggregatorsApiDefault implements DataAggregatorsApi {
     }
 
     @Override
-    public DataAggregator<DataAuthor> newAuthorsAggregator(DifferenceBoolean threshold) {
+    public DataAggregator<DataAuthorName> newAuthorsAggregator(DifferenceBoolean threshold) {
         return new DataAggregatorImpl<>(new ComparatorAuthor(), threshold,
                 new CanonicalAuthor(new ComparatorAuthor()));
     }

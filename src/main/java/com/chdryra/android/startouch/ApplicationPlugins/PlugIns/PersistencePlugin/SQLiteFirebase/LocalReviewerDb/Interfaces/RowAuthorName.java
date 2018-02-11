@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowAuthor extends DbTableRow<RowAuthor>, NamedAuthor {
+public interface RowAuthorName extends DbTableRow<RowAuthorName>, AuthorName {
     ColumnInfo<String> AUTHOR_ID = new ColumnInfo<>("author_id", DbEntryType.TEXT);
     ColumnInfo<String> AUTHOR_NAME = new ColumnInfo<>("author_name", DbEntryType.TEXT);
 

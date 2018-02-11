@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ImageData;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultProfileImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ProfileImageDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.firebase.client.DataSnapshot;
@@ -35,6 +35,6 @@ public class ConverterProfileImage implements SnapshotConverter<ProfileImage> {
     @Nullable
     public ProfileImage convert(DataSnapshot snapshot) {
         String value = snapshot.getValue(String.class);
-        return  value == null ? null : new DefaultProfileImage(mAuthorId, ImageData.asBitmap(value));
+        return  value == null ? null : new ProfileImageDefault(mAuthorId, ImageData.asBitmap(value));
     }
 }

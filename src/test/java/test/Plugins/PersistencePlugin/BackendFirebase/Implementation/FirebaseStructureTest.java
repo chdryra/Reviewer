@@ -12,8 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Author;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -228,7 +227,7 @@ public class FirebaseStructureTest {
 
     private void testProfileDb(StructureTester<User> tester) {
         User user = getUser(tester);
-        Profile profile = getProfile(tester);
+        ProfileAuthor profile = getProfile(tester);
         Author author = getAuthor(tester);
 
         String profilePath = Path.path(FirebaseStructure.USERS, user.getAuthorId(),
@@ -353,8 +352,8 @@ public class FirebaseStructureTest {
     }
 
     @NonNull
-    private Profile getProfile(StructureTester<User> tester) {
-        Profile profile = getUser(tester).getProfile();
+    private ProfileAuthor getProfile(StructureTester<User> tester) {
+        ProfileAuthor profile = getUser(tester).getProfile();
         assertNotNull(profile);
         return profile;
     }
@@ -362,7 +361,7 @@ public class FirebaseStructureTest {
     @NonNull
     private Author getAuthor(StructureTester<User> tester) {
         User user = getUser(tester);
-        Profile profile = getProfile(tester);
+        ProfileAuthor profile = getProfile(tester);
 
         Author author = profile.getAuthor();
         String authorId = author.getAuthorId();

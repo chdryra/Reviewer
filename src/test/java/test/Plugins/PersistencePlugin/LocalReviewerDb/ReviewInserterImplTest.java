@@ -34,7 +34,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+
+
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
@@ -105,7 +107,7 @@ public class ReviewInserterImplTest {
         when(mDb.getReviewsTable().getRowClass()).thenReturn(RowReview.class);
 
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
-        when(mDb.getAuthorsTable().getRowClass()).thenReturn(RowAuthor.class);
+        when(mDb.getAuthorsTable().getRowClass()).thenReturn(RowAuthorName.class);
 
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
         when(mDb.getTagsTable().getRowClass()).thenReturn(RowTag.class);
@@ -170,8 +172,8 @@ public class ReviewInserterImplTest {
     public void addReviewCallsTransactorInsertWhenAuthorNotInTable() {
         Review review = newReview();
         mTransactor.mIsAuthorIdInTable = false;
-        ArrayList<RowAuthor> authors = new ArrayList<>();
-        authors.add(asRow(RowAuthor.class, review.getAuthorId()));
+        ArrayList<RowAuthorName> authors = new ArrayList<>();
+        authors.add(asRow(RowAuthorName.class, review.getAuthorId()));
         checkInsertCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME, authors);
     }
 

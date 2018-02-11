@@ -24,9 +24,10 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
@@ -36,7 +37,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.NamedAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
@@ -45,8 +45,13 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryCommands;
+
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryReviewOptions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
+
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchProfileCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhNode;
@@ -103,7 +108,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private static final int PROFILE_PLACEHOLDER = R.drawable.ic_face_black_36dp;
 
     private final AuthorsRepo mAuthorsRepo;
-    private final FactoryCommands mCommandsFactory;
+    private final FactoryReviewOptions mOptionsFactory;
+    private final LaunchProfileCommand mLaunchProfile;
     private final ReviewSelector mSelector;
     private final CacheVhNode mCache;
 
@@ -127,12 +133,14 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private boolean mLiked = false;
 
     public VhReviewAbstract(AuthorsRepo authorsRepo,
-                            FactoryCommands commandsFactory,
+                            FactoryReviewOptions optionsFactory,
+                            LaunchProfileCommand launchProfile,
                             ReviewSelector selector,
                             CacheVhNode cache) {
         super(LAYOUT, VIEWS);
         mAuthorsRepo = authorsRepo;
-        mCommandsFactory = commandsFactory;
+        mOptionsFactory = optionsFactory;
+        mLaunchProfile = launchProfile;
         mSelector = selector;
         mCache = cache;
     }
@@ -149,7 +157,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         unbindFromBookmark();
         if (mCoverBinder != null) mCoverBinder.unbind();
         if (mProfileBinder != null) {
-            mAuthorsRepo.getProfile(mReview.getAuthorId()).getProfileImage().unbindFromValue
+            mAuthorsRepo.getAuthorProfile(mReview.getAuthorId()).getProfileImage().unbindFromValue
                     (mProfileBinder);
         }
         if (mCommentsBinder != null) mReview.getComments().unbindFromValue(mCommentsBinder);
@@ -336,7 +344,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void clickProfile() {
-        underConstruction();
+        if(mReview != null) mLaunchProfile.execute(mReview.getAuthorId());
     }
 
     private void underConstruction() {
@@ -367,7 +375,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         setLocations(mCache.containsLocations(mNodeId) ? mCache.getLocations(mNodeId) : new
                 IdableDataList<DataLocation>(mNodeId));
         setAuthor(mCache.containsAuthor(mNodeId) ? mCache.getAuthor(mNodeId) : new
-                DefaultNamedAuthor());
+                AuthorNameDefault());
         setDateLocation(mCache.containsDate(mNodeId) ? mCache.getDate(mNodeId) : null);
     }
 
@@ -385,7 +393,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         setText(DATE_LOCATION, text);
     }
 
-    private void setAuthor(@Nullable NamedAuthor author) {
+    private void setAuthor(@Nullable AuthorName author) {
         if (author != null) setText(PROFILE_NAME, author.getName());
     }
 
@@ -501,7 +509,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             returned();
         } else {
             mProfileBinder = new ProfileBinder(id);
-            mAuthorsRepo.getProfile(id).getProfileImage().bindToValue(mProfileBinder);
+            mAuthorsRepo.getAuthorProfile(id).getProfileImage().bindToValue(mProfileBinder);
         }
     }
 
@@ -525,7 +533,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
     private void setReviewOptions() {
         if (mOptions != null) unbindFromBookmark();
-        mOptions = mCommandsFactory.newReviewOptionsSelector
+        mOptions = mOptionsFactory.newReviewOptionsSelector
                 (ReviewOptionsSelector.SelectorType.BASIC, mReview.getAuthorId());
 
         BookmarkCommand bookmarkCommand = mOptions.getOptions().getBookmarkCommand();
@@ -573,7 +581,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class NameBinder implements ReferenceBinder<NamedAuthor> {
+    private class NameBinder implements ReferenceBinder<AuthorName> {
         private final ReviewId mId;
 
         private NameBinder(ReviewId id) {
@@ -581,14 +589,14 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
 
         @Override
-        public void onInvalidated(DataReference<NamedAuthor> reference) {
+        public void onInvalidated(DataReference<AuthorName> reference) {
             returned();
             mCache.removeAuthor(mId);
             setAuthor(null);
         }
 
         @Override
-        public void onReferenceValue(NamedAuthor value) {
+        public void onReferenceValue(AuthorName value) {
             returned();
             mCache.addAuthor(mId, value);
             if (notReinitialising()) setAuthor(value);

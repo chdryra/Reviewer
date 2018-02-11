@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NamedAuthor extends HasAuthorId, Validatable{
+public interface AuthorName extends HasAuthorId, Validatable{
     String TYPE_NAME = "author";
 
     String getName();
