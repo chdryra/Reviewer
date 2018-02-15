@@ -30,8 +30,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -150,37 +150,37 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     }
 
     @Override
-    public RefDataList<DataCriterion> getCriteria() {
+    public DataListRef<DataCriterion> getCriteria() {
         return mReferencer.newCriteria(mReference.child(ReviewDb.CRITERIA), getReviewId(),
                 getSize(ReviewAggregates.CRITERIA));
     }
 
     @Override
-    public RefDataList<DataTag> getTags() {
+    public DataListRef<DataTag> getTags() {
         return mReferencer.newTags(mReference.child(ReviewDb.TAGS), getReviewId(),
                 getSize(ReviewAggregates.TAGS));
     }
 
     @Override
-    public RefCommentList getComments() {
+    public CommentListRef getComments() {
         return mReferencer.newComments(mReference.child(ReviewDb.COMMENTS), getReviewId(),
                 getSize(ReviewAggregates.COMMENTS));
     }
 
     @Override
-    public RefDataList<DataFact> getFacts() {
+    public DataListRef<DataFact> getFacts() {
         return mReferencer.newFacts(mReference.child(ReviewDb.FACTS), getReviewId(),
                 getSize(ReviewAggregates.FACTS));
     }
 
     @Override
-    public RefDataList<DataImage> getImages() {
+    public DataListRef<DataImage> getImages() {
         return mReferencer.newImages(mReference.child(ReviewDb.IMAGES), getReviewId(),
                 getSize(ReviewAggregates.IMAGES));
     }
 
     @Override
-    public RefDataList<DataLocation> getLocations() {
+    public DataListRef<DataLocation> getLocations() {
         return mReferencer.newLocations(mReference.child(ReviewDb.LOCATIONS), getReviewId(),
                 getSize(ReviewAggregates.LOCATIONS));
     }

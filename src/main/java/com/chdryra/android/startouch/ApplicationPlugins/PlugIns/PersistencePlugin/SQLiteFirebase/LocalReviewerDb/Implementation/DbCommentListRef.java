@@ -14,33 +14,33 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbRefCommentList extends DbListReferenceBasic<RowComment, DataComment, RefComment> implements RefCommentList {
-    public DbRefCommentList(DataLoader<RowComment> loader,
+public class DbCommentListRef extends DbListReferenceBasic<RowComment, DataComment, CommentRef> implements CommentListRef {
+    public DbCommentListRef(DataLoader<RowComment> loader,
                             FactoryDbReference referenceFactory,
                             Converter<RowComment, DataComment> converter) {
         super(loader, referenceFactory, converter);
     }
 
     @Override
-    public void toSentences(final RefComment.SentencesCallback callback) {
-        toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
+    public void toSentences(final CommentRef.SentencesCallback callback) {
+        toItemReferences(new ItemReferencesCallback<DataComment, CommentRef>() {
             @Override
-            public void onItemReferences(IdableList<RefComment> refComments) {
-                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(refComments).collectAll(callback);
+            public void onItemReferences(IdableList<CommentRef> commentRefs) {
+                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(commentRefs).collectAll(callback);
             }
         });
     }
 
     @Override
-    protected RefComment newReference(DataLoader.RowLoader<RowComment> loader, RowComment datum) {
+    protected CommentRef newReference(DataLoader.RowLoader<RowComment> loader, RowComment datum) {
         return getDbReferenceFactory().newReference(loader, datum.isHeadline());
     }
 }

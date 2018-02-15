@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
@@ -31,14 +31,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentNodeUi extends DataSectionUi<DataComment, RefCommentList> {
+public class CommentNodeUi extends DataSectionUi<DataComment, CommentListRef> {
     private TextView mHeadline;
 
     public CommentNodeUi(LinearLayout section, TextView headline, final ReviewNode node,
                          @Nullable final Command onClick) {
-        super(section, new ReferenceValueGetter<RefCommentList>() {
+        super(section, new ReferenceValueGetter<CommentListRef>() {
             @Override
-            public RefCommentList getValue() {
+            public CommentListRef getValue() {
                 return node.getComments();
             }
         }, Strings.Formatted.COMMENT);

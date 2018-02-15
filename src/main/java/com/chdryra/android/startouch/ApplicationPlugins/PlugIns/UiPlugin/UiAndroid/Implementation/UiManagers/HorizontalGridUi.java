@@ -16,7 +16,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 
 /**
@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView, RefDataList<T>> {
+public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView, DataListRef<T>> {
     public HorizontalGridUi(Context context,
                             RecyclerView view,
                             GvDataRefAdapter<T, ?, ?> adapter,

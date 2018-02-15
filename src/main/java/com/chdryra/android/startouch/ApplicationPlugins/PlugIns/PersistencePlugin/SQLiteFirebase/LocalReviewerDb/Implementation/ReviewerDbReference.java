@@ -39,8 +39,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -105,9 +105,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
-    public RefDataList<DataCriterion> getCriteria() {
+    public DataListRef<DataCriterion> getCriteria() {
         return newListReference(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID,
-                new DbRefDataList.Converter<RowCriterion, DataCriterion>() {
+                new DbDataListRef.Converter<RowCriterion, DataCriterion>() {
                     @Override
                     public IdableList<DataCriterion> convert(IdableList<RowCriterion> data) {
                         return newList(DataCriterion.class, data);
@@ -116,14 +116,14 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
-    public RefCommentList getComments() {
+    public CommentListRef getComments() {
         return newCommentListReference(RowComment.REVIEW_ID);
     }
 
     @Override
-    public RefDataList<DataFact> getFacts() {
+    public DataListRef<DataFact> getFacts() {
         return newListReference(getDb().getFactsTable(), RowFact.REVIEW_ID,
-                new DbRefDataList.Converter<RowFact, DataFact>() {
+                new DbDataListRef.Converter<RowFact, DataFact>() {
                     @Override
                     public IdableList<DataFact> convert(IdableList<RowFact> data) {
                         return newList(DataFact.class, data);
@@ -132,9 +132,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
-    public RefDataList<DataImage> getImages() {
+    public DataListRef<DataImage> getImages() {
         return newListReference(getDb().getImagesTable(), RowImage.REVIEW_ID,
-                new DbRefDataList.Converter<RowImage, DataImage>() {
+                new DbDataListRef.Converter<RowImage, DataImage>() {
                     @Override
                     public IdableList<DataImage> convert(IdableList<RowImage> data) {
                         return newList(DataImage.class, data);
@@ -143,9 +143,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
-    public RefDataList<DataLocation> getLocations() {
+    public DataListRef<DataLocation> getLocations() {
         return newListReference(getDb().getLocationsTable(), RowLocation.REVIEW_ID,
-                new DbRefDataList.Converter<RowLocation, DataLocation>() {
+                new DbDataListRef.Converter<RowLocation, DataLocation>() {
                     @Override
                     public IdableList<DataLocation> convert(IdableList<RowLocation> data) {
                         return newList(DataLocation.class, data);
@@ -154,9 +154,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @Override
-    public RefDataList<DataTag> getTags() {
+    public DataListRef<DataTag> getTags() {
         return newListReference(getDb().getTagsTable(), RowTag.REVIEW_ID,
-                new DbRefDataList.Converter<RowTag, DataTag>() {
+                new DbDataListRef.Converter<RowTag, DataTag>() {
                     @Override
                     public IdableList<DataTag> convert(IdableList<RowTag> data) {
                         return newList(DataTag.class, data);
@@ -177,13 +177,13 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     }
 
     @NonNull
-    private <T extends ReviewDataRow<T>, R extends HasReviewId> RefDataList<R>
-    newListReference(DbTable<T> table, ColumnInfo<String> idCol, DbRefDataList.Converter<T, R> converter) {
+    private <T extends ReviewDataRow<T>, R extends HasReviewId> DataListRef<R>
+    newListReference(DbTable<T> table, ColumnInfo<String> idCol, DbDataListRef.Converter<T, R> converter) {
         return mReferenceFactory.newListReference(getReviewId(), getDb(), table, idCol, converter);
     }
 
     @NonNull
-    private DbRefCommentList
+    private DbCommentListRef
     newCommentListReference(ColumnInfo<String> idCol) {
         return mReferenceFactory.newCommentListReference(getReviewId(), getDb(), idCol,
                 new DbListReferenceBasic.Converter<RowComment, DataComment>() {

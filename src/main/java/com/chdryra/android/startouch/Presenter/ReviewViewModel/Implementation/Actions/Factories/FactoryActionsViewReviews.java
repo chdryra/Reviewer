@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
@@ -36,11 +36,11 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
-    private AuthorReference mAuthorRef;
+    private AuthorRef mAuthorRef;
     private ReviewsNodeRepo mRepo;
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
-                                     @Nullable AuthorReference authorRef) {
+                                     @Nullable AuthorRef authorRef) {
         super(parameters);
         mAuthorRef = authorRef;
     }
@@ -70,7 +70,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
                 (getCommandsFactory().newLaunchCreatorCommand(null));
         MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, repo, getViewFactory());
         MaiSearch<GvNode> search = new MaiSearch<>(launcher, getViewFactory());
-        MaiProfileEdit<GvNode> profile = new MaiProfileEdit<>(getCommandsFactory().newLaunchProfileCommand( ));
+        MaiProfileEdit<GvNode> profile = new MaiProfileEdit<>(getCommandsFactory().newLaunchProfileCommand());
         MaiLogout<GvNode> logout = new MaiLogout<>();
 
         return new MenuFeed<>(newReview, bookmarks, search, profile, logout);

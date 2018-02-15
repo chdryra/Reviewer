@@ -118,7 +118,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         }
 
         @Override
-        public void onInvalidated(ListReference<AuthorId, ?> reference) {
+        public void onInvalidated(ListReference<AuthorId, ?, ?> reference) {
             setFollow();
         }
     }

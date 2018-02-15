@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 
@@ -28,14 +28,14 @@ import java.util.Date;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements ViewUiBinder.BindableViewUi<AuthorName>{
+public class StampNodeUi extends ViewUi<TextView, AuthorRef> implements ViewUiBinder.BindableViewUi<AuthorName>{
     private DataDate mDate;
     private ViewUiBinder<AuthorName> mBinder;
 
     public StampNodeUi(TextView stamp, final ReviewNode node, final AuthorsRepo repo) {
-        super(stamp, new ReferenceValueGetter<AuthorReference>() {
+        super(stamp, new ReferenceValueGetter<AuthorRef>() {
             @Override
-            public AuthorReference getValue() {
+            public AuthorRef getValue() {
                 return repo.getReference(node.getAuthorId());
             }
         });
@@ -61,6 +61,7 @@ public class StampNodeUi extends ViewUi<TextView, AuthorReference> implements Vi
     private void setView(AuthorName author) {
         String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date(mDate
                 .getTime()));
-        getView().setText(author.getName() + " / " + date);
+        String stamp = author.getName() + " / " + date;
+        getView().setText(stamp);
     }
 }

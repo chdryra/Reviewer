@@ -21,7 +21,7 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
 /**
@@ -29,7 +29,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 13/12/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, RefDataList<T>> {
+public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, DataListRef<T>> {
     private final Context mContext;
     private final ViewHolderFactory<?> mFactory;
     private final DataConverter<T, ? extends ViewHolderData, ?> mConverter;
@@ -39,7 +39,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T, Re
     public DataExpandableUi(Context context,
                             LinearLayout view,
                             String title,
-                            ReferenceValueGetter<RefDataList<T>> getter,
+                            ReferenceValueGetter<DataListRef<T>> getter,
                             ViewHolderFactory<?> factory,
                             DataConverter<T, ? extends ViewHolderData, ?> converter) {
         super(view, getter, title);

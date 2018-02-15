@@ -11,10 +11,8 @@ package com.chdryra.android.startouch.Authentication.Implementation;
 
 
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +24,6 @@ public class SocialProfileDefault implements SocialProfile {
     private AuthorId mAuthorId;
     private List<AuthorId> mFollowing;
     private List<AuthorId> mFollowers;
-
-    public SocialProfileDefault() {
-        this(new DatumAuthorId(), new ArrayList<AuthorId>(), new ArrayList<AuthorId>());
-    }
 
     public SocialProfileDefault(AuthorId authorId, List<AuthorId> following, List<AuthorId>
             followers) {

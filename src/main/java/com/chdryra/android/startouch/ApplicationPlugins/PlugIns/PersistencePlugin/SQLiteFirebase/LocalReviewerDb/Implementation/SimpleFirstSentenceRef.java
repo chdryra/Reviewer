@@ -15,9 +15,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleRefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleCommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 import java.util.ArrayList;
@@ -27,27 +27,27 @@ import java.util.ArrayList;
  * On: 30/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimpleRefFirstSentence extends SimpleRefComment {
-    public SimpleRefFirstSentence(RefComment parent, FactoryReferences referenceFactory) {
+public class SimpleFirstSentenceRef extends SimpleCommentRef {
+    public SimpleFirstSentenceRef(CommentRef parent, FactoryReferences referenceFactory) {
         super(parent, referenceFactory, new FirstSentenceDereferencer(parent));
     }
 
     @Override
-    public RefComment getFirstSentence() {
+    public CommentRef getFirstSentence() {
         return this;
     }
 
     @Override
     public void toSentences(SentencesCallback callback) {
-        IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
+        IdableList<CommentRef> sentences = new IdableDataList<>(getReviewId());
         sentences.add(this);
         callback.onSentenceReferences(sentences);
     }
 
     private static class FirstSentenceDereferencer implements Dereferencer<DataComment> {
-        private final RefComment mParent;
+        private final CommentRef mParent;
 
-        public FirstSentenceDereferencer(RefComment parent) {
+        public FirstSentenceDereferencer(CommentRef parent) {
             mParent = parent;
         }
 

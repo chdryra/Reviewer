@@ -12,8 +12,9 @@ import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.List;
@@ -25,8 +26,8 @@ import java.util.List;
  */
 public class NullSocialProfileRef implements SocialProfileRef {
     private final static AuthorId AUTHOR_ID = new DatumAuthorId();
-    private final RefAuthorList FOLLOWING = new NullRefAuthorList();
-    private final RefAuthorList FOLLOWERS = new NullRefAuthorList();
+    private final AuthorListRef FOLLOWING = new NullAuthorListRef();
+    private final AuthorListRef FOLLOWERS = new NullAuthorListRef();
 
     @Override
     public AuthorId getAuthorId() {
@@ -34,12 +35,12 @@ public class NullSocialProfileRef implements SocialProfileRef {
     }
 
     @Override
-    public RefAuthorList getFollowing() {
+    public AuthorListRef getFollowing() {
         return FOLLOWING;
     }
 
     @Override
-    public RefAuthorList getFollowers() {
+    public AuthorListRef getFollowers() {
         return FOLLOWERS;
     }
 
@@ -83,8 +84,8 @@ public class NullSocialProfileRef implements SocialProfileRef {
 
     }
 
-    private static class NullRefAuthorList extends
-            NullDataReference.NullList<AuthorId, List<AuthorId>>
-    implements RefAuthorList{
+    private static class NullAuthorListRef extends
+            NullDataReference.NullList<AuthorId, List<AuthorId>, Size>
+    implements AuthorListRef {
     }
 }

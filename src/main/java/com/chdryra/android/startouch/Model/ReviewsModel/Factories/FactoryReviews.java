@@ -41,7 +41,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewStamper;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
@@ -107,7 +107,7 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createLeafNode(reference);
     }
 
-    public ReviewNode createTree(ReviewsRepoReadable repo, AuthorReference treeOwner, String
+    public ReviewNode createTree(ReviewsRepoReadable repo, AuthorRef treeOwner, String
             title) {
         return newReviewNodeAuthored(getMetaInfo(treeOwner.getAuthorId()), repo,
                 new NodeTitler.AuthorsTree(treeOwner, title));

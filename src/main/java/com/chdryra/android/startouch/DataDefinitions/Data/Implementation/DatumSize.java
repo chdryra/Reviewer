@@ -16,18 +16,12 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 26/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumSize implements DataSize {
+public class DatumSize extends SizeImpl implements DataSize {
     private final ReviewId mId;
-    private int mSize = 0;
 
     public DatumSize(ReviewId id, int size) {
+        super(size);
         mId = id;
-        mSize = size;
-    }
-
-    @Override
-    public int getSize() {
-        return mSize;
     }
 
     @Override
@@ -39,18 +33,17 @@ public class DatumSize implements DataSize {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DatumSize)) return false;
+        if (!super.equals(o)) return false;
 
         DatumSize datumSize = (DatumSize) o;
 
-        if (mSize != datumSize.mSize) return false;
-        return mId.equals(datumSize.mId);
-
+        return mId != null ? mId.equals(datumSize.mId) : datumSize.mId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = mId.hashCode();
-        result = 31 * result + mSize;
+        int result = super.hashCode();
+        result = 31 * result + (mId != null ? mId.hashCode() : 0);
         return result;
     }
 

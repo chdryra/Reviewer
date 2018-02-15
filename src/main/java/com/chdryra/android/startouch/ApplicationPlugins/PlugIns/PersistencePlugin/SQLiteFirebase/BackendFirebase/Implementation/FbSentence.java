@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
@@ -22,30 +22,30 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbSentence extends FbReviewItemRef<DataComment> implements RefComment {
-    private final RefComment mParent;
+public class FbSentence extends FbReviewItemRef<DataComment> implements CommentRef {
+    private final CommentRef mParent;
 
     public FbSentence(ReviewId id,
                       Firebase reference,
                       SnapshotConverter<DataComment> converter,
-                      RefComment parent) {
+                      CommentRef parent) {
         super(id, reference, converter);
         mParent = parent;
     }
 
     @Override
-    public RefComment getParent() {
+    public CommentRef getParent() {
         return mParent;
     }
 
     @Override
-    public RefComment getFirstSentence() {
+    public CommentRef getFirstSentence() {
         return this;
     }
 
     @Override
     public void toSentences(SentencesCallback callback) {
-        IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
+        IdableList<CommentRef> sentences = new IdableDataList<>(getReviewId());
         sentences.add(this);
         callback.onSentenceReferences(sentences);
     }

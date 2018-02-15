@@ -53,7 +53,7 @@ public abstract class DereferencableBasic<T> extends BindableReferenceBasic<T> {
         return mValueBinders.contains(binder);
     }
 
-    private void fireForBinder(final ReferenceBinder<T> binder) {
+    protected void fireForBinder(final ReferenceBinder<T> binder) {
         dereference(new DereferenceCallback<T>() {
             @Override
             public void onDereferenced(DataValue<T> value) {

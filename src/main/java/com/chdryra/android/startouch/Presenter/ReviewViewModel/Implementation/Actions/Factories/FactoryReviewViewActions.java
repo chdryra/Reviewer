@@ -19,7 +19,7 @@ import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
@@ -119,7 +119,7 @@ public class FactoryReviewViewActions {
                                                            @Nullable AuthorId followAuthor) {
         boolean follow = followAuthor != null;
         ActionsParameters<GvNode> actionParams = newListActionParams(node, viewFactory, follow);
-        AuthorReference name = follow ? mAuthorsRepo.getReference(followAuthor) : null;
+        AuthorRef name = follow ? mAuthorsRepo.getReference(followAuthor) : null;
         return newListActions(actionParams, name);
     }
 
@@ -194,7 +194,7 @@ public class FactoryReviewViewActions {
             (ActionsParameters<GvNode> parameters,
 
              @Nullable
-                     AuthorReference
+                     AuthorRef
                      authorRef) {
         return new FactoryActionsViewReviews(parameters, authorRef);
     }

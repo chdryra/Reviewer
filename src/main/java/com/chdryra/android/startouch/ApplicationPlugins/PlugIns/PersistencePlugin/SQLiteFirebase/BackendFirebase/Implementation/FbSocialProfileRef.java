@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
@@ -63,12 +63,12 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
     }
 
     @Override
-    public RefAuthorList getFollowing() {
+    public AuthorListRef getFollowing() {
         return mReferencer.newAuthorList(mStructure.getFollowingDb(mRootReference, mAuthorId));
     }
 
     @Override
-    public RefAuthorList getFollowers() {
+    public AuthorListRef getFollowers() {
         return mReferencer.newAuthorList(mStructure.getFollowersDb(mRootReference, mAuthorId));
     }
 

@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableD
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 
@@ -28,18 +28,18 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimpleRefComment extends SimpleItemReference<DataComment> implements RefComment {
-    private RefComment mParent;
+public class SimpleCommentRef extends SimpleItemReference<DataComment> implements CommentRef {
+    private CommentRef mParent;
     private final boolean mIsHeadline;
     private final FactoryReferences mReferenceFactory;
 
-    public SimpleRefComment(boolean isHeadline, FactoryReferences referenceFactory, Dereferencer<DataComment> dereferencer) {
+    public SimpleCommentRef(boolean isHeadline, FactoryReferences referenceFactory, Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mIsHeadline = isHeadline;
         mReferenceFactory = referenceFactory;
     }
 
-    protected SimpleRefComment(RefComment parent, FactoryReferences referenceFactory,
+    protected SimpleCommentRef(CommentRef parent, FactoryReferences referenceFactory,
                                Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mParent = parent;
@@ -49,12 +49,12 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
 
     @Nullable
     @Override
-    public RefComment getParent() {
+    public CommentRef getParent() {
         return mParent;
     }
 
     @Override
-    public RefComment getFirstSentence() {
+    public CommentRef getFirstSentence() {
         return mReferenceFactory.newFirstSentenceReference(this);
     }
 
@@ -63,7 +63,7 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
         dereference(new DereferenceCallback<DataComment>() {
             @Override
             public void onDereferenced(DataValue<DataComment> value) {
-                IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
+                IdableList<CommentRef> sentences = new IdableDataList<>(getReviewId());
                 if(value.hasValue()) {
                     for(String string : DataFormatter.split(value.getData(), true)) {
                         sentences.add(newSentence(string));
@@ -75,7 +75,7 @@ public class SimpleRefComment extends SimpleItemReference<DataComment> implement
     }
 
     @NonNull
-    private RefComment newSentence(String string) {
+    private CommentRef newSentence(String string) {
         return mReferenceFactory.newWrapper(new DatumComment(getReviewId(), string, isHeadline()), this);
     }
 

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -23,8 +24,8 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class SimpleListReference<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
-        implements ReviewListReference<Value, Reference>, ItemBindersDelegate.BindableListReference<Value, IdableList<Value>> {
-    private final ItemBindersDelegate<Value> mManager;
+        implements ReviewListReference<Value, Reference>, ItemBindersDelegate.BindableListReference<Value, IdableList<Value>, DataSize> {
+    private final ItemBindersDelegate<Value, DataSize> mManager;
     private final Collection<ListItemBinder<Value>> mItemBinders;
 
     protected SimpleListReference(Dereferencer<IdableList<Value>> dereferencer) {

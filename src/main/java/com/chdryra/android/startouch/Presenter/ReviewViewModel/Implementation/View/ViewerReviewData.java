@@ -16,9 +16,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
@@ -136,9 +136,9 @@ public class ViewerReviewData<Value extends HasReviewId,
 
     public static class DataList<Value extends HasReviewId, GvRef extends GvDataRef<GvRef, Value,
             ?>>
-            extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, RefDataList<Value>> {
+            extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, DataListRef<Value>> {
 
-        public DataList(RefDataList<Value> reference,
+        public DataList(DataListRef<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
                         FactoryReviewViewAdapter adapterFactory, @Nullable ReviewStamp stamp) {
             super(reference, converter, adapterFactory, stamp);
@@ -146,12 +146,12 @@ public class ViewerReviewData<Value extends HasReviewId,
     }
 
     public static class CommentList
-            extends ViewerReviewData<DataComment, GvComment.Reference, RefComment, RefCommentList> {
+            extends ViewerReviewData<DataComment, GvComment.Reference, CommentRef, CommentListRef> {
         private final FactoryReferences mReferenceFactory;
         private boolean mIsSplit = false;
 
-        public CommentList(RefCommentList reference,
-                           GvConverterReferences<DataComment, GvComment.Reference, RefComment>
+        public CommentList(CommentListRef reference,
+                           GvConverterReferences<DataComment, GvComment.Reference, CommentRef>
                                    converter,
                            @Nullable ReviewStamp stamp,
                            FactoryReviewViewAdapter adapterFactory, FactoryReferences referenceFactory) {
@@ -175,18 +175,18 @@ public class ViewerReviewData<Value extends HasReviewId,
 
         private void toFirstSentences() {
             getReference().toItemReferences(new ReviewListReference
-                    .ItemReferencesCallback<DataComment, RefComment>() {
+                    .ItemReferencesCallback<DataComment, CommentRef>() {
                 @Override
-                public void onItemReferences(IdableList<RefComment> references) {
+                public void onItemReferences(IdableList<CommentRef> references) {
                     makeGridData(mReferenceFactory.newSentencesCollector(references).collectFirst());
                 }
             });
         }
 
         private void toAllSentences() {
-            getReference().toSentences(new RefComment.SentencesCallback() {
+            getReference().toSentences(new CommentRef.SentencesCallback() {
                 @Override
-                public void onSentenceReferences(IdableList<RefComment> references) {
+                public void onSentenceReferences(IdableList<CommentRef> references) {
                     makeGridData(references);
                 }
             });

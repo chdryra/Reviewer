@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
@@ -21,16 +21,16 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBind
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class AuthorReferenceDefault implements AuthorReference {
+public class AuthorRefDefault implements AuthorRef {
     private final AuthorId mAuthorId;
     private final DataReference<AuthorName> mReference;
 
-    public AuthorReferenceDefault() {
+    public AuthorRefDefault() {
         mAuthorId = new DatumAuthorId();
         mReference = new NullDataReference<>();
     }
 
-    public AuthorReferenceDefault(AuthorId authorId, DataReference<AuthorName> reference) {
+    public AuthorRefDefault(AuthorId authorId, DataReference<AuthorName> reference) {
         mAuthorId = authorId;
         mReference = reference;
     }

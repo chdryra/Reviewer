@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,22 +18,22 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCo
  * Email: rizwan.choudrey@gmail.com
  */
 public class SentencesCollector {
-    private final IdableList<RefComment> mReferences;
+    private final IdableList<CommentRef> mReferences;
     private int mCount = 0;
-    private IdableList<RefComment> mResults;
+    private IdableList<CommentRef> mResults;
 
-    public SentencesCollector(IdableList<RefComment> references) {
+    public SentencesCollector(IdableList<CommentRef> references) {
         mReferences = references;
     }
 
-    public void collectAll(final RefComment.SentencesCallback callback) {
+    public void collectAll(final CommentRef.SentencesCallback callback) {
         mResults = new IdableDataList<>(mReferences.getReviewId());
         mCount = 0;
-        for (RefComment reference : mReferences) {
+        for (CommentRef reference : mReferences) {
             if (reference.isValidReference()) {
-                reference.toSentences(new RefComment.SentencesCallback() {
+                reference.toSentences(new CommentRef.SentencesCallback() {
                     @Override
-                    public void onSentenceReferences(IdableList<RefComment> references) {
+                    public void onSentenceReferences(IdableList<CommentRef> references) {
                         mResults.addAll(references);
                         if (++mCount == mReferences.size()) callback.onSentenceReferences(mResults);
                     }
@@ -42,10 +42,10 @@ public class SentencesCollector {
         }
     }
 
-    public IdableList<RefComment> collectFirst() {
-        IdableList<RefComment> results = new IdableDataList<>(mReferences.getReviewId());
+    public IdableList<CommentRef> collectFirst() {
+        IdableList<CommentRef> results = new IdableDataList<>(mReferences.getReviewId());
         mCount = 0;
-        for (RefComment reference : mReferences) {
+        for (CommentRef reference : mReferences) {
             if (reference.isValidReference()) {
                 results.add(reference.getFirstSentence());
             }

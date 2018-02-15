@@ -60,7 +60,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     private LaunchableConfig mGridItemConfig;
     private CommandList mContextCommands;
 
-    public FactoryActionsViewData(ActionsParameters<T> parameters) {
+    FactoryActionsViewData(ActionsParameters<T> parameters) {
         super(parameters.getDataType());
         mFactoryView = parameters.getFactoryView();
         mFactoryLaunchCommands = parameters.getFactoryLaunchCommands();
@@ -76,7 +76,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         return mLauncher;
     }
 
-    protected OptionsSelector newSelector() {
+    private OptionsSelector newSelector() {
         return getCommandsFactory().getOptionsFactory().newOptionsSelector();
     }
 

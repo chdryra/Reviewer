@@ -23,8 +23,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -51,22 +51,22 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
     }
 
     @Override
-    public RefDataList<ReviewReference> getReviews() {
+    public DataListRef<ReviewReference> getReviews() {
         return mReferenceFactory.newReviewsList(this);
     }
 
     @Override
-    public RefDataList<DataSubject> getSubjects() {
+    public DataListRef<DataSubject> getSubjects() {
         return mReferenceFactory.newSubjectsList(this);
     }
 
     @Override
-    public RefDataList<DataAuthorId> getAuthorIds() {
+    public DataListRef<DataAuthorId> getAuthorIds() {
         return mReferenceFactory.newAuthorsList(this);
     }
 
     @Override
-    public RefDataList<DataDate> getDates() {
+    public DataListRef<DataDate> getDates() {
         return mReferenceFactory.newDatesList(this);
     }
 
@@ -76,32 +76,32 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
     }
 
     @Override
-    public RefDataList<DataCriterion> getCriteria() {
+    public DataListRef<DataCriterion> getCriteria() {
         return mReferenceFactory.newCriteriaList(this);
     }
 
     @Override
-    public RefCommentList getComments() {
+    public CommentListRef getComments() {
         return mReferenceFactory.newCommentsList(this);
     }
 
     @Override
-    public RefDataList<DataFact> getFacts() {
+    public DataListRef<DataFact> getFacts() {
         return mReferenceFactory.newFactsList(this);
     }
 
     @Override
-    public RefDataList<DataImage> getImages() {
+    public DataListRef<DataImage> getImages() {
         return mReferenceFactory.newImagesList(this);
     }
 
     @Override
-    public RefDataList<DataLocation> getLocations() {
+    public DataListRef<DataLocation> getLocations() {
         return mReferenceFactory.newLocationsList(this);
     }
 
     @Override
-    public RefDataList<DataTag> getTags() {
+    public DataListRef<DataTag> getTags() {
         return mReferenceFactory.newTagsList(this);
     }
 

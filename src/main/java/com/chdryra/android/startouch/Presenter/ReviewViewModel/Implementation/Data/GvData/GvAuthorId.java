@@ -17,7 +17,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorI
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
@@ -45,7 +45,7 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         }
     };
 
-    private AuthorReference mReference;
+    private AuthorRef mReference;
     private GvReviewId mReviewId;
     private final String mAuthorId;
 
@@ -53,11 +53,11 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         mAuthorId = authorId;
     }
 
-    public GvAuthorId(AuthorReference reference) {
+    public GvAuthorId(AuthorRef reference) {
         this(null, reference);
     }
 
-    public GvAuthorId(@Nullable GvReviewId reviewId, AuthorReference reference) {
+    public GvAuthorId(@Nullable GvReviewId reviewId, AuthorRef reference) {
         mReviewId = reviewId;
         mAuthorId = reference.getAuthorId().toString();
         mReference = reference;

@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -27,12 +27,12 @@ import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewN
  * On: 07/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeRefItemList<Value extends HasReviewId> extends
-        TreeDataReferenceBasic<Value, ReviewItemReference<Value>> implements RefDataList<Value>{
+public class TreeItemListRef<Value extends HasReviewId> extends
+        TreeDataReferenceBasic<Value, ReviewItemReference<Value>> implements DataListRef<Value> {
     private final FactoryMdReference mReferenceFactory;
     private final VisitorFactory.ItemVisitor<Value> mVisitorFactory;
 
-    public TreeRefItemList(ReviewNode root,
+    public TreeItemListRef(ReviewNode root,
                            FactoryMdReference referenceFactory,
                            FactoryNodeTraverser traverserFactory,
                            VisitorFactory.ItemVisitor<Value> visitorFactory) {

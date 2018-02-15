@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
@@ -71,7 +71,7 @@ public abstract class GvConverterReviewData<T1 extends HasReviewId,
     abstract static class RefCommentList<T2 extends GvDataParcelable,
             T3 extends GvDataListParcelable<T2>,
             T4 extends GvDataRef<T4, DataComment, ?>>
-            extends GvConverterReviewData<DataComment, T2, T3, T4, RefComment> {
+            extends GvConverterReviewData<DataComment, T2, T3, T4, CommentRef> {
 
         RefCommentList(Class<T3> listClass, GvDataType<T4> referenceType) {
             super(listClass, referenceType);

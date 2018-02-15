@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public interface AuthorsRepo {
         void onAuthorId(DataReference<AuthorId> authorId, CallbackMessage message);
     }
 
-    AuthorReference getReference(AuthorId authorId);
+    AuthorRef getReference(AuthorId authorId);
 
     AuthorProfileRef getAuthorProfile(AuthorId authorId);
 

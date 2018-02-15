@@ -8,8 +8,9 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
 
 import java.util.Collection;
 
@@ -18,10 +19,10 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ItemBindersDelegate<Value> {
-    private final BindableListReference<Value, ?> mReference;
+public class ItemBindersDelegate<Value, S extends Size> {
+    private final BindableListReference<Value, ?, S> mReference;
 
-    public interface BindableListReference<Value, C extends Collection<Value>> extends ListReference<Value, C> {
+    public interface BindableListReference<Value, C extends Collection<Value>, S extends Size> extends ListReference<Value, C, S> {
         boolean containsItemBinder(ListItemBinder<Value> binder);
 
         void bindItemBinder(ListItemBinder<Value> binder);
@@ -31,7 +32,7 @@ public class ItemBindersDelegate<Value> {
         Iterable<? extends ListItemBinder<Value>> getItemBinders();
     }
 
-    public ItemBindersDelegate(BindableListReference<Value, ?> reference) {
+    public ItemBindersDelegate(BindableListReference<Value, ?, S> reference) {
         mReference = reference;
     }
 

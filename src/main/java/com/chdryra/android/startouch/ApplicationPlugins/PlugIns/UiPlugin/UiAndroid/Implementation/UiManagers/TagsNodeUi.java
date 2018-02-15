@@ -17,7 +17,7 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
@@ -26,14 +26,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsNodeUi extends ViewUi<TextView, RefDataList<DataTag>> implements ViewUiBinder.BindableViewUi<IdableList<DataTag>>{
+public class TagsNodeUi extends ViewUi<TextView, DataListRef<DataTag>> implements ViewUiBinder.BindableViewUi<IdableList<DataTag>>{
     private static final int MAX_TAGS = 10;
     private ViewUiBinder<IdableList<DataTag>> mBinder;
 
     public TagsNodeUi(TextView tags, final ReviewNode node) {
-        super(tags, new ReferenceValueGetter<RefDataList<DataTag>>() {
+        super(tags, new ReferenceValueGetter<DataListRef<DataTag>>() {
             @Override
-            public RefDataList<DataTag> getValue() {
+            public DataListRef<DataTag> getValue() {
                 return node.getTags();
             }
         });

@@ -11,36 +11,36 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperRefCommentList extends StaticListReferenceBasic<DataComment, RefComment>
-        implements RefCommentList {
+public class WrapperCommentListRef extends StaticListReferenceBasic<DataComment, CommentRef>
+        implements CommentListRef {
 
     private final FactoryReferences mFactory;
 
-    public WrapperRefCommentList(IdableList<DataComment> value, FactoryReferences factory) {
+    public WrapperCommentListRef(IdableList<DataComment> value, FactoryReferences factory) {
         super(value);
         mFactory = factory;
     }
 
     @Override
-    public void toSentences(final RefComment.SentencesCallback callback) {
-        toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
+    public void toSentences(final CommentRef.SentencesCallback callback) {
+        toItemReferences(new ItemReferencesCallback<DataComment, CommentRef>() {
             @Override
-            public void onItemReferences(IdableList<RefComment> refComments) {
-                mFactory.newSentencesCollector(refComments).collectAll(callback);
+            public void onItemReferences(IdableList<CommentRef> commentRefs) {
+                mFactory.newSentencesCollector(commentRefs).collectAll(callback);
             }
         });
     }
 
     @Override
-    protected RefComment newStaticReference(DataComment item) {
+    protected CommentRef newStaticReference(DataComment item) {
         return mFactory.newWrapper(item, null);
     }
 }

@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
@@ -19,12 +19,12 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperRefDataList<Value extends HasReviewId> extends StaticListReferenceBasic<Value, ReviewItemReference<Value>>
-        implements RefDataList<Value> {
+public class WrapperDataListRef<Value extends HasReviewId> extends StaticListReferenceBasic<Value, ReviewItemReference<Value>>
+        implements DataListRef<Value> {
 
     private final FactoryReferences mFactory;
 
-    public WrapperRefDataList(IdableList<Value> value, FactoryReferences factory) {
+    public WrapperDataListRef(IdableList<Value> value, FactoryReferences factory) {
         super(value);
         mFactory = factory;
     }

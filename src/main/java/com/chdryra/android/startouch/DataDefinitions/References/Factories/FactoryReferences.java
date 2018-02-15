@@ -10,21 +10,21 @@ package com.chdryra.android.startouch.DataDefinitions.References.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.SimpleRefFirstSentence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.SimpleFirstSentenceRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SentencesCollector;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleRefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperRefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleCommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperCommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.StaticItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperRefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperRefDataList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperCommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperDataListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
@@ -33,7 +33,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReferences {
-    public SentencesCollector newSentencesCollector(IdableList<RefComment> comments) {
+    public SentencesCollector newSentencesCollector(IdableList<CommentRef> comments) {
         return new SentencesCollector(comments);
     }
 
@@ -41,31 +41,31 @@ public class FactoryReferences {
         return new StaticItemReference<>(datum);
     }
 
-    public <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<T> data) {
-        return new WrapperRefDataList<>(data, this);
+    public <T extends HasReviewId> DataListRef<T> newWrapper(IdableList<T> data) {
+        return new WrapperDataListRef<>(data, this);
     }
 
-    public RefCommentList newCommentsWrapper(IdableList<? extends DataComment> data) {
+    public CommentListRef newCommentsWrapper(IdableList<? extends DataComment> data) {
         IdableList<DataComment> list = new IdableDataList<>(data.getReviewId());
         list.addAll(data);
-        return new WrapperRefCommentList(list, this);
+        return new WrapperCommentListRef(list, this);
     }
 
-    public <T extends HasReviewId> RefDataList<T> newSuperClassWrapper(IdableList<? extends T> data) {
+    public <T extends HasReviewId> DataListRef<T> newSuperClassWrapper(IdableList<? extends T> data) {
         IdableList<T> list = new IdableDataList<>(data.getReviewId());
         list.addAll(data);
-        return new WrapperRefDataList<>(list, this);
+        return new WrapperDataListRef<>(list, this);
     }
 
-    public RefComment newWrapper(DataComment comment, @Nullable RefComment parent) {
-        return new WrapperRefComment(comment, parent);
+    public CommentRef newWrapper(DataComment comment, @Nullable CommentRef parent) {
+        return new WrapperCommentRef(comment, parent);
     }
 
-    public RefComment newCommentReference(boolean isHeadline, SimpleItemReference.Dereferencer<DataComment> dereferencer) {
-        return new SimpleRefComment(isHeadline, this, dereferencer);
+    public CommentRef newCommentReference(boolean isHeadline, SimpleItemReference.Dereferencer<DataComment> dereferencer) {
+        return new SimpleCommentRef(isHeadline, this, dereferencer);
     }
 
-    public RefComment newFirstSentenceReference(RefComment parent) {
-        return new SimpleRefFirstSentence(parent, this);
+    public CommentRef newFirstSentenceReference(CommentRef parent) {
+        return new SimpleFirstSentenceRef(parent, this);
     }
 }

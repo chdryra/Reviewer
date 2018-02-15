@@ -8,14 +8,13 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 23/08/2016
+ * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RefDataList<Value extends HasReviewId>
-        extends ReviewListReference<Value, ReviewItemReference<Value>> {
-
+public interface AuthorRef extends DataReference<AuthorName>, HasAuthorId{
 }

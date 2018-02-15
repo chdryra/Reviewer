@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
+
 import java.util.Collection;
 
 /**
@@ -15,8 +17,10 @@ import java.util.Collection;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ListReference<T, C extends Collection<T>> extends DataReference<C> {
+public interface ListReference<T, C extends Collection<T>, S extends Size> extends DataReference<C> {
     void bindToItems(ListItemBinder<T> binder);
 
     void unbindFromItems(ListItemBinder<T> binder);
+
+    DataReference<S> getSize();
 }

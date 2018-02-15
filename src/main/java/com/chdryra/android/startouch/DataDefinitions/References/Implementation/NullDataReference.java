@@ -8,20 +8,10 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.Collection;
@@ -67,48 +57,7 @@ public class NullDataReference<T> implements DataReference<T> {
 
     }
 
-    public static class Item<T extends HasReviewId> extends NullDataReference<T>
-            implements ReviewItemReference<T> {
-        @Override
-        public ReviewId getReviewId() {
-            return new DatumReviewId();
-        }
-    }
-
-    public static class CommentList extends NullDataReference<IdableList<DataComment>>
-            implements RefCommentList {
-        @Override
-        public void toSentences(RefComment.SentencesCallback callback) {
-            callback.onSentenceReferences(new IdableDataList<RefComment>(getReviewId()));
-        }
-
-        @Override
-        public void toItemReferences(ItemReferencesCallback<DataComment, RefComment> callback) {
-
-        }
-
-        @Override
-        public ReviewItemReference<DataSize> getSize() {
-            return new Item<>();
-        }
-
-        @Override
-        public ReviewId getReviewId() {
-            return new DatumReviewId();
-        }
-
-        @Override
-        public void bindToItems(ListItemBinder<DataComment> binder) {
-
-        }
-
-        @Override
-        public void unbindFromItems(ListItemBinder<DataComment> binder) {
-
-        }
-    }
-
-    public static class NullList<T, C extends Collection<T>> extends NullDataReference<C> implements ListReference<T, C> {
+    public static class NullList<T, C extends Collection<T>, S extends Size> extends NullDataReference<C> implements ListReference<T, C, S> {
 
         @Override
         public void bindToItems(ListItemBinder<T> binder) {
@@ -119,23 +68,14 @@ public class NullDataReference<T> implements DataReference<T> {
         public void unbindFromItems(ListItemBinder<T> binder) {
 
         }
+
+        @Override
+        public DataReference<S> getSize() {
+            return new NullSize<>();
+        }
     }
 
-    public static class NullIdableList<T extends HasReviewId> extends NullList<T, IdableList<T>>
-            implements RefDataList<T> {
-        @Override
-        public void toItemReferences(ItemReferencesCallback<T, ReviewItemReference<T>> callback) {
-            callback.onItemReferences(new IdableDataList<ReviewItemReference<T>>(getReviewId()));
-        }
+    private static class NullSize<S extends Size> extends NullDataReference<S> implements DataReference<S> {
 
-        @Override
-        public ReviewItemReference<DataSize> getSize() {
-            return new Item<>();
-        }
-
-        @Override
-        public ReviewId getReviewId() {
-            return new DatumReviewId();
-        }
     }
 }

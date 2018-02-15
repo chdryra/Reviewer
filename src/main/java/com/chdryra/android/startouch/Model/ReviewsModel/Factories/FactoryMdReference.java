@@ -19,16 +19,16 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeCoverReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeItemRefSize;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListRefSize;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListReferences;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeRefCommentList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeRefDataList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeRefItemList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeCommentListRef;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeDataListRef;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeItemListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.VisitorFactory;
@@ -58,7 +58,7 @@ public class FactoryMdReference {
         return mReferenceFactory;
     }
 
-    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeRefItemList<Value> treeRef) {
+    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeItemListRef<Value> treeRef) {
         return new TreeItemRefSize<>(treeRef);
     }
 
@@ -70,7 +70,7 @@ public class FactoryMdReference {
         return new NodeCoverReference(node);
     }
 
-    public RefDataList<ReviewReference> newReviewsList(ReviewNode root) {
+    public DataListRef<ReviewReference> newReviewsList(ReviewNode root) {
         return newItemList(root, new VisitorFactory.ItemVisitor<ReviewReference>() {
             @Override
             public VisitorDataGetter<ReviewReference> newVisitor() {
@@ -79,7 +79,7 @@ public class FactoryMdReference {
         });
     }
 
-    public RefDataList<DataSubject> newSubjectsList(ReviewNode root) {
+    public DataListRef<DataSubject> newSubjectsList(ReviewNode root) {
         return newItemList(root, new VisitorFactory.ItemVisitor<DataSubject>() {
             @Override
             public VisitorDataGetter<DataSubject> newVisitor() {
@@ -88,7 +88,7 @@ public class FactoryMdReference {
         });
     }
 
-    public RefDataList<DataAuthorId> newAuthorsList(ReviewNode root) {
+    public DataListRef<DataAuthorId> newAuthorsList(ReviewNode root) {
         return newItemList(root, new VisitorFactory.ItemVisitor<DataAuthorId>() {
             @Override
             public VisitorDataGetter<DataAuthorId> newVisitor() {
@@ -97,7 +97,7 @@ public class FactoryMdReference {
         });
     }
 
-    public RefDataList<DataDate> newDatesList(ReviewNode root) {
+    public DataListRef<DataDate> newDatesList(ReviewNode root) {
         return newItemList(root, new VisitorFactory.ItemVisitor<DataDate>() {
             @Override
             public VisitorDataGetter<DataDate> newVisitor() {
@@ -106,71 +106,71 @@ public class FactoryMdReference {
         });
     }
 
-    public RefDataList<DataCriterion> newCriteriaList(ReviewNode root) {
-        return newDataList(root, new VisitorFactory.ListVisitor<RefDataList<DataCriterion>>() {
+    public DataListRef<DataCriterion> newCriteriaList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataListRef<DataCriterion>>() {
             @Override
-            public VisitorDataGetter<RefDataList<DataCriterion>> newVisitor() {
+            public VisitorDataGetter<DataListRef<DataCriterion>> newVisitor() {
                 return mVisitorFactory.newCriteriaCollector();
             }
         });
     }
 
-    public RefCommentList newCommentsList(ReviewNode root) {
-        return newCommentList(root, new VisitorFactory.ListVisitor<RefCommentList>() {
+    public CommentListRef newCommentsList(ReviewNode root) {
+        return newCommentList(root, new VisitorFactory.ListVisitor<CommentListRef>() {
             @Override
-            public VisitorDataGetter<RefCommentList> newVisitor() {
+            public VisitorDataGetter<CommentListRef> newVisitor() {
                 return mVisitorFactory.newCommentsCollector();
             }
         });
     }
 
-    public RefDataList<DataImage> newImagesList(ReviewNode root) {
-        return newDataList(root, new VisitorFactory.ListVisitor<RefDataList<DataImage>>() {
+    public DataListRef<DataImage> newImagesList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataListRef<DataImage>>() {
             @Override
-            public VisitorDataGetter<RefDataList<DataImage>> newVisitor() {
+            public VisitorDataGetter<DataListRef<DataImage>> newVisitor() {
                 return mVisitorFactory.newImagesCollector();
             }
         });
     }
 
-    public RefDataList<DataLocation> newLocationsList(ReviewNode root) {
-        return newDataList(root, new VisitorFactory.ListVisitor<RefDataList<DataLocation>>() {
+    public DataListRef<DataLocation> newLocationsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataListRef<DataLocation>>() {
             @Override
-            public VisitorDataGetter<RefDataList<DataLocation>> newVisitor() {
+            public VisitorDataGetter<DataListRef<DataLocation>> newVisitor() {
                 return mVisitorFactory.newLocationsCollector();
             }
         });
     }
 
-    public RefDataList<DataFact> newFactsList(ReviewNode root) {
-        return newDataList(root, new VisitorFactory.ListVisitor<RefDataList<DataFact>>() {
+    public DataListRef<DataFact> newFactsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataListRef<DataFact>>() {
             @Override
-            public VisitorDataGetter<RefDataList<DataFact>> newVisitor() {
+            public VisitorDataGetter<DataListRef<DataFact>> newVisitor() {
                 return mVisitorFactory.newFactsCollector();
             }
         });
     }
 
-    public RefDataList<DataTag> newTagsList(ReviewNode root) {
-        return newDataList(root, new VisitorFactory.ListVisitor<RefDataList<DataTag>>() {
+    public DataListRef<DataTag> newTagsList(ReviewNode root) {
+        return newDataList(root, new VisitorFactory.ListVisitor<DataListRef<DataTag>>() {
             @Override
-            public VisitorDataGetter<RefDataList<DataTag>> newVisitor() {
+            public VisitorDataGetter<DataListRef<DataTag>> newVisitor() {
                 return mVisitorFactory.newTagsCollector();
             }
         });
     }
     
-    private <Value extends HasReviewId> RefDataList<Value>
-    newDataList(ReviewNode root, VisitorFactory.ListVisitor<RefDataList<Value>> visitorFactory) {
-        return new TreeRefDataList<>(root, this, mTraverserFactory, visitorFactory);
+    private <Value extends HasReviewId> DataListRef<Value>
+    newDataList(ReviewNode root, VisitorFactory.ListVisitor<DataListRef<Value>> visitorFactory) {
+        return new TreeDataListRef<>(root, this, mTraverserFactory, visitorFactory);
     }
 
-    private RefCommentList newCommentList(ReviewNode root, VisitorFactory.ListVisitor<RefCommentList> visitorFactory) {
-        return new TreeRefCommentList(root, this, mTraverserFactory, visitorFactory);
+    private CommentListRef newCommentList(ReviewNode root, VisitorFactory.ListVisitor<CommentListRef> visitorFactory) {
+        return new TreeCommentListRef(root, this, mTraverserFactory, visitorFactory);
     }
 
-    private <T extends HasReviewId> RefDataList<T>
+    private <T extends HasReviewId> DataListRef<T>
     newItemList(ReviewNode root, VisitorFactory.ItemVisitor<T> visitorFactory) {
-        return new TreeRefItemList<>(root, this, mTraverserFactory, visitorFactory);
+        return new TreeItemListRef<>(root, this, mTraverserFactory, visitorFactory);
     }
 }

@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -29,13 +29,13 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefComment extends FbReviewItemRef<DataComment> implements RefComment {
+public class FbCommentRef extends FbReviewItemRef<DataComment> implements CommentRef {
     private static final String SENTENCES = Comment.SENTENCES;
     private final ReviewItemReference<DataSize> mSizeReference;
     private final boolean mIsHeadline;
-    private final ListItemsReferencer<DataComment, RefComment> mReferencer;
+    private final ListItemsReferencer<DataComment, CommentRef> mReferencer;
 
-    public FbRefComment(ReviewId id,
+    public FbCommentRef(ReviewId id,
                         Firebase reference,
                         ReviewItemReference<DataSize> numSentences,
                         SnapshotConverter<DataComment> commentConverter,
@@ -49,21 +49,21 @@ public class FbRefComment extends FbReviewItemRef<DataComment> implements RefCom
 
     @Nullable
     @Override
-    public RefComment getParent() {
+    public CommentRef getParent() {
         return null;
     }
 
     @Override
-    public RefComment getFirstSentence() {
+    public CommentRef getFirstSentence() {
         return mReferencer.toItemReference(getReviewId(), getReference().child(SENTENCES), 0);
     }
 
     @Override
     public void toSentences(final SentencesCallback callback) {
         mReferencer.toItemReferences(getReference().child(SENTENCES), mSizeReference,
-                new ListItemsReferencer.Callback<DataComment, RefComment>() {
+                new ListItemsReferencer.Callback<DataComment, CommentRef>() {
             @Override
-            public void onItemReferences(IdableList<RefComment> sentences) {
+            public void onItemReferences(IdableList<CommentRef> sentences) {
                 callback.onSentenceReferences(sentences);
             }
         });

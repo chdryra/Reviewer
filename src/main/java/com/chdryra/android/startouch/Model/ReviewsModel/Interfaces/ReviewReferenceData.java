@@ -14,8 +14,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
@@ -28,15 +28,15 @@ public interface ReviewReferenceData extends DataReviewInfo {
     //Can't do ReviewItemReference<? extends DataImage> etc. as I want to dereference to known class
     ReviewItemReference<DataImage> getCover();
 
-    RefDataList<DataCriterion> getCriteria();
+    DataListRef<DataCriterion> getCriteria();
 
-    RefCommentList getComments();
+    CommentListRef getComments();
 
-    RefDataList<DataFact> getFacts();
+    DataListRef<DataFact> getFacts();
 
-    RefDataList<DataImage> getImages();
+    DataListRef<DataImage> getImages();
 
-    RefDataList<DataLocation> getLocations();
+    DataListRef<DataLocation> getLocations();
 
-    RefDataList<DataTag> getTags();
+    DataListRef<DataTag> getTags();
 }

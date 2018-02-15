@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
@@ -24,11 +24,11 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbRefDataList<Row extends ReviewDataRow<Row>, Value extends HasReviewId>
-        extends DbListReferenceBasic<Row, Value, ReviewItemReference<Value>> implements RefDataList<Value>{
+public class DbDataListRef<Row extends ReviewDataRow<Row>, Value extends HasReviewId>
+        extends DbListReferenceBasic<Row, Value, ReviewItemReference<Value>> implements DataListRef<Value> {
     private final FactoryDbReference mReferenceFactory;
 
-    public DbRefDataList(DataLoader<Row> loader,
+    public DbDataListRef(DataLoader<Row> loader,
                          FactoryDbReference referenceFactory,
                          Converter<Row, Value> converter) {
         super(loader, referenceFactory, converter);

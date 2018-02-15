@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
@@ -25,12 +26,12 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class BindableListReferenceBasic<T extends HasReviewId> extends 
+public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         BindableReferenceBasic<IdableList<T>>
-        implements ItemBindersDelegate.BindableListReference<T, IdableList<T>> {
+        implements ItemBindersDelegate.BindableListReference<T, IdableList<T>, DataSize> {
     private final Collection<ListItemBinder<T>> mItemBinders;
     private final Collection<ReferenceBinder<IdableList<T>>> mValueBinders;
-    private final ItemBindersDelegate<T> mDelegate;
+    private final ItemBindersDelegate<T, DataSize> mDelegate;
 
     protected abstract void fireForBinder(ListItemBinder<T> binder);
 

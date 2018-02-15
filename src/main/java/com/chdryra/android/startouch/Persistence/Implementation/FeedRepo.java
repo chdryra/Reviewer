@@ -12,7 +12,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
@@ -30,7 +30,7 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedRepo implements ReviewsRepoReadable {
-    private RefAuthorList mFollowing;
+    private AuthorListRef mFollowing;
     private ReviewsRepo mMasterRepo;
     private RepoCollection<AuthorId> mRepos;
     private List<ReviewsSubscriber> mSubscribers;
@@ -38,7 +38,7 @@ public class FeedRepo implements ReviewsRepoReadable {
     private Binder mBinder;
 
     public FeedRepo(AuthorId usersId,
-                    RefAuthorList following,
+                    AuthorListRef following,
                     ReviewsRepo masterRepo,
                     ReviewsRepoReadable initialFeed,
                     RepoCollection<AuthorId> repos) {
@@ -110,7 +110,7 @@ public class FeedRepo implements ReviewsRepoReadable {
         }
 
         @Override
-        public void onInvalidated(ListReference<AuthorId, ?> reference) {
+        public void onInvalidated(ListReference<AuthorId, ?, ?> reference) {
             for (AuthorId toRemoveId : mRepos.getKeys()) {
                 mRepos.remove(toRemoveId);
             }

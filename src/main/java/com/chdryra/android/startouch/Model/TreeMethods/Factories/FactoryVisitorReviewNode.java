@@ -22,8 +22,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -105,61 +105,61 @@ public class FactoryVisitorReviewNode {
         });
     }
 
-    public VisitorDataGetter<RefDataList<DataCriterion>> newCriteriaCollector() {
-        return newListCollector(new NodeDataGetter<RefDataList<DataCriterion>>() {
+    public VisitorDataGetter<DataListRef<DataCriterion>> newCriteriaCollector() {
+        return newListCollector(new NodeDataGetter<DataListRef<DataCriterion>>() {
             @Nullable
             @Override
-            public RefDataList<DataCriterion> getData(@NonNull ReviewNode node) {
+            public DataListRef<DataCriterion> getData(@NonNull ReviewNode node) {
                 return node.getCriteria();
             }
         });
     }
 
-    public VisitorDataGetter<RefCommentList> newCommentsCollector() {
-        return newListCollector(new NodeDataGetter<RefCommentList>() {
+    public VisitorDataGetter<CommentListRef> newCommentsCollector() {
+        return newListCollector(new NodeDataGetter<CommentListRef>() {
             @Nullable
             @Override
-            public RefCommentList getData(@NonNull ReviewNode node) {
+            public CommentListRef getData(@NonNull ReviewNode node) {
                 return node.getComments();
             }
         });
     }
 
-    public VisitorDataGetter<RefDataList<DataImage>> newImagesCollector() {
-        return newListCollector(new NodeDataGetter<RefDataList<DataImage>>() {
+    public VisitorDataGetter<DataListRef<DataImage>> newImagesCollector() {
+        return newListCollector(new NodeDataGetter<DataListRef<DataImage>>() {
             @Nullable
             @Override
-            public RefDataList<DataImage> getData(@NonNull ReviewNode node) {
+            public DataListRef<DataImage> getData(@NonNull ReviewNode node) {
                 return node.getImages();
             }
         });
     }
 
-    public VisitorDataGetter<RefDataList<DataLocation>> newLocationsCollector() {
-        return newListCollector(new NodeDataGetter<RefDataList<DataLocation>>() {
+    public VisitorDataGetter<DataListRef<DataLocation>> newLocationsCollector() {
+        return newListCollector(new NodeDataGetter<DataListRef<DataLocation>>() {
             @Nullable
             @Override
-            public RefDataList<DataLocation> getData(@NonNull ReviewNode node) {
+            public DataListRef<DataLocation> getData(@NonNull ReviewNode node) {
                 return node.getLocations();
             }
         });
     }
 
-    public VisitorDataGetter<RefDataList<DataFact>> newFactsCollector() {
-        return newListCollector(new NodeDataGetter<RefDataList<DataFact>>() {
+    public VisitorDataGetter<DataListRef<DataFact>> newFactsCollector() {
+        return newListCollector(new NodeDataGetter<DataListRef<DataFact>>() {
             @Nullable
             @Override
-            public RefDataList<DataFact> getData(@NonNull ReviewNode node) {
+            public DataListRef<DataFact> getData(@NonNull ReviewNode node) {
                 return node.getFacts();
             }
         });
     }
 
-    public VisitorDataGetter<RefDataList<DataTag>> newTagsCollector() {
-        return newListCollector(new NodeDataGetter<RefDataList<DataTag>>() {
+    public VisitorDataGetter<DataListRef<DataTag>> newTagsCollector() {
+        return newListCollector(new NodeDataGetter<DataListRef<DataTag>>() {
             @Nullable
             @Override
-            public RefDataList<DataTag> getData(@NonNull ReviewNode node) {
+            public DataListRef<DataTag> getData(@NonNull ReviewNode node) {
                 return node.getTags();
             }
         });

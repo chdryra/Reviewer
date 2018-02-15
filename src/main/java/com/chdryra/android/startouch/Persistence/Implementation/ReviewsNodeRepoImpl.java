@@ -77,11 +77,6 @@ public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
     }
 
     @Override
-    public ReviewNode asReviewNode(ReviewId id) {
-        return newAsyncReview(id);
-    }
-
-    @Override
     public ReviewNode asMetaReview(ReviewId id) {
         return newAsyncTree(id);
     }
@@ -146,26 +141,6 @@ public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
                 }
 
                 asyncNode.onCallback(result);
-            }
-        });
-
-        return asyncNode;
-    }
-
-    private ReviewNode newAsyncReview(ReviewId id) {
-        final NodeAsync asyncNode = newAsyncNode(id);
-        mReviewsRepo.getReference(id, new RepoCallback() {
-
-            @Override
-            public void onRepoCallback(RepoResult result) {
-                ReviewReference review = result.getReference();
-                RepoResult repoResult = result;
-                if (result.isReference()) {
-                    ReviewNode node = mReviewsFactory.createLeafNode(review);
-                    repoResult = new RepoResult(node, result.getMessage());
-                }
-
-                asyncNode.onCallback(repoResult);
             }
         });
 

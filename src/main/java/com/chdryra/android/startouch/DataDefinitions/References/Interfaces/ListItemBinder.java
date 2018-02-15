@@ -22,5 +22,5 @@ public interface ListItemBinder<T> {
 
     void onListChanged(Collection<T> newItems);
 
-    void onInvalidated(ListReference<T, ?> reference);
+    void onInvalidated(ListReference<T, ?, ?> reference);
 }

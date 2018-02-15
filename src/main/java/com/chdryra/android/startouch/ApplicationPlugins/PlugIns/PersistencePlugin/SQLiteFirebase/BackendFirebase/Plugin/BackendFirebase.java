@@ -57,6 +57,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactorySizeReference;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsCache;
@@ -83,7 +84,7 @@ public class BackendFirebase implements BackendPlugin {
         mStructure = new FbStructUsersLed();
         mFactoryProfileSnapshot = new FactoryAuthorProfileSnapshot();
         mConverter = new UserProfileConverter(mFactoryProfileSnapshot);
-        mDataReferencer = new FbDataReferencer();
+        mDataReferencer = new FbDataReferencer(new FactorySizeReference());
         mFactoryProfile = new FactoryFbProfile(mDatabase, mStructure, mDataReferencer, mConverter);
         mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryProfile);
     }

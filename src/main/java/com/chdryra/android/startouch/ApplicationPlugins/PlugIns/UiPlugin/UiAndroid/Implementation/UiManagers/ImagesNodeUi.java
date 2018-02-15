@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -32,10 +32,10 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
  */
 
 public class ImagesNodeUi extends FormattedSectionUi<ReviewItemReference<DataSize>> {
-    private final ViewUi<RecyclerView, RefDataList<DataImage>> mGrid;
+    private final ViewUi<RecyclerView, DataListRef<DataImage>> mGrid;
 
     public ImagesNodeUi(LinearLayout section,
-                        ViewUi<RecyclerView, RefDataList<DataImage>> grid,
+                        ViewUi<RecyclerView, DataListRef<DataImage>> grid,
                         final ReviewNode node) {
         super(section, new ReferenceValueGetter<ReviewItemReference<DataSize>>() {
             @Override

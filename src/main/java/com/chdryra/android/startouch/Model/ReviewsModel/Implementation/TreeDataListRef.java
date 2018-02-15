@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -21,12 +21,12 @@ import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTrav
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TreeRefDataList<Value extends HasReviewId>
-        extends TreeListReferences<Value, ReviewItemReference<Value>, RefDataList<Value>>
-        implements RefDataList<Value> {
-    public TreeRefDataList(ReviewNode root, FactoryMdReference referenceFactory,
+public class TreeDataListRef<Value extends HasReviewId>
+        extends TreeListReferences<Value, ReviewItemReference<Value>, DataListRef<Value>>
+        implements DataListRef<Value> {
+    public TreeDataListRef(ReviewNode root, FactoryMdReference referenceFactory,
                            FactoryNodeTraverser traverserFactory, VisitorFactory
-                                   .ListVisitor<RefDataList<Value>> visitorFactory) {
+                                   .ListVisitor<DataListRef<Value>> visitorFactory) {
         super(root, referenceFactory, traverserFactory, visitorFactory);
     }
 }

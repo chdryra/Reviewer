@@ -18,15 +18,15 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RefComment extends ReviewItemReference<DataComment> {
+public interface CommentRef extends ReviewItemReference<DataComment> {
     interface SentencesCallback {
-        void onSentenceReferences(IdableList<RefComment> references);
+        void onSentenceReferences(IdableList<CommentRef> references);
     }
 
     @Nullable
-    RefComment getParent();
+    CommentRef getParent();
 
-    RefComment getFirstSentence();
+    CommentRef getFirstSentence();
 
     void toSentences(SentencesCallback callback);
 

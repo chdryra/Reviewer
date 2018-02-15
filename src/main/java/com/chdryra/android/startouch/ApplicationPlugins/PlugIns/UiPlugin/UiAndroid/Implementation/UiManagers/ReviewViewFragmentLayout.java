@@ -39,12 +39,12 @@ import com.chdryra.android.startouch.R;
 public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private static final int LAYOUT = R.layout.fragment_review_view;
     private static final int SUBJECT = R.id.review_subject;
-    private static final int RATING = R.id.rating_button;
-    private static final int BANNER = R.id.sort_button;
+    private static final int RATING = R.id.middle_button;
+    private static final int BANNER = R.id.right_button;
     private static final int GRID = R.id.gridview_data;
     private static final int COVER = R.id.background_image;
     private static final int CONTEXT_VIEW = R.id.view_selector_layout;
-    private static final int CONTEXT_BUTTON = R.id.view_button;
+    private static final int CONTEXT_BUTTON = R.id.left_button;
 
     private static final TitleDecorator DECORATOR = Styles.TitleDecorators.OPTION_BUTTON;
 

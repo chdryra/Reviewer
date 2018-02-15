@@ -14,7 +14,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -133,7 +133,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
         mInProgress = true;
         mNumReviews = 0;
         mCount = 0;
-        RefDataList<ReviewReference> reviews = node.getReviews();
+        DataListRef<ReviewReference> reviews = node.getReviews();
         reviews.toItemReferences(this);
     }
 }

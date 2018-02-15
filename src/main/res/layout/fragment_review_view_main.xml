@@ -19,7 +19,7 @@
 
     <include
         android:id="@+id/buttons_rating"
-        layout="@layout/context_rating_sort_bar"/>
+        layout="@layout/three_button_banner_bar"/>
 
     <View style="@style/HorizontalDivider"/>
 

@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataReferenceBasic;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
@@ -111,7 +111,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     private void findReviewWithCover(final ChoiceCallback callback) {
-        RefDataList<ReviewReference> reviews = mRoot.getReviews();
+        DataListRef<ReviewReference> reviews = mRoot.getReviews();
         reviews.toItemReferences(new ReviewListReference.ItemReferencesCallback<ReviewReference,
                 ReviewItemReference<ReviewReference>>() {
             @Override

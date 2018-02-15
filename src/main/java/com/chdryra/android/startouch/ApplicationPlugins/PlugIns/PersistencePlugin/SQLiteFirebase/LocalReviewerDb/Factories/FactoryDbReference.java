@@ -14,8 +14,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DataLoader;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DbItemDereferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DbRefCommentList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DbRefDataList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DbCommentListRef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.DbDataListRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbReference;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbRepo;
@@ -30,8 +30,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -65,7 +65,7 @@ public class FactoryDbReference {
         return new ReviewerDbReference(info, repo, this);
     }
 
-    public RefComment newReference(DataLoader.RowLoader<RowComment> loader, boolean isHeadline) {
+    public CommentRef newReference(DataLoader.RowLoader<RowComment> loader, boolean isHeadline) {
         return mReferenceFactory.newCommentReference(isHeadline, new DbItemDereferencer<>(loader,
                 new DbItemDereferencer.Converter<RowComment, DataComment>() {
             @Override
@@ -75,16 +75,16 @@ public class FactoryDbReference {
         }));
     }
 
-    public <T extends ReviewDataRow<T>, R extends HasReviewId> RefDataList<R>
+    public <T extends ReviewDataRow<T>, R extends HasReviewId> DataListRef<R>
     newListReference(ReviewId id, ReviewerDbReadable db, DbTable<T> table,
-                     ColumnInfo<String> idCol, DbRefDataList.Converter<T, R> converter) {
-        return new DbRefDataList<>(new DataLoader<>(id, id.toString(),db, table, idCol), this, converter);
+                     ColumnInfo<String> idCol, DbDataListRef.Converter<T, R> converter) {
+        return new DbDataListRef<>(new DataLoader<>(id, id.toString(),db, table, idCol), this, converter);
     }
 
-    public DbRefCommentList
+    public DbCommentListRef
     newCommentListReference(ReviewId id, ReviewerDbReadable db,
-                     ColumnInfo<String> idCol, DbRefDataList.Converter<RowComment, DataComment> converter) {
-        return new DbRefCommentList(new DataLoader<>(id, id.toString(),db, db.getCommentsTable(), idCol), this, converter);
+                     ColumnInfo<String> idCol, DbDataListRef.Converter<RowComment, DataComment> converter) {
+        return new DbCommentListRef(new DataLoader<>(id, id.toString(),db, db.getCommentsTable(), idCol), this, converter);
     }
 
     public <T extends ReviewDataRow<T>, R extends HasReviewId> ReviewItemReference<R>

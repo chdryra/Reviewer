@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbAuthorListRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterAuthorId;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComments;
@@ -22,10 +23,10 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterProfileImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterReviewTag;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterSize;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbListReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbRefCommentList;
+
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbCommentListRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbRefData;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbRefDatalist;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbDataListRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbReviewItemRef;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.IdableListConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ListConverter;
@@ -44,15 +45,16 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorReferenceDefault;
+import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactorySizeReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorRefDefault;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SentencesCollector;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -62,23 +64,25 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbDataReferencer {
+    private final FactorySizeReference mSizeReferencer;
     private final FactoryListItemsReferencer mReferencerFactory;
 
-    public FbDataReferencer() {
+    public FbDataReferencer(FactorySizeReference sizeReferencer) {
+        mSizeReferencer = sizeReferencer;
         mReferencerFactory = new FactoryListItemsReferencer(this);
     }
 
-    public RefAuthorList newAuthorList(Firebase ref) {
+    public AuthorListRef newAuthorList(Firebase ref) {
         ConverterAuthorId converter = new ConverterAuthorId.AsIndex();
-        return new FbListReference.AuthorList(ref, new ListConverter<>(converter), converter);
+        return new FbAuthorListRef(ref, new ListConverter<>(converter), converter, mSizeReferencer);
     }
 
     public DataReference<AuthorId> newAuthorId(Firebase ref) {
         return new FbRefData<>(ref, new ConverterAuthorId());
     }
 
-    public AuthorReference newAuthorName(Firebase ref, AuthorId id) {
-        return new AuthorReferenceDefault(id, new FbRefData<>(ref, new ConverterIdNamedAuthor()));
+    public AuthorRef newAuthorName(Firebase ref, AuthorId id) {
+        return new AuthorRefDefault(id, new FbRefData<>(ref, new ConverterIdNamedAuthor()));
     }
 
     public DataReference<ProfileImage> newImageReference(Firebase ref, AuthorId id) {
@@ -93,38 +97,38 @@ public class FbDataReferencer {
         return new FbReviewItemRef<>(id, ref, new ConverterImage(id));
     }
 
-    public RefDataList<DataCriterion> newCriteria(Firebase ref,
+    public DataListRef<DataCriterion> newCriteria(Firebase ref,
                                                   ReviewId id,
                                                   ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterCriterion());
     }
 
-    public RefDataList<DataTag> newTags(Firebase ref, ReviewId id,
-                                                ReviewItemReference<DataSize> size) {
+    public DataListRef<DataTag> newTags(Firebase ref, ReviewId id,
+                                        ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterReviewTag());
     }
 
-    public RefDataList<DataImage> newImages(Firebase ref, ReviewId id,
-                                                    ReviewItemReference<DataSize> size) {
+    public DataListRef<DataImage> newImages(Firebase ref, ReviewId id,
+                                            ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterImage());
     }
 
-    public RefDataList<DataLocation> newLocations(Firebase ref, ReviewId id,
-                                                          ReviewItemReference<DataSize> size) {
+    public DataListRef<DataLocation> newLocations(Firebase ref, ReviewId id,
+                                                  ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterLocation());
     }
 
-    public RefDataList<DataFact> newFacts(Firebase ref, ReviewId id,
-                                                  ReviewItemReference<DataSize> size) {
+    public DataListRef<DataFact> newFacts(Firebase ref, ReviewId id,
+                                          ReviewItemReference<DataSize> size) {
         return newListReference(ref, id, size, new ConverterFact());
     }
 
-    public RefCommentList newComments(Firebase ref, ReviewId id,
+    public CommentListRef newComments(Firebase ref, ReviewId id,
                                       ReviewItemReference<DataSize> size) {
         ConverterComments converter = new ConverterComments(id, new ConverterComment());
-        ListItemsReferencer<DataComment, RefComment> referencer
+        ListItemsReferencer<DataComment, CommentRef> referencer
                 = mReferencerFactory.newCommentsReferencer(converter.getItemConverter());
-        return new FbRefCommentList(id, ref, size, converter, referencer, this);
+        return new FbCommentListRef(id, ref, size, converter, referencer, this);
     }
 
 
@@ -134,12 +138,12 @@ public class FbDataReferencer {
     }
 
     @NonNull
-    private <Value extends HasReviewId> RefDataList<Value> newListReference(Firebase ref,
+    private <Value extends HasReviewId> DataListRef<Value> newListReference(Firebase ref,
                                                                             ReviewId id,
                                                                             ReviewItemReference<DataSize> size,
                                                                             ReviewItemConverter<Value> itemConverter) {
         final IdableListConverter<Value> converter = newListConverter(id, itemConverter);
-        return new FbRefDatalist<>(id, ref, size, converter, newItemsReferencer(converter.getItemConverter()));
+        return new FbDataListRef<>(id, ref, size, converter, newItemsReferencer(converter.getItemConverter()));
     }
 
     @NonNull
@@ -155,7 +159,7 @@ public class FbDataReferencer {
         return new IdableListConverter<>(id, itemConverter);
     }
 
-    public SentencesCollector newSentencesCollector(IdableList<RefComment> comments) {
+    public SentencesCollector newSentencesCollector(IdableList<CommentRef> comments) {
         return new SentencesCollector(comments);
     }
 }

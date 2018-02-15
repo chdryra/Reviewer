@@ -121,9 +121,12 @@ public class FactoryLaunchCommands {
     }
 
     public LaunchProfileCommand newLaunchProfileCommand() {
-        return new LaunchProfileCommand(mApp.getUi().getConfig().getProfile());
+        return new LaunchProfileCommand(mApp.getUi().getConfig().getProfile(), null);
     }
 
+    public LaunchProfileCommand newLaunchProfileCommand(AuthorId authorId) {
+        return new LaunchProfileCommand(mApp.getUi().getConfig().getProfile(), authorId);
+    }
 
     private ReviewLauncher getReviewLauncher() {
         return getLauncher().getReviewLauncher();

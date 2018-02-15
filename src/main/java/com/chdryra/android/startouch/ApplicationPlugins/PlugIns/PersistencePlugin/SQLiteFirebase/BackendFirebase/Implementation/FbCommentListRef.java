@@ -15,8 +15,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -25,24 +25,24 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefCommentList extends FbReviewListRef<DataComment, RefComment> implements RefCommentList {
+public class FbCommentListRef extends FbReviewListRef<DataComment, CommentRef> implements CommentListRef {
     private final FbDataReferencer mReferenceFactory;
 
-    public FbRefCommentList(ReviewId id,
+    public FbCommentListRef(ReviewId id,
                             Firebase reference,
                             ReviewItemReference<DataSize> sizeReference,
                             IdableListConverter<DataComment> converter,
-                            ListItemsReferencer<DataComment, RefComment> referencer,
+                            ListItemsReferencer<DataComment, CommentRef> referencer,
                             FbDataReferencer referenceFactory) {
         super(id, reference, sizeReference, converter, referencer);
         mReferenceFactory = referenceFactory;
     }
 
     @Override
-    public void toSentences(final RefComment.SentencesCallback callback) {
-        toItemReferences(new ItemReferencesCallback<DataComment, RefComment>() {
+    public void toSentences(final CommentRef.SentencesCallback callback) {
+        toItemReferences(new ItemReferencesCallback<DataComment, CommentRef>() {
             @Override
-            public void onItemReferences(IdableList<RefComment> references) {
+            public void onItemReferences(IdableList<CommentRef> references) {
                 mReferenceFactory.newSentencesCollector(references).collectAll(callback);
             }
         });

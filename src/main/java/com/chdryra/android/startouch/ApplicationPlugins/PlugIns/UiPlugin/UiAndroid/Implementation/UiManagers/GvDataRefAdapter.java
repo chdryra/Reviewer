@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
@@ -31,13 +31,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataRefAdapter<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
-        extends GvDataAdapter<Gv> implements SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> {
-    private final SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> mReference;
+        extends GvDataAdapter<Gv> implements SimpleViewUi.ReferenceValueGetter<DataListRef<Value>> {
+    private final SimpleViewUi.ReferenceValueGetter<DataListRef<Value>> mReference;
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
 
     private boolean mDereferenced = false;
 
-    public GvDataRefAdapter(SimpleViewUi.ReferenceValueGetter<RefDataList<Value>> reference,
+    public GvDataRefAdapter(SimpleViewUi.ReferenceValueGetter<DataListRef<Value>> reference,
                             DataConverter<Value, Gv, ? extends GvDataList<Gv>> converter,
                             ViewHolderFactory<Vh> factory,
                             CellDimensionsCalculator.Dimensions dims) {
@@ -48,7 +48,7 @@ public class GvDataRefAdapter<Value extends HasReviewId, Gv extends GvData, Vh e
     }
 
     @Override
-    public RefDataList<Value> getValue() {
+    public DataListRef<Value> getValue() {
         return mReference.getValue();
     }
 

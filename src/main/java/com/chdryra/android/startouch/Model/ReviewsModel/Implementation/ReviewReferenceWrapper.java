@@ -23,8 +23,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.StaticItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefCommentList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -86,40 +86,40 @@ public class ReviewReferenceWrapper extends StaticItemReference<Review> implemen
     }
 
     @Override
-    public RefDataList<DataCriterion> getCriteria() {
+    public DataListRef<DataCriterion> getCriteria() {
         return newWrapper(mReview.getCriteria());
     }
 
     @Override
-    public RefCommentList getComments() {
+    public CommentListRef getComments() {
         return newCommentsWrapper(mReview.getComments());
     }
 
     @Override
-    public RefDataList<DataFact> getFacts() {
+    public DataListRef<DataFact> getFacts() {
         return newWrapper(mReview.getFacts());
     }
 
     @Override
-    public RefDataList<DataImage> getImages() {
+    public DataListRef<DataImage> getImages() {
         return newWrapper(mReview.getImages());
     }
 
     @Override
-    public RefDataList<DataLocation> getLocations() {
+    public DataListRef<DataLocation> getLocations() {
         return newWrapper(mReview.getLocations());
     }
 
     @Override
-    public RefDataList<DataTag> getTags() {
+    public DataListRef<DataTag> getTags() {
         return newWrapper(mReview.getTags());
     }
 
-    private <T extends HasReviewId> RefDataList<T> newWrapper(IdableList<? extends T> data) {
+    private <T extends HasReviewId> DataListRef<T> newWrapper(IdableList<? extends T> data) {
         return mReferenceFactory.newSuperClassWrapper(data);
     }
 
-    private RefCommentList newCommentsWrapper(IdableList<? extends DataComment> data) {
+    private CommentListRef newCommentsWrapper(IdableList<? extends DataComment> data) {
         return mReferenceFactory.newCommentsWrapper(data);
     }
 }

@@ -24,7 +24,7 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReviewListRef<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
-        extends FbListReference<Value, IdableList<Value>> implements ReviewListReference<Value, Reference> {
+        extends FbListReferenceBasic<Value, IdableList<Value>, DataSize> implements ReviewListReference<Value, Reference> {
     private final ReviewId mId;
     private final ReviewItemReference<DataSize> mSizeReference;
     private final ListItemsReferencer<Value, Reference> mItemReferencer;

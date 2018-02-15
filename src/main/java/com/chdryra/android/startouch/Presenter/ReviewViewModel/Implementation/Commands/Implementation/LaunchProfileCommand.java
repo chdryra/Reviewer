@@ -27,11 +27,14 @@ import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLaunche
  */
 
 public class LaunchProfileCommand extends Command {
+    private static final String PROFILE = "Profile";
     private final LaunchableConfig mProfile;
+    private final AuthorId mAuthorId;
 
-    public LaunchProfileCommand(LaunchableConfig profile) {
-        super("Profile");
+    public LaunchProfileCommand(LaunchableConfig profile, @Nullable AuthorId authorId) {
+        super(PROFILE);
         mProfile = profile;
+        mAuthorId = authorId;
     }
 
     public void execute(@Nullable AuthorId authorId) {
@@ -40,12 +43,13 @@ public class LaunchProfileCommand extends Command {
             ParcelablePacker<GvAuthorId> packer = new ParcelablePacker<>();
             packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, new GvAuthorId(authorId.toString()), args);
         }
+
         mProfile.launch(new UiLauncherArgs(mProfile.getDefaultRequestCode()).setBundle(args));
         onExecutionComplete();
     }
 
     @Override
     public void execute() {
-        execute(null);
+        execute(mAuthorId);
     }
 }

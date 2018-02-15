@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 
 
+import android.text.format.DateFormat;
 import android.view.View;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
@@ -37,7 +38,7 @@ implements DataReference.DereferenceCallback<AuthorName>{
         super(stamp.toReadableDate());
         mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();
-        mDate = stamp.toReadableDate();
+        mDate = DateFormat.format("dd-MM-yy", stamp.getDate().getTime()).toString();
         repo.getReference(mAuthorId).dereference(this);
     }
 
@@ -49,6 +50,6 @@ implements DataReference.DereferenceCallback<AuthorName>{
 
     @Override
     public void onDereferenced(DataValue<AuthorName> value) {
-        if(value.hasValue()) setTitle(value.getData().getName() + " " + mDate);
+        if(value.hasValue()) setTitle(value.getData().getName() + "\n" + mDate);
     }
 }

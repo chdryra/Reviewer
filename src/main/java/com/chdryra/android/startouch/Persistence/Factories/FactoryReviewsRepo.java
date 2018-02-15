@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Persistence.Factories;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoCollection;
@@ -51,7 +51,7 @@ public class FactoryReviewsRepo {
     }
 
 
-    public ReviewsRepoReadable newFeed(AuthorId usersId, RefAuthorList following, ReviewsRepo masterRepo) {
+    public ReviewsRepoReadable newFeed(AuthorId usersId, AuthorListRef following, ReviewsRepo masterRepo) {
         return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
     }
 

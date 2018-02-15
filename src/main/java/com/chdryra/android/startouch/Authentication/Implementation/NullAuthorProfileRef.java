@@ -15,9 +15,9 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorReferenceDefault;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorRefDefault;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
@@ -38,8 +38,8 @@ public class NullAuthorProfileRef implements AuthorProfileRef {
     }
 
     @Override
-    public AuthorReference getAuthor() {
-        return new AuthorReferenceDefault();
+    public AuthorRef getAuthor() {
+        return new AuthorRefDefault();
     }
 
     @Override

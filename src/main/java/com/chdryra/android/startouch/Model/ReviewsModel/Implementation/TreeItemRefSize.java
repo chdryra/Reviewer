@@ -20,14 +20,14 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeItemRefSize<Value extends HasReviewId> extends TreeSizeRefBasic<Value> {
-    public TreeItemRefSize(TreeRefItemList<Value> dataReference) {
+    public TreeItemRefSize(TreeItemListRef<Value> dataReference) {
         super(dataReference);
     }
 
     @Override
-    protected TreeRefItemList<Value> getReference() {
+    protected TreeItemListRef<Value> getReference() {
         //TODO make type safe
-        return (TreeRefItemList<Value>) super.getReference();
+        return (TreeItemListRef<Value>) super.getReference();
     }
 
     @Override

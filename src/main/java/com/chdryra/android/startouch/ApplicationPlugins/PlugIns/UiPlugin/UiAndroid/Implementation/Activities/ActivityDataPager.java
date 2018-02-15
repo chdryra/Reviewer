@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.NodeDataPagerAdapter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.R;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.NodeLauncher;
@@ -48,7 +48,7 @@ public abstract class ActivityDataPager<Data extends HasReviewId, FragmentType
     private NodeDataPagerAdapter<Data, FragmentType> mAdapter;
     private ViewPager mPager;
 
-    protected abstract RefDataList<Data> getData(ReviewNode node);
+    protected abstract DataListRef<Data> getData(ReviewNode node);
 
     public void onFragmentReady(FragmentType fragment) {
         mAdapter.onFragmentReady(fragment);

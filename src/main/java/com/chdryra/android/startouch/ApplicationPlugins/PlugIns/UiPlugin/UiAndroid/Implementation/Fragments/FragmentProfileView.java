@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
 import android.app.Fragment;
@@ -25,49 +25,45 @@ import android.widget.TextView;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.TitleDecorator;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvAuthorId;
 import com.chdryra.android.startouch.R;
 
-import java.util.Collection;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentProfileView extends Fragment implements ReferenceBinder<AuthorProfile>, ActivityResultListener {
+public class FragmentProfileView extends Fragment implements ReferenceBinder<AuthorProfile>,
+        ActivityResultListener {
     private static final String ARGS = TagKeyGenerator.getKey(FragmentProfileView.class, "Args");
+    private static final String PROFILE_DELETED = "Profile deleted";
+
     private static final int LAYOUT = R.layout.fragment_profile_view;
     private static final int PROFILE_IMAGE = R.id.profile_image;
     private static final int PROFILE_AUTHOR = R.id.profile_name;
-    private static final int RATINGS_BUTTON = R.id.wide_button;
-    private static final int SOCIAL_BUTTON = R.id.wide_button;
-    private static final int FOLLOWERS = R.id.followers;
-    private static final int FOLLOWING = R.id.following;
+    private static final int FOLLOWERS_BUTTON = R.id.left_button;
+    private static final int RATINGS_BUTTON = R.id.middle_button;
+    private static final int FOLLOWING_BUTTON = R.id.right_button;
     private static final int IMAGE_PLACEHOLDER = R.drawable.ic_face_black_36dp;
-
-    private static final TitleDecorator DECORATOR = Styles.TitleDecorators.DONE_BUTTON;
-    private static final String PROFILE_DELETED = "Profile deleted";
+    private static final String NO_AUTHOR = "No author...";
+    private static final String FOLLOWING = "following";
+    private static final String FOLLOWERS = "followers";
 
     private AuthorId mAuthor;
     private TextView mName;
     private ImageView mPhoto;
-    private SocialBinder mFollwers;
-    private SocialBinder mFollowing;
+    private SizeBinder mFollowers;
+    private SizeBinder mFollowing;
 
     public static FragmentProfileView newInstance(GvAuthorId authorId) {
         FragmentProfileView fragment = new FragmentProfileView();
@@ -86,10 +82,10 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         mPhoto = view.findViewById(PROFILE_IMAGE);
         mName = view.findViewById(PROFILE_AUTHOR);
         Button ratingsButton = view.findViewById(RATINGS_BUTTON);
-        Button followers = view.findViewById(FOLLOWERS);
-        Button following = view.findViewById(FOLLOWING);
+        Button followers = view.findViewById(FOLLOWERS_BUTTON);
+        Button following = view.findViewById(FOLLOWING_BUTTON);
 
-        ratingsButton.setText(DECORATOR.decorate(Strings.REVIEWS_CAP));
+        ratingsButton.setText("\n" + Strings.REVIEWS);
         ratingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +94,8 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         });
         mPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
 
-        if(!setAuthor()) {
-            getApp().getUi().getCurrentScreen().showToast("No author...");
+        if (!setAuthor()) {
+            getApp().getUi().getCurrentScreen().showToast(NO_AUTHOR);
         } else {
             getProfile(followers, following);
         }
@@ -107,14 +103,10 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         return view;
     }
 
-    private void launchAuthorRatings() {
-        getApp().getUi().getLauncher().getReviewLauncher().launchAsList(mAuthor);
-    }
-
     @Override
     public void onStop() {
         super.onStop();
-        mFollwers.unbind();
+        mFollowers.unbind();
         mFollowing.unbind();
     }
 
@@ -128,73 +120,28 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         mName.setText(PROFILE_DELETED);
     }
 
+    private AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    private void launchAuthorRatings() {
+        getApp().getUi().getLauncher().getReviewLauncher().launchAsList(mAuthor);
+    }
+
     private void getProfile(Button followers, Button following) {
         AppInstanceAndroid app = getApp();
         AuthorProfileRef profile = app.getRepository().getAuthors().getAuthorProfile(mAuthor);
         profile.bindToValue(this);
         SocialProfileRef social = app.getRepository().getAuthors().getSocialProfile(mAuthor);
-        mFollwers = new SocialBinder(social.getFollowers(), followers, "followers");
-        mFollowing = new SocialBinder(social.getFollowing(), following, "following");
-    }
-
-    private class SocialBinder implements ListItemBinder<AuthorId> {
-        private final RefAuthorList mList;
-        private final Button mView;
-        private final String mStem;
-        private int mNumber = 0;
-
-        private SocialBinder(RefAuthorList list, Button view, String stem) {
-            mList = list;
-            mView = view;
-            mStem = stem;
-            mView.setText(Strings.EditTexts.FETCHING);
-            mList.bindToItems(this);
-        }
-
-        @Override
-        public void onItemAdded(AuthorId value) {
-            ++mNumber;
-            setText();
-        }
-
-        @Override
-        public void onItemRemoved(AuthorId value) {
-            --mNumber;
-            setText();
-        }
-
-        @Override
-        public void onListChanged(Collection<AuthorId> newItems) {
-            mNumber = newItems.size();
-            setText();
-        }
-
-        private void setText() {
-            String text = String.valueOf(mNumber) + " " + mStem;
-            mView.setText(text);
-        }
-
-        @Override
-        public void onInvalidated(ListReference<AuthorId, ?> reference) {
-            mNumber = 0;
-            setText();
-            mList.unbindFromItems(this);
-        }
-
-        private void unbind() {
-            mList.unbindFromItems(this);
-        }
-    }
-
-    private AppInstanceAndroid getApp() {
-        return AppInstanceAndroid.getInstance(getActivity());
+        mFollowers = new SizeBinder(social.getFollowers().getSize(), followers, FOLLOWERS);
+        mFollowing = new SizeBinder(social.getFollowing().getSize(), following, FOLLOWING);
     }
 
     private void setProfile(AuthorProfile profile) {
         mName.setText(profile.getAuthor().getName());
         ProfileImage image = profile.getImage();
         Bitmap bitmap = image.getBitmap();
-        if(bitmap != null) {
+        if (bitmap != null) {
             mPhoto.setImageBitmap(bitmap);
         } else {
             mPhoto.setImageResource(IMAGE_PLACEHOLDER);
@@ -208,4 +155,40 @@ public class FragmentProfileView extends Fragment implements ReferenceBinder<Aut
         return mAuthor != null;
     }
 
+    private class SizeBinder implements ReferenceBinder<Size> {
+        private final DataReference<Size> mSize;
+        private final Button mView;
+        private final String mStem;
+        private int mNumber = 0;
+
+        private SizeBinder(DataReference<Size> size, Button view, String stem) {
+            mSize = size;
+            mView = view;
+            mStem = stem;
+            mView.setText(Strings.EditTexts.FETCHING);
+            mSize.bindToValue(this);
+        }
+
+        @Override
+        public void onReferenceValue(Size value) {
+            mNumber = value.getSize();
+            setText();
+        }
+
+        @Override
+        public void onInvalidated(DataReference<Size> reference) {
+            mNumber = 0;
+            setText();
+            unbind();
+        }
+
+        private void setText() {
+            String text = String.valueOf(mNumber) + "\n" + mStem;
+            mView.setText(text);
+        }
+
+        private void unbind() {
+            mSize.unbindFromValue(this);
+        }
+    }
 }

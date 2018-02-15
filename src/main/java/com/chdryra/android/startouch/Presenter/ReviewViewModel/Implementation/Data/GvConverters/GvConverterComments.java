@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
@@ -33,7 +33,7 @@ public class GvConverterComments extends GvConverterReviewData.RefCommentList<Gv
     }
 
     @Override
-    protected GvComment.Reference convertReference(RefComment reference) {
+    protected GvComment.Reference convertReference(CommentRef reference) {
         return new GvComment.Reference(reference, this);
     }
 }

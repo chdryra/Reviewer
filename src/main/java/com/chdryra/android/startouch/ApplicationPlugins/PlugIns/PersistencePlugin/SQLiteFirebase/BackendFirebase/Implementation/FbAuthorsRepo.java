@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -57,7 +57,7 @@ public class FbAuthorsRepo implements AuthorsRepo {
     }
 
     @Override
-    public AuthorReference getReference(AuthorId authorId) {
+    public AuthorRef getReference(AuthorId authorId) {
         Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, authorId);
         return mReferenceFactory.newAuthorName(db, authorId);
     }

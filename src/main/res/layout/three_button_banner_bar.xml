@@ -18,7 +18,7 @@
         android:layout_weight="1">
 
         <include
-            android:id="@+id/view_button"
+            android:id="@+id/left_button"
             layout="@layout/banner_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/rating_button"
+        android:id="@+id/middle_button"
         layout="@layout/banner_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
     <View style="@style/VerticalDivider"/>
 
         <include
-            android:id="@+id/sort_button"
+            android:id="@+id/right_button"
             layout="@layout/banner_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

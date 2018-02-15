@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.firebase.client.Firebase;
 
@@ -57,7 +57,7 @@ public class FbAuthorProfileRef extends FbRefData<AuthorProfile> implements Auth
     }
 
     @Override
-    public AuthorReference getAuthor() {
+    public AuthorRef getAuthor() {
         return mReferenceFactory.newAuthorName(getReference().child(ProfileAuthor.AUTHOR), mAuthorId);
     }
 

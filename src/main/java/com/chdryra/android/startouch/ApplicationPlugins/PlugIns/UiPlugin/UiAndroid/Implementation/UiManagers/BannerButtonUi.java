@@ -23,12 +23,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonUi extends SimpleViewUi<Button, String> {
-    private static final TitleDecorator FORMAT = TitleDecorator.NO_DECOR;
     private final ButtonAction<?> mAction;
-
-    public BannerButtonUi(final ReviewView<?> reviewView, Button view) {
-        this(reviewView, view, FORMAT);
-    }
 
     public BannerButtonUi(final ReviewView<?> reviewView, final Button view, final TitleDecorator decorator) {
         super(view, new ReferenceValueGetter<String>() {

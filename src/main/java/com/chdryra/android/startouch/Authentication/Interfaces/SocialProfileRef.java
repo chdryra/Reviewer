@@ -12,7 +12,7 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefAuthorList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,9 +26,9 @@ public interface SocialProfileRef extends HasAuthorId, DataReference<SocialProfi
         void onFollowingCallback(AuthorId authorId, FollowUnfollow type, CallbackMessage message);
     }
 
-    RefAuthorList getFollowing();
+    AuthorListRef getFollowing();
 
-    RefAuthorList getFollowers();
+    AuthorListRef getFollowers();
 
     void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback);
 }

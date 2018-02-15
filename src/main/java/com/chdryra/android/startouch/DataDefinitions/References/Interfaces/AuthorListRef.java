@@ -8,13 +8,16 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 23/08/2016
+ * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RefCommentList extends ReviewListReference<DataComment, RefComment> {
-    void toSentences(RefComment.SentencesCallback callback);
+public interface AuthorListRef extends ListReference<AuthorId, List<AuthorId>, Size> {
+
 }

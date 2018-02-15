@@ -17,7 +17,7 @@ import com.chdryra.android.corelibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefDataList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -39,7 +39,7 @@ public class NodeDataPagerAdapter<Data extends HasReviewId, FragmentType extends
         F newFragment(String pageId);
     }
 
-    public NodeDataPagerAdapter(FragmentManager manager, RefDataList<Data> data,
+    public NodeDataPagerAdapter(FragmentManager manager, DataListRef<Data> data,
                                 FragmentFactory<FragmentType> factory) {
         super(manager);
         mFactory = factory;

@@ -8,13 +8,13 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 28/07/2016
+ * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorReference extends DataReference<AuthorName>, HasAuthorId{
+public interface CommentListRef extends ReviewListReference<DataComment, CommentRef> {
+    void toSentences(CommentRef.SentencesCallback callback);
 }

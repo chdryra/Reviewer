@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCo
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 
 import java.util.ArrayList;
@@ -25,30 +25,30 @@ import java.util.ArrayList;
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperRefComment extends StaticItemReference<DataComment> implements RefComment {
-    private final RefComment mParent;
+public class WrapperCommentRef extends StaticItemReference<DataComment> implements CommentRef {
+    private final CommentRef mParent;
 
-    public WrapperRefComment(DataComment value, @Nullable RefComment parent) {
+    public WrapperCommentRef(DataComment value, @Nullable CommentRef parent) {
         super(value);
         mParent = parent;
     }
 
     @Nullable
     @Override
-    public RefComment getParent() {
+    public CommentRef getParent() {
         return mParent;
     }
 
     @Override
-    public RefComment getFirstSentence() {
-        return new WrapperRefComment(newComment(getSplit().get(0)), this);
+    public CommentRef getFirstSentence() {
+        return new WrapperCommentRef(newComment(getSplit().get(0)), this);
     }
 
     @Override
     public void toSentences(SentencesCallback callback) {
-        IdableList<RefComment> sentences = new IdableDataList<>(getReviewId());
+        IdableList<CommentRef> sentences = new IdableDataList<>(getReviewId());
         for (String sentence : getSplit()) {
-            sentences.add(new WrapperRefComment(newComment(sentence), this));
+            sentences.add(new WrapperCommentRef(newComment(sentence), this));
         }
         callback.onSentenceReferences(sentences);
     }

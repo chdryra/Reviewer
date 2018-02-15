@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.RefComment;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
@@ -186,7 +186,7 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
 
         private GvComment mParcelable;
 
-        public Reference(RefComment reference,
+        public Reference(CommentRef reference,
                          DataConverter<DataComment, GvComment, ?> converter) {
             super(TYPE, reference, converter, VhComment.class, new
                     PlaceHolderFactory<DataComment>() {
@@ -198,8 +198,8 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
         }
 
         public Reference getFullCommentReference() {
-            RefComment reference = (RefComment) super.getReference();
-            RefComment parent = reference.getParent();
+            CommentRef reference = (CommentRef) super.getReference();
+            CommentRef parent = reference.getParent();
             if (parent == null) {
                 return this;
             } else {
