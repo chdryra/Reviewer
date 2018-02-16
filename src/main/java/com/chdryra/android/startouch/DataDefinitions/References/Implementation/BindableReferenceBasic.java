@@ -23,7 +23,7 @@ public abstract class BindableReferenceBasic<T> extends DataReferenceBasic<T> {
 
     protected abstract Collection<ReferenceBinder<T>> getBinders();
 
-    protected abstract void removeBinder(ReferenceBinder<T> binder);
+    protected abstract void removeUnboundBinder(ReferenceBinder<T> binder);
 
     protected abstract void doDereferencing(DereferenceCallback<T> callback);
 
@@ -53,7 +53,7 @@ public abstract class BindableReferenceBasic<T> extends DataReferenceBasic<T> {
 
     @Override
     public void unbindFromValue(ReferenceBinder<T> binder) {
-        if (contains(binder)) removeBinder(binder);
+        if (contains(binder)) removeUnboundBinder(binder);
     }
 
     @Override

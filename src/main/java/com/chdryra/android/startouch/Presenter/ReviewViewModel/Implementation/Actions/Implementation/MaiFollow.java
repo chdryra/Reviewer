@@ -16,8 +16,8 @@ import com.chdryra.android.startouch.Authentication.Implementation.NullSocialPro
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.R;
 
@@ -98,19 +98,19 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         if (item != null) item.setIcon(UNFOLLOW_ICON);
     }
 
-    private class Binder implements ListItemBinder<AuthorId> {
+    private class Binder implements CollectionBinder<AuthorId> {
         @Override
-        public void onItemAdded(AuthorId value) {
-            if (isAuthor(value)) setUnfollow();
+        public void onItemAdded(AuthorId item) {
+            if (isAuthor(item)) setUnfollow();
         }
 
         @Override
-        public void onItemRemoved(AuthorId value) {
-            if (isAuthor(value)) setFollow();
+        public void onItemRemoved(AuthorId item) {
+            if (isAuthor(item)) setFollow();
         }
 
         @Override
-        public void onListChanged(Collection<AuthorId> newItems) {
+        public void onCollectionChanged(Collection<AuthorId> newItems) {
             setFollow();
             for (AuthorId item : newItems) {
                 if (isAuthor(item)) setUnfollow();
@@ -118,7 +118,7 @@ public class MaiFollow<T extends GvData> extends MenuActionItemBasic<T> {
         }
 
         @Override
-        public void onInvalidated(ListReference<AuthorId, ?, ?> reference) {
+        public void onInvalidated(CollectionReference<AuthorId, ?, ?> reference) {
             setFollow();
         }
     }

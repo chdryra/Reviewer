@@ -12,7 +12,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableD
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 
@@ -27,7 +27,7 @@ import java.util.Collection;
 public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
         extends StaticItemReference<IdableList<Value>>
         implements ReviewListReference<Value, Reference> {
-    private final Collection<ListItemBinder<Value>> mItemBinders;
+    private final Collection<CollectionBinder<Value>> mItemBinders;
 
     StaticListReferenceBasic(IdableList<Value> value) {
         super(value);
@@ -40,7 +40,7 @@ public abstract class StaticListReferenceBasic<Value extends HasReviewId, Refere
     }
 
     @Override
-    public void bindToItems(ListItemBinder<Value> binder) {
+    public void bindToItems(CollectionBinder<Value> binder) {
         if (isValidReference() && !mItemBinders.contains(binder)) mItemBinders.add(binder);
         for (Value item : getData()) {
             binder.onItemAdded(item);
@@ -48,13 +48,13 @@ public abstract class StaticListReferenceBasic<Value extends HasReviewId, Refere
     }
 
     @Override
-    public void unbindFromItems(ListItemBinder<Value> binder) {
+    public void unbindFromItems(CollectionBinder<Value> binder) {
         if (isValidReference() && mItemBinders.contains(binder)) mItemBinders.remove(binder);
     }
 
     @Override
     protected void onInvalidate() {
-        for (ListItemBinder<Value> binder : mItemBinders) {
+        for (CollectionBinder<Value> binder : mItemBinders) {
             binder.onInvalidated(this);
         }
         mItemBinders.clear();

@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.Persistence.Factories;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Persistence.Implementation.FeedRepo;
@@ -37,13 +38,13 @@ public class FactoryReviewsRepo {
     public ReviewsNodeRepo newReviewsNodeRepo(ReviewsRepo reviewsRepo,
                                               AuthorsRepo authorsRepo,
                                               FactoryReviews reviewsFactory) {
-        return new ReviewsNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer());
+        return new ReviewsNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer(), newSizeReferencer());
     }
 
     public ReviewsRepo newCachedRepo(ReviewsRepo archive,
                                      ReviewsCache cache,
                                      FactoryReviews reviewsFactory) {
-        return new ReviewsRepoCached<>(cache, archive, reviewsFactory, newDereferencer());
+        return new ReviewsRepoCached<>(cache, archive, reviewsFactory, newDereferencer(), newSizeReferencer());
     }
 
     public ReviewsCache newCache() {
@@ -52,14 +53,18 @@ public class FactoryReviewsRepo {
 
 
     public ReviewsRepoReadable newFeed(AuthorId usersId, AuthorListRef following, ReviewsRepo masterRepo) {
-        return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newRepoCollection());
+        return new FeedRepo(usersId, following, masterRepo, masterRepo.getReviewsByAuthor(usersId), newDereferencer(), newSizeReferencer());
     }
 
     public ReviewDereferencer newDereferencer() {
         return new ReviewDereferencer();
     }
 
+    public SizeReferencer newSizeReferencer() {
+        return new SizeReferencer();
+    }
+
     public RepoCollection<AuthorId> newRepoCollection() {
-        return new RepoCollection<>(newDereferencer());
+        return new RepoCollection<>(newDereferencer(), newSizeReferencer());
     }
 }

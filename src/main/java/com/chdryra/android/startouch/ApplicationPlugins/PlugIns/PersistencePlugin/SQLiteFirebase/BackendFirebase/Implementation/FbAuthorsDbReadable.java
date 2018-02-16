@@ -9,12 +9,12 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
 
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbAuthorsDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
+
+
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.firebase.client.Firebase;
 
@@ -28,29 +28,14 @@ public class FbAuthorsDbReadable extends FbReviewsRepoBasic {
 
     public FbAuthorsDbReadable(Firebase dataBase,
                                FbAuthorsDb structure,
-                               SnapshotConverter<ReviewListEntry> entryConverter,
-                               FbReviewReferencer referencer,
-                               ReviewDereferencer dereferencer) {
-        super(dataBase, structure, entryConverter, referencer, dereferencer);
+                               SnapshotConverter<ReviewReference> converter,
+                               ReviewDereferencer dereferencer,
+                               SizeReferencer sizeReferencer) {
+        super(dataBase, structure, converter, dereferencer, sizeReferencer);
         mStructure = structure;
     }
 
     FbAuthorsDb getStructure() {
         return mStructure;
-    }
-
-    @Override
-    protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(getDataBase(), getReviewId(entry));
-    }
-
-    @Override
-    protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(getDataBase(), getReviewId(entry));
-    }
-
-    @NonNull
-    private DatumReviewId getReviewId(ReviewListEntry entry) {
-        return new DatumReviewId(entry.getReviewId());
     }
 }

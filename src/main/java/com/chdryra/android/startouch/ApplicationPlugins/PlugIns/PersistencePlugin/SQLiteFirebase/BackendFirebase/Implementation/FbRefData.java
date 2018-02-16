@@ -69,7 +69,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
     }
 
     @Override
-    protected void removeBinder(ReferenceBinder<T> binder) {
+    protected void removeUnboundBinder(ReferenceBinder<T> binder) {
         mReference.removeEventListener(mBindings.get(binder));
     }
 

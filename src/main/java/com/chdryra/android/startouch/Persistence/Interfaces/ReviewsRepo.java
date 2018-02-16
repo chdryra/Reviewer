@@ -29,10 +29,4 @@ public interface ReviewsRepo extends ReviewsRepoReadable {
 
     @Override
     void getReview(ReviewId reviewId, RepoCallback callback);
-
-    @Override
-    void subscribe(ReviewsSubscriber subscriber);
-
-    @Override
-    void unsubscribe(ReviewsSubscriber subscriber);
 }

@@ -27,7 +27,7 @@ public abstract class DereferencableBasic<T> extends BindableReferenceBasic<T> {
     }
 
     @Override
-    protected void removeBinder(ReferenceBinder<T> binder) {
+    protected void removeUnboundBinder(ReferenceBinder<T> binder) {
         mValueBinders.remove(binder);
     }
 

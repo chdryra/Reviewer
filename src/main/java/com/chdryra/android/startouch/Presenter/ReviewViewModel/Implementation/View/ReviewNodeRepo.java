@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 
 import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeDefault;
@@ -20,6 +21,7 @@ import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,7 +44,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
         mRepo = repo;
         mNodeFactory = nodeFactory;
         mBatchPending = new ArrayList<>();
-        mRepo.subscribe(this);
+        mRepo.bindToItems(this);
     }
 
     @Override
@@ -51,26 +53,34 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     }
 
     @Override
-    public void onReviewAdded(ReviewReference reference) {
+    public void onItemAdded(ReviewReference item) {
         if (mTask != null) mTask.cancel(true);
-        mTask = new DelayAddChildTask(reference);
+        mTask = new DelayAddChildTask(item);
         mTask.execute(WAIT_TIME);
     }
 
     @Override
-    public void onReviewEdited(ReviewReference reference) {
-        removeChild(reference.getReviewId());
-        addChild(reference);
+    public void onItemRemoved(ReviewReference item) {
+        removeChild(item.getReviewId());
     }
 
     @Override
-    public void onReviewRemoved(ReviewReference reference) {
-        removeChild(reference.getReviewId());
+    public void onCollectionChanged(Collection<ReviewReference> newItems) {
+        IdableList<ReviewNode> children = getChildren();
+        for(ReviewNode child : children) {
+            removeChild(child.getReviewId());
+        }
+
+        for(ReviewReference reference : newItems) {
+            addChild(reference);
+        }
     }
 
     @Override
-    public void onReferenceInvalidated(ReviewId reviewId) {
-        removeChild(reviewId);
+    public void onInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
+        IdableList<ReviewNode> children = getChildren();
+        for(ReviewNode child : children) removeChild(child.getReviewId());
+        mRepo.unbindFromItems(this);
     }
 
     @Override
@@ -93,7 +103,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     }
 
     void detachFromRepo() {
-        mRepo.unsubscribe(this);
+        mRepo.unbindFromItems(this);
         for (ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }

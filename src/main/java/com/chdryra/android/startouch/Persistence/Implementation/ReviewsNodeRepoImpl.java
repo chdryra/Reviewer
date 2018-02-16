@@ -20,6 +20,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableColle
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -27,17 +29,17 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -45,35 +47,35 @@ import java.util.Set;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsNodeRepoImpl implements ReviewsNodeRepo {
+public class ReviewsNodeRepoImpl extends RepoReadableBasic implements ReviewsNodeRepo {
     private final ReviewsRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
-    private final ReviewDereferencer mDereferencer;
 
     public ReviewsNodeRepoImpl(ReviewsRepo reviewsRepo,
                                AuthorsRepo authorsRepo,
                                FactoryReviews reviewsFactory,
-                               ReviewDereferencer dereferencer) {
+                               ReviewDereferencer dereferencer,
+                               SizeReferencer sizeReferencer) {
+        super(dereferencer, sizeReferencer);
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
         mReviewsFactory = reviewsFactory;
-        mDereferencer = dereferencer;
     }
 
     @Override
-    public void subscribe(ReviewsSubscriber subscriber) {
-        mReviewsRepo.subscribe(subscriber);
+    public void bindToItems(CollectionBinder<ReviewReference> binder) {
+        mReviewsRepo.bindToItems(binder);
     }
 
     @Override
-    public void unsubscribe(ReviewsSubscriber subscriber) {
-        mReviewsRepo.unsubscribe(subscriber);
+    public void unbindFromItems(CollectionBinder<ReviewReference> binder) {
+        mReviewsRepo.unbindFromItems(binder);
     }
 
     @Override
-    public void getReview(ReviewId reviewId, final RepoCallback callback) {
-        mDereferencer.getReview(reviewId, this, callback);
+    protected void doDereferencing(DereferenceCallback<List<ReviewReference>> callback) {
+        mReviewsRepo.dereference(callback);
     }
 
     @Override

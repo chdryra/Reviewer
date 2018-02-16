@@ -9,8 +9,8 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 
 import java.util.Collection;
 
@@ -22,21 +22,21 @@ import java.util.Collection;
 public class ItemBindersDelegate<Value, S extends Size> {
     private final BindableListReference<Value, ?, S> mReference;
 
-    public interface BindableListReference<Value, C extends Collection<Value>, S extends Size> extends ListReference<Value, C, S> {
-        boolean containsItemBinder(ListItemBinder<Value> binder);
+    public interface BindableListReference<Value, C extends Collection<Value>, S extends Size> extends CollectionReference<Value, C, S> {
+        boolean containsItemBinder(CollectionBinder<Value> binder);
 
-        void bindItemBinder(ListItemBinder<Value> binder);
+        void bindItemBinder(CollectionBinder<Value> binder);
 
-        void removeItemBinder(ListItemBinder<Value> binder);
+        void unbindItemBinder(CollectionBinder<Value> binder);
 
-        Iterable<? extends ListItemBinder<Value>> getItemBinders();
+        Collection<CollectionBinder<Value>> getItemBinders();
     }
 
     public ItemBindersDelegate(BindableListReference<Value, ?, S> reference) {
         mReference = reference;
     }
 
-    public void bindToItems(final ListItemBinder<Value> binder) {
+    public void bindToItems(final CollectionBinder<Value> binder) {
         if (!mReference.isValidReference()) {
             binder.onInvalidated(mReference);
         } else if (!mReference.containsItemBinder(binder)) {
@@ -44,12 +44,12 @@ public class ItemBindersDelegate<Value, S extends Size> {
         }
     }
 
-    public void unbindFromItems(ListItemBinder<Value> binder) {
-        if (mReference.containsItemBinder(binder)) mReference.removeItemBinder(binder);
+    public void unbindFromItems(CollectionBinder<Value> binder) {
+        if (mReference.containsItemBinder(binder)) mReference.unbindItemBinder(binder);
     }
 
     public void notifyBinders() {
-        for (ListItemBinder<Value> binder : mReference.getItemBinders()) {
+        for (CollectionBinder<Value> binder : mReference.getItemBinders()) {
             binder.onInvalidated(mReference);
         }
     }

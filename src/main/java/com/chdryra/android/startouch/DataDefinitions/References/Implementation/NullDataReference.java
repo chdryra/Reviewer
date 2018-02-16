@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.Collection;
@@ -57,15 +57,15 @@ public class NullDataReference<T> implements DataReference<T> {
 
     }
 
-    public static class NullList<T, C extends Collection<T>, S extends Size> extends NullDataReference<C> implements ListReference<T, C, S> {
+    public static class NullList<T, C extends Collection<T>, S extends Size> extends NullDataReference<C> implements CollectionReference<T, C, S> {
 
         @Override
-        public void bindToItems(ListItemBinder<T> binder) {
+        public void bindToItems(CollectionBinder<T> binder) {
 
         }
 
         @Override
-        public void unbindFromItems(ListItemBinder<T> binder) {
+        public void unbindFromItems(CollectionBinder<T> binder) {
 
         }
 

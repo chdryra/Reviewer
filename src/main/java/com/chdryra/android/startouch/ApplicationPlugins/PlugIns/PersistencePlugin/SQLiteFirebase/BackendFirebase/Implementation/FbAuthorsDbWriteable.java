@@ -16,17 +16,18 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbAuthorsDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsCache;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -46,13 +47,13 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
 
     public FbAuthorsDbWriteable(Firebase dataBase,
                                 FbAuthorsDb structure,
-                                SnapshotConverter<ReviewListEntry> entryConverter,
+                                SnapshotConverter<ReviewReference> referenceConverter,
                                 BackendReviewConverter converter,
                                 BackendValidator validator,
-                                FbReviewReferencer referencer,
                                 ReviewDereferencer dereferencer,
+                                SizeReferencer sizeReferencer,
                                 ReviewsCache cache) {
-        super(dataBase, structure, entryConverter, referencer, dereferencer);
+        super(dataBase, structure, referenceConverter, dereferencer, sizeReferencer);
         mConverter = converter;
         mValidator = validator;
         mCache = cache;

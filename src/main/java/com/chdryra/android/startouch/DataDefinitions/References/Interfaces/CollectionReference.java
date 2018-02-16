@@ -17,10 +17,10 @@ import java.util.Collection;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ListReference<T, C extends Collection<T>, S extends Size> extends DataReference<C> {
-    void bindToItems(ListItemBinder<T> binder);
+public interface CollectionReference<T, C extends Collection<T>, S extends Size> extends DataReference<C> {
+    void bindToItems(CollectionBinder<T> binder);
 
-    void unbindFromItems(ListItemBinder<T> binder);
+    void unbindFromItems(CollectionBinder<T> binder);
 
     DataReference<S> getSize();
 }

@@ -12,13 +12,19 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,22 +34,22 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RepoCollection<Key> implements ReviewsRepoReadable {
+public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRepoReadable {
     private final ReviewDereferencer mDereferencer;
     private Map<Key, RepoHandler> mRepoHandlers;
-    private List<ReviewsSubscriber> mSubscribers;
 
-    public RepoCollection(ReviewDereferencer dereferencer) {
+    public RepoCollection(ReviewDereferencer dereferencer, SizeReferencer sizeReferencer) {
+        super(dereferencer, sizeReferencer);
         mDereferencer = dereferencer;
         mRepoHandlers = new HashMap<>();
-        mSubscribers = new ArrayList<>();
     }
+
 
     public void add(Key id, ReviewsRepoReadable repo) {
         if (!mRepoHandlers.containsKey(id)) {
             RepoHandler handler = new RepoHandler(id, repo);
             mRepoHandlers.put(id, handler);
-            if (mSubscribers.size() > 0) handler.subscribe();
+            if (getItemBinders().size() > 0) handler.subscribe();
         }
     }
 
@@ -54,23 +60,20 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
     }
 
     @Override
-    public void subscribe(ReviewsSubscriber subscriber) {
-        if (!mSubscribers.contains(subscriber)) {
-            mSubscribers.add(subscriber);
-            for (RepoHandler sub : mRepoHandlers.values()) {
-                if (mSubscribers.size() == 1 && !sub.isSubscribed()) {
-                    sub.subscribe();
-                } else {
-                    sub.notifyNewSubscriber(subscriber);
-                }
-            }
-        }
+    protected void doDereferencing(DereferenceCallback<List<ReviewReference>> callback) {
+        doDereferencing(mRepoHandlers.values().iterator(), new ArrayList<ReviewReference>(),
+                callback);
     }
 
     @Override
-    public void unsubscribe(ReviewsSubscriber subscriber) {
-        if (mSubscribers.contains(subscriber)) {
-            mSubscribers.remove(subscriber);
+    public void bindToItems(CollectionBinder<ReviewReference> binder) {
+        super.bindToItems(binder);
+        for (RepoHandler sub : mRepoHandlers.values()) {
+            if (getItemBinders().size() == 1 && !sub.isSubscribed()) {
+                sub.subscribe();
+            } else {
+                sub.fireForBinder(binder);
+            }
         }
     }
 
@@ -88,27 +91,18 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
         return mRepoHandlers.keySet();
     }
 
-    private void notifyOnAdd(ReviewReference reference) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReviewAdded(reference);
-        }
-    }
-
-    private void notifyOnRemove(ReviewReference reference) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReviewRemoved(reference);
-        }
-    }
-
-    private void notifyOnInvalidated(ReviewId reviewId) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReferenceInvalidated(reviewId);
-        }
-    }
-
-    private void notifyOnEdit(ReviewReference reference) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReviewEdited(reference);
+    private void doDereferencing(final Iterator<RepoHandler> handler, final List<ReviewReference>
+            references, final DereferenceCallback<List<ReviewReference>> callback) {
+        if (handler.hasNext()) {
+            handler.next().getRepo().dereference(new DereferenceCallback<List<ReviewReference>>() {
+                @Override
+                public void onDereferenced(DataValue<List<ReviewReference>> value) {
+                    if (value.hasValue()) references.addAll(value.getData());
+                    doDereferencing(handler, references, callback);
+                }
+            });
+        } else {
+            callback.onDereferenced(new DataValue<>(references));
         }
     }
 
@@ -188,38 +182,43 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
             mReviews = new ArrayList<>();
         }
 
+
         @Override
         public String getSubscriberId() {
             return mRepoId.toString();
         }
 
         @Override
-        public void onReviewAdded(ReviewReference reference) {
+        public void onItemAdded(ReviewReference item) {
             if (!mLocked) {
-                mReviews.add(reference.getReviewId());
-                notifyOnAdd(reference);
+                mReviews.add(item.getReviewId());
+                notifyOnAdd(item);
             }
         }
 
         @Override
-        public void onReviewEdited(ReviewReference reference) {
-            if (!mLocked) notifyOnEdit(reference);
-        }
-
-        @Override
-        public void onReviewRemoved(ReviewReference reference) {
+        public void onItemRemoved(ReviewReference item) {
             if (!mLocked) {
-                mReviews.remove(reference.getReviewId());
-                notifyOnRemove(reference);
+                mReviews.remove(item.getReviewId());
+                notifyOnRemove(item);
             }
         }
 
         @Override
-        public void onReferenceInvalidated(ReviewId reviewId) {
+        public void onInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
+            mReviews.clear();
+            notifyOnInvalidated(reference);
+        }
+
+        @Override
+        public void onCollectionChanged(Collection<ReviewReference> newItems) {
             if (!mLocked) {
-                mReviews.remove(reviewId);
-                notifyOnInvalidated(reviewId);
+                mReviews.clear();
+                for (ReviewReference reference : newItems)
+                    mReviews.add(reference.getReviewId());
             }
+
+            notifyOnChanged(newItems);
         }
 
         private boolean isSubscribed() {
@@ -233,7 +232,7 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
         private void subscribe() {
             if (!mSubscribed) {
                 mSubscribed = true;
-                mRepo.subscribe(this);
+                mRepo.bindToItems(this);
             }
         }
 
@@ -241,12 +240,12 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
             return mReviews.contains(id);
         }
 
-        private void notifyNewSubscriber(final ReviewsSubscriber subscriber) {
+        private void fireForBinder(final CollectionBinder<ReviewReference> binder) {
             for (ReviewId id : mReviews) {
                 mRepo.getReference(id, new RepoCallback() {
                     @Override
                     public void onRepoCallback(RepoResult result) {
-                        if (!result.isReference()) subscriber.onReviewAdded(result.getReference());
+                        if (!result.isReference()) binder.onItemAdded(result.getReference());
                     }
                 });
             }
@@ -269,7 +268,7 @@ public class RepoCollection<Key> implements ReviewsRepoReadable {
         }
 
         private void delete() {
-            mRepo.unsubscribe(this);
+            mRepo.unbindFromItems(this);
             mLocked = false;
             mReviews.clear();
             mRepo = null;

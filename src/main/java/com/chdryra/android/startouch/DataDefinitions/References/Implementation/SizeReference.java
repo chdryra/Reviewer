@@ -13,8 +13,8 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.SizeImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.Collection;
@@ -26,13 +26,13 @@ import java.util.Collection;
  */
 
 public class SizeReference<T, C extends Collection<T>> extends DereferencableBasic<Size> implements
-        ListItemBinder<T>, DataReference<Size> {
-    private final ListReference<T, C, Size> mReference;
+        CollectionBinder<T>, DataReference<Size> {
+    private final CollectionReference<T, C, Size> mReference;
     private int mSize = 0;
     private boolean mIsBound = false;
     private boolean mIsValid = true;
 
-    public SizeReference(ListReference<T, C, Size> reference) {
+    public SizeReference(CollectionReference<T, C, Size> reference) {
         mReference = reference;
     }
 
@@ -50,25 +50,25 @@ public class SizeReference<T, C extends Collection<T>> extends DereferencableBas
     }
 
     @Override
-    public void onItemAdded(T value) {
+    public void onItemAdded(T item) {
         ++mSize;
         notifyBinders();
     }
 
     @Override
-    public void onItemRemoved(T value) {
+    public void onItemRemoved(T item) {
         --mSize;
         notifyBinders();
     }
 
     @Override
-    public void onListChanged(Collection<T> newItems) {
+    public void onCollectionChanged(Collection<T> newItems) {
         mSize = newItems.size();
         notifyBinders();
     }
 
     @Override
-    public void onInvalidated(ListReference<T, ?, ?> reference) {
+    public void onInvalidated(CollectionReference<T, ?, ?> reference) {
         onInvalidate();
     }
 

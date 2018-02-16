@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactorySizeReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.firebase.client.Firebase;
 
@@ -30,7 +30,7 @@ public class FbAuthorListRef extends FbListReference<AuthorId, List<AuthorId>> i
     public FbAuthorListRef(Firebase reference,
                            SnapshotConverter<List<AuthorId>> listConverter,
                            SnapshotConverter<AuthorId> itemConverter,
-                           FactorySizeReference sizeReferencer) {
+                           SizeReferencer sizeReferencer) {
         super(reference, listConverter, itemConverter, sizeReferencer);
     }
 

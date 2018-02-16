@@ -9,22 +9,19 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase
         .Implementation;
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbReviewsRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbAuthorsDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.firebase.client.Firebase;
 
 /**
@@ -32,18 +29,17 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewsRepo extends FbReviewsRepoBasic implements
-        ReviewsRepo {
+public class FbReviewsRepo extends FbReviewsRepoBasic implements ReviewsRepo {
     private final FactoryFbReviewsRepo mAuthorsDbFactory;
     private final FbReviewsStructure mStructure;
 
     public FbReviewsRepo(Firebase dataBase,
                          FbReviewsStructure structure,
-                         ConverterEntry entryConverter,
-                         FbReviewReferencer referencer,
+                         SnapshotConverter<ReviewReference> converter,
                          ReviewDereferencer dereferencer,
+                         SizeReferencer sizeReferencer,
                          FactoryFbReviewsRepo authorsDbFactory) {
-        super(dataBase, structure, entryConverter, referencer, dereferencer);
+        super(dataBase, structure, converter, dereferencer, sizeReferencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }
@@ -64,27 +60,7 @@ public class FbReviewsRepo extends FbReviewsRepoBasic implements
         return mAuthorsDbFactory.getReviewCollection(getDataBase(), authorId, name);
     }
 
-    @Override
-    protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
-    }
-
-    @Override
-    protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
-    }
-
     private FbAuthorsDb getAuthorsDb(AuthorId authorId) {
         return mStructure.getAuthorsDb(authorId);
-    }
-
-    @NonNull
-    private AuthorId getAuthorId(ReviewListEntry entry) {
-        return new AuthorIdParcelable(entry.getAuthorId());
-    }
-
-    @NonNull
-    private ReviewId getReviewId(ReviewListEntry entry) {
-        return new DatumReviewId(entry.getReviewId());
     }
 }

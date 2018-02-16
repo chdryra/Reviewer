@@ -10,18 +10,17 @@ package com.chdryra.android.startouch.Persistence.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,11 +28,10 @@ import java.util.Set;
  * On: 08/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedRepo implements ReviewsRepoReadable {
-    private AuthorListRef mFollowing;
-    private ReviewsRepo mMasterRepo;
-    private RepoCollection<AuthorId> mRepos;
-    private List<ReviewsSubscriber> mSubscribers;
+public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoReadable {
+    private final AuthorListRef mFollowing;
+    private final ReviewsRepo mMasterRepo;
+    
     private boolean mInitialised = false;
     private Binder mBinder;
 
@@ -41,39 +39,40 @@ public class FeedRepo implements ReviewsRepoReadable {
                     AuthorListRef following,
                     ReviewsRepo masterRepo,
                     ReviewsRepoReadable initialFeed,
-                    RepoCollection<AuthorId> repos) {
+                    ReviewDereferencer dereferencer,
+                    SizeReferencer sizeReferencer) {
+        super(dereferencer, sizeReferencer);
         mFollowing = following;
         mMasterRepo = masterRepo;
-        mRepos = repos;
-        mRepos.add(usersId, initialFeed);
-        mSubscribers = new ArrayList<>();
-    }
-
-    @Override
-    public void subscribe(ReviewsSubscriber subscriber) {
-        mRepos.subscribe(subscriber);
-        if (!mInitialised) initialise();
-        if (!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
-    }
-
-    @Override
-    public void unsubscribe(ReviewsSubscriber subscriber) {
-        mRepos.unsubscribe(subscriber);
-        if (mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
-        if (mSubscribers.size() == 0) mFollowing.unbindFromItems(mBinder);
+        add(usersId, initialFeed);
     }
 
     @Override
     public void getReference(ReviewId reviewId, RepoCallback callback) {
         //TODO Not the best implementation....
         if (!mInitialised) initialise();
-        mRepos.getReference(reviewId, callback);
+        super.getReference(reviewId, callback);
     }
 
     @Override
     public void getReview(ReviewId reviewId, RepoCallback callback) {
         if (!mInitialised) initialise();
-        mRepos.getReview(reviewId, callback);
+        super.getReview(reviewId, callback);
+    }
+
+    @Override
+    public void bindToItems(CollectionBinder<ReviewReference> binder) {
+        super.bindToItems(binder);
+        if(!mInitialised) initialise();
+    }
+
+    @Override
+    public void unbindItemBinder(CollectionBinder<ReviewReference> binder) {
+        super.unbindItemBinder(binder);
+        if (getBinders().size() == 0) {
+            mFollowing.unbindFromItems(mBinder);
+            mInitialised = false;
+        }
     }
 
     private void initialise() {
@@ -84,35 +83,35 @@ public class FeedRepo implements ReviewsRepoReadable {
         }
     }
 
-    private class Binder implements ListItemBinder<AuthorId> {
+    private class Binder implements CollectionBinder<AuthorId> {
         @Override
-        public void onItemAdded(AuthorId value) {
-            mRepos.add(value, mMasterRepo.getReviewsByAuthor(value));
+        public void onItemAdded(AuthorId item) {
+            add(item, mMasterRepo.getReviewsByAuthor(item));
         }
 
         @Override
-        public void onItemRemoved(AuthorId value) {
-            mRepos.remove(value);
+        public void onItemRemoved(AuthorId item) {
+            remove(item);
         }
 
         @Override
-        public void onListChanged(Collection<AuthorId> newItems) {
-            Set<AuthorId> toRemove = new HashSet<>(mRepos.getKeys());
+        public void onCollectionChanged(Collection<AuthorId> newItems) {
+            Set<AuthorId> toRemove = new HashSet<>(getKeys());
             Set<AuthorId> toAdd = new HashSet<>(newItems);
             toRemove.removeAll(new HashSet<>(newItems));
-            toAdd.removeAll(new HashSet<>(mRepos.getKeys()));
+            toAdd.removeAll(new HashSet<>(getKeys()));
             for (AuthorId toRemoveId : toRemove) {
-                mRepos.remove(toRemoveId);
+                remove(toRemoveId);
             }
             for (AuthorId toAddId : toAdd) {
-                mRepos.add(toAddId, mMasterRepo.getReviewsByAuthor(toAddId));
+                add(toAddId, mMasterRepo.getReviewsByAuthor(toAddId));
             }
         }
 
         @Override
-        public void onInvalidated(ListReference<AuthorId, ?, ?> reference) {
-            for (AuthorId toRemoveId : mRepos.getKeys()) {
-                mRepos.remove(toRemoveId);
+        public void onInvalidated(CollectionReference<AuthorId, ?, ?> reference) {
+            for (AuthorId toRemoveId : getKeys()) {
+                remove(toRemoveId);
             }
         }
     }

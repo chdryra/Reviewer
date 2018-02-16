@@ -12,9 +12,9 @@ import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.BindableListReferenceBasic;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.IdableListReferenceBasic;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -30,7 +30,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends
-        BindableListReferenceBasic<Value>
+        IdableListReferenceBasic<Value>
         implements
         ReviewListReference<Value, Reference>,
         ReviewNode.NodeObserver {
@@ -77,11 +77,11 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
         getData(child, callback);
     }
 
-    public void doTraversal(TreeTraversalCallback callback) {
+    void doTraversal(TreeTraversalCallback callback) {
         doTraversal(mRoot, callback);
     }
 
-    public void doTraversal(ReviewId childId, TreeTraversalCallback callback) {
+    void doTraversal(ReviewId childId, TreeTraversalCallback callback) {
         ReviewNode child = mRoot.getChild(childId);
         if (child == null) return;
         doTraversal(child, callback);
@@ -93,7 +93,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             getData(child, new GetDataCallback<Value>() {
                 @Override
                 public void onData(IdableList<Value> items) {
-                    notifyItemBindersAdd(items);
+                    notifyOnAdded(items);
                 }
             });
         }
@@ -107,7 +107,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             getData(child, new GetDataCallback<Value>() {
                 @Override
                 public void onData(IdableList<Value> items) {
-                    notifyItemBindersRemove(items);
+                    notifyOnRemoved(items);
                 }
             });
         }
@@ -136,11 +136,11 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
     }
 
     @Override
-    protected void fireForBinder(final ListItemBinder<Value> binder) {
+    protected void fireForBinder(final CollectionBinder<Value> binder) {
         getData(new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
             public void onData(IdableList<Value> items) {
-                notifyItemBinderAdd(binder, items);
+                notifyOnAdded(binder, items);
             }
         });
     }

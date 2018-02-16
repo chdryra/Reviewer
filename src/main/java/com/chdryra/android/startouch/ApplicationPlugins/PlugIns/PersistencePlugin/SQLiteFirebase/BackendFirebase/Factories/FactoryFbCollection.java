@@ -10,14 +10,13 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.BackendInfoConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterCollectionItem;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbReviewCollection;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
@@ -31,25 +30,21 @@ import com.firebase.client.Firebase;
 
 public class FactoryFbCollection {
     private final FbReviewsStructure mStructure;
-    private final SnapshotConverter<ReviewListEntry> mEntryConverter;
-    private final BackendInfoConverter mInfoConverter;
-    private final FbReviewReferencer mReferencer;
+    private final SnapshotConverter<ReviewReference> mConverter;
     private ReviewsRepoReadable mMasterRepo;
 
-    public FactoryFbCollection(FbReviewsStructure structure, SnapshotConverter<ReviewListEntry>
-            entryConverter, BackendInfoConverter infoConverter, FbReviewReferencer referencer) {
+    public FactoryFbCollection(FbReviewsStructure structure, SnapshotConverter<ReviewReference>
+            converter) {
         mStructure = structure;
-        mEntryConverter = entryConverter;
-        mInfoConverter = infoConverter;
-        mReferencer = referencer;
+        mConverter = converter;
     }
 
     public void setMasterRepo(ReviewsRepoReadable masterRepo) {
         mMasterRepo = masterRepo;
     }
 
-    public ReviewCollection newCollection(Firebase root, String name, AuthorId authorId, ReviewDereferencer dereferencer) {
-        return new FbReviewCollection(root, mStructure, mEntryConverter, mReferencer, dereferencer, name, authorId,
-                mMasterRepo, mInfoConverter, new ConverterCollectionItem());
+    ReviewCollection newCollection(Firebase root, String name, AuthorId authorId, ReviewDereferencer dereferencer, SizeReferencer sizeReferencer) {
+        return new FbReviewCollection(root, mStructure, mConverter, dereferencer, sizeReferencer, name, authorId,
+                mMasterRepo, new ConverterCollectionItem());
     }
 }

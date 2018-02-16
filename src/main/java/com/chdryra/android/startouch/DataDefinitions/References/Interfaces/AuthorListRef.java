@@ -18,6 +18,6 @@ import java.util.List;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorListRef extends ListReference<AuthorId, List<AuthorId>, Size> {
+public interface AuthorListRef extends CollectionReference<AuthorId, List<AuthorId>, Size> {
 
 }

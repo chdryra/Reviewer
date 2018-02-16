@@ -8,6 +8,9 @@
 
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -39,6 +42,12 @@ public class TreeItemListRef<Value extends HasReviewId> extends
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
         mReferenceFactory = referenceFactory;
+    }
+
+    @Nullable
+    @Override
+    protected IdableList<Value> getNullValue() {
+        return new IdableDataList<>(new DatumReviewId());
     }
 
     @Override

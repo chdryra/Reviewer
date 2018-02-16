@@ -6,12 +6,11 @@
  *
  */
 
-package com.chdryra.android.startouch.DataDefinitions.References.Factories;
+package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
 
 import java.util.Collection;
 
@@ -21,8 +20,8 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FactorySizeReference {
-    public <T, C extends Collection<T>> DataReference<Size> newSizeReference(ListReference<T,C, Size> listReference) {
-        return new SizeReference<>(listReference);
+public class SizeReferencer {
+    public <T, C extends Collection<T>> DataReference<Size> newSizeReference(CollectionReference<T,C, Size> collectionReference) {
+        return new SizeReference<>(collectionReference);
     }
 }

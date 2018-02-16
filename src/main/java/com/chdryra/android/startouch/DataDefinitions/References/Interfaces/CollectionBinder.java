@@ -15,12 +15,12 @@ import java.util.Collection;
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ListItemBinder<T> {
-    void onItemAdded(T value);
+public interface CollectionBinder<T> {
+    void onItemAdded(T item);
 
-    void onItemRemoved(T value);
+    void onItemRemoved(T item);
 
-    void onListChanged(Collection<T> newItems);
+    void onCollectionChanged(Collection<T> newItems);
 
-    void onInvalidated(ListReference<T, ?, ?> reference);
+    void onInvalidated(CollectionReference<T, ?, ?> reference);
 }

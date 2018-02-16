@@ -12,24 +12,20 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.BackendInfoConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviews;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Persistence.Implementation.ReviewCollectionDeleter;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
+import com.chdryra.android.startouch.Persistence.Implementation.ReviewCollectionDeleter;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
+import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -49,27 +45,24 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
     private final AuthorId mAuthorId;
     private final FbReviewsStructure mStructure;
     private final ReviewsRepoReadable mMasterRepo;
-    private final BackendInfoConverter mInfoConverter;
     private final ConverterCollectionItem mItemConverter;
     private final ArrayList<ReviewId> mStealthDeletion;
 
     public FbReviewCollection(Firebase dataBase,
                               FbReviewsStructure structure,
-                              SnapshotConverter<ReviewListEntry> entryConverter,
-                              FbReviewReferencer referencer,
+                              SnapshotConverter<ReviewReference> converter,
                               ReviewDereferencer dereferencer,
+                              SizeReferencer sizeReferencer,
                               String name,
                               AuthorId authorId,
                               ReviewsRepoReadable masterRepo,
-                              BackendInfoConverter infoConverter,
                               ConverterCollectionItem itemConverter) {
-        super(dataBase, new PlaylistStructure(name, authorId, structure), entryConverter,
-                referencer, dereferencer);
+        super(dataBase, new PlaylistStructure(name, authorId, structure), converter,
+                dereferencer, sizeReferencer);
         mName = name;
         mAuthorId = authorId;
         mStructure = structure;
         mMasterRepo = masterRepo;
-        mInfoConverter = infoConverter;
         mItemConverter = itemConverter;
         mStealthDeletion = new ArrayList<>();
     }
@@ -77,16 +70,6 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
     @Override
     public String getName() {
         return mName;
-    }
-
-    @Override
-    protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
-    }
-
-    @Override
-    protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(getDataBase(), getAuthorId(entry), getReviewId(entry));
     }
 
     @Override
@@ -106,20 +89,20 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
     }
 
     @Override
-    protected void getReviewListEntry(DataSnapshot dataSnapshot, EntryReadyCallback callback) {
+    protected void newReference(DataSnapshot dataSnapshot, ReferenceReadyCallback callback) {
         if (dataSnapshot.getValue() == null) {
-            callback.onEntryReady(null);
+            callback.onReferenceReady(null);
             return;
         }
 
         ReviewId reviewId = mItemConverter.convert(dataSnapshot);
         if (reviewId == null) {
-            callback.onEntryReady(null);
+            callback.onReferenceReady(null);
             return;
         }
 
         if(mStealthDeletion.contains(reviewId)) {
-            callback.onEntryReady(null);
+            callback.onReferenceReady(null);
             return;
         }
 
@@ -161,16 +144,6 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
     }
 
     @NonNull
-    private AuthorId getAuthorId(ReviewListEntry entry) {
-        return new AuthorIdParcelable(entry.getAuthorId());
-    }
-
-    @NonNull
-    private ReviewId getReviewId(ReviewListEntry entry) {
-        return new DatumReviewId(entry.getReviewId());
-    }
-
-    @NonNull
     private Firebase.CompletionListener updateDoneListener(final Callback callback,
                                                            final DbUpdater.UpdateType updateType) {
         return new Firebase.CompletionListener() {
@@ -190,13 +163,12 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
 
     @NonNull
     private RepoCallback getEntryOrDeleteIfGone(final ReviewId id,
-                                                final EntryReadyCallback callback) {
+                                                final ReferenceReadyCallback callback) {
         return new RepoCallback() {
             @Override
             public void onRepoCallback(RepoResult result) {
                 if (result.isReference()) {
-                    ReviewListEntry entry = mInfoConverter.convert(result.getReference());
-                    callback.onEntryReady(entry.toInverseDate());
+                    callback.onReferenceReady(result.getReference());
                 } else {
                     deleteFromPlaylistIfNecessary(result, id, callback);
                 }
@@ -206,7 +178,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
 
     private void deleteFromPlaylistIfNecessary(RepoResult result,
                                                final ReviewId id,
-                                               final EntryReadyCallback callback) {
+                                               final ReferenceReadyCallback callback) {
         if (result.isError() && result.getMessage().equals(NULL_AT_SOURCE)) {
             mStealthDeletion.add(id);
             ReviewCollectionDeleter deleter
@@ -217,19 +189,13 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
                                                   ReviewId reviewId,
                                                   CallbackMessage message) {
                     mStealthDeletion.remove(reviewId);
-                    callback.onEntryReady(null);
+                    callback.onReferenceReady(null);
                 }
             });
             deleter.delete();
         } else {
-            callback.onEntryReady(null);
+            callback.onReferenceReady(null);
         }
-    }
-
-    @Override
-    protected void onChildRemoved(DataSnapshot dataSnapshot, ReviewsSubscriber subscriber) {
-        ReviewId id = mItemConverter.convert(dataSnapshot);
-        if(id != null) subscriber.onReferenceInvalidated(id);
     }
 
     private static class PlaylistStructure implements FbReviews {

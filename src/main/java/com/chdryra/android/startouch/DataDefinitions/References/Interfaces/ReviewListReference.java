@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
  */
 public interface ReviewListReference<Value extends HasReviewId,
         Reference extends ReviewItemReference<Value>>
-        extends ListReference<Value, IdableList<Value>, DataSize>, HasReviewId{
+        extends CollectionReference<Value, IdableList<Value>, DataSize>, HasReviewId{
 
     interface ItemReferencesCallback<Value extends HasReviewId,
             Reference extends ReviewItemReference<Value>> {

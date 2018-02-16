@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactorySizeReference;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
 import com.firebase.client.Firebase;
 
@@ -24,12 +24,12 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbListReference<T, C extends Collection<T>> extends FbListReferenceBasic<T, C, Size> {
-    private FactorySizeReference mSizeReferencer;
+    private SizeReferencer mSizeReferencer;
 
     public FbListReference(Firebase reference,
                            SnapshotConverter<C> listConverter,
                            SnapshotConverter<T> itemConverter,
-                           FactorySizeReference sizeReferencer) {
+                           SizeReferencer sizeReferencer) {
         super(reference, listConverter, itemConverter);
         mSizeReferencer = sizeReferencer;
     }

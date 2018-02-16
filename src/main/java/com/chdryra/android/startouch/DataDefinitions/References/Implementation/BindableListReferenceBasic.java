@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
  * rizwan.choudrey@gmail.com
@@ -10,12 +10,8 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ListItemBinder;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.ArrayList;
@@ -26,17 +22,14 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
-        BindableReferenceBasic<IdableList<T>>
-        implements ItemBindersDelegate.BindableListReference<T, IdableList<T>, DataSize> {
-    private final Collection<ListItemBinder<T>> mItemBinders;
-    private final Collection<ReferenceBinder<IdableList<T>>> mValueBinders;
-    private final ItemBindersDelegate<T, DataSize> mDelegate;
+public abstract class BindableListReferenceBasic<T, C extends Collection<T>, S extends Size> extends
+        BindableReferenceBasic<C>
+        implements ItemBindersDelegate.BindableListReference<T, C, S> {
+    private final Collection<CollectionBinder<T>> mItemBinders;
+    private final Collection<ReferenceBinder<C>> mValueBinders;
+    private final ItemBindersDelegate<T, S> mDelegate;
 
-    protected abstract void fireForBinder(ListItemBinder<T> binder);
-
-    @Override
-    protected abstract void doDereferencing(DereferenceCallback<IdableList<T>> callback);
+    protected abstract void fireForBinder(CollectionBinder<T> binder);
 
     protected BindableListReferenceBasic() {
         mValueBinders = new ArrayList<>();
@@ -44,24 +37,21 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
         mDelegate = new ItemBindersDelegate<>(this);
     }
 
-
     @Nullable
     @Override
-    protected IdableList<T> getNullValue() {
-        return new IdableDataList<>(new DatumReviewId());
-    }
+    protected abstract C getNullValue();
 
     @Override
-    protected Collection<ReferenceBinder<IdableList<T>>> getBinders() {
+    protected Collection<ReferenceBinder<C>> getBinders() {
         return mValueBinders;
     }
 
     @Override
-    protected void bind(final ReferenceBinder<IdableList<T>> binder) {
+    protected void bind(final ReferenceBinder<C> binder) {
         mValueBinders.add(binder);
-        dereference(new DereferenceCallback<IdableList<T>>() {
+        dereference(new DereferenceCallback<C>() {
             @Override
-            public void onDereferenced(DataValue<IdableList<T>> value) {
+            public void onDereferenced(DataValue<C> value) {
                 if (value.hasValue()) binder.onReferenceValue(value.getData());
             }
         });
@@ -84,83 +74,95 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
     }
 
     @Override
-    protected boolean contains(ReferenceBinder<IdableList<T>> binder) {
+    protected boolean contains(ReferenceBinder<C> binder) {
         return mValueBinders.contains(binder);
     }
 
     @Override
-    protected void removeBinder(ReferenceBinder<IdableList<T>> binder) {
+    protected void removeUnboundBinder(ReferenceBinder<C> binder) {
         mValueBinders.remove(binder);
     }
 
     @Override
-    public void unbindFromItems(ListItemBinder<T> binder) {
+    public void unbindFromItems(CollectionBinder<T> binder) {
         mDelegate.unbindFromItems(binder);
     }
 
     @Override
-    public void bindToItems(final ListItemBinder<T> binder) {
+    public void bindToItems(final CollectionBinder<T> binder) {
         mDelegate.bindToItems(binder);
     }
 
     @Override
-    public Iterable<? extends ListItemBinder<T>> getItemBinders() {
+    public Collection<CollectionBinder<T>> getItemBinders() {
         return mItemBinders;
     }
 
     @Override
-    public void removeItemBinder(ListItemBinder<T> binder) {
+    public void unbindItemBinder(CollectionBinder<T> binder) {
         mItemBinders.remove(binder);
     }
 
     @Override
-    public void bindItemBinder(final ListItemBinder<T> binder) {
-        mItemBinders.add(binder);
+    public void bindItemBinder(final CollectionBinder<T> binder) {
+        if(!containsItemBinder(binder)) mItemBinders.add(binder);
         fireForBinder(binder);
     }
 
     @Override
-    public boolean containsItemBinder(ListItemBinder<T> binder) {
+    public boolean containsItemBinder(CollectionBinder<T> binder) {
         return mItemBinders.contains(binder);
     }
 
-    private void notifyItemBinders(IdableList<T> items) {
-        for (ListItemBinder<T> binder : mItemBinders) {
-            binder.onListChanged(items);
+    private void notifyOnCollectionChanged(C items) {
+        for (CollectionBinder<T> binder : mItemBinders) {
+            binder.onCollectionChanged(items);
         }
     }
 
-    protected void notifyItemBindersAdd(IdableList<T> data) {
-        for (ListItemBinder<T> binder : mItemBinders) {
-            notifyItemBinderAdd(binder, data);
+    protected void notifyOnAdded(C data) {
+        for (CollectionBinder<T> binder : mItemBinders) {
+            notifyOnAdded(binder, data);
         }
     }
 
-    protected void notifyItemBinderAdd(ListItemBinder<T> binder, IdableList<T> data) {
+    protected void notifyOnAdded(T item) {
+        for (CollectionBinder<T> binder : mItemBinders) {
+            binder.onItemAdded(item);
+        }
+    }
+
+    protected void notifyOnAdded(CollectionBinder<T> binder, C data) {
         for (T reference : data) {
             binder.onItemAdded(reference);
         }
     }
 
-    protected void notifyItemBindersRemove(IdableList<T> data) {
-        for (ListItemBinder<T> binder : mItemBinders) {
+    protected void notifyOnRemoved(C data) {
+        for (CollectionBinder<T> binder : mItemBinders) {
             for (T reference : data) {
                 binder.onItemRemoved(reference);
             }
         }
     }
 
-    private void notifyValueBinders(IdableList<T> data) {
-        for (ReferenceBinder<IdableList<T>> binder : mValueBinders) {
+    protected void notifyOnRemoved(T item) {
+        for (CollectionBinder<T> binder : mItemBinders) {
+            binder.onItemRemoved(item);
+        }
+    }
+
+    private void notifyValueBinders(C data) {
+        for (ReferenceBinder<C> binder : mValueBinders) {
             binder.onReferenceValue(data);
         }
     }
 
     protected void notifyValueBinders() {
         if (hasValueBinders()) {
-            dereference(new DereferenceCallback<IdableList<T>>() {
+            dereference(new DereferenceCallback<C>() {
                 @Override
-                public void onDereferenced(DataValue<IdableList<T>> value) {
+                public void onDereferenced(DataValue<C> value) {
                     if (value.hasValue()) notifyValueBinders(value.getData());
                 }
             });
@@ -169,12 +171,12 @@ public abstract class BindableListReferenceBasic<T extends HasReviewId> extends
 
     protected void notifyAllBinders() {
         if (hasValueBinders() || hasItemBinders()) {
-            dereference(new DereferenceCallback<IdableList<T>>() {
+            dereference(new DereferenceCallback<C>() {
                 @Override
-                public void onDereferenced(DataValue<IdableList<T>> value) {
+                public void onDereferenced(DataValue<C> value) {
                     if (value.hasValue()) {
                         notifyValueBinders(value.getData());
-                        notifyItemBinders(value.getData());
+                        notifyOnCollectionChanged(value.getData());
                     }
                 }
             });

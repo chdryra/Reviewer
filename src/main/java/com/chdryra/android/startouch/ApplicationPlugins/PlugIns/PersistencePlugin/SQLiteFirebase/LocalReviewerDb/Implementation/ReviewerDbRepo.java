@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -22,12 +23,16 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.startouch.Persistence.Implementation.RepoReadableBasic;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
+import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,20 +44,17 @@ import java.util.List;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepo implements ReviewsRepoWriteable {
+public class ReviewerDbRepo extends RepoReadableBasic implements ReviewsRepoWriteable {
     private final ReviewerDb mDatabase;
-    private final List<ReviewsSubscriber> mSubscribers;
     private final FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbRepo(ReviewerDb database,
+    public ReviewerDbRepo(ReviewDereferencer dereferencer,
+                          SizeReferencer sizeReferencer,
+                          ReviewerDb database,
                           FactoryDbReference referenceFactory) {
+        super(dereferencer, sizeReferencer);
         mDatabase = database;
         mReferenceFactory = referenceFactory;
-        mSubscribers = new ArrayList<>();
-    }
-
-    ReviewerDbReadable getReadableDatabase() {
-        return mDatabase;
     }
 
     public void getReviews(AuthorId authorId, RepoCallback callback) {
@@ -64,6 +66,13 @@ public class ReviewerDbRepo implements ReviewsRepoWriteable {
         }
         CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
         callback.onRepoCallback(new RepoResult(authorId, reviews, result));
+    }
+
+    @Override
+    protected void fireForBinder(CollectionBinder<ReviewReference> binder) {
+        for(ReviewReference reference : getReviewReferences(null)) {
+            binder.onItemAdded(reference);
+        }
     }
 
     @Override
@@ -146,14 +155,12 @@ public class ReviewerDbRepo implements ReviewsRepoWriteable {
     }
 
     @Override
-    public void subscribe(ReviewsSubscriber subscriber) {
-        if (!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
-        getReferences(subscriber, null);
+    protected void doDereferencing(DereferenceCallback<List<ReviewReference>> callback) {
+        callback.onDereferenced(new DataValue<>(getReviewReferences(null)));
     }
 
-    @Override
-    public void unsubscribe(ReviewsSubscriber subscriber) {
-        if (mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
+    ReviewerDbReadable getReadableDatabase() {
+        return mDatabase;
     }
 
     private Collection<Review> getAllReviews() {
@@ -161,6 +168,29 @@ public class ReviewerDbRepo implements ReviewsRepoWriteable {
         Collection<Review> reviews = mDatabase.loadReviews(transactor);
         mDatabase.endTransaction(transactor);
         return reviews;
+    }
+
+    private List<ReviewReference> getReviewReferences(@Nullable AuthorId authorId) {
+        RowEntry<RowReview, String> authorClause = authorId == null ? null :
+                asClause(RowReview.class, RowReview.AUTHOR_ID, authorId.toString());
+
+        TableTransactor transactor = mDatabase.beginReadTransaction();
+
+        TableRowList<RowReview> reviews;
+        if (authorClause == null) {
+            reviews = mDatabase.loadTable(mDatabase.getReviewsTable(), transactor);
+        } else {
+            reviews = mDatabase.getRowsWhere(mDatabase.getReviewsTable(), authorClause, transactor);
+        }
+
+        mDatabase.endTransaction(transactor);
+
+        ArrayList<ReviewReference> references = new ArrayList<>();
+        for (RowReview review : reviews) {
+            references.add(newReference(review));
+        }
+
+        return references;
     }
 
     @NonNull
@@ -176,35 +206,13 @@ public class ReviewerDbRepo implements ReviewsRepoWriteable {
         return reviews.iterator();
     }
 
-    void getReferences(ReviewsSubscriber subscriber, @Nullable AuthorId authorId) {
-        RowEntry<RowReview, String> authorClause = authorId == null ? null :
-                asClause(RowReview.class, RowReview.AUTHOR_ID, authorId.toString());
-
-        TableTransactor transactor = mDatabase.beginReadTransaction();
-
-        TableRowList<RowReview> reviews;
-        if (authorClause == null) {
-            reviews = mDatabase.loadTable(mDatabase.getReviewsTable(), transactor);
-        } else {
-            reviews = mDatabase.getRowsWhere(mDatabase.getReviewsTable(), authorClause, transactor);
-        }
-
-        for (RowReview review : reviews) {
-            subscriber.onReviewAdded(newReference(review));
-        }
-
-        mDatabase.endTransaction(transactor);
-    }
-
     private ReviewReference newReference(RowReview review) {
         return mReferenceFactory.newReference(review, this);
     }
 
 
     private void notifyOnAddReview(Review review) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReviewAdded(newReference(review));
-        }
+        notifyOnAdded(newReference(review));
     }
 
     private ReviewReference newReference(Review review) {
@@ -212,9 +220,7 @@ public class ReviewerDbRepo implements ReviewsRepoWriteable {
     }
 
     private void notifyOnDeleteReview(Review review) {
-        for (ReviewsSubscriber subscriber : mSubscribers) {
-            subscriber.onReviewRemoved(newReference(review));
-        }
+        notifyOnRemoved(newReference(review));
     }
 
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
