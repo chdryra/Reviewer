@@ -60,4 +60,10 @@ public class ActivityProfile extends ActivitySingleFragment implements Launchabl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFragment.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppInstanceAndroid.setActivity(this);
+    }
 }
