@@ -115,7 +115,7 @@ public class FactoryReviewView {
 
     public ReviewViewNode newListView(ReviewNode node, @Nullable AuthorId followAuthor) {
         ReviewViewAdapter<GvNode> adapter
-                = mAdapterFactory.newReviewsListAdapter(node, followAuthor);
+                = mAdapterFactory.  newReviewsListAdapter(node, followAuthor);
         FactoryActionsReviewView<GvNode> actionsFactory =
                 mActionsFactory.newListActions(node, this, followAuthor);
 

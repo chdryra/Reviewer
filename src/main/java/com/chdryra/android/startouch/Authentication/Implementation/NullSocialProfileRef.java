@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.Authentication.Implementation;
 
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
@@ -45,7 +46,7 @@ public class NullSocialProfileRef implements SocialProfileRef {
     }
 
     @Override
-    public void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback) {
+    public void followUnfollow(AuthorId toFollow, FollowUnfollow type, FollowCallback callback) {
 
     }
 
@@ -82,6 +83,11 @@ public class NullSocialProfileRef implements SocialProfileRef {
     @Override
     public void invalidate() {
 
+    }
+
+    @Override
+    public void isFollowing(AuthorId authorId, IsFollowingCallback callback) {
+        callback.onIsFollowing(authorId, false, CallbackMessage.error("null profile"));
     }
 
     private static class NullAuthorListRef extends

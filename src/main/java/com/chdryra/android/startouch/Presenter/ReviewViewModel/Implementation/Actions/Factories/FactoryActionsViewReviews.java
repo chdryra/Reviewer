@@ -19,12 +19,10 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiFollow;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfileEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFollow;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
@@ -53,7 +51,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
 
     @Override
     public MenuAction<GvNode> newMenu() {
-        return mRepo != null ? newFeedMenu(mRepo) : newDefaultMenu();
+        return mRepo != null ? newFeedMenu(mRepo) : super.newDefaultMenu(getDataType().getDataName());
     }
 
     @Override
@@ -74,11 +72,5 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
         MaiLogout<GvNode> logout = new MaiLogout<>();
 
         return new MenuFeed<>(newReview, bookmarks, search, profile, logout);
-    }
-
-    private MenuAction<GvNode> newDefaultMenu() {
-        return mAuthorRef != null ?
-                new MenuFollow<>(new MaiFollow<GvNode>(mAuthorRef.getAuthorId()), mAuthorRef) :
-                super.newDefaultMenu(getDataType().getDataName());
     }
 }

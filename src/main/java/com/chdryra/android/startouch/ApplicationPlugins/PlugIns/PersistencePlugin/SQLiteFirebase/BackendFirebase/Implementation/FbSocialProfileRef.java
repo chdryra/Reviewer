@@ -28,10 +28,12 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,17 +75,37 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
     }
 
     @Override
-    public void followUnfollow(final AuthorId authorId, final FollowUnfollow type, final FollowCallback callback) {
+    public void followUnfollow(final AuthorId toFollow, final FollowUnfollow type, final FollowCallback callback) {
         DbUpdater.UpdateType updateType = type.equals(FollowUnfollow.FOLLOW) ?
                 DbUpdater.UpdateType.INSERT_OR_UPDATE : DbUpdater.UpdateType.DELETE;
 
         DbUpdater<Follow> updater = mStructure.getSocialUpdater();
-        Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, authorId), updateType);
+        Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, toFollow), updateType);
 
         mRootReference.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.onFollowingCallback(authorId, type, getCallbackMessage(firebaseError));
+                callback.onFollow(toFollow, type, getCallbackMessage(firebaseError));
+            }
+        });
+    }
+
+    @Override
+    public void isFollowing(final AuthorId authorId, final IsFollowingCallback callback) {
+        getFollowing().dereference(new DereferenceCallback<List<AuthorId>>() {
+            @Override
+            public void onDereferenced(DataValue<List<AuthorId>> value) {
+                if(value.hasValue()) {
+                    for (AuthorId author : value.getData()) {
+                        if(author.equals(authorId)) {
+                            callback.onIsFollowing(authorId, true, CallbackMessage.ok());
+                            break;
+                        }
+                    }
+                    callback.onIsFollowing(authorId, false, CallbackMessage.ok());
+                } else {
+                    callback.onIsFollowing(authorId, false, CallbackMessage.error("Error dereferencing"));
+                }
             }
         });
     }

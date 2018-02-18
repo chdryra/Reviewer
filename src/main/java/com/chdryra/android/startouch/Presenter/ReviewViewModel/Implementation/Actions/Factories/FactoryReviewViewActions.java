@@ -128,7 +128,7 @@ public class FactoryReviewViewActions {
                                                                                viewFactory) {
         FactoryActionsSearch<?> factoryActions;
         if (dataType.equals(GvAuthorName.TYPE)) {
-            factoryActions = new FactoryActionsSearch.Author(getLauncher(), viewFactory);
+            factoryActions = new FactoryActionsSearch.Author(getLauncher(), viewFactory, mCommandsFactory.newLaunchProfileCommand());
         } else {
             factoryActions = new FactoryActionsSearch<>(dataType, getLauncher(), viewFactory);
         }

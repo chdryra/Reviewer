@@ -20,15 +20,21 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Autho
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialProfileRef extends HasAuthorId, DataReference<SocialProfile>{
-    enum FollowUnfollow {FOLLOW, UNFOLLOW}
+    enum FollowUnfollow {FOLLOW, UNFOLLOW;}
 
     interface FollowCallback {
-        void onFollowingCallback(AuthorId authorId, FollowUnfollow type, CallbackMessage message);
+        void onFollow(AuthorId authorId, FollowUnfollow type, CallbackMessage message);
+    }
+
+    interface IsFollowingCallback {
+        void onIsFollowing(AuthorId authorId, boolean isFollowing, CallbackMessage message);
     }
 
     AuthorListRef getFollowing();
 
     AuthorListRef getFollowers();
 
-    void followUnfollow(AuthorId authorId, FollowUnfollow type, FollowCallback callback);
+    void isFollowing(AuthorId authorId, IsFollowingCallback callback);
+
+    void followUnfollow(AuthorId toFollow, FollowUnfollow type, FollowCallback callback);
 }

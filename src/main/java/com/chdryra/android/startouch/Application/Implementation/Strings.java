@@ -100,6 +100,9 @@ public class Strings {
         public static final String MAP = "Map";
         public static final String FINISH_EDITING = "Finish Editing";
         public static final String DONE = "Done";
+        public static final String FOLLOW = "Follow";
+        public static final String UNFOLLOW = "Unfollow";
+        public static final String EDIT_PROFILE = "Edit profile";
 
         public static class CommentEdit {
             public static final String SEPARATOR = "=";

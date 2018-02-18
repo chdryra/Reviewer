@@ -27,6 +27,10 @@ public class GridItemCommand<T extends GvData> extends GridItemActionNone<T> {
     private final Command mLongClick;
     private final String mToast;
 
+    public GridItemCommand(Command click) {
+        this(click, null, null);
+    }
+
     public GridItemCommand(Command click, @Nullable Command longClick, @Nullable String toast) {
         mClick = click;
         mLongClick = longClick;

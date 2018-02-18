@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
@@ -105,8 +104,6 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     private ReviewView<?> newListView(ReviewNode reviewNode) {
-        DataAuthorId authorId = reviewNode.getAuthorId();
-        boolean menu = !authorId.toString().equals(mSessionAuthor.toString());
-        return mViewFactory.newListView(reviewNode, menu ? authorId : null);
+        return mViewFactory.newListView(reviewNode, null);
     }
 }
