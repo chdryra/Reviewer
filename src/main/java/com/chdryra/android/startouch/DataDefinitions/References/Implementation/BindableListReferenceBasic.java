@@ -105,8 +105,10 @@ public abstract class BindableListReferenceBasic<T, C extends Collection<T>, S e
 
     @Override
     public void bindItemBinder(final CollectionBinder<T> binder) {
-        if(!containsItemBinder(binder)) mItemBinders.add(binder);
-        fireForBinder(binder);
+        if(!containsItemBinder(binder)) {
+            mItemBinders.add(binder);
+            fireForBinder(binder);
+        }
     }
 
     @Override

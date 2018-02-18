@@ -66,8 +66,7 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
     }
 
     @Override
-    public void bindToItems(CollectionBinder<ReviewReference> binder) {
-        super.bindToItems(binder);
+    protected void fireForBinder(CollectionBinder<ReviewReference> binder) {
         for (RepoHandler sub : mRepoHandlers.values()) {
             if (getItemBinders().size() == 1 && !sub.isSubscribed()) {
                 sub.subscribe();

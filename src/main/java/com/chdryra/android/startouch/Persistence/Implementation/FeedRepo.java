@@ -29,61 +29,76 @@ import java.util.Set;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoReadable {
+    private final AuthorId mFollower;
     private final AuthorListRef mFollowing;
     private final ReviewsRepo mMasterRepo;
-    
-    private boolean mInitialised = false;
-    private Binder mBinder;
 
-    public FeedRepo(AuthorId usersId,
+    private FollowersBinder mFollowersBinder;
+
+    public FeedRepo(AuthorId follower,
                     AuthorListRef following,
                     ReviewsRepo masterRepo,
-                    ReviewsRepoReadable initialFeed,
                     ReviewDereferencer dereferencer,
                     SizeReferencer sizeReferencer) {
         super(dereferencer, sizeReferencer);
+        mFollower = follower;
         mFollowing = following;
         mMasterRepo = masterRepo;
-        add(usersId, initialFeed);
+        mFollowersBinder = new FollowersBinder();
+        mFollowersBinder.bind();
     }
 
     @Override
     public void getReference(ReviewId reviewId, RepoCallback callback) {
-        //TODO Not the best implementation....
-        if (!mInitialised) initialise();
+        //TODO Not the best way to initialise...
+        bindToFollowingIfNecessary();
         super.getReference(reviewId, callback);
     }
 
     @Override
     public void getReview(ReviewId reviewId, RepoCallback callback) {
-        if (!mInitialised) initialise();
+        bindToFollowingIfNecessary();
         super.getReview(reviewId, callback);
     }
 
     @Override
     public void bindToItems(CollectionBinder<ReviewReference> binder) {
         super.bindToItems(binder);
-        if(!mInitialised) initialise();
+        bindToFollowingIfNecessary();
     }
 
     @Override
     public void unbindItemBinder(CollectionBinder<ReviewReference> binder) {
         super.unbindItemBinder(binder);
-        if (getBinders().size() == 0) {
-            mFollowing.unbindFromItems(mBinder);
-            mInitialised = false;
-        }
+        if (getBinders().size() == 0) unbindFromFollowingIfNecessary();
     }
 
-    private void initialise() {
-        if(!mInitialised) {
-            mInitialised = true;
-            mBinder = new Binder();
-            mFollowing.bindToItems(mBinder);
-        }
+    private void unbindFromFollowingIfNecessary() {
+        if(mFollowersBinder.isBound()) mFollowersBinder.unbind();
     }
 
-    private class Binder implements CollectionBinder<AuthorId> {
+    private void bindToFollowingIfNecessary() {
+        if(!mFollowersBinder.isBound()) mFollowersBinder.bind();
+    }
+
+    private class FollowersBinder implements CollectionBinder<AuthorId> {
+        private boolean mIsBound = false;
+
+        private void bind() {
+            onItemAdded(mFollower);
+            mFollowing.bindToItems(this);
+            mIsBound = true;
+        }
+
+        private void unbind() {
+            mFollowing.unbindFromItems(this);
+            mIsBound = false;
+        }
+
+        private boolean isBound() {
+            return mIsBound;
+        }
+
         @Override
         public void onItemAdded(AuthorId item) {
             add(item, mMasterRepo.getReviewsByAuthor(item));

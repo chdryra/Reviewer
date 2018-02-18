@@ -20,6 +20,8 @@ public class Strings {
     public static String REVIEW = "rating";
     public static String REVIEWS = REVIEW + "s";
     public static String REVIEWS_CAP = "Ratings";
+    public static String FOLLOWING = "Following";
+    public static String FOLLOWERS = "Followers";
 
     public static class Alerts {
         public static final String ADD_ON_BROWSER = "Add link using browser?";
