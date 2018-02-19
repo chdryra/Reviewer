@@ -122,8 +122,7 @@ public class FactoryReviewOptions {
     @NonNull
     private BookmarkCommand bookmark(AuthorId authorId, ReviewId reviewId) {
         return new BookmarkCommand(reviewId,
-                getRepo().getReviews().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS),
-                getScreen());
+                getRepo().getReviews().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS));
     }
 
     @NonNull

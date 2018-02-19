@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
  * On: 14/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsNodeRepo extends ReviewsRepo {
+public interface ReviewNodeRepo extends ReviewsRepo {
     ReviewNode asMetaReview(ReviewId id);
 
     ReviewNode getMetaReview(AuthorId id);

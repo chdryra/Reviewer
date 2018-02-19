@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryDataBuck
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -70,7 +70,7 @@ public class FactoryReviewViewAdapter {
     private final FactoryDataBucketer mBucketerFactory;
     private final GvDataAggregator mAggregator;
     private final AuthorsRepo mAuthorsRepo;
-    private final ReviewsNodeRepo mReviewSource;
+    private final ReviewNodeRepo mReviewSource;
     private final ConverterGv mConverter;
 
     public FactoryReviewViewAdapter(FactoryReviews reviewsFactory,
@@ -79,7 +79,7 @@ public class FactoryReviewViewAdapter {
                                     FactoryDataBucketer bucketerFactory,
                                     GvDataAggregator aggregator,
                                     AuthorsRepo authorsRepo,
-                                    ReviewsNodeRepo reviewSource,
+                                    ReviewNodeRepo reviewSource,
                                     ConverterGv converter) {
         mReviewsFactory = reviewsFactory;
         mReposFactory = reposFactory;
@@ -122,7 +122,7 @@ public class FactoryReviewViewAdapter {
                                                       String title) {
         RepoCollection<AuthorId> collection = mReposFactory.newRepoCollection();
         for (AuthorId author : reviewAuthors) {
-            collection.add(author, mReviewSource.getReviewsByAuthor(author));
+            collection.add(author, mReviewSource.getRepoForAuthor(author));
         }
 
         ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepo.getReference

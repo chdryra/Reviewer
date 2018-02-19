@@ -14,7 +14,7 @@ import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDelete
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
 public interface RepositorySuite {
     AuthorsRepo getAuthors();
 
-    ReviewsNodeRepo getReviews();
+    ReviewNodeRepo getReviews();
 
     ReviewsRepoReadable getFeed(SocialProfileRef profile);
 

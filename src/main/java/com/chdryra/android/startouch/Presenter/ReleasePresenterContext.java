@@ -26,7 +26,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsP
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -107,7 +107,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
 
         AuthorsRepo authorRepo = persistenceContext.getAuthorsRepo();
-        ReviewsNodeRepo reviewsRepo = persistenceContext.getReviewsRepo();
+        ReviewNodeRepo reviewsRepo = persistenceContext.getReviewsRepo();
 
         FactoryReviewViewActions actionsFactory
                 = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo, getCommandsFactory(), comparators, gvConverter);
@@ -130,7 +130,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
     private FactoryReviewViewAdapter newAdaptersFactory(ModelContext modelContext,
                                     FactoryReviewsRepo reposFactory,
-                                    ReviewsNodeRepo reviewsNodeRepo,
+                                    ReviewNodeRepo reviewNodeRepo,
                                     AuthorsRepo authorsRepo,
                                     ConverterGv gvConverter,
                                     DataAggregatorsApi aggregator) {
@@ -142,7 +142,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 reposFactory,
                 modelContext.getBucketerFactory(),
                 aggregater,
-                authorsRepo, reviewsNodeRepo, gvConverter);
+                authorsRepo, reviewNodeRepo, gvConverter);
     }
 
     private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(ModelContext modelContext,

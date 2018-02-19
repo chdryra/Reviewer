@@ -25,7 +25,7 @@ public class ReviewCollectionDeleter implements ReviewCollection.Callback {
     private final DeleteCallback mCallback;
 
     public interface DeleteCallback {
-        void onDeletedFromPlaylist(String playlistName, ReviewId reviewId, CallbackMessage message);
+        void onDeletedFromCollection(String name, ReviewId reviewId, CallbackMessage message);
     }
 
     public ReviewCollectionDeleter(ReviewId reviewId, ReviewCollection reviewCollection, DeleteCallback callback) {
@@ -39,20 +39,19 @@ public class ReviewCollectionDeleter implements ReviewCollection.Callback {
     }
 
     @Override
-    public void onAddedToCollection(CallbackMessage message) {
+    public void onAddedToCollection(String name, CallbackMessage message) {
 
     }
 
     @Override
-    public void onRemovedFromCollection(CallbackMessage message) {
-        mCallback.onDeletedFromPlaylist(mReviewCollection.getName(), mReviewId, message);
+    public void onRemovedFromCollection(String name, CallbackMessage message) {
+        mCallback.onDeletedFromCollection(mReviewCollection.getName(), mReviewId, message);
     }
 
     @Override
-    public void onCollectionHasReview(boolean hasReview, CallbackMessage message) {
-        if (!hasReview && message.isOk()) {
-            String name = mReviewCollection.getName();
-            mCallback.onDeletedFromPlaylist(name, mReviewId, CallbackMessage.ok(Strings.REVIEW + " not in " + name));
+    public void onCollectionHasEntry(String name, boolean hasEntry, CallbackMessage message) {
+        if (!hasEntry && message.isOk()) {
+            mCallback.onDeletedFromCollection(name, mReviewId, CallbackMessage.ok(Strings.REVIEW + " not in " + name));
         } else {
             mReviewCollection.removeEntry(mReviewId, this);
         }

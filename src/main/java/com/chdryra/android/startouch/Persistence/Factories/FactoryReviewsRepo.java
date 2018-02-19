@@ -15,11 +15,11 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews
 import com.chdryra.android.startouch.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoCollection;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
-import com.chdryra.android.startouch.Persistence.Implementation.ReviewsNodeRepoImpl;
+import com.chdryra.android.startouch.Persistence.Implementation.ReviewNodeRepoImpl;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewsRepoCached;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
@@ -35,10 +35,10 @@ public class FactoryReviewsRepo {
         mCacheFactory = cacheFactory;
     }
 
-    public ReviewsNodeRepo newReviewsNodeRepo(ReviewsRepo reviewsRepo,
-                                              AuthorsRepo authorsRepo,
-                                              FactoryReviews reviewsFactory) {
-        return new ReviewsNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer(), newSizeReferencer());
+    public ReviewNodeRepo newReviewsNodeRepo(ReviewsRepo reviewsRepo,
+                                             AuthorsRepo authorsRepo,
+                                             FactoryReviews reviewsFactory) {
+        return new ReviewNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer(), newSizeReferencer());
     }
 
     public ReviewsRepo newCachedRepo(ReviewsRepo archive,

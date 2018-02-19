@@ -18,11 +18,11 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  */
 public interface ReviewCollection extends ReviewsRepoReadable {
     interface Callback {
-        void onAddedToCollection(CallbackMessage message);
+        void onAddedToCollection(String name, CallbackMessage message);
 
-        void onRemovedFromCollection(CallbackMessage message);
+        void onRemovedFromCollection(String name, CallbackMessage message);
 
-        void onCollectionHasReview(boolean hasReview, CallbackMessage message);
+        void onCollectionHasEntry(String name, boolean hasEntry, CallbackMessage message);
     }
 
     String getName();

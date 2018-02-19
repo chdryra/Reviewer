@@ -100,7 +100,7 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
 
         @Override
         public void onItemAdded(AuthorId item) {
-            add(item, mMasterRepo.getReviewsByAuthor(item));
+            add(item, mMasterRepo.getRepoForAuthor(item));
         }
 
         @Override
@@ -118,7 +118,7 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
                 remove(toRemoveId);
             }
             for (AuthorId toAddId : toAdd) {
-                add(toAddId, mMasterRepo.getReviewsByAuthor(toAddId));
+                add(toAddId, mMasterRepo.getRepoForAuthor(toAddId));
             }
         }
 

@@ -13,7 +13,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewsRepoWriteable mLocalRepo;
     private AuthorsRepo mAuthorsRepo;
     private AccountsManager mAccountsManager;
-    private ReviewsNodeRepo mReviewsRepo;
+    private ReviewNodeRepo mReviewsRepo;
     private FactoryReviewsRepo mRepoFactory;
 
     protected void setLocalRepo(ReviewsRepoWriteable localRepo) {
@@ -39,7 +39,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mAccountsManager = accountsManager;
     }
 
-    protected void setReviewsRepo(ReviewsNodeRepo reviewsRepo) {
+    protected void setReviewsRepo(ReviewNodeRepo reviewsRepo) {
         mReviewsRepo = reviewsRepo;
     }
 
@@ -48,7 +48,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public ReviewsNodeRepo getReviewsRepo() {
+    public ReviewNodeRepo getReviewsRepo() {
         return mReviewsRepo;
     }
 

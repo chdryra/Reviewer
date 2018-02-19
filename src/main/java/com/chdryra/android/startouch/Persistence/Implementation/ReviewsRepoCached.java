@@ -46,8 +46,8 @@ public class ReviewsRepoCached<T extends ReviewsRepo> extends RepoReadableBasic 
     }
 
     @Override
-    public ReviewsRepoReadable getReviewsByAuthor(AuthorId authorId) {
-        return mArchive.getReviewsByAuthor(authorId);
+    public ReviewsRepoReadable getRepoForAuthor(AuthorId authorId) {
+        return mArchive.getRepoForAuthor(authorId);
     }
 
     @Override

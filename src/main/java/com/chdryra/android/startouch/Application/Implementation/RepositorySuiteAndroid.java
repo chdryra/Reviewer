@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDelete
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
 /**
@@ -27,13 +27,13 @@ import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
 public class RepositorySuiteAndroid implements RepositorySuite {
     private final AuthorsRepo mAuthorsRepo;
-    private final ReviewsNodeRepo mReviewsRepo;
+    private final ReviewNodeRepo mReviewsRepo;
     private final FactoryReviewsRepo mRepoFactory;
     private final FactoryReviewDeleter mDeleterFactory;
     private final ReviewPublisher mPublisher;
 
     public RepositorySuiteAndroid(AuthorsRepo authorsRepo,
-                                  ReviewsNodeRepo reviewsRepo,
+                                  ReviewNodeRepo reviewsRepo,
                                   FactoryReviewsRepo repoFactory,
                                   FactoryReviewDeleter deleterFactory,
                                   ReviewPublisher publisher) {
@@ -50,7 +50,7 @@ public class RepositorySuiteAndroid implements RepositorySuite {
     }
 
     @Override
-    public ReviewsNodeRepo getReviews() {
+    public ReviewNodeRepo getReviews() {
         return mReviewsRepo;
     }
 

@@ -39,7 +39,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImag
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.FollowSubscriber;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvAuthorId;
@@ -260,9 +260,9 @@ public class FragmentAuthorView extends Fragment implements
                 launchAuthorRatings();
             }
         });
-        ReviewsNodeRepo reviews = getRepository().getReviews();
+        ReviewNodeRepo reviews = getRepository().getReviews();
         SocialProfileRef social = getSocialProfile(mAuthor);
-        mRatings = new SizeSubscriber(reviews.getReviewsByAuthor(mAuthor).getSize(), ratings, REVIEWS);
+        mRatings = new SizeSubscriber(reviews.getRepoForAuthor(mAuthor).getSize(), ratings, REVIEWS);
         mFollowers = new SizeSubscriber(social.getFollowers().getSize(), followers, FOLLOWERS);
         mFollowing = new SizeSubscriber(social.getFollowing().getSize(), following, FOLLOWING);
 

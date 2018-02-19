@@ -17,7 +17,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -28,9 +28,9 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
     private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
     private final EditorSuite mBuilder;
-    private final ReviewsNodeRepo mRepo;
+    private final ReviewNodeRepo mRepo;
 
-    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, ReviewsNodeRepo repo) {
+    public EditUiLauncher(LaunchableConfig ui, EditorSuite builder, ReviewNodeRepo repo) {
         super(ui);
         mBuilder = builder;
         mRepo = repo;

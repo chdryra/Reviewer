@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -42,7 +42,7 @@ public class FactoryUiLauncher {
 
     public UiLauncherAndroid newLauncher(EditorSuite builder,
                                          FactoryReviewView viewFactory,
-                                         ReviewsNodeRepo masterRepo,
+                                         ReviewNodeRepo masterRepo,
                                          UiConfig config) {
         List<NodeLauncher<?>> launchers = new ArrayList<>();
         launchers.add(newLauncher(config, GvNode.TYPE));

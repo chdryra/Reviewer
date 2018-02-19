@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ActionsParameters;
@@ -35,7 +35,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     private AuthorRef mAuthorRef;
-    private ReviewsNodeRepo mRepo;
+    private ReviewNodeRepo mRepo;
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
                                      @Nullable AuthorRef authorRef) {
@@ -44,7 +44,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     }
 
     public FactoryActionsViewReviews(ActionsParameters<GvNode> parameters,
-                                     ReviewsNodeRepo repo) {
+                                     ReviewNodeRepo repo) {
         super(parameters);
         mRepo = repo;
     }
@@ -62,7 +62,7 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
     }
     
     @NonNull
-    private MenuAction<GvNode> newFeedMenu(ReviewsNodeRepo repo) {
+    private MenuAction<GvNode> newFeedMenu(ReviewNodeRepo repo) {
         UiLauncher launcher = getLauncher();
         MaiCommand<GvNode> newReview = new MaiCommand<>
                 (getCommandsFactory().newLaunchCreatorCommand(null));

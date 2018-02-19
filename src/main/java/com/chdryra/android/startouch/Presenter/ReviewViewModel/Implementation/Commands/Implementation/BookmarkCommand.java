@@ -11,7 +11,6 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.C
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
 
@@ -31,7 +30,6 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
 
     private final ReviewId mReviewId;
     private final ReviewCollection mBookmarks;
-    private final CurrentScreen mScreen;
 
     private boolean mIsBookmarked = false;
     private boolean mLocked = false;
@@ -48,10 +46,9 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
         void onBookmarked(boolean isBookmarked);
     }
 
-    public BookmarkCommand(ReviewId reviewId, ReviewCollection bookmarks, CurrentScreen screen) {
+    public BookmarkCommand(ReviewId reviewId, ReviewCollection bookmarks) {
         super(PLACEHOLDER);
         mReviewId = reviewId;
-        mScreen = screen;
         mBookmarks = bookmarks;
         mObservers = new ArrayList<>();
     }
@@ -83,7 +80,7 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
         }
     }
 
-    public boolean isInitialised() {
+    boolean isInitialised() {
         return mInitialised;
     }
 
@@ -103,7 +100,7 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
     }
 
     @Override
-    public void onAddedToCollection(CallbackMessage message) {
+    public void onAddedToCollection(String name, CallbackMessage message) {
         mIsBookmarked = true;
         notifyObservers();
         unlock();
@@ -111,7 +108,7 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
     }
 
     @Override
-    public void onRemovedFromCollection(CallbackMessage message) {
+    public void onRemovedFromCollection(String name, CallbackMessage message) {
         mIsBookmarked = false;
         notifyObservers();
         unlock();
@@ -119,9 +116,9 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
     }
 
     @Override
-    public void onCollectionHasReview(boolean hasReview, CallbackMessage message) {
+    public void onCollectionHasEntry(String name, boolean hasEntry, CallbackMessage message) {
         if (message.isOk()) {
-            mIsBookmarked = hasReview;
+            mIsBookmarked = hasEntry;
             mErrorChecking = false;
             setName(mIsBookmarked ? UNBOOKMARK : BOOKMARK);
         } else {

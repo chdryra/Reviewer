@@ -30,7 +30,7 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
@@ -46,16 +46,16 @@ import java.util.Set;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsNodeRepoImpl extends RepoReadableBasic implements ReviewsNodeRepo {
+public class ReviewNodeRepoImpl extends RepoReadableBasic implements ReviewNodeRepo {
     private final ReviewsRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryReviews mReviewsFactory;
 
-    public ReviewsNodeRepoImpl(ReviewsRepo reviewsRepo,
-                               AuthorsRepo authorsRepo,
-                               FactoryReviews reviewsFactory,
-                               ReviewDereferencer dereferencer,
-                               SizeReferencer sizeReferencer) {
+    public ReviewNodeRepoImpl(ReviewsRepo reviewsRepo,
+                              AuthorsRepo authorsRepo,
+                              FactoryReviews reviewsFactory,
+                              ReviewDereferencer dereferencer,
+                              SizeReferencer sizeReferencer) {
         super(dereferencer, sizeReferencer);
         mReviewsRepo = reviewsRepo;
         mAuthorsRepo = authorsRepo;
@@ -84,7 +84,7 @@ public class ReviewsNodeRepoImpl extends RepoReadableBasic implements ReviewsNod
 
     @Override
     public ReviewNode getMetaReview(AuthorId id) {
-        return getMetaReview(getReviewsByAuthor(id), id, Strings.ReviewsList.REVIEWS);
+        return getMetaReview(getRepoForAuthor(id), id, Strings.ReviewsList.REVIEWS);
     }
 
     @Override
@@ -115,8 +115,8 @@ public class ReviewsNodeRepoImpl extends RepoReadableBasic implements ReviewsNod
     }
 
     @Override
-    public ReviewsRepoReadable getReviewsByAuthor(AuthorId authorId) {
-        return mReviewsRepo.getReviewsByAuthor(authorId);
+    public ReviewsRepoReadable getRepoForAuthor(AuthorId authorId) {
+        return mReviewsRepo.getRepoForAuthor(authorId);
     }
 
     @Override

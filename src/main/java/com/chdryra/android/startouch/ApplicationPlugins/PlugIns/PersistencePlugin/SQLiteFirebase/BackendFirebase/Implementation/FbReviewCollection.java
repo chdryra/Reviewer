@@ -114,7 +114,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.onCollectionHasReview(dataSnapshot.getValue() != null,
+                callback.onCollectionHasEntry(mName, dataSnapshot.getValue() != null,
                         CallbackMessage.ok());
             }
 
@@ -122,7 +122,7 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
             public void onCancelled(FirebaseError firebaseError) {
                 CallbackMessage error = CallbackMessage.error(FirebaseBackend
                         .backendError(firebaseError).getMessage());
-                callback.onCollectionHasReview(false, error);
+                callback.onCollectionHasEntry(mName, false, error);
             }
         };
     }
@@ -137,9 +137,9 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
                                 DbUpdater.UpdateType updateType,
                                 Callback callback) {
         if (updateType.equals(DbUpdater.UpdateType.INSERT_OR_UPDATE)) {
-            callback.onAddedToCollection(message);
+            callback.onAddedToCollection(mName, message);
         } else {
-            callback.onRemovedFromCollection(message);
+            callback.onRemovedFromCollection(mName, message);
         }
     }
 
@@ -185,9 +185,9 @@ public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewColl
                     = new ReviewCollectionDeleter(id, FbReviewCollection.this, new ReviewCollectionDeleter
                     .DeleteCallback() {
                 @Override
-                public void onDeletedFromPlaylist(String playlistName,
-                                                  ReviewId reviewId,
-                                                  CallbackMessage message) {
+                public void onDeletedFromCollection(String name,
+                                                    ReviewId reviewId,
+                                                    CallbackMessage message) {
                     mStealthDeletion.remove(reviewId);
                     callback.onReferenceReady(null);
                 }

@@ -10,7 +10,6 @@ package com.chdryra.android.startouch.Persistence.Interfaces;
 
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,15 +17,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepo extends ReviewsRepoReadable {
-    ReviewsRepoReadable getReviewsByAuthor(AuthorId authorId);
-
-    ReviewCollection getCollectionForAuthor(AuthorId authorId, String name);
+    ReviewsRepoReadable getRepoForAuthor(AuthorId authorId);
 
     ReviewsRepoWriteable getRepoForUser(UserSession session);
 
-    @Override
-    void getReference(ReviewId reviewId, RepoCallback callback);
-
-    @Override
-    void getReview(ReviewId reviewId, RepoCallback callback);
+    ReviewCollection getCollectionForAuthor(AuthorId authorId, String name);
 }

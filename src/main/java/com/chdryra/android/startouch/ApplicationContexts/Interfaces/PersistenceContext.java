@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.ApplicationContexts.Interfaces;
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**
@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    ReviewsNodeRepo getReviewsRepo();
+    ReviewNodeRepo getReviewsRepo();
 
     AuthorsRepo getAuthorsRepo();
 

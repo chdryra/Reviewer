@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
@@ -66,13 +66,13 @@ import java.util.Comparator;
 //TODO refactor and think about ReviewView redesign.
 public class FactoryReviewViewActions {
     private final UiConfig mConfig;
-    private final ReviewsNodeRepo mReviewsRepo;
+    private final ReviewNodeRepo mReviewsRepo;
     private final AuthorsRepo mAuthorsRepo;
     private final FactoryLaunchCommands mCommandsFactory;
     private final DataComparatorsApi mComparators;
     private final ConverterGv mConverter;
 
-    public FactoryReviewViewActions(UiConfig config, ReviewsNodeRepo reviewsRepo, AuthorsRepo
+    public FactoryReviewViewActions(UiConfig config, ReviewNodeRepo reviewsRepo, AuthorsRepo
             authorsRepo, FactoryLaunchCommands commandsFactory, DataComparatorsApi comparators,
                                     ConverterGv converter) {
         mConfig = config;

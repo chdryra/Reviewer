@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -95,7 +95,7 @@ public class UiSuiteAndroid implements UiSuite{
     public ReviewViewNode newFeedView(RepositorySuite repository, SocialProfileRef profile) {
         AuthorId user = mSessionUser != null ? mSessionUser : profile.getAuthorId();
         ReviewsRepoReadable feed = repository.getFeed(profile);
-        ReviewsNodeRepo repo = repository.getReviews();
+        ReviewNodeRepo repo = repository.getReviews();
         ReviewNode node = repo.getMetaReview(feed, user, Strings.ReviewsList.FEED);
 
         return mViewFactory.newFeedView(node);

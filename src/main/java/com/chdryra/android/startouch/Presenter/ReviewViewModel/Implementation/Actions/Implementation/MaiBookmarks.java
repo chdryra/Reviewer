@@ -16,7 +16,7 @@ import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
@@ -32,10 +32,10 @@ public class MaiBookmarks<T extends GvData> extends MenuActionItemBasic<T>{
     private static final int CODE = RequestCodeGenerator.getCode(MaiBookmarks.class);
 
     private final UiLauncher mLauncher;
-    private final ReviewsNodeRepo mRepo;
+    private final ReviewNodeRepo mRepo;
     private final FactoryReviewView mFactory;
 
-    public MaiBookmarks(UiLauncher launcher, ReviewsNodeRepo repo, FactoryReviewView factory) {
+    public MaiBookmarks(UiLauncher launcher, ReviewNodeRepo repo, FactoryReviewView factory) {
         mLauncher = launcher;
         mFactory = factory;
         mRepo = repo;

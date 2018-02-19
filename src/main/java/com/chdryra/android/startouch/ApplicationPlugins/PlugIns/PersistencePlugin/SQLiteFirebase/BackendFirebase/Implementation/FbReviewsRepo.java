@@ -45,7 +45,7 @@ public class FbReviewsRepo extends FbReviewsRepoBasic implements ReviewsRepo {
     }
 
     @Override
-    public ReviewsRepoReadable getReviewsByAuthor(AuthorId authorId) {
+    public ReviewsRepoReadable getRepoForAuthor(AuthorId authorId) {
         return mAuthorsDbFactory.newRepoReadable(getDataBase(), getAuthorsDb(authorId));
     }
 
