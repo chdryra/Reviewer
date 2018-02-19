@@ -13,10 +13,9 @@ import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.List;
 
@@ -56,12 +55,12 @@ public class NullSocialProfileRef implements SocialProfileRef {
     }
 
     @Override
-    public void bindToValue(ReferenceBinder<SocialProfile> binder) {
+    public void subscribe(ValueSubscriber<SocialProfile> subscriber) {
 
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<SocialProfile> binder) {
+    public void unsubscribe(ValueSubscriber<SocialProfile> subscriber) {
 
     }
 

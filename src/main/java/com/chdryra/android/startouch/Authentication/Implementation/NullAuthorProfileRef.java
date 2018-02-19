@@ -16,10 +16,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAu
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorRefDefault;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +42,7 @@ public class NullAuthorProfileRef implements AuthorProfileRef {
     }
 
     @Override
-    public void bindToValue(ReferenceBinder<AuthorProfile> binder) {
+    public void subscribe(ValueSubscriber<AuthorProfile> subscriber) {
 
     }
 
@@ -53,7 +52,7 @@ public class NullAuthorProfileRef implements AuthorProfileRef {
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<AuthorProfile> binder) {
+    public void unsubscribe(ValueSubscriber<AuthorProfile> subscriber) {
 
     }
 

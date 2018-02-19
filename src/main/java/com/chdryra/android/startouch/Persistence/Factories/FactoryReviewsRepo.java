@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Persistence.Factories;
 
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoCollection;

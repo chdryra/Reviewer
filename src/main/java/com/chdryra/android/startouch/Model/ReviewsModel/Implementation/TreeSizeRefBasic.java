@@ -14,11 +14,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSi
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataReferenceBasic;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.InvalidatableReferenceBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import java.util.ArrayList;
@@ -30,13 +29,13 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class TreeSizeRefBasic<Value extends HasReviewId>
-        extends DataReferenceBasic<DataSize>
+        extends InvalidatableReferenceBasic<DataSize>
         implements
         ReviewItemReference<DataSize>,
         DataReference.InvalidationListener,
         ReviewNode.NodeObserver {
 
-    private final Collection<ReferenceBinder<DataSize>> mValueBinders;
+    private final Collection<ValueSubscriber<DataSize>> mValueBinders;
     private boolean mCached = false;
     private final TreeDataReferenceBasic<Value, ?> mDataReference;
     private int mCurrentSize = 0;
@@ -89,7 +88,7 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
     }
 
     void notifyValueBinders(DataSize size) {
-        for (ReferenceBinder<DataSize> binder : mValueBinders) {
+        for (ValueSubscriber<DataSize> binder : mValueBinders) {
             binder.onReferenceValue(size);
         }
     }
@@ -131,17 +130,17 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<DataSize> binder) {
-        if (mValueBinders.contains(binder)) mValueBinders.remove(binder);
+    public void unsubscribe(ValueSubscriber<DataSize> subscriber) {
+        if (mValueBinders.contains(subscriber)) mValueBinders.remove(subscriber);
     }
 
     @Override
-    public void bindToValue(final ReferenceBinder<DataSize> binder) {
-        if (!mValueBinders.contains(binder)) mValueBinders.add(binder);
+    public void subscribe(final ValueSubscriber<DataSize> subscriber) {
+        if (!mValueBinders.contains(subscriber)) mValueBinders.add(subscriber);
         dereference(new DereferenceCallback<DataSize>() {
             @Override
             public void onDereferenced(DataValue<DataSize> value) {
-                if (value.hasValue()) binder.onReferenceValue(value.getData());
+                if (value.hasValue()) subscriber.onReferenceValue(value.getData());
             }
         });
     }
@@ -158,7 +157,7 @@ public abstract class TreeSizeRefBasic<Value extends HasReviewId>
     }
 
     @Override
-    public void onReferenceInvalidated(DataReference<?> reference) {
+    public void onInvalidated(DataReference<?> reference) {
         invalidate();
     }
 }

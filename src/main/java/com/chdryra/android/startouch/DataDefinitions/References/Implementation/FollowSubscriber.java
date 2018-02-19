@@ -11,8 +11,7 @@ package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 
 import java.util.Collection;
 
@@ -21,7 +20,7 @@ import java.util.Collection;
  * On: 18/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
-public class FollowBinder implements CollectionBinder<AuthorId> {
+public class FollowSubscriber implements CollectionReference.ItemSubscriber<AuthorId> {
     private final AuthorListRef mFollowing;
     private final FollowListener mListener;
 
@@ -33,7 +32,7 @@ public class FollowBinder implements CollectionBinder<AuthorId> {
         void onFollowInvalidate();
     }
 
-    public FollowBinder(AuthorListRef following, FollowListener listener) {
+    public FollowSubscriber(AuthorListRef following, FollowListener listener) {
         mFollowing = following;
         mListener = listener;
     }
@@ -61,10 +60,10 @@ public class FollowBinder implements CollectionBinder<AuthorId> {
     }
 
     public void bind() {
-        mFollowing.bindToItems(this);
+        mFollowing.subscribe(this);
     }
 
     public void unbind() {
-        mFollowing.unbindFromItems(this);
+        mFollowing.unsubscribe(this);
     }
 }

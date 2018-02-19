@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.firebase.client.Firebase;
 
 /**

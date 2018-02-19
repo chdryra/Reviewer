@@ -15,13 +15,12 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataReferenceBasic;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.InvalidatableReferenceBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -33,10 +32,10 @@ import java.util.Collections;
  * On: 20/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
+public class NodeCoverReference extends InvalidatableReferenceBasic<DataImage> implements
         ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference.InvalidationListener {
     private final ReviewNode mRoot;
-    private final ArrayList<ReferenceBinder<DataImage>> mBinders;
+    private final ArrayList<ValueSubscriber<DataImage>> mBinders;
     private ReviewItemReference<ReviewReference> mReview;
 
     private interface ChoiceCallback {
@@ -59,19 +58,19 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     @Override
-    public void bindToValue(final ReferenceBinder<DataImage> binder) {
-        if (!mBinders.contains(binder)) mBinders.add(binder);
+    public void subscribe(final ValueSubscriber<DataImage> subscriber) {
+        if (!mBinders.contains(subscriber)) mBinders.add(subscriber);
         dereferenceCurrent(new DereferenceCallback<DataImage>() {
             @Override
             public void onDereferenced(DataValue<DataImage> value) {
-                if (value.hasValue()) binder.onReferenceValue(value.getData());
+                if (value.hasValue()) subscriber.onReferenceValue(value.getData());
             }
         });
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<DataImage> binder) {
-        if (mBinders.contains(binder)) mBinders.remove(binder);
+    public void unsubscribe(ValueSubscriber<DataImage> subscriber) {
+        if (mBinders.contains(subscriber)) mBinders.remove(subscriber);
     }
 
     @Override
@@ -95,7 +94,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     @Override
-    public void onReferenceInvalidated(DataReference<?> reference) {
+    public void onInvalidated(DataReference<?> reference) {
         mReview = null;
         chooseAgainAndNotifyIfNecessary();
     }
@@ -104,7 +103,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     protected void onInvalidate() {
         super.onInvalidate();
         if (mReview != null) mReview.unregisterListener(this);
-        for (ReferenceBinder<DataImage> binder : mBinders) {
+        for (ValueSubscriber<DataImage> binder : mBinders) {
             binder.onInvalidated(this);
         }
         mBinders.clear();
@@ -232,7 +231,7 @@ public class NodeCoverReference extends DataReferenceBasic<DataImage> implements
     }
 
     private void notifyBinders(DataImage data) {
-        for (ReferenceBinder<DataImage> binder : mBinders) {
+        for (ValueSubscriber<DataImage> binder : mBinders) {
             binder.onReferenceValue(data);
         }
     }

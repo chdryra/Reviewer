@@ -11,9 +11,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.firebase.client.Firebase;
 
 import java.util.Collection;

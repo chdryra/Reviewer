@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeImpl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 

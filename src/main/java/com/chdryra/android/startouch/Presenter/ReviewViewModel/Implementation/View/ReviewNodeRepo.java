@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeDefault;
@@ -44,12 +44,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
         mRepo = repo;
         mNodeFactory = nodeFactory;
         mBatchPending = new ArrayList<>();
-        mRepo.bindToItems(this);
-    }
-
-    @Override
-    public String getSubscriberId() {
-        return getReviewId().toString();
+        mRepo.subscribe(this);
     }
 
     @Override
@@ -80,7 +75,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     public void onInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
         IdableList<ReviewNode> children = getChildren();
         for(ReviewNode child : children) removeChild(child.getReviewId());
-        mRepo.unbindFromItems(this);
+        mRepo.unsubscribe(this);
     }
 
     @Override
@@ -103,7 +98,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     }
 
     void detachFromRepo() {
-        mRepo.unbindFromItems(this);
+        mRepo.unsubscribe(this);
         for (ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }

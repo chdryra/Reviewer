@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -55,7 +55,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic
     }
 
     @Override
-    public void onReferenceInvalidated(DataReference<?> reference) {
+    public void onInvalidated(DataReference<?> reference) {
         ReviewNodeComponent parent = getParentAsComponent();
         if (parent != null) parent.removeChild(getReviewId());
     }

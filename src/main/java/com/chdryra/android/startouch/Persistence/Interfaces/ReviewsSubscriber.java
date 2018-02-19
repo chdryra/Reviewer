@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Persistence.Interfaces;
 
 
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
@@ -17,6 +17,6 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsSubscriber extends CollectionBinder<ReviewReference> {
-    String getSubscriberId();
+public interface ReviewsSubscriber extends CollectionReference.ItemSubscriber<ReviewReference> {
+
 }

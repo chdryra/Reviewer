@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015

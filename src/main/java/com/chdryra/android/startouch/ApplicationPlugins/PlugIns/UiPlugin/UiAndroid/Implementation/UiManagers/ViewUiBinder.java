@@ -9,8 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers;
 
 
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +42,7 @@ public class ViewUiBinder<T> implements Bindable{
     public void bind() {
         if(!mIsBound) {
             mIsBound = true;
-            mView.getReferenceValue().bindToValue(new ReferenceBinder<T>() {
+            mView.getReferenceValue().subscribe(new DataReference.ValueSubscriber<T>() {
                 @Override
                 public void onReferenceValue(T value) {
                     mCastView.update(value);

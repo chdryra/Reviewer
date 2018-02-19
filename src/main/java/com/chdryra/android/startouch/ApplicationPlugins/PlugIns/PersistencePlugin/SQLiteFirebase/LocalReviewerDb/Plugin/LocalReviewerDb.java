@@ -20,8 +20,6 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryLocalReviewerDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
-import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**

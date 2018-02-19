@@ -12,14 +12,13 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.BindableListReferenceBasic;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.ItemBindersDelegate;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.CollectionReferenceBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
@@ -34,8 +33,8 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class RepoReadableBasic extends BindableListReferenceBasic<ReviewReference, List<ReviewReference>, Size>
-        implements ReviewsRepoReadable, ItemBindersDelegate.BindableListReference<ReviewReference, List<ReviewReference>, Size> {
+public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewReference, List<ReviewReference>, Size>
+        implements ReviewsRepoReadable, SubscribersManager.SubscribableCollectionReference<ReviewReference, List<ReviewReference>, Size> {
     private final ReviewDereferencer mDereferencer;
     private final SizeReferencer mSizeReferencer;
 
@@ -75,7 +74,7 @@ public abstract class RepoReadableBasic extends BindableListReferenceBasic<Revie
     }
 
     @Override
-    protected void fireForBinder(final CollectionBinder<ReviewReference> binder) {
+    protected void fireForBinder(final ItemSubscriber<ReviewReference> binder) {
         doDereferencing(new DereferenceCallback<List<ReviewReference>>() {
             @Override
             public void onDereferenced(DataValue<List<ReviewReference>> value) {
@@ -95,25 +94,25 @@ public abstract class RepoReadableBasic extends BindableListReferenceBasic<Revie
     }
 
     protected void notifyOnAdd(ReviewReference reference) {
-        for (CollectionBinder<ReviewReference> binder : getItemBinders()) {
+        for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onItemAdded(reference);
         }
     }
 
     protected void notifyOnRemove(ReviewReference reference) {
-        for (CollectionBinder<ReviewReference> binder : getItemBinders()) {
+        for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onItemRemoved(reference);
         }
     }
 
     protected void notifyOnChanged(Collection<ReviewReference> collection) {
-        for (CollectionBinder<ReviewReference> binder : getItemBinders()) {
+        for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onCollectionChanged(collection);
         }
     }
 
     protected void notifyOnInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
-        for (CollectionBinder<ReviewReference> binder : getItemBinders()) {
+        for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onInvalidated(reference);
         }
     }

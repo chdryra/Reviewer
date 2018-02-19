@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleCommentRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
 

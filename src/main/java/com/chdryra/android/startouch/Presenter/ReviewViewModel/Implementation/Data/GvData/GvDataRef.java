@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -133,7 +133,7 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
     }
 
     @Override
-    public void onReferenceInvalidated(DataReference<?> reference) {
+    public void onInvalidated(DataReference<?> reference) {
         unbind();
     }
 }

@@ -20,8 +20,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableColle
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -64,13 +63,13 @@ public class ReviewsNodeRepoImpl extends RepoReadableBasic implements ReviewsNod
     }
 
     @Override
-    public void bindToItems(CollectionBinder<ReviewReference> binder) {
-        mReviewsRepo.bindToItems(binder);
+    public void subscribe(ItemSubscriber<ReviewReference> binder) {
+        mReviewsRepo.subscribe(binder);
     }
 
     @Override
-    public void unbindFromItems(CollectionBinder<ReviewReference> binder) {
-        mReviewsRepo.unbindFromItems(binder);
+    public void unsubscribe(ItemSubscriber<ReviewReference> binder) {
+        mReviewsRepo.unsubscribe(binder);
     }
 
     @Override

@@ -24,8 +24,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -60,9 +59,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private final ReviewSelector mSelector;
     private final InfoUpdateListener mListener;
 
-    private final TagsBinder mTagsBinder;
-    private final CommentsBinder mCommentsBinder;
-    private final NameBinder mNameBinder;
+    private final TagsSubscriber mTagsBinder;
+    private final CommentsSubscriber mCommentsBinder;
+    private final NameSubscriber mNameBinder;
 
     private ReviewReference mReview;
     private AuthorName mAuthor;
@@ -85,9 +84,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         mAuthorsRepo = authorsRepo;
         mSelector = selector;
         mListener = listener;
-        mCommentsBinder = new CommentsBinder();
-        mTagsBinder = new TagsBinder();
-        mNameBinder = new NameBinder();
+        mCommentsBinder = new CommentsSubscriber();
+        mTagsBinder = new TagsSubscriber();
+        mNameBinder = new NameSubscriber();
     }
 
     protected ReviewReference getReview() {
@@ -97,9 +96,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     @Override
     public void unbindFromReview() {
         if (mReview == null) return;
-        mReview.getComments().unbindFromValue(mCommentsBinder);
-        mReview.getTags().unbindFromValue(mTagsBinder);
-        mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+        mReview.getComments().unsubscribe(mCommentsBinder);
+        mReview.getTags().unsubscribe(mTagsBinder);
+        mAuthorsRepo.getReference(mReview.getAuthorId()).unsubscribe(mNameBinder);
         mSelector.unregister(mNode.getReviewId());
     }
 
@@ -149,9 +148,9 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     private void bindIfNecessary() {
         if (!mBound && mShowAbstract) {
             mCallbacks = 0;
-            mReview.getComments().bindToValue(mCommentsBinder);
-            mReview.getTags().bindToValue(mTagsBinder);
-            mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+            mReview.getComments().subscribe(mCommentsBinder);
+            mReview.getTags().subscribe(mTagsBinder);
+            mAuthorsRepo.getReference(mReview.getAuthorId()).subscribe(mNameBinder);
         }
     }
 
@@ -233,7 +232,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         notifyListener(false);
     }
 
-    private class NameBinder implements ReferenceBinder<AuthorName> {
+    private class NameSubscriber implements DataReference.ValueSubscriber<AuthorName> {
         @Override
         public void onInvalidated(DataReference<AuthorName> reference) {
             setAuthor(null);
@@ -245,22 +244,22 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         }
     }
 
-    private class TagsBinder extends ListBinder<DataTag> {
+    private class TagsSubscriber extends ListSubscriber<DataTag> {
         @Override
         protected void onList(IdableList<DataTag> data) {
             setTags(data);
         }
     }
 
-    private class CommentsBinder extends ListBinder<DataComment> {
+    private class CommentsSubscriber extends ListSubscriber<DataComment> {
         @Override
         protected void onList(IdableList<DataComment> data) {
             setHeadline(data);
         }
     }
 
-    private abstract class ListBinder<T extends HasReviewId> implements
-            ReferenceBinder<IdableList<T>> {
+    private abstract class ListSubscriber<T extends HasReviewId> implements
+            DataReference.ValueSubscriber<IdableList<T>> {
         protected abstract void onList(IdableList<T> data);
 
         @Override

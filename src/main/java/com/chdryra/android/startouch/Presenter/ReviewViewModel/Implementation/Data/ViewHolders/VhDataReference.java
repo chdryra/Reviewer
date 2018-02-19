@@ -12,15 +12,15 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface VhDataReference<ValueType extends HasReviewId> extends ViewHolder, ReferenceBinder<ValueType> {
+public interface VhDataReference<ValueType extends HasReviewId> extends ViewHolder, DataReference.ValueSubscriber<ValueType> {
     boolean isBoundTo(ReviewItemReference<ValueType> reference);
 
     void unbindFromReference();

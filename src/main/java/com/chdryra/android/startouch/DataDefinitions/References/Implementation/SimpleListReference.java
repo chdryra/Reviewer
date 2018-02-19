@@ -8,10 +8,11 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 
@@ -24,55 +25,55 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class SimpleListReference<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
-        implements ReviewListReference<Value, Reference>, ItemBindersDelegate.BindableListReference<Value, IdableList<Value>, DataSize> {
-    private final ItemBindersDelegate<Value, DataSize> mManager;
-    private final Collection<CollectionBinder<Value>> mItemBinders;
+        implements ReviewListReference<Value, Reference>, SubscribersManager.SubscribableCollectionReference<Value, IdableList<Value>, DataSize> {
+    private final SubscribersManager<Value, DataSize> mManager;
+    private final Collection<ItemSubscriber<Value>> mItemBinders;
 
     protected SimpleListReference(Dereferencer<IdableList<Value>> dereferencer) {
         super(dereferencer);
         mItemBinders = new ArrayList<>();
-        mManager = new ItemBindersDelegate<>(this);
+        mManager = new SubscribersManager<>(this);
     }
 
     @Override
-    public void bindToItems(CollectionBinder<Value> binder) {
-        mManager.bindToItems(binder);
+    public void subscribe(ItemSubscriber<Value> binder) {
+        mManager.subscribe(binder);
     }
 
     @Override
-    public void unbindFromItems(CollectionBinder<Value> binder) {
-        mManager.unbindFromItems(binder);
+    public void unsubscribe(ItemSubscriber<Value> binder) {
+        mManager.unsubscribe(binder);
     }
 
     @Override
-    public void unbindItemBinder(CollectionBinder<Value> binder) {
+    public void unbindSubscriber(ItemSubscriber<Value> binder) {
         mItemBinders.remove(binder);
     }
 
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
-        mManager.notifyBinders();
+        mManager.notifyOnInvalidated();
         mItemBinders.clear();
     }
 
     @Override
-    public Collection<CollectionBinder<Value>> getItemBinders() {
+    public Collection<ItemSubscriber<Value>> getItemSubscribers() {
         return mItemBinders;
     }
 
     @Override
-    public void bindItemBinder(CollectionBinder<Value> binder) {
+    public void bindSubscriber(ItemSubscriber<Value> binder) {
         mItemBinders.add(binder);
         dereferenceForBinder(binder);
     }
 
     @Override
-    public boolean containsItemBinder(CollectionBinder<Value> binder) {
+    public boolean containsSubscriber(ItemSubscriber<Value> binder) {
         return mItemBinders.contains(binder);
     }
 
-    private void dereferenceForBinder(final CollectionBinder<Value> binder) {
+    private void dereferenceForBinder(final ItemSubscriber<Value> binder) {
         dereference(new DereferenceCallback<IdableList<Value>>() {
             @Override
             public void onDereferenced(DataValue<IdableList<Value>> value) {

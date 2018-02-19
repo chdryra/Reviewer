@@ -9,8 +9,7 @@
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,8 +34,8 @@ public abstract class NodeTitler<T> {
         fireForBinder();
     }
 
-    protected void bindToReference(ReferenceBinder<T> binder) {
-        mReference.bindToValue(binder);
+    protected void bindToReference(DataReference.ValueSubscriber<T> binder) {
+        mReference.subscribe(binder);
     }
 
     protected abstract void fireForBinder();
@@ -45,7 +44,7 @@ public abstract class NodeTitler<T> {
         return mBinder;
     }
 
-    public static class AuthorsTree extends NodeTitler<AuthorName> implements ReferenceBinder<AuthorName>{
+    public static class AuthorsTree extends NodeTitler<AuthorName> implements DataReference.ValueSubscriber<AuthorName> {
         private static final String SEPARATOR = "/";
 
         private String mTitle;

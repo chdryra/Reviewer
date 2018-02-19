@@ -8,12 +8,12 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,13 +41,13 @@ public class AuthorRefDefault implements AuthorRef {
     }
 
     @Override
-    public void bindToValue(ReferenceBinder<AuthorName> binder) {
-        mReference.bindToValue(binder);
+    public void subscribe(ValueSubscriber<AuthorName> subscriber) {
+        mReference.subscribe(subscriber);
     }
 
     @Override
-    public void unbindFromValue(ReferenceBinder<AuthorName> binder) {
-        mReference.unbindFromValue(binder);
+    public void unsubscribe(ValueSubscriber<AuthorName> subscriber) {
+        mReference.unsubscribe(subscriber);
     }
 
     @Override

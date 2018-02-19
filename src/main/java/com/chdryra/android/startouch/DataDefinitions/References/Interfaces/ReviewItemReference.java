@@ -8,9 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,27 +17,5 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBind
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewItemReference<T extends HasReviewId> extends DataReference<T>, HasReviewId{
-    @Override
-    void dereference(DereferenceCallback<T> callback);
 
-    @Override
-    void bindToValue(ReferenceBinder<T> binder);
-
-    @Override
-    void unbindFromValue(ReferenceBinder<T> binder);
-
-    @Override
-    void registerListener(InvalidationListener listener);
-
-    @Override
-    void unregisterListener(InvalidationListener listener);
-
-    @Override
-    boolean isValidReference();
-
-    @Override
-    void invalidate();
-
-    @Override
-    ReviewId getReviewId();
 }

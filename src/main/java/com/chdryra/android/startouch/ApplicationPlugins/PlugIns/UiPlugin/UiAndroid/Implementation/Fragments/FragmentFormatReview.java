@@ -67,7 +67,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -268,7 +268,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     @Override
-    public void onReferenceInvalidated(DataReference<?> reference) {
+    public void onInvalidated(DataReference<?> reference) {
         if (getContainer() != null) getContainer().remove(this);
     }
 

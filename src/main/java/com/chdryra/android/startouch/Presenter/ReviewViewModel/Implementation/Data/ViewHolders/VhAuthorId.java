@@ -13,8 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 
 /**
@@ -22,7 +21,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhAuthorId extends VhText implements ReferenceBinder<AuthorName>{
+public class VhAuthorId extends VhText implements DataReference.ValueSubscriber<AuthorName> {
     private DataReference<AuthorName> mReference;
     private AuthorName mAuthor;
 
@@ -30,9 +29,9 @@ public class VhAuthorId extends VhText implements ReferenceBinder<AuthorName>{
     public void updateView(ViewHolderData data) {
         GvAuthorId datum = (GvAuthorId) data;
         if(datum.getReference() != null) {
-            if (mReference != null) mReference.unbindFromValue(this);
+            if (mReference != null) mReference.unsubscribe(this);
             mReference = datum.getReference();
-            mReference.bindToValue(this);
+            mReference.subscribe(this);
             updateView(Strings.Progress.LOADING);
         }
     }

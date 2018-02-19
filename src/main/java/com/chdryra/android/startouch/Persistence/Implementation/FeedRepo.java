@@ -10,10 +10,9 @@ package com.chdryra.android.startouch.Persistence.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
@@ -33,7 +32,7 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
     private final AuthorListRef mFollowing;
     private final ReviewsRepo mMasterRepo;
 
-    private FollowersBinder mFollowersBinder;
+    private FollowersSubscriber mFollowersBinder;
 
     public FeedRepo(AuthorId follower,
                     AuthorListRef following,
@@ -44,7 +43,7 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
         mFollower = follower;
         mFollowing = following;
         mMasterRepo = masterRepo;
-        mFollowersBinder = new FollowersBinder();
+        mFollowersBinder = new FollowersSubscriber();
         mFollowersBinder.bind();
     }
 
@@ -62,15 +61,15 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
     }
 
     @Override
-    public void bindToItems(CollectionBinder<ReviewReference> binder) {
-        super.bindToItems(binder);
+    public void subscribe(ItemSubscriber<ReviewReference> binder) {
+        super.subscribe(binder);
         bindToFollowingIfNecessary();
     }
 
     @Override
-    public void unbindItemBinder(CollectionBinder<ReviewReference> binder) {
-        super.unbindItemBinder(binder);
-        if (getBinders().size() == 0) unbindFromFollowingIfNecessary();
+    public void unbindSubscriber(ItemSubscriber<ReviewReference> binder) {
+        super.unbindSubscriber(binder);
+        if (getSubscribers().size() == 0) unbindFromFollowingIfNecessary();
     }
 
     private void unbindFromFollowingIfNecessary() {
@@ -81,17 +80,17 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
         if(!mFollowersBinder.isBound()) mFollowersBinder.bind();
     }
 
-    private class FollowersBinder implements CollectionBinder<AuthorId> {
+    private class FollowersSubscriber implements ItemSubscriber<AuthorId> {
         private boolean mIsBound = false;
 
         private void bind() {
             onItemAdded(mFollower);
-            mFollowing.bindToItems(this);
+            mFollowing.subscribe(this);
             mIsBound = true;
         }
 
         private void unbind() {
-            mFollowing.unbindFromItems(this);
+            mFollowing.unsubscribe(this);
             mIsBound = false;
         }
 

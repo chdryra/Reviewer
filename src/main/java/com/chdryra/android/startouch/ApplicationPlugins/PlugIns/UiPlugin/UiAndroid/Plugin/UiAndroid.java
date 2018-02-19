@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityPublishReview;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityAuthorView;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityViewImages;
@@ -57,7 +57,7 @@ public class UiAndroid implements UiPlugin {
     private static final class AndroidLaunchables extends LaunchablesHolder {
 
         private AndroidLaunchables() {
-            super(ActivityLogin.class, ActivityProfile.class, ActivityFeed.class,
+            super(ActivityLogin.class, ActivityAuthorView.class, ActivityFeed.class,
                     ActivityBuildReview.class, ActivityFormatReview.class,
                     ActivityEditLocationMap.class, ActivityViewLocation.class,
                     ActivityNodeMapper.class, ActivityViewImages.class,

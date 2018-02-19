@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.CollectionReferenceBasic;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
@@ -18,6 +19,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class IdableListReferenceBasic<T extends HasReviewId> extends
-        BindableListReferenceBasic<T, IdableList<T>, DataSize> {
+        CollectionReferenceBasic<T, IdableList<T>, DataSize> {
 
 }

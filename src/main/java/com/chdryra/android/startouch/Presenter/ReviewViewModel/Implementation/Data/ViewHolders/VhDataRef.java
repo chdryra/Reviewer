@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -84,7 +84,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
 
     @Override
     public void unbindFromReference() {
-        mReference.unbindFromValue(this);
+        mReference.unsubscribe(this);
         showPlaceholder();
     }
 
@@ -110,7 +110,7 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
 
         showPlaceholder();
 
-        mReference.bindToValue(this);
+        mReference.subscribe(this);
     }
 
     @Override

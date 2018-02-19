@@ -14,10 +14,9 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.ItemBindersDelegate;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionBinder;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -34,10 +33,9 @@ import java.util.Map;
  */
 public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends Size> extends
         FbRefData<C> implements
-
-        CollectionReference<T, C, S>, ItemBindersDelegate.BindableListReference<T, C, S> {
-    private final Map<CollectionBinder<T>, ChildEventListener> mItemBinders;
-    private final ItemBindersDelegate<T, S> mManager;
+        CollectionReference<T, C, S>, SubscribersManager.SubscribableCollectionReference<T, C, S> {
+    private final Map<ItemSubscriber<T>, ChildEventListener> mItemBinders;
+    private final SubscribersManager<T, S> mManager;
     private SnapshotConverter<T> mItemConverter;
 
     public FbListReferenceBasic(Firebase reference,
@@ -46,7 +44,7 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
         super(reference, listConverter);
         mItemConverter = itemConverter;
         mItemBinders = new HashMap<>();
-        mManager = new ItemBindersDelegate<>(this);
+        mManager = new SubscribersManager<>(this);
     }
 
     protected void doBinding(ChildEventListener listener) {
@@ -58,51 +56,51 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
     }
 
     @Override
-    public void unbindFromItems(CollectionBinder<T> binder) {
-        mManager.unbindFromItems(binder);
+    public void unsubscribe(ItemSubscriber<T> binder) {
+        mManager.unsubscribe(binder);
     }
 
     @Override
-    public void bindToItems(final CollectionBinder<T> binder) {
-        mManager.bindToItems(binder);
+    public void subscribe(final ItemSubscriber<T> binder) {
+        mManager.subscribe(binder);
     }
 
     @Override
-    public Collection<CollectionBinder<T>> getItemBinders() {
+    public Collection<ItemSubscriber<T>> getItemSubscribers() {
         return mItemBinders.keySet();
     }
 
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
-        for (Map.Entry<CollectionBinder<T>, ChildEventListener> binding : mItemBinders.entrySet()) {
+        for (Map.Entry<ItemSubscriber<T>, ChildEventListener> binding : mItemBinders.entrySet()) {
             doUnbinding(binding.getValue());
         }
-        mManager.notifyBinders();
+        mManager.notifyOnInvalidated();
         mItemBinders.clear();
         mItemConverter = null;
     }
 
     @Override
-    public void unbindItemBinder(CollectionBinder<T> binder) {
+    public void unbindSubscriber(ItemSubscriber<T> binder) {
         ChildEventListener listener = mItemBinders.remove(binder);
         doUnbinding(listener);
     }
 
     @Override
-    public void bindItemBinder(CollectionBinder<T> binder) {
+    public void bindSubscriber(ItemSubscriber<T> binder) {
         ChildEventListener listener = newChildListener(binder);
         mItemBinders.put(binder, listener);
         doBinding(listener);
     }
 
     @Override
-    public boolean containsItemBinder(CollectionBinder<T> binder) {
+    public boolean containsSubscriber(ItemSubscriber<T> binder) {
         return mItemBinders.containsKey(binder);
     }
 
     @NonNull
-    private ChildEventListener newChildListener(final CollectionBinder<T> binder) {
+    private ChildEventListener newChildListener(final ItemSubscriber<T> binder) {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

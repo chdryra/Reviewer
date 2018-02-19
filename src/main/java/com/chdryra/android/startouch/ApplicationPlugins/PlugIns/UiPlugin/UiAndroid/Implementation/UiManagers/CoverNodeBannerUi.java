@@ -17,9 +17,8 @@ import android.widget.ImageView;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -35,7 +34,7 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
     private final ViewUiBinder<DataImage> mBinder;
     private final DataReference<ProfileImage> mProfileImage;
     private final Bitmap mPlaceholder;
-    private ProfileImageBinder mProfileImageBinder;
+    private ProfileImageSubscriber mProfileImageBinder;
     private boolean mHasImage = false;
 
     public CoverNodeBannerUi(ImageView view,
@@ -75,8 +74,8 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
 
     private void useProfileImage() {
         if(mProfileImageBinder == null) {
-            mProfileImageBinder = new ProfileImageBinder();
-            mProfileImage.bindToValue(mProfileImageBinder);
+            mProfileImageBinder = new ProfileImageSubscriber();
+            mProfileImage.subscribe(mProfileImageBinder);
         } else {
             setCover(mProfileImageBinder.getProfileImage());
         }
@@ -96,7 +95,7 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
         getView().setImageBitmap(image == null ? mPlaceholder : image);
     }
 
-    private class ProfileImageBinder implements ReferenceBinder<ProfileImage> {
+    private class ProfileImageSubscriber implements DataReference.ValueSubscriber<ProfileImage> {
         private Bitmap mProfileImage;
 
         @Override

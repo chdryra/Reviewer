@@ -39,8 +39,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -113,12 +112,12 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     private final ReviewSelector mSelector;
     private final CacheVhNode mCache;
 
-    private TagsBinder mTagsBinder;
-    private CommentsBinder mCommentsBinder;
-    private LocationsBinder mLocationsBinder;
-    private NameBinder mNameBinder;
-    private ProfileBinder mProfileBinder;
-    private CoverBinder mCoverBinder;
+    private TagsSubscriber mTagsBinder;
+    private CommentsSubscriber mCommentsBinder;
+    private LocationsSubscriber mLocationsBinder;
+    private NameSubscriber mNameBinder;
+    private ProfileSubscriber mProfileBinder;
+    private CoverSubscriber mCoverBinder;
 
     private ReviewOptionsSelector mOptions;
     private ReviewId mNodeId;
@@ -157,14 +156,14 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         unbindFromBookmark();
         if (mCoverBinder != null) mCoverBinder.unbind();
         if (mProfileBinder != null) {
-            mAuthorsRepo.getAuthorProfile(mReview.getAuthorId()).getProfileImage().unbindFromValue
+            mAuthorsRepo.getAuthorProfile(mReview.getAuthorId()).getProfileImage().unsubscribe
                     (mProfileBinder);
         }
-        if (mCommentsBinder != null) mReview.getComments().unbindFromValue(mCommentsBinder);
-        if (mLocationsBinder != null) mReview.getLocations().unbindFromValue(mLocationsBinder);
-        if (mTagsBinder != null) mReview.getTags().unbindFromValue(mTagsBinder);
+        if (mCommentsBinder != null) mReview.getComments().unsubscribe(mCommentsBinder);
+        if (mLocationsBinder != null) mReview.getLocations().unsubscribe(mLocationsBinder);
+        if (mTagsBinder != null) mReview.getTags().unsubscribe(mTagsBinder);
         if (mNameBinder != null)
-            mAuthorsRepo.getReference(mReview.getAuthorId()).unbindFromValue(mNameBinder);
+            mAuthorsRepo.getReference(mReview.getAuthorId()).unsubscribe(mNameBinder);
         if (mReview != null) mReview.unregisterObserver(this);
 
         mSelector.unregister(mNodeId);
@@ -464,8 +463,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             setAuthor(mCache.getAuthor(id));
             returned();
         } else {
-            mNameBinder = new NameBinder(id);
-            mAuthorsRepo.getReference(mReview.getAuthorId()).bindToValue(mNameBinder);
+            mNameBinder = new NameSubscriber(id);
+            mAuthorsRepo.getReference(mReview.getAuthorId()).subscribe(mNameBinder);
         }
     }
 
@@ -475,8 +474,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             setTags(mCache.getTags(id));
             returned();
         } else {
-            mTagsBinder = new TagsBinder(id);
-            mReview.getTags().bindToValue(mTagsBinder);
+            mTagsBinder = new TagsSubscriber(id);
+            mReview.getTags().subscribe(mTagsBinder);
         }
     }
 
@@ -486,8 +485,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             setLocations(mCache.getLocations(id));
             returned();
         } else {
-            mLocationsBinder = new LocationsBinder(id);
-            mReview.getLocations().bindToValue(mLocationsBinder);
+            mLocationsBinder = new LocationsSubscriber(id);
+            mReview.getLocations().subscribe(mLocationsBinder);
         }
     }
 
@@ -497,8 +496,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             setComments(mCache.getComments(id));
             returned();
         } else {
-            mCommentsBinder = new CommentsBinder(id);
-            mReview.getComments().bindToValue(mCommentsBinder);
+            mCommentsBinder = new CommentsSubscriber(id);
+            mReview.getComments().subscribe(mCommentsBinder);
         }
     }
 
@@ -508,8 +507,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             setProfileImage(mCache.getProfile(id).getBitmap());
             returned();
         } else {
-            mProfileBinder = new ProfileBinder(id);
-            mAuthorsRepo.getAuthorProfile(id).getProfileImage().bindToValue(mProfileBinder);
+            mProfileBinder = new ProfileSubscriber(id);
+            mAuthorsRepo.getAuthorProfile(id).getProfileImage().subscribe(mProfileBinder);
         }
     }
 
@@ -518,8 +517,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         if (mCache.containsCover(reviewId)) {
             setCover(mCache.getCover(reviewId));
         } else {
-            mCoverBinder = new CoverBinder(reviewId, mReview.getAuthorId());
-            mReview.getCover().bindToValue(mCoverBinder);
+            mCoverBinder = new CoverSubscriber(reviewId, mReview.getAuthorId());
+            mReview.getCover().subscribe(mCoverBinder);
         }
     }
 
@@ -581,10 +580,10 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class NameBinder implements ReferenceBinder<AuthorName> {
+    private class NameSubscriber implements DataReference.ValueSubscriber<AuthorName> {
         private final ReviewId mId;
 
-        private NameBinder(ReviewId id) {
+        private NameSubscriber(ReviewId id) {
             mId = id;
         }
 
@@ -603,8 +602,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class TagsBinder extends ListBinder<DataTag> {
-        private TagsBinder(ReviewId reviewId) {
+    private class TagsSubscriber extends ListSubscriber<DataTag> {
+        private TagsSubscriber(ReviewId reviewId) {
             super(reviewId);
         }
 
@@ -624,8 +623,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class LocationsBinder extends ListBinder<DataLocation> {
-        private LocationsBinder(ReviewId reviewId) {
+    private class LocationsSubscriber extends ListSubscriber<DataLocation> {
+        private LocationsSubscriber(ReviewId reviewId) {
             super(reviewId);
         }
 
@@ -645,8 +644,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class CommentsBinder extends ListBinder<DataComment> {
-        private CommentsBinder(ReviewId reviewId) {
+    private class CommentsSubscriber extends ListSubscriber<DataComment> {
+        private CommentsSubscriber(ReviewId reviewId) {
             super(reviewId);
         }
 
@@ -666,8 +665,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private abstract class ListBinder<T extends HasReviewId> implements
-            ReferenceBinder<IdableList<T>> {
+    private abstract class ListSubscriber<T extends HasReviewId> implements
+            DataReference.ValueSubscriber<IdableList<T>> {
         private final ReviewId mReviewId;
 
         protected abstract void addToCache(IdableList<T> data);
@@ -676,7 +675,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
 
         protected abstract void onList(IdableList<T> data);
 
-        private ListBinder(ReviewId reviewId) {
+        private ListSubscriber(ReviewId reviewId) {
             mReviewId = reviewId;
         }
 
@@ -700,14 +699,14 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class CoverBinder implements ReferenceBinder<DataImage> {
+    private class CoverSubscriber implements DataReference.ValueSubscriber<DataImage> {
         private final ReviewId mReviewId;
         private final AuthorId mAuthorId;
 
         private boolean mHasCover = false;
         private boolean mCancel = false;
 
-        private CoverBinder(ReviewId reviewId, AuthorId authorId) {
+        private CoverSubscriber(ReviewId reviewId, AuthorId authorId) {
             mReviewId = reviewId;
             mAuthorId = authorId;
         }
@@ -732,7 +731,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         private void unbind() {
             mHasCover = false;
             mCancel = true;
-            mReview.getCover().unbindFromValue(this);
+            mReview.getCover().unsubscribe(this);
             unbindFromProfile();
         }
 
@@ -770,12 +769,12 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         }
     }
 
-    private class ProfileBinder implements ReferenceBinder<ProfileImage> {
+    private class ProfileSubscriber implements DataReference.ValueSubscriber<ProfileImage> {
         private final AuthorId mAuthorId;
-        private CoverBinder mCoverBinder;
+        private CoverSubscriber mCoverBinder;
         private boolean mProfileRetrieved = false;
 
-        private ProfileBinder(AuthorId authorId) {
+        private ProfileSubscriber(AuthorId authorId) {
             mAuthorId = authorId;
         }
 
@@ -794,7 +793,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             mProfileRetrieved = true;
         }
 
-        private void setCoverBinder(@Nullable CoverBinder coverBinder) {
+        private void setCoverBinder(@Nullable CoverSubscriber coverBinder) {
             if (mProfileRetrieved && coverBinder != null) {
                 Bitmap bitmap = null;
                 if (mCache.containsProfile(mAuthorId)) {

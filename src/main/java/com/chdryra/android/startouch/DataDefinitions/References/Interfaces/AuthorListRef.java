@@ -8,8 +8,9 @@
 
 package com.chdryra.android.startouch.DataDefinitions.References.Interfaces;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Size;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 
 import java.util.List;
 

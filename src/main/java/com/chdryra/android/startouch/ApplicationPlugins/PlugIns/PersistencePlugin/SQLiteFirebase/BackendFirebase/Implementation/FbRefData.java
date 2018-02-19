@@ -13,16 +13,14 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReferenceBasic;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.BindableReferenceBasic;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.DataValue;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,16 +30,15 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefData<T> extends BindableReferenceBasic<T> {
+public class FbRefData<T> extends SubscribableReferenceBasic<T> {
     private Firebase mReference;
-    private final Map<ReferenceBinder<T>, ValueEventListener> mBindings;
+    private final Map<ValueSubscriber<T>, ValueEventListener> mBindings;
     private SnapshotConverter<T> mConverter;
 
     public FbRefData(Firebase reference, SnapshotConverter<T> converter) {
         mReference = reference;
         mConverter = converter;
         mBindings = new HashMap<>();
-        mListeners = new ArrayList<>();
     }
 
     Firebase getReference() {
@@ -59,7 +56,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
-        for (Map.Entry<ReferenceBinder<T>, ValueEventListener> binding : mBindings.entrySet()) {
+        for (Map.Entry<ValueSubscriber<T>, ValueEventListener> binding : mBindings.entrySet()) {
             mReference.removeEventListener(binding.getValue());
         }
 
@@ -69,13 +66,13 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
     }
 
     @Override
-    protected void removeUnboundBinder(ReferenceBinder<T> binder) {
-        mReference.removeEventListener(mBindings.get(binder));
+    protected void removeSubscriber(ValueSubscriber<T> subscriber) {
+        mReference.removeEventListener(mBindings.get(subscriber));
     }
 
     @Override
-    protected boolean contains(ReferenceBinder<T> binder) {
-        return mBindings.containsKey(binder);
+    protected boolean contains(ValueSubscriber<T> subscriber) {
+        return mBindings.containsKey(subscriber);
     }
 
     @Override
@@ -84,15 +81,15 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
     }
 
     @Override
-    protected Collection<ReferenceBinder<T>> getBinders() {
+    protected Collection<ValueSubscriber<T>> getSubscribers() {
         return mBindings.keySet();
     }
 
     @Override
-    protected void bind(ReferenceBinder<T> binder) {
-        ValueEventListener listener = newListener(binder);
-        mBindings.put(binder, listener);
-        mReference.addValueEventListener(mBindings.get(binder));
+    protected void bind(ValueSubscriber<T> subscriber) {
+        ValueEventListener listener = newListener(subscriber);
+        mBindings.put(subscriber, listener);
+        mReference.addValueEventListener(mBindings.get(subscriber));
     }
 
     @NonNull
@@ -129,7 +126,7 @@ public class FbRefData<T> extends BindableReferenceBasic<T> {
     }
 
     @NonNull
-    private ValueEventListener newListener(final ReferenceBinder<T> binder) {
+    private ValueEventListener newListener(final ValueSubscriber<T> binder) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
