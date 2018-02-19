@@ -46,6 +46,7 @@ public class BackendRepoService extends IntentService {
 
     private static final String SERVICE = "BackendUploadService";
     private static final String REVIEW_ID_IS_NULL = "Review Id is Null";
+    private static final String SERVICE_NOT_SPECIFIED = "Service not specified";
 
     private String mReviewId;
     private ReviewPublisher mPublisher;
@@ -84,7 +85,8 @@ public class BackendRepoService extends IntentService {
         if (mReviewId != null && service != null) {
             requestBackendService(service);
         } else {
-            broadcastUploadComplete(CallbackMessage.error(REVIEW_ID_IS_NULL));
+            String error = mReviewId == null ? REVIEW_ID_IS_NULL : SERVICE_NOT_SPECIFIED;
+            broadcastUploadComplete(CallbackMessage.error(error));
         }
     }
 
