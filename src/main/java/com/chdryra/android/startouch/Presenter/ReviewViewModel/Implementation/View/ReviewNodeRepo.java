@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
@@ -36,7 +36,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     private List<ReviewReference> mBatchPending;
     private DelayAddChildTask mTask;
 
-    ReviewNodeRepo(DataReviewInfo meta,
+    ReviewNodeRepo(DataReview meta,
                    ReviewsRepoReadable repo,
                    FactoryMdReference referenceFactory,
                    FactoryReviewNode nodeFactory) {

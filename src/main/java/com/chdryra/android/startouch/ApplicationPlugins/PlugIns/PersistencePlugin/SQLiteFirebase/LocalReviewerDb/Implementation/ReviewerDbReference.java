@@ -31,7 +31,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -53,11 +53,11 @@ import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbReference extends SimpleItemReference<Review> implements ReviewReference {
-    private final DataReviewInfo mInfo;
+    private final DataReview mInfo;
     private final ReviewerDbRepo mRepo;
     private final FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbReference(DataReviewInfo info, ReviewerDbRepo repo, FactoryDbReference referenceFactory) {
+    public ReviewerDbReference(DataReview info, ReviewerDbRepo repo, FactoryDbReference referenceFactory) {
         super(new ReviewDereferencer(info.getReviewId(), repo));
         mInfo = info;
         mRepo = repo;

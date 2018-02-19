@@ -14,7 +14,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriteri
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
@@ -42,7 +42,7 @@ public interface DataComparatorsApi {
 
     ComparatorCollection<DataLocation> newLocationComparators();
 
-    ComparatorCollection<DataReviewInfo> newReviewComparators();
+    ComparatorCollection<DataReview> newReviewComparators();
 
     ComparatorCollection<DataSocialPlatform> newSocialPlatformComparators();
 

@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
@@ -130,23 +130,23 @@ public class DataGetters {
         }
     }
 
-    public static class ReviewSubject implements DataGetter<DataReviewInfo, DataSubject> {
+    public static class ReviewSubject implements DataGetter<DataReview, DataSubject> {
         @Override
-        public DataSubject getData(DataReviewInfo item) {
+        public DataSubject getData(DataReview item) {
             return item.getSubject();
         }
     }
 
-    public static class ReviewRating implements DataGetter<DataReviewInfo, DataRating> {
+    public static class ReviewRating implements DataGetter<DataReview, DataRating> {
         @Override
-        public DataRating getData(DataReviewInfo item) {
+        public DataRating getData(DataReview item) {
             return item.getRating();
         }
     }
 
-    public static class ReviewDate implements DataGetter<DataReviewInfo, DataDate> {
+    public static class ReviewDate implements DataGetter<DataReview, DataDate> {
         @Override
-        public DataDate getData(DataReviewInfo item) {
+        public DataDate getData(DataReview item) {
             return item.getPublishDate();
         }
     }

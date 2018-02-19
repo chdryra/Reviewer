@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSu
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewInfo;
@@ -52,14 +52,14 @@ public class BackendInfoConverter {
         return new DatumReviewId(reviewId);
     }
 
-    public DataReviewInfo convert(ReviewListEntry entry) {
+    public DataReview convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
         return new ReviewInfo(convert(id), convertSubject(id, entry.getSubject()),
                 convertRating(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
                 convertDate(id, entry.getPublishDate()));
     }
 
-    public ReviewListEntry convert(DataReviewInfo info) {
+    public ReviewListEntry convert(DataReview info) {
         return new ReviewListEntry(info);
     }
 }

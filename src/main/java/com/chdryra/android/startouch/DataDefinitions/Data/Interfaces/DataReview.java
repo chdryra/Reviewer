@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewInfo extends HasReviewId, HasAuthorId {
+public interface DataReview extends HasReviewId, HasAuthorId {
     String TYPE_NAME = Strings.REVIEW;
 
     DataSubject getSubject();
@@ -23,10 +23,4 @@ public interface DataReviewInfo extends HasReviewId, HasAuthorId {
     DataRating getRating();
 
     DataDate getPublishDate();
-
-    @Override
-    ReviewId getReviewId();
-
-    @Override
-    DataAuthorId getAuthorId();
 }

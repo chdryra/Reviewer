@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**
@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewReferenceData extends DataReviewInfo {
+public interface ReviewReferenceData extends DataReview {
     //Can't do ReviewItemReference<? extends DataImage> etc. as I want to dereference to known class
     ReviewItemReference<DataImage> getCover();
 

@@ -33,7 +33,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
@@ -182,7 +182,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     @NonNull
-    private ReviewNodeRepo newReviewNodeAuthored(DataReviewInfo info,
+    private ReviewNodeRepo newReviewNodeAuthored(DataReview info,
                                                  ReviewsRepoReadable reviews,
                                                  NodeTitler titler) {
         return new ReviewNodeRepoTitler(info, reviews, mReferenceFactory,
@@ -190,7 +190,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     @NonNull
-    private DataReviewInfo getMetaInfo(AuthorId authorId) {
+    private DataReview getMetaInfo(AuthorId authorId) {
         ReviewStamp stamp = ReviewStamp.newStamp(authorId);
         return new ReviewInfo(stamp,
                 new DatumSubject(stamp, Strings.Progress.FETCHING),

@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
@@ -81,7 +81,7 @@ public class StringParser {
         return "#" + tag.getTag();
     }
 
-    public static String parse(DataReviewInfo info) {
+    public static String parse(DataReview info) {
         return getSubjectRating(info.getSubject(), info.getRating())
                 + " (" + parse((info.getPublishDate())) + ")";
     }

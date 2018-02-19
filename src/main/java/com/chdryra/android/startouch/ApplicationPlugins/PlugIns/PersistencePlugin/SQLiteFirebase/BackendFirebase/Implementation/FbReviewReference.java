@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
@@ -49,7 +49,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReviewReference extends FbReviewItemRef<Review> implements ReviewReference {
-    private final DataReviewInfo mInfo;
+    private final DataReview mInfo;
     private final SnapshotConverter<DataSubject> mSubjectConverter;
     private final SnapshotConverter<DataRating> mRatingConverter;
     private final Firebase mReference;
@@ -68,7 +68,7 @@ public class FbReviewReference extends FbReviewItemRef<Review> implements Review
     private ArrayList<ReviewReferenceObserver> mToAdd;
     private boolean mLocked = false;
 
-    public FbReviewReference(DataReviewInfo info,
+    public FbReviewReference(DataReview info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<DataSubject> subjectConverter,

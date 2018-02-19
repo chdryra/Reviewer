@@ -14,13 +14,13 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
 
-public class GvNode extends GvDataBasic<GvNode> implements DataReviewInfo, ReviewNode.NodeObserver {
+public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNode.NodeObserver {
     public static final GvDataType<GvNode> TYPE = new GvDataType<>(GvNode.class, TYPE_NAME);
 
     private ReviewNode mNode;

@@ -25,7 +25,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
@@ -138,20 +138,20 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<DataReviewInfo> newReviewComparators() {
+    public ComparatorCollection<DataReview> newReviewComparators() {
         NamedComparator<DateTime> mostRecentNamed = oldest().reverse();
-        Comparator<DataReviewInfo> mostRecent
+        Comparator<DataReview> mostRecent
                 = newDataComparator(mostRecentNamed, new DataGetters.ReviewDate());
 
         NamedComparator<DataRating> highestRatedNamed = ascRating().reverse();
-        Comparator<DataReviewInfo> highestRated
+        Comparator<DataReview> highestRated
                 = newDataComparator(highestRatedNamed, new DataGetters.ReviewRating());
 
         NamedComparator<DataSubject> subjectAtoZNamed = aToZSubject();
-        Comparator<DataReviewInfo> subjectAtoZ
+        Comparator<DataReview> subjectAtoZ
                 = newDataComparator(subjectAtoZNamed, new DataGetters.ReviewSubject());
 
-        NamedComparator.Builder<DataReviewInfo> builder;
+        NamedComparator.Builder<DataReview> builder;
 
         //Most recent first comes first, then oldest
         builder = newBuilder(mostRecentNamed.getId(), mostRecent)
@@ -159,8 +159,8 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
                 .addTieBreaker(highestRated)
                 .addTieBreaker(subjectAtoZ);
 
-        NamedComparator<DataReviewInfo> recentFirst = builder.build();
-        ComparatorCollection<DataReviewInfo> comparators
+        NamedComparator<DataReview> recentFirst = builder.build();
+        ComparatorCollection<DataReview> comparators
                 = new ComparatorCollectionImpl<>(recentFirst);
         comparators.add(recentFirst.reverse(false));
 
@@ -170,7 +170,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
                 .addTieBreaker(mostRecent)
                 .addTieBreaker(subjectAtoZ);
 
-        NamedComparator<DataReviewInfo> highest = builder.build();
+        NamedComparator<DataReview> highest = builder.build();
         comparators.add(highest);
         comparators.add(highest.reverse());
 
@@ -180,7 +180,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
                 .addTieBreaker(mostRecent)
                 .addTieBreaker(highestRated);
 
-        NamedComparator<DataReviewInfo> alphabetical = builder.build();
+        NamedComparator<DataReview> alphabetical = builder.build();
         comparators.add(alphabetical);
         comparators.add(alphabetical.reverse());
 

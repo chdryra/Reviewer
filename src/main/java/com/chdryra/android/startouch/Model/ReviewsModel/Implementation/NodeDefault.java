@@ -26,7 +26,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -35,17 +35,17 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
-    private DataReviewInfo mMeta;
+    private DataReview mMeta;
     private final FactoryMdReference mReferenceFactory;
     private final IdableList<ReviewNodeComponent> mChildren;
 
-    public NodeDefault(DataReviewInfo meta, FactoryMdReference referenceFactory) {
+    public NodeDefault(DataReview meta, FactoryMdReference referenceFactory) {
         mMeta = meta;
         mReferenceFactory = referenceFactory;
         mChildren = new IdableDataList<>(getReviewId());
     }
 
-    protected void setMeta(DataReviewInfo meta) {
+    protected void setMeta(DataReview meta) {
         mMeta = meta;
         notifyOnNodeChanged();
     }

@@ -12,7 +12,7 @@ package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewInfo implements DataReviewInfo {
+public class ReviewInfo implements DataReview {
     private final ReviewId mReviewId;
     private final DataSubject mSubject;
     private final DataRating mRating;

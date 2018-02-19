@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeTitler;
@@ -22,9 +22,9 @@ import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.TitleBinder {
-    private final DataReviewInfo mMeta;
+    private final DataReview mMeta;
 
-    public ReviewNodeRepoTitler(DataReviewInfo meta,
+    public ReviewNodeRepoTitler(DataReview meta,
                                 ReviewsRepoReadable repo,
                                 FactoryMdReference referenceFactory,
                                 FactoryReviewNode nodeFactory,
@@ -37,7 +37,7 @@ public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.T
     @Override
     public void onTitle(String title) {
         DatumSubject subject = new DatumSubject(mMeta.getReviewId(), title);
-        DataReviewInfo meta = new ReviewInfo(mMeta.getReviewId(), subject,
+        DataReview meta = new ReviewInfo(mMeta.getReviewId(), subject,
                 mMeta.getRating(), mMeta.getAuthorId(), mMeta.getPublishDate());
         setMeta(meta);
     }

@@ -14,7 +14,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,7 +44,7 @@ public class ReviewListEntry {
         this.publishDate = review.getPublishDate();
     }
 
-    public ReviewListEntry(DataReviewInfo review) {
+    public ReviewListEntry(DataReview review) {
         this.reviewId = review.getReviewId().toString();
         this.subject = review.getSubject().getSubject();
         this.rating = new Rating(review.getRating());

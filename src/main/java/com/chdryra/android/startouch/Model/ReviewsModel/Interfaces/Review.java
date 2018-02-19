@@ -16,25 +16,13 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
-public interface Review extends DataReviewInfo {
-    @Override
-    DataSubject getSubject();
-
-    @Override
-    DataRating getRating();
-
-    @Override
-    DataAuthorId getAuthorId();
-
-    @Override
-    DataDate getPublishDate();
-
+public interface Review extends DataReview {
     DataImage getCover();
 
     IdableList<? extends DataTag> getTags();
@@ -50,6 +38,18 @@ public interface Review extends DataReviewInfo {
     IdableList<? extends DataLocation> getLocations();
 
     boolean isCacheable();
+
+    @Override
+    DataSubject getSubject();
+
+    @Override
+    DataRating getRating();
+
+    @Override
+    DataAuthorId getAuthorId();
+
+    @Override
+    DataDate getPublishDate();
 
     @Override
     ReviewId getReviewId();

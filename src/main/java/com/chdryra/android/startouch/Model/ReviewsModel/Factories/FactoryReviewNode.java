@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewInfo;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTree;
@@ -34,7 +34,7 @@ public class FactoryReviewNode {
         return new NodeLeaf(review, mReferenceFactory.getReferenceFactory());
     }
 
-    public ReviewNodeComponent createComponent(DataReviewInfo meta) {
+    public ReviewNodeComponent createComponent(DataReview meta) {
         return new NodeDefault(meta, mReferenceFactory);
     }
 
@@ -42,7 +42,7 @@ public class FactoryReviewNode {
         return new ReviewTree(node);
     }
 
-    public ReviewNodeComponent createMetaTree(DataReviewInfo meta,
+    public ReviewNodeComponent createMetaTree(DataReview meta,
                                                Iterable<ReviewReference> reviews) {
         ReviewNodeComponent parent = createComponent(meta);
         for (ReviewReference review : reviews) {
