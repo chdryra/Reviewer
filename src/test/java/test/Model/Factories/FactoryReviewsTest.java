@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewStamper;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdConverter;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.ConverterMd;
@@ -72,7 +72,7 @@ public class FactoryReviewsTest {
     public void setup() {
         mAuthor = RandomAuthor.nextAuthor();
 
-        mFactory = new FactoryReviews(new FactoryMdReference(new FactoryReferences(), new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
+        mFactory = new FactoryReviews(new FactoryDataReference(new FactoryReferences(), new FactoryNodeTraverser(), new FactoryVisitorReviewNode()));
         mFactory.setReviewStamper(new ReviewStamper() {
             @Override
             public ReviewStamp newStamp() {

@@ -12,7 +12,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.VisitorFactory;
 import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTraverser;
@@ -24,7 +24,7 @@ import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTrav
  */
 public class TreeCommentListRef extends TreeListReferences<DataComment, CommentRef, CommentListRef> implements CommentListRef {
     public TreeCommentListRef(ReviewNode root,
-                              FactoryMdReference referenceFactory,
+                              FactoryDataReference referenceFactory,
                               FactoryNodeTraverser traverserFactory,
                               VisitorFactory.ListVisitor<CommentListRef> visitorFactory) {
         super(root, referenceFactory, traverserFactory, visitorFactory);

@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeTitler;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewInfo;
@@ -26,7 +26,7 @@ public class ReviewNodeRepoTitler extends ReviewNodeRepo implements NodeTitler.T
 
     public ReviewNodeRepoTitler(DataReview meta,
                                 ReviewsRepoReadable repo,
-                                FactoryMdReference referenceFactory,
+                                FactoryDataReference referenceFactory,
                                 FactoryReviewNode nodeFactory,
                                 NodeTitler titler) {
         super(meta, repo, referenceFactory, nodeFactory);

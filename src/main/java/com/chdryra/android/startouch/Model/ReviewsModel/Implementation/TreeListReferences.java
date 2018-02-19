@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Factories.Factor
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.ListsDereferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.VisitorFactory;
 import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTraverser;
@@ -36,11 +36,11 @@ public class TreeListReferences<Value extends HasReviewId,
         List extends ReviewListReference<Value, Reference>>
         extends TreeDataReferenceBasic<Value, Reference> {
 
-    private final FactoryMdReference mReferenceFactory;
+    private final FactoryDataReference mReferenceFactory;
     private final VisitorFactory.ListVisitor<List> mVisitorFactory;
 
     TreeListReferences(ReviewNode root,
-                       FactoryMdReference referenceFactory,
+                       FactoryDataReference referenceFactory,
                        FactoryNodeTraverser traverserFactory,
                        VisitorFactory.ListVisitor<List> visitorFactory) {
         super(root, traverserFactory);

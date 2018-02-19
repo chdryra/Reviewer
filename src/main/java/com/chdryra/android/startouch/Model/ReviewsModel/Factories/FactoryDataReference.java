@@ -41,14 +41,14 @@ import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDat
  * On: 02/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryMdReference {
+public class FactoryDataReference {
     private final FactoryReferences mReferenceFactory;
     private final FactoryNodeTraverser mTraverserFactory;
     private final FactoryVisitorReviewNode mVisitorFactory;
 
-    public FactoryMdReference(FactoryReferences referenceFactory,
-                              FactoryNodeTraverser traverserFactory,
-                              FactoryVisitorReviewNode visitorFactory) {
+    public FactoryDataReference(FactoryReferences referenceFactory,
+                                FactoryNodeTraverser traverserFactory,
+                                FactoryVisitorReviewNode visitorFactory) {
         mReferenceFactory = referenceFactory;
         mTraverserFactory = traverserFactory;
         mVisitorFactory = visitorFactory;

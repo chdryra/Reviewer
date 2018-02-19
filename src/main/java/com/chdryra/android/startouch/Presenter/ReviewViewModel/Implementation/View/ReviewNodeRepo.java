@@ -8,11 +8,10 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeDefault;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -20,9 +19,7 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsSubscriber;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,28 +27,22 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, ReviewNode {
-    private static final long WAIT_TIME = 200L;
     private final FactoryReviewNode mNodeFactory;
     private ReviewsRepoReadable mRepo;
-    private List<ReviewReference> mBatchPending;
-    private DelayAddChildTask mTask;
 
     ReviewNodeRepo(DataReview meta,
                    ReviewsRepoReadable repo,
-                   FactoryMdReference referenceFactory,
+                   FactoryDataReference referenceFactory,
                    FactoryReviewNode nodeFactory) {
         super(meta, referenceFactory);
         mRepo = repo;
         mNodeFactory = nodeFactory;
-        mBatchPending = new ArrayList<>();
         mRepo.subscribe(this);
     }
 
     @Override
     public void onItemAdded(ReviewReference item) {
-        if (mTask != null) mTask.cancel(true);
-        mTask = new DelayAddChildTask(item);
-        mTask.execute(WAIT_TIME);
+        addChild(item);
     }
 
     @Override
@@ -62,11 +53,12 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     @Override
     public void onCollectionChanged(Collection<ReviewReference> newItems) {
         IdableList<ReviewNode> children = getChildren();
-        for(ReviewNode child : children) {
+
+        for (ReviewNode child : children) {
             removeChild(child.getReviewId());
         }
 
-        for(ReviewReference reference : newItems) {
+        for (ReviewReference reference : newItems) {
             addChild(reference);
         }
     }
@@ -74,7 +66,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
     @Override
     public void onInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
         IdableList<ReviewNode> children = getChildren();
-        for(ReviewNode child : children) removeChild(child.getReviewId());
+        for (ReviewNode child : children) removeChild(child.getReviewId());
         mRepo.unsubscribe(this);
     }
 
@@ -105,37 +97,7 @@ public class ReviewNodeRepo extends NodeDefault implements ReviewsSubscriber, Re
         mRepo = null;
     }
 
-    private void addPendingChildren() {
-        for (ReviewReference child : mBatchPending) {
-            addChild(child);
-        }
-
-        mTask = null;
-        mBatchPending.clear();
-    }
-
     private void addChild(ReviewReference review) {
         addChild(mNodeFactory.createLeafNode(review));
-    }
-
-    //Hacky way of collecting a bunch of reviews first before adding when subscribing to repo,
-    //rather than continuous notifying of listeners on first download.
-    private class DelayAddChildTask extends DelayTask {
-        private final ReviewReference mReference;
-
-        private DelayAddChildTask(ReviewReference reference) {
-            mReference = reference;
-        }
-
-        @Override
-        protected void onCancelled() {
-            mBatchPending.add(mReference);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            onCancelled();
-            addPendingChildren();
-        }
     }
 }

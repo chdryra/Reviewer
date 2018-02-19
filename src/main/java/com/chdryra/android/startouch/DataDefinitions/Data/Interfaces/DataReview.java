@@ -23,4 +23,10 @@ public interface DataReview extends HasReviewId, HasAuthorId {
     DataRating getRating();
 
     DataDate getPublishDate();
+
+    @Override
+    DataAuthorId getAuthorId();
+
+    @Override
+    ReviewId getReviewId();
 }

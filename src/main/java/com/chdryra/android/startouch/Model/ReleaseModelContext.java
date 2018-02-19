@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Model;
 
 import com.chdryra.android.startouch.ApplicationContexts.Implementation.ModelContextBasic;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryDataBucketer;
@@ -29,7 +29,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
         FactoryNodeTraverser traverserFactory = new FactoryNodeTraverser();
 
-        FactoryMdReference mdReferenceFactory = new FactoryMdReference(getReferencesFactory(),
+        FactoryDataReference mdReferenceFactory = new FactoryDataReference(getReferencesFactory(),
                 traverserFactory, visitorFactory);
 
         FactoryReviews reviews = new FactoryReviews(new FactoryReviewNode(mdReferenceFactory), mdReferenceFactory);

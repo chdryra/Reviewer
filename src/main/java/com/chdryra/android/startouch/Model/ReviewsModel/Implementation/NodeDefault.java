@@ -28,7 +28,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataL
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdReference;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -36,10 +36,10 @@ import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewN
 
 public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
     private DataReview mMeta;
-    private final FactoryMdReference mReferenceFactory;
+    private final FactoryDataReference mReferenceFactory;
     private final IdableList<ReviewNodeComponent> mChildren;
 
-    public NodeDefault(DataReview meta, FactoryMdReference referenceFactory) {
+    public NodeDefault(DataReview meta, FactoryDataReference referenceFactory) {
         mMeta = meta;
         mReferenceFactory = referenceFactory;
         mChildren = new IdableDataList<>(getReviewId());

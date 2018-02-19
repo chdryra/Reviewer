@@ -24,9 +24,9 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    private final FactoryMdReference mReferenceFactory;
+    private final FactoryDataReference mReferenceFactory;
 
-    public FactoryReviewNode(FactoryMdReference referenceFactory) {
+    public FactoryReviewNode(FactoryDataReference referenceFactory) {
         mReferenceFactory = referenceFactory;
     }
 

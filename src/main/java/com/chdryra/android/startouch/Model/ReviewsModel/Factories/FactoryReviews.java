@@ -68,10 +68,10 @@ import java.util.ArrayList;
  */
 public class FactoryReviews implements ReviewMaker {
     private final FactoryReviewNode mNodeFactory;
-    private final FactoryMdReference mReferenceFactory;
+    private final FactoryDataReference mReferenceFactory;
     private ReviewStamper mStamper;
 
-    public FactoryReviews(FactoryReviewNode nodeFactory, FactoryMdReference referenceFactory) {
+    public FactoryReviews(FactoryReviewNode nodeFactory, FactoryDataReference referenceFactory) {
         mNodeFactory = nodeFactory;
         mReferenceFactory = referenceFactory;
     }
