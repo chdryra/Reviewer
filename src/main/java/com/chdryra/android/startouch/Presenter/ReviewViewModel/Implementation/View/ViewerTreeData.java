@@ -8,14 +8,13 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -51,7 +50,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
     }
 
     protected ReviewViewAdapter<?> newAdapter(GvRef datum) {
-        return getAdapterFactory().newReviewsListAdapter(datum, null, null);
+        return getAdapterFactory().newReviewsListAdapter(datum, null);
     }
 
     public static class TreeAuthorList extends ViewerTreeData<DataAuthorId, GvAuthorId.Reference> {
@@ -67,8 +66,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         protected ReviewViewAdapter<?> newAdapter(GvAuthorId.Reference datum) {
             AuthorName author = datum.getNamedAuthor();
             String name = author != null ? author.getName() : null;
-            AuthorId id = author != null ? author.getAuthorId() : null;
-            return getAdapterFactory().newReviewsListAdapter(datum, name, id);
+            return getAdapterFactory().newReviewsListAdapter(datum, name);
         }
     }
 
@@ -90,7 +88,7 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
 
         @Override
         public ReviewViewAdapter<?> expandGridCell(GvComment.Reference datum) {
-            return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum, null, null) : null;
+            return isExpandable(datum) ? mAdapterFactory.newReviewsListAdapter(datum, null) : null;
         }
     }
 }

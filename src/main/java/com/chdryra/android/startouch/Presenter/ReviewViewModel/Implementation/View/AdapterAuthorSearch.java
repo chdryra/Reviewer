@@ -25,12 +25,12 @@ import java.util.List;
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorSearchAdapter extends ReviewViewAdapterImpl<GvAuthorName>
+public class AdapterAuthorSearch extends ReviewViewAdapterImpl<GvAuthorName>
         implements ReviewViewAdapter.Filterable<GvAuthorName> {
     private AuthorsRepo mRepo;
     private DataConverter<AuthorName, GvAuthorName, GvAuthorList> mConverter;
 
-    public AuthorSearchAdapter(ViewerAuthors wrapper,
+    public AdapterAuthorSearch(ViewerAuthors wrapper,
                                AuthorsRepo repo,
                                DataConverter<AuthorName, GvAuthorName, GvAuthorList> converter) {
         super(wrapper);

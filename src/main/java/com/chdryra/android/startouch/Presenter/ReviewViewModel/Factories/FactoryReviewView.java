@@ -31,7 +31,6 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
@@ -39,7 +38,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhRatingBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterNodeFollowable;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewsList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -115,7 +115,7 @@ public class FactoryReviewView {
 
     public ReviewViewNode newListView(ReviewNode node, @Nullable AuthorId followAuthor) {
         ReviewViewAdapter<GvNode> adapter
-                = mAdapterFactory.  newReviewsListAdapter(node, followAuthor);
+                = mAdapterFactory.newReviewsListAdapter(node);
         FactoryActionsReviewView<GvNode> actionsFactory =
                 mActionsFactory.newListActions(node, this, followAuthor);
 
@@ -126,12 +126,8 @@ public class FactoryReviewView {
         return newReviewView(mAdapterFactory.newReviewDataAdapter(node, dataType));
     }
 
-    public ReviewView<?> newSummaryView(ReviewNode node) {
-        return newReviewView(mAdapterFactory.newSummaryAdapter(node));
-    }
-
     public ReviewView<?> newSearchView() {
-        ReviewViewAdapter.Filterable<GvAuthorName> adapter = mAdapterFactory.newFollowSearchAdapter();
+        ReviewViewAdapter.Filterable<?> adapter = mAdapterFactory.newAuthorSearchAdapter();
         return newSearchView(adapter, Strings.EditTexts.Hints.AUTHOR_NAME);
     }
 
@@ -152,7 +148,7 @@ public class FactoryReviewView {
     public <T extends GvData> ReviewView<T> newReviewView(ReviewViewAdapter<T> adapter) {
         try {
             //TODO make type safe and less hacky
-            return (ReviewView<T>) newReviewViewNode((AdapterNodeFollowable) adapter);
+            return (ReviewView<T>) newReviewViewNode((AdapterReviewsList) adapter);
         } catch (ClassCastException e) {
             ReviewViewActions<T> actions
                     = newReviewViewActions(mActionsFactory.newDataActions(adapter, this));
@@ -180,11 +176,10 @@ public class FactoryReviewView {
     }
 
     @NonNull
-    private ReviewView<?> newReviewViewNode(AdapterNodeFollowable adapter) {
+    private ReviewView<?> newReviewViewNode(AdapterReviewNode<GvNode> adapter) {
         ReviewNode node = adapter.getNode();
-        AuthorId followAuthor = adapter.getFollowAuthorId();
         FactoryActionsReviewView<GvNode> actionsFactory
-                = mActionsFactory.newListActions(node, this, followAuthor);
+                = mActionsFactory.newListActions(node, this, null);
 
         return newReviewViewNode(node, adapter, actionsFactory);
     }

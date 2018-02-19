@@ -14,9 +14,6 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
  * Email: rizwan.choudrey@gmail.com
  */
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
@@ -31,20 +28,11 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * This clearly is not very general...
  */
 
-public class AdapterNodeFollowable extends AdapterReviewNode<GvNode> {
-    private final AuthorId mFollowAuthorId;
-
-    public AdapterNodeFollowable(ReviewNode node,
-                                 DataReference<ProfileImage> profileImage,
-                                 DataConverter<DataImage, GvImage, GvImageList> coversConverter,
-                                 GridDataWrapper<GvNode> viewer,
-                                 @Nullable AuthorId followAuthorId) {
+public class AdapterReviewsList extends AdapterReviewNode<GvNode> {
+    public AdapterReviewsList(ReviewNode node,
+                              DataReference<ProfileImage> profileImage,
+                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
+                              GridDataWrapper<GvNode> viewer) {
         super(node, profileImage, coversConverter, viewer);
-        mFollowAuthorId = followAuthorId;
-    }
-
-    @Nullable
-    public AuthorId getFollowAuthorId() {
-        return mFollowAuthorId;
     }
 }
