@@ -13,7 +13,6 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -24,21 +23,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.FollowBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ImageBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.SizeBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.TextBinder;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.FollowSubscriber;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -50,11 +48,9 @@ import com.chdryra.android.startouch.R;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentAuthorView extends Fragment implements
-        ActivityResultListener, FollowSubscriber.FollowListener, SocialProfileRef
-                .FollowCallback {
+//TODO refactor into presenter framework
+public class FragmentAuthorView extends Fragment implements ActivityResultListener {
     private static final String ARGS = TagKeyGenerator.getKey(FragmentAuthorView.class, "Args");
-    private static final String PROFILE_DELETED = "Profile deleted";
 
     private static final int LAYOUT = R.layout.fragment_author_view;
     private static final int PROFILE_IMAGE = R.id.profile_image;
@@ -69,19 +65,14 @@ public class FragmentAuthorView extends Fragment implements
     private static final String REVIEWS = Strings.REVIEWS_CAP;
     private static final String FOLLOWING = Strings.FOLLOWING;
     private static final String FOLLOWERS = Strings.FOLLOWERS;
-    private static final SocialProfileRef.FollowUnfollow FOLLOW
-            = SocialProfileRef.FollowUnfollow.FOLLOW;
-    private static final SocialProfileRef.FollowUnfollow UNFOLLOW
-            = SocialProfileRef.FollowUnfollow.UNFOLLOW;
 
-    private AuthorId mAuthor;
-    private ImageView mPhoto;
-    private TextView mName;
-    private Button mFollowEdit;
-    private SizeSubscriber mRatings;
-    private SizeSubscriber mFollowers;
-    private SizeSubscriber mFollowing;
-    private FollowSubscriber mFollowBinder;
+    private AuthorId mAuthorId;
+    private TextBinder<AuthorName> mName;
+    private ImageBinder<ProfileImage> mPhoto;
+    private FollowBinder mFollow;
+    private SizeBinder mRatings;
+    private SizeBinder mFollowers;
+    private SizeBinder mFollowing;
 
     public static FragmentAuthorView newInstance(GvAuthorId authorId) {
         FragmentAuthorView fragment = new FragmentAuthorView();
@@ -107,186 +98,120 @@ public class FragmentAuthorView extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
-        mPhoto = view.findViewById(PROFILE_IMAGE);
-        mName = view.findViewById(PROFILE_AUTHOR);
-        mFollowEdit = view.findViewById(FOLLOW_EDIT_BUTTON);
-        mPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
+        ImageView photo = view.findViewById(PROFILE_IMAGE);
+        TextView name = view.findViewById(PROFILE_AUTHOR);
+        Button followEdit = view.findViewById(FOLLOW_EDIT_BUTTON);
+
+        Button ratings = view.findViewById(RATINGS_BUTTON);
+        Button followers = view.findViewById(FOLLOWERS_BUTTON);
+        Button following = view.findViewById(FOLLOWING_BUTTON);
 
         if (!setAuthor()) {
-            getCurrentScreen().showToast(NO_AUTHOR);
+            getUi().getCurrentScreen().showToast(NO_AUTHOR);
         } else {
-            getProfile();
-            setFollowEditButton();
-            setButtonBar(view);
+            bindProfile(name, photo);
+            bindFollowEditButton(followEdit);
+            bindButtonBar(ratings, followers, following);
         }
 
         return view;
     }
 
     @Override
-    public void onFollowing(AuthorId authorId) {
-        if (authorId.equals(mAuthor)) showUnfollow();
-    }
-
-    @Override
-    public void onUnfollowing(AuthorId authorId) {
-        if (authorId.equals(mAuthor)) showFollow();
-    }
-
-    @Override
-    public void onFollow(AuthorId authorId, SocialProfileRef.FollowUnfollow type, CallbackMessage
-            message) {
-        if (message.isOk() && type.equals(FOLLOW)) {
-            showUnfollow();
-        } else {
-            showFollow();
-        }
-    }
-
-    @Override
-    public void onFollowInvalidate() {
-        showFollow();
+    public void onStart() {
+        super.onStart();
+        if (mName != null) mName.bind();
+        if (mPhoto != null) mPhoto.bind();
+        if (mFollow != null) mFollow.bind();
+        if (mRatings != null) mRatings.bind();
+        if (mFollowers != null) mFollowers.bind();
+        if (mFollowing != null) mFollowing.bind();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mRatings.unbind();
-        mFollowers.unbind();
-        mFollowing.unbind();
-        if (mFollowBinder != null) mFollowBinder.unbind();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mRatings.bind();
-        mFollowers.bind();
-        mFollowing.bind();
-        if (mFollowBinder != null) mFollowBinder.bind();
+        if (mName != null) mName.unbind();
+        if (mPhoto != null) mPhoto.unbind();
+        if (mFollow != null) mFollow.unbind();
+        if (mRatings != null) mRatings.unbind();
+        if (mFollowers != null) mFollowers.unbind();
+        if (mFollowing != null) mFollowing.unbind();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getCurrentScreen().closeAndGoUp();
+            getUi().getCurrentScreen().closeAndGoUp();
             return true;
         }
 
         return false;
     }
 
-    private void getProfile() {
-        AuthorProfileRef profile = getRepository().getAuthors().getAuthorProfile(mAuthor);
-        profile.subscribe(new DataReference.ValueSubscriber<AuthorProfile>() {
-            @Override
-            public void onReferenceValue(AuthorProfile value) {
-                setProfile(value);
-            }
-
-            @Override
-            public void onInvalidated(DataReference<AuthorProfile> reference) {
-                mName.setText(PROFILE_DELETED);
-            }
-        });
-    }
-
-    private void setProfile(AuthorProfile profile) {
-        mName.setText(profile.getAuthor().getName());
-        ProfileImage image = profile.getImage();
-        Bitmap bitmap = image.getBitmap();
-        if (bitmap != null) {
-            mPhoto.setImageBitmap(bitmap);
-        } else {
-            mPhoto.setImageResource(IMAGE_PLACEHOLDER);
-        }
-    }
-
-    private void showUnfollow() {
-        setFollowUnfollow(UNFOLLOW);
-    }
-
-    private void showFollow() {
-        setFollowUnfollow(FOLLOW);
-    }
-
-    private void setFollowEditButton() {
-        if (getUserAuthorId().equals(mAuthor)) {
-            setButtonEdit();
-        } else {
-            mFollowEdit.setText(Strings.Buttons.FOLLOW);
-            mFollowBinder = new FollowSubscriber(getSocialProfile(getUserAuthorId()).getFollowing(),
-                    this);
-        }
-    }
-
-    private void setButtonEdit() {
-        mFollowEdit.setText(Strings.Buttons.EDIT_PROFILE);
-        mFollowEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getUi().getCommandsFactory().newLaunchProfileCommand().execute();
-            }
-        });
-    }
-
-    private void setFollowUnfollow(final SocialProfileRef.FollowUnfollow followUnfollow) {
-        mFollowEdit.setText(followUnfollow == SocialProfileRef.FollowUnfollow.UNFOLLOW ? Strings
-                .Buttons.UNFOLLOW : Strings.Buttons.FOLLOW);
-        mFollowEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSocialProfile(getUserAuthorId()).followUnfollow(mAuthor, followUnfollow,
-                        FragmentAuthorView.this);
-            }
-        });
-    }
-
     private boolean setAuthor() {
         Bundle args = getArguments();
         if (args == null) return false;
-        mAuthor = args.getParcelable(ARGS);
-        return mAuthor != null;
+        mAuthorId = args.getParcelable(ARGS);
+        return mAuthorId != null;
     }
 
-    private void setButtonBar(View view) {
-        Button ratings = view.findViewById(RATINGS_BUTTON);
-        Button followers = view.findViewById(FOLLOWERS_BUTTON);
-        Button following = view.findViewById(FOLLOWING_BUTTON);
+    private void bindProfile(TextView name, ImageView photo) {
+        AuthorProfileRef profile = getRepository().getAuthors().getAuthorProfile(mAuthorId);
 
+        mName = new TextBinder<>(profile.getAuthor(), name,
+                new TextBinder.StringGetter<AuthorName>() {
+            @Override
+            public String getString(AuthorName value) {
+                return value.getName();
+            }
+        });
+
+        mPhoto = new ImageBinder<>(profile.getProfileImage(), photo, IMAGE_PLACEHOLDER,
+                new ImageBinder.BitmapGetter<ProfileImage>() {
+            @Nullable
+            @Override
+            public Bitmap getBitmap(ProfileImage value) {
+                return value.getBitmap();
+            }
+        });
+    }
+
+    private void bindFollowEditButton(final Button followEdit) {
+        AuthorId userId = getUserId();
+        if (userId.equals(mAuthorId)) {
+            followEdit.setText(Strings.Buttons.EDIT_PROFILE);
+            followEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getUi().getCommandsFactory().newLaunchProfileCommand().execute();
+                }
+            });
+        } else {
+            mFollow = new FollowBinder(mAuthorId, getSocialProfile(userId), followEdit);
+        }
+    }
+
+    private void bindButtonBar(Button ratings, Button followers, Button following) {
+        ReviewNodeRepo reviews = getRepository().getReviews();
+        SocialProfileRef social = getSocialProfile(mAuthorId);
+        mRatings = new SizeBinder(reviews.getRepoForAuthor(mAuthorId).getSize(), ratings, REVIEWS);
+        mFollowers = new SizeBinder(social.getFollowers().getSize(), followers, FOLLOWERS);
+        mFollowing = new SizeBinder(social.getFollowing().getSize(), following, FOLLOWING);
         ratings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchAuthorRatings();
+                getUi().getLauncher().getReviewLauncher().launchAsList(mAuthorId);
             }
         });
-        ReviewNodeRepo reviews = getRepository().getReviews();
-        SocialProfileRef social = getSocialProfile(mAuthor);
-        mRatings = new SizeSubscriber(reviews.getRepoForAuthor(mAuthor).getSize(), ratings, REVIEWS);
-        mFollowers = new SizeSubscriber(social.getFollowers().getSize(), followers, FOLLOWERS);
-        mFollowing = new SizeSubscriber(social.getFollowing().getSize(), following, FOLLOWING);
-
     }
-
-    private SocialProfileRef getSocialProfile(AuthorId authorId) {
-        return getRepository().getAuthors().getSocialProfile(authorId);
-    }
-
-    private void launchAuthorRatings() {
-        getUi().getLauncher().getReviewLauncher().launchAsList(mAuthor);
-    }
-
 
     private AppInstanceAndroid getApp() {
         return AppInstanceAndroid.getInstance(getActivity());
     }
 
-    private AuthorId getUserAuthorId() {
+    private AuthorId getUserId() {
         return getApp().getAccounts().getUserSession().getAuthorId();
-    }
-
-    private CurrentScreen getCurrentScreen() {
-        return getUi().getCurrentScreen();
     }
 
     private UiSuite getUi() {
@@ -297,40 +222,7 @@ public class FragmentAuthorView extends Fragment implements
         return getApp().getRepository();
     }
 
-    private static class SizeSubscriber implements DataReference.ValueSubscriber<Size> {
-        private final DataReference<Size> mSize;
-        private final Button mView;
-        private final String mSizeType;
-
-        private SizeSubscriber(DataReference<Size> size, Button view, String sizeType) {
-            mSize = size;
-            mView = view;
-            mSizeType = sizeType;
-        }
-
-        @Override
-        public void onReferenceValue(Size value) {
-            setText(value.getSize());
-        }
-
-        @Override
-        public void onInvalidated(DataReference<Size> reference) {
-            setText(0);
-            unbind();
-        }
-
-        private void setText(int number) {
-            String text = String.valueOf(number) + "\n" + mSizeType;
-            mView.setText(text);
-        }
-
-        private void unbind() {
-            mSize.unsubscribe(this);
-        }
-
-        private void bind() {
-            mView.setText(Strings.EditTexts.FETCHING);
-            mSize.subscribe(this);
-        }
+    private SocialProfileRef getSocialProfile(AuthorId authorId) {
+        return getRepository().getAuthors().getSocialProfile(authorId);
     }
 }

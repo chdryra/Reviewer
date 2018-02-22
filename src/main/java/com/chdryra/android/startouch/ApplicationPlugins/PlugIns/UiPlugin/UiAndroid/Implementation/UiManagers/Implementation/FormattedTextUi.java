@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) Rizwan Choudrey 2018 - All Rights Reserved
+ * Unauthorized copying of this file via any medium is strictly prohibited
+ * Proprietary and confidential
+ * rizwan.choudrey@gmail.com
+ *
+ */
+
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+
+
+
+import android.widget.LinearLayout;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 13/12/2016
+ * Email: rizwan.choudrey@gmail.com
+ */
+
+public class FormattedTextUi extends FormattedSectionUi<String> {
+    public FormattedTextUi(LinearLayout section, String title, ReferenceValueGetter<String> getter) {
+        super(section, getter, title);
+    }
+
+    @Override
+    public void update() {
+        getValueView().setText(getReferenceValue());
+    }
+}

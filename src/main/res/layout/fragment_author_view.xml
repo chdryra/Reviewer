@@ -13,7 +13,7 @@
 
     <LinearLayout
         style="@style/LinearLayoutHorizontal.WrappedVertical"
-        android:id="@+id/profile"
+        android:id="@+id/usersProfile"
         android:layout_gravity="top|center"
         android:gravity="center"
         android:layout_marginLeft="5dp"

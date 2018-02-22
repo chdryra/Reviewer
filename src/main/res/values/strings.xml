@@ -27,7 +27,7 @@
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
     <string name="activity_title_login">Startouch</string>
-    <string name="activity_title_profile">profile</string>
+    <string name="activity_title_profile">usersProfile</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">&#43;subject</string>
@@ -71,7 +71,7 @@
 
     <!-- Image Views -->
     <string name="image_review_cd">review image</string>
-    <string name="image_profile_cd">profile photo</string>
+    <string name="image_profile_cd">usersProfile photo</string>
 
     <!-- Menus -->
     <string name="menu_locations">map locations</string>
@@ -88,7 +88,7 @@
     <string name="menu_search_authors">search authors</string>
     <string name="menu_bookmarks">bookmarks</string>
     <string name="menu_settings">settings</string>
-    <string name="menu_profile">profile</string>
+    <string name="menu_profile">usersProfile</string>
     <string name="menu_logout">log out</string>
 
     <!-- Social -->

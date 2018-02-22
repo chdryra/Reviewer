@@ -93,6 +93,7 @@ public class Strings {
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
         public static final String ADD = "add";
+        public static final String FETCHING = "fetching...";
         public static final String SORTING = "sorting...";
         public static final String AUTHORS = "authors";
         public static final String FULL_REVIEW = "Full " + REVIEW;
