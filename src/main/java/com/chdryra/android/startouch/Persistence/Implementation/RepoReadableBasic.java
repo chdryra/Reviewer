@@ -74,17 +74,22 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
     }
 
     @Override
-    protected void fireForBinder(final ItemSubscriber<ReviewReference> binder) {
+    protected void onBinding(final ItemSubscriber<ReviewReference> subscriber) {
         doDereferencing(new DereferenceCallback<List<ReviewReference>>() {
             @Override
             public void onDereferenced(DataValue<List<ReviewReference>> value) {
                 if(value.hasValue()) {
                     for(ReviewReference reference : value.getData()) {
-                        binder.onItemAdded(reference);
+                        subscriber.onItemAdded(reference);
                     }
                 }
             }
         });
+    }
+
+    @Override
+    protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
+
     }
 
     @Nullable

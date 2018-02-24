@@ -126,7 +126,7 @@ public class ReviewNodeRepoImpl extends RepoReadableBasic implements ReviewNodeR
 
     @Override
     public ReviewNode getMetaReview(ReviewsRepoReadable repo, AuthorId owner, String subject) {
-        return mReviewsFactory.createTree(repo, mAuthorsRepo.getReference(owner), subject);
+        return mReviewsFactory.createTree(repo, mAuthorsRepo.getAuthor(owner), subject);
     }
 
     @NonNull

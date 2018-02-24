@@ -163,7 +163,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         if (mLocationsBinder != null) mReview.getLocations().unsubscribe(mLocationsBinder);
         if (mTagsBinder != null) mReview.getTags().unsubscribe(mTagsBinder);
         if (mNameBinder != null)
-            mAuthorsRepo.getReference(mReview.getAuthorId()).unsubscribe(mNameBinder);
+            mAuthorsRepo.getAuthor(mReview.getAuthorId()).unsubscribe(mNameBinder);
         if (mReview != null) mReview.unregisterObserver(this);
 
         mSelector.unregister(mNodeId);
@@ -464,7 +464,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             returned();
         } else {
             mNameBinder = new NameSubscriber(id);
-            mAuthorsRepo.getReference(mReview.getAuthorId()).subscribe(mNameBinder);
+            mAuthorsRepo.getAuthor(mReview.getAuthorId()).subscribe(mNameBinder);
         }
     }
 

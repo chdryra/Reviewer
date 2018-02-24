@@ -39,7 +39,7 @@ implements DataReference.DereferenceCallback<AuthorName>{
         mLauncher = launcher;
         mAuthorId = stamp.getAuthorId();
         mDate = DateFormat.format("dd-MM-yy", stamp.getDate().getTime()).toString();
-        repo.getReference(mAuthorId).dereference(this);
+        repo.getAuthor(mAuthorId).dereference(this);
     }
 
     @Override

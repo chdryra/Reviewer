@@ -63,7 +63,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
     public void addReview(Review review, Callback callback) {
         ReviewDb reviewDb = mConverter.convert(review);
         Map<String, Object> map = getUpdatesMap(reviewDb, DbUpdater.UpdateType.INSERT_OR_UPDATE);
-        getDataBase().updateChildren(map, newAddListener(reviewDb, callback));
+        getFbReference().updateChildren(map, newAddListener(reviewDb, callback));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
     }
 
     private void getReviewEntry(ReviewId id, ValueEventListener onReviewFound) {
-        Firebase listEntryDb = getStructure().getListEntryDb(getDataBase(), id);
+        Firebase listEntryDb = getStructure().getListEntryDb(getFbReference(), id);
         doSingleEvent(listEntryDb, newOnEntryFoundListener(onReviewFound));
     }
 
@@ -82,7 +82,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ReviewId id = new DatumReviewId(dataSnapshot.getKey());
-                doSingleEvent(getStructure().getReviewDb(getDataBase(), id), onReviewFound);
+                doSingleEvent(getStructure().getReviewDb(getFbReference(), id), onReviewFound);
             }
 
             @Override
@@ -129,7 +129,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
 
     private void doDelete(ReviewDb review, Callback callback) {
         Map<String, Object> deleteMap = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
-        getDataBase().updateChildren(deleteMap, newDeleteListener(review, callback));
+        getFbReference().updateChildren(deleteMap, newDeleteListener(review, callback));
     }
 
     @NonNull

@@ -125,7 +125,7 @@ public class FactoryReviewViewAdapter {
             collection.add(author, mReviewSource.getRepoForAuthor(author));
         }
 
-        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepo.getReference
+        ReviewNode node = mReviewsFactory.createTree(collection, mAuthorsRepo.getAuthor
                 (summaryOwner), title);
 
         return newNodeAdapter(node, mViewerFactory.newTreeSummaryViewer(node));

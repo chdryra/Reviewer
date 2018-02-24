@@ -6,32 +6,32 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviews;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.CollectionReferenceBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewCollectionDeleter;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,184 +40,208 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FbReviewCollection extends FbReviewsRepoBasic implements ReviewCollection {
-    private final String mName;
-    private final AuthorId mAuthorId;
-    private final FbReviewsStructure mStructure;
-    private final ReviewsRepoReadable mMasterRepo;
-    private final ConverterCollectionItem mItemConverter;
-    private final ArrayList<ReviewId> mStealthDeletion;
+public class FbReviewCollection extends CollectionReferenceBasic<ReviewReference,
+        List<ReviewReference>, Size> implements ReviewCollection {
+    private final FbReviewIdList mEntryList;
+    private final ReviewDereferencer mDereferencer;
+    private final Map<ItemSubscriber<ReviewReference>, EntrySubscriber> mSubscribers;
 
-    public FbReviewCollection(Firebase dataBase,
-                              FbReviewsStructure structure,
-                              SnapshotConverter<ReviewReference> converter,
-                              ReviewDereferencer dereferencer,
-                              SizeReferencer sizeReferencer,
-                              String name,
-                              AuthorId authorId,
-                              ReviewsRepoReadable masterRepo,
-                              ConverterCollectionItem itemConverter) {
-        super(dataBase, new PlaylistStructure(name, authorId, structure), converter,
-                dereferencer, sizeReferencer);
-        mName = name;
-        mAuthorId = authorId;
-        mStructure = structure;
-        mMasterRepo = masterRepo;
-        mItemConverter = itemConverter;
-        mStealthDeletion = new ArrayList<>();
+    public FbReviewCollection(FbReviewIdList entryList, ReviewDereferencer dereferencer) {
+        mEntryList = entryList;
+        mDereferencer = dereferencer;
+        mSubscribers = new HashMap<>();
+    }
+
+    @Nullable
+    @Override
+    protected List<ReviewReference> getNullValue() {
+        return new ArrayList<>();
     }
 
     @Override
     public String getName() {
-        return mName;
+        return mEntryList.getName();
     }
 
     @Override
     public void addEntry(ReviewId reviewId, Callback callback) {
-        update(reviewId, DbUpdater.UpdateType.INSERT_OR_UPDATE, callback);
+        mEntryList.update(reviewId, DbUpdater.UpdateType.INSERT_OR_UPDATE, callback);
     }
 
     @Override
     public void removeEntry(ReviewId reviewId, Callback callback) {
-        update(reviewId, DbUpdater.UpdateType.DELETE, callback);
+        mEntryList.update(reviewId, DbUpdater.UpdateType.DELETE, callback);
     }
 
     @Override
     public void hasEntry(ReviewId reviewId, final Callback callback) {
-        mStructure.getCollectionEntryDb(getDataBase(), mAuthorId, mName, reviewId)
-                .addListenerForSingleValueEvent(checkForEntry(callback));
+        mEntryList.hasEntry(reviewId, callback);
     }
 
     @Override
-    protected void newReference(DataSnapshot dataSnapshot, ReferenceReadyCallback callback) {
-        if (dataSnapshot.getValue() == null) {
-            callback.onReferenceReady(null);
-            return;
-        }
-
-        ReviewId reviewId = mItemConverter.convert(dataSnapshot);
-        if (reviewId == null) {
-            callback.onReferenceReady(null);
-            return;
-        }
-
-        if(mStealthDeletion.contains(reviewId)) {
-            callback.onReferenceReady(null);
-            return;
-        }
-
-        mMasterRepo.getReference(reviewId, getEntryOrDeleteIfGone(reviewId, callback));
+    public DataReference<Size> getSize() {
+        return mEntryList.getSize();
     }
 
-    @NonNull
-    private ValueEventListener checkForEntry(final Callback callback) {
-        return new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.onCollectionHasEntry(mName, dataSnapshot.getValue() != null,
-                        CallbackMessage.ok());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                CallbackMessage error = CallbackMessage.error(FirebaseBackend
-                        .backendError(firebaseError).getMessage());
-                callback.onCollectionHasEntry(mName, false, error);
-            }
-        };
-    }
-
-    private void update(ReviewId reviewId, DbUpdater.UpdateType updateType, Callback
-            callback) {
-        Map<String, Object> updates = getUpdatesMap(reviewId, updateType);
-        getDataBase().updateChildren(updates, updateDoneListener(callback, updateType));
-    }
-
-    private void notifyCallback(CallbackMessage message,
-                                DbUpdater.UpdateType updateType,
-                                Callback callback) {
-        if (updateType.equals(DbUpdater.UpdateType.INSERT_OR_UPDATE)) {
-            callback.onAddedToCollection(mName, message);
-        } else {
-            callback.onRemovedFromCollection(mName, message);
-        }
-    }
-
-    @NonNull
-    private Firebase.CompletionListener updateDoneListener(final Callback callback,
-                                                           final DbUpdater.UpdateType updateType) {
-        return new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                CallbackMessage message = firebaseError == null ? CallbackMessage.ok() :
-                        CallbackMessage.error(firebaseError.getMessage());
-                notifyCallback(message, updateType, callback);
-            }
-        };
-    }
-
-    @NonNull
-    private Map<String, Object> getUpdatesMap(ReviewId reviewId, DbUpdater.UpdateType type) {
-        return mStructure.getCollectionUpdater(mName, mAuthorId).getUpdatesMap(reviewId, type);
-    }
-
-    @NonNull
-    private RepoCallback getEntryOrDeleteIfGone(final ReviewId id,
-                                                final ReferenceReadyCallback callback) {
-        return new RepoCallback() {
+    @Override
+    public void getReference(final ReviewId reviewId, final RepoCallback callback) {
+        mEntryList.getReference(reviewId, new RepoCallback() {
             @Override
             public void onRepoCallback(RepoResult result) {
                 if (result.isReference()) {
-                    callback.onReferenceReady(result.getReference());
-                } else {
-                    deleteFromPlaylistIfNecessary(result, id, callback);
+                    callback.onRepoCallback(result);
+                } else if (result.getMessage().equals(FbReviewIdList.NO_REFERENCE)) {
+                    deleteFromPlaylistIfNecessary(result, reviewId, callback);
                 }
             }
-        };
+        });
     }
 
-    private void deleteFromPlaylistIfNecessary(RepoResult result,
+    @Override
+    public void registerListener(InvalidationListener listener) {
+        mEntryList.registerListener(listener);
+    }
+
+    @Override
+    public void unregisterListener(InvalidationListener listener) {
+        mEntryList.unregisterListener(listener);
+    }
+
+    @Override
+    public boolean isValidReference() {
+        return mEntryList.isValidReference();
+    }
+
+    @Override
+    public void invalidate() {
+        mEntryList.invalidate();
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
+        mDereferencer.getReview(reviewId, this, callback);
+    }
+
+    @Override
+    protected void doDereferencing(final DereferenceCallback<List<ReviewReference>> callback) {
+        mEntryList.dereference(new DereferenceCallback<List<ReviewId>>() {
+            @Override
+            public void onDereferenced(DataValue<List<ReviewId>> value) {
+                if (value.hasValue()) {
+                    new Dereferencer(value.getData(), callback).dereference();
+                } else {
+                    callback.onDereferenced(new DataValue<List<ReviewReference>>(CallbackMessage
+                            .error("No entries")));
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onBinding(ItemSubscriber<ReviewReference> subscriber) {
+        EntrySubscriber entrySub = new EntrySubscriber(subscriber);
+        mSubscribers.put(subscriber, entrySub);
+        mEntryList.subscribe(entrySub);
+    }
+
+    @Override
+    protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
+        mEntryList.unsubscribe(mSubscribers.remove(subscriber));
+    }
+
+    private void deleteFromPlaylistIfNecessary(final RepoResult result,
                                                final ReviewId id,
-                                               final ReferenceReadyCallback callback) {
-        if (result.isError() && result.getMessage().equals(NULL_AT_SOURCE)) {
-            mStealthDeletion.add(id);
+                                               final RepoCallback callback) {
+        if (result.isError() && result.getMessage().equals(FbReviewIdList.NO_REFERENCE)) {
             ReviewCollectionDeleter deleter
-                    = new ReviewCollectionDeleter(id, FbReviewCollection.this, new ReviewCollectionDeleter
-                    .DeleteCallback() {
+                    = new ReviewCollectionDeleter(id, FbReviewCollection.this, new
+                    ReviewCollectionDeleter.DeleteCallback() {
+                        @Override
+                        public void onDeletedFromCollection(String name,
+                                                            ReviewId reviewId,
+                                                            CallbackMessage message) {
+                            callback.onRepoCallback(result);
+                        }
+                    });
+            //deleter.delete();
+        } else {
+            callback.onRepoCallback(result);
+        }
+    }
+
+    private class EntrySubscriber implements ItemSubscriber<ReviewId> {
+        private final ItemSubscriber<ReviewReference> mSubscriber;
+
+        private EntrySubscriber(ItemSubscriber<ReviewReference> subscriber) {
+            mSubscriber = subscriber;
+        }
+
+        @Override
+        public void onItemAdded(ReviewId item) {
+            getReference(item, new RepoCallback() {
                 @Override
-                public void onDeletedFromCollection(String name,
-                                                    ReviewId reviewId,
-                                                    CallbackMessage message) {
-                    mStealthDeletion.remove(reviewId);
-                    callback.onReferenceReady(null);
+                public void onRepoCallback(RepoResult result) {
+                    if (result.isReference()) mSubscriber.onItemAdded(result.getReference());
                 }
             });
-            deleter.delete();
-        } else {
-            callback.onReferenceReady(null);
+        }
+
+        @Override
+        public void onItemRemoved(ReviewId item) {
+            getReference(item, new RepoCallback() {
+                @Override
+                public void onRepoCallback(RepoResult result) {
+                    if (result.isReference()) {
+                        mSubscriber.onItemRemoved(result.getReference());
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onCollectionChanged(Collection<ReviewId> newItems) {
+            FbReviewCollection.this.dereference(new DereferenceCallback<List<ReviewReference>>() {
+                @Override
+                public void onDereferenced(DataValue<List<ReviewReference>> value) {
+                    if (value.hasValue()) mSubscriber.onCollectionChanged(value.getData());
+                }
+            });
+        }
+
+        @Override
+        public void onInvalidated(CollectionReference<ReviewId, ?, ?> reference) {
+            mSubscriber.onInvalidated(FbReviewCollection.this);
         }
     }
 
-    private static class PlaylistStructure implements FbReviews {
-        private final String mPlaylistName;
-        private final AuthorId mPlaylistOwner;
-        private final FbReviewsStructure mRootStructure;
+    private class Dereferencer implements RepoCallback {
+        private final List<ReviewId> mEntries;
+        private final DereferenceCallback<List<ReviewReference>> mCallback;
+        private final List<ReviewReference> mReferences = new ArrayList<>();
 
-        private PlaylistStructure(String playlistName, AuthorId playlistOwner, FbReviewsStructure
-                rootStructure) {
-            mPlaylistName = playlistName;
-            mPlaylistOwner = playlistOwner;
-            mRootStructure = rootStructure;
+        private int mCallbacks = 0;
+
+        public Dereferencer(List<ReviewId> entries, DereferenceCallback<List<ReviewReference>>
+                callback) {
+            mEntries = entries;
+            mCallback = callback;
         }
 
         @Override
-        public Firebase getListEntriesDb(Firebase root) {
-            return mRootStructure.getCollectionDb(root, mPlaylistOwner, mPlaylistName);
+        public void onRepoCallback(RepoResult result) {
+            if (result.isReference()) {
+                mReferences.add(result.getReference());
+            }
+
+            if (++mCallbacks == mEntries.size()) {
+                mCallback.onDereferenced(new DataValue<>(mReferences));
+            }
         }
 
-        @Override
-        public Firebase getListEntryDb(Firebase root, ReviewId reviewId) {
-            return mRootStructure.getListEntryDb(root, reviewId);
+        private void dereference() {
+            for (ReviewId reviewId : mEntries) {
+                getReference(reviewId, this);
+            }
         }
     }
 }

@@ -48,11 +48,11 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
     }
 
     protected void doBinding(ChildEventListener listener) {
-        getReference().addChildEventListener(listener);
+        getFbReference().addChildEventListener(listener);
     }
 
     protected void doUnbinding(ChildEventListener listener) {
-        getReference().removeEventListener(listener);
+        getFbReference().removeEventListener(listener);
     }
 
     @Override
@@ -70,6 +70,10 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
         return mItemBinders.keySet();
     }
 
+    SnapshotConverter<T> getItemConverter() {
+        return mItemConverter;
+    }
+
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
@@ -82,21 +86,21 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
     }
 
     @Override
-    public void unbindSubscriber(ItemSubscriber<T> binder) {
-        ChildEventListener listener = mItemBinders.remove(binder);
+    public void unbindSubscriber(ItemSubscriber<T> subscriber) {
+        ChildEventListener listener = mItemBinders.remove(subscriber);
         doUnbinding(listener);
     }
 
     @Override
-    public void bindSubscriber(ItemSubscriber<T> binder) {
-        ChildEventListener listener = newChildListener(binder);
-        mItemBinders.put(binder, listener);
+    public void bindSubscriber(ItemSubscriber<T> subscriber) {
+        ChildEventListener listener = newChildListener(subscriber);
+        mItemBinders.put(subscriber, listener);
         doBinding(listener);
     }
 
     @Override
-    public boolean containsSubscriber(ItemSubscriber<T> binder) {
-        return mItemBinders.containsKey(binder);
+    public boolean containsSubscriber(ItemSubscriber<T> subscriber) {
+        return mItemBinders.containsKey(subscriber);
     }
 
     @NonNull

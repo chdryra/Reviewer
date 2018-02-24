@@ -61,19 +61,13 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
     }
 
     @Override
-    public void subscribe(ItemSubscriber<ReviewReference> binder) {
-        super.subscribe(binder);
+    protected void onBinding(ItemSubscriber<ReviewReference> subscriber) {
         bindToFollowingIfNecessary();
     }
 
     @Override
-    public void unbindSubscriber(ItemSubscriber<ReviewReference> binder) {
-        super.unbindSubscriber(binder);
-        if (getSubscribers().size() == 0) unbindFromFollowingIfNecessary();
-    }
-
-    private void unbindFromFollowingIfNecessary() {
-        if(mFollowersBinder.isBound()) mFollowersBinder.unbind();
+    protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
+        if (getSubscribers().size() == 0 && mFollowersBinder.isBound()) mFollowersBinder.unbind();
     }
 
     private void bindToFollowingIfNecessary() {

@@ -99,7 +99,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
         if (mReview == null) return;
         mReview.getComments().unsubscribe(mCommentsBinder);
         mReview.getTags().unsubscribe(mTagsBinder);
-        mAuthorsRepo.getReference(mReview.getAuthorId()).unsubscribe(mNameBinder);
+        mAuthorsRepo.getAuthor(mReview.getAuthorId()).unsubscribe(mNameBinder);
         mSelector.unregister(mNode.getReviewId());
     }
 
@@ -151,7 +151,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
             mCallbacks = 0;
             mReview.getComments().subscribe(mCommentsBinder);
             mReview.getTags().subscribe(mTagsBinder);
-            mAuthorsRepo.getReference(mReview.getAuthorId()).subscribe(mNameBinder);
+            mAuthorsRepo.getAuthor(mReview.getAuthorId()).subscribe(mNameBinder);
         }
     }
 

@@ -36,7 +36,7 @@ public class StampNodeUi extends ViewUi<TextView, AuthorRef> implements ViewUiBi
         super(stamp, new ReferenceValueGetter<AuthorRef>() {
             @Override
             public AuthorRef getValue() {
-                return repo.getReference(node.getAuthorId());
+                return repo.getAuthor(node.getAuthorId());
             }
         });
         mBinder = new ViewUiBinder<>(this);

@@ -84,11 +84,11 @@ public class BackendFirebase implements BackendPlugin {
 
         FbReviewReferencer referencer
                 = new FbReviewReferencer(mDataReferencer, infoConverter, reviewConverter, cache);
+
+        FactoryFbCollection collectionFactory = new FactoryFbCollection(mStructure);
+
         SnapshotConverter<ReviewReference> converter
                 = new ConverterReviewReference(mDatabase, mStructure, referencer);
-
-        FactoryFbCollection collectionFactory = new FactoryFbCollection(mStructure, converter);
-
         FactoryFbReviewsRepo authorsDbFactory = new FactoryFbReviewsRepo(reviewConverter, beValidator,
                 converter, repoFactory.newDereferencer(), repoFactory.newSizeReferencer(), cache, collectionFactory);
 

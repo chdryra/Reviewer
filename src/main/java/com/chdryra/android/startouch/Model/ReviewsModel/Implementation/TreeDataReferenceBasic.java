@@ -9,11 +9,11 @@
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.IdableListReferenceBasic;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -135,13 +135,18 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
     }
 
     @Override
-    protected void fireForBinder(final ItemSubscriber<Value> binder) {
+    protected void onBinding(final ItemSubscriber<Value> subscriber) {
         getData(new TreeDataReferenceBasic.GetDataCallback<Value>() {
             @Override
             public void onData(IdableList<Value> items) {
-                notifyOnAdded(binder, items);
+                notifyOnAdded(subscriber, items);
             }
         });
+    }
+
+    @Override
+    protected void onUnbinding(ItemSubscriber<Value> subscriber) {
+        
     }
 
     @Override
