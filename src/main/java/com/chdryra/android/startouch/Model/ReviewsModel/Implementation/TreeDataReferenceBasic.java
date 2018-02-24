@@ -97,7 +97,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             });
         }
 
-        notifyValueBinders();
+        notifyValueSubscribers();
     }
 
     @Override
@@ -111,7 +111,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             });
         }
 
-        notifyValueBinders();
+        notifyValueSubscribers();
     }
 
     @Override
@@ -121,7 +121,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
 
     @Override
     public void onTreeChanged() {
-        notifyAllBinders();
+        notifyAllSubscribers();
     }
 
     @Override
@@ -146,7 +146,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
 
     @Override
     protected void onUnbinding(ItemSubscriber<Value> subscriber) {
-        
+
     }
 
     @Override
