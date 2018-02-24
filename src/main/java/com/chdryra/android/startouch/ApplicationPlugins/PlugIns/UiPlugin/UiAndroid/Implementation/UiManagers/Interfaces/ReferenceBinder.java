@@ -10,14 +10,13 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 22/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ValueBinder {
-    void bind();
-
-    void unbind();
+public interface ReferenceBinder<T> extends ValueBinder, DataReference.ValueSubscriber<T>{
 }

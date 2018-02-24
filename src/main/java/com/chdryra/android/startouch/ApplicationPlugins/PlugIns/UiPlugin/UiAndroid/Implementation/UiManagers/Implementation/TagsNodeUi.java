@@ -26,9 +26,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsNodeUi extends ViewUi<TextView, DataListRef<DataTag>> implements ViewUiBinder.BindableViewUi<IdableList<DataTag>>{
+public class TagsNodeUi extends ViewUi<TextView, DataListRef<DataTag>> implements Bindable<IdableList<DataTag>> {
     private static final int MAX_TAGS = 10;
-    private ViewUiBinder<IdableList<DataTag>> mBinder;
+    private ViewUiBinderOld<IdableList<DataTag>> mBinder;
 
     public TagsNodeUi(TextView tags, final ReviewNode node) {
         super(tags, new ReferenceValueGetter<DataListRef<DataTag>>() {
@@ -37,7 +37,7 @@ public class TagsNodeUi extends ViewUi<TextView, DataListRef<DataTag>> implement
                 return node.getTags();
             }
         });
-        mBinder = new ViewUiBinder<>(this);
+        mBinder = new ViewUiBinderOld<>(this);
     }
 
     @Override

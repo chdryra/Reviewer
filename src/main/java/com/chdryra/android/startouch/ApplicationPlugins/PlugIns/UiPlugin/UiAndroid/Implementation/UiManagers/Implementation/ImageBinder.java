@@ -9,20 +9,21 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
+
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ValueBinder;
+        .UiManagers.Interfaces.ReferenceBinder;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 22/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageBinder<T> implements ValueBinder<T> {
+public class ImageBinder<T> implements ReferenceBinder<T> {
     private final DataReference<T> mReference;
     private final BitmapGetter<T> mGetter;
     private final ImageView mView;

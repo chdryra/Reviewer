@@ -16,7 +16,6 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,18 +23,14 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewListReference<T, ?>>
-        extends FormattedSectionUi<Ref> implements ViewUiBinder.BindableViewUi<IdableList<T>>{
-
-    private final ViewUiBinder<IdableList<T>> mBinder;
+public abstract class DataSectionUi<T extends HasReviewId> extends FormattedSectionUi<IdableList<T>> {
 
     protected abstract void updateView(IdableList<T> data);
 
     protected abstract void setEmpty(String label);
 
-    public DataSectionUi(LinearLayout view, ReferenceValueGetter<Ref> getter, String title) {
-        super(view, getter, title);
-        mBinder = new ViewUiBinder<>(this);
+    public DataSectionUi(LinearLayout view, String title) {
+        super(view, title);
     }
 
     protected void setView(IdableList<T> data) {
@@ -53,14 +48,6 @@ public abstract class DataSectionUi<T extends HasReviewId, Ref extends ReviewLis
 
     @Override
     public void onInvalidated() {
-        setView(new IdableDataList<T>(getReferenceValue().getReviewId()));
-    }
-
-    @Override
-    public void update() {
-        if(!mBinder.isBound()) {
-            setEmpty(Strings.Formatted.LOADING);
-            mBinder.bind();
-        }
+        setView(new IdableDataList<T>());
     }
 }

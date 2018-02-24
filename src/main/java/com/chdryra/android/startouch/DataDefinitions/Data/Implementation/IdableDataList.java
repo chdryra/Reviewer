@@ -22,6 +22,10 @@ public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<
         implements IdableList<T>{
     private final ReviewId mReviewId;
 
+    public IdableDataList() {
+        mReviewId = new DatumReviewId();
+    }
+
     public IdableDataList(ReviewId reviewId) {
         mReviewId = reviewId;
     }

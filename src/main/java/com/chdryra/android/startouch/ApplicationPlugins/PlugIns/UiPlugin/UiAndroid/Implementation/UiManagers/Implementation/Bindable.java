@@ -8,23 +8,13 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
-
-
-import android.widget.LinearLayout;
-
 /**
  * Created by: Rizwan Choudrey
- * On: 13/12/2016
+ * On: 22/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
+public interface Bindable<T> {
+    void update(T value);
 
-public class FormattedTextUi extends FormattedSectionUi<String> {
-    public FormattedTextUi(LinearLayout section, String title, ReferenceValueGetter<String> getter) {
-        super(section, getter, title);
-    }
-
-    @Override
-    public void update() {
-        getValueView().setText(getReferenceValue());
-    }
+    void onInvalidated();
 }

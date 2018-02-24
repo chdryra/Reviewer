@@ -25,18 +25,13 @@ public class ContextUi extends SimpleViewUi<Button, String> {
     private final ButtonAction<?> mAction;
     private boolean mIsVisible = true;
 
-    public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId) {
-        this(reviewView, view, buttonId, TitleDecorator.NO_DECOR);
-    }
-
+//    public String getValue() {
+//        ButtonAction<?> action = reviewView.getActions().getContextualAction();
+//        return action != null ? action.getButtonTitle() : "";
+//    }
+//
     public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId, final TitleDecorator formatter) {
-        super((Button) view.findViewById(buttonId), new ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                ButtonAction<?> action = reviewView.getActions().getContextualAction();
-                return action != null ? action.getButtonTitle() : "";
-            }
-        }, new ViewValueGetter<String>() {
+        super((Button) view.findViewById(buttonId), new ViewValueGetter<String>() {
             @Override
             public String getValue() {
                 return formatter.unDecorate(((Button) view.findViewById(buttonId)).getText().toString().trim());
@@ -49,11 +44,6 @@ public class ContextUi extends SimpleViewUi<Button, String> {
         });
         mAction = reviewView.getActions().getContextualAction();
         initialise(view, reviewView.getParams().getContextViewParams());
-    }
-
-    @Override
-    public void update() {
-        if (mIsVisible) super.update();
     }
 
     private void initialise(View layout, ReviewViewParams.ContextView params) {
@@ -77,6 +67,5 @@ public class ContextUi extends SimpleViewUi<Button, String> {
                 return mAction.onLongClick(v);
             }
         });
-        update();
     }
 }

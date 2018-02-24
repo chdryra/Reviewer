@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.drawable.Drawable;
@@ -23,40 +23,28 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class ViewUi<V extends View, Value> {
+public abstract class ViewUi<V extends View, Value> implements Bindable<Value> {
     private final V mView;
-    private final ReferenceValueGetter<Value> mReference;
 
     private Command mOnClick;
     private Command mOnLongClick;
 
-    public interface ReferenceValueGetter<T> {
-        T getValue();
-    }
-
-    public abstract void update();
-
-    ViewUi(V view, ReferenceValueGetter<Value> reference) {
+    ViewUi(V view) {
         mView = view;
-        mReference = reference;
     }
 
     public V getView() {
         return mView;
     }
 
-    public Value getReferenceValue() {
-        return mReference.getValue();
-    }
-
     public void setOnClickCommand(@Nullable Command onClick) {
-        if(onClick == null) return;
+        if (onClick == null) return;
         setClickable();
         mOnClick = onClick;
         if (mOnLongClick == null) mOnLongClick = onClick;
     }
 
-    public void setClickable() {
+    void setClickable() {
         getView().setClickable(true);
         setOnClick();
         setOnLongClick();
@@ -72,6 +60,11 @@ public abstract class ViewUi<V extends View, Value> {
             return true;
         }
         return false;
+    }
+
+    void setBackgroundAlpha(int alpha) {
+        Drawable background = getView().getBackground();
+        if (background != null) background.setAlpha(alpha);
     }
 
     private void setOnLongClick() {
@@ -90,10 +83,5 @@ public abstract class ViewUi<V extends View, Value> {
                 ViewUi.this.onClick(view);
             }
         });
-    }
-
-    protected void setBackgroundAlpha(int alpha) {
-        Drawable background = getView().getBackground();
-        if (background != null) background.setAlpha(alpha);
     }
 }

@@ -9,12 +9,10 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,30 +20,28 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BannerButtonUi extends SimpleViewUi<Button, String> {
+    private final TitleDecorator mDecorator;
     private final ButtonAction<?> mAction;
 
-    BannerButtonUi(final ReviewView<?> reviewView, final Button view, final TitleDecorator decorator) {
-        super(view, new ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return reviewView.getActions().getBannerButtonAction().getButtonTitle();
-            }
-        }, new ViewValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return decorator.unDecorate(view.getText().toString().trim());
-            }
-        }, new ViewValueSetter<String>() {
-            @Override
-            public void setValue(@Nullable String value) {
-                view.setText(value != null ? decorator.decorate(value) : "");
-            }
-        });
+    //return reviewView.getActions().getBannerButtonAction().getButtonTitle();
 
-        mAction = reviewView.getActions().getBannerButtonAction();
-        mAction.setTitle(new ButtonTitle(decorator));
+    BannerButtonUi(Button view, ButtonAction<?> action, TitleDecorator decorator, int alpha) {
+        super(view);
+        mDecorator = decorator;
+        mAction = action;
+        mAction.setTitle(new ButtonTitle());
         setClickable();
-        setBackgroundAlpha(reviewView.getParams().getBannerButtonParams().getAlpha());
+        setBackgroundAlpha(alpha);
+    }
+
+    @Override
+    public String getViewValue() {
+        return mDecorator.unDecorate(getView().getText().toString().trim());
+    }
+
+    @Override
+    public void setViewValue(String s) {
+        getView().setText(s != null ? mDecorator.decorate(s) : "");
     }
 
     @Override
@@ -59,15 +55,9 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
     }
 
     private class ButtonTitle implements ButtonAction.ButtonTitle {
-        private final TitleDecorator mFormatter;
-
-        ButtonTitle(TitleDecorator formatter) {
-            mFormatter = formatter;
-        }
-
         @Override
         public void update(String title) {
-            getView().setText(mFormatter.decorate(title));
+            BannerButtonUi.this.update(title);
         }
     }
 }

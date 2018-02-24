@@ -17,17 +17,17 @@ import android.widget.TextView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
-    public TextUi(final T view, ReferenceValueGetter<String> getter) {
-        super(view, getter, new ViewValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return view.getText().toString().trim();
-            }
-        },new ViewValueSetter<String>() {
-            @Override
-            public void setValue(String value) {
-                view.setText(value);
-            }
-        });
+    public TextUi(final T view) {
+        super(view);
+    }
+
+    @Override
+    public String getViewValue() {
+        return getView().getText().toString().trim();
+    }
+
+    @Override
+    public void setViewValue(String s) {
+        getView().setText(s);
     }
 }

@@ -25,9 +25,9 @@ public abstract class FormattedSectionUi<Value> extends ViewUi<LinearLayout, Val
     private static final int VALUE = R.id.section_value;
 
 
-    public FormattedSectionUi(LinearLayout view, ReferenceValueGetter<Value> getter, String title) {
-        super(view, getter);
-        TextView titleView = (TextView)getView().findViewById(TITLE);
+    public FormattedSectionUi(LinearLayout view, String title) {
+        super(view);
+        TextView titleView = getView().findViewById(TITLE);
         titleView.setText(title);
     }
 

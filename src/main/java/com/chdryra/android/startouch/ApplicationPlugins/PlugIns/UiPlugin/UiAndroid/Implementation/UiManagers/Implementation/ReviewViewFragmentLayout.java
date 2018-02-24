@@ -152,7 +152,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER), DECORATOR);
+        return new BannerButtonUi((Button) mView.findViewById(BANNER), reviewView, DECORATOR);
     }
 
     @NonNull

@@ -28,6 +28,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
         .Fragments.Styles;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.R;
@@ -153,7 +154,9 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi(reviewView, (Button) mView.findViewById(BANNER), BANNER_DECORATOR);
+        ButtonAction<?> action = reviewView.getActions().getBannerButtonAction();
+        int alpha = reviewView.getParams().getBannerButtonParams().getAlpha();
+        return new BannerButtonUi((Button) mView.findViewById(BANNER), action, BANNER_DECORATOR, alpha);
     }
 
     @NonNull

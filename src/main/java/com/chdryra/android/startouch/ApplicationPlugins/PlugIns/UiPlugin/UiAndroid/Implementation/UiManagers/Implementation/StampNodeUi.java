@@ -28,9 +28,9 @@ import java.util.Date;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StampNodeUi extends ViewUi<TextView, AuthorRef> implements ViewUiBinder.BindableViewUi<AuthorName>{
+public class StampNodeUi extends ViewUi<TextView, AuthorRef> implements Bindable<AuthorName> {
     private DataDate mDate;
-    private ViewUiBinder<AuthorName> mBinder;
+    private ViewUiBinderOld<AuthorName> mBinder;
 
     public StampNodeUi(TextView stamp, final ReviewNode node, final AuthorsRepo repo) {
         super(stamp, new ReferenceValueGetter<AuthorRef>() {
@@ -39,7 +39,7 @@ public class StampNodeUi extends ViewUi<TextView, AuthorRef> implements ViewUiBi
                 return repo.getReference(node.getAuthorId());
             }
         });
-        mBinder = new ViewUiBinder<>(this);
+        mBinder = new ViewUiBinderOld<>(this);
         mDate = node.getPublishDate();
     }
 

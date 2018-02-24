@@ -20,22 +20,16 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ViewUiBinder<T> implements ValueBinder<T> {
+public class ViewUiBinderOld<T> implements ValueBinder<T> {
     private final ViewUi<?, ? extends DataReference<T>> mView;
-    private final BindableViewUi<T> mCastView;
+    private final Bindable<T> mCastView;
 
     private boolean mIsBound = false;
 
-    public interface BindableViewUi<T> {
-        void update(T value);
-
-        void onInvalidated();
-    }
-
-    ViewUiBinder(ViewUi<?, ? extends DataReference<T>> view) {
+    ViewUiBinderOld(ViewUi<?, ? extends DataReference<T>> view) {
         mView = view;
         try {
-            mCastView = (BindableViewUi<T>)mView;
+            mCastView = (Bindable<T>)mView;
         } catch (Exception e) {
             throw new IllegalArgumentException("View should implement BindableViewUi!");
         }

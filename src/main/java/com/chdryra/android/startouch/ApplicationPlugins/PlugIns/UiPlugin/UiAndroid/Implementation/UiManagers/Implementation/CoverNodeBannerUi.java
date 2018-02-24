@@ -29,9 +29,7 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
  * This doesn't work very well as binding is lost if cover deleted due to null path.
  * Maybe should dereference instead.
  */
-public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<DataImage>>
-        implements ViewUiBinder.BindableViewUi<DataImage>{
-    private final ViewUiBinder<DataImage> mBinder;
+public class CoverNodeBannerUi extends ViewUi<ImageView, DataImage> {
     private final DataReference<ProfileImage> mProfileImage;
     private final Bitmap mPlaceholder;
     private ProfileImageSubscriber mProfileImageBinder;
@@ -58,7 +56,6 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
         mPlaceholder = placeholder;
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
-        mBinder = new ViewUiBinder<>(this);
     }
 
     @Override
@@ -84,11 +81,6 @@ public class CoverNodeBannerUi extends ViewUi<ImageView, ReviewItemReference<Dat
     @Override
     public void onInvalidated() {
         update(new DatumImage());
-    }
-
-    @Override
-    public void update() {
-        mBinder.bind();
     }
 
     private void setCover(@Nullable Bitmap image) {

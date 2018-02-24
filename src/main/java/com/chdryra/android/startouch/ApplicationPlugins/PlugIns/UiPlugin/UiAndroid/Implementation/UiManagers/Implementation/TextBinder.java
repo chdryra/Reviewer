@@ -9,19 +9,20 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
+
 import android.widget.TextView;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ValueBinder;
+        .UiManagers.Interfaces.ReferenceBinder;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 22/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
-public class TextBinder<T> implements ValueBinder<T> {
+public class TextBinder<T> implements ReferenceBinder<T> {
     private static final String INVALID_REFERENCE = "Invalid reference";
     private final DataReference<T> mReference;
     private final StringGetter<T> mGetter;
