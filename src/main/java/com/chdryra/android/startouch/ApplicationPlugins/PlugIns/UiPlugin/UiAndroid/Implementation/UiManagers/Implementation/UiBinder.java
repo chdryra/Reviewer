@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
         .Implementation.UiManagers.Implementation;
 
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ValueBinder;
 
 /**
@@ -18,46 +19,40 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ViewUiValueBinder<T> implements ValueBinder {
+public class UiBinder<T> implements ValueBinder, DataReference.ValueSubscriber<T> {
     private final Bindable<T> mBindable;
-    private final ValueGetter<T> mGetter;
+    private final DataReference<T> mReference;
 
     private boolean mIsBound = false;
 
-    public interface ValueGetter<T> {
-        T getData();
-    }
-
-    public ViewUiValueBinder(Bindable<T> bindable, ValueGetter<T> getter) {
+    public UiBinder(Bindable<T> bindable, DataReference<T> reference) {
         mBindable = bindable;
-        mGetter = getter;
+        mReference = reference;
     }
 
     @Override
     public void bind() {
         if (!mIsBound) {
+            mReference.subscribe(this);
             mIsBound = true;
-            doBinding();
         }
     }
 
     @Override
     public void unbind() {
         if (mIsBound) {
-            doUnbinding();
+            mReference.unsubscribe(this);
             mIsBound = false;
         }
     }
 
-    private void doUnbinding() {
-
+    @Override
+    public void onReferenceValue(T value) {
+        mBindable.update(value);
     }
 
-    boolean isBound() {
-        return mIsBound;
-    }
-
-    private void doBinding() {
-        mBindable.update(mGetter.getData());
+    @Override
+    public void onInvalidated(DataReference<T> reference) {
+        mBindable.onInvalidated();
     }
 }

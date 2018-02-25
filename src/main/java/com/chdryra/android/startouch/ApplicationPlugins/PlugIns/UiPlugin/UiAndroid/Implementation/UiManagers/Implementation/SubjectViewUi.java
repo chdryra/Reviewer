@@ -12,20 +12,24 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 import android.widget.TextView;
 
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 26/05/2016
+ * On: 05/08/2017
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectViewUi extends SubjectRvUi<TextView> {
-    public SubjectViewUi(final ReviewView<?> reviewView, TextView view) {
-        super(view, reviewView.getParams().getSubjectParams(), new ViewUi.ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return reviewView.getSubject();
-            }
-        });
+
+public class SubjectViewUi<T extends TextView> extends SubjectUi<T> {
+    private ReviewViewParams.Subject mParams;
+
+    public SubjectViewUi(T view, ReviewViewParams.Subject params) {
+        super(view);
+        mParams = params;
+        setBackgroundAlpha(mParams.getAlpha());
+    }
+
+    public ReviewViewParams.Subject getParams() {
+        return mParams;
     }
 }

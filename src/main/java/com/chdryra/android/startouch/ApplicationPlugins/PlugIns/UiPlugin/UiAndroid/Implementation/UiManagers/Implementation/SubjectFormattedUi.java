@@ -9,12 +9,16 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
+
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.Command;
 
@@ -23,20 +27,23 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectNodeUi extends TextUi<TextView> {
-    public SubjectNodeUi(TextView view, final ReviewNode node, @Nullable final Command onClick) {
-        super(view, new ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return node.getSubject().getSubject();
-            }
-        });
+public class SubjectFormattedUi extends SimpleViewUi<TextView, DataSubject> {
+    private ReviewId mReviewId;
+
+    public SubjectFormattedUi(TextView view, @Nullable final Command onClick) {
+        super(view);
         if(onClick != null) setOnClickCommand(onClick);
     }
 
     @Override
-    public void update() {
-        String subject = getReferenceValue();
+    DataSubject getViewValue() {
+        ReviewId reviewId = mReviewId != null ? mReviewId : new DatumReviewId();
+        return new DatumSubject(reviewId, getView().getText().toString().trim());
+    }
+
+    @Override
+    public void update(DataSubject value) {
+        String subject = value.getSubject();
         TextView view = getView();
         if(subject.length() > 0) {
             view.setText(subject);
@@ -44,5 +51,6 @@ public class SubjectNodeUi extends TextUi<TextView> {
             view.setTypeface(view.getTypeface(), Typeface.ITALIC);
             view.setText(Strings.Formatted.NO_SUBJECT);
         }
+        mReviewId = value.getReviewId();
     }
 }

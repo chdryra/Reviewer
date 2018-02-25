@@ -33,6 +33,11 @@ public abstract class ViewUi<V extends View, Value> implements Bindable<Value> {
         mView = view;
     }
 
+    ViewUi(V view, @Nullable Command onClick) {
+        mView = view;
+        setOnClickCommand(onClick);
+    }
+
     public V getView() {
         return mView;
     }

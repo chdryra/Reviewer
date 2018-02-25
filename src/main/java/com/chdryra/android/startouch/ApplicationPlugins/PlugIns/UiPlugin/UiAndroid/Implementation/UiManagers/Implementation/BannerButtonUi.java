@@ -29,7 +29,12 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
         super(view);
         mDecorator = decorator;
         mAction = action;
-        mAction.setTitle(new ButtonTitle());
+        mAction.setTitle(new ButtonAction.ButtonTitle() {
+            @Override
+            public void update(String title) {
+                BannerButtonUi.this.update(title);
+            }
+        });
         setClickable();
         setBackgroundAlpha(alpha);
     }
@@ -52,12 +57,5 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
     @Override
     public boolean onLongClick(View v) {
         return mAction.onLongClick(v);
-    }
-
-    private class ButtonTitle implements ButtonAction.ButtonTitle {
-        @Override
-        public void update(String title) {
-            BannerButtonUi.this.update(title);
-        }
     }
 }

@@ -112,12 +112,12 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @Override
     public void update(boolean forceSubject) {
-        mSubject.update(forceSubject);
-        mRatingBar.update();
-        mBannerButton.update();
-        mDataView.update();
-        mContextual.update();
-        mCover.update();
+//        mSubject.update(forceSubject);
+//        mRatingBar.update();
+//        mBannerButton.update();
+//        mDataView.update();
+//        mContextual.update();
+//        mCover.update();
     }
 
     @Override

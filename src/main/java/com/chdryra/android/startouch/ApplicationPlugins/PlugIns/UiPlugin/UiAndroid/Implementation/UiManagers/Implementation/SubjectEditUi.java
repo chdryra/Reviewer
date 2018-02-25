@@ -29,17 +29,18 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditUi extends SubjectRvUi<EditText> {
+public class SubjectEditUi extends SubjectViewUi<EditText> {
     private SubjectAction<?> mSubjectAction;
     private CharSequence mHint;
 
     public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
-        super(view, reviewView.getParams().getSubjectParams(), new ReferenceValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return reviewView.getSubject();
-            }
-        });
+        super(view, reviewView.getParams().getSubjectParams());
+//        new ReferenceValueGetter<String>() {
+//            @Override
+//            public String getValue() {
+//                return reviewView.getSubject();
+//            }
+//        });
         initialise(reviewView);
     }
 
@@ -68,8 +69,6 @@ public class SubjectEditUi extends SubjectRvUi<EditText> {
 
             editText.addTextChangedListener(newSubjectChangeListener());
         }
-
-        update();
     }
 
     private void setSubject() {

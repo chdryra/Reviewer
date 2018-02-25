@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 public class Styles {
     public static class TitleDecorators {
         public static final TitleDecorator NONE = TitleDecorator.NO_DECOR;
-        public static final TitleDecorator OPTION_BUTTON = new TitleDecorator("/", "", TitleDecorator.Style.END);
+        public static final TitleDecorator OPTION_BUTTON = new TitleDecorator("/", "", TitleDecorator.Style.START);
         public static final TitleDecorator DONE_BUTTON = new TitleDecorator("-", " ", TitleDecorator.Style.WRAP);
     }
 }
