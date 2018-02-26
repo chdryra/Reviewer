@@ -32,6 +32,6 @@ public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcel
 
     @Override
     public void onTextChanged(CharSequence s) {
-
+        onKeyboardDone(s);
     }
 }

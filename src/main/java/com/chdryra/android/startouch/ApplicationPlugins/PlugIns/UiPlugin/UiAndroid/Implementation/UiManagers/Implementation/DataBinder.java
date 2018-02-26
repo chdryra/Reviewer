@@ -19,13 +19,13 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class UiBinder<T> implements ValueBinder, DataReference.ValueSubscriber<T> {
+public class DataBinder<T> implements ValueBinder, DataReference.ValueSubscriber<T> {
     private final Bindable<T> mBindable;
     private final DataReference<T> mReference;
 
     private boolean mIsBound = false;
 
-    public UiBinder(Bindable<T> bindable, DataReference<T> reference) {
+    public DataBinder(Bindable<T> bindable, DataReference<T> reference) {
         mBindable = bindable;
         mReference = reference;
     }

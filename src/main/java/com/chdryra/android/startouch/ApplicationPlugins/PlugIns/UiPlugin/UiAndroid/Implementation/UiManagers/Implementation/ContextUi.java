@@ -9,11 +9,11 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
@@ -22,34 +22,35 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 public class ContextUi extends SimpleViewUi<Button, String> {
+    private final TitleDecorator mDecorator;
     private final ButtonAction<?> mAction;
-    private boolean mIsVisible = true;
 
 //    public String getValue() {
 //        ButtonAction<?> action = reviewView.getActions().getContextualAction();
 //        return action != null ? action.getButtonTitle() : "";
 //    }
 //
-    public ContextUi(final ReviewView<?> reviewView, final View view, final int buttonId, final TitleDecorator formatter) {
-        super((Button) view.findViewById(buttonId), new ViewValueGetter<String>() {
-            @Override
-            public String getValue() {
-                return formatter.unDecorate(((Button) view.findViewById(buttonId)).getText().toString().trim());
-            }
-        }, new ViewValueSetter<String>() {
-            @Override
-            public void setValue(String value) {
-                ((Button) view.findViewById(buttonId)).setText(formatter.decorate(value));
-            }
-        });
-        mAction = reviewView.getActions().getContextualAction();
-        initialise(view, reviewView.getParams().getContextViewParams());
+    public ContextUi(View view, int buttonId, @Nullable ButtonAction<?> action, ReviewViewParams.ContextView params,
+                     TitleDecorator decorator) {
+        super((Button) view.findViewById(buttonId));
+        mAction = action;
+        mDecorator = decorator;
+        initialise(view, params);
+    }
+
+    @Override
+    public void update(String value) {
+        getView().setText(mDecorator.decorate(value));
+    }
+
+    @Override
+    String getViewValue() {
+        return mDecorator.unDecorate(getView().getText().toString().trim());
     }
 
     private void initialise(View layout, ReviewViewParams.ContextView params) {
         if (mAction == null) {
             layout.setVisibility(View.GONE);
-            mIsVisible = false;
             return;
         }
 

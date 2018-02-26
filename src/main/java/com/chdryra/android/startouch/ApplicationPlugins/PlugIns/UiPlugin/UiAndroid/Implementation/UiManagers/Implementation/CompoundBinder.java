@@ -19,8 +19,8 @@ import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class UiCompoundBinder<T> extends UiBinder<T> {
-    private final UiBinder<?> mBinder;
+public class CompoundBinder<T> extends DataBinder<T> {
+    private final DataBinder<?> mBinder;
     private final BinderEvent<T> mEvent;
 
     private boolean mIsSubstitute = false;
@@ -29,10 +29,10 @@ public class UiCompoundBinder<T> extends UiBinder<T> {
         boolean bindOnValue(T value);
     }
 
-    public UiCompoundBinder(Bindable<T> bindable,
-                            DataReference<T> reference,
-                            UiBinder<?> binder,
-                            BinderEvent<T> event) {
+    public CompoundBinder(Bindable<T> bindable,
+                          DataReference<T> reference,
+                          DataBinder<?> binder,
+                          BinderEvent<T> event) {
         super(bindable, reference);
         mBinder = binder;
         mEvent = event;

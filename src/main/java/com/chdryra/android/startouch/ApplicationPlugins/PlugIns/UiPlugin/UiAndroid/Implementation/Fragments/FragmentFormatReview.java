@@ -37,25 +37,44 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFormatReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CommentFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CoverFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.DataExpandableUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.GvDataAdapterBindable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.HorizontalGridUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ImagesSizeUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuOptionsAppLevel;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUpAppLevel;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ProfileFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.RatingFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.StampFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.SubjectFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.TagsFormattedUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.UiBinder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.UiCompoundBinder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ViewUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityFormatReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CommentFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CoverFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.DataExpandableUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.GvDataAdapterBindable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.HorizontalGridUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ImagesSizeUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuOptionsAppLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUpAppLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ProfileFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.RatingFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.StampFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.SubjectFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.TagsFormattedUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.DataBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CompoundBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ViewUi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
@@ -82,27 +101,44 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiOptionsCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUpAppLevel;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterionFormatted;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFactFormatted;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFactory;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocationFormatted;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhCriterionFormatted;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhFactFormatted;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhImage;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhLocationFormatted;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -112,6 +148,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
+//TODO refactor into MVP pattern
 public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment implements
         DataReference.InvalidationListener,
         OptionSelectListener {
@@ -143,20 +180,19 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private boolean mIsPublished = true;
     private ReviewNode mNode;
-    private UiSuite mUi;
-    private RepositorySuite mRepo;
+    //private RepositorySuite getRepo().
     private MenuUi mMenu;
 
-    private UiBinder<DataImage> mCover;
-    private UiBinder<DataSubject> mSubject;
-    private UiBinder<DataRating> mRating;
-    private UiBinder<AuthorName> mStamp;
-    private UiBinder<IdableList<DataTag>> mTags;
-    private UiBinder<IdableList<DataComment>> mComment;
-    private UiBinder<IdableList<DataLocation>> mLocations;
-    private UiBinder<IdableList<DataCriterion>> mCriteria;
-    private UiBinder<IdableList<DataFact>> mFacts;
-    private UiBinder<DataSize> mImages;
+    private DataBinder<DataImage> mCover;
+    private DataBinder<DataSubject> mSubject;
+    private DataBinder<DataRating> mRating;
+    private DataBinder<AuthorName> mStamp;
+    private DataBinder<IdableList<DataTag>> mTags;
+    private DataBinder<IdableList<DataComment>> mComment;
+    private DataBinder<IdableList<DataLocation>> mLocations;
+    private DataBinder<IdableList<DataCriterion>> mCriteria;
+    private DataBinder<IdableList<DataFact>> mFacts;
+    private DataBinder<DataSize> mImages;
 
     public static FragmentFormatReview newInstance(String nodeId, boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
@@ -200,8 +236,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         }
 
         mIsPublished = args.getBoolean(PUBLISHED);
-        mUi = getApp().getUi();
-        mRepo = getApp().getRepository();
 
         setNode(args);
         setMenu();
@@ -244,12 +278,32 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     @Override
     public void onStart() {
         super.onStart();
+        mCover.bind();
+        mSubject.bind();
+        mRating.bind();
+        mStamp.bind();
+        mTags.bind();
+        mComment.bind();
+        mLocations.bind();
+        mCriteria.bind();
+        mFacts.bind();
+        mImages.bind();
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        mCover.unbind();
+        mSubject.unbind();
+        mRating.unbind();
+        mStamp.unbind();
+        mTags.unbind();
+        mComment.unbind();
+        mLocations.unbind();
+        mCriteria.unbind();
+        mFacts.unbind();
+        mImages.unbind();
     }
 
     @Override
@@ -268,14 +322,6 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         return context;
     }
 
-    private FactoryLaunchCommands getCommandsFactory() {
-        return mUi.getCommandsFactory();
-    }
-
-    private ConverterGv getConverter() {
-        return mUi.getGvConverter();
-    }
-
     private ActivityFormatReview getContainer() {
         try {
             return (ActivityFormatReview) getActivity();
@@ -288,10 +334,20 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         return AppInstanceAndroid.getInstance(getContext());
     }
 
-    private void noReview() {
-        CurrentScreen currentScreen = getApp().getUi().getCurrentScreen();
-        currentScreen.showToast(Strings.Toasts.REVIEW_NOT_FOUND);
-        currentScreen.close();
+    private RepositorySuite getRepo() {
+        return getApp().getRepository();
+    }
+
+    private UiSuite getUi() {
+        return getApp().getUi();
+    }
+
+    private FactoryLaunchCommands getCommandsFactory() {
+        return getUi().getCommandsFactory();
+    }
+
+    private ConverterGv getConverter() {
+        return getUi().getGvConverter();
     }
 
     private void setNode(Bundle args) {
@@ -331,10 +387,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private void bindCover(ImageView view) {
-        FragmentActivity activity = getActivity();
-        if (activity == null) return;
-
-        CellDimensionsCalculator calculator = new CellDimensionsCalculator(activity);
+        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getContainer());
         CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(FULL, FULL, 0);
         view.getLayoutParams().width = dims.getCellWidth();
         view.getLayoutParams().height = dims.getCellHeight();
@@ -346,59 +399,69 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         ProfileFormattedUi profileUi = new ProfileFormattedUi(view, IMAGE_PLACEHOLDER, images);
 
         DataReference<DataImage> cover;
-        if(mNode.isLeaf() && mNode.getReference() != null) {
+        if (mNode.isLeaf() && mNode.getReference() != null) {
             //More efficient this way.
             cover = mNode.getReference().getCover();
         } else {
             cover = mNode.getCover();
         }
-        DataReference<ProfileImage> profile = mRepo.getAuthors().getAuthorProfile(mNode
+        DataReference<ProfileImage> profile = getRepo().getAuthors().getAuthorProfile(mNode
                 .getAuthorId()).getProfileImage();
 
-        UiBinder<ProfileImage> profileBinder = new UiBinder<>(profileUi, profile);
-        mCover = new UiCompoundBinder<>(coverUi, cover, profileBinder,
-                new UiCompoundBinder.BinderEvent<DataImage>() {
-            @Override
-            public boolean bindOnValue(DataImage value) {
-                return value.getBitmap() == null;
-            }
-        });
+        DataBinder<ProfileImage> profileBinder = new DataBinder<>(profileUi, profile);
+        mCover = new CompoundBinder<>(coverUi, cover, profileBinder,
+                new CompoundBinder.BinderEvent<DataImage>() {
+                    @Override
+                    public boolean bindOnValue(DataImage value) {
+                        return value.getBitmap() == null;
+                    }
+                });
     }
 
     private void bindSubject(TextView view) {
-        mSubject = new UiBinder<>(new SubjectFormattedUi(view, null), new SubjectReference(mNode));
+        mSubject = new DataBinder<>(new SubjectFormattedUi(view, null),
+                new SubjectReference(mNode));
     }
 
     private void bindRating(RatingBar view) {
-        mRating = new UiBinder<>(new RatingFormattedUi(view, null), new RatingReference(mNode));
+        mRating = new DataBinder<>(new RatingFormattedUi(view, null),
+                new RatingReference(mNode));
     }
 
     private void bindStamp(TextView view) {
-        mStamp = new UiBinder<>(new StampFormattedUi(view, mNode.getPublishDate(), launchAuthor()),
-                mRepo.getAuthors().getReference(mNode.getAuthorId()));
+        mStamp = new DataBinder<>(new StampFormattedUi(view, mNode.getPublishDate(), launchAuthor
+                ()),
+                getRepo().getAuthors().getReference(mNode.getAuthorId()));
     }
 
     private void bindTags(TextView view) {
-        mTags = new UiBinder<>(new TagsFormattedUi(view, launchView(GvTag.TYPE)), mNode.getTags());
+        mTags = new DataBinder<>(new TagsFormattedUi(view, launchView(GvTag.TYPE)),
+                mNode.getTags());
     }
 
     private void bindComments(LinearLayout section, TextView headline) {
-        mComment = new UiBinder<>(new CommentFormattedUi(section, headline, launchView(GvComment.TYPE)), mNode.getComments());
+        mComment = new DataBinder<>(new CommentFormattedUi(section, headline,
+                launchView(GvComment.TYPE)), mNode.getComments());
     }
 
     private void bindLocations(LinearLayout section) {
-        mLocations = new UiBinder<>(newDataUi(section, Strings.Formatted.LOCATIONS, GvLocation.TYPE,
-                getConverter().newConverterLocations(), VhLocationFormatted.class, true), mNode.getLocations());
+        mLocations = new DataBinder<>(newDataUi(section, Strings.Formatted.LOCATIONS, GvLocation
+                        .TYPE,
+                getConverter().newConverterLocations(), VhLocationFormatted.class, true),
+                mNode.getLocations());
     }
 
     private void bindCriteria(LinearLayout section) {
-        mCriteria = new UiBinder<>(newDataUi(section, Strings.Formatted.CRITERIA, GvCriterion.TYPE,
-                getConverter().newConverterCriteria(), VhCriterionFormatted.class, true), mNode.getCriteria());
+        mCriteria = new DataBinder<>(newDataUi(section, Strings.Formatted.CRITERIA, GvCriterion
+                        .TYPE,
+                getConverter().newConverterCriteria(), VhCriterionFormatted.class, false),
+                mNode.getCriteria());
     }
 
     private void bindFacts(LinearLayout section) {
-        mFacts = new UiBinder<>(newDataUi(section, Strings.Formatted.FACTS, GvFact.TYPE,
-                getConverter().newConverterFacts(), VhFactFormatted.class, true), mNode.getFacts());
+        mFacts = new DataBinder<>(newDataUi(section, Strings.Formatted.FACTS, GvFact.TYPE,
+                getConverter().newConverterFacts(), VhFactFormatted.class, false),
+                mNode.getFacts());
     }
 
     private void bindImages(LinearLayout section) {
@@ -414,17 +477,18 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         RecyclerView grid = section.findViewById(DATA);
         ViewUi<RecyclerView, IdableList<DataImage>> imagesView = newGridUi
                 (grid, VhImage.class, (int) padding, dims, getConverter().newConverterImages());
+
         ImagesSizeUi imagesSizeUi = new ImagesSizeUi(section);
         DataListRef<DataImage> images = mNode.getImages();
+        DataBinder<IdableList<DataImage>> imagesBinder = new DataBinder<>(imagesView, images);
 
-        UiBinder<IdableList<DataImage>> imagesBinder = new UiBinder<>(imagesView, images);
-        mImages = new UiCompoundBinder<>(imagesSizeUi, images.getSize(), imagesBinder,
-                new UiCompoundBinder.BinderEvent<DataSize>() {
-            @Override
-            public boolean bindOnValue(DataSize value) {
-                return value.getSize() > 0;
-            }
-        });
+        mImages = new CompoundBinder<>(imagesSizeUi, images.getSize(), imagesBinder,
+                new CompoundBinder.BinderEvent<DataSize>() {
+                    @Override
+                    public boolean bindOnValue(DataSize value) {
+                        return value.getSize() > 0;
+                    }
+                });
 
     }
 
@@ -451,11 +515,11 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     }
 
     private Command newLaunchViewCommand(GvDataType<?> dataType) {
-        return getCommandsFactory().newLaunchViewCommand(mUi.newDataView(mNode, dataType));
+        return getCommandsFactory().newLaunchViewCommand(getUi().newDataView(mNode, dataType));
     }
 
     private Command launchAuthor() {
-        return mUi.getCommandsFactory().newLaunchProfileCommand(mNode.getAuthorId());
+        return getUi().getCommandsFactory().newLaunchProfileCommand(mNode.getAuthorId());
     }
 
     private <T extends HasReviewId, G extends GvData> DataExpandableUi<T>
@@ -466,7 +530,8 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
               Class<? extends ViewHolder> vhClass,
               boolean setLaunchOnClick) {
         DataExpandableUi<T> ui
-                = new DataExpandableUi<>(getContext(), layout, title, newVhFactory(vhClass), converter);
+                = new DataExpandableUi<>(getContext(), layout, title, newVhFactory(vhClass),
+                converter);
 
         if (setLaunchOnClick) setLaunchOnClick(ui, launchView(dataType));
 
@@ -489,14 +554,20 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         };
     }
 
+    private void noReview() {
+        CurrentScreen currentScreen = getUi().getCurrentScreen();
+        currentScreen.showToast(Strings.Toasts.REVIEW_NOT_FOUND);
+        currentScreen.close();
+    }
+
     private LinearLayout getSection(View v, int id) {
         return (LinearLayout) v.findViewById(id);
     }
 
-    public static class SubjectReference extends DereferencableBasic<DataSubject> {
+    private static class SubjectReference extends DereferencableBasic<DataSubject> {
         private final ReviewNode mNode;
 
-        public SubjectReference(ReviewNode node) {
+        private SubjectReference(ReviewNode node) {
             mNode = node;
         }
 
@@ -506,10 +577,10 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         }
     }
 
-    public static class RatingReference extends DereferencableBasic<DataRating> {
+    private static class RatingReference extends DereferencableBasic<DataRating> {
         private final ReviewNode mNode;
 
-        public RatingReference(ReviewNode node) {
+        private RatingReference(ReviewNode node) {
             mNode = node;
         }
 

@@ -55,9 +55,9 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private View mView;
 
     private MenuUi mMenu;
-    private SimpleViewUi<?, Bitmap> mCover;
+    private CoverRvUi mCover;
     private SubjectUi<?> mSubject;
-    private SimpleViewUi<?, Float> mRatingBar;
+    private RatingBarUi mRatingBar;
     private ViewUi<?, ?> mBannerButton;
     private GridViewUi<?, ?> mDataView;
     private ViewUi<?, ?> mContextual;
@@ -76,7 +76,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
         mRatingBar = newRatingUi(reviewView);
         mBannerButton = newBannerButtonUi(reviewView);
         mDataView = newDataViewUi(reviewView, calculator);
-        mCover = newCoverUi(reviewView);
+        mCover = newCoverUi();
         mContextual = newContextUi(reviewView);
     }
 
@@ -102,12 +102,12 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @Override
     public void setRating(float rating) {
-        mRatingBar.setViewValue(rating);
+        mRatingBar.update(rating);
     }
 
     @Override
     public void setCover(@Nullable Bitmap cover) {
-        mCover.setViewValue(cover);
+        mCover.update(cover);
     }
 
     @Override
@@ -132,12 +132,13 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private ViewUi<?, ?> newContextUi(ReviewView<?> reviewView) {
-        return new ContextUi(reviewView, mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON, CONTEXT_DECORATOR);
+        return new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
+                reviewView.getActions().getContextualAction(), reviewView.getParams().getContextViewParams(), CONTEXT_DECORATOR);
     }
 
     @NonNull
-    private CoverUi newCoverUi(ReviewView<?> reviewView) {
-        return new CoverRvUi(reviewView, (ImageView) mView.findViewById(COVER), mDataView);
+    private CoverRvUi newCoverUi() {
+        return new CoverRvUi((ImageView) mView.findViewById(COVER), mDataView);
     }
 
     @NonNull
@@ -148,7 +149,9 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     @NonNull
     private <T extends GvData> GridViewUi<?, ?> newDataViewUi(ReviewView<T> reviewView,
                                                               CellDimensionsCalculator calculator) {
-        return new RecyclerViewUi<>(reviewView, (RecyclerView) mView.findViewById(GRID),
+        return new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
+                reviewView.getActions().getGridItemAction(),
+                reviewView.getParams().getGridViewParams(),
                 calculator);
     }
 
@@ -160,12 +163,15 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingBarRvUi(reviewView, (FrameLayout) mView.findViewById(RATING));
+    private RatingBarUi newRatingUi(ReviewView<?> reviewView) {
+        return new RatingBarRvUi((FrameLayout) mView.findViewById(RATING),
+                reviewView.getActions().getRatingBarAction(),
+                reviewView.getParams().getRatingBarParams());
     }
 
     @NonNull
     private SubjectUi<?> newSubjectUi(ReviewView<?> reviewView) {
-        return new SubjectEditUi(reviewView, (EditText) mView.findViewById(SUBJECT));
+        return new SubjectEditUi((EditText) mView.findViewById(SUBJECT),
+                reviewView.getActions().getSubjectAction(), reviewView.getParams().getSubjectParams());
     }
 }

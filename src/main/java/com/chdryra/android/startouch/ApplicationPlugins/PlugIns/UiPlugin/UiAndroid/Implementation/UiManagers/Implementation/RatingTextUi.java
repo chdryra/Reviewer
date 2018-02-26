@@ -21,34 +21,31 @@ import com.chdryra.android.startouch.Utils.RatingFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingTextUi extends RatingUi<TextView> {
+    private final ReviewView<?> mView;
+    private float mRating = 0;
 
     public RatingTextUi(final ReviewView<?> reviewView, final TextView ratingView) {
-        super(ratingView, new ReferenceValueGetter<Float>() {
-                    @Override
-                    public Float getValue() {
-                        return reviewView.getRating();
-                    }
-                }, new ViewValueGetter<Float>() {
-                    @Override
-                    public Float getValue() {
-                        return Float.valueOf(ratingView.getText().toString());
-                    }
-                },
-                new ViewValueSetter<Float>() {
-                    @Override
-                    public void setValue(Float value) {
-                        ratingView.setText(formatRating(reviewView));
-                    }
-                });
+        super(ratingView);
 
+        mView = reviewView;
         setBackgroundAlpha(reviewView.getParams().getBannerButtonParams().getAlpha());
     }
 
-    private static String formatRating(ReviewView<?> reviewView) {
-        String rating = RatingFormatter.twoSignificantDigits(reviewView.getRating()
-        ) + "*";
-        String reviews = "(" + reviewView.getGridData().size() + ")";
+    @Override
+    public void update(Float value) {
+        mRating = value;
+        getView().setText(formatRating());
+    }
 
-        return rating + " " + reviews;
+    @Override
+    Float getViewValue() {
+        return mRating;
+    }
+
+    private String formatRating() {
+        String formatted = RatingFormatter.twoSignificantDigits(mRating) + "*";
+        String reviews = "(" + mView.getGridData().size() + ")";
+
+        return formatted + " " + reviews;
     }
 }

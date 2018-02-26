@@ -12,6 +12,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 /**
@@ -20,17 +21,17 @@ import android.widget.ImageView;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class CoverUi extends SimpleViewUi<ImageView, Bitmap> {
-    public CoverUi(final ImageView view, ReferenceValueGetter<Bitmap> getter) {
-        super(view, getter, new ViewValueGetter<Bitmap>() {
-            @Override
-            public Bitmap getValue() {
-                return ((BitmapDrawable)view.getDrawable()).getBitmap();
-            }
-        }, new ViewValueSetter<Bitmap>() {
-            @Override
-            public void setValue(Bitmap value) {
-                view.setImageBitmap(value);
-            }
-        });
+    public CoverUi(ImageView view) {
+        super(view);
+    }
+
+    @Override
+    public void update(@Nullable Bitmap value) {
+        getView().setImageBitmap(value);
+    }
+
+    @Override
+    Bitmap getViewValue() {
+        return ((BitmapDrawable)getView().getDrawable()).getBitmap();
     }
 }

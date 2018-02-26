@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.v7.widget.GridLayoutManager;
@@ -19,7 +20,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -31,22 +31,15 @@ import com.chdryra.android.startouch.R;
 public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T> implements
         RecyclerAdapterBasic.OnItemClickListener<T>, OptionSelectListener {
     private static final int SPACING = R.dimen.grid_spacing;
-    private final GridItemAction<T> mClickAction;
+    private final GridItemAction<T> mAction;
     private final CellDimensionsCalculator.Dimensions mDims;
     private final GridLayoutManager mManager;
 
-    public RecyclerViewUi(final ReviewView<T> reviewView,
-                          RecyclerView view,
+    public RecyclerViewUi(RecyclerView view,
+                          GridItemAction<T> action,
+                          ReviewViewParams.GridView params,
                           CellDimensionsCalculator calculator) {
-        super(view,
-                new ReferenceValueGetter<GvDataList<T>>() {
-            @Override
-            public GvDataList<T> getValue() {
-                return reviewView.getGridData();
-            }
-        });
-
-        ReviewViewParams.GridView params = reviewView.getParams().getGridViewParams();
+        super(view);
 
         int span = params.getCellWidth().getDivider();
         mManager = new GridLayoutManager(getView().getContext(), span);
@@ -55,25 +48,27 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
         getView().addItemDecoration(new GridItemDecoration(span, spacing, false));
         mDims = calculator.calcDimensions(params.getCellWidth(), params.getCellHeight(), 0);
 
-        mClickAction = reviewView.getActions().getGridItemAction();
-
-        update();
+        mAction = action;
     }
 
     @Override
-    public void update() {
-        getView().setAdapter(new GvDataAdapter<>(getReferenceValue(), mDims.getCellWidth(),
-                mDims.getCellHeight(), this));
+    public void update(GvDataList<T> value) {
+        setAdapter(value);
+    }
+
+    @Override
+    public void onInvalidated() {
+
     }
 
     @Override
     public void onItemClick(T datum, int position, View v) {
-        mClickAction.onGridItemClick(datum, position, v);
+        mAction.onGridItemClick(datum, position, v);
     }
 
     @Override
     public void onItemLongClick(T datum, int position, View v) {
-        mClickAction.onGridItemLongClick(datum, position, v);
+        mAction.onGridItemLongClick(datum, position, v);
     }
 
     @Override
@@ -81,13 +76,13 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
         boolean consumed = false;
         int first = mManager.findFirstVisibleItemPosition();
         int last = mManager.findLastVisibleItemPosition();
-        for(int i = first; i < last + 1; ++i) {
+        for (int i = first; i < last + 1; ++i) {
             GvDataAdapter.ViewHolderOptionable<T> delegate = getClickDelegate(i);
-            if(delegate != null) consumed = delegate.onOptionSelected(requestCode, option);
-            if(consumed) break;
+            if (delegate != null) consumed = delegate.onOptionSelected(requestCode, option);
+            if (consumed) break;
         }
 
-        return consumed || mClickAction.onOptionSelected(requestCode, option);
+        return consumed || mAction.onOptionSelected(requestCode, option);
     }
 
     @Override
@@ -95,13 +90,18 @@ public class RecyclerViewUi<T extends GvData> extends GridViewUi<RecyclerView, T
         boolean consumed = false;
         int first = mManager.findFirstVisibleItemPosition();
         int last = mManager.findLastVisibleItemPosition();
-        for(int i = first; i < last + 1; ++i) {
+        for (int i = first; i < last + 1; ++i) {
             GvDataAdapter.ViewHolderOptionable<T> delegate = getClickDelegate(i);
-            if(delegate != null) consumed = delegate.onOptionsCancelled(requestCode);
-            if(consumed) break;
+            if (delegate != null) consumed = delegate.onOptionsCancelled(requestCode);
+            if (consumed) break;
         }
 
-        return consumed || mClickAction.onOptionsCancelled(requestCode);
+        return consumed || mAction.onOptionsCancelled(requestCode);
+    }
+
+    private void setAdapter(GvDataList<T> value) {
+        getView().setAdapter(new GvDataAdapter<>(value, mDims.getCellWidth(),
+                mDims.getCellHeight(), this));
     }
 
     private GvDataAdapter.ViewHolderOptionable<T> getClickDelegate(int position) {

@@ -14,37 +14,22 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class CoverRvUi extends CoverUi{
-    private final ReviewView mReviewView;
     private final GridViewUi<?, ?> mGridView;
 
-    public CoverRvUi(ReviewView reviewView, ImageView view, GridViewUi<?, ?> gridView) {
-        super(view, new ReferenceValueGetter<Bitmap>() {
-            @Override
-            @Nullable
-            public Bitmap getValue() {
-                return null;
-            }
-        });
-        mReviewView = reviewView;
+    public CoverRvUi(ImageView view, GridViewUi<?, ?> gridView) {
+        super(view);
         mGridView = gridView;
     }
 
     @Override
-    public void update() {
-        mReviewView.updateCover();
-    }
-
-    @Override
-    public void setViewValue(@Nullable Bitmap image) {
-        super.setViewValue(image);
+    public void update(@Nullable Bitmap image) {
+        super.update(image);
         if (image != null) {
             mGridView.setTransparent();
         } else {

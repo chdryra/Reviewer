@@ -18,18 +18,17 @@ import android.widget.RatingBar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarUi extends RatingUi<RatingBar> {
-    public RatingBarUi(final RatingBar view, ReferenceValueGetter<Float> rating) {
-        super(view, rating, new ViewValueGetter<Float>() {
-            @Override
-            public Float getValue() {
-                return view.getRating();
-            }
-        },
-        new ViewValueSetter<Float>() {
-            @Override
-            public void setValue(Float value) {
-                view.setRating(value);
-            }
-        });
+    public RatingBarUi(final RatingBar view) {
+        super(view);
+    }
+
+    @Override
+    public void update(Float value) {
+        getView().setRating(value);
+    }
+
+    @Override
+    Float getViewValue() {
+        return getView().getRating();
     }
 }

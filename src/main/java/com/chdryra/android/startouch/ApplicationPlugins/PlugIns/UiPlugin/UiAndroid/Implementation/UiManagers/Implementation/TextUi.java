@@ -27,7 +27,7 @@ public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
     }
 
     @Override
-    public void setViewValue(String s) {
+    public void update(String s) {
         getView().setText(s);
     }
 }

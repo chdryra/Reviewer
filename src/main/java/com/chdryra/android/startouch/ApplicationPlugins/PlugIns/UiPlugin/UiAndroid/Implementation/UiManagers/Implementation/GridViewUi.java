@@ -23,9 +23,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  */
 
 public abstract class GridViewUi<V extends View, T extends GvData> extends ViewUi<V, GvDataList<T>> {
-    public GridViewUi(V view,
-                      ReferenceValueGetter<GvDataList<T>> getter) {
-        super(view, getter);
+    public GridViewUi(V view) {
+        super(view);
     }
 
     void setOpaque() {

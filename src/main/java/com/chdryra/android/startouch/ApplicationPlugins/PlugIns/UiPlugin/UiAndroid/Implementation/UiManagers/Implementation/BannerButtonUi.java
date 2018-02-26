@@ -45,8 +45,8 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
     }
 
     @Override
-    public void setViewValue(String s) {
-        getView().setText(s != null ? mDecorator.decorate(s) : "");
+    public void update(String value) {
+        getView().setText(value != null ? mDecorator.decorate(value) : "");
     }
 
     @Override

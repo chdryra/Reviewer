@@ -19,28 +19,15 @@ import android.widget.TextView;
  */
 
 public class SubjectUi<T extends TextView> extends TextUi<T> {
-    private boolean mSubjectRefresh = true;
     private String mTextCache;
 
     public SubjectUi(T view) {
         super(view);
     }
 
-//    public void update(boolean force) {
-//        if(force) {
-//            super.update();
-//        } else {
-//            update();
-//        }
-//    }
-
-    protected void setSubjectRefresh(boolean subjectRefresh) {
-        mSubjectRefresh = subjectRefresh;
-    }
-
     @Override
-    public void setViewValue(String newText) {
-        super.setViewValue(newText);
+    public void update(String newText) {
+        super.update(newText);
         updateTextCache();
     }
 
@@ -51,9 +38,4 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
     public String getTextCache() {
         return mTextCache;
     }
-//
-//    @Override
-//    public void update() {
-//        if(mSubjectRefresh) super.update();
-//    }
 }

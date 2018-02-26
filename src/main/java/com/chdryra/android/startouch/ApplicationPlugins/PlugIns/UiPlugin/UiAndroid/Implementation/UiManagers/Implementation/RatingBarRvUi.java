@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.RatingBar;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -25,26 +24,19 @@ import com.chdryra.android.startouch.R;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarRvUi extends RatingBarUi {
+    public class RatingBarRvUi extends RatingBarUi {
     private static final int RATING_BAR = R.id.review_rating_bar;
 
     private FrameLayout mFrame;
 
-    public RatingBarRvUi(final ReviewView<?> reviewView, FrameLayout ratingBarFrame) {
-        super((RatingBar) ratingBarFrame.findViewById(RATING_BAR),
-                new ReferenceValueGetter<Float>() {
-            @Override
-            public Float getValue() {
-                return reviewView.getRating();
-            }
-        });
+    public RatingBarRvUi(FrameLayout ratingBarFrame, RatingBarAction<?> action, ReviewViewParams.RatingBar params) {
+        super((RatingBar) ratingBarFrame.findViewById(RATING_BAR));
 
         mFrame = ratingBarFrame;
-        initialise(reviewView);
+        initialise(action, params);
     }
 
-    private void initialise(ReviewView<?> reviewView) {
-        ReviewViewParams.RatingBar params = reviewView.getParams().getRatingBarParams();
+    private void initialise(final RatingBarAction<?> action, ReviewViewParams.RatingBar params) {
         if(!params.isVisible()) {
             mFrame.setVisibility(View.GONE);
             return;
@@ -57,7 +49,6 @@ public class RatingBarRvUi extends RatingBarUi {
         boolean isEditable = params.isEditable();
         ratingBar.setIsIndicator(!isEditable);
 
-        final RatingBarAction<?> action = reviewView.getActions().getRatingBarAction();
         //TODO sort out this warning about calling performClick for onTouchListener.
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -73,7 +64,5 @@ public class RatingBarRvUi extends RatingBarUi {
                 action.onRatingChanged(ratingBar, rating, fromUser);
             }
         });
-
-        update();
     }
 }

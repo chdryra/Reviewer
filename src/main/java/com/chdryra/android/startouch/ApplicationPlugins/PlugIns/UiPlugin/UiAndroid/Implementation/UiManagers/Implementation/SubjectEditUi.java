@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
@@ -31,33 +30,24 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  */
 public class SubjectEditUi extends SubjectViewUi<EditText> {
     private SubjectAction<?> mSubjectAction;
-    private CharSequence mHint;
 
-    public SubjectEditUi(final ReviewView<?> reviewView, EditText view) {
-        super(view, reviewView.getParams().getSubjectParams());
-//        new ReferenceValueGetter<String>() {
-//            @Override
-//            public String getValue() {
-//                return reviewView.getSubject();
-//            }
-//        });
-        initialise(reviewView);
+    public SubjectEditUi(EditText view, SubjectAction<?> subjectAction, ReviewViewParams.Subject params) {
+        super(view, params);
+        mSubjectAction = subjectAction;
+        initialise();
     }
 
-    private void initialise(ReviewView<?> reviewView) {
-        final EditText editText = getView();
-        mHint = editText.getHint();
-        setViewValue(reviewView.getSubject());
+    private void initialise() {
+        EditText editText = getView();
 
-        final ReviewViewParams.Subject params = getParams();
+        ReviewViewParams.Subject params = getParams();
         boolean isEditable = params.isEditable();
-        setSubjectRefresh(!isEditable && params.isUpdateOnRefresh());
+        //setSubjectRefresh(!isEditable && params.isUpdateOnRefresh());
         editText.setFocusable(isEditable);
         ((ClearableEditText) editText).makeClearable(isEditable);
 
         if (isEditable) {
             editText.setHint(params.getHint());
-            mSubjectAction = reviewView.getActions().getSubjectAction();
             editText.setOnEditorActionListener(newSubjectActionListener());
 
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {

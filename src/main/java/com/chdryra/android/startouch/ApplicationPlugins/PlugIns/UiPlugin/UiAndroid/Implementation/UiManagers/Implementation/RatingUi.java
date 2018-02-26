@@ -19,7 +19,7 @@ import android.view.View;
  */
 
 public abstract class RatingUi<V extends View> extends SimpleViewUi<V, Float> {
-    public RatingUi(V view, ReferenceValueGetter<Float> reference, ViewValueGetter<Float> getter, ViewValueSetter<Float> setter) {
-        super(view, reference, getter, setter);
+    public RatingUi(V view) {
+        super(view);
     }
 }
