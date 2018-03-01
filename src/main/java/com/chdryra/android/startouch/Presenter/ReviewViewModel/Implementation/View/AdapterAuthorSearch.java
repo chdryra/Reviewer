@@ -9,14 +9,15 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
 
 import java.util.List;
 
@@ -25,10 +26,10 @@ import java.util.List;
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdapterAuthorSearch extends ReviewViewAdapterImpl<GvAuthorName>
+public class AdapterAuthorSearch extends ReviewViewAdapterBasic<GvAuthorName>
         implements ReviewViewAdapter.Filterable<GvAuthorName> {
-    private AuthorsRepo mRepo;
-    private DataConverter<AuthorName, GvAuthorName, GvAuthorList> mConverter;
+    private final AuthorsRepo mRepo;
+    private final DataConverter<AuthorName, GvAuthorName, GvAuthorList> mConverter;
 
     public AdapterAuthorSearch(ViewerAuthors wrapper,
                                AuthorsRepo repo,
@@ -36,6 +37,16 @@ public class AdapterAuthorSearch extends ReviewViewAdapterImpl<GvAuthorName>
         super(wrapper);
         mRepo = repo;
         mConverter = converter;
+    }
+
+    @Override
+    public DataReference<String> getSubjectReference() {
+        return new NullDataReference<>();
+    }
+
+    @Override
+    public DataReference<Float> getRatingReference() {
+        return new NullDataReference<>();
     }
 
     @Override

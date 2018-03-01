@@ -23,12 +23,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.Styles;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
+import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
+import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
 /**
@@ -53,9 +57,12 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     private MenuUi mMenu;
     private CoverUi mCover;
-    private SubjectUi<?> mSubject;
-    private SimpleViewUi<?, Float> mRatingBar;
-    private ViewUi<?, ?> mSortButton;
+    private SubjectUi<?> mSubjectUi;
+    private RatingUi<?> mRatingUi;
+
+    private DataBinder<String> mSubject;
+    private DataBinder<Float> mRating;
+    private DataBinder<String> mSortButton;
     private RecyclerViewUi<?> mDataView;
     private ViewUi<?, ?> mViewSelector;
 
@@ -68,13 +75,18 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     @Override
     public <T extends GvData> void attachReviewView(ReviewView<T> reviewView,
                                                     CellDimensionsCalculator calculator) {
-        mMenu = newMenuUi(reviewView);
-        mSubject = newSubjectUi(reviewView);
-        mRatingBar = newRatingUi(reviewView);
-        mSortButton = newBannerButtonUi(reviewView);
-        mDataView = newDataViewUi(reviewView, calculator);
+        ReviewViewActions<T> actions = reviewView.getActions();
+        ReviewViewParams params = reviewView.getParams();
+        ReviewViewAdapter<T> adapter = reviewView.getAdapter();
+
+        mMenu = newMenuUi(actions.getMenuAction());
+        mSubject = bindSubject(adapter, params.getSubjectParams());
+        mRating = bindRating(reviewView);
+        mSortButton = bindBanner((Button)mView.findViewById(BANNER),
+                actions.getBannerButtonAction(), params.getBannerButtonParams());
+        mDataView = newDataViewUi(actions.getGridItemAction(), params.getGridViewParams(), calculator);
         mCover = newCoverUi();
-        mViewSelector = newContextUi(reviewView);
+        mViewSelector = newContextUi(actions.getContextualAction(), params.getContextViewParams());
     }
 
     @Override
@@ -89,17 +101,17 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @Override
     public String getSubject() {
-        return mSubject.getViewValue();
+        return mSubjectUi.getViewValue();
     }
 
     @Override
     public float getRating() {
-        return mRatingBar.getViewValue();
+        return mRatingUi.getViewValue();
     }
 
     @Override
     public void setRating(float rating) {
-        mRatingBar.update(rating);
+
     }
 
     @Override
@@ -128,10 +140,10 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private ViewUi<?, ?> newContextUi(ReviewView<?> reviewView) {
+    private ViewUi<?, ?> newContextUi(@Nullable ButtonAction<?> action,
+                                      ReviewViewParams.ContextView params) {
         return new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
-                reviewView.getActions().getContextualAction(),
-                reviewView.getParams().getContextViewParams(), DECORATOR);
+                action, params, DECORATOR);
     }
 
     @NonNull
@@ -140,34 +152,34 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private MenuUi newMenuUi(ReviewView<?> reviewView) {
-        return new MenuUi(reviewView.getActions().getMenuAction());
+    private MenuUi newMenuUi(MenuAction<?> action) {
+        return new MenuUi(action);
     }
 
     @NonNull
-    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(ReviewView<T> reviewView,
-                                                               CellDimensionsCalculator
-                                                                       calculator) {
-        return new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
-                reviewView.getActions().getGridItemAction(),
-                reviewView.getParams().getGridViewParams(),
+    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(GridItemAction<T> action,
+                                                               ReviewViewParams.GridView params,
+                                                               CellDimensionsCalculator calculator) {
+        return new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID), action, params,
                 calculator);
     }
 
     @NonNull
-    private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
-        return new BannerButtonUi((Button) mView.findViewById(BANNER),
-                reviewView.getActions().getBannerButtonAction(), DECORATOR,
-                reviewView.getParams().getBannerButtonParams().getAlpha());
+    private DataBinder<String> bindBanner(Button view, ButtonAction<?> action, ReviewViewParams.BannerButton params) {
+        BannerButtonUi ui = new BannerButtonUi(view, action, params.getAlpha(), DECORATOR);
+        return new DataBinder<>(ui, action.getTitle());
     }
 
     @NonNull
-    private SimpleViewUi<?, Float> newRatingUi(ReviewView<?> reviewView) {
-        return new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING));
+    private DataBinder<Float> bindRating(ReviewView<?> reviewView) {
+        mRatingUi = new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING));
+        return new DataBinder<>(mRatingUi, reviewView.getAdapter().getRatingReference());
     }
 
     @NonNull
-    private SubjectUi<?> newSubjectUi(final ReviewView<?> reviewView) {
-        return new SubjectViewUi<>((TextView) mView.findViewById(SUBJECT), reviewView.getParams().getSubjectParams());
+    private DataBinder<String> bindSubject(ReviewViewAdapter<?> adapter,
+                                          ReviewViewParams.Subject params) {
+        mSubjectUi = new SubjectViewUi<>((TextView) mView.findViewById(SUBJECT), params);
+        return new DataBinder<>(mSubjectUi, adapter.getSubjectReference());
     }
 }

@@ -8,27 +8,29 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.GridDataWrapperBasic;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishScreenAdapter extends ReviewViewAdapterImpl<GvSocialPlatform> {
+public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
-    private final ReviewViewAdapter<?> mReviewViewAdapter;
+    private final ReviewBuilderAdapter<?> mBuilder;
 
     public PublishScreenAdapter(GvSocialPlatformList socialPlatforms,
-                                ReviewViewAdapter<?> reviewViewAdapter) {
+                                ReviewBuilderAdapter<?> builder) {
         super(new ShareScreenViewer(socialPlatforms));
-        mReviewViewAdapter = reviewViewAdapter;
+        mBuilder = builder;
     }
 
     @Override
@@ -36,19 +38,27 @@ public class PublishScreenAdapter extends ReviewViewAdapterImpl<GvSocialPlatform
         return TYPE;
     }
 
-    @Override
     public String getSubject() {
-        return mReviewViewAdapter.getSubject();
+        return mBuilder.getSubject();
+    }
+
+    public float getRating() {
+        return mBuilder.getRating();
     }
 
     @Override
-    public float getRating() {
-        return mReviewViewAdapter.getRating();
+    public DataReference<String> getSubjectReference() {
+        return mBuilder.getSubjectReference();
+    }
+
+    @Override
+    public DataReference<Float> getRatingReference() {
+        return mBuilder.getRatingReference();
     }
 
     @Override
     public void getCover(CoverCallback callback) {
-        mReviewViewAdapter.getCover(callback);
+        mBuilder.getCover(callback);
     }
 
     private static class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {

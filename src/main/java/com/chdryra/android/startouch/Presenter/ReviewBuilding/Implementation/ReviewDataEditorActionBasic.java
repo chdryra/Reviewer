@@ -9,8 +9,10 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActionBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActionBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,6 +24,10 @@ public abstract class ReviewDataEditorActionBasic<T extends GvData> extends Revi
 
     ReviewDataEditor<T> getEditor() {
         return mEditor;
+    }
+
+    protected GvDataList<T> getGridData() {
+        return getEditor().getGridData();
     }
 
     @Override

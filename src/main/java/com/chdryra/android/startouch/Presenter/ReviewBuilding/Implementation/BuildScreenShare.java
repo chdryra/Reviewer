@@ -10,6 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
@@ -28,26 +30,19 @@ import java.util.List;
 public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements ButtonAction<GC> {
+    private final DataReference<String> mTitle;
     private final LaunchableConfig mBuildScreenConfig;
     private final List<ClickListener> mListeners;
 
-    private ButtonTitle mButtonTitle;
-    private String mTitle;
-
     public BuildScreenShare(LaunchableConfig buildScreenConfig) {
+        mTitle = new DataReferenceWrapper<>(Strings.Buttons.SHARE);
         mBuildScreenConfig = buildScreenConfig;
         mListeners = new ArrayList<>();
     }
 
-    protected void setTitle(String title) {
-        mTitle = title;
-        if(mButtonTitle != null) mButtonTitle.update(mTitle);
-    }
-
     @Override
-    public void setTitle(ButtonTitle title) {
-        mButtonTitle = title;
-        setTitle(mTitle);
+    public DataReference<String> getTitle() {
+        return mTitle;
     }
 
     @Override
@@ -69,11 +64,6 @@ public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
     }
 
     @Override
-    public String getButtonTitle() {
-        return Strings.Buttons.SHARE;
-    }
-
-    @Override
     public void registerListener(ClickListener listener) {
         if(!mListeners.contains(listener)) mListeners.add(listener);
     }
@@ -83,7 +73,7 @@ public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
-    protected void notifyListeners() {
+    private void notifyListeners() {
         for(ClickListener listener : mListeners) {
             listener.onButtonClick();
         }

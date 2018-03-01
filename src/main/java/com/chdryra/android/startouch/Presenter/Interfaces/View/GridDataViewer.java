@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridDataViewer<T extends GvData> extends DataObservable, AsyncSortable<T>{
+public interface GridDataViewer<T extends GvData> extends DataObservable, Sortable<T> {
     GvDataType<? extends GvData> getGvDataType();
 
     GvDataList<T> getGridData();

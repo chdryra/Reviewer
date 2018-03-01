@@ -44,7 +44,7 @@ public class RatingTextUi extends RatingUi<TextView> {
 
     private String formatRating() {
         String formatted = RatingFormatter.twoSignificantDigits(mRating) + "*";
-        String reviews = "(" + mView.getGridData().size() + ")";
+        String reviews = "(" + mView.getDataSize().getSize() + ")";
 
         return formatted + " " + reviews;
     }

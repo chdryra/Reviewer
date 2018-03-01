@@ -60,6 +60,11 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         void onEditMode(EditMode mode);
     }
 
+    @Override
+    ReviewBuilderAdapter<GC> getAdapter();
+
+    float getRating();
+
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);

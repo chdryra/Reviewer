@@ -14,6 +14,7 @@ package com.chdryra.android.startouch.Presenter.Interfaces.View;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -43,7 +44,7 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
 
     void getCover(CoverCallback callback);
 
-    String getSubject();
+    DataReference<String> getSubjectReference();
 
-    float getRating();
+    DataReference<Float> getRatingReference();
 }

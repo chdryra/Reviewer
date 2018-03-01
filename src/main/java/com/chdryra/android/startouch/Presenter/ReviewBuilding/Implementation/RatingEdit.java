@@ -24,9 +24,8 @@ public class RatingEdit<T extends GvData> extends ReviewDataEditorActionBasic<T>
 
     }
 
-    @Override
     public float getRating() {
-        return getAdapter().getRating();
+        return getEditor().getRating();
     }
 
     @Override

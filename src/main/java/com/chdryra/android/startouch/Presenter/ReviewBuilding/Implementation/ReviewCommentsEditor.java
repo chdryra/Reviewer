@@ -30,7 +30,7 @@ public class ReviewCommentsEditor extends ReviewDataEditorDefault<GvComment> {
     }
 
     public void setSplit(boolean doSplit) {
-        GvDataList<GvComment> data = getAdapterData();
+        GvDataList<GvComment> data = getGridData();
         if(doSplit) {
             GvCommentList splitComments = new GvCommentList(data.getGvReviewId());
             for (GvComment comment : data) {

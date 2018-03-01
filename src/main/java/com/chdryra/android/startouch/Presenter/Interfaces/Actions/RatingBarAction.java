@@ -22,6 +22,4 @@ public interface RatingBarAction<T extends GvData> extends ReviewViewAction<T> {
     void onClick(View v);
 
     void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser);
-
-    float getRating();
 }

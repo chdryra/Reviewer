@@ -11,6 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 import android.view.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
@@ -26,32 +28,23 @@ public class ButtonActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         implements ButtonAction<T> {
 
     private final List<ClickListener> mListeners;
-
-    private ButtonTitle mButtonTitle;
-    private String mTitle;
+    private DataReferenceWrapper<String> mTitle;
 
     public ButtonActionNone() {
         this("");
     }
 
     public ButtonActionNone(String title) {
-        mTitle = title;
+        mTitle = new DataReferenceWrapper<>(title);
         mListeners = new ArrayList<>();
     }
 
     protected void setTitle(String title) {
-        mTitle = title;
-        if(mButtonTitle != null) mButtonTitle.update(mTitle);
+        mTitle.setData(title);
     }
 
     @Override
-    public void setTitle(ButtonTitle title) {
-        mButtonTitle = title;
-        setTitle(mTitle);
-    }
-
-    @Override
-    public String getButtonTitle() {
+    public DataReference<String> getTitle() {
         return mTitle;
     }
 

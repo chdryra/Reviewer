@@ -28,18 +28,18 @@ import java.util.Comparator;
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefault
+public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObservableDefault
         implements ReviewViewAdapter<T>, DataObservable.DataObserver{
 
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
 
-    public ReviewViewAdapterImpl() {
+    public ReviewViewAdapterBasic() {
         mWrapper = null;
     }
 
-    public ReviewViewAdapterImpl(GridDataWrapper<T> wrapper) {
+    public ReviewViewAdapterBasic(GridDataWrapper<T> wrapper) {
         mWrapper = wrapper;
     }
 
@@ -115,16 +115,6 @@ public class ReviewViewAdapterImpl<T extends GvData> extends DataObservableDefau
     @Override
     public ReviewViewAdapter<?> expandGridData() {
         return mWrapper.expandGridData();
-    }
-
-    @Override
-    public String getSubject() {
-        return "";
-    }
-
-    @Override
-    public float getRating() {
-        return 0;
     }
 
     @Override

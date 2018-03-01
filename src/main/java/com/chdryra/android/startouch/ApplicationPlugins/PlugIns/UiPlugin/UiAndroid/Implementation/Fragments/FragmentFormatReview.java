@@ -430,8 +430,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void bindStamp(TextView view) {
         mStamp = new DataBinder<>(new StampFormattedUi(view, mNode.getPublishDate(), launchAuthor
-                ()),
-                getRepo().getAuthors().getReference(mNode.getAuthorId()));
+                ()), getRepo().getAuthors().getReference(mNode.getAuthorId()));
     }
 
     private void bindTags(TextView view) {
@@ -564,10 +563,10 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         return (LinearLayout) v.findViewById(id);
     }
 
-    private static class SubjectReference extends DereferencableBasic<DataSubject> {
+    public static class SubjectReference extends DereferencableBasic<DataSubject> {
         private final ReviewNode mNode;
 
-        private SubjectReference(ReviewNode node) {
+        public SubjectReference(ReviewNode node) {
             mNode = node;
         }
 
@@ -577,8 +576,8 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         }
     }
 
-    private static class RatingReference extends DereferencableBasic<DataRating> {
-        private final ReviewNode mNode;
+    public static class RatingReference extends DereferencableBasic<DataRating> {
+        public final ReviewNode mNode;
 
         private RatingReference(ReviewNode node) {
             mNode = node;

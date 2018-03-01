@@ -15,7 +15,7 @@ import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.corelibrary.Comparators.NamedComparator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.AsyncSortable;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.Sortable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
 
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
@@ -59,7 +59,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         mLocked = true;
         mCurrentComparator = comparator;
         setTitle(Strings.Buttons.SORTING);
-        getAdapter().sort(comparator, new AsyncSortable.OnSortedCallback() {
+        getAdapter().sort(comparator, new Sortable.OnSortedCallback() {
             @Override
             public void onSorted(CallbackMessage message) {
                 if(message.isOk()) mCurrentComparator = comparator;

@@ -19,11 +19,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 public class SubjectEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements SubjectAction<T> {
 
     @Override
-    public String getSubject() {
-        return getAdapter().getSubject();
-    }
-
-    @Override
     public void onKeyboardDone(CharSequence s) {
         getEditor().setSubject();
     }

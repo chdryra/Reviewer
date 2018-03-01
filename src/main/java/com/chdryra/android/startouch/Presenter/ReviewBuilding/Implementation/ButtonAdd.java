@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
@@ -33,14 +34,14 @@ public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAct
         ButtonAction<T>, DataAddListener<T>, ActivityResultListener {
     private static final String TAG = "BannerButtonAdd:";
 
-    private final String mTitle;
+    private final DataReference<String> mTitle;
     private final ParcelablePacker<T> mDataPacker;
 
     private final GvDataList<T> mAdded;
     private final List<ClickListener> mListeners;
 
     public ButtonAdd(LaunchableConfig adderConfig,
-                     String title,
+                     DataReference<String> title,
                      GvDataList<T> emptyListToAddTo,
                      ParcelablePacker<T> dataPacker) {
         super(TAG, adderConfig);
@@ -67,12 +68,7 @@ public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAct
     }
 
     @Override
-    public void setTitle(ButtonTitle title) {
-        title.update(mTitle);
-    }
-
-    @Override
-    public String getButtonTitle() {
+    public DataReference<String> getTitle() {
         return mTitle;
     }
 

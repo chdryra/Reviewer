@@ -25,16 +25,10 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
 
     //return reviewView.getActions().getBannerButtonAction().getButtonTitle();
 
-    BannerButtonUi(Button view, ButtonAction<?> action, TitleDecorator decorator, int alpha) {
+    BannerButtonUi(Button view, ButtonAction<?> action, int alpha, TitleDecorator decorator) {
         super(view);
         mDecorator = decorator;
         mAction = action;
-        mAction.setTitle(new ButtonAction.ButtonTitle() {
-            @Override
-            public void update(String title) {
-                BannerButtonUi.this.update(title);
-            }
-        });
         setClickable();
         setBackgroundAlpha(alpha);
     }

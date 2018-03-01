@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.corelibrary.FileUtils.FileIncrementor;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
  */
 public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC>, ButtonAction.ClickListener {
-    private final ReviewBuilderAdapter<?> mAdapter;
+    private final ReviewBuilderAdapter<GC> mAdapter;
     private final UiLauncher mLauncher;
     private final FactoryReviewDataEditor mEditorFactory;
     private final BuildScreenEditMode<GC> mBannerButton;
@@ -87,6 +88,11 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
             mCurrentSubject = subject;
             newIncrementor();
         }
+    }
+
+    @Override
+    public ReviewBuilderAdapter<GC> getAdapter() {
+        return mAdapter;
     }
 
     @Override
@@ -162,9 +168,10 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         }
     }
 
+
     @Override
-    public GvDataList<GC> getGridData() {
-        return super.getAdapterData();
+    public Size getDataSize() {
+        return super.getGridData().getDataSize();
     }
 
     @Override
@@ -210,7 +217,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private void newIncrementor() {
-        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(getSubject());
+        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(mAdapter.getSubject());
     }
 
     private void setView() {

@@ -10,6 +10,7 @@
 
     <!-- App level -->
     <string name="app_name">StarTouch</string>
+    <string name="app_name_dev">StarTouchDev</string>
     <string name="search_hint">Search</string>
     <string name="add">Add</string>
     <string name="edit">Edit</string>

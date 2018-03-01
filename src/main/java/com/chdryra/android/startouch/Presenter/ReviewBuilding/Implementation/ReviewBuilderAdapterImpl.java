@@ -8,6 +8,9 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -24,7 +27,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +39,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParcelable>> extends
-        ReviewViewAdapterImpl<GC>
+        ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvDataParcelable>> TYPES
             = GvDataTypes.BUILD_TYPES;
@@ -46,6 +49,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private final BuildScreenGridUi<GC> mQuickGridUi;
     private final DataValidator mDataValidator;
     private final DataBuildersMap mDataBuilders;
+    private final DereferencableBasic<String> mSubject;
+    private final DereferencableBasic<Float> mRating;
 
     private GvTag mSubjectTag;
     private ReviewEditor.EditMode mUiType = ReviewEditor.EditMode.QUICK;
@@ -65,6 +70,37 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         mQuickGridUi.setParentAdapter(this);
 
         mSubjectTag = new GvTag(builder.getSubject());
+
+        mSubject = new DereferencableBasic<String>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<String> callback) {
+                callback.onDereferenced(new DataValue<>(getSubject()));
+            }
+        };
+        mRating = new DereferencableBasic<Float>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<Float> callback) {
+                callback.onDereferenced(new DataValue<>(getRating()));
+            }
+        };
+
+        mBuilder.registerObserver(this);
+    }
+
+    @Override
+    public void onDataChanged() {
+        super.onDataChanged();
+        notifySubscribers();
+    }
+
+    @Override
+    public DataReference<String> getSubjectReference() {
+        return mSubject;
+    }
+
+    @Override
+    public DataReference<Float> getRatingReference() {
+        return mRating;
     }
 
     @Override
@@ -110,7 +146,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
     @Override
     public void setSubject(String subject, boolean adjustTags) {
-        if(!mBuilder.getSubject().equals(subject)) {
+        if (!mBuilder.getSubject().equals(subject)) {
             mBuilder.setSubject(subject);
         }
         adjustTagsIfNecessary(adjustTags);
@@ -170,6 +206,11 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
     }
 
+    private void notifySubscribers() {
+        mSubject.notifySubscribers();
+        mRating.notifySubscribers();
+    }
+
     private void adjustTagsIfNecessary(boolean adjustTags) {
         GvTag newTag = new GvTag(mBuilder.getSubject());
         DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
@@ -180,7 +221,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
         //if don't want to adjust then set appropriate subject tag to reference for future
         // adjustments
-        if(!adjustTags) {
+        if (!adjustTags) {
             mSubjectTag = tags.contains(newTag) ? newTag : new GvTag("");
             return;
         }
@@ -192,7 +233,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         tagBuilder.commitData();
 
         mSubjectTag = added ? newTag : new GvTag("");
-        if(added) notifyDataObservers();
+        if (added) notifyDataObservers();
     }
 
     private class DataBuildersMap {
@@ -202,7 +243,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         private DataBuildersMap(FactoryDataBuilderAdapter factory) {
             mDataBuilders = new HashMap<>();
             for (GvDataType<? extends GvDataParcelable> type : TYPES) {
-                mDataBuilders.put(type, factory.newDataBuilderAdapter(type, ReviewBuilderAdapterImpl.this));
+                mDataBuilders.put(type, factory.newDataBuilderAdapter(type,
+                        ReviewBuilderAdapterImpl.this));
             }
         }
 
@@ -212,13 +254,13 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         }
 
         private void attach() {
-            for(DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
+            for (DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
                 builder.attach();
             }
         }
 
         private void detach() {
-            for(DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
+            for (DataBuilderAdapterDefault<?> builder : mDataBuilders.values()) {
                 builder.detach();
             }
         }

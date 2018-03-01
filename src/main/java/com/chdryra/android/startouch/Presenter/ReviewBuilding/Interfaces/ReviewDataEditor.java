@@ -28,9 +28,13 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
 
     void discardEdits();
 
+    String getSubject();
+
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);
+
+    float getRating();
 
     void setRating(float rating, boolean fromUser);
 

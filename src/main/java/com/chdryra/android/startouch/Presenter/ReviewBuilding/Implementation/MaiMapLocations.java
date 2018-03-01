@@ -31,7 +31,7 @@ public class MaiMapLocations extends MaiDataEditor<GvLocation> {
     @Override
     public void doAction(MenuItem item) {
         ReviewDataEditor<GvLocation> editor = getEditor();
-        if(editor.getGridData().size() == 0) return;
+        if(editor.getDataSize().getSize() == 0) return;
         DataBuilderAdapter<?> builder = (DataBuilderAdapter<?>) editor.getAdapter();
         mCommand.execute(builder.buildPreview(), false);
     }

@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.Interfaces.View.AsyncSortable;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.Sortable;
 
 import java.util.Comparator;
 
@@ -21,7 +21,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class GvDataCache<T extends GvData> implements AsyncSortable<T>{
+public class GvDataCache<T extends GvData> implements Sortable<T> {
     private final GvDataList<T> mData;
 
     public GvDataCache(GvDataList<T> data) {
@@ -33,7 +33,7 @@ public class GvDataCache<T extends GvData> implements AsyncSortable<T>{
     }
 
     @Override
-    public void sort(Comparator<? super T> comparator, AsyncSortable.OnSortedCallback callback) {
+    public void sort(Comparator<? super T> comparator, Sortable.OnSortedCallback callback) {
         mData.sort(comparator);
         callback.onSorted(CallbackMessage.ok());
     }

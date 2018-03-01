@@ -23,11 +23,6 @@ public class RatingBarActionNone<T extends GvData> extends ReviewViewActionBasic
         implements RatingBarAction<T> {
     //public methods
     @Override
-    public float getRating() {
-        return getAdapter().getRating();
-    }
-
-    @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
     }

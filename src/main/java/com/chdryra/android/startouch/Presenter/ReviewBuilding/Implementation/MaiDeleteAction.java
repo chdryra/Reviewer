@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import com.chdryra.android.corelibrary.Dialogs.AlertListener;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 
 /**
@@ -51,8 +50,7 @@ public class MaiDeleteAction<T extends GvData> extends MaiDataEditor<T> implemen
     }
 
     private boolean hasDataToDelete() {
-        GvDataList<T> data = getReviewView().getGridData();
-        return data != null && data.size() > 0;
+        return getReviewView().getDataSize().getSize() > 0;
     }
 
     private void showDeleteConfirmDialog() {

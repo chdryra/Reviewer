@@ -10,6 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 
 import android.view.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -25,22 +27,18 @@ import java.util.List;
 public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
         implements ButtonAction<T>, SubjectAction<T> {
 
-    private final String mButtonTitle;
+    private final String mTitle;
+    private final DataReferenceWrapper<String> mTitleReference;
     private final String mWorkingMessage;
     private final List<ClickListener> mListeners;
 
-    private ButtonTitle mButton;
     private boolean mFiltering = false;
 
-    public SubjectFilter(String buttonTitle, String workingMessage) {
-        mButtonTitle = buttonTitle;
+    public SubjectFilter(String title, String workingMessage) {
+        mTitle = title;
+        mTitleReference = new DataReferenceWrapper<>(mTitle);
         mWorkingMessage = workingMessage;
         mListeners = new ArrayList<>();
-    }
-
-    @Override
-    public String getSubject() {
-        return getReviewView().getContainerSubject();
     }
 
     @Override
@@ -60,25 +58,19 @@ public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
     }
 
     @Override
-    public void setTitle(ButtonTitle title) {
-        mButton = title;
-        mButton.update(mButtonTitle);
-    }
-
-    @Override
-    public String getButtonTitle() {
-        return mButtonTitle;
+    public DataReference<String> getTitle() {
+        return mTitleReference;
     }
 
     @Override
     public void onClick(View v) {
-        performFiltering(getSubject());
+        performFiltering(getReviewView().getContainerSubject());
     }
 
     public void performFiltering(String query) {
-        if(mButton != null && !mFiltering) {
+        if(!mFiltering) {
             mFiltering = true;
-            mButton.update(mWorkingMessage);
+            mTitleReference.setData(mWorkingMessage);
             doFiltering(query);
         }
     }
@@ -86,7 +78,7 @@ public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
     @Override
     public void onFiltered() {
         mFiltering = false;
-        mButton.update(mButtonTitle);
+        mTitleReference.setData(mTitle);
     }
 
     @Override

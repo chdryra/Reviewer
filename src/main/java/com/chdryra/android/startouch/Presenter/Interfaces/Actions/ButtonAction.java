@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.Presenter.Interfaces.Actions;
 
 import android.view.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -18,7 +19,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ButtonAction<T extends GvData> extends ReviewViewAction<T> {
-    interface ButtonTitle {
+    interface ButtonTitleListener {
         void update(String title);
     }
 
@@ -30,9 +31,7 @@ public interface ButtonAction<T extends GvData> extends ReviewViewAction<T> {
 
     void onClick(View v);
 
-    void setTitle(ButtonTitle title);
-
-    String getButtonTitle();
+    DataReference<String> getTitle();
 
     void registerListener(ClickListener listener);
 

@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ReviewViewAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.UnattachedReviewViewException;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .UnattachedReviewViewException;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,12 +26,12 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     private ReviewView<T> mReviewView;
     private String mToastOnAttach;
 
-    protected GvDataList<T> getGridData() {
-        return getReviewView().getAdapterData();
-    }
-
-    public boolean isAttached() {
-        return mReviewView != null;
+    protected void showToast(String message) {
+        if (isAttached()) {
+            getCurrentScreen().showToast(message);
+        } else {
+            mToastOnAttach = message;
+        }
     }
 
     @Override
@@ -69,7 +70,7 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     @Override
     public void onAttachReviewView() {
-        if(mToastOnAttach != null) {
+        if (mToastOnAttach != null) {
             showToast(mToastOnAttach);
             mToastOnAttach = null;
         }
@@ -85,17 +86,13 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
         return false;
     }
 
+    private boolean isAttached() {
+        return mReviewView != null;
+    }
+
     private void throwIfNoReviewViewAttached() {
         if (!isAttached()) {
             throw new UnattachedReviewViewException("No ReviewView Attached");
-        }
-    }
-
-    protected void showToast(String message) {
-        if(isAttached()) {
-            getCurrentScreen().showToast(message);
-        } else {
-            mToastOnAttach = message;
         }
     }
 }

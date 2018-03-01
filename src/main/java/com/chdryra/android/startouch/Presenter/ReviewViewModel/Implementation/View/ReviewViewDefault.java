@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -81,25 +82,16 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         return mPerspective.getParams();
     }
 
-    @Override
-    public String getSubject() {
-        return getAdapter().getSubject();
-    }
 
     @Override
-    public float getRating() {
-        return getAdapter().getRating();
-    }
-
-    @Override
-    public GvDataList<T> getAdapterData() {
+    public GvDataList<T> getGridData() {
         return getAdapter().getGridData();
     }
 
     @Override
-    public GvDataList<T> getGridData() {
-        if (mGridViewData == null) mGridViewData = getAdapterData();
-        return mGridViewData;
+    public Size getDataSize() {
+        if (mGridViewData == null) mGridViewData = getGridData();
+        return mGridViewData.getDataSize();
     }
 
     @Override
@@ -167,7 +159,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public String getLaunchTag() {
-        return getSubject() + " " + TAG;
+        return getAdapter().getStamp() + " " + TAG;
     }
 
     @Override

@@ -8,6 +8,9 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -19,45 +22,80 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBui
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterImpl;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends ReviewViewAdapterImpl<T>
+public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends ReviewViewAdapterBasic<T>
         implements DataBuilderAdapter<T>, DataObservable.DataObserver {
 
     private final GvDataType<T> mType;
     private final ReviewBuilderAdapter<?> mParentBuilder;
+    private DereferencableBasic<String> mSubject;
+    private DereferencableBasic<Float> mRating;
 
     public DataBuilderAdapterDefault(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
+        mSubject = new DereferencableBasic<String>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<String> callback) {
+                callback.onDereferenced(new DataValue<>(getSubjectValue()));
+            }
+        };
+        mRating = new DereferencableBasic<Float>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<Float> callback) {
+                callback.onDereferenced(new DataValue<>(getRatingValue()));
+            }
+        };
+
         getDataBuilder().registerObserver(this);
+    }
+
+    @Override
+    public String getSubjectValue() {
+        return mParentBuilder.getSubject();
+    }
+
+    @Override
+    public float getRatingValue() {
+        return mParentBuilder.getRating();
+    }
+
+    @Override
+    public DataReference<String> getSubjectReference() {
+        return mSubject;
+    }
+
+    @Override
+    public DataReference<Float> getRatingReference() {
+        return mRating;
+    }
+
+    @Override
+    public void setRating(float rating) {
+        mParentBuilder.setRating(rating);
     }
 
     @Override
     public ReviewNode buildPreview() {
         String subject = getReviewView().getContainerSubject();
-        if(subject.length() == 0) subject = Strings.Placeholders.NO_SUBJECT;
+        if (subject.length() == 0) subject = Strings.Placeholders.NO_SUBJECT;
         return mParentBuilder.buildPreview(subject,
                 getReviewView().getContainerRating());
-    }
-
-    void attach() {
-        registerObserver(mParentBuilder);
-        notifyDataObservers();
-    }
-
-    void detach() {
-        unregisterObserver(mParentBuilder);
     }
 
     @Override
@@ -121,6 +159,7 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     @Override
     public void onDataChanged() {
         notifyDataObservers();
+        notifySubscribers();
     }
 
     @Override
@@ -134,23 +173,8 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
-    public String getSubject() {
-        return mParentBuilder.getSubject();
-    }
-
-    @Override
     public void setSubject(String subject, boolean adjustTags) {
         mParentBuilder.setSubject(subject, adjustTags);
-    }
-
-    @Override
-    public float getRating() {
-        return mParentBuilder.getRating();
-    }
-
-    @Override
-    public void setRating(float rating) {
-        mParentBuilder.setRating(rating);
     }
 
     @Override
@@ -178,6 +202,16 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         detach();
     }
 
+    void attach() {
+        registerObserver(mParentBuilder);
+        notifyDataObservers();
+        notifySubscribers();
+    }
+
+    void detach() {
+        unregisterObserver(mParentBuilder);
+    }
+
     private DataBuilder<T> getDataBuilder() {
         return getBuilder().getDataBuilder(mType);
     }
@@ -186,10 +220,15 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         return mParentBuilder.getBuilder();
     }
 
+    private void notifySubscribers() {
+        mSubject.notifySubscribers();
+        mRating.notifySubscribers();
+    }
+
     private void makeToastHasItem(GvData datum) {
         String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
         ReviewView<?> reviewView = getReviewView();
-        if(reviewView == null) reviewView = mParentBuilder.getReviewView();
+        if (reviewView == null) reviewView = mParentBuilder.getReviewView();
         reviewView.getCurrentScreen().showToast(toast);
     }
 }

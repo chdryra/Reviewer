@@ -20,10 +20,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
         implements SubjectAction<GC>{
-    @Override
-    public String getSubject() {
-        return getEditor().getSubject();
-    }
 
     @Override
     public void onKeyboardDone(CharSequence s) {

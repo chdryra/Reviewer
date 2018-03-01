@@ -31,6 +31,10 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<? extends GvDataParc
         extends ReviewViewAdapter<GC>, DataObservable.DataObserver{
     ReviewBuilder getBuilder();
 
+    String getSubject();
+
+    float getRating();
+
     void setSubject(String subject, boolean adjustTags);
 
     void setRating(float rating);

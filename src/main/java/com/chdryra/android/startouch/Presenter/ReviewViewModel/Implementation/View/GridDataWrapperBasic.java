@@ -20,7 +20,7 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridDataWrapperBasic<T extends GvData> extends DataObservableDefault implements GridDataWrapper<T> {
-    private ReviewViewAdapterImpl<T> mAdapter;
+    private ReviewViewAdapterBasic<T> mAdapter;
 
     void onAttach() {
 
@@ -31,7 +31,7 @@ public abstract class GridDataWrapperBasic<T extends GvData> extends DataObserva
     }
 
     @Override
-    public void attachAdapter(ReviewViewAdapterImpl<T> adapter) {
+    public void attachAdapter(ReviewViewAdapterBasic<T> adapter) {
         mAdapter = adapter;
         registerObserver(mAdapter);
         onAttach();

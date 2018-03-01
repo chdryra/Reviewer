@@ -159,7 +159,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     private BannerButtonUi newBannerButtonUi(ReviewView<?> reviewView) {
         ButtonAction<?> action = reviewView.getActions().getBannerButtonAction();
         int alpha = reviewView.getParams().getBannerButtonParams().getAlpha();
-        return new BannerButtonUi((Button) mView.findViewById(BANNER), action, BANNER_DECORATOR, alpha);
+        return new BannerButtonUi((Button) mView.findViewById(BANNER), action, alpha, BANNER_DECORATOR);
     }
 
     @NonNull

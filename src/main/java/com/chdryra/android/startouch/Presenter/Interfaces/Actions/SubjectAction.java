@@ -19,6 +19,4 @@ public interface SubjectAction<T extends GvData> extends ReviewViewAction<T> {
     void onKeyboardDone(CharSequence s);
 
     void onTextChanged(CharSequence s);
-
-    String getSubject();
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -29,7 +30,7 @@ public class ButtonAddLocation extends ButtonAdd<GvLocation> {
 
     public ButtonAddLocation(LaunchableConfig adderConfig,
                              LaunchableConfig mapScreenConfig,
-                             String title,
+                             DataReference<String> title,
                              GvDataList<GvLocation> emptyLocationList,
                              ParcelablePacker<GvLocation> dataPacker) {
         super(adderConfig, title, emptyLocationList, dataPacker);

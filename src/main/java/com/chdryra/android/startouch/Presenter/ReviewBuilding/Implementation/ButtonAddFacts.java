@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
@@ -29,7 +30,7 @@ public class ButtonAddFacts extends ButtonAdd<GvFact> {
 
     private final LaunchableConfig mUrlAdder;
 
-    public ButtonAddFacts(String title, LaunchableConfig factAdder,
+    public ButtonAddFacts(DataReference<String> title, LaunchableConfig factAdder,
                           LaunchableConfig urlAdder,
                           GvDataList<GvFact> emptyFactList,
                           ParcelablePacker<GvFact> dataPacker) {

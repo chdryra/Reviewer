@@ -11,6 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
@@ -111,10 +113,10 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
         return mPacker;
     }
 
-    String getBannerButtonTitle() {
+    DataReference<String> getBannerButtonTitle() {
         String title = Strings.Buttons.ADD;
         title += " " + geDataName();
-        return title;
+        return new DataReferenceWrapper<>(title);
     }
 
     @NonNull

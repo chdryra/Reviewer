@@ -20,11 +20,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 public class SubjectActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         implements SubjectAction<T> {
     @Override
-    public String getSubject() {
-        return getAdapter().getSubject();
-    }
-
-    @Override
     public void onKeyboardDone(CharSequence s) {
 
     }

@@ -14,6 +14,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
@@ -30,8 +31,10 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * {@link ReviewViewAdapter} for a {@link ReviewNode}.
  */
 
-public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T> implements ReviewNode.NodeObserver {
+public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements ReviewNode.NodeObserver {
     private final ReviewNode mNode;
+    private final DereferencableBasic<String> mSubject;
+    private final DereferencableBasic<Float> mRating;
     private final DataReference<ProfileImage> mProfileImage;
     private final DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
     private GvImage mCover;
@@ -46,6 +49,28 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
         mProfileImage = profileImage;
         mCoversConverter = coversConverter;
         mCover = new GvImage();
+        mSubject = new DereferencableBasic<String>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<String> callback) {
+                callback.onDereferenced(new DataValue<>(mNode.getSubject().getSubject()));
+            }
+        };
+        mRating = new DereferencableBasic<Float>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<Float> callback) {
+                callback.onDereferenced(new DataValue<>(mNode.getRating().getRating()));
+            }
+        };
+    }
+
+    @Override
+    public DataReference<String> getSubjectReference() {
+        return mSubject;
+    }
+
+    @Override
+    public DataReference<Float> getRatingReference() {
+        return mRating;
     }
 
     public ReviewNode getNode() {
@@ -83,13 +108,10 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterImpl<T
     }
 
     @Override
-    public String getSubject() {
-        return mNode.getSubject().getSubject();
-    }
-
-    @Override
-    public float getRating() {
-        return mNode.getRating().getRating();
+    protected void notifyDataObservers() {
+        super.notifyDataObservers();
+        mSubject.notifySubscribers();
+        mRating.notifySubscribers();
     }
 
     @Override

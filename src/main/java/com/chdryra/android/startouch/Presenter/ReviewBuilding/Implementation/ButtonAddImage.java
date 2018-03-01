@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -30,7 +31,7 @@ public class ButtonAddImage extends ButtonAdd<GvImage>
     private final UiLauncher mLauncher;
 
     public ButtonAddImage(LaunchableConfig adderConfig,
-                          String title,
+                          DataReference<String> title,
                           GvDataList<GvImage> emptyImageList,
                           ParcelablePacker<GvImage> dataPacker,
                           UiLauncher launcher,

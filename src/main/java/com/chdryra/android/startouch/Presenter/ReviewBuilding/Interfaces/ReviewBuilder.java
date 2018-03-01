@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
@@ -19,7 +20,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 10/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewBuilder {
+public interface ReviewBuilder extends DataObservable{
     String getSubject();
 
     void setSubject(String subject);

@@ -17,7 +17,7 @@ import java.util.Comparator;
  * On: 29/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AsyncSortable<T> {
+public interface Sortable<T> {
     interface OnSortedCallback {
         void onSorted(CallbackMessage message);
     }

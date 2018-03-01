@@ -37,8 +37,8 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
                                    ReviewViewParams params) {
         super(new ReviewViewPerspective<>(builder, actions, params));
         mBuilder = builder;
-        mSubject = builder.getSubject();
-        mRating = builder.getRating();
+        mSubject = builder.getSubjectValue();
+        mRating = builder.getRatingValue();
         mRatingIsAverage = builder.isRatingAverage();
     }
 
@@ -101,7 +101,6 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         return mSubject;
     }
 
-    @Override
     public float getRating() {
         return mRating;
     }

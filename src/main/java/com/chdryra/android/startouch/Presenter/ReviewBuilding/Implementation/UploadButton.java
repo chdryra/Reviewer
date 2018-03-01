@@ -23,11 +23,10 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class UploadButton<T extends GvData> extends ButtonActionNone<T> {
-    private final String mTitle;
     private final PublishAction mPublishAction;
 
     public UploadButton(String title, PublishAction publishAction) {
-        mTitle = title;
+        super(title);
         mPublishAction = publishAction;
     }
 
@@ -47,10 +46,5 @@ public abstract class UploadButton<T extends GvData> extends ButtonActionNone<T>
     @Override
     public void onClick(View v) {
         mPublishAction.publish(getReview(), getSocialPlatforms());
-    }
-
-    @Override
-    public String getButtonTitle() {
-        return mTitle;
     }
 }

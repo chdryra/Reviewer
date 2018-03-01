@@ -35,7 +35,6 @@ public class BuildScreenRatingEdit<GC extends GvDataList<? extends GvDataParcela
         if(editor != null) editor.setRating(rating, fromUser);
     }
 
-    @Override
     public float getRating() {
         return getEditor().getRating();
     }
