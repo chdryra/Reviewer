@@ -9,7 +9,6 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -17,8 +16,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -80,18 +78,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     @Override
     public ReviewViewParams getParams() {
         return mPerspective.getParams();
-    }
-
-
-    @Override
-    public GvDataList<T> getGridData() {
-        return getAdapter().getGridData();
-    }
-
-    @Override
-    public Size getDataSize() {
-        if (mGridViewData == null) mGridViewData = getGridData();
-        return mGridViewData.getDataSize();
     }
 
     @Override

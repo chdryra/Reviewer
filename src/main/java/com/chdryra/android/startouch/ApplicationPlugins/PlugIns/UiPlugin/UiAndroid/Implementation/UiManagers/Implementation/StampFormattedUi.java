@@ -38,7 +38,7 @@ public class StampFormattedUi extends SimpleViewUi<TextView, AuthorName> {
     }
 
     @Override
-    AuthorName getViewValue() {
+    AuthorName getValue() {
         AuthorId authorId = mAuthorId != null ? mAuthorId : new DatumAuthorId();
         return new AuthorNameDefault(getView().getText().toString().trim(), authorId);
     }

@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
 
 
+
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,15 +24,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.Styles;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ReviewViewLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -59,12 +66,13 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private CoverUi mCover;
     private SubjectUi<?> mSubjectUi;
     private RatingUi<?> mRatingUi;
+    private RecyclerViewUi<?> mGridUi;
 
     private DataBinder<String> mSubject;
     private DataBinder<Float> mRating;
-    private DataBinder<String> mSortButton;
-    private RecyclerViewUi<?> mDataView;
-    private ViewUi<?, ?> mViewSelector;
+    private DataBinder<String> mSort;
+    private DataBinder<String> mViewSelector;
+    private DataBinder<?> mGridData;
 
     @Override
     public View inflateLayout(LayoutInflater inflater, ViewGroup container) {
@@ -82,11 +90,12 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         mMenu = newMenuUi(actions.getMenuAction());
         mSubject = bindSubject(adapter, params.getSubjectParams());
         mRating = bindRating(reviewView);
-        mSortButton = bindBanner((Button)mView.findViewById(BANNER),
+        mSort = bindBanner((Button)mView.findViewById(BANNER),
                 actions.getBannerButtonAction(), params.getBannerButtonParams());
-        mDataView = newDataViewUi(actions.getGridItemAction(), params.getGridViewParams(), calculator);
+        mGridData = bindGridView(adapter.getGridDataReference(),
+                actions.getGridItemAction(), params.getGridViewParams(), calculator);
         mCover = newCoverUi();
-        mViewSelector = newContextUi(actions.getContextualAction(), params.getContextViewParams());
+        mViewSelector = bindContextView(actions.getContextualAction(), params.getContextViewParams());
     }
 
     @Override
@@ -101,54 +110,55 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @Override
     public String getSubject() {
-        return mSubjectUi.getViewValue();
+        return mSubjectUi.getValue();
     }
 
     @Override
     public float getRating() {
-        return mRatingUi.getViewValue();
+        return mRatingUi.getValue();
     }
 
     @Override
     public void setRating(float rating) {
-
+        //View only
     }
 
     @Override
     public void setCover(@Nullable Bitmap cover) {
-        mCover.update(cover);
+        //View only
     }
 
     @Override
-    public void update(boolean forceSubject) {
-//        mSubject.update(forceSubject);
-//        mRatingBar.update();
-//        mSortButton.update();
-//        mDataView.update();
-//        mViewSelector.update();
-//        mCover.update();
+    public void bind() {
+        mSubject.bind();
+        mRating.bind();
+        mGridData.bind();
+        mSort.bind();
+        mViewSelector.bind();
+    }
+
+    @Override
+    public void unbind() {
+        mSubject.unbind();
+        mRating.unbind();
+        mGridData.unbind();
+        mSort.unbind();
+        mViewSelector.unbind();
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        return mDataView.onOptionSelected(requestCode, option);
+        return mGridUi.onOptionSelected(requestCode, option);
     }
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        return mDataView.onOptionsCancelled(requestCode);
-    }
-
-    @NonNull
-    private ViewUi<?, ?> newContextUi(@Nullable ButtonAction<?> action,
-                                      ReviewViewParams.ContextView params) {
-        return new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
-                action, params, DECORATOR);
+        return mGridUi.onOptionsCancelled(requestCode);
     }
 
     @NonNull
     private CoverUi newCoverUi() {
-        return new CoverRvUi((ImageView) mView.findViewById(COVER), mDataView);
+        return new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
     }
 
     @NonNull
@@ -157,11 +167,23 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private <T extends GvData> RecyclerViewUi<T> newDataViewUi(GridItemAction<T> action,
-                                                               ReviewViewParams.GridView params,
-                                                               CellDimensionsCalculator calculator) {
-        return new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID), action, params,
-                calculator);
+    private <T extends GvData> DataBinder<GvDataList<T>> bindGridView(DataReference<GvDataList<T>> data,
+                                                                      GridItemAction<T> action,
+                                                                      ReviewViewParams.GridView params,
+                                                                      CellDimensionsCalculator calculator) {
+        RecyclerViewUi<T> ui = new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
+                action, params, calculator);
+        mGridUi = ui;
+        return new DataBinder<>(ui, data);
+    }
+
+    @NonNull
+    private DataBinder<String> bindContextView(@Nullable ButtonAction<?> action,
+                                               ReviewViewParams.ContextView params) {
+        ContextUi ui = new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
+                action, params, DECORATOR);
+        return new DataBinder<>(ui, action != null ? action.getTitle() : new NullDataReference
+                <String>());
     }
 
     @NonNull

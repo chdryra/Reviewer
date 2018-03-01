@@ -178,10 +178,9 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
     private static final ReviewViewParams.CellDimension HALF
             = ReviewViewParams.CellDimension.HALF;
 
-    private boolean mIsPublished = true;
     private ReviewNode mNode;
-    //private RepositorySuite getRepo().
     private MenuUi mMenu;
+    private boolean mIsPublished = true;
 
     private DataBinder<DataImage> mCover;
     private DataBinder<DataSubject> mSubject;

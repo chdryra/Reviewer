@@ -36,7 +36,7 @@ public class SubjectFormattedUi extends SimpleViewUi<TextView, DataSubject> {
     }
 
     @Override
-    DataSubject getViewValue() {
+    DataSubject getValue() {
         ReviewId reviewId = mReviewId != null ? mReviewId : new DatumReviewId();
         return new DatumSubject(reviewId, getView().getText().toString().trim());
     }

@@ -34,7 +34,7 @@ public class BannerButtonUi extends SimpleViewUi<Button, String> {
     }
 
     @Override
-    public String getViewValue() {
+    public String getValue() {
         return mDecorator.unDecorate(getView().getText().toString().trim());
     }
 

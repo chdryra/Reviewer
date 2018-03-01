@@ -28,7 +28,7 @@ public class RatingBarUi extends RatingUi<RatingBar> {
     }
 
     @Override
-    Float getViewValue() {
+    Float getValue() {
         return getView().getRating();
     }
 }

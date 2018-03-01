@@ -171,7 +171,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public Size getDataSize() {
-        return super.getGridData().getDataSize();
+        return getAdapter().getGridData().getDataSize();
     }
 
     @Override

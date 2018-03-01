@@ -167,7 +167,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
 
     private void updateUi(boolean forceSubject) {
         //TODO get rid of the hacky forceSubject thing...
-        mLayout.update(forceSubject);
+        mLayout.bind(forceSubject);
     }
 }
 

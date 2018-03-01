@@ -44,7 +44,7 @@ public class ContextUi extends SimpleViewUi<Button, String> {
     }
 
     @Override
-    String getViewValue() {
+    String getValue() {
         return mDecorator.unDecorate(getView().getText().toString().trim());
     }
 

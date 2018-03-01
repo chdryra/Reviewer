@@ -50,7 +50,7 @@ public class MaiDeleteAction<T extends GvData> extends MaiDataEditor<T> implemen
     }
 
     private boolean hasDataToDelete() {
-        return getReviewView().getDataSize().getSize() > 0;
+        return getReviewView().getAdapter().getGridData().getDataSize().getSize() > 0;
     }
 
     private void showDeleteConfirmDialog() {

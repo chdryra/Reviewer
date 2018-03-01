@@ -14,20 +14,19 @@ package com.chdryra.android.startouch.Presenter.Interfaces.View;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 
 /**
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using
  * {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
-    interface CoverCallback {
-        void onAdapterCover(GvImage cover);
-    }
-
     interface Filterable<T extends GvData> extends ReviewViewAdapter<T> {
         interface Callback {
             void onFiltered();
@@ -42,9 +41,13 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
 
     ReviewView<T> getReviewView();
 
-    void getCover(CoverCallback callback);
-
     DataReference<String> getSubjectReference();
 
     DataReference<Float> getRatingReference();
+
+    DataReference<GvDataList<T>> getGridDataReference();
+
+    DataReference<DataSize> getGridDataSize();
+
+    DataReference<Bitmap> getCoverReference();
 }

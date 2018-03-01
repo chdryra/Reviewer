@@ -8,11 +8,9 @@
 
 package com.chdryra.android.startouch.Presenter.Interfaces.View;
 
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
@@ -24,10 +22,6 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
  */
 public interface ReviewView<T extends GvData>
         extends DataObservable, DataObservable.DataObserver, LaunchableUi, OptionSelectListener {
-
-    GvDataList<T> getGridData();
-
-    Size getDataSize();
 
     ReviewViewAdapter<T> getAdapter();
 

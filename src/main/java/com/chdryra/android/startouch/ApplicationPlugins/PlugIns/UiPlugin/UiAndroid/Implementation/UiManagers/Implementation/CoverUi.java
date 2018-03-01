@@ -31,7 +31,7 @@ public abstract class CoverUi extends SimpleViewUi<ImageView, Bitmap> {
     }
 
     @Override
-    Bitmap getViewValue() {
+    Bitmap getValue() {
         return ((BitmapDrawable)getView().getDrawable()).getBitmap();
     }
 }

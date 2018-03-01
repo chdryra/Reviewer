@@ -32,7 +32,7 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
     }
 
     protected void updateTextCache() {
-        mTextCache = getViewValue();
+        mTextCache = getValue();
     }
 
     public String getTextCache() {

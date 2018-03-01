@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  */
 
 public abstract class SimpleViewUi<V extends View, Value> extends ViewUi<V, Value> {
-    abstract Value getViewValue();
+    abstract Value getValue();
 
     public SimpleViewUi(V view) {
         super(view);

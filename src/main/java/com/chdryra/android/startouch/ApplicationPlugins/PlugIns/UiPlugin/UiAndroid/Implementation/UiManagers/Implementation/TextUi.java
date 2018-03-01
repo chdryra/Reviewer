@@ -22,7 +22,7 @@ public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
     }
 
     @Override
-    public String getViewValue() {
+    public String getValue() {
         return getView().getText().toString().trim();
     }
 

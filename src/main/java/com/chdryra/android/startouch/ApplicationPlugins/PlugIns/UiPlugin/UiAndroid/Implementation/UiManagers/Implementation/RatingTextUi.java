@@ -38,13 +38,13 @@ public class RatingTextUi extends RatingUi<TextView> {
     }
 
     @Override
-    Float getViewValue() {
+    Float getValue() {
         return mRating;
     }
 
     private String formatRating() {
         String formatted = RatingFormatter.twoSignificantDigits(mRating) + "*";
-        String reviews = "(" + mView.getDataSize().getSize() + ")";
+        String reviews = "(" + mView.getAdapter().getGridData().getDataSize().getSize() + ")";
 
         return formatted + " " + reviews;
     }

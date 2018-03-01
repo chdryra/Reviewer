@@ -11,25 +11,25 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataRefList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
@@ -59,6 +59,16 @@ public class ViewerReviewData<Value extends HasReviewId,
         mAdapterFactory = adapterFactory;
         mStamp = stamp == null ? ReviewStamp.noStamp() : stamp;
         mCache = newDataList();
+    }
+
+    @Override
+    public List getGridDataReference() {
+        return mReference;
+    }
+
+    @Override
+    public DataReference<DataSize> getGridDataSize() {
+        return mReference.getSize();
     }
 
     List getReference() {
@@ -135,8 +145,7 @@ public class ViewerReviewData<Value extends HasReviewId,
     }
 
     public static class DataList<Value extends HasReviewId, GvRef extends GvDataRef<GvRef, Value,
-            ?>>
-            extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, DataListRef<Value>> {
+            ?>> extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, DataListRef<Value>> {
 
         public DataList(DataListRef<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,

@@ -92,12 +92,12 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @Override
     public String getSubject() {
-        return mSubject.getViewValue();
+        return mSubject.getValue();
     }
 
     @Override
     public float getRating() {
-        return mRatingBar.getViewValue();
+        return mRatingBar.getValue();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     }
 
     @Override
-    public void update(boolean forceSubject) {
+    public void bind(boolean forceSubject) {
 //        mSubject.update(forceSubject);
 //        mRatingBar.update();
 //        mBannerButton.update();

@@ -27,7 +27,7 @@ public abstract class ReviewDataEditorActionBasic<T extends GvData> extends Revi
     }
 
     protected GvDataList<T> getGridData() {
-        return getEditor().getGridData();
+        return getEditor().getAdapter().getGridData();
     }
 
     @Override

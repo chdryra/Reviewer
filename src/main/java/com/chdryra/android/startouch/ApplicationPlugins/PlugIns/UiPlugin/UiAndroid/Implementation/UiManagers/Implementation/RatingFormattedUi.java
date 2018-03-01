@@ -43,7 +43,7 @@ public class RatingFormattedUi extends SimpleViewUi<RatingBar, DataRating> {
     }
 
     @Override
-    DataRating getViewValue() {
+    DataRating getValue() {
         ReviewId reviewId = mReviewId != null ? mReviewId : new DatumReviewId();
         return new DatumRating(reviewId, getView().getRating(), 1);
     }

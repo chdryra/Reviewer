@@ -47,5 +47,7 @@ public interface ReviewViewLayout extends OptionSelectListener{
 
     void setCover(@Nullable Bitmap cover);
 
-    void update(boolean forceSubject);
+    void bind();
+
+    void unbind();
 }
