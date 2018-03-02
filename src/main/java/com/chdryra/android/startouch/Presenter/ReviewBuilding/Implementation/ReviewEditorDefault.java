@@ -108,6 +108,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void setRating(float rating, boolean fromUser) {
         if (fromUser) {
+            mAdapter.setRatingIsAverage(false);
             mAdapter.setRating(rating);
         } else if(getContainer() != null) {
             getContainer().setRating(rating);

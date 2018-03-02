@@ -97,12 +97,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public void onDataChanged() {
-        super.onDataChanged();
-        notifySubscribers();
-    }
-
-    @Override
     public DataReference<String> getSubjectReference() {
         return mSubject;
     }
@@ -215,9 +209,18 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
     }
 
-    private void notifySubscribers() {
+    @Override
+    protected void notifyDataObservers() {
+        super.notifyDataObservers();
+        notifySubscribers();
+    }
+
+    @Override
+    protected void notifySubscribers() {
+        super.notifySubscribers();
         mSubject.notifySubscribers();
         mRating.notifySubscribers();
+        mCover.notifySubscribers();
     }
 
     private void adjustTagsIfNecessary(boolean adjustTags) {

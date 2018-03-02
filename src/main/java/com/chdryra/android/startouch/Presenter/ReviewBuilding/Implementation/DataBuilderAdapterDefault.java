@@ -33,7 +33,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -86,6 +87,11 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
+    public void setRating(float rating) {
+        mParentBuilder.setRating(rating);
+    }
+
+    @Override
     public DataReference<String> getSubjectReference() {
         return mSubject;
     }
@@ -93,11 +99,6 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     @Override
     public DataReference<Float> getRatingReference() {
         return mRating;
-    }
-
-    @Override
-    public void setRating(float rating) {
-        mParentBuilder.setRating(rating);
     }
 
     @Override
@@ -167,12 +168,6 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
-    public void onDataChanged() {
-        notifyDataObservers();
-        notifySubscribers();
-    }
-
-    @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mParentBuilder.setRatingIsAverage(ratingIsAverage);
     }
@@ -208,10 +203,16 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         detach();
     }
 
+    @Override
+    protected void notifySubscribers() {
+        super.notifySubscribers();
+        mSubject.notifySubscribers();
+        mRating.notifySubscribers();
+    }
+
     void attach() {
         registerObserver(mParentBuilder);
-        notifyDataObservers();
-        notifySubscribers();
+        onDataChanged();
     }
 
     void detach() {
@@ -224,11 +225,6 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     private ReviewBuilder getBuilder() {
         return mParentBuilder.getBuilder();
-    }
-
-    private void notifySubscribers() {
-        mSubject.notifySubscribers();
-        mRating.notifySubscribers();
     }
 
     private void makeToastHasItem(GvData datum) {

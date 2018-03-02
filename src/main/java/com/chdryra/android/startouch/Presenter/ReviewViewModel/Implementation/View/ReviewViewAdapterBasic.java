@@ -36,14 +36,14 @@ import java.util.Comparator;
  * Primary implementation of {@link ReviewViewAdapter}.
  */
 public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObservableDefault
-        implements ReviewViewAdapter<T>, DataObservable.DataObserver{
+        implements ReviewViewAdapter<T>, DataObservable.DataObserver {
 
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
     private DereferencableBasic<GvDataList<T>> mReference;
 
-    public ReviewViewAdapterBasic() {
+    protected ReviewViewAdapterBasic() {
         this(null);
     }
 
@@ -57,11 +57,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
         };
     }
 
-    @Override
-    public DataReference<GvDataList<T>> getGridDataReference() {
-        return mReference;
-    }
-
     protected GridDataWrapper<T> getWrapper() {
         return mWrapper;
     }
@@ -70,6 +65,10 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
         if (mWrapper != null) mWrapper.detachAdapter();
         attachToViewer(wrapper);
         notifyDataObservers();
+    }
+
+    protected void notifySubscribers() {
+        mReference.notifySubscribers();
     }
 
     protected void onAttach() {
@@ -81,6 +80,17 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
     }
 
     @Override
+    public DataReference<GvDataList<T>> getGridDataReference() {
+        return mReference;
+    }
+
+    @Override
+    protected void notifyDataObservers() {
+        super.notifyDataObservers();
+        notifySubscribers();
+    }
+
+    @Override
     public void onDataChanged() {
         mReference.notifySubscribers();
         notifyDataObservers();
@@ -88,7 +98,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
 
     @Override
     public void attachReviewView(ReviewView<T> view) {
-        if(mView != null) detachReviewView(false);
+        if (mView != null) detachReviewView(false);
         mView = view;
         registerObserver(mView);
         if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
@@ -98,13 +108,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
     @Override
     public void detachReviewView() {
         detachReviewView(true);
-    }
-
-    private void detachReviewView(boolean detachViewer) {
-        unregisterObserver(mView);
-        mView = null;
-        if (detachViewer && mWrapper != null && mIsAttached) detachFromViewer();
-        onDetach();
     }
 
     @Override
@@ -149,7 +152,14 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
 
     @Override
     public void sort(Comparator<? super T> comparator, OnSortedCallback callback) {
-        if(mWrapper != null) mWrapper.sort(comparator, callback);
+        if (mWrapper != null) mWrapper.sort(comparator, callback);
+    }
+
+    private void detachReviewView(boolean detachViewer) {
+        unregisterObserver(mView);
+        mView = null;
+        if (detachViewer && mWrapper != null && mIsAttached) detachFromViewer();
+        onDetach();
     }
 
     private void attachToViewer(GridDataWrapper<T> wrapper) {

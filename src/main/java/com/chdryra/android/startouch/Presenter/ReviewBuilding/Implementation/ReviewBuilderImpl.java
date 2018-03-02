@@ -120,7 +120,6 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
         if (ratingIsAverage) setRating(getAverageRating());
-        notifyDataObservers();
     }
 
     @Override
