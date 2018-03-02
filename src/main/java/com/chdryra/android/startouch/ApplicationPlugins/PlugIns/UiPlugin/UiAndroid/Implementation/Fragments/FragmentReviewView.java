@@ -66,18 +66,19 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     public void onStart() {
         super.onStart();
         attachToReviewViewIfNecessary();
+        mLayout.bind();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         attachToReviewViewIfNecessary();
-        updateUi(true);
     }
 
     @Override
     public void onStop() {
         detachFromReviewViewIfNecessary();
+        mLayout.unbind();
         super.onStop();
     }
 
@@ -94,7 +95,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
 
     @Override
     public void onDataChanged() {
-        updateUi(false);
+
     }
 
     @Override
@@ -156,11 +157,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
             mReviewView.detachEnvironment();
             mIsAttached = false;
         }
-    }
-
-    private void updateUi(boolean forceSubject) {
-        //TODO get rid of the hacky forceSubject thing...
-        mLayout.bind();
     }
 }
 

@@ -24,7 +24,6 @@ public class SubjectEditTags extends SubjectEdit<GvTag> {
         mTagAdjuster = tagAdjuster;
     }
 
-    //Overridden
     @Override
     public void onKeyboardDone(CharSequence s) {
         super.onKeyboardDone(s);
