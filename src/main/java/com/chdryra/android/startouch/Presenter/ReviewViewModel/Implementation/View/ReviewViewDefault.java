@@ -8,11 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import android.graphics.Bitmap;
-
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -123,21 +119,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         detachPerspective();
         unregisterObserver(mContainer);
         mContainer = null;
-    }
-
-    @Override
-    public void updateCover() {
-        if(mContainer == null) return;
-
-        mContainer.setCover(null);
-        if (getParams().manageCover()) {
-            getAdapter().getCoverReference().dereference(new DataReference.DereferenceCallback<Bitmap>() {
-                @Override
-                public void onDereferenced(DataValue<Bitmap> value) {
-                    if(value.hasValue()) mContainer.setCover(value.getData());
-                }
-            });
-        }
     }
 
     @Override

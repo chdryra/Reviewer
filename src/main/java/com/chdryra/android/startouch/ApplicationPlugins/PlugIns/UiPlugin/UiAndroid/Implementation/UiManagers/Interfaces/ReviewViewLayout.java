@@ -10,8 +10,6 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 
-import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,8 +42,6 @@ public interface ReviewViewLayout extends OptionSelectListener{
     float getRating();
 
     void setRating(float rating);
-
-    void setCover(@Nullable Bitmap cover);
 
     void bind();
 

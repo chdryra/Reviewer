@@ -24,10 +24,6 @@ public class RatingEdit<T extends GvData> extends ReviewDataEditorActionBasic<T>
 
     }
 
-    public float getRating() {
-        return getEditor().getRating();
-    }
-
     @Override
     public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
                                 boolean fromUser) {

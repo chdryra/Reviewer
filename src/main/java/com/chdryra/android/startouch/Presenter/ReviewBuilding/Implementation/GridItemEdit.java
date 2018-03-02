@@ -78,12 +78,7 @@ public class GridItemEdit<T extends GvDataParcelable> extends LaunchAndAlertable
 
     void updateEditor() {
         getGridData().setUnsorted();
-        onUpdateEditor();
         getEditor().update();
-    }
-
-    void onUpdateEditor() {
-
     }
 
     @Nullable

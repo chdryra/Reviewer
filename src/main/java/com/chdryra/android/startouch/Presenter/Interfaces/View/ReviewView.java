@@ -33,8 +33,6 @@ public interface ReviewView<T extends GvData>
 
     float getContainerRating();
 
-    void updateCover();
-
     CurrentScreen getCurrentScreen();
 
     void attachEnvironment(ReviewViewContainer container, ApplicationInstance app);

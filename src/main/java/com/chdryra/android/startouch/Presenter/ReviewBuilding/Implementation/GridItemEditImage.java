@@ -48,7 +48,7 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
 
         ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {
-            editor.getCover().setIsCover(false);
+            editor.getCoverImage().setIsCover(false);
             newCover.setIsCover(true);
         }
 
@@ -62,10 +62,5 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
             if(images.size() > 0) images.get(0).setIsCover(true);
         }
         updateEditor();
-    }
-
-    @Override
-    protected void onUpdateEditor() {
-        getEditor().updateCover();
     }
 }

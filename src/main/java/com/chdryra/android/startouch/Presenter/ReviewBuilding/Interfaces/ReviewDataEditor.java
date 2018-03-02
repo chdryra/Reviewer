@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -28,17 +29,17 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
 
     void discardEdits();
 
-    String getSubject();
+    DataReference<String> getEditorSubject();
+
+    DataReference<Float> getEditorRating();
 
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);
 
-    float getRating();
-
     void setRating(float rating, boolean fromUser);
 
-    GvImage getCover();
+    GvImage getCoverImage();
 
     void resetData();
 

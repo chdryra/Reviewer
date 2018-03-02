@@ -42,9 +42,9 @@ public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewVi
 
     void setRating(float rating);
 
-    String getSubjectValue();
+    String getSubject();
 
-    float getRatingValue();
+    float getRating();
 
     @Override
     GvDataType<T> getGvDataType();

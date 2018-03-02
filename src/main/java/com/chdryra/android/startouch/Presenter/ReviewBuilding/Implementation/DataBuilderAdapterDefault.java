@@ -62,13 +62,13 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
         mSubject = new DereferencableBasic<String>() {
             @Override
             protected void doDereferencing(DereferenceCallback<String> callback) {
-                callback.onDereferenced(new DataValue<>(getSubjectValue()));
+                callback.onDereferenced(new DataValue<>(getSubject()));
             }
         };
         mRating = new DereferencableBasic<Float>() {
             @Override
             protected void doDereferencing(DereferenceCallback<Float> callback) {
-                callback.onDereferenced(new DataValue<>(getRatingValue()));
+                callback.onDereferenced(new DataValue<>(getRating()));
             }
         };
 
@@ -76,12 +76,12 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
-    public String getSubjectValue() {
+    public String getSubject() {
         return mParentBuilder.getSubject();
     }
 
     @Override
-    public float getRatingValue() {
+    public float getRating() {
         return mParentBuilder.getRating();
     }
 

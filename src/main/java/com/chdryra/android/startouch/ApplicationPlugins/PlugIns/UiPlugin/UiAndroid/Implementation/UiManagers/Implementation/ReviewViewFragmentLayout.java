@@ -88,7 +88,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         ReviewViewAdapter<T> adapter = reviewView.getAdapter();
 
         mMenu = newMenuUi(actions.getMenuAction());
-        mSubject = bindSubject(adapter, params.getSubjectParams());
+        mSubject = bindSubject(adapter.getSubjectReference(), params.getSubjectParams());
         mRating = bindRating(reviewView);
         mSort = bindBanner((Button) mView.findViewById(BANNER),
                 actions.getBannerButtonAction(), params.getBannerButtonParams());
@@ -96,7 +96,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
                 actions.getGridItemAction(), params.getGridViewParams(), calculator);
         mViewSelector = bindContextView(actions.getContextualAction(), params
                 .getContextViewParams());
-        if(params.manageCover()) mCover = bindCover(adapter.getCoverReference());
+        if (params.manageCover()) mCover = bindCover(adapter.getCoverReference());
     }
 
     @Override
@@ -125,18 +125,13 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @Override
-    public void setCover(@Nullable Bitmap cover) {
-        //View only
-    }
-
-    @Override
     public void bind() {
         mSubject.bind();
         mRating.bind();
         mGridData.bind();
         mSort.bind();
         mViewSelector.bind();
-        if(mCover != null) mCover.bind();
+        if (mCover != null) mCover.bind();
     }
 
     @Override
@@ -146,7 +141,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         mGridData.unbind();
         mSort.unbind();
         mViewSelector.unbind();
-        if(mCover != null) mCover.unbind();
+        if (mCover != null) mCover.unbind();
     }
 
     @Override
@@ -160,24 +155,22 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
+    private MenuUi newMenuUi(MenuAction<?> action) {
+        return new MenuUi(action);
+    }
+
+    @NonNull
     private DataBinder<Bitmap> bindCover(DataReference<Bitmap> cover) {
         CoverRvUi ui = new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
         return new DataBinder<>(ui, cover);
     }
 
     @NonNull
-    private MenuUi newMenuUi(MenuAction<?> action) {
-        return new MenuUi(action);
-    }
-
-    @NonNull
     private <T extends GvData> DataBinder<GvDataList<T>> bindGridView
             (DataReference<GvDataList<T>> data,
-                                                                      GridItemAction<T> action,
-                                                                      ReviewViewParams.GridView
-                     params,
-                                                                      CellDimensionsCalculator
-                     calculator) {
+             GridItemAction<T> action,
+             ReviewViewParams.GridView params,
+             CellDimensionsCalculator calculator) {
         RecyclerViewUi<T> ui = new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
                 action, params, calculator);
         mGridUi = ui;
@@ -207,9 +200,9 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private DataBinder<String> bindSubject(ReviewViewAdapter<?> adapter,
+    private DataBinder<String> bindSubject(DataReference<String> subject,
                                            ReviewViewParams.Subject params) {
         mSubjectUi = new SubjectViewUi<>((TextView) mView.findViewById(SUBJECT), params);
-        return new DataBinder<>(mSubjectUi, adapter.getSubjectReference());
+        return new DataBinder<>(mSubjectUi, subject);
     }
 }

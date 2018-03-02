@@ -9,11 +9,6 @@
 package com.chdryra.android.startouch.Presenter.Interfaces.View;
 
 
-import android.annotation.TargetApi;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.support.annotation.Nullable;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 25/05/2016
@@ -31,8 +26,4 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
     void detachFromReviewView();
 
     void setReviewView(ReviewView<?> reviewView);
-
-    @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    void setCover(@Nullable Bitmap cover);
 }

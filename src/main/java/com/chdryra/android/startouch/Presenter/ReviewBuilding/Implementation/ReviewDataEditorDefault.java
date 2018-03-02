@@ -8,16 +8,16 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,8 +28,8 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
         implements ReviewDataEditor<T> {
     private final DataBuilderAdapter<T> mBuilder;
 
-    private String mSubject;
-    private float mRating;
+    private final DataReferenceWrapper<String> mSubject;
+    private final DataReferenceWrapper<Float> mRating;
     private boolean mRatingIsAverage;
 
     public ReviewDataEditorDefault(DataBuilderAdapter<T> builder,
@@ -37,14 +37,14 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
                                    ReviewViewParams params) {
         super(new ReviewViewPerspective<>(builder, actions, params));
         mBuilder = builder;
-        mSubject = builder.getSubjectValue();
-        mRating = builder.getRatingValue();
         mRatingIsAverage = builder.isRatingAverage();
+        mSubject = new DataReferenceWrapper<>(builder.getSubject());
+        mRating = new DataReferenceWrapper<>(builder.getRating());
     }
 
     @Override
     public void setSubject() {
-        mSubject = getContainerSubject();
+        mSubject.setData(getContainerSubject());
     }
 
     @Override
@@ -55,12 +55,9 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
 
     @Override
     public void setRating(float rating, boolean fromUser) {
-        mRating = rating;
-        if (fromUser) {
-            setRatingIsAverage(false);
-        } else if (getContainer() != null) {
-            getContainer().setRating(mRating);
-        }
+        mRating.setData(rating);
+        if (fromUser) setRatingIsAverage(false);
+        onDataChanged();
     }
 
     @Override
@@ -79,7 +76,7 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public GvImage getCover() {
+    public GvImage getCoverImage() {
         return mBuilder.getCover();
     }
 
@@ -97,11 +94,12 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public String getSubject() {
+    public DataReference<String> getEditorSubject() {
         return mSubject;
     }
 
-    public float getRating() {
+    @Override
+    public DataReference<Float> getEditorRating() {
         return mRating;
     }
 
@@ -130,6 +128,8 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     public void update() {
         updateRating();
         notifyDataObservers();
+        mSubject.notifySubscribers();
+        mRating.notifySubscribers();
     }
 
     private void updateRating() {

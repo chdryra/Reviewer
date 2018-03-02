@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
@@ -32,6 +34,11 @@ public class SubjectEditTags extends SubjectEdit<GvTag> {
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        mTagAdjuster.setCurrentSubjectTag(getEditor().getSubject());
+        getEditor().getEditorSubject().dereference(new DataReference.DereferenceCallback<String>() {
+            @Override
+            public void onDereferenced(DataValue<String> value) {
+                if(value.hasValue()) mTagAdjuster.setCurrentSubjectTag(value.getData());
+            }
+        });
     }
 }

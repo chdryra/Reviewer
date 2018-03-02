@@ -58,11 +58,7 @@ public class ButtonAddImage extends ButtonAdd<GvImage>
 
     @Override
     public void onChosenImage(GvImage image) {
-        if (getGridData().size() == 0) {
-            image.setIsCover(true);
-            if (addData(image)) getReviewView().updateCover();
-        } else {
-            addData(image);
-        }
+        if (getGridData().size() == 0) image.setIsCover(true);
+        addData(image);
     }
 }

@@ -135,7 +135,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public void setCover(GvImage image) {
         mAdapter.setCover(image);
-        updateCover();
     }
 
     @Override
