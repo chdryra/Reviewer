@@ -9,7 +9,8 @@
 
 <LinearLayout
     style="@style/LinearLayoutVertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/background">
 
     <LinearLayout
         style="@style/LinearLayoutHorizontal.WrappedVertical"
