@@ -10,10 +10,9 @@ package com.chdryra.android.startouch.Presenter.Interfaces.View;
 
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.Nullable;
-
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,5 +34,5 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    void setCover(@Nullable DataImage cover);
+    void setCover(@Nullable Bitmap cover);
 }

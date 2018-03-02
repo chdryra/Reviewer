@@ -11,7 +11,6 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.corelibrary.FileUtils.FileIncrementor;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -166,12 +165,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         } else {
             return ReadyToBuildResult.YES;
         }
-    }
-
-
-    @Override
-    public Size getDataSize() {
-        return getAdapter().getGridData().getDataSize();
     }
 
     @Override

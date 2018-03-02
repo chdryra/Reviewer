@@ -11,6 +11,7 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewLayout;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ReviewViewLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
@@ -147,8 +150,8 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     }
 
     @Override
-    public void setCover(@Nullable DataImage cover) {
-        mLayout.setCover(cover == null ? null : cover.getBitmap());
+    public void setCover(@Nullable Bitmap cover) {
+        mLayout.setCover(cover);
     }
 
     private void attachToReviewViewIfNecessary() {
@@ -167,7 +170,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
 
     private void updateUi(boolean forceSubject) {
         //TODO get rid of the hacky forceSubject thing...
-        mLayout.bind(forceSubject);
+        mLayout.bind();
     }
 }
 

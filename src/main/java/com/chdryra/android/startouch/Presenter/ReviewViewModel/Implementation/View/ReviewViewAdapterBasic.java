@@ -8,6 +8,10 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
+import android.graphics.Bitmap;
+
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
@@ -15,7 +19,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 import java.util.Comparator;
 
@@ -118,8 +121,8 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
     }
 
     @Override
-    public void getCover(CoverCallback callback) {
-        callback.onAdapterCover(new GvImage());
+    public DataReference<Bitmap> getCoverReference() {
+        return new NullDataReference<>();
     }
 
     @Override

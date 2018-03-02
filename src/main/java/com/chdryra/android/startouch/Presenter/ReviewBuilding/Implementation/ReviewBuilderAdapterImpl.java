@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
@@ -49,6 +51,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     private final BuildScreenGridUi<GC> mQuickGridUi;
     private final DataValidator mDataValidator;
     private final DataBuildersMap mDataBuilders;
+    private final DereferencableBasic<Bitmap> mCover;
     private final DereferencableBasic<String> mSubject;
     private final DereferencableBasic<Float> mRating;
 
@@ -71,6 +74,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
 
         mSubjectTag = new GvTag(builder.getSubject());
 
+        mCover = new DereferencableBasic<Bitmap>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<Bitmap> callback) {
+                callback.onDereferenced(new DataValue<>(getCover().getBitmap()));
+            }
+        };
         mSubject = new DereferencableBasic<String>() {
             @Override
             protected void doDereferencing(DereferenceCallback<String> callback) {
@@ -168,8 +177,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     }
 
     @Override
-    public void getCover(CoverCallback callback) {
-        callback.onAdapterCover(getCover());
+    public DataReference<Bitmap> getCoverReference() {
+        return mCover;
     }
 
     @Override

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -57,14 +59,14 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
     }
 
     @Override
-    public void getCover(CoverCallback callback) {
-        mBuilder.getCover(callback);
+    public DataReference<Bitmap> getCoverReference() {
+        return mBuilder.getCoverReference();
     }
 
     private static class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {
         private GvDataListParcelable<GvSocialPlatform> mSocialPlatforms;
 
-        public ShareScreenViewer(GvDataListParcelable<GvSocialPlatform> socialPlatforms) {
+        ShareScreenViewer(GvDataListParcelable<GvSocialPlatform> socialPlatforms) {
             mSocialPlatforms = socialPlatforms;
         }
 

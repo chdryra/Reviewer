@@ -11,10 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
@@ -38,8 +36,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerReviewData<Value extends HasReviewId,
-        GvRef extends GvDataRef<GvRef, Value, ?>, Reference extends ReviewItemReference<Value>,
+public abstract class ViewerReviewData<Value extends HasReviewId,
+        GvRef extends GvDataRef<GvRef, Value, ?>,
+        Reference extends ReviewItemReference<Value>,
         List extends ReviewListReference<Value, Reference>>
         extends GridDataWrapperBasic<GvRef> {
 
@@ -59,16 +58,6 @@ public class ViewerReviewData<Value extends HasReviewId,
         mAdapterFactory = adapterFactory;
         mStamp = stamp == null ? ReviewStamp.noStamp() : stamp;
         mCache = newDataList();
-    }
-
-    @Override
-    public List getGridDataReference() {
-        return mReference;
-    }
-
-    @Override
-    public DataReference<DataSize> getGridDataSize() {
-        return mReference.getSize();
     }
 
     List getReference() {

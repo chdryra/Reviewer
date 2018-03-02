@@ -8,6 +8,8 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
@@ -43,12 +45,20 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     private final GvDataType<T> mType;
     private final ReviewBuilderAdapter<?> mParentBuilder;
-    private DereferencableBasic<String> mSubject;
-    private DereferencableBasic<Float> mRating;
+    private final DereferencableBasic<Bitmap> mCover;
+    private final DereferencableBasic<String> mSubject;
+    private final DereferencableBasic<Float> mRating;
 
     public DataBuilderAdapterDefault(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
+        mCover = new DereferencableBasic<Bitmap>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<Bitmap> callback) {
+                callback.onDereferenced(new DataValue<>(getCover().getBitmap()));
+            }
+        };
+
         mSubject = new DereferencableBasic<String>() {
             @Override
             protected void doDereferencing(DereferenceCallback<String> callback) {
@@ -178,12 +188,8 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
     }
 
     @Override
-    public void getCover(CoverCallback callback) {
-        if (mType.equals(GvImage.TYPE)) {
-            callback.onAdapterCover(((GvImageList) getGridData()).getRandomCover());
-        } else {
-            mParentBuilder.getCover(callback);
-        }
+    public DataReference<Bitmap> getCoverReference() {
+        return mCover;
     }
 
     @Override

@@ -111,6 +111,15 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     }
 
     @Override
+    public void bind() {
+
+    }
+
+    @Override
+    public void unbind() {
+
+    }
+
     public void bind(boolean forceSubject) {
 //        mSubject.update(forceSubject);
 //        mRatingBar.update();

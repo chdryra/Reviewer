@@ -8,7 +8,11 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
+import android.graphics.Bitmap;
+
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -17,7 +21,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
@@ -128,10 +131,10 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
         mContainer.setCover(null);
         if (getParams().manageCover()) {
-            getAdapter().getCover(new ReviewViewAdapter.CoverCallback() {
+            getAdapter().getCoverReference().dereference(new DataReference.DereferenceCallback<Bitmap>() {
                 @Override
-                public void onAdapterCover(GvImage cover) {
-                    mContainer.setCover(cover);
+                public void onDereferenced(DataValue<Bitmap> value) {
+                    if(value.hasValue()) mContainer.setCover(value.getData());
                 }
             });
         }

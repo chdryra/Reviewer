@@ -8,18 +8,12 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 10/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataRefList<Reference extends GvDataRef> extends GvDataListImpl<Reference> {
-    public GvDataRefList(GvDataList<Reference> data) {
-        super(data);
-    }
-
     public GvDataRefList(GvDataType<Reference> dataType, GvReviewId reviewId) {
         super(dataType, reviewId);
     }

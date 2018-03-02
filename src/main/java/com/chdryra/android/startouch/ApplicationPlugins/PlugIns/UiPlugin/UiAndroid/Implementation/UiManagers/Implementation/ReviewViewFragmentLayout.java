@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Bitmap;
@@ -63,11 +63,11 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     private View mView;
 
     private MenuUi mMenu;
-    private CoverUi mCover;
     private SubjectUi<?> mSubjectUi;
     private RatingUi<?> mRatingUi;
     private RecyclerViewUi<?> mGridUi;
 
+    private DataBinder<Bitmap> mCover;
     private DataBinder<String> mSubject;
     private DataBinder<Float> mRating;
     private DataBinder<String> mSort;
@@ -90,12 +90,13 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
         mMenu = newMenuUi(actions.getMenuAction());
         mSubject = bindSubject(adapter, params.getSubjectParams());
         mRating = bindRating(reviewView);
-        mSort = bindBanner((Button)mView.findViewById(BANNER),
+        mSort = bindBanner((Button) mView.findViewById(BANNER),
                 actions.getBannerButtonAction(), params.getBannerButtonParams());
         mGridData = bindGridView(adapter.getGridDataReference(),
                 actions.getGridItemAction(), params.getGridViewParams(), calculator);
-        mCover = newCoverUi();
-        mViewSelector = bindContextView(actions.getContextualAction(), params.getContextViewParams());
+        mCover = bindCover(adapter.getCoverReference());
+        mViewSelector = bindContextView(actions.getContextualAction(), params
+                .getContextViewParams());
     }
 
     @Override
@@ -130,6 +131,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @Override
     public void bind() {
+        mCover.bind();
         mSubject.bind();
         mRating.bind();
         mGridData.bind();
@@ -139,6 +141,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @Override
     public void unbind() {
+        mCover.unbind();
         mSubject.unbind();
         mRating.unbind();
         mGridData.unbind();
@@ -157,8 +160,9 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private CoverUi newCoverUi() {
-        return new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
+    private DataBinder<Bitmap> bindCover(DataReference<Bitmap> cover) {
+        CoverRvUi ui = new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
+        return new DataBinder<>(ui, cover);
     }
 
     @NonNull
@@ -167,10 +171,13 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private <T extends GvData> DataBinder<GvDataList<T>> bindGridView(DataReference<GvDataList<T>> data,
+    private <T extends GvData> DataBinder<GvDataList<T>> bindGridView
+            (DataReference<GvDataList<T>> data,
                                                                       GridItemAction<T> action,
-                                                                      ReviewViewParams.GridView params,
-                                                                      CellDimensionsCalculator calculator) {
+                                                                      ReviewViewParams.GridView
+                     params,
+                                                                      CellDimensionsCalculator
+                     calculator) {
         RecyclerViewUi<T> ui = new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
                 action, params, calculator);
         mGridUi = ui;
@@ -187,7 +194,8 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private DataBinder<String> bindBanner(Button view, ButtonAction<?> action, ReviewViewParams.BannerButton params) {
+    private DataBinder<String> bindBanner(Button view, ButtonAction<?> action, ReviewViewParams
+            .BannerButton params) {
         BannerButtonUi ui = new BannerButtonUi(view, action, params.getAlpha(), DECORATOR);
         return new DataBinder<>(ui, action.getTitle());
     }
@@ -200,7 +208,7 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private DataBinder<String> bindSubject(ReviewViewAdapter<?> adapter,
-                                          ReviewViewParams.Subject params) {
+                                           ReviewViewParams.Subject params) {
         mSubjectUi = new SubjectViewUi<>((TextView) mView.findViewById(SUBJECT), params);
         return new DataBinder<>(mSubjectUi, adapter.getSubjectReference());
     }
