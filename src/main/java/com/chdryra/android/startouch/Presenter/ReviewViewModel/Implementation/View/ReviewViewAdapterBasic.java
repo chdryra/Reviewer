@@ -9,7 +9,10 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
@@ -18,7 +21,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 import java.util.Comparator;
 
@@ -37,13 +41,25 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
     private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
     private boolean mIsAttached = false;
+    private DereferencableBasic<GvDataList<T>> mReference;
 
     public ReviewViewAdapterBasic() {
-        mWrapper = null;
+        this(null);
     }
 
-    public ReviewViewAdapterBasic(GridDataWrapper<T> wrapper) {
+    public ReviewViewAdapterBasic(@Nullable GridDataWrapper<T> wrapper) {
         mWrapper = wrapper;
+        mReference = new DereferencableBasic<GvDataList<T>>() {
+            @Override
+            protected void doDereferencing(DereferenceCallback<GvDataList<T>> callback) {
+                callback.onDereferenced(new DataValue<>(getGridData()));
+            }
+        };
+    }
+
+    @Override
+    public DataReference<GvDataList<T>> getGridDataReference() {
+        return mReference;
     }
 
     protected GridDataWrapper<T> getWrapper() {
@@ -66,6 +82,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
 
     @Override
     public void onDataChanged() {
+        mReference.notifySubscribers();
         notifyDataObservers();
     }
 

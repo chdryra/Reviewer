@@ -94,9 +94,9 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
                 actions.getBannerButtonAction(), params.getBannerButtonParams());
         mGridData = bindGridView(adapter.getGridDataReference(),
                 actions.getGridItemAction(), params.getGridViewParams(), calculator);
-        mCover = bindCover(adapter.getCoverReference());
         mViewSelector = bindContextView(actions.getContextualAction(), params
                 .getContextViewParams());
+        if(params.manageCover()) mCover = bindCover(adapter.getCoverReference());
     }
 
     @Override
@@ -131,22 +131,22 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
 
     @Override
     public void bind() {
-        mCover.bind();
         mSubject.bind();
         mRating.bind();
         mGridData.bind();
         mSort.bind();
         mViewSelector.bind();
+        if(mCover != null) mCover.bind();
     }
 
     @Override
     public void unbind() {
-        mCover.unbind();
         mSubject.unbind();
         mRating.unbind();
         mGridData.unbind();
         mSort.unbind();
         mViewSelector.unbind();
+        if(mCover != null) mCover.unbind();
     }
 
     @Override

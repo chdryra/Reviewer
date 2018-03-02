@@ -40,11 +40,11 @@ public class CompoundBinder<T> extends DataBinder<T> {
 
     @Override
     public void onReferenceValue(T value) {
+        super.onReferenceValue(value);
         if (mEvent.bindOnValue(value)) {
-            super.onReferenceValue(value);
-            unbindBinderIfNecessary();
-        } else {
             bindBinderIfNecessary();
+        } else {
+            unbindBinderIfNecessary();
         }
     }
 

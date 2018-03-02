@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 
 /**
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using
@@ -44,4 +45,6 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
     DataReference<Float> getRatingReference();
 
     DataReference<Bitmap> getCoverReference();
+
+    DataReference<GvDataList<T>> getGridDataReference();
 }
