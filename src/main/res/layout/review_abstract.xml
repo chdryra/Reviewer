@@ -46,9 +46,10 @@
         <TextView
             android:id="@+id/review_tags"
             style="@style/TextViewGridCell.Left.Tiny"
+            android:textColor="?inverseText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?dominantBackground"
+            android:background="?inverseDarkBackground"
             android:layout_alignBottom="@id/review_image"/>
 
         <include layout="@layout/subject_rating_horizontal_small"

@@ -211,8 +211,8 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     public void inflate(final Context context, ViewGroup parent) {
         super.inflate(context, parent);
         View view = getView();
-        view.findViewById(SUBJECT_RATING).setAlpha(0.7f);
-        view.findViewById(TAGS).setAlpha(0.7f);
+        view.findViewById(SUBJECT_RATING).setAlpha(0.8f);
+        view.findViewById(TAGS).setAlpha(0.8f);
         setButtons();
     }
 

@@ -12,6 +12,7 @@
     <style name="Theme.Reviewer.SmokeSlate">
         <item name="dominantBackground">@color/Smoke</item>
         <item name="inverseBackground">@color/Slate</item>
+        <item name="inverseDarkBackground">@color/TransBlack</item>
         <item name="transBackground">@color/TransSmoke</item>
         <item name="darkBackground">@color/DarkSmoke</item>
         <item name="transDarkBackground">@color/TransDarkSmoke</item>

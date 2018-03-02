@@ -13,11 +13,12 @@
 
     <LinearLayout
         style="@style/LinearLayoutHorizontal.WrappedVertical"
-        android:background="?dominantBackground">
+        android:background="?inverseDarkBackground">
 
         <TextView
             android:id="@+id/review_subject"
             style="@style/TextViewGridCell.Left.Small.Bold"
+            android:textColor="?inverseText"
             android:padding="@dimen/grid_item_text_padding"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -31,6 +32,7 @@
             <TextView
                 android:id="@+id/review_rating_number"
                 style="@style/TextViewGridCell.Bold"
+                android:textColor="?dominantBackground"
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:gravity="end|center"

@@ -9,6 +9,7 @@
 <resources>
     <attr name="dominantBackground" format="color"/>
     <attr name="inverseBackground" format="color"/>
+    <attr name="inverseDarkBackground" format="color"/>
     <attr name="transBackground" format="color"/>
     <attr name="darkBackground" format="color"/>
     <attr name="transDarkBackground" format="color"/>
