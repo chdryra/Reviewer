@@ -31,8 +31,6 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
 
     DataReference<String> getEditorSubject();
 
-    DataReference<Float> getEditorRating();
-
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);

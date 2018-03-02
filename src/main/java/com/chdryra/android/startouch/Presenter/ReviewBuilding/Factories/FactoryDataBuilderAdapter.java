@@ -9,8 +9,10 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.CommentBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.DataBuilderAdapterDefault;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -22,6 +24,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 public class FactoryDataBuilderAdapter {
     public <T extends GvDataParcelable> DataBuilderAdapterDefault<T> newDataBuilderAdapter
             (GvDataType<T> dataType, ReviewBuilderAdapter<?> parent) {
-        return new DataBuilderAdapterDefault<>(dataType, parent);
+
+        //TODO make type safe
+        if (dataType.equals(GvComment.TYPE)){
+            return (DataBuilderAdapterDefault<T>) new CommentBuilderAdapter(parent);
+
+        } else {
+            return new DataBuilderAdapterDefault<>(dataType, parent);
+        }
     }
 }

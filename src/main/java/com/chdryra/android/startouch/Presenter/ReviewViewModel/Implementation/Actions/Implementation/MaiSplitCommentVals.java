@@ -10,7 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
         .Implementation;
 
 
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewCommentsEditor;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.CommentBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**
@@ -34,7 +34,7 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
 
     private void setSplit() {
         try {
-            ((ReviewCommentsEditor) getReviewView()).setSplit(mSplit);
+            ((CommentBuilderAdapter) getReviewView().getAdapter()).setSplitComments(mSplit);
         } catch (ClassCastException e) {
             e.printStackTrace();
         }

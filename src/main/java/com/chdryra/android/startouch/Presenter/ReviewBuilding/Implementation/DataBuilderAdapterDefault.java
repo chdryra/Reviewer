@@ -212,7 +212,6 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     void attach() {
         registerObserver(mParentBuilder);
-        onDataChanged();
     }
 
     void detach() {

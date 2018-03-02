@@ -92,7 +92,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
 
     @Override
     public void onDataChanged() {
-        mReference.notifySubscribers();
         notifyDataObservers();
     }
 

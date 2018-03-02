@@ -99,11 +99,6 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
     }
 
     @Override
-    public DataReference<Float> getEditorRating() {
-        return mRating;
-    }
-
-    @Override
     public void resetData() {
         mBuilder.resetData();
     }
@@ -120,7 +115,6 @@ public class ReviewDataEditorDefault<T extends GvDataParcelable> extends ReviewV
 
     @Override
     public void onDataChanged() {
-        nullifyGridData();
         update();
     }
 

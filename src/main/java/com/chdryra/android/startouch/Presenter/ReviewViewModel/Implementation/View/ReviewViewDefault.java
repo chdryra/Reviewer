@@ -12,7 +12,6 @@ import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
@@ -32,7 +31,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     private ReviewViewContainer mContainer;
     private ApplicationInstance mApp;
-    private GvDataList<T> mGridViewData;
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
@@ -42,19 +40,9 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         return mContainer;
     }
 
-    protected void setGridViewData(GvDataList<T> dataToShow) {
-        mGridViewData = dataToShow;
-        if (mContainer != null) mContainer.onDataChanged();
-    }
-
     protected void detachPerspective() {
         mPerspective.detachFromActions();
         mPerspective.detachFromAdapter();
-        nullifyGridData();
-    }
-
-    protected void nullifyGridData() {
-        mGridViewData = null;
     }
 
     @Override
@@ -67,6 +55,11 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         if (mApp == null) throw new IllegalStateException("Environment not attached");
 
         return mApp;
+    }
+
+    @Override
+    public void onDataChanged() {
+        notifyDataObservers();
     }
 
     @Override
@@ -122,12 +115,6 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     }
 
     @Override
-    public void onDataChanged() {
-        nullifyGridData();
-        notifyDataObservers();
-    }
-
-    @Override
     public String getLaunchTag() {
         return getAdapter().getStamp() + " " + TAG;
     }
@@ -150,6 +137,5 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
     private void attachPerspective() {
         mPerspective.attachToActions(this);
         mPerspective.attachToAdapter(this);
-        mGridViewData = mPerspective.getAdapter().getGridData();
     }
 }

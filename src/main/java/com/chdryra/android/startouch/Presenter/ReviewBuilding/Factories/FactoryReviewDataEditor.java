@@ -9,17 +9,14 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewCommentsEditor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewDataEditorDefault;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
-        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -57,16 +54,6 @@ public class FactoryReviewDataEditor {
         ReviewViewActions<T> actions = actionsFactory.newActions(type);
         ReviewViewParams params = mParamsFactory.newEditorParams(type);
 
-        //TODO make type safe
-        ReviewDataEditor editor;
-        if(type.equals(GvComment.TYPE)) {
-            editor = new ReviewCommentsEditor((DataBuilderAdapter<GvComment>) adapter,
-                    (ReviewViewActions<GvComment>) actions, params);
-        } else {
-            editor = new ReviewDataEditorDefault<>(adapter, actions, params);
-        }
-
-        //TODO make type safe
-        return (ReviewDataEditor<T>) editor;
+        return new ReviewDataEditorDefault<>(adapter, actions, params);
     }
 }
