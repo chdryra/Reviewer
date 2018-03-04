@@ -92,7 +92,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         if (mContainer != null) {
             if (mContainer != container) {
                 unregisterObserver(mContainer);
-                mContainer.detachFromReviewView();
+                mContainer.detach();
                 mContainer = container;
                 registerObserver(mContainer);
                 notifyDataObservers();

@@ -51,7 +51,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  */
 public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone<T> {
     private final FactoryReviewView mFactoryView;
-    private final FactoryLaunchCommands mFactoryLaunchCommands;
+    private final FactoryLaunchCommands mCommands;
     private final UiLauncher mLauncher;
     private final ReviewStamp mStamp;
     private final AuthorsRepo mRepo;
@@ -63,7 +63,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     FactoryActionsViewData(ActionsParameters<T> parameters) {
         super(parameters.getDataType());
         mFactoryView = parameters.getFactoryView();
-        mFactoryLaunchCommands = parameters.getFactoryLaunchCommands();
+        mCommands = parameters.getFactoryLaunchCommands();
         mLauncher = parameters.getLauncher();
         mStamp = parameters.getStamp();
         mRepo = parameters.getRepo();
@@ -93,7 +93,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @Override
     public ButtonAction<T> newBannerButton() {
         if (hasStamp()) {
-            return new ButtonAuthorReviews<>(mLauncher.getReviewLauncher(), mStamp, mRepo);
+            return new ButtonAuthorReviews<>(mCommands.newLaunchProfileCommand(), mStamp, mRepo);
         } else if(mComparators != null){
             return new ButtonSorter<>(newSelector(), mComparators);
         } else {
@@ -120,7 +120,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     }
 
     FactoryLaunchCommands getCommandsFactory() {
-        return mFactoryLaunchCommands;
+        return mCommands;
     }
 
     LaunchableConfig getGridItemConfig() {
@@ -130,7 +130,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     @NonNull
     MenuOptionsItem<T> newOptionsMenuItem() {
         OptionsSelectAndExecute command;
-        FactoryReviewOptions factory = mFactoryLaunchCommands.getOptionsFactory();
+        FactoryReviewOptions factory = mCommands.getOptionsFactory();
         if(hasStamp()) {
             command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL, mStamp.getDataAuthorId());
         } else {

@@ -29,8 +29,7 @@ import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataRef
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
@@ -51,7 +50,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewEditFragmentLayout implements ReviewViewLayout {
+public class ReviewEditLayout implements ReviewViewContainerLayout {
     private static final int LAYOUT = R.layout.fragment_review_edit;
     private static final int SUBJECT = R.id.subject_text;
     private static final int RATING = R.id.review_rating;
@@ -85,7 +84,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
     }
 
     @Override
-    public <T extends GvData> void attachReviewView(ReviewView<T> reviewView,
+    public <T extends GvData> void bindToReviewView(ReviewView<T> reviewView,
                                                     CellDimensionsCalculator calculator) {
         ReviewViewActions<T> actions = reviewView.getActions();
         ReviewViewParams params = reviewView.getParams();
@@ -164,7 +163,7 @@ public class ReviewEditFragmentLayout implements ReviewViewLayout {
 
     @NonNull
     private DataBinder<Bitmap> bindCover(DataReference<Bitmap> cover) {
-        CoverRvUi ui = new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
+        CoverUi ui = new CoverUi((ImageView) mView.findViewById(COVER), mGridUi);
         return new DataBinder<>(ui, cover);
     }
 

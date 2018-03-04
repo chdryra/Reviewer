@@ -18,9 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
@@ -30,9 +33,10 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContain
  * On: 23/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentReviewView extends Fragment implements ReviewViewContainer, OptionSelectListener{
+public class FragmentReviewView extends Fragment implements ReviewViewContainer,
+        OptionSelectListener {
     private ReviewView<?> mReviewView;
-    private ReviewViewLayout mLayout;
+    private ReviewViewContainerLayout mLayout;
     private boolean mIsAttached = false;
 
     @Override
@@ -55,9 +59,9 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
             throw new RuntimeException("Activity must be ActivityReviewView!", e);
         }
 
-        mLayout = activity.getReviewLayout();
-        View v = mLayout.inflateLayout(inflater, container);
-        setReviewView(activity.getReviewView());
+        ReviewViewContainerLayout layout = activity.getContainerLayout();
+        View v = layout.inflateLayout(inflater, container);
+        bind(layout, activity.getReviewView());
 
         return v;
     }
@@ -65,19 +69,23 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     @Override
     public void onStart() {
         super.onStart();
-        attachToReviewViewIfNecessary();
-        mLayout.bind();
+        if (mReviewView != null) {
+            attach();
+            mLayout.bind();
+        } else {
+            returnToFeedScreen();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        attachToReviewViewIfNecessary();
+        attach();
     }
 
     @Override
     public void onStop() {
-        detachFromReviewViewIfNecessary();
+        detach();
         mLayout.unbind();
         super.onStop();
     }
@@ -96,18 +104,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     @Override
     public void onDataChanged() {
 
-    }
-
-    @Override
-    public void setReviewView(ReviewView<?> reviewView) {
-        detachFromReviewViewIfNecessary();
-        mReviewView = reviewView;
-        if(mReviewView != null) {
-            mLayout.attachReviewView(mReviewView, new CellDimensionsCalculator(getActivity()));
-            attachToReviewViewIfNecessary();
-        } else {
-            AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
-        }
     }
 
     @Override
@@ -136,26 +132,32 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     }
 
     @Override
-    public ReviewView<?> getReviewView() {
-        return mReviewView;
-    }
-
-    @Override
-    public void detachFromReviewView() {
-        mIsAttached = false;
-    }
-
-    private void attachToReviewViewIfNecessary() {
-        if (!mIsAttached) {
-            mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
-            mIsAttached = true;
-        }
-    }
-
-    private void detachFromReviewViewIfNecessary() {
+    public void detach() {
         if (mIsAttached) {
             mReviewView.detachEnvironment();
             mIsAttached = false;
+        }
+    }
+
+    private void bind(ReviewViewContainerLayout layout, ReviewView<?> reviewView) {
+        mLayout = layout;
+        detach();
+        mReviewView = reviewView;
+        if (mReviewView != null) {
+            mLayout.bindToReviewView(mReviewView, new CellDimensionsCalculator(getActivity()));
+        } else {
+            returnToFeedScreen();
+        }
+    }
+
+    private void returnToFeedScreen() {
+        AppInstanceAndroid.getInstance(getActivity()).getUi().returnToFeedScreen();
+    }
+
+    private void attach() {
+        if (!mIsAttached) {
+            mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
+            mIsAttached = true;
         }
     }
 }

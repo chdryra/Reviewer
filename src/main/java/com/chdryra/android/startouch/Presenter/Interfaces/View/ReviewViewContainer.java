@@ -21,9 +21,5 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
 
     void setRating(float rating);
 
-    ReviewView<?> getReviewView();
-
-    void detachFromReviewView();
-
-    void setReviewView(ReviewView<?> reviewView);
+    void detach();
 }

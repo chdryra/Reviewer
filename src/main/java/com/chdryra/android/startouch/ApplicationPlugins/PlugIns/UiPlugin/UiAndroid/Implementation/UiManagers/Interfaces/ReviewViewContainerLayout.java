@@ -28,10 +28,10 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReviewViewLayout extends OptionSelectListener{
+public interface ReviewViewContainerLayout extends OptionSelectListener{
     View inflateLayout(LayoutInflater inflater, ViewGroup container);
 
-    <T extends GvData> void attachReviewView(ReviewView<T> reviewView, CellDimensionsCalculator calculator);
+    <T extends GvData> void bindToReviewView(ReviewView<T> reviewView, CellDimensionsCalculator calculator);
 
     void inflateMenu(Menu menu, MenuInflater inflater);
 

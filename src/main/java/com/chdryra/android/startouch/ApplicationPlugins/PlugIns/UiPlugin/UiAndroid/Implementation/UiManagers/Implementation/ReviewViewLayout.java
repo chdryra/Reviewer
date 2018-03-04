@@ -28,8 +28,7 @@ import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataRef
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
@@ -48,7 +47,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class ReviewViewFragmentLayout implements ReviewViewLayout {
+public class ReviewViewLayout implements ReviewViewContainerLayout {
     private static final int LAYOUT = R.layout.fragment_review_view;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.middle_button;
@@ -81,22 +80,27 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @Override
-    public <T extends GvData> void attachReviewView(ReviewView<T> reviewView,
+    public <T extends GvData> void bindToReviewView(ReviewView<T> reviewView,
                                                     CellDimensionsCalculator calculator) {
         ReviewViewActions<T> actions = reviewView.getActions();
         ReviewViewParams params = reviewView.getParams();
         ReviewViewAdapter<T> adapter = reviewView.getAdapter();
 
         mMenu = newMenuUi(actions.getMenuAction());
-        mSubject = bindSubject(adapter.getSubjectReference(), params.getSubjectParams());
-        mRating = bindRating(reviewView);
+        mSubject = bindSubject((TextView) mView.findViewById(SUBJECT),
+                adapter.getSubjectReference(), params.getSubjectParams());
+        mRating = bindRating((TextView) mView.findViewById(RATING), reviewView);
         mSort = bindBanner((Button) mView.findViewById(BANNER),
                 actions.getBannerButtonAction(), params.getBannerButtonParams());
-        mGridData = bindGridView(adapter.getGridDataReference(),
-                actions.getGridItemAction(), params.getGridViewParams(), calculator);
-        mViewSelector = bindContextView(actions.getContextualAction(), params
-                .getContextViewParams());
-        if (params.manageCover()) mCover = bindCover(adapter.getCoverReference());
+        mGridData = bindGridView((RecyclerView) mView.findViewById(GRID),
+                adapter.getGridDataReference(), actions.getGridItemAction(),
+                params.getGridViewParams(), calculator);
+        mViewSelector = bindContextView(mView.findViewById(CONTEXT_VIEW),
+                actions.getContextualAction(), params.getContextViewParams());
+        if (params.manageCover()) {
+            mCover = bindCover((ImageView) mView.findViewById(COVER),
+                    adapter.getCoverReference());
+        }
     }
 
     @Override
@@ -160,49 +164,52 @@ public class ReviewViewFragmentLayout implements ReviewViewLayout {
     }
 
     @NonNull
-    private DataBinder<Bitmap> bindCover(DataReference<Bitmap> cover) {
-        CoverRvUi ui = new CoverRvUi((ImageView) mView.findViewById(COVER), mGridUi);
+    private DataBinder<Bitmap> bindCover(ImageView view, DataReference<Bitmap> cover) {
+        CoverUi ui = new CoverUi(view, mGridUi);
         return new DataBinder<>(ui, cover);
     }
 
     @NonNull
     private <T extends GvData> DataBinder<GvDataList<T>> bindGridView
-            (DataReference<GvDataList<T>> data,
+            (RecyclerView view,
+             DataReference<GvDataList<T>> data,
              GridItemAction<T> action,
              ReviewViewParams.GridView params,
              CellDimensionsCalculator calculator) {
-        RecyclerViewUi<T> ui = new RecyclerViewUi<>((RecyclerView) mView.findViewById(GRID),
-                action, params, calculator);
+        RecyclerViewUi<T> ui = new RecyclerViewUi<>(view, action, params, calculator);
         mGridUi = ui;
         return new DataBinder<>(ui, data);
     }
 
     @NonNull
-    private DataBinder<String> bindContextView(@Nullable ButtonAction<?> action,
+    private DataBinder<String> bindContextView(View view,
+                                               @Nullable ButtonAction<?> action,
                                                ReviewViewParams.ContextView params) {
-        ContextUi ui = new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
-                action, params, DECORATOR);
-        return new DataBinder<>(ui, action != null ? action.getTitle() : new NullDataReference
-                <String>());
+        ContextUi ui = new ContextUi(view, CONTEXT_BUTTON, action, params, DECORATOR);
+        DataReference<String> data = action != null ? action.getTitle() : new
+                NullDataReference<String>();
+        return new DataBinder<>(ui, data);
     }
 
     @NonNull
-    private DataBinder<String> bindBanner(Button view, ButtonAction<?> action, ReviewViewParams
-            .BannerButton params) {
+    private DataBinder<String> bindBanner(Button view,
+                                          ButtonAction<?> action,
+                                          ReviewViewParams.BannerButton params) {
         BannerButtonUi ui = new BannerButtonUi(view, action, params.getAlpha(), DECORATOR);
         return new DataBinder<>(ui, action.getTitle());
     }
 
     @NonNull
-    private DataBinder<Float> bindRating(ReviewView<?> reviewView) {
-        mRatingUi = new RatingTextUi(reviewView, (TextView) mView.findViewById(RATING));
+    private DataBinder<Float> bindRating(TextView view, ReviewView<?> reviewView) {
+        mRatingUi = new RatingTextUi(reviewView, view);
         return new DataBinder<>(mRatingUi, reviewView.getAdapter().getRatingReference());
     }
 
     @NonNull
-    private DataBinder<String> bindSubject(DataReference<String> subject,
-                                           ReviewViewParams.Subject params) {
-        mSubjectUi = new SubjectViewUi<>((TextView) mView.findViewById(SUBJECT), params);
+    private <T extends TextView> DataBinder<String> bindSubject(T view,
+                                                                DataReference<String> subject,
+                                                                ReviewViewParams.Subject params) {
+        mSubjectUi = new SubjectViewUi<>(view, params);
         return new DataBinder<>(mSubjectUi, subject);
     }
 }

@@ -18,9 +18,9 @@ import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewEditFragmentLayout;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewViewFragmentLayout;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewEditLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -42,7 +42,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         return mView;
     }
 
-    public ReviewViewLayout getReviewLayout() {
+    public ReviewViewContainerLayout getContainerLayout() {
         return createReviewViewLayout(mView.getParams().getViewType());
     }
 
@@ -50,9 +50,9 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         return AppInstanceAndroid.getInstance(this);
     }
 
-    protected ReviewViewLayout createReviewViewLayout(ReviewViewParams.ViewType viewType) {
-        return viewType == ReviewViewParams.ViewType.VIEW ? new ReviewViewFragmentLayout() : new
-                ReviewEditFragmentLayout();
+    protected ReviewViewContainerLayout createReviewViewLayout(ReviewViewParams.ViewType viewType) {
+        return viewType == ReviewViewParams.ViewType.VIEW ? new ReviewViewLayout() : new
+                ReviewEditLayout();
     }
 
     @Override

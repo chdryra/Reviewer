@@ -11,7 +11,6 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
@@ -20,18 +19,21 @@ import android.widget.ImageView;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class CoverUi extends SimpleViewUi<ImageView, Bitmap> {
-    public CoverUi(ImageView view) {
+public class CoverUi extends ImageUi {
+    private final GridViewUi<?, ?> mGridView;
+
+    public CoverUi(ImageView view, GridViewUi<?, ?> gridView) {
         super(view);
+        mGridView = gridView;
     }
 
     @Override
-    public void update(@Nullable Bitmap value) {
-        getView().setImageBitmap(value);
-    }
-
-    @Override
-    Bitmap getValue() {
-        return ((BitmapDrawable)getView().getDrawable()).getBitmap();
+    public void update(@Nullable Bitmap image) {
+        super.update(image);
+        if (image != null) {
+            mGridView.setTransparent();
+        } else {
+            mGridView.setOpaque();
+        }
     }
 }

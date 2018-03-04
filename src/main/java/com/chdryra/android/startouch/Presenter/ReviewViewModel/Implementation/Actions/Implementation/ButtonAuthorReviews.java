@@ -13,14 +13,14 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.A
 import android.text.format.DateFormat;
 import android.view.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchProfileCommand;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,13 +30,13 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLaunche
 
 public class ButtonAuthorReviews<T extends GvData> extends ButtonActionNone<T>
 implements DataReference.DereferenceCallback<AuthorName>{
-    private final ReviewLauncher mLauncher;
+    private final LaunchProfileCommand mLaunchProfile;
     private final AuthorId mAuthorId;
     private final String mDate;
 
-    public ButtonAuthorReviews(ReviewLauncher launcher, ReviewStamp stamp, AuthorsRepo repo) {
+    public ButtonAuthorReviews(LaunchProfileCommand launchProfile, ReviewStamp stamp, AuthorsRepo repo) {
         super(stamp.toReadableDate());
-        mLauncher = launcher;
+        mLaunchProfile = launchProfile;
         mAuthorId = stamp.getAuthorId();
         mDate = DateFormat.format("dd-MM-yy", stamp.getDate().getTime()).toString();
         repo.getAuthor(mAuthorId).dereference(this);
@@ -44,7 +44,7 @@ implements DataReference.DereferenceCallback<AuthorName>{
 
     @Override
     public void onClick(View v) {
-        mLauncher.launchAsList(mAuthorId);
+        mLaunchProfile.execute(mAuthorId);
         notifyListeners();
     }
 
