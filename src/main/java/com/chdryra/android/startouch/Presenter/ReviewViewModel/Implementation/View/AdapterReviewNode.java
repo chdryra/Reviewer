@@ -17,15 +17,13 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import android.graphics.Bitmap;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -38,9 +36,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements ReviewNode.NodeObserver {
     private final ReviewNode mNode;
-    private final DereferencableBasic<String> mSubject;
-    private final DereferencableBasic<Float> mRating;
-    private final DereferencableBasic<Bitmap> mCover;
+    private final SubscribableReference<String> mSubject;
+    private final SubscribableReference<Float> mRating;
+    private final SubscribableReference<Bitmap> mCover;
     private final DataReference<ProfileImage> mProfileImage;
     private final DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
     private boolean mFindingCover = false;
@@ -54,13 +52,13 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         mProfileImage = profileImage;
         mCoversConverter = coversConverter;
         mCover = new CoverReference();
-        mSubject = new DereferencableBasic<String>() {
+        mSubject = new SubscribableReference<String>() {
             @Override
             protected void doDereferencing(DereferenceCallback<String> callback) {
                 callback.onDereferenced(new DataValue<>(mNode.getSubject().getSubject()));
             }
         };
-        mRating = new DereferencableBasic<Float>() {
+        mRating = new SubscribableReference<Float>() {
             @Override
             protected void doDereferencing(DereferenceCallback<Float> callback) {
                 callback.onDereferenced(new DataValue<>(mNode.getRating().getRating()));
@@ -125,7 +123,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         mCover.notifySubscribers();
     }
 
-    private class CoverReference extends DereferencableBasic<Bitmap> {
+    private class CoverReference extends SubscribableReference<Bitmap> {
         private GvImage mCover = new GvImage();
 
         @Override

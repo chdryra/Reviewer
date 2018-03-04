@@ -9,7 +9,7 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SimpleItemReference<T extends HasReviewId> extends DereferencableBasic<T> implements
+public class SimpleItemReference<T extends HasReviewId> extends SubscribableReference<T> implements
         ReviewItemReference<T> {
     private final Dereferencer<T> mDereferencer;
 

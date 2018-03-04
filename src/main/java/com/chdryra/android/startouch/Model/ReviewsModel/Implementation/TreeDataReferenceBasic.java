@@ -97,7 +97,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             });
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     @Override
@@ -111,7 +111,7 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
             });
         }
 
-        notifyValueSubscribers();
+        notifySubscribers();
     }
 
     @Override

@@ -11,7 +11,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -46,27 +46,27 @@ public class DataBuilderAdapterDefault<T extends GvDataParcelable> extends Revie
 
     private final GvDataType<T> mType;
     private final ReviewBuilderAdapter<?> mParentBuilder;
-    private final DereferencableBasic<Bitmap> mCover;
-    private final DereferencableBasic<String> mSubject;
-    private final DereferencableBasic<Float> mRating;
+    private final SubscribableReference<Bitmap> mCover;
+    private final SubscribableReference<String> mSubject;
+    private final SubscribableReference<Float> mRating;
 
     public DataBuilderAdapterDefault(GvDataType<T> type, ReviewBuilderAdapter<?> parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
-        mCover = new DereferencableBasic<Bitmap>() {
+        mCover = new SubscribableReference<Bitmap>() {
             @Override
             protected void doDereferencing(DereferenceCallback<Bitmap> callback) {
                 callback.onDereferenced(new DataValue<>(getCover().getBitmap()));
             }
         };
 
-        mSubject = new DereferencableBasic<String>() {
+        mSubject = new SubscribableReference<String>() {
             @Override
             protected void doDereferencing(DereferenceCallback<String> callback) {
                 callback.onDereferenced(new DataValue<>(getSubject()));
             }
         };
-        mRating = new DereferencableBasic<Float>() {
+        mRating = new SubscribableReference<Float>() {
             @Override
             protected void doDereferencing(DereferenceCallback<Float> callback) {
                 callback.onDereferenced(new DataValue<>(getRating()));

@@ -71,11 +71,6 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
     }
 
     @Override
-    protected boolean contains(ValueSubscriber<T> subscriber) {
-        return mBindings.containsKey(subscriber);
-    }
-
-    @Override
     protected void doDereferencing(DereferenceCallback<T> callback) {
         mReference.addListenerForSingleValueEvent(getDereferencer(callback));
     }

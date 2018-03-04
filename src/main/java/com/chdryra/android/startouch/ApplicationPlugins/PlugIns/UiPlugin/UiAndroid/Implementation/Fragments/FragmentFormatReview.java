@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DereferencableBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.Ui.PagerAdapterBasic;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
@@ -429,7 +429,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
 
     private void bindStamp(TextView view) {
         mStamp = new DataBinder<>(new StampFormattedUi(view, mNode.getPublishDate(), launchAuthor
-                ()), getRepo().getAuthors().getReference(mNode.getAuthorId()));
+                ()), getRepo().getAuthors().getAuthor(mNode.getAuthorId()));
     }
 
     private void bindTags(TextView view) {
@@ -562,7 +562,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         return (LinearLayout) v.findViewById(id);
     }
 
-    public static class SubjectReference extends DereferencableBasic<DataSubject> {
+    public static class SubjectReference extends SubscribableReference<DataSubject> {
         private final ReviewNode mNode;
 
         public SubjectReference(ReviewNode node) {
@@ -575,7 +575,7 @@ public class FragmentFormatReview extends PagerAdapterBasic.PageableFragment imp
         }
     }
 
-    public static class RatingReference extends DereferencableBasic<DataRating> {
+    public static class RatingReference extends SubscribableReference<DataRating> {
         public final ReviewNode mNode;
 
         private RatingReference(ReviewNode node) {
