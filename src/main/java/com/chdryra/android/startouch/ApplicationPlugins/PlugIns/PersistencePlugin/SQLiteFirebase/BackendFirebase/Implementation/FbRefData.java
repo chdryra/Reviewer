@@ -41,7 +41,7 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
         mBindings = new HashMap<>();
     }
 
-    Firebase getReference() {
+    Firebase getFbReference() {
         return mReference;
     }
 

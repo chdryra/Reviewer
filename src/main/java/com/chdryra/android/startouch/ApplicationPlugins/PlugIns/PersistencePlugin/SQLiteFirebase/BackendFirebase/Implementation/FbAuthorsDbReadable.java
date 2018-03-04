@@ -35,7 +35,8 @@ public class FbAuthorsDbReadable extends FbReviewsRepoBasic {
         mStructure = structure;
     }
 
-    FbAuthorsDb getStructure() {
+    @Override
+    public FbAuthorsDb getStructure() {
         return mStructure;
     }
 }

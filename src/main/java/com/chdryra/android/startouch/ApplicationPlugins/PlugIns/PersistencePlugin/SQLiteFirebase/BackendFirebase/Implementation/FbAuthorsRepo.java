@@ -57,9 +57,8 @@ public class FbAuthorsRepo implements AuthorsRepo {
     }
 
     @Override
-    public AuthorRef getReference(AuthorId authorId) {
-        Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, authorId);
-        return mReferenceFactory.newAuthorNameFromIndex(db, authorId);
+    public AuthorRef getAuthor(AuthorId authorId) {
+        return getAuthorProfile(authorId).getAuthor();
     }
 
     @Override

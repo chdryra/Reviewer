@@ -33,7 +33,7 @@ public class GvConverterAuthorIds extends
 
     @Override
     public GvAuthorId convert(DataAuthorId datum, @Nullable ReviewId reviewId) {
-        return new GvAuthorId(newId(reviewId), mRepo.getReference(datum));
+        return new GvAuthorId(newId(reviewId), mRepo.getAuthor(datum));
     }
 
     @Override

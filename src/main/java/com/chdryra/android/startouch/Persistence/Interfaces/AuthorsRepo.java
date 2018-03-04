@@ -35,7 +35,7 @@ public interface AuthorsRepo {
         void onAuthorId(DataReference<AuthorId> authorId, CallbackMessage message);
     }
 
-    AuthorRef getReference(AuthorId authorId);
+    AuthorRef getAuthor(AuthorId authorId);
 
     AuthorProfileRef getAuthorProfile(AuthorId authorId);
 

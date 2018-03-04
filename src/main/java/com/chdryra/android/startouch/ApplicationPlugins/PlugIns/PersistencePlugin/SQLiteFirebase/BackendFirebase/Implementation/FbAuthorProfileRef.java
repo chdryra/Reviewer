@@ -58,11 +58,11 @@ public class FbAuthorProfileRef extends FbRefData<AuthorProfile> implements Auth
 
     @Override
     public AuthorRef getAuthor() {
-        return mReferenceFactory.newAuthorName(getReference().child(ProfileAuthor.AUTHOR), mAuthorId);
+        return mReferenceFactory.newAuthorName(getFbReference().child(ProfileAuthor.AUTHOR), mAuthorId);
     }
 
     @Override
     public DataReference<ProfileImage> getProfileImage() {
-        return mReferenceFactory.newImage(getReference().child(ProfileAuthor.PHOTO), mAuthorId);
+        return mReferenceFactory.newImage(getFbReference().child(ProfileAuthor.PHOTO), mAuthorId);
     }
 }

@@ -119,7 +119,7 @@ public class FactoryReviewViewActions {
                                                            @Nullable AuthorId followAuthor) {
         boolean follow = followAuthor != null;
         ActionsParameters<GvNode> actionParams = newListActionParams(node, viewFactory, follow);
-        AuthorRef name = follow ? mAuthorsRepo.getReference(followAuthor) : null;
+        AuthorRef name = follow ? mAuthorsRepo.getAuthor(followAuthor) : null;
         return newListActions(actionParams, name);
     }
 

@@ -46,8 +46,8 @@ public abstract class SimpleListReference<Value extends HasReviewId, Reference e
     }
 
     @Override
-    public void unbindSubscriber(ItemSubscriber<Value> binder) {
-        mItemBinders.remove(binder);
+    public void unbindSubscriber(ItemSubscriber<Value> subscriber) {
+        mItemBinders.remove(subscriber);
     }
 
     @Override
@@ -63,14 +63,14 @@ public abstract class SimpleListReference<Value extends HasReviewId, Reference e
     }
 
     @Override
-    public void bindSubscriber(ItemSubscriber<Value> binder) {
-        mItemBinders.add(binder);
-        dereferenceForBinder(binder);
+    public void bindSubscriber(ItemSubscriber<Value> subscriber) {
+        mItemBinders.add(subscriber);
+        dereferenceForBinder(subscriber);
     }
 
     @Override
-    public boolean containsSubscriber(ItemSubscriber<Value> binder) {
-        return mItemBinders.contains(binder);
+    public boolean containsSubscriber(ItemSubscriber<Value> subscriber) {
+        return mItemBinders.contains(subscriber);
     }
 
     private void dereferenceForBinder(final ItemSubscriber<Value> binder) {

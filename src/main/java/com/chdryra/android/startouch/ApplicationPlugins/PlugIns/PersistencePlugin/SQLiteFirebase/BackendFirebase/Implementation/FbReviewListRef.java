@@ -52,7 +52,7 @@ public class FbReviewListRef<Value extends HasReviewId, Reference extends Review
 
     @Override
     public void toItemReferences(final ItemReferencesCallback<Value, Reference> callback) {
-        mItemReferencer.toItemReferences(getReference(), mSizeReference,
+        mItemReferencer.toItemReferences(getFbReference(), mSizeReference,
                 new ListItemsReferencer.Callback<Value, Reference>() {
             @Override
             public void onItemReferences(IdableList<Reference> references) {

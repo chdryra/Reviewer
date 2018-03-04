@@ -74,17 +74,22 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
     }
 
     @Override
-    protected void fireForBinder(final ItemSubscriber<ReviewReference> binder) {
+    protected void onBinding(final ItemSubscriber<ReviewReference> subscriber) {
         doDereferencing(new DereferenceCallback<List<ReviewReference>>() {
             @Override
             public void onDereferenced(DataValue<List<ReviewReference>> value) {
                 if(value.hasValue()) {
                     for(ReviewReference reference : value.getData()) {
-                        binder.onItemAdded(reference);
+                        subscriber.onItemAdded(reference);
                     }
                 }
             }
         });
+    }
+
+    @Override
+    protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
+
     }
 
     @Nullable
@@ -93,25 +98,25 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
         return new ArrayList<>();
     }
 
-    protected void notifyOnAdd(ReviewReference reference) {
+    void notifyOnAdd(ReviewReference reference) {
         for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onItemAdded(reference);
         }
     }
 
-    protected void notifyOnRemove(ReviewReference reference) {
+    void notifyOnRemove(ReviewReference reference) {
         for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onItemRemoved(reference);
         }
     }
 
-    protected void notifyOnChanged(Collection<ReviewReference> collection) {
+    void notifyOnChanged(Collection<ReviewReference> collection) {
         for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onCollectionChanged(collection);
         }
     }
 
-    protected void notifyOnInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
+    void notifyOnInvalidated(CollectionReference<ReviewReference, ?, ?> reference) {
         for (ItemSubscriber<ReviewReference> binder : getItemSubscribers()) {
             binder.onInvalidated(reference);
         }

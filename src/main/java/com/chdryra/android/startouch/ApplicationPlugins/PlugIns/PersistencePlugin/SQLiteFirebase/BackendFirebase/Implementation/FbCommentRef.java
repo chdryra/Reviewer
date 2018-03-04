@@ -55,12 +55,12 @@ public class FbCommentRef extends FbReviewItemRef<DataComment> implements Commen
 
     @Override
     public CommentRef getFirstSentence() {
-        return mReferencer.toItemReference(getReviewId(), getReference().child(SENTENCES), 0);
+        return mReferencer.toItemReference(getReviewId(), getFbReference().child(SENTENCES), 0);
     }
 
     @Override
     public void toSentences(final SentencesCallback callback) {
-        mReferencer.toItemReferences(getReference().child(SENTENCES), mSizeReference,
+        mReferencer.toItemReferences(getFbReference().child(SENTENCES), mSizeReference,
                 new ListItemsReferencer.Callback<DataComment, CommentRef>() {
             @Override
             public void onItemReferences(IdableList<CommentRef> sentences) {

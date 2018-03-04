@@ -65,13 +65,20 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
     }
 
     @Override
-    protected void fireForBinder(ItemSubscriber<ReviewReference> binder) {
+    protected void onBinding(ItemSubscriber<ReviewReference> subscriber) {
+        if(getItemSubscribers().size() != 1) return;
+
         for (RepoSubscriber sub : mRepoSubscribers.values()) {
-            if (getItemSubscribers().size() == 1 && !sub.isSubscribed()) {
-                sub.subscribe();
-            } else {
-                sub.fireForBinder(binder);
-            }
+            if (!sub.isSubscribed()) sub.subscribe();
+        }
+    }
+
+    @Override
+    protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
+        if(getItemSubscribers().size() != 0) return;
+
+        for (RepoSubscriber sub : mRepoSubscribers.values()) {
+            if (sub.isSubscribed()) sub.unsubscribe();
         }
     }
 
@@ -226,19 +233,15 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
             }
         }
 
-        private boolean hasReviewId(ReviewId id) {
-            return mReviews.contains(id);
+        private void unsubscribe() {
+            if (mSubscribed) {
+                mSubscribed = false;
+                mRepo.unsubscribe(this);
+            }
         }
 
-        private void fireForBinder(final ItemSubscriber<ReviewReference> binder) {
-            for (ReviewId id : mReviews) {
-                mRepo.getReference(id, new RepoCallback() {
-                    @Override
-                    public void onRepoCallback(RepoResult result) {
-                        if (!result.isReference()) binder.onItemAdded(result.getReference());
-                    }
-                });
-            }
+        private boolean hasReviewId(ReviewId id) {
+            return mReviews.contains(id);
         }
 
         private void unsubscribeAndDelete() {
@@ -258,7 +261,7 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
         }
 
         private void delete() {
-            mRepo.unsubscribe(this);
+            unsubscribe();
             mLocked = false;
             mReviews.clear();
             mRepo = null;

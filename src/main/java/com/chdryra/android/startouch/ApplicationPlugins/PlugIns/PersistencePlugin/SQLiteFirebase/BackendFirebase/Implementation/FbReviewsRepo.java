@@ -46,18 +46,18 @@ public class FbReviewsRepo extends FbReviewsRepoBasic implements ReviewsRepo {
 
     @Override
     public ReviewsRepoReadable getRepoForAuthor(AuthorId authorId) {
-        return mAuthorsDbFactory.newRepoReadable(getDataBase(), getAuthorsDb(authorId));
+        return mAuthorsDbFactory.newRepoReadable(getFbReference(), getAuthorsDb(authorId));
     }
 
     @Override
     public ReviewsRepoWriteable getRepoForUser(UserSession session) {
-        return mAuthorsDbFactory.newRepoWriteable(getDataBase(), getAuthorsDb(session
+        return mAuthorsDbFactory.newRepoWriteable(getFbReference(), getAuthorsDb(session
                 .getAuthorId()));
     }
 
     @Override
     public ReviewCollection getCollectionForAuthor(AuthorId authorId, String name) {
-        return mAuthorsDbFactory.getReviewCollection(getDataBase(), authorId, name);
+        return mAuthorsDbFactory.getReviewCollection(getFbReference(), authorId, name);
     }
 
     private FbAuthorsDb getAuthorsDb(AuthorId authorId) {
