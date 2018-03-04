@@ -17,7 +17,7 @@ import android.widget.TextView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
-    public TextUi(final T view) {
+    TextUi(final T view) {
         super(view);
     }
 
@@ -28,6 +28,6 @@ public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
 
     @Override
     public void update(String s) {
-        getView().setText(s);
+        if(!getValue().equals(s)) getView().setText(s);
     }
 }

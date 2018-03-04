@@ -151,8 +151,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
     public void setSubject(String subject, boolean adjustTags) {
         if (!mBuilder.getSubject().equals(subject)) {
             mBuilder.setSubject(subject);
+            adjustTagsIfNecessary(adjustTags);
         }
-        adjustTagsIfNecessary(adjustTags);
     }
 
     @Override

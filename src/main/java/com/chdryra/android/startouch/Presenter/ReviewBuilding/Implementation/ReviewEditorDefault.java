@@ -151,6 +151,11 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
+    public String getSubject() {
+        return mAdapter.getSubject();
+    }
+
+    @Override
     public float getRating() {
         return mAdapter.getRating();
     }

@@ -28,6 +28,6 @@ public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcel
 
     @Override
     public void onTextChanged(CharSequence s) {
-
+        if(!getEditor().getSubject().equals(s.toString())) getEditor().setSubject();
     }
 }

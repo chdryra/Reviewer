@@ -39,4 +39,10 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onDetachReviewView() {
+        doSplit(false);
+        super.onDetachReviewView();
+    }
 }

@@ -63,6 +63,8 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     @Override
     ReviewBuilderAdapter<GC> getAdapter();
 
+    String getSubject();
+
     float getRating();
 
     void setSubject();

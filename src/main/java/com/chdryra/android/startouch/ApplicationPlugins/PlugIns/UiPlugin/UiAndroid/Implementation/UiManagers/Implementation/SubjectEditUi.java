@@ -62,8 +62,8 @@ public class SubjectEditUi extends SubjectViewUi<EditText> {
     }
 
     private void setSubject() {
-        String newText = getView().getText().toString();
-        if(!getTextCache().equals(newText)) {
+        String newText = getView().getText().toString().trim();
+        if(!newText.equals(getTextCache())) {
             updateTextCache();
             mSubjectAction.onKeyboardDone(newText);
         }

@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class SubjectUi<T extends TextView> extends TextUi<T> {
     private String mTextCache;
 
-    public SubjectUi(T view) {
+    SubjectUi(T view) {
         super(view);
     }
 
@@ -31,11 +31,11 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
         updateTextCache();
     }
 
-    protected void updateTextCache() {
+    void updateTextCache() {
         mTextCache = getValue();
     }
 
-    public String getTextCache() {
+    String getTextCache() {
         return mTextCache;
     }
 }
