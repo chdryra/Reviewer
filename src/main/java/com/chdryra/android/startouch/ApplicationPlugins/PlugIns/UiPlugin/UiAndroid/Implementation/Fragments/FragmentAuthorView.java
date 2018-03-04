@@ -14,6 +14,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,15 +24,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.FollowBinder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ImageBinder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.SizeBinder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.TextBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.DataBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.FollowBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ImageUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.SizeUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.TextUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.WrapperBinder;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -67,12 +79,12 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
     private static final String FOLLOWERS = Strings.FOLLOWERS;
 
     private AuthorId mAuthorId;
-    private TextBinder<AuthorName> mName;
-    private ImageBinder<ProfileImage> mPhoto;
     private FollowBinder mFollow;
-    private SizeBinder mRatings;
-    private SizeBinder mFollowers;
-    private SizeBinder mFollowing;
+    private DataBinder<AuthorName> mName;
+    private DataBinder<ProfileImage> mPhoto;
+    private DataBinder<Size> mRatings;
+    private DataBinder<Size> mFollowers;
+    private DataBinder<Size> mFollowing;
 
     public static FragmentAuthorView newInstance(GvAuthorId authorId) {
         FragmentAuthorView fragment = new FragmentAuthorView();
@@ -111,7 +123,7 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
         } else {
             bindProfile(name, photo);
             bindFollowEditButton(followEdit);
-            bindButtonBar(ratings, followers, following);
+            bindButtons(ratings, followers, following);
         }
 
         return view;
@@ -149,6 +161,36 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
         return false;
     }
 
+    private AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    private AuthorId getUserId() {
+        return getApp().getAccounts().getUserSession().getAuthorId();
+    }
+
+    private UiSuite getUi() {
+        return getApp().getUi();
+    }
+
+    private RepositorySuite getRepository() {
+        return getApp().getRepository();
+    }
+
+    private void bindButtons(Button ratings, Button followers, Button following) {
+        ReviewNodeRepo reviews = getRepository().getReviews();
+        SocialProfileRef social = getSocialProfile(mAuthorId);
+        mRatings = bindButton(ratings, reviews.getRepoForAuthor(mAuthorId).getSize(), REVIEWS);
+        mFollowers = bindButton(followers, social.getFollowers().getSize(), FOLLOWERS);
+        mFollowing = bindButton(following, social.getFollowing().getSize(), FOLLOWING);
+        ratings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getUi().getLauncher().getReviewLauncher().launchAsList(mAuthorId);
+            }
+        });
+    }
+
     private boolean setAuthor() {
         Bundle args = getArguments();
         if (args == null) return false;
@@ -159,20 +201,20 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
     private void bindProfile(TextView name, ImageView photo) {
         AuthorProfileRef profile = getRepository().getAuthors().getAuthorProfile(mAuthorId);
 
-        mName = new TextBinder<>(profile.getAuthor(), name,
-                new TextBinder.StringGetter<AuthorName>() {
-            @Override
-            public String getString(AuthorName value) {
-                return value.getName();
-            }
-        });
+        mName = new WrapperBinder<>(new TextUi<>(name), profile.getAuthor(),
+                new DataGetter<AuthorName, String>() {
+                    @Override
+                    public String getData(AuthorName item) {
+                        return item.getName();
+                    }
+                });
 
-        mPhoto = new ImageBinder<>(profile.getProfileImage(), photo, IMAGE_PLACEHOLDER,
-                new ImageBinder.BitmapGetter<ProfileImage>() {
-            @Nullable
+        mPhoto = new WrapperBinder<>(new ImageUi(photo, IMAGE_PLACEHOLDER),
+                profile.getImage(), new DataGetter<ProfileImage, Bitmap>() {
             @Override
-            public Bitmap getBitmap(ProfileImage value) {
-                return value.getBitmap();
+            @Nullable
+            public Bitmap getData(ProfileImage item) {
+                return item.getBitmap();
             }
         });
     }
@@ -192,34 +234,9 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
         }
     }
 
-    private void bindButtonBar(Button ratings, Button followers, Button following) {
-        ReviewNodeRepo reviews = getRepository().getReviews();
-        SocialProfileRef social = getSocialProfile(mAuthorId);
-        mRatings = new SizeBinder(reviews.getRepoForAuthor(mAuthorId).getSize(), ratings, REVIEWS);
-        mFollowers = new SizeBinder(social.getFollowers().getSize(), followers, FOLLOWERS);
-        mFollowing = new SizeBinder(social.getFollowing().getSize(), following, FOLLOWING);
-        ratings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getUi().getLauncher().getReviewLauncher().launchAsList(mAuthorId);
-            }
-        });
-    }
-
-    private AppInstanceAndroid getApp() {
-        return AppInstanceAndroid.getInstance(getActivity());
-    }
-
-    private AuthorId getUserId() {
-        return getApp().getAccounts().getUserSession().getAuthorId();
-    }
-
-    private UiSuite getUi() {
-        return getApp().getUi();
-    }
-
-    private RepositorySuite getRepository() {
-        return getApp().getRepository();
+    @NonNull
+    private DataBinder<Size> bindButton(Button button, DataReference<Size> reference, String stem) {
+        return new DataBinder<>(new SizeUi(button, stem, null), reference);
     }
 
     private SocialProfileRef getSocialProfile(AuthorId authorId) {

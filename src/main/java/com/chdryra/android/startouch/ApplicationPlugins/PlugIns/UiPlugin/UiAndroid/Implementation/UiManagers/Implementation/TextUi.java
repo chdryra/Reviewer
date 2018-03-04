@@ -17,7 +17,7 @@ import android.widget.TextView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
-    TextUi(final T view) {
+    public TextUi(T view) {
         super(view);
     }
 

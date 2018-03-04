@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.app.Activity;
@@ -27,12 +28,13 @@ public class CellDimensionsCalculator {
         activity.getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
-    public Dimensions calcDimensions(ReviewViewParams.CellDimension cellWidth, ReviewViewParams.CellDimension cellHeight, int padding) {
+    public Dimensions calcDimensions(ReviewViewParams.CellDimension cellWidth, ReviewViewParams
+            .CellDimension cellHeight, int padding) {
         boolean isWrappedVert = cellHeight.equals(ReviewViewParams.CellDimension.WRAPPED);
         boolean isWrappedHorz = cellWidth.equals(ReviewViewParams.CellDimension.WRAPPED);
         int min = Math.min(mMetrics.widthPixels, mMetrics.heightPixels);
-        if(isWrappedHorz) min = mMetrics.heightPixels;
-        if(isWrappedVert) min = mMetrics.widthPixels;
+        if (isWrappedHorz) min = mMetrics.heightPixels;
+        if (isWrappedVert) min = mMetrics.widthPixels;
 
         int span = min == mMetrics.widthPixels ? cellWidth.getDivider() : cellHeight.getDivider();
         int maxCellSize = Math.max(min - span * padding, 0);
@@ -55,10 +57,6 @@ public class CellDimensionsCalculator {
 
         public int getCellHeight() {
             return mCellHeight;
-        }
-
-        public boolean isWrapped() {
-            return mCellHeight == -1;
         }
     }
 }

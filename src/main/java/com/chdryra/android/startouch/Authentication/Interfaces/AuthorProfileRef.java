@@ -23,5 +23,5 @@ public interface AuthorProfileRef extends DataReference<AuthorProfile>{
 
     AuthorRef getAuthor();
 
-    DataReference<ProfileImage> getProfileImage();
+    DataReference<ProfileImage> getImage();
 }

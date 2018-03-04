@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.annotation.Nullable;
@@ -25,13 +26,9 @@ public class ContextUi extends SimpleViewUi<Button, String> {
     private final TitleDecorator mDecorator;
     private final ButtonAction<?> mAction;
 
-//    public String getValue() {
-//        ButtonAction<?> action = reviewView.getActions().getContextualAction();
-//        return action != null ? action.getButtonTitle() : "";
-//    }
-//
-    public ContextUi(View view, int buttonId, @Nullable ButtonAction<?> action, ReviewViewParams.ContextView params,
-                     TitleDecorator decorator) {
+    ContextUi(View view, int buttonId, @Nullable ButtonAction<?> action, ReviewViewParams
+            .ContextView params,
+              TitleDecorator decorator) {
         super((Button) view.findViewById(buttonId));
         mAction = action;
         mDecorator = decorator;

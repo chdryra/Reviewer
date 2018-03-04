@@ -54,23 +54,23 @@ public class CompoundBinder<T> extends DataBinder<T> {
         bindBinderIfNecessary();
     }
 
+    @Override
+    public void unbind() {
+        super.unbind();
+        unbindBinderIfNecessary();
+    }
+
     private void bindBinderIfNecessary() {
-        if(!mIsSubstitute) {
+        if (!mIsSubstitute) {
             mBinder.bind();
             mIsSubstitute = true;
         }
     }
 
     private void unbindBinderIfNecessary() {
-        if(mIsSubstitute) {
+        if (mIsSubstitute) {
             mBinder.unbind();
             mIsSubstitute = false;
         }
-    }
-
-    @Override
-    public void unbind() {
-        super.unbind();
-        unbindBinderIfNecessary();
     }
 }

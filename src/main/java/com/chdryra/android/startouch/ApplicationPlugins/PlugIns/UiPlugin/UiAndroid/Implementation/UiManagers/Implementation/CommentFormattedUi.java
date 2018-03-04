@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Typeface;
@@ -19,8 +19,10 @@ import android.widget.TextView;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +32,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 public class CommentFormattedUi extends DataSectionUi<DataComment> {
     private TextView mHeadline;
 
-    public CommentFormattedUi(LinearLayout section, TextView headline, @Nullable final Command onClick) {
+    public CommentFormattedUi(LinearLayout section, TextView headline, @Nullable final Command
+            onClick) {
         super(section, Strings.Formatted.COMMENT);
 
         setOnClickCommand(onClick);
@@ -49,7 +52,8 @@ public class CommentFormattedUi extends DataSectionUi<DataComment> {
 
     @Override
     protected void updateView(IdableList<DataComment> data) {
-        updateView(Typeface.NORMAL, DataFormatter.formatComments(data), DataFormatter.getHeadlineQuote(data));
+        updateView(Typeface.NORMAL, DataFormatter.formatComments(data), DataFormatter
+                .getHeadlineQuote(data));
     }
 
     @Override

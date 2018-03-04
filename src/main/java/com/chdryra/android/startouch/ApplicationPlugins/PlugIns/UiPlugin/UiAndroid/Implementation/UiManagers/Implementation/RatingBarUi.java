@@ -18,7 +18,7 @@ import android.widget.RatingBar;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RatingBarUi extends RatingUi<RatingBar> {
-    public RatingBarUi(final RatingBar view) {
+    RatingBarUi(final RatingBar view) {
         super(view);
     }
 

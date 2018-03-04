@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Comparators.BooleanComparator;
 import com.chdryra.android.corelibrary.Comparators.DataComparator;
-import com.chdryra.android.corelibrary.Comparators.DataGetter;
+import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
 import com.chdryra.android.corelibrary.Comparators.FloatComparator;
 import com.chdryra.android.corelibrary.Comparators.NamedComparator;
 import com.chdryra.android.corelibrary.Comparators.StringComparator;

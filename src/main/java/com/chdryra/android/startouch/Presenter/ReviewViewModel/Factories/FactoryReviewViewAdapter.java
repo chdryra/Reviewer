@@ -269,7 +269,7 @@ public class FactoryReviewViewAdapter {
     }
 
     private DataReference<ProfileImage> getProfileImage(ReviewNode node) {
-        return mAuthorsRepo.getAuthorProfile(node.getAuthorId()).getProfileImage();
+        return mAuthorsRepo.getAuthorProfile(node.getAuthorId()).getImage();
     }
 
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter

@@ -156,7 +156,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
         unbindFromBookmark();
         if (mCoverBinder != null) mCoverBinder.unbind();
         if (mProfileBinder != null) {
-            mAuthorsRepo.getAuthorProfile(mReview.getAuthorId()).getProfileImage().unsubscribe
+            mAuthorsRepo.getAuthorProfile(mReview.getAuthorId()).getImage().unsubscribe
                     (mProfileBinder);
         }
         if (mCommentsBinder != null) mReview.getComments().unsubscribe(mCommentsBinder);
@@ -508,7 +508,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
             returned();
         } else {
             mProfileBinder = new ProfileSubscriber(id);
-            mAuthorsRepo.getAuthorProfile(id).getProfileImage().subscribe(mProfileBinder);
+            mAuthorsRepo.getAuthorProfile(id).getImage().subscribe(mProfileBinder);
         }
     }
 

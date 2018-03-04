@@ -47,7 +47,7 @@ public class NullAuthorProfileRef implements AuthorProfileRef {
     }
 
     @Override
-    public DataReference<ProfileImage> getProfileImage() {
+    public DataReference<ProfileImage> getImage() {
         return new NullDataReference<>();
     }
 

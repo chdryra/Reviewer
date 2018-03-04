@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.view.View;
@@ -22,8 +23,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 public class BannerButtonUi extends SimpleViewUi<Button, String> {
     private final TitleDecorator mDecorator;
     private final ButtonAction<?> mAction;
-
-    //return reviewView.getActions().getBannerButtonAction().getButtonTitle();
 
     BannerButtonUi(Button view, ButtonAction<?> action, int alpha, TitleDecorator decorator) {
         super(view);

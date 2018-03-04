@@ -15,23 +15,46 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ImageUi extends SimpleViewUi<ImageView, Bitmap> {
+public class ImageUi extends SimpleViewUi<ImageView, Bitmap> {
+    private final int mPlaceholder;
+
     public ImageUi(ImageView view) {
         super(view);
+        mPlaceholder = -1;
+    }
+
+    public ImageUi(ImageView view, int placeholder, @Nullable Command onClick) {
+        super(view, onClick);
+        mPlaceholder = placeholder;
     }
 
     @Override
     public void update(@Nullable Bitmap value) {
-        getView().setImageBitmap(value);
+        if(value != null) {
+            getView().setImageBitmap(value);
+        } else {
+            setPlaceholder();
+        }
     }
 
     @Override
     Bitmap getValue() {
         return ((BitmapDrawable)getView().getDrawable()).getBitmap();
+    }
+
+    private void setPlaceholder() {
+        if(mPlaceholder != -1) {
+            getView().setImageResource(mPlaceholder);
+        } else {
+            getView().setImageBitmap(null);
+        }
     }
 }

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.view.View;
@@ -45,6 +46,15 @@ public class FollowBinder implements CollectionReference.ItemSubscriber<AuthorId
         mFollowButton = followButton;
     }
 
+    public void bind() {
+        mFollowButton.setText(Strings.Buttons.FETCHING);
+        mUsersProfile.isFollowing(mCandidateId, this);
+    }
+
+    public void unbind() {
+        mFollowing.unsubscribe(this);
+    }
+
     @Override
     public void onItemAdded(AuthorId item) {
         if (item.equals(mCandidateId)) setButton(UNFOLLOW);
@@ -79,17 +89,6 @@ public class FollowBinder implements CollectionReference.ItemSubscriber<AuthorId
         }
     }
 
-    private void setButton(final SocialProfileRef.FollowUnfollow followUnfollow) {
-        mFollowButton.setText(followUnfollow == UNFOLLOW ? Strings.Buttons.UNFOLLOW : Strings
-                .Buttons.FOLLOW);
-        mFollowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mUsersProfile.followUnfollow(mCandidateId, followUnfollow, FollowBinder.this);
-            }
-        });
-    }
-
     @Override
     public void onIsFollowing(AuthorId authorId, boolean isFollowing, CallbackMessage message) {
         if (message.isOk()) {
@@ -100,12 +99,14 @@ public class FollowBinder implements CollectionReference.ItemSubscriber<AuthorId
         }
     }
 
-    public void bind() {
-        mFollowButton.setText(Strings.Buttons.FETCHING);
-        mUsersProfile.isFollowing(mCandidateId, this);
-    }
-
-    public void unbind() {
-        mFollowing.unsubscribe(this);
+    private void setButton(final SocialProfileRef.FollowUnfollow followUnfollow) {
+        mFollowButton.setText(followUnfollow == UNFOLLOW ? Strings.Buttons.UNFOLLOW : Strings
+                .Buttons.FOLLOW);
+        mFollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUsersProfile.followUnfollow(mCandidateId, followUnfollow, FollowBinder.this);
+            }
+        });
     }
 }
