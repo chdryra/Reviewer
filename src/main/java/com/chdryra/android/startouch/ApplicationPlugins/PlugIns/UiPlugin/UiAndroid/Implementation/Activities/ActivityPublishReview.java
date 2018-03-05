@@ -24,7 +24,7 @@ public class ActivityPublishReview extends ActivityReviewView {
     private PresenterReviewPublish mPresenter;
 
     @Override
-    protected ReviewView createReviewView() {
+    public ReviewView createReviewView() {
         mPresenter =  new PresenterReviewPublish.Builder().build(getApp(),
                 new ActivitySocialAuthUi());
         return mPresenter.getView();

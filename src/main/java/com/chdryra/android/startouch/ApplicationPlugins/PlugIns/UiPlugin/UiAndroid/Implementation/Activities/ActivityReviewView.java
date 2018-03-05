@@ -18,12 +18,8 @@ import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewEditLayout;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewViewLayout;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -35,24 +31,10 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLaunche
 public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi,
         OptionSelectListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
-
-    private ReviewView<?> mView;
-
-    public ReviewView<?> getReviewView() {
-        return mView;
-    }
-
-    public ReviewViewContainerLayout getContainerLayout() {
-        return createReviewViewLayout(mView.getParams().getViewType());
-    }
+    private static final String FRAGMENT = "Fragment";
 
     protected AppInstanceAndroid getApp() {
         return AppInstanceAndroid.getInstance(this);
-    }
-
-    protected ReviewViewContainerLayout createReviewViewLayout(ReviewViewParams.ViewType viewType) {
-        return viewType == ReviewViewParams.ViewType.VIEW ? new ReviewViewLayout() : new
-                ReviewEditLayout();
     }
 
     @Override
@@ -63,20 +45,17 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        getApp().retainView(mView, outState);
         super.onSaveInstanceState(outState);
+        getFragmentManager().putFragment(outState, FRAGMENT, getFragment());
     }
 
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
-        //Get retained to remove from memory but prefer new view over retained view
-        ReviewView<?> retained = null;
-        if (savedInstanceState != null) retained = getApp().getRetainedView(savedInstanceState);
-
-        mView = createReviewView();
-        if (mView == null) mView = retained;
-
-        return new FragmentReviewView();
+        if (savedInstanceState != null) {
+            return getFragmentManager().getFragment(savedInstanceState, FRAGMENT);
+        } else {
+            return new FragmentReviewView();
+        }
     }
 
     @Override
@@ -91,24 +70,14 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        boolean consumed = mView.onOptionSelected(requestCode, option);
-        if (!consumed) {
-            FragmentReviewView fragment = (FragmentReviewView) getFragment();
-            consumed = fragment.onOptionSelected(requestCode, option);
-        }
-
-        return consumed;
+        FragmentReviewView fragment = (FragmentReviewView) getFragment();
+        return fragment.onOptionSelected(requestCode, option);
     }
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        boolean consumed = mView.onOptionsCancelled(requestCode);
-        if (!consumed) {
-            FragmentReviewView fragment = (FragmentReviewView) getFragment();
-            consumed = fragment.onOptionsCancelled(requestCode);
-        }
-
-        return consumed;
+        FragmentReviewView fragment = (FragmentReviewView) getFragment();
+        return fragment.onOptionsCancelled(requestCode);
     }
 
     @Override
@@ -125,7 +94,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     }
 
     @Nullable
-    ReviewView<?> createReviewView() {
+    public ReviewView<?> createReviewView() {
         return getApp().unpackView(getIntent());
     }
 }

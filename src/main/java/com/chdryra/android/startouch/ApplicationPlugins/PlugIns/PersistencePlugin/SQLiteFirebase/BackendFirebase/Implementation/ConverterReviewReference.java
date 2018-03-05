@@ -44,7 +44,6 @@ public class ConverterReviewReference implements SnapshotConverter<ReviewReferen
     @Override
     @Nullable
     public ReviewReference convert(DataSnapshot snapshot) {
-        Object value1 = snapshot.getValue();
         ReviewListEntry value = snapshot.getValue(ReviewListEntry.class);
         return value == null ? null :
                 mReferencer.newReference(value.toInverseDate(), getReviewDb(value), getAggregatesDb(value));

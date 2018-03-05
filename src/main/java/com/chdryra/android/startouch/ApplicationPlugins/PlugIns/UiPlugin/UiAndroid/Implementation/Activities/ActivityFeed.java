@@ -28,7 +28,7 @@ public class ActivityFeed extends ActivityReviewView implements
     private PresenterFeed mPresenter;
 
     @Override
-    protected ReviewView createReviewView() {
+    public ReviewView createReviewView() {
         mPresenter = new PresenterFeed.Builder().build(getApp(), this);
         mPresenter.attach();
         return mPresenter.getView();
@@ -41,7 +41,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     protected void onDestroy() {
-        mPresenter.detach();
+        if(mPresenter != null) mPresenter.detach();
         super.onDestroy();
     }
 

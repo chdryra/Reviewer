@@ -31,6 +31,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     private ReviewViewContainer mContainer;
     private ApplicationInstance mApp;
+    private boolean mIsAttached = false;
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
@@ -89,21 +90,13 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
-        if (mContainer != null) {
-            if (mContainer != container) {
-                unregisterObserver(mContainer);
-                mContainer.detach();
-                mContainer = container;
-                registerObserver(mContainer);
-                notifyDataObservers();
-            }
-            return;
-        }
+        if(mIsAttached) detachEnvironment();
 
         mContainer = container;
         mApp = app;
         registerObserver(mContainer);
         attachPerspective();
+        mIsAttached = true;
         notifyDataObservers();
     }
 
@@ -112,6 +105,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
         detachPerspective();
         unregisterObserver(mContainer);
         mContainer = null;
+        mIsAttached = false;
     }
 
     @Override

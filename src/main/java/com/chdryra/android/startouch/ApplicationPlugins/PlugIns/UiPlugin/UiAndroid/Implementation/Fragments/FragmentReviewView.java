@@ -18,15 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Implementation.CellDimensionsCalculator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .UiManagers.Interfaces.ReviewViewContainerLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewEditLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewViewLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,10 +48,15 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getApp().retainView(mReviewView, outState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
         ActivityReviewView activity;
         try {
             activity = (ActivityReviewView) getActivity();
@@ -59,9 +64,17 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
             throw new RuntimeException("Activity must be ActivityReviewView!", e);
         }
 
-        ReviewViewContainerLayout layout = activity.getContainerLayout();
+
+        if (!resolveReviewView(activity, savedInstanceState)) {
+            returnToFeedScreen();
+            return new View(activity);
+        }
+
+        ReviewViewContainerLayout layout =
+                mReviewView.getParams().getViewType() == ReviewViewParams.ViewType.VIEW ?
+                        new ReviewViewLayout() : new ReviewEditLayout();
         View v = layout.inflateLayout(inflater, container);
-        bind(layout, activity.getReviewView());
+        bind(layout);
 
         return v;
     }
@@ -69,18 +82,8 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     @Override
     public void onStart() {
         super.onStart();
-        if (mReviewView != null) {
-            attach();
-            mLayout.bind();
-        } else {
-            returnToFeedScreen();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         attach();
+        mLayout.bind();
     }
 
     @Override
@@ -108,12 +111,14 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        return mLayout.onOptionSelected(requestCode, option);
+        return mReviewView.onOptionSelected(requestCode, option) || mLayout.onOptionSelected
+                (requestCode, option);
     }
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        return mLayout.onOptionsCancelled(requestCode);
+        return mReviewView.onOptionsCancelled(requestCode) || mLayout.onOptionsCancelled
+                (requestCode);
     }
 
     @Override
@@ -133,21 +138,27 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
 
     @Override
     public void detach() {
-        if (mIsAttached) {
+        if(mIsAttached) {
             mReviewView.detachEnvironment();
             mIsAttached = false;
         }
     }
 
-    private void bind(ReviewViewContainerLayout layout, ReviewView<?> reviewView) {
+    private AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
+    }
+
+    private boolean resolveReviewView(ActivityReviewView activity, Bundle savedInstanceState) {
+        //if (savedInstanceState != null) mReviewView = getApp().getRetainedView(savedInstanceState);
+        if (mReviewView == null) mReviewView = activity.createReviewView();
+
+        return mReviewView != null;
+    }
+
+    private void bind(ReviewViewContainerLayout layout) {
         mLayout = layout;
-        detach();
-        mReviewView = reviewView;
-        if (mReviewView != null) {
-            mLayout.bindToReviewView(mReviewView, new CellDimensionsCalculator(getActivity()));
-        } else {
-            returnToFeedScreen();
-        }
+        attach();
+        mLayout.bindToReviewView(mReviewView, new CellDimensionsCalculator(getActivity()));
     }
 
     private void returnToFeedScreen() {
@@ -155,7 +166,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer,
     }
 
     private void attach() {
-        if (!mIsAttached) {
+        if(!mIsAttached) {
             mReviewView.attachEnvironment(this, AppInstanceAndroid.getInstance(getActivity()));
             mIsAttached = true;
         }

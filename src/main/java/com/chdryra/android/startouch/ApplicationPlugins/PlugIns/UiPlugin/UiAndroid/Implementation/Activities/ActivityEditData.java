@@ -16,10 +16,12 @@ import android.os.Bundle;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEdit;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .PresenterReviewDataEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 
 /**
@@ -45,7 +47,8 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
         mDataType = dataType;
     }
 
-    public static <T extends GvDataParcelable> void start(Activity launcher, GvDataType<T> dataType) {
+    public static <T extends GvDataParcelable> void start(Activity launcher, GvDataType<T>
+            dataType) {
         //Because activity is typed and want class info at runtime to start activity
         ActivityEditData<T> dummy = new ActivityEditData<>(dataType);
         Intent i = new Intent(launcher, dummy.getClass());
@@ -60,7 +63,7 @@ public class ActivityEditData<T extends GvDataParcelable> extends ActivityReview
     }
 
     @Override
-    protected ReviewView createReviewView() {
+    public ReviewView createReviewView() {
         mPresenter = new PresenterReviewDataEdit.Builder<>(mDataType).build(getApp());
         return mPresenter.getEditor();
     }

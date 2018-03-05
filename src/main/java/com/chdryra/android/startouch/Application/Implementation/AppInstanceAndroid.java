@@ -109,7 +109,7 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
 
     @Nullable
     public ReviewView<?> getRetainedView(Bundle args) {
-        return mViewPacker.unpack(args);
+        return args != null ? mViewPacker.unpack(args) : null;
     }
 
     @Override

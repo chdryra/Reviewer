@@ -111,7 +111,7 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
 
     @Nullable
     GvDataList<T> getCache() {
-        return mCache.getData();
+        return mCache != null ? mCache.getData() : null;
     }
 
     protected void setCache(GvDataList<T> cache) {
