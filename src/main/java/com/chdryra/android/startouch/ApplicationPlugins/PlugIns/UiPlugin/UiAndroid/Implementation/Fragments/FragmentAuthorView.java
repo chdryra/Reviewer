@@ -209,7 +209,7 @@ public class FragmentAuthorView extends Fragment implements ActivityResultListen
                     }
                 });
 
-        mPhoto = new WrapperBinder<>(new ImageUi(photo, IMAGE_PLACEHOLDER),
+        mPhoto = new WrapperBinder<>(new ImageUi(photo, IMAGE_PLACEHOLDER, null),
                 profile.getImage(), new DataGetter<ProfileImage, Bitmap>() {
             @Override
             @Nullable

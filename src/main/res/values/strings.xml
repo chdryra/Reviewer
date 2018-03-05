@@ -28,7 +28,7 @@
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
     <string name="activity_title_login">Startouch</string>
-    <string name="activity_title_profile">usersProfile</string>
+    <string name="activity_title_profile">Profile</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">&#43;subject</string>
@@ -38,7 +38,7 @@
     <string name="edit_text_fetching_location_hint">fetching location&#8230;</string>
     <string name="edit_text_edit_a_location">location name&#8230;</string>
     <string name="edit_text_image_caption_hint">&#43;caption&#8230;</string>
-    <string name="edit_text_fact_name_hint">label (e.g. \'price\', \'director\' etc. )&#8230;</string>
+    <string name="edit_text_fact_name_hint">what (e.g. \'price\', \'director\' etc. )&#8230;</string>
     <string name="edit_text_fact_value_hint">value&#8230;</string>
     <string name="edit_text_url_hint">link&#8230;</string>
     <string name="edit_text_tag_hint">tag&#8230;</string>
