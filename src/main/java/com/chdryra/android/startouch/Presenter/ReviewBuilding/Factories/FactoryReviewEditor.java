@@ -66,7 +66,7 @@ public class FactoryReviewEditor<GC extends GvDataList<? extends GvDataParcelabl
             editMode = ReviewEditor.EditMode.FULL;
         }
         FactoryActionsBuildReview<GC> factory
-                = mActionsFactory.newCreatorActions(adapter.getGvDataType(), editMode,
+                = mActionsFactory.newBuilderActions(adapter.getGvDataType(), editMode,
                 locationClient);
 
         return newEditor(adapter, factory);

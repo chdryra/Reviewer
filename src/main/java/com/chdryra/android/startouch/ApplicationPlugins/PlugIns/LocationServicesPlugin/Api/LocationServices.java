@@ -9,8 +9,8 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api;
 
 import com.chdryra.android.corelibrary.LocationServices.AddressesSuggester;
-import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.corelibrary.LocationServices.NearestPlacesSuggester;
 import com.chdryra.android.corelibrary.LocationServices.PlaceSearcher;

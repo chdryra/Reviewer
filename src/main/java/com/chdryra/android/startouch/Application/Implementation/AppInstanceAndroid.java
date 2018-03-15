@@ -56,7 +56,7 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
     private AppInstanceAndroid(Context context) {
         instantiate(context, LaunchState.TEST);
         mViewPacker = new ItemPacker<>();
-        //printHashKey(context);
+//        printHashKey(context);
     }
 
 //    //For FB if incorrect hashkey error
@@ -105,11 +105,6 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
 
     public void retainView(ReviewView<?> reviewView, Bundle args) {
         mViewPacker.pack(reviewView, args);
-    }
-
-    @Nullable
-    public ReviewView<?> getRetainedView(Bundle args) {
-        return args != null ? mViewPacker.unpack(args) : null;
     }
 
     @Override

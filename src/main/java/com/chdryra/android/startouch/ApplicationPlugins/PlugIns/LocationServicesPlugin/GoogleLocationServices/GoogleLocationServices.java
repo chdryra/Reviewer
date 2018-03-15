@@ -15,15 +15,13 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.LocationServices.AddressesSuggester;
 import com.chdryra.android.corelibrary.LocationServices.AddressesSuggesterAsync;
-import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.AddressesProviderGp;
-import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi
-        .LocationDetailsFetcherGp;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.LocationDetailsFetcherGp;
 import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.LocationPredicterGp;
-import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi
-        .NearestPlacesSuggesterGp;
+import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.NearestPlacesSuggesterGp;
 import com.chdryra.android.corelibrary.LocationServices.GooglePlacesApi.PlaceSearcherGp;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.corelibrary.LocationServices.NearestPlacesSuggester;
 import com.chdryra.android.corelibrary.LocationServices.PlaceSearcher;

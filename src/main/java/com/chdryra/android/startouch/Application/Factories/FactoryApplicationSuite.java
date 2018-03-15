@@ -14,8 +14,8 @@ import com.chdryra.android.corelibrary.Permissions.PermissionsManagerAndroid;
 import com.chdryra.android.startouch.Application.Implementation.AccountsSuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.ApplicationSuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.EditorSuiteAndroid;
-import com.chdryra.android.startouch.Application.Implementation.InSessionStamper;
 import com.chdryra.android.startouch.Application.Implementation.GeolocationSuiteAndroid;
+import com.chdryra.android.startouch.Application.Implementation.InSessionStamper;
 import com.chdryra.android.startouch.Application.Implementation.NetworkSuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.RepositorySuiteAndroid;
 import com.chdryra.android.startouch.Application.Implementation.SocialSuiteAndroid;
@@ -69,7 +69,7 @@ public class FactoryApplicationSuite {
 
         AccountsSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         PermissionsManagerAndroid permissions = new PermissionsManagerAndroid(context);
-        GeolocationSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions));
+        GeolocationSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions), permissions);
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         EditorSuiteAndroid editor = newReviewEditorSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, editor);
@@ -94,8 +94,8 @@ public class FactoryApplicationSuite {
         return new AccountsSuiteAndroid(accountsManager, session);
     }
 
-    private GeolocationSuiteAndroid newLocationServicesSuite(LocationServices services) {
-        return new GeolocationSuiteAndroid(services);
+    private GeolocationSuiteAndroid newLocationServicesSuite(LocationServices services, PermissionsManagerAndroid permissions) {
+        return new GeolocationSuiteAndroid(services, permissions);
     }
 
     private RepositorySuiteAndroid newRepositorySuite(PersistenceContext persistence,

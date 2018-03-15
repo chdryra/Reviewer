@@ -84,7 +84,7 @@ public class FactoryReviewViewActions {
     }
 
     public <GC extends GvDataList<? extends GvDataParcelable>>
-    FactoryActionsBuildReview<GC> newCreatorActions(GvDataType<GC> dataType,
+    FactoryActionsBuildReview<GC> newBuilderActions(GvDataType<GC> dataType,
                                                     ReviewEditor.EditMode editMode,
                                                     LocationClient locationClient) {
         return new FactoryActionsBuildReview<>(dataType, mConfig,

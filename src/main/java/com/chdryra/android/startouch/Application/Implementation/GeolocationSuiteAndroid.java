@@ -12,6 +12,7 @@ import android.app.Activity;
 
 import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClientGoogle;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManagerAndroid;
 import com.chdryra.android.startouch.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
 
@@ -23,10 +24,12 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServices
 
 public class GeolocationSuiteAndroid implements GeolocationSuite {
     private final LocationServices mApi;
+    private final PermissionsManagerAndroid mPermissions;
     private Activity mActivity;
 
-    public GeolocationSuiteAndroid(LocationServices api) {
+    public GeolocationSuiteAndroid(LocationServices api, PermissionsManagerAndroid permissions) {
         mApi = api;
+        mPermissions = permissions;
     }
 
     @Override
@@ -36,10 +39,11 @@ public class GeolocationSuiteAndroid implements GeolocationSuite {
 
     @Override
     public LocationClient newLocationClient() {
-        return new LocationClientGoogle(mActivity);
+        return new LocationClientGoogle(mActivity, mPermissions);
     }
 
     public void setActivity(Activity activity) {
         mActivity = activity;
+        mPermissions.setActivity(activity);
     }
 }
