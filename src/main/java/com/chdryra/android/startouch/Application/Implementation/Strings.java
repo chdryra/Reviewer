@@ -190,7 +190,7 @@ public class Strings {
     }
 
     public static class ReviewsList {
-        public static final String FEED = "feed";
+        public static final String FEED = "Feed";
         public static final String REVIEWS = Strings.REVIEWS;
     }
 
