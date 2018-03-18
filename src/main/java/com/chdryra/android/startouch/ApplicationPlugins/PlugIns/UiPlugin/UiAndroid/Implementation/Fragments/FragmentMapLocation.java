@@ -28,17 +28,21 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.corelibrary.Permissions.PermissionResult;
-import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
+import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.startouch.Application.Implementation.Strings;
+import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUpAppLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUpAppLevel;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUpAppLevel;
 import com.chdryra.android.startouch.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,7 +68,7 @@ public abstract class FragmentMapLocation extends Fragment implements
         GoogleMap.OnMapClickListener,
         OnInfoWindowClickListener, GoogleMap.
         OnInfoWindowLongClickListener,
-        PermissionsManager.PermissionsCallback{
+        PermissionsManager.PermissionsCallback {
     private static final int LAYOUT = R.layout.fragment_review_location_map_view;
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
@@ -72,7 +76,8 @@ public abstract class FragmentMapLocation extends Fragment implements
     private static final float DEFAULT_ZOOM = 15;
     private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission
             .LOCATION;
-    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(FragmentMapLocation.class);
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode
+            (FragmentMapLocation.class);
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -87,6 +92,10 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     protected Button getGotoReviewButton() {
         return mGotoReviewButton;
+    }
+
+    protected ApplicationInstance getApp() {
+        return AppInstanceAndroid.getInstance(getActivity());
     }
 
     protected void initButtonUI() {
@@ -122,13 +131,6 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     protected void locateHere() {
         mLocationClient.locate();
-    }
-
-    private void setMapListeners() {
-        mGoogleMap.setOnMarkerClickListener(this);
-        mGoogleMap.setOnMapClickListener(this);
-        mGoogleMap.setOnInfoWindowClickListener(this);
-        mGoogleMap.setOnInfoWindowLongClickListener(this);
     }
 
     @Override
@@ -188,8 +190,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = AppInstanceAndroid.getInstance(getActivity()).getGeolocation()
-                .newLocationClient();
+        mLocationClient = getApp().getGeolocation().newLocationClient();
         mLocationClient.connect(this);
     }
 
@@ -226,7 +227,6 @@ public abstract class FragmentMapLocation extends Fragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mLocationClient.disconnect();
         if (mMapView != null) mMapView.onDestroy();
     }
 
@@ -256,6 +256,16 @@ public abstract class FragmentMapLocation extends Fragment implements
 
     }
 
+    @Override
+    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
+        if (requestCode == PERMISSION_REQUEST
+                && results.size() == 1
+                && results.get(0).isGranted(LOCATION)) {
+            enableMyLocation();
+        }
+        initialiseMap();
+    }
+
     String getMenuTitle() {
         return Strings.Screens.LOCATION;
     }
@@ -270,30 +280,29 @@ public abstract class FragmentMapLocation extends Fragment implements
         return mGoogleMap.addMarker(newMarkerOptions(location));
     }
 
+    private void setMapListeners() {
+        mGoogleMap.setOnMarkerClickListener(this);
+        mGoogleMap.setOnMapClickListener(this);
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setOnInfoWindowLongClickListener(this);
+    }
+
     private void setMenu() {
-        AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
+        ApplicationInstance app = getApp();
         UiSuite ui = app.getUi();
         MenuActionItem<GvData> upAction = new MaiUpAppLevel<>(app);
         mMenu = new MenuUi(new MenuUpAppLevel(getMenuTitle(), upAction, ui));
     }
 
-    @Override
-    public void onPermissionsResult(int requestCode, List<PermissionResult> results) {
-        if(requestCode == PERMISSION_REQUEST
-                && results.size() == 1
-                && results.get(0).isGranted(LOCATION)) {
-            enableMyLocation();
-        }
-        initialiseMap();
-    }
-
     private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION )
+        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION )
+                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
+        } else {
+
         }
     }
 
@@ -301,7 +310,7 @@ public abstract class FragmentMapLocation extends Fragment implements
         mGoogleMap = googleMap;
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
         PermissionsManager permissions = app.getPermissions();
-        if(permissions.hasPermissions(LOCATION)) {
+        if (permissions.hasPermissions(LOCATION)) {
             enableMyLocation();
             initialiseMap();
         } else {

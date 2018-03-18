@@ -55,14 +55,11 @@ public class ReviewCluster {
 
     public IdableCollection<ReviewReference> getUniqueReviews() {
         IdableCollection<ReviewReference> references = new IdableDataCollection<>();
-        for (ReviewReference reference : getReviewReferences()) {
-            references.add(reference);
-        }
-
+        references.addAll(getReviewReferences());
         return references;
     }
 
-    public int getNumReviews() {
+    int getNumReviews() {
         return getReviewReferences().size();
     }
 
@@ -88,7 +85,7 @@ public class ReviewCluster {
             return mAverage;
         }
 
-        public int getNumberReviews() {
+        int getNumberReviews() {
             return mNumberReviews;
         }
     }

@@ -14,9 +14,6 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.TextView;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Utils.RatingFormatter;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -34,15 +31,12 @@ import com.google.maps.android.ui.IconGenerator;
  */
 public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterItem> {
     private final Context mContext;
-    private final IdableList<ReviewReference> mReviews;
 
     public ReviewClusterRenderer(Context context,
                                  GoogleMap map,
-                                 ClusterManager<ReviewClusterItem> clusterManager,
-                                 IdableList<ReviewReference> reviews) {
+                                 ClusterManager<ReviewClusterItem> clusterManager) {
         super(context, map, clusterManager);
         mContext = context;
-        mReviews = reviews;
     }
 
     @Override
@@ -64,7 +58,7 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
 
     @NonNull
     private BitmapDescriptor getIcon(ReviewClusterItem item) {
-        float clusterRating = getRating(item.getLocation().getReviewId());
+        float clusterRating = item.getRating();
         String rating = RatingFormatter.twoSignificantDigits(clusterRating) + "*";
         TextView text = new TextView(mContext);
         text.setText(rating);
@@ -78,7 +72,8 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
         ReviewCluster.ClusterAverage average = reviews.getAverage();
         String rating = RatingFormatter.twoSignificantDigits(average.getAverage()) + "*";
         TextView text = new TextView(mContext);
-        text.setText(rating + " (" + String.valueOf(reviews.getNumReviews()) + ")");
+        String string = rating + " (" + String.valueOf(reviews.getNumReviews()) + ")";
+        text.setText(string);
 
         return getBitmapDescriptor(text);
     }
@@ -89,15 +84,5 @@ public class ReviewClusterRenderer extends DefaultClusterRenderer<ReviewClusterI
         generator.setContentView(text);
         Bitmap icon = generator.makeIcon();
         return BitmapDescriptorFactory.fromBitmap(icon);
-    }
-
-    private float getRating(ReviewId reviewId) {
-        for (ReviewReference review : mReviews) {
-            if (review.getReviewId().equals(reviewId)) {
-                return review.getRating().getRating();
-            }
-        }
-
-        return 0f;
     }
 }

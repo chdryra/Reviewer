@@ -11,63 +11,68 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityNodeMapper;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ClusterInfoFactory;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.InfoWindowLauncher;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ItemInfoFactory;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.LongClickClusterManager;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewCluster;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewClusterItem;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewClusterRenderer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewInfoWindowAdapter;
-
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ClusterInfoFactory;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ItemInfoFactory;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.LocationPlotter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewCluster;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterItem;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterManager;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterRenderer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewInfoWindowAdapter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.InfoWindowLauncher;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.Utils.RatingFormatter;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.MarkerManager;
 import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 
 public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindowLauncher {
     private static final String PUBLISHED = TagKeyGenerator.getKey(FragmentNodeMapper.class,
             "published");
-    private static final int PADDING = 100;
 
     private ReviewNode mNode;
-    private IdableList<ReviewReference> mReviews;
+    private boolean mIsPublished;
     private Marker mCurrentMarker;
     private ReviewInfoWindowAdapter mItemAdapter;
     private ReviewInfoWindowAdapter mClusterAdapter;
     private ReviewClusterRenderer mRenderer;
-    private boolean mIsPublished;
+    private LocationPlotter mLocationPlotter;
 
     public static FragmentNodeMapper newInstance(boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
@@ -90,16 +95,16 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     void onMapReady() {
         Bundle args = getArguments();
         mIsPublished = args != null && args.getBoolean(PUBLISHED);
-        mNode.getReviews().dereference(new DataReference
-                .DereferenceCallback<IdableList<ReviewReference>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<ReviewReference>> value) {
-                if (value.hasValue()) {
-                    mReviews = value.getData();
-                    plotLocations();
-                }
-            }
-        });
+        mLocationPlotter = new LocationPlotter(mNode.getLocations(), newManager(), getReviews());
+        mLocationPlotter.subscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mItemAdapter != null) mItemAdapter.unbind();
+        if (mClusterAdapter != null) mClusterAdapter.unbind();
+        if (mLocationPlotter != null) mLocationPlotter.unsubscribe();
+        super.onDestroy();
     }
 
     @Override
@@ -118,7 +123,7 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     void onGotoReviewSelected() {
         if (mCurrentMarker != null && mIsPublished) {
             if (mRenderer.getClusterItem(mCurrentMarker) != null) {
-                launchReview(mRenderer.getClusterItem(mCurrentMarker).getReference().getReviewId());
+                launchReview(mRenderer.getClusterItem(mCurrentMarker).getReviewId());
             } else if (mRenderer.getCluster(mCurrentMarker) != null) {
                 launchCluster(mRenderer.getCluster(mCurrentMarker));
             }
@@ -130,13 +135,6 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         super.initButtonUI();
         setMarker(null);
         getGotoReviewButton().setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onDestroy() {
-        mItemAdapter.unbind();
-        mClusterAdapter.unbind();
-        super.onDestroy();
     }
 
     @Override
@@ -152,7 +150,18 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
 
     @Override
     public void launchReview(ReviewId reviewId) {
-        getApp().getUi().getLauncher().getReviewLauncher().launchAsList(reviewId);
+        getReviewLauncher().launchAsList(reviewId);
+    }
+
+    @Override
+    public void onLocated(Location location, CallbackMessage message) {
+        if (message.isOk())
+            zoomToLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+    }
+
+    @Override
+    public void onConnected(Location location, CallbackMessage message) {
+        onLocated(location, message);
     }
 
     @Override
@@ -162,14 +171,16 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         String subject = String.valueOf(size) + " " + stem;
 
         IdableCollection<ReviewReference> reviews = new ReviewCluster(cluster).getUniqueReviews();
-        ReviewNode node
-                = getApp().getRepository().getReviews().getMetaReview(reviews, subject);
 
-        getApp().getUi().getLauncher().getReviewLauncher().launchAsList(node);
+        getReviewLauncher().launchAsList(getReviews().getMetaReview(reviews, subject));
     }
 
-    private ApplicationInstance getApp() {
-        return AppInstanceAndroid.getInstance(getActivity());
+    private ReviewNodeRepo getReviews() {
+        return getApp().getRepository().getReviews();
+    }
+
+    private ReviewLauncher getReviewLauncher() {
+        return getApp().getUi().getLauncher().getReviewLauncher();
     }
 
     private void resetInfoWindow(@Nullable Marker marker) {
@@ -215,39 +226,13 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         mCurrentMarker = marker;
     }
 
-    private void plotLocations() {
-        mNode.getLocations().dereference(new DataReference
-                .DereferenceCallback<IdableList<DataLocation>>() {
-            @Override
-            public void onDereferenced(DataValue<IdableList<DataLocation>> value) {
-                if (value.hasValue()) plotLocations(value.getData());
-            }
-        });
-    }
-
-    private void plotLocations(IdableList<DataLocation> locations) {
-        LongClickClusterManager<ReviewClusterItem> clusterManager = newClusterManager();
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        int i = 0;
-        for (DataLocation location : locations) {
-            ReviewClusterItem item = new ReviewClusterItem(getReference(location), location);
-            clusterManager.addItem(item);
-            builder.include(item.getPosition());
-            i++;
-        }
-
-        if(i > 0) {
-            getMap().animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), PADDING));
-        }
-    }
-
-    private LongClickClusterManager<ReviewClusterItem> newClusterManager() {
+    private ClusterManager<ReviewClusterItem> newManager() {
         Activity activity = getActivity();
         GoogleMap map = getMap();
 
-        LongClickClusterManager<ReviewClusterItem> clusterManager
-                = new LongClickClusterManager<>(activity, map, this);
-        mRenderer = new ReviewClusterRenderer(activity, map, clusterManager, mReviews);
+        ReviewClusterManager<ReviewClusterItem> clusterManager
+                = new ReviewClusterManager<>(activity, map, this);
+        mRenderer = new ReviewClusterRenderer(activity, map, clusterManager);
         clusterManager.setRenderer(mRenderer);
 
         AuthorsRepo repo = getApp().getRepository().getAuthors();
@@ -272,15 +257,5 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         map.setInfoWindowAdapter(clusterManager.getMarkerManager());
 
         return clusterManager;
-    }
-
-    private ReviewReference getReference(DataLocation location) {
-        for (ReviewReference review : mReviews) {
-            if (review.getReviewId().equals(location.getReviewId())) {
-                return review;
-            }
-        }
-
-        throw new RuntimeException("Review not found!");
     }
 }
