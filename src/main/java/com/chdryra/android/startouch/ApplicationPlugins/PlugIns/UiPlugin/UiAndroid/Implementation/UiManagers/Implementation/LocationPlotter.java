@@ -47,11 +47,11 @@ public class LocationPlotter implements CollectionReference
         mRepo = repo;
     }
 
-    public void unsubscribe() {
+    public void unbind() {
         mLocations.unsubscribe(this);
     }
 
-    public void subscribe() {
+    public void bind() {
         mLocations.subscribe(this);
     }
 

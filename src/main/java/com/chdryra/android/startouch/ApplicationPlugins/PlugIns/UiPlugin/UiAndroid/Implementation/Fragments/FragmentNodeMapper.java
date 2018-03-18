@@ -96,14 +96,14 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
         Bundle args = getArguments();
         mIsPublished = args != null && args.getBoolean(PUBLISHED);
         mLocationPlotter = new LocationPlotter(mNode.getLocations(), newManager(), getReviews());
-        mLocationPlotter.subscribe();
+        mLocationPlotter.bind();
     }
 
     @Override
     public void onDestroy() {
         if (mItemAdapter != null) mItemAdapter.unbind();
         if (mClusterAdapter != null) mClusterAdapter.unbind();
-        if (mLocationPlotter != null) mLocationPlotter.unsubscribe();
+        if (mLocationPlotter != null) mLocationPlotter.unbind();
         super.onDestroy();
     }
 
