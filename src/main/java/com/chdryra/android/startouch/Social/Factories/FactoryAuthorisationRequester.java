@@ -43,27 +43,28 @@ class FactoryAuthorisationRequester {
     public OAuthRequester<AccessToken> newTwitterAuthorisationRequester(String key,
                                                                         String secret,
                                                                         String platformName) {
-        return new OAuthRequesterTwitter(key, secret, mCallback, TwitterApi.instance(), platformName);
+        return new OAuthRequesterTwitter(key, secret, mCallback, TwitterApi.instance(),
+                platformName);
     }
 
     @NonNull
     public OAuthRequester<AccessTokenDefault> newTumblrAuthorisationRequester(String key,
-                                                                          String secret,
-                                                                          String platformName) {
+                                                                              String secret,
+                                                                              String platformName) {
         return newDefault10aRequester(key, secret, platformName, TumblrApi.instance());
     }
 
     @NonNull
     public OAuthRequester<AccessTokenDefault> newFoursquareAuthorisationRequester(String key,
-                                                                                String secret,
-                                                                                String platformName) {
+                                                                                  String secret,
+                                                                                  String platformName) {
         return newDefault20Requester(key, secret, platformName, Foursquare2Api.instance());
     }
 
     @NonNull
     private OAuthRequester<AccessTokenDefault> newDefault20Requester(String key, String secret,
-                                                                      String platform,
-                                                                      DefaultApi20 api) {
+                                                                     String platform,
+                                                                     DefaultApi20 api) {
         return new OAuthRequester20Default(key, secret, mCallback, api, platform);
     }
 

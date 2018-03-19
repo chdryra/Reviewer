@@ -56,7 +56,7 @@ public class ReviewUser extends ReviewStatic {
                       DataRating rating,
                       IdableList<? extends DataTag> tags,
                       IdableList<? extends DataComment> comments,
-                      IdableList<? extends DataImage>  images,
+                      IdableList<? extends DataImage> images,
                       IdableList<? extends DataCriterion> criteria,
                       IdableList<? extends DataFact> facts,
                       IdableList<? extends DataLocation> locations) {
@@ -86,12 +86,6 @@ public class ReviewUser extends ReviewStatic {
         mCriteria = criteria;
     }
 
-    private void checkId(HasReviewId datum) {
-        if(!mId.equals(datum.getReviewId())) {
-            throw new IllegalArgumentException("Datum should have same Id as review!");
-        }
-    }
-    
     @Override
     public ReviewId getReviewId() {
         return mId;
@@ -195,5 +189,11 @@ public class ReviewUser extends ReviewStatic {
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
         return result;
+    }
+
+    private void checkId(HasReviewId datum) {
+        if (!mId.equals(datum.getReviewId())) {
+            throw new IllegalArgumentException("Datum should have same Id as review!");
+        }
     }
 }

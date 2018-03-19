@@ -23,7 +23,11 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewE
  */
 public class BuildScreenRatingEdit<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
-        implements RatingBarAction<GC>{
+        implements RatingBarAction<GC> {
+    public float getRating() {
+        return getEditor().getRating();
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -32,10 +36,6 @@ public class BuildScreenRatingEdit<GC extends GvDataList<? extends GvDataParcela
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
         ReviewEditor<GC> editor = getEditor();
-        if(editor != null) editor.setRating(rating, fromUser);
-    }
-
-    public float getRating() {
-        return getEditor().getRating();
+        if (editor != null) editor.setRating(rating, fromUser);
     }
 }

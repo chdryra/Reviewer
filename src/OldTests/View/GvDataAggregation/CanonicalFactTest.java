@@ -8,8 +8,12 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalFact;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.testutils.RandomString;
 
@@ -37,6 +41,14 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFact> {
     @Override
     protected CanonicalDatumMaker<GvFact> getCanonicalMaker() {
         return new CanonicalFact();
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentFacts();
+        checkSameLabelDifferentValues();
+        checkDifferentLabelsSameValues();
     }
 
     private void checkDifferentFacts() {
@@ -103,13 +115,5 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFact> {
         assertTrue(canon.isValidForDisplay());
         assertEquals(LABEL2 + " + 2", canon.getLabel());
         assertEquals(VALUE1, canon.getValue());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferentFacts();
-        checkSameLabelDifferentValues();
-        checkDifferentLabelsSameValues();
     }
 }

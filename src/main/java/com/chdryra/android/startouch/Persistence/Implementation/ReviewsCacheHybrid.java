@@ -29,16 +29,16 @@ public class ReviewsCacheHybrid implements ReviewsCache {
 
     @Override
     public void add(Review review) {
-        if(!review.isCacheable()) return;
+        if (!review.isCacheable()) return;
 
         Review overflow = mFastCache.add(review.getReviewId().toString(), review);
-        if(overflow != null) mSlowCache.add(overflow.getReviewId().toString(), overflow);
+        if (overflow != null) mSlowCache.add(overflow.getReviewId().toString(), overflow);
     }
 
     @Override
     public Review get(ReviewId id) {
         String reviewId = id.toString();
-        if(mFastCache.containsId(reviewId)) {
+        if (mFastCache.containsId(reviewId)) {
             return mFastCache.get(reviewId);
         } else {
             return mSlowCache.get(reviewId);
@@ -48,7 +48,7 @@ public class ReviewsCacheHybrid implements ReviewsCache {
     @Override
     public Review remove(ReviewId id) {
         String reviewId = id.toString();
-        if(mFastCache.containsId(reviewId)) return mFastCache.remove(reviewId);
+        if (mFastCache.containsId(reviewId)) return mFastCache.remove(reviewId);
         return mSlowCache.remove(reviewId);
     }
 

@@ -19,16 +19,9 @@ import java.util.Comparator;
  * On: 05/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GridDataWrapperBasic<T extends GvData> extends DataObservableDefault implements GridDataWrapper<T> {
+public abstract class GridDataWrapperBasic<T extends GvData> extends DataObservableDefault
+        implements GridDataWrapper<T> {
     private ReviewViewAdapterBasic<T> mAdapter;
-
-    void onAttach() {
-
-    }
-
-    void onDetach() {
-
-    }
 
     @Override
     public void attachAdapter(ReviewViewAdapterBasic<T> adapter) {
@@ -52,5 +45,13 @@ public abstract class GridDataWrapperBasic<T extends GvData> extends DataObserva
     @Override
     public void sort(Comparator<? super T> comparator, OnSortedCallback callback) {
         callback.onSorted(CallbackMessage.ok());
+    }
+
+    void onAttach() {
+
+    }
+
+    void onDetach() {
+
     }
 }

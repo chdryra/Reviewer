@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewNode extends ReviewViewDefault<GvNode>{
+public class ReviewViewNode extends ReviewViewDefault<GvNode> {
     private final ReviewNode mNode;
 
     public ReviewViewNode(ReviewNode node, ReviewViewPerspective<GvNode> perspective) {

@@ -37,6 +37,11 @@ public class ReviewInfo implements DataReview {
         mPublishDate = publishDate;
     }
 
+    public boolean isValid() {
+        return mReviewId != null && mSubject != null && mRating != null && mAuthorId != null &&
+                mPublishDate != null;
+    }
+
     @Override
     public ReviewId getReviewId() {
         return mReviewId;
@@ -60,9 +65,5 @@ public class ReviewInfo implements DataReview {
     @Override
     public DataDate getPublishDate() {
         return mPublishDate;
-    }
-
-    public boolean isValid() {
-        return mReviewId != null && mSubject != null && mRating != null && mAuthorId != null && mPublishDate != null;
     }
 }

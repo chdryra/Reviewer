@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,9 +29,9 @@ import android.widget.TextView;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.R;
 import com.chdryra.android.startouch.Social.Implementation.OAuthRequest;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 
 /**
  * UI Fragment: web browser. Browser shows URL passed in the arguments,
@@ -142,23 +143,23 @@ public class FragmentOAuthLogin extends Fragment {
         mWebView.loadUrl(urlString);
     }
 
+    private void captureCallbackAndReturn(String callback) {
+        mRequest.setCallbackResult(callback);
+        Intent data = new Intent();
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, mRequest, data);
+        getActivity().setResult(Activity.RESULT_OK, data);
+        getActivity().finish();
+    }
+
     private class UrlWebViewClient extends WebViewClient {
 
         @Override
         public void onPageFinished(WebView view, String url) {
             String viewUrl = view.getUrl();
             super.onPageFinished(view, url);
-            if(viewUrl != null && viewUrl.contains(mRequest.getCallbackUrl())) {
+            if (viewUrl != null && viewUrl.contains(mRequest.getCallbackUrl())) {
                 captureCallbackAndReturn(viewUrl);
             }
         }
-    }
-
-    private void captureCallbackAndReturn(String callback) {
-        mRequest.setCallbackResult(callback);
-        Intent data= new Intent();
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, mRequest, data);
-        getActivity().setResult(Activity.RESULT_OK, data);
-        getActivity().finish();
     }
 }

@@ -8,6 +8,8 @@
 
 package test.TestUtils;
 
+import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
@@ -19,8 +21,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
@@ -76,6 +76,7 @@ public class RandomReviewData {
 
     public static DataImage nextImage(ReviewId reviewId) {
         return new DatumImage(reviewId, BitmapMocker.nextBitmap(),
-                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
+                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean
+                .nextBoolean());
     }
 }

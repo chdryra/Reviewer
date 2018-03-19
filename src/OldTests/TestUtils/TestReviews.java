@@ -15,16 +15,15 @@ import android.graphics.BitmapFactory;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.corelibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.UserModel.AuthorId;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -32,7 +31,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.R;
@@ -227,14 +227,14 @@ public class TestReviews {
         builder.setSubject(review.mSubject);
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
-        
+
         DataBuilder<GvComment> commentBuilder
                 = builder.getDataBuilder(GvComment.TYPE);
         for (String comment : review.mComments) {
             commentBuilder.add(new GvComment(comment));
         }
         commentBuilder.setData();
-        
+
         DataBuilder<GvFact> factBuilder
                 = builder.getDataBuilder(GvFact.TYPE);
         for (Fact fact : review.mFacts) {
@@ -249,7 +249,7 @@ public class TestReviews {
             factBuilder.add(f);
         }
         factBuilder.setData();
-        
+
         DataBuilder<GvLocation> locationBuilder
                 = builder.getDataBuilder(GvLocation.TYPE);
         for (Location Location : review.mLocations) {

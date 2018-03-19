@@ -14,8 +14,10 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowTableBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowTableBasic;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,6 +46,7 @@ public abstract class RowTableBasicTest<S extends DbTableRow, T extends RowTable
     private int mSize;
 
     protected abstract T newRow();
+
     protected abstract String getRowId(T row);
 
     public RowTableBasicTest(String rowIdColumnName, int size) {

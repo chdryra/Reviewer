@@ -11,10 +11,10 @@ package com.chdryra.android.startouch.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
@@ -66,7 +66,7 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
 
     @Override
     protected void onBinding(ItemSubscriber<ReviewReference> subscriber) {
-        if(getItemSubscribers().size() != 1) return;
+        if (getItemSubscribers().size() != 1) return;
 
         for (RepoSubscriber sub : mRepoSubscribers.values()) {
             if (!sub.isSubscribed()) sub.subscribe();
@@ -75,7 +75,7 @@ public class RepoCollection<Key> extends RepoReadableBasic implements ReviewsRep
 
     @Override
     protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
-        if(getItemSubscribers().size() != 0) return;
+        if (getItemSubscribers().size() != 0) return;
 
         for (RepoSubscriber sub : mRepoSubscribers.values()) {
             if (sub.isSubscribed()) sub.unsubscribe();

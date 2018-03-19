@@ -6,18 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureUserProfile;
-
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureUserProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import java.util.Map;
 
@@ -26,7 +28,8 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUserProfileImpl extends DbStructureBasic<User> implements StructureUserProfile {
+public class StructureUserProfileImpl extends DbStructureBasic<User> implements
+        StructureUserProfile {
     public StructureUserProfileImpl(Path<User> path) {
         setPathToStructure(path);
     }

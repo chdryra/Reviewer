@@ -20,7 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataListImpl<T> implements GvDataParcelable{
+public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataListImpl<T>
+        implements GvDataParcelable {
     public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
             .Creator<GvDataList>() {
         @Override
@@ -34,17 +35,6 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
         }
     };
 
-    //Constructors
-    private GvDataListParcelable(GvReviewId reviewId, GvDataList<T> data) {
-        super(reviewId, data);
-    }
-
-    @Nullable
-    @Override
-    public GvDataParcelable getParcelable() {
-        return this;
-    }
-
     GvDataListParcelable(@NotNull GvDataType<T> type, GvReviewId reviewId) {
         super(type, reviewId);
     }
@@ -56,10 +46,21 @@ public class GvDataListParcelable<T extends GvDataParcelable> extends GvDataList
 
     //TODO make type safe
     GvDataListParcelable(Parcel in) {
-        super((GvDataType<T>)GvDataType.loadFromParcel(in),
-                (GvReviewId)in.readParcelable(GvReviewId.class.getClassLoader()));
+        super((GvDataType<T>) GvDataType.loadFromParcel(in),
+                (GvReviewId) in.readParcelable(GvReviewId.class.getClassLoader()));
         T[] data = (T[]) in.readParcelableArray(getGvDataType().getDataClass().getClassLoader());
         addAll(new ArrayList<>(Arrays.asList(data)));
+    }
+
+    //Constructors
+    private GvDataListParcelable(GvReviewId reviewId, GvDataList<T> data) {
+        super(reviewId, data);
+    }
+
+    @Nullable
+    @Override
+    public GvDataParcelable getParcelable() {
+        return this;
     }
 
     @Override

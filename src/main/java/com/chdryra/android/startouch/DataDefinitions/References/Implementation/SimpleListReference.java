@@ -24,8 +24,10 @@ import java.util.Collection;
  * On: 21/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SimpleListReference<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
-        implements ReviewListReference<Value, Reference>, SubscribersManager.SubscribableCollectionReference<Value, IdableList<Value>, DataSize> {
+public abstract class SimpleListReference<Value extends HasReviewId, Reference extends
+        ReviewItemReference<Value>> extends SimpleItemReference<IdableList<Value>>
+        implements ReviewListReference<Value, Reference>, SubscribersManager
+        .SubscribableCollectionReference<Value, IdableList<Value>, DataSize> {
     private final SubscribersManager<Value, DataSize> mManager;
     private final Collection<ItemSubscriber<Value>> mItemBinders;
 

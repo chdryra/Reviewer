@@ -6,10 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbSpecification;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbContract;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbSpecification;
 
 /**
  * Created by: Rizwan Choudrey

@@ -30,17 +30,9 @@ public class GvNodeList extends GvDataListImpl<GvNode> {
     }
 
     public void unbind() {
-        for(GvNode reference : this) {
+        for (GvNode reference : this) {
             reference.unbind();
         }
-    }
-
-    private boolean contains(ReviewId id) {
-        for (GvNode review : this) {
-            if (review.getReviewId().equals(id)) return true;
-        }
-
-        return false;
     }
 
     @Override
@@ -51,5 +43,13 @@ public class GvNodeList extends GvDataListImpl<GvNode> {
         } catch (ClassCastException e) {
             return false;
         }
+    }
+
+    private boolean contains(ReviewId id) {
+        for (GvNode review : this) {
+            if (review.getReviewId().equals(id)) return true;
+        }
+
+        return false;
     }
 }

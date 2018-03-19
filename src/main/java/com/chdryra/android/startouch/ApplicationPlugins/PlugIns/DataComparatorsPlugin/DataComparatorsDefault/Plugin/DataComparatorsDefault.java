@@ -6,12 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Plugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
-
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
         .DataComparatorsDefault.Implementation.FactoryComparators;
 
@@ -20,9 +21,10 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsP
  * On: 22/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataComparatorsDefault implements DataComparatorsPlugin{
+public class DataComparatorsDefault implements DataComparatorsPlugin {
     private static final DataComparatorsApi FACTORY
             = new DataComparatorsApiDefault(new FactoryComparators());
+
     @Override
     public DataComparatorsApi getComparatorsApi() {
         return FACTORY;

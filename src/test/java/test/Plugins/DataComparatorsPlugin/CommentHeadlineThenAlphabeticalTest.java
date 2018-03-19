@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CommentHeadlineThenAlphabetical;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.CommentHeadlineThenAlphabetical;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.testutils.RandomString;
@@ -24,9 +25,9 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComment>{
+public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComment> {
     private static final Random RAND = new Random();
-    
+
     public CommentHeadlineThenAlphabeticalTest() {
         super(new CommentHeadlineThenAlphabetical());
     }
@@ -51,9 +52,12 @@ public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComm
     @Test
     public void alphabeticalAscendingDifferentFirstLetter_SameIsHeadline() {
         boolean isHeadline = RAND.nextBoolean();
-        DataComment commentA = new DatumComment(RandomReviewId.nextReviewId(), "A" + RandomString.nextSentence(), isHeadline);
-        DataComment commentB = new DatumComment(RandomReviewId.nextReviewId(), "B" + RandomString.nextSentence(), isHeadline);
-        DataComment commentC = new DatumComment(RandomReviewId.nextReviewId(), "C" + RandomString.nextSentence(), isHeadline);
+        DataComment commentA = new DatumComment(RandomReviewId.nextReviewId(), "A" + RandomString
+                .nextSentence(), isHeadline);
+        DataComment commentB = new DatumComment(RandomReviewId.nextReviewId(), "B" + RandomString
+                .nextSentence(), isHeadline);
+        DataComment commentC = new DatumComment(RandomReviewId.nextReviewId(), "C" + RandomString
+                .nextSentence(), isHeadline);
 
         ComparatorTester<DataComment> tester = newComparatorTester();
         tester.testFirstSecond(commentA, commentB);
@@ -64,7 +68,8 @@ public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComm
     @Test
     public void isHeadlineFirst_SameComment() {
         String commentString = RandomString.nextSentence();
-        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString, false);
+        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString,
+                false);
         DataComment comment2 = new DatumComment(RandomReviewId.nextReviewId(), commentString, true);
 
         ComparatorTester<DataComment> tester = newComparatorTester();
@@ -76,13 +81,15 @@ public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComm
         String commentString1 = RandomString.nextSentence();
         String commentString2 = commentString1 + RandomString.nextSentence();
         boolean isHeadline = RAND.nextBoolean();
-        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString1, isHeadline);
-        DataComment comment2 = new DatumComment(RandomReviewId.nextReviewId(), commentString2, isHeadline);
+        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString1,
+                isHeadline);
+        DataComment comment2 = new DatumComment(RandomReviewId.nextReviewId(), commentString2,
+                isHeadline);
 
         ComparatorTester<DataComment> tester = newComparatorTester();
-        if(commentString1.compareToIgnoreCase(commentString2) < 0) {
+        if (commentString1.compareToIgnoreCase(commentString2) < 0) {
             tester.testFirstSecond(comment1, comment2);
-        } else if(commentString1.compareToIgnoreCase(commentString2) > 0){
+        } else if (commentString1.compareToIgnoreCase(commentString2) > 0) {
             tester.testFirstSecond(comment2, comment1);
         } else {
             tester.testEquals(comment1, comment2);
@@ -91,10 +98,12 @@ public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComm
 
     @Test
     public void comparatorEqualitySameComment_SameIsHeadline() {
-        String commentString  = RandomString.nextSentence();
+        String commentString = RandomString.nextSentence();
         boolean isHeadline = RAND.nextBoolean();
-        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString, isHeadline);
-        DataComment comment2 = new DatumComment(RandomReviewId.nextReviewId(), commentString, isHeadline);
+        DataComment comment1 = new DatumComment(RandomReviewId.nextReviewId(), commentString,
+                isHeadline);
+        DataComment comment2 = new DatumComment(RandomReviewId.nextReviewId(), commentString,
+                isHeadline);
 
         ComparatorTester<DataComment> tester = newComparatorTester();
         tester.testEquals(comment1, comment1);
@@ -105,9 +114,12 @@ public class CommentHeadlineThenAlphabeticalTest extends ComparatorTest<DataComm
     public void comparatorEqualityIgnoresSubjectCase_SameIsHeadline() {
         String commentString = RandomString.nextSentence();
         boolean isHeadline = RAND.nextBoolean();
-        DataComment comment = new DatumComment(RandomReviewId.nextReviewId(), commentString, isHeadline);
-        DataComment commentLower = new DatumComment(RandomReviewId.nextReviewId(), commentString.toLowerCase(), isHeadline);
-        DataComment commentUpper = new DatumComment(RandomReviewId.nextReviewId(), commentString.toUpperCase(), isHeadline);
+        DataComment comment = new DatumComment(RandomReviewId.nextReviewId(), commentString,
+                isHeadline);
+        DataComment commentLower = new DatumComment(RandomReviewId.nextReviewId(), commentString
+                .toLowerCase(), isHeadline);
+        DataComment commentUpper = new DatumComment(RandomReviewId.nextReviewId(), commentString
+                .toUpperCase(), isHeadline);
 
         ComparatorTester<DataComment> tester = newComparatorTester();
         tester.testEquals(comment, commentLower);

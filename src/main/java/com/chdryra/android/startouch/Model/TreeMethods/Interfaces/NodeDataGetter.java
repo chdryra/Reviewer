@@ -16,5 +16,5 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
  * On: 30/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NodeDataGetter<T extends HasReviewId> extends NodeValueGetter<T>{
+public interface NodeDataGetter<T extends HasReviewId> extends NodeValueGetter<T> {
 }

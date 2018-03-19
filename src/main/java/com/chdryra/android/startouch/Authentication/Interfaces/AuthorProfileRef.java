@@ -8,17 +8,17 @@
 
 package com.chdryra.android.startouch.Authentication.Interfaces;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 06/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorProfileRef extends DataReference<AuthorProfile>{
+public interface AuthorProfileRef extends DataReference<AuthorProfile> {
     AuthorId getAuthorId();
 
     AuthorRef getAuthor();

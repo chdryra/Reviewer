@@ -6,14 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuActionNone;
 
 /**
  * Created by: Rizwan Choudrey

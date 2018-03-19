@@ -6,12 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.ForeignKeyConstraint;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.ForeignKeyConstraint;
 
 import java.util.ArrayList;
 
@@ -20,7 +25,7 @@ import java.util.ArrayList;
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ForeignKeyConstraintImpl<T extends DbTableRow> implements ForeignKeyConstraint<T>{
+public class ForeignKeyConstraintImpl<T extends DbTableRow> implements ForeignKeyConstraint<T> {
     private ArrayList<DbColumnDefinition> mFkColumns;
     private DbTable<T> mPkTable;
 

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) Rizwan Choudrey 2017 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
@@ -10,15 +9,15 @@
 package com.chdryra.android.startouch.Authentication.Implementation;
 
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.AuthorRefDefault;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey

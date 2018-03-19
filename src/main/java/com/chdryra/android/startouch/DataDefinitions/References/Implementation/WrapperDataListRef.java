@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class WrapperDataListRef<Value extends HasReviewId> extends StaticListReferenceBasic<Value, ReviewItemReference<Value>>
+public class WrapperDataListRef<Value extends HasReviewId> extends
+        StaticListReferenceBasic<Value, ReviewItemReference<Value>>
         implements DataListRef<Value> {
 
     private final FactoryReferences mFactory;

@@ -6,34 +6,54 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Plugin;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Plugin;
 
 
 import android.content.Context;
 
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.BackendPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendInfoConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbCollection;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbProfile;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbReviewsRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryUserAccount;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbDataReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterNamedAuthorId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterReviewReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbAuthenticator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbAuthorsRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbReviewsRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbStructUsersLed;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbUserAccounts;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FirebaseBackend;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendInfoConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendValidator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryFbCollection;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryFbProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryFbReviewsRepo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbDataReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbReviewReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.ConverterNamedAuthorId;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.ConverterReviewReference;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbAuthenticator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbAuthorsRepo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbReviewsRepo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbStructUsersLed;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbUserAccounts;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FirebaseBackend;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.startouch.Authentication.Implementation.AccountsManagerImpl;
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
@@ -69,7 +89,8 @@ public class BackendFirebase implements BackendPlugin {
         mConverter = new UserProfileConverter(mFactoryProfileSnapshot);
         mDataReferencer = new FbDataReferencer();
         mFactoryProfile = new FactoryFbProfile(mDatabase, mStructure, mDataReferencer, mConverter);
-        mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(), mDataReferencer, mFactoryProfile);
+        mAuthorsRepo = new FbAuthorsRepo(mDatabase, mStructure, new ConverterNamedAuthorId(),
+                mDataReferencer, mFactoryProfile);
     }
 
     @Override
@@ -89,11 +110,14 @@ public class BackendFirebase implements BackendPlugin {
 
         SnapshotConverter<ReviewReference> converter
                 = new ConverterReviewReference(mDatabase, mStructure, referencer);
-        FactoryFbReviewsRepo authorsDbFactory = new FactoryFbReviewsRepo(reviewConverter, beValidator,
-                converter, repoFactory.newDereferencer(), repoFactory.newSizeReferencer(), cache, collectionFactory);
+        FactoryFbReviewsRepo authorsDbFactory = new FactoryFbReviewsRepo(reviewConverter,
+                beValidator,
+                converter, repoFactory.newDereferencer(), repoFactory.newSizeReferencer(), cache,
+                collectionFactory);
 
         ReviewsRepo masterRepo = new FbReviewsRepo(mDatabase, mStructure,
-                converter, repoFactory.newDereferencer(), repoFactory.newSizeReferencer(), authorsDbFactory);
+                converter, repoFactory.newDereferencer(), repoFactory.newSizeReferencer(),
+                authorsDbFactory);
 
         collectionFactory.setMasterRepo(masterRepo);
 
@@ -102,7 +126,8 @@ public class BackendFirebase implements BackendPlugin {
 
     @Override
     public AccountsManager getAccounts() {
-        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer, mConverter,
+        UserAccounts accounts = new FbUserAccounts(mDatabase, mStructure, mDataReferencer,
+                mConverter,
                 mFactoryProfile, mFactoryProfileSnapshot,
                 mAuthorsRepo, new FactoryUserAccount());
         UserAuthenticator authenticator = new FbAuthenticator(mDatabase, accounts, mConverter);

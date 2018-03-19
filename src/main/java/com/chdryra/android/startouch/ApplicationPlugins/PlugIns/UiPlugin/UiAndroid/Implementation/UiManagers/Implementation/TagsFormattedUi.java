@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Typeface;
@@ -38,7 +38,7 @@ public class TagsFormattedUi extends ViewUi<TextView, IdableList<DataTag>> {
 
     @Override
     public void update(IdableList<DataTag> value) {
-        if(value.size() > 0) {
+        if (value.size() > 0) {
             getView().setText(DataFormatter.formatTags(value, MAX_TAGS, null));
         } else {
             getView().setTypeface(getView().getTypeface(), Typeface.ITALIC);

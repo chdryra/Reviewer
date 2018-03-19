@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 

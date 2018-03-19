@@ -10,17 +10,18 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -83,16 +84,16 @@ public class CanonicalAuthorTest {
         assertThat(canonical.getAuthorId(), is(mAuthorId));
     }
 
+    private DatumAuthorName getReferenceAuthor() {
+        return new DatumAuthorName(RandomReviewId.nextReviewId(), mAuthorName, mAuthorId);
+    }
+
     @NonNull
     private IdableList<DataAuthorName> getReferenceAuthors(ReviewId reviewId) {
         IdableList<DataAuthorName> authors = new IdableDataList<>(reviewId);
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             authors.add(getReferenceAuthor());
         }
         return authors;
-    }
-
-    private DatumAuthorName getReferenceAuthor() {
-        return new DatumAuthorName(RandomReviewId.nextReviewId(), mAuthorName, mAuthorId);
     }
 }

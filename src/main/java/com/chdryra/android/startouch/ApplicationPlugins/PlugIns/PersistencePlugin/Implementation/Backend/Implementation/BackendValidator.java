@@ -6,15 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
-
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,12 +31,14 @@ public class BackendValidator {
     public boolean isValid(ReviewDb review) {
         DatumReviewId reviewId = new DatumReviewId(review.getReviewId());
         DatumSubject subject = new DatumSubject(reviewId, review.getSubject());
-        DatumRating rating = new DatumRating(reviewId, (float)review.getRating().getRating(), (int)review
+        DatumRating rating = new DatumRating(reviewId, (float) review.getRating().getRating(),
+                (int) review
                 .getRating().getRatingWeight());
 
         return isIdValid(review)
                 && mValidator.validate(subject)
-                && mValidator.validate(rating) && isValid(review.getAuthorId()) && review.getTags().size() > 0;
+                && mValidator.validate(rating) && isValid(review.getAuthorId()) && review.getTags
+                ().size() > 0;
     }
 
     private boolean isIdValid(ReviewDb review) {

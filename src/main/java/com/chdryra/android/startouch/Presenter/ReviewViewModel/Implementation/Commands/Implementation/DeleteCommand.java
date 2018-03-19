@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 import android.os.Bundle;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.Dialogs.AlertListener;
-import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
+import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleterCallback;

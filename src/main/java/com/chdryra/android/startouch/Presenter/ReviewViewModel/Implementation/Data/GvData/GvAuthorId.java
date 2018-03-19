@@ -11,18 +11,20 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataRef;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataRef;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,10 +46,9 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
             return new GvAuthorId[size];
         }
     };
-
+    private final String mAuthorId;
     private AuthorRef mReference;
     private GvReviewId mReviewId;
-    private final String mAuthorId;
 
     public GvAuthorId(String authorId) {
         mAuthorId = authorId;
@@ -163,7 +164,8 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
 
         public Reference(ReviewItemReference<DataAuthorId> reference,
                          DataConverter<DataAuthorId, GvAuthorId, ?> converter) {
-            super(TYPE, reference, converter, VhAuthorId.class, new PlaceHolderFactory<DataAuthorId>() {
+            super(TYPE, reference, converter, VhAuthorId.class, new
+                    PlaceHolderFactory<DataAuthorId>() {
                 @Override
                 public DataAuthorId newPlaceHolder(String placeHolder) {
                     return new GvAuthorId(placeHolder);
@@ -174,9 +176,9 @@ public class GvAuthorId implements GvDataParcelable, DataAuthorId {
         @Nullable
         public AuthorName getNamedAuthor() {
             VhDataRef refHolder = (VhDataRef) getReferenceViewHolder();
-            if(refHolder == null) return null;
+            if (refHolder == null) return null;
             VhAuthorId valueHolder = (VhAuthorId) refHolder.getValueHolder();
-            if(valueHolder == null) return null;
+            if (valueHolder == null) return null;
             return valueHolder.getAuthor();
         }
     }

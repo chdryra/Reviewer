@@ -6,17 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,14 +25,6 @@ import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCriterionAverage extends CanonicalStringMaker<DataCriterion> {
-    @Override
-    public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
-        ReviewId id = data.getReviewId();
-        if (data.size() == 0) return FactoryNullData.nullCriterion(id);
-
-        return new DatumCriterion(id, getModeString(data), getAverageRating(data));
-    }
-
     @NonNull
     @Override
     protected ItemGetter<DataCriterion, String> getStringGetter() {
@@ -41,6 +34,14 @@ public class CanonicalCriterionAverage extends CanonicalStringMaker<DataCriterio
                 return datum.getSubject();
             }
         };
+    }
+
+    @Override
+    public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
+        ReviewId id = data.getReviewId();
+        if (data.size() == 0) return FactoryNullData.nullCriterion(id);
+
+        return new DatumCriterion(id, getModeString(data), getAverageRating(data));
     }
 
     private float getAverageRating(IdableList<? extends DataCriterion> data) {

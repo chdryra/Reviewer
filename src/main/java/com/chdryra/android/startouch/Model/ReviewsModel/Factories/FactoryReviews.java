@@ -53,7 +53,8 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeCom
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepoTitler;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewNodeRepoTitler;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

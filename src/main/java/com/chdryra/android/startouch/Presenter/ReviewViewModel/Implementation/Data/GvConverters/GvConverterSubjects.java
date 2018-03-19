@@ -14,14 +14,16 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubjectList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSubjectList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterSubjects extends GvConverterReviewData.RefDataList<DataSubject, GvSubject, GvSubjectList, GvSubject.Reference> {
+public class GvConverterSubjects extends GvConverterReviewData.RefDataList<DataSubject,
+        GvSubject, GvSubjectList, GvSubject.Reference> {
     public GvConverterSubjects() {
         super(GvSubjectList.class, GvSubject.Reference.TYPE);
     }

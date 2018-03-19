@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Implementation;
 
 
 import android.app.Fragment;
@@ -25,7 +26,8 @@ import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
  */
 
 public class DialogAlert extends DialogAlertFragment {
-    public static DialogAlert newDialog(String alert, @Nullable Fragment targetFragment, int requestCode) {
+    public static DialogAlert newDialog(String alert, @Nullable Fragment targetFragment, int
+            requestCode) {
         return newDialog(alert, targetFragment, requestCode, new Bundle());
     }
 
@@ -34,7 +36,7 @@ public class DialogAlert extends DialogAlertFragment {
     }
 
     public static DialogAlert newDialog(String alert, @Nullable Fragment targetFragment,
-                                                int requestCode, Bundle args) {
+                                        int requestCode, Bundle args) {
         args.putString(ALERT_TAG, alert);
         DialogAlert dialog = new DialogAlert();
         dialog.setArguments(args);

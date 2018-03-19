@@ -9,9 +9,9 @@
 package com.chdryra.android.startouch.View.Configs.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
-import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,8 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid.AndroidLaunchables}
+ * .GVReviewDataList.GVType} from
+ * {@link com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid.AndroidLaunchables}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>
@@ -140,16 +141,16 @@ public final class UiConfigImpl implements UiConfig {
         mFeed.setLauncher(mLauncher);
         mPublish.setLauncher(mLauncher);
         mOptions.setLauncher(mLauncher);
-        for(DataConfigs<?> holder : mDataConfigsMap.values()) {
+        for (DataConfigs<?> holder : mDataConfigsMap.values()) {
             holder.setLauncher(mLauncher);
         }
-        for(LaunchableConfig config : mBespokeEditorsMap.values()) {
+        for (LaunchableConfig config : mBespokeEditorsMap.values()) {
             config.setLauncher(launcher);
         }
-        for(LaunchableConfig config : mBespokeDataViewersMap.values()) {
+        for (LaunchableConfig config : mBespokeDataViewersMap.values()) {
             config.setLauncher(launcher);
         }
-        for(LaunchableConfig config : mBespokeDatumViewersMap.values()) {
+        for (LaunchableConfig config : mBespokeDatumViewersMap.values()) {
             config.setLauncher(launcher);
         }
     }

@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.v4.app.FragmentManager;
 
 import com.chdryra.android.corelibrary.Ui.PagerAdapterBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFormatReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentFormatReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
@@ -25,7 +27,8 @@ import java.util.Comparator;
  * On: 08/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatReview> implements ReviewNode.NodeObserver {
+public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatReview> implements
+        ReviewNode.NodeObserver {
     private final Comparator<ReviewNode> mComparator;
     private final ReviewNode mNode;
     private final FragmentsObserver mObserver;
@@ -65,7 +68,7 @@ public class FormattedPagerAdapter extends PagerAdapterBasic<FragmentFormatRevie
     @Override
     protected void onFragmentRemoved(int position) {
         mObserver.updateTitle(newTitle(position, getCount() - 1));
-        if(getCachedFragments().size() == 0) mObserver.onNoFragmentsLeft();
+        if (getCachedFragments().size() == 0) mObserver.onNoFragmentsLeft();
     }
 
     @Override

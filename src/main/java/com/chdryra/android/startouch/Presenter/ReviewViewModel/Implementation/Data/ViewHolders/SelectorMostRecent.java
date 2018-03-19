@@ -20,17 +20,17 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReferen
 public class SelectorMostRecent implements ReviewSelector.Selector {
     @Override
     public ReviewReference select(ReviewReference lhs, @Nullable ReviewReference rhs) {
-        if(rhs == null) return lhs;
+        if (rhs == null) return lhs;
 
         long lht = lhs.getPublishDate().getTime();
         long rht = rhs.getPublishDate().getTime();
-        if(lht > rht) return lhs;
-        if(lht < rht) return rhs;
+        if (lht > rht) return lhs;
+        if (lht < rht) return rhs;
 
         float lhr = lhs.getRating().getRating();
         float rhr = rhs.getRating().getRating();
-        if(lhr > rhr) return lhs;
-        if(lhr < rhr) return rhs;
+        if (lhr > rhr) return lhs;
+        if (lhr < rhr) return rhs;
 
         return lhs;
     }

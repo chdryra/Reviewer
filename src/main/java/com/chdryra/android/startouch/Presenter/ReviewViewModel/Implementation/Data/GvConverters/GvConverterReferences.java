@@ -15,8 +15,10 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataRefList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +26,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvConverterReferences<Value extends HasReviewId,
-        GvRef extends GvDataRef<GvRef, ? extends Value, ?>, Reference extends ReviewItemReference<Value>>
+        GvRef extends GvDataRef<GvRef, ? extends Value, ?>, Reference extends
+        ReviewItemReference<Value>>
         extends GvConverterBasic<Reference, GvRef, GvDataRefList<GvRef>> {
 
     public GvConverterReferences(GvDataType<GvRef> dataType) {

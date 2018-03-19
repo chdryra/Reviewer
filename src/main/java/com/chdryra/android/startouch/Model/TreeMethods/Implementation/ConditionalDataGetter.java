@@ -17,7 +17,7 @@ import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeDataGetter
  * Email: rizwan.choudrey@gmail.com
  */
 public class ConditionalDataGetter<T extends HasReviewId> extends ConditionalValueGetter<T>
-        implements NodeDataGetter<T>{
+        implements NodeDataGetter<T> {
     public ConditionalDataGetter(Condition condition, NodeDataGetter<T> method) {
         super(condition, method);
     }

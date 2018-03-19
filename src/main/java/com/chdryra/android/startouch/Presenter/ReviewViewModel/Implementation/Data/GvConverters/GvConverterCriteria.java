@@ -13,8 +13,10 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
 
 /**
  * Created by: Rizwan Choudrey

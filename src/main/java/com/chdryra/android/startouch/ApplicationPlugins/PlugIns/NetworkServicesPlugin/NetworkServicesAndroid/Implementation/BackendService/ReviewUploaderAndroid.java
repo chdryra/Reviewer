@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService;
 
 
 import android.content.Context;

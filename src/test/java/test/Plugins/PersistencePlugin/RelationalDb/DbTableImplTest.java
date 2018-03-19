@@ -78,7 +78,7 @@ public class DbTableImplTest {
     @Test
     public void addPrimaryKeyAddsPrimaryKeys() {
         ArrayList<DbColumnDefinition> pks = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             pks.add(col);
@@ -91,7 +91,7 @@ public class DbTableImplTest {
     @Test
     public void addColumnsAddsColumns() {
         ArrayList<DbColumnDefinition> cols = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             cols.add(col);
@@ -104,13 +104,13 @@ public class DbTableImplTest {
     @Test
     public void getColumnsGetsPrimaryKeysAndOtherColumnsInThatOrder() {
         ArrayList<DbColumnDefinition> cols = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             cols.add(col);
             mTable.addPrimaryKeyColumn(col);
         }
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             cols.add(col);
@@ -123,13 +123,13 @@ public class DbTableImplTest {
     @Test
     public void getColumnNamesGetsPrimaryKeysAndOtherColumnsInThatOrder() {
         ArrayList<String> cols = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             cols.add(col.getName());
             mTable.addPrimaryKeyColumn(col);
         }
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             cols.add(col.getName());
@@ -141,7 +141,7 @@ public class DbTableImplTest {
 
     @Test
     public void getColumnReturnsCorrectColumn() {
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             mTable.addColumn(col);
@@ -156,7 +156,7 @@ public class DbTableImplTest {
 
     @Test
     public void getColumnReturnsNullIfNotFound() {
-        for(int i = 0; i < NUM; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
             mTable.addColumn(col);
@@ -188,13 +188,17 @@ public class DbTableImplTest {
         mTable.addColumn(col2);
         mTable.addColumn(col3);
 
-        DbTableForTesting<DbTableRow> fkTable1 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
-        DbTableForTesting<DbTableRow> fkTable2 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
+        DbTableForTesting<DbTableRow> fkTable1 = new DbTableForTesting<>(RandomString.nextWord(),
+                DbTableRow.class);
+        DbTableForTesting<DbTableRow> fkTable2 = new DbTableForTesting<>(RandomString.nextWord(),
+                DbTableRow.class);
 
         fkTable1.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
                 .TEXT));
-        fkTable2.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT));
-        fkTable2.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT));
+        fkTable2.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT));
+        fkTable2.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT));
 
         ArrayList<DbColumnDefinition> fk1Cols = new ArrayList<>();
         fk1Cols.add(col1);

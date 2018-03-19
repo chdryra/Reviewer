@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
 import android.app.Activity;
@@ -23,7 +24,8 @@ import android.view.ViewGroup;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivitySocialAuthUi;
 import com.chdryra.android.startouch.R;
 import com.chdryra.android.startouch.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.startouch.Social.Implementation.SocialPlatformList;
@@ -64,7 +66,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
         SocialPlatformList platforms = app.getSocial().getSocialPlatforms();
         PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
-        if(google == null) throw new RuntimeException("Google not found!");
+        if (google == null) throw new RuntimeException("Google not found!");
         mOptions = google.getSignInOptions();
         mGoogleApiClient = google.getGoogleApiClient();
 
@@ -155,7 +157,8 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
         dialog.setTargetFragment(this, REQUEST_RESOLVE_ERROR);
         AppInstanceAndroid app = AppInstanceAndroid.getInstance(getActivity());
-        app.getUi().getCurrentScreen().showDialog(dialog, REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
+        app.getUi().getCurrentScreen().showDialog(dialog, REQUEST_RESOLVE_ERROR,
+                ErrorDialogFragment.DIALOG_ERROR, args);
     }
 
     private View.OnClickListener newSignInListener() {

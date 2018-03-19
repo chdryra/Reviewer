@@ -10,9 +10,12 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.StructureReviewImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.StructureReviewImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
 
@@ -47,19 +50,27 @@ public class StructureReviewImplTest extends StructureTestBasic<ReviewDb> {
         tester.checkMapSize(reviewDb.size());
         tester.checkKeyValue(Path.path(reviewPath, "reviewId"), reviewDb.getReviewId());
         tester.checkKeyValue(Path.path(reviewPath, "subject"), reviewDb.getSubject());
-        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating().getRating());
+        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating()
+                .getRating());
         tester.checkKeyValue(Path.path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating()
                 .getRatingWeight());
-        tester.checkKeyValue(Path.path(reviewPath, "author", "name"), reviewDb.getAuthor().getName());
-        tester.checkKeyValue(Path.path(reviewPath, "author", "authorId"), reviewDb.getAuthor().getAuthorId());
+        tester.checkKeyValue(Path.path(reviewPath, "author", "name"), reviewDb.getAuthor()
+                .getName());
+        tester.checkKeyValue(Path.path(reviewPath, "author", "authorId"), reviewDb.getAuthor()
+                .getAuthorId());
         tester.checkKeyValue(Path.path(reviewPath, "publishDate"), reviewDb.getPublishDate());
         tester.checkKeyValue(Path.path(reviewPath, "average"), reviewDb.isAverage());
         tester.checkKeyValue(Path.path(reviewPath, "tags"), reviewDb.getTags());
 
-        tester.checkKeyList(Path.path(reviewPath, "criteria"), reviewDb.getCriteria(), BackendTestUtils.criterionGetters());
-        tester.checkKeyList(Path.path(reviewPath, "comments"), reviewDb.getComments(), BackendTestUtils.commentGetters());
-        tester.checkKeyList(Path.path(reviewPath, "facts"), reviewDb.getFacts(), BackendTestUtils.factGetters());
-        tester.checkKeyList(Path.path(reviewPath, "images"), reviewDb.getImages(), BackendTestUtils.imageDataGetters());
-        tester.checkKeyList(Path.path(reviewPath, "locations"), reviewDb.getLocations(), BackendTestUtils.locationGetters());
+        tester.checkKeyList(Path.path(reviewPath, "criteria"), reviewDb.getCriteria(),
+                BackendTestUtils.criterionGetters());
+        tester.checkKeyList(Path.path(reviewPath, "comments"), reviewDb.getComments(),
+                BackendTestUtils.commentGetters());
+        tester.checkKeyList(Path.path(reviewPath, "facts"), reviewDb.getFacts(), BackendTestUtils
+                .factGetters());
+        tester.checkKeyList(Path.path(reviewPath, "images"), reviewDb.getImages(),
+                BackendTestUtils.imageDataGetters());
+        tester.checkKeyList(Path.path(reviewPath, "locations"), reviewDb.getLocations(),
+                BackendTestUtils.locationGetters());
     }
 }

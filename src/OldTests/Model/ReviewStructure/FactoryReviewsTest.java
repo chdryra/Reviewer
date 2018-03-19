@@ -10,21 +10,20 @@ package com.chdryra.android.startouch.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdCriterionList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -111,6 +110,26 @@ public class FactoryReviewsTest extends TestCase {
         }
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mAuthor = new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
+        mDate = RandomPublishDate.nextDate();
+        mSubject = RandomString.nextWord();
+        mRating = RandomRating.nextRating();
+        mComments = GvDataMocker.newCommentList(NUM, false);
+        mImages = GvDataMocker.newImageList(NUM, false);
+        mFacts = GvDataMocker.newFactList(NUM, false);
+        mLocations = GvDataMocker.newLocationList(NUM, false);
+        mCriteria = new MdIdableCollection<>();
+        for (int i = 0; i < NUM; ++i) {
+            mCriteria.add(nextReview());
+        }
+        ReviewStamp publisher = new ReviewStamp(mAuthor, mDate);
+        mReview = FactoryReviews.createUserReview(mSubject, mRating,
+                mComments, mImages, mFacts, mLocations, mCriteria, false);
+    }
+
     private Review nextReview() {
         DatumAuthor author = new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
         PublishDate date = RandomPublishDate.nextDate();
@@ -140,25 +159,5 @@ public class FactoryReviewsTest extends TestCase {
         assertEquals(mReview.getMdReviewId(), node.getMdReviewId());
         assertNull(node.getParent());
         assertEquals(0, node.getChildren().size());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mAuthor = new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
-        mDate = RandomPublishDate.nextDate();
-        mSubject = RandomString.nextWord();
-        mRating = RandomRating.nextRating();
-        mComments = GvDataMocker.newCommentList(NUM, false);
-        mImages = GvDataMocker.newImageList(NUM, false);
-        mFacts = GvDataMocker.newFactList(NUM, false);
-        mLocations = GvDataMocker.newLocationList(NUM, false);
-        mCriteria = new MdIdableCollection<>();
-        for (int i = 0; i < NUM; ++i) {
-            mCriteria.add(nextReview());
-        }
-        ReviewStamp publisher = new ReviewStamp(mAuthor, mDate);
-        mReview = FactoryReviews.createUserReview(mSubject, mRating,
-                mComments, mImages, mFacts, mLocations, mCriteria, false);
     }
 }

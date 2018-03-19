@@ -6,9 +6,11 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
@@ -16,9 +18,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleCommentRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 import java.util.ArrayList;
 

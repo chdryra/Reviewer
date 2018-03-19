@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces;
 
 
 import android.support.annotation.Nullable;
@@ -20,7 +20,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 
 import java.util.Collection;
@@ -38,8 +39,12 @@ public interface ReviewerDbReadable extends ReviewerDbContract {
     Collection<Review> loadReviews(TableTransactor transactor);
 
     <DbRow extends DbTableRow, Type> Collection<Review> loadReviewsWhere(DbTable<DbRow> table,
-                                                                         @Nullable RowEntry<DbRow, Type> clause,
-                                                                         TableTransactor transactor);
+                                                                         @Nullable
+                                                                                 RowEntry<DbRow,
+                                                                                         Type>
+                                                                                 clause,
+                                                                         TableTransactor
+                                                                                 transactor);
 
     <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
                                                              RowEntry<DbRow, Type> clause,

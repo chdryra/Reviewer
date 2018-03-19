@@ -10,11 +10,11 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalStringMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalStringMaker;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -103,9 +103,13 @@ public abstract class CanonicalStringMakerTest<T extends HasReviewId> {
         return mModeString;
     }
 
+    protected int getNumModeData() {
+        return MIN_DATA + MAX_EXTRA + 1;
+    }
+
     private void newData(boolean addNonMode) {
         mData = newDataList();
-        if(addNonMode) addNonModeItems(mData);
+        if (addNonMode) addNonModeItems(mData);
         addModeItems(mData);
     }
 
@@ -116,10 +120,6 @@ public abstract class CanonicalStringMakerTest<T extends HasReviewId> {
 
     private void addModeItems(IdableList<T> data) {
         addData(data, mModeString, getNumModeData());
-    }
-
-    protected int getNumModeData() {
-        return MIN_DATA + MAX_EXTRA + 1;
     }
 
     private void addNonModeItems(IdableList<T> data) {

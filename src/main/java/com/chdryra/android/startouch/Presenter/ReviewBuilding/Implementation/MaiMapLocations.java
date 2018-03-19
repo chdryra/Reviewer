@@ -12,8 +12,10 @@ import android.view.MenuItem;
 
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 
 
 /**
@@ -31,7 +33,7 @@ public class MaiMapLocations extends MaiDataEditor<GvLocation> {
     @Override
     public void doAction(MenuItem item) {
         ReviewDataEditor<GvLocation> editor = getEditor();
-        if(editor.getAdapter().getGridData().getDataSize().getSize() == 0) return;
+        if (editor.getAdapter().getGridData().getDataSize().getSize() == 0) return;
         DataBuilderAdapter<?> builder = (DataBuilderAdapter<?>) editor.getAdapter();
         mCommand.execute(builder.buildPreview(), false);
     }

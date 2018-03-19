@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.os.Handler;
@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 
 /**
@@ -27,7 +28,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 25/10/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataAdapterBindable<Value extends HasReviewId, Gv extends GvData, Vh extends ViewHolder>
+public class GvDataAdapterBindable<Value extends HasReviewId, Gv extends GvData, Vh extends
+        ViewHolder>
         extends GvDataAdapter<Gv> implements Bindable<IdableList<Value>> {
     private final DataConverter<Value, Gv, ? extends GvDataList<Gv>> mConverter;
 

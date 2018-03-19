@@ -31,9 +31,12 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Men
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.RatingEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsNone;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories
+        .FactoryActionsNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -119,6 +122,10 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
         return new DataReferenceWrapper<>(title);
     }
 
+    FactoryLaunchCommands getCommandsFactory() {
+        return mCommandsFactory;
+    }
+
     @NonNull
     MenuActionItem<T> newUpAction() {
         return new MaiUpDataEditor<>();
@@ -136,9 +143,5 @@ class FactoryActionsEditData<T extends GvDataParcelable> extends FactoryActionsN
 
     private String geDataName() {
         return getDataType().getDataName();
-    }
-
-    FactoryLaunchCommands getCommandsFactory() {
-        return mCommandsFactory;
     }
 }

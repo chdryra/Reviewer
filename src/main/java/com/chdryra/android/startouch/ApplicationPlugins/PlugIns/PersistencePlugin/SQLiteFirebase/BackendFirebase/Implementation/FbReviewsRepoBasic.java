@@ -12,8 +12,10 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviews;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbReviews;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
@@ -29,7 +31,8 @@ import com.firebase.client.Query;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FbReviewsRepoBasic extends FbReviewsListBasic<ReviewReference> implements ReviewsRepoReadable {
+public abstract class FbReviewsRepoBasic extends FbReviewsListBasic<ReviewReference> implements
+        ReviewsRepoReadable {
     private final ReviewDereferencer mDereferencer;
 
     FbReviewsRepoBasic(Firebase dataBase,
@@ -39,6 +42,11 @@ public abstract class FbReviewsRepoBasic extends FbReviewsListBasic<ReviewRefere
                        SizeReferencer sizeReferencer) {
         super(dataBase, structure, converter, sizeReferencer);
         mDereferencer = dereferencer;
+    }
+
+    @Override
+    protected Query getRoot() {
+        return super.getRoot().orderByChild(ReviewListEntry.DATE);
     }
 
     @Override
@@ -57,14 +65,10 @@ public abstract class FbReviewsRepoBasic extends FbReviewsListBasic<ReviewRefere
     }
 
     @Override
-    protected Query getRoot() {
-        return super.getRoot().orderByChild(ReviewListEntry.DATE);
-    }
-
-    @Override
-    protected void getReference(ReviewId reviewId, DataSnapshot dataSnapshot, FbReviewsListBasic.ReferenceReadyCallback callback) {
+    protected void getReference(ReviewId reviewId, DataSnapshot dataSnapshot, FbReviewsListBasic
+            .ReferenceReadyCallback callback) {
         ReviewReference convert = getItemConverter().convert(dataSnapshot);
-        if(convert != null) {
+        if (convert != null) {
             callback.onReferenceReady(convert.getReviewId(), convert, CallbackMessage.ok());
         } else {
             callback.onReferenceReady(reviewId, null, CallbackMessage.error("No reference"));

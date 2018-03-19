@@ -13,7 +13,8 @@ import android.content.Context;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
         .FactoryReviewUploader;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactorySocialPublisher;
 
 /**
  * Created by: Rizwan Choudrey

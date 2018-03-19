@@ -16,7 +16,8 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhText;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,9 +25,6 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvReviewId implements GvDataParcelable, ReviewId {
-    private static final GvDataType<GvReviewId> TYPE =
-            new GvDataType<>(GvReviewId.class, TYPE_NAME);
-
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {
         @Override
@@ -39,7 +37,8 @@ public class GvReviewId implements GvDataParcelable, ReviewId {
             return new GvReviewId[size];
         }
     };
-
+    private static final GvDataType<GvReviewId> TYPE =
+            new GvDataType<>(GvReviewId.class, TYPE_NAME);
     private String mId;
 
     public GvReviewId() {

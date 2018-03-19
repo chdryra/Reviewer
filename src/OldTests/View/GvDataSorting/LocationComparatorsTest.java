@@ -3,7 +3,8 @@ package com.chdryra.android.startouch.test.View.GvDataSorting;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Algorithms.DataSorting.LocationComparators;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.test.TestUtils.ComparatorTester;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;

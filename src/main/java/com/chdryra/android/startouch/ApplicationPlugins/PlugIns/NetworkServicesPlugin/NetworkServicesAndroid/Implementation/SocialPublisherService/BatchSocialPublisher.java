@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.SocialPublisherService;
 
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Social.Implementation.PublishResults;

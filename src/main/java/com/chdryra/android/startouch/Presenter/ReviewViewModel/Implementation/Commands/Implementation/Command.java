@@ -25,14 +25,7 @@ public abstract class Command {
         void onCommandExecuted(int requestCode);
     }
 
-    public static Command NoAction(String name) {
-        return new Command(name) {
-            @Override
-            public void execute() {
-
-            }
-        };
-    }
+    public abstract void execute();
 
     public Command(String name) {
         mName = name;
@@ -42,6 +35,15 @@ public abstract class Command {
         mName = "";
     }
 
+    public static Command NoAction(String name) {
+        return new Command(name) {
+            @Override
+            public void execute() {
+
+            }
+        };
+    }
+
     public String getName() {
         return mName;
     }
@@ -49,8 +51,6 @@ public abstract class Command {
     public void setName(String name) {
         mName = name;
     }
-
-    public abstract void execute();
 
     public void execute(int requestCode, @Nullable ExecutionListener listener) {
         mRequestCode = requestCode;

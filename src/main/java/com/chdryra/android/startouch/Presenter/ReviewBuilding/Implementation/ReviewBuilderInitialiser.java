@@ -21,10 +21,12 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
@@ -57,8 +59,10 @@ public class ReviewBuilderInitialiser {
         setData(builder, GvTag.TYPE, mConverterGv.newConverterTags(), toCopy.getTags());
         setData(builder, GvComment.TYPE, mConverterGv.newConverterComments(), toCopy.getComments());
         setData(builder, GvImage.TYPE, mConverterGv.newConverterImages(), toCopy.getImages());
-        setData(builder, GvLocation.TYPE, mConverterGv.newConverterLocations(), toCopy.getLocations());
-        setData(builder, GvCriterion.TYPE, mConverterGv.newConverterCriteria(), toCopy.getCriteria());
+        setData(builder, GvLocation.TYPE, mConverterGv.newConverterLocations(), toCopy
+                .getLocations());
+        setData(builder, GvCriterion.TYPE, mConverterGv.newConverterCriteria(), toCopy
+                .getCriteria());
         setData(builder, GvFact.TYPE, mConverterGv.newConverterFacts(), toCopy.getFacts());
     }
 

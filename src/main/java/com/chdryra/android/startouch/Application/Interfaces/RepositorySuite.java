@@ -13,8 +13,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
 /**
  * Created by: Rizwan Choudrey

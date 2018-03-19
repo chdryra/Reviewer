@@ -15,9 +15,12 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
 
 import java.util.List;
 
@@ -55,13 +58,13 @@ public class AdapterAuthorSearch extends ReviewViewAdapterBasic<GvAuthorName>
             @Override
             public void onAuthors(List<AuthorName> suggestions, CallbackMessage message) {
                 GvAuthorList data;
-                if(message.isOk()) {
+                if (message.isOk()) {
                     data = mConverter.convert(suggestions, null);
                 } else {
                     data = new GvAuthorList();
                     data.add(new GvAuthorName("No authors found", new GvAuthorId("")));
                 }
-                ((ViewerAuthors)getWrapper()).setData(data);
+                ((ViewerAuthors) getWrapper()).setData(data);
                 callback.onFiltered();
             }
         });

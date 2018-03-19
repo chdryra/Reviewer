@@ -42,7 +42,7 @@ public class AuthorNameValidation {
     public AuthorNameValidation(String name) {
         if (name.length() < MIN_LETTERS) {
             mReason = Reason.INVALID_LENGTH;
-        } else if(isNotValid(name)){
+        } else if (isNotValid(name)) {
             mReason = Reason.INVALID_CHARACTERS;
         }
 
@@ -59,7 +59,8 @@ public class AuthorNameValidation {
     }
 
     private boolean isNotValid(String toExamine) {
-        Pattern pattern = Pattern.compile("[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]");
+        Pattern pattern = Pattern.compile
+                ("[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_]");
         Matcher matcher = pattern.matcher(toExamine);
         return matcher.find();
     }

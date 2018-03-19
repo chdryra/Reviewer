@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -25,7 +27,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -123,7 +124,7 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
 
     @Override
     public void onClick() {
-        if(mShowAbstract && mReview != null) {
+        if (mShowAbstract && mReview != null) {
             mLauncher.launchReview(mReview.getReviewId());
         } else {
             mShowAbstract = !mShowAbstract;
@@ -173,7 +174,8 @@ public class VhMapInfoWindow extends MapInfoWindow implements ReviewSelector
     }
 
     private void setInfoVisibility() {
-        getView(ABSTRACT, LinearLayout.class).setVisibility(mShowAbstract ? View.VISIBLE : View.GONE);
+        getView(ABSTRACT, LinearLayout.class).setVisibility(mShowAbstract ? View.VISIBLE : View
+                .GONE);
         notifyListener(true);
     }
 

@@ -6,14 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 import android.widget.EditText;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -86,6 +90,16 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DatumLayoutBa
         mViewManager.initialise(data);
     }
 
+    private T newNull(Class<T> dataClass) {
+        try {
+            return dataClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
+        }
+    }
+
     private class GvDataViewManagerAdd implements AddEditLayoutBasic.GvDataEditManager<T> {
         private final GvDataAdder mAdder;
 
@@ -134,16 +148,6 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DatumLayoutBa
 
         @Override
         public void onAddEdit(T data) {
-        }
-    }
-
-    private T newNull(Class<T> dataClass) {
-        try {
-            return dataClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
         }
     }
 }

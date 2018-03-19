@@ -21,8 +21,9 @@ public abstract class ViewContextBasic implements ViewContext {
     private UiConfig mUiConfig;
     private FactoryUiLauncher mLauncherFactory;
 
-    protected void setUiConfig(UiConfig uiConfig) {
-        mUiConfig = uiConfig;
+    @Override
+    public FactoryUiLauncher getLauncherFactory() {
+        return mLauncherFactory;
     }
 
     protected void setLauncherFactory(FactoryUiLauncher launcherFactory) {
@@ -30,12 +31,11 @@ public abstract class ViewContextBasic implements ViewContext {
     }
 
     @Override
-    public FactoryUiLauncher getLauncherFactory() {
-        return mLauncherFactory;
-    }
-
-    @Override
     public UiConfig getUiConfig() {
         return mUiConfig;
+    }
+
+    protected void setUiConfig(UiConfig uiConfig) {
+        mUiConfig = uiConfig;
     }
 }

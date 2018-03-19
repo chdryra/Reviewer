@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation;
 
 
 /**
@@ -25,6 +25,7 @@ public class DbEntryType<T> {
     public static final DbEntryType<ByteArray> BYTE_ARRAY = new DbEntryType<>(ByteArray.class);
 
     private final Class<T> mTypeClass;
+
     private DbEntryType(Class<T> typeClass) {
         mTypeClass = typeClass;
     }
@@ -33,7 +34,8 @@ public class DbEntryType<T> {
         try {
             return mTypeClass.cast(obj);
         } catch (ClassCastException e) {
-            throw new RuntimeException(obj + " is not of DbEntryType: " + mTypeClass.getSimpleName());
+            throw new RuntimeException(obj + " is not of DbEntryType: " + mTypeClass
+                    .getSimpleName());
         }
     }
 

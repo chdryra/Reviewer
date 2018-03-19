@@ -18,11 +18,17 @@ import com.facebook.login.LoginResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsProviderFacebook extends CredentialsProviderBasic<AccessToken, LoginFacebook.Callback>
+public class CredentialsProviderFacebook extends CredentialsProviderBasic<AccessToken,
+        LoginFacebook.Callback>
         implements LoginFacebook.Callback {
 
     public CredentialsProviderFacebook(LoginFacebook login) {
         super(login);
+    }
+
+    @Override
+    protected LoginFacebook.Callback getProviderCallback() {
+        return this;
     }
 
     @Override
@@ -33,10 +39,5 @@ public class CredentialsProviderFacebook extends CredentialsProviderBasic<Access
     @Override
     public void onFailure(FacebookException result) {
         notifyOnFailure(result.getMessage());
-    }
-
-    @Override
-    protected LoginFacebook.Callback getProviderCallback() {
-        return this;
     }
 }

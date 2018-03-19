@@ -8,11 +8,16 @@
 
 package com.chdryra.android.startouch.ApplicationPlugins;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .NetworkServicesPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .PersistencePlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPlugin;
 
 /**

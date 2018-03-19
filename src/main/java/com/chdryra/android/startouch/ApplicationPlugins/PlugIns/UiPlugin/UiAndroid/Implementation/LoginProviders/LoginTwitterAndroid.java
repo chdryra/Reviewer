@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.LoginProviders;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,19 +26,16 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LoginTwitterAndroid extends com.twitter.sdk.android.core.Callback<TwitterSession> implements
+public class LoginTwitterAndroid extends com.twitter.sdk.android.core.Callback<TwitterSession>
+        implements
         ActivityResultListener, LoginTwitter {
-    private Callback mListener;
     private final TwitterAuthClient mTwitterAuthClient;
     private final Activity mActivity;
+    private Callback mListener;
 
     public LoginTwitterAndroid(Activity activity) {
         mActivity = activity;
         mTwitterAuthClient = new TwitterAuthClient();
-    }
-
-    private void setListener(Callback listener) {
-        mListener = listener;
     }
 
     @Override
@@ -64,11 +62,15 @@ public class LoginTwitterAndroid extends com.twitter.sdk.android.core.Callback<T
 
     @Override
     public void success(Result<TwitterSession> result) {
-        if(mListener != null) mListener.onSuccess(result);
+        if (mListener != null) mListener.onSuccess(result);
     }
 
     @Override
     public void failure(TwitterException e) {
-        if(mListener != null) mListener.onFailure(e);
+        if (mListener != null) mListener.onFailure(e);
+    }
+
+    private void setListener(Callback listener) {
+        mListener = listener;
     }
 }

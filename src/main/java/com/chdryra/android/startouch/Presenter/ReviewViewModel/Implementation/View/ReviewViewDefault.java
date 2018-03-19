@@ -15,7 +15,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
 /**
@@ -90,7 +91,7 @@ public class ReviewViewDefault<T extends GvData> extends DataObservableDefault i
 
     @Override
     public void attachEnvironment(ReviewViewContainer container, ApplicationInstance app) {
-        if(mIsAttached) detachEnvironment();
+        if (mIsAttached) detachEnvironment();
 
         mContainer = container;
         mApp = app;

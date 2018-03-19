@@ -10,7 +10,9 @@ package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -64,16 +66,16 @@ public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
         assertEquals(lhs, rhs);
     }
 
-    private void checkEmpty() {
-        T canon = mCanonical.getCanonical(mData);
-        assertFalse(canon.isValidForDisplay());
-    }
-
     //Overridden
     @Override
     protected void setUp() throws Exception {
         mCanonical = getCanonicalMaker();
         //TODO make type safe
         mData = newDataList();
+    }
+
+    private void checkEmpty() {
+        T canon = mCanonical.getCanonical(mData);
+        assertFalse(canon.isValidForDisplay());
     }
 }

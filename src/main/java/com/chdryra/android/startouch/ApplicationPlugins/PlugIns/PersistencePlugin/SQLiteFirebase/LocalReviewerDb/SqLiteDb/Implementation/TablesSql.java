@@ -6,19 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb
-        .Interfaces.ForeignKeyConstraint;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.ForeignKeyConstraint;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -66,12 +67,13 @@ public class TablesSql {
 
     public Query getFromTableWhereQuery(DbTable<? extends DbTableRow> table,
                                         @Nullable String column, @Nullable String value) {
-        if(column != null && table.getColumn(column) == null) {
+        if (column != null && table.getColumn(column) == null) {
             throw new IllegalArgumentException("Column " + column + " not found in table "
                     + table.getName());
         }
 
-        if(column != null && value == null && !table.getColumn(column).getNullable().isNullable()) {
+        if (column != null && value == null && !table.getColumn(column).getNullable().isNullable
+                ()) {
             throw new IllegalArgumentException("Column " + column + " not nullable");
         }
 

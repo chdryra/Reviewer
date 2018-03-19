@@ -26,13 +26,17 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageCh
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewDefault;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
 import java.util.ArrayList;
@@ -42,7 +46,8 @@ import java.util.ArrayList;
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends ReviewViewDefault<GC>
+public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelable>> extends
+        ReviewViewDefault<GC>
         implements ReviewEditor<GC>, ButtonAction.ClickListener {
     private final ReviewBuilderAdapter<GC> mAdapter;
     private final UiLauncher mLauncher;
@@ -83,7 +88,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     public void onDataChanged() {
         super.onDataChanged();
         String subject = mAdapter.getSubject();
-        if(!mCurrentSubject.equals(subject)) {
+        if (!mCurrentSubject.equals(subject)) {
             mCurrentSubject = subject;
             newIncrementor();
         }
@@ -110,7 +115,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         if (fromUser) {
             mAdapter.setRatingIsAverage(false);
             mAdapter.setRating(rating);
-        } else if(getContainer() != null) {
+        } else if (getContainer() != null) {
             getContainer().setRating(rating);
         }
     }
@@ -140,7 +145,7 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public ImageChooser newImageChooser() {
-        if(mIncrementor == null) newIncrementor();
+        if (mIncrementor == null) newIncrementor();
         return mImageChooserFactory.newImageChooser(mIncrementor);
     }
 
@@ -163,10 +168,10 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public ReadyToBuildResult isReviewBuildable() {
         setSubject();
-        if(mAdapter.getSubject() == null || mAdapter.getSubject().length() == 0) {
+        if (mAdapter.getSubject() == null || mAdapter.getSubject().length() == 0) {
             return ReadyToBuildResult.NoSubject;
-        } else if(mAdapter.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {
-                return ReadyToBuildResult.NoTags;
+        } else if (mAdapter.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {
+            return ReadyToBuildResult.NoTags;
         } else {
             return ReadyToBuildResult.YES;
         }
@@ -182,12 +187,6 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
         return mAdapter.buildPreview();
     }
 
-    private void notifyModeListeners() {
-        for(ModeListener listener : mModeListeners) {
-            listener.onEditMode(mEditMode);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mGridItem.onActivityResult(requestCode, resultCode, data);
@@ -195,12 +194,12 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void registerModeListener(ModeListener listener) {
-        if(!mModeListeners.contains(listener)) mModeListeners.add(listener);
+        if (!mModeListeners.contains(listener)) mModeListeners.add(listener);
     }
 
     @Override
     public void unregisterModeListener(ModeListener listener) {
-        if(mModeListeners.contains(listener)) mModeListeners.remove(listener);
+        if (mModeListeners.contains(listener)) mModeListeners.remove(listener);
     }
 
     @Override
@@ -212,6 +211,12 @@ public class ReviewEditorDefault<GC extends GvDataList<? extends GvDataParcelabl
     @Override
     public EditMode getEditMode() {
         return mEditMode;
+    }
+
+    private void notifyModeListeners() {
+        for (ModeListener listener : mModeListeners) {
+            listener.onEditMode(mEditMode);
+        }
     }
 
     private void newIncrementor() {

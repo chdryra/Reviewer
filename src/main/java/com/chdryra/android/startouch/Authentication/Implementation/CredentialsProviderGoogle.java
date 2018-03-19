@@ -17,7 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CredentialsProviderGoogle extends CredentialsProviderBasic<GoogleSignInAccount, LoginGoogle.Callback>
+public class CredentialsProviderGoogle extends CredentialsProviderBasic<GoogleSignInAccount,
+        LoginGoogle.Callback>
         implements LoginGoogle.Callback {
     public CredentialsProviderGoogle(LoginGoogle provider) {
         super(provider);
@@ -31,7 +32,7 @@ public class CredentialsProviderGoogle extends CredentialsProviderBasic<GoogleSi
     @Override
     public void onSuccess(GoogleSignInResult result) {
         GoogleSignInAccount signInAccount = result.getSignInAccount();
-        if(signInAccount != null) {
+        if (signInAccount != null) {
             notifyOnSuccess(signInAccount);
         } else {
             onFailure(result);

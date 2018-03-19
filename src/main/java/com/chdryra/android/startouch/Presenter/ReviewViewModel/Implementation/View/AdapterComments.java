@@ -8,14 +8,15 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
 
 /**
  * Created by: Rizwan Choudrey

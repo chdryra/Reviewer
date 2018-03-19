@@ -25,17 +25,21 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterionList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -67,7 +71,8 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final ArrayList<GvDataType> TYPES = ApplicationInstance.ConfigGvDataUi.BUILD_TYPES;
+    public static final ArrayList<GvDataType> TYPES = ApplicationInstance.ConfigGvDataUi
+            .BUILD_TYPES;
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final Random RAND = new Random();
 

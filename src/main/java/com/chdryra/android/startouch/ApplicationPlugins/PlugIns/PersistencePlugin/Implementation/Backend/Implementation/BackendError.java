@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 /**
@@ -15,6 +16,9 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendError {
+    private final String mProvider;
+    private final Reason mReason;
+    private final String mDetail;
     public enum Reason {
         OPERATION_FAILED("Operation failed"),
         PERMISSION_DENIED("Permission denied"),
@@ -33,10 +37,6 @@ public class BackendError {
             return mMessage;
         }
     }
-
-    private final String mProvider;
-    private final Reason mReason;
-    private final String mDetail;
 
     public BackendError(String provider, Reason reason) {
         this(provider, reason, "");
@@ -57,13 +57,13 @@ public class BackendError {
                 + (mDetail != null && mDetail.length() > 0 ? "(" + mDetail + ")" : mDetail);
     }
 
+    public boolean is(Reason reason) {
+        return reason.equals(mReason);
+    }
+
     @Override
     public String toString() {
         return getMessage();
-    }
-
-    public boolean is(Reason reason) {
-        return reason.equals(mReason);
     }
 
     @Override

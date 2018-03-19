@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.ReviewItemConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.ReviewItemConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;

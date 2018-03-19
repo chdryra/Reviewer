@@ -52,8 +52,8 @@ public class DataFormatter {
              end != BreakIterator.DONE;
              start = end, end = boundary.next()) {
             String substring = commentString.substring(start, end).trim();
-            if(ignoreStop) substring = trim(substring, IGNORE_DELIMITER);
-            if(substring != null && substring.length() > 0) comments.add(substring);
+            if (ignoreStop) substring = trim(substring, IGNORE_DELIMITER);
+            if (substring != null && substring.length() > 0) comments.add(substring);
         }
 
         return comments;
@@ -63,25 +63,10 @@ public class DataFormatter {
         return comment.getComment().replaceAll(CommentsDataParser.SEPARATOR, SEPARATOR_REPLACEMENT);
     }
 
-    private static String trim(@NonNull String string, @NonNull String toTrim) {
-        String trimmed = string;
-
-        while (trimmed.length() > 0 && toTrim.contains(String.valueOf(trimmed.charAt(0)))) {
-            trimmed = (String) trimmed.subSequence(1, trimmed.length());
-        }
-
-        while (trimmed.length() > 0 && toTrim.contains(String.valueOf(trimmed.charAt(trimmed
-                .length() - 1)))) {
-            trimmed = (String) trimmed.subSequence(0, trimmed.length() - 1);
-        }
-
-        return trimmed;
-    }
-
     public static String formatComments(Collection<? extends DataComment> comments) {
         String formatted = "";
         String bullet = comments.size() == 1 ? "" : "- ";
-        for(DataComment comment : comments) {
+        for (DataComment comment : comments) {
             formatted += bullet + format(comment) + "\n\n";
         }
 
@@ -98,7 +83,8 @@ public class DataFormatter {
         return headline.length() > 0 ? "\"" + headline + "\"" : headline;
     }
 
-    public static String formatTags(IdableList<? extends DataTag> tags, int maxTags, @Nullable String ignoreTag) {
+    public static String formatTags(IdableList<? extends DataTag> tags, int maxTags, @Nullable
+            String ignoreTag) {
         String tagsString = "";
         int numTags = Math.min(tags.size(), Math.max(maxTags, tags.size()));
         int diff = tags.size() - numTags;
@@ -107,7 +93,7 @@ public class DataFormatter {
         boolean ignored = false;
         while (count < numTags && i < tags.size()) {
             DataTag item = tags.get(i);
-            if(!item.getTag().equalsIgnoreCase(ignoreTag)) {
+            if (!item.getTag().equalsIgnoreCase(ignoreTag)) {
                 tagsString += item + " ";
                 ++count;
             } else {
@@ -116,7 +102,7 @@ public class DataFormatter {
             ++i;
         }
 
-        if (diff > 0) tagsString += "+ " + String.valueOf(ignored ? diff +1 : diff) + "#";
+        if (diff > 0) tagsString += "+ " + String.valueOf(ignored ? diff + 1 : diff) + "#";
 
         return tagsString.trim();
     }
@@ -139,7 +125,6 @@ public class DataFormatter {
         return location.trim();
     }
 
-
     public static String getShortenedName(String name) {
         String delimeters = ",|";
         StringTokenizer tokens = new StringTokenizer(name, delimeters);
@@ -151,5 +136,20 @@ public class DataFormatter {
     public static String getAddress(String name) {
         String[] split = name.split("|", 1);
         return split.length > 1 ? split[1] : name;
+    }
+
+    private static String trim(@NonNull String string, @NonNull String toTrim) {
+        String trimmed = string;
+
+        while (trimmed.length() > 0 && toTrim.contains(String.valueOf(trimmed.charAt(0)))) {
+            trimmed = (String) trimmed.subSequence(1, trimmed.length());
+        }
+
+        while (trimmed.length() > 0 && toTrim.contains(String.valueOf(trimmed.charAt(trimmed
+                .length() - 1)))) {
+            trimmed = (String) trimmed.subSequence(0, trimmed.length() - 1);
+        }
+
+        return trimmed;
     }
 }

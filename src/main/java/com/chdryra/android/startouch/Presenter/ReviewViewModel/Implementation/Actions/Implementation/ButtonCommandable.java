@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.view.View;
@@ -42,13 +43,13 @@ public class ButtonCommandable<T extends GvData> extends ButtonActionNone<T> {
 
     @Override
     public void onClick(View v) {
-        if(mClick != null) mClick.execute();
+        if (mClick != null) mClick.execute();
         notifyListeners();
     }
 
     @Override
     public boolean onLongClick(View v) {
-        if(mLongClick != null) {
+        if (mLongClick != null) {
             mLongClick.execute();
             return true;
         } else {

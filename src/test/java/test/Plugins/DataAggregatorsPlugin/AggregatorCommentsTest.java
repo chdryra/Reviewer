@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
@@ -30,14 +31,16 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorCommentsTest extends AggregatedDistinctItemsTest<DataComment> {
     @NonNull
     @Override
-    protected DataAggregator<DataComment> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataComment> newAggregator(DataAggregatorsApi factory,
+                                                        DataAggregatorParams params) {
         return factory.newCommentsAggregator(params.getSimilarPercentage());
     }
 
     @NonNull
     @Override
     protected DataComment randomDatum() {
-        return new DatumComment(RandomReviewId.nextReviewId(), RandomString.nextWord(), getRAND().nextBoolean());
+        return new DatumComment(RandomReviewId.nextReviewId(), RandomString.nextWord(), getRAND()
+                .nextBoolean());
     }
 
     @NonNull

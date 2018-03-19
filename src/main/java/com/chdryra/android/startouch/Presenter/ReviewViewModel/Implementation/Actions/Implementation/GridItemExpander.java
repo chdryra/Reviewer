@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -20,19 +21,6 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridItemExpander<T extends GvData> extends GridItemActionNone<T> {
-    void onClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?> expanded) {
-    }
-
-    void onLongClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?>
-            expanded) {
-    }
-
-    void onClickNotExpandable(T item, int position, View v) {
-    }
-
-    void onLongClickNotExpandable(T item, int position, View v) {
-    }
-
     @Override
     public void onGridItemClick(T item, int position, View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridCell(item);
@@ -51,5 +39,18 @@ public abstract class GridItemExpander<T extends GvData> extends GridItemActionN
         } else {
             onLongClickNotExpandable(item, position, v);
         }
+    }
+
+    void onClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?> expanded) {
+    }
+
+    void onLongClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?>
+            expanded) {
+    }
+
+    void onClickNotExpandable(T item, int position, View v) {
+    }
+
+    void onLongClickNotExpandable(T item, int position, View v) {
     }
 }

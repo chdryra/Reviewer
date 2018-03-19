@@ -65,7 +65,7 @@ public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
 
     @Override
     public void registerListener(ClickListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class BuildScreenShare<GC extends GvDataList<? extends GvDataParcelable>>
     }
 
     private void notifyListeners() {
-        for(ClickListener listener : mListeners) {
+        for (ClickListener listener : mListeners) {
             listener.onButtonClick();
         }
     }

@@ -9,11 +9,12 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 
 /**
@@ -26,12 +27,12 @@ public class DataBuilderGridCellList extends GvDataListImpl<DataBuilderGridCell>
         super(DataBuilderGridCell.TYPE, new GvReviewId());
     }
 
+    @Override
+    public void sort() {
+    }
+
     <T extends GvDataParcelable> void addNewGridCell(DataBuilderAdapter<T> dataAdapter,
                                                      FactoryVhDataCollection viewHolderFactory) {
         add(new DataBuilderGridCell<>(dataAdapter, viewHolderFactory));
-    }
-
-    @Override
-    public void sort() {
     }
 }

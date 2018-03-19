@@ -13,12 +13,16 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverviewList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
@@ -132,7 +136,8 @@ public class GvReviewOverviewListTest extends TestCase {
         locations.add(locationName2);
         ArrayList<String> tags = new ArrayList<>();
         tags.add(tag2);
-        GvReviewOverview reviewSameId = new GvReviewOverview(id1, author2, publishDate2, subject2, rating2, image2, headline2,
+        GvReviewOverview reviewSameId = new GvReviewOverview(id1, author2, publishDate2,
+                subject2, rating2, image2, headline2,
                 locations, tags);
         assertTrue(mList.contains(reviewSameId));
 
@@ -199,43 +204,60 @@ public class GvReviewOverviewListTest extends TestCase {
         tags2.add(tag1);
         tags2.add(tag2);
 
-        GvReviewOverview gvReview = new GvReviewOverview(id1, author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReview = new GvReviewOverview(id1, author1, date1, subject1, rating1,
+                image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewEquals = new GvReviewOverview(id1, author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewEquals = new GvReviewOverview(id1, author1, date1, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
         GvReviewOverview gvReviewEquals2 = new GvReviewOverview(gvReview);
 
-        GvReviewOverview gvReviewNotEquals1 = new GvReviewOverview(id2, author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals1 = new GvReviewOverview(id2, author1, date1, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNotEquals2 = new GvReviewOverview(id1, author1, date1, subject2, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals2 = new GvReviewOverview(id1, author1, date1, subject2,
+                rating1, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNotEquals3 = new GvReviewOverview(id1, author1, date1, subject1, rating2, image1, headline1,
+        GvReviewOverview gvReviewNotEquals3 = new GvReviewOverview(id1, author1, date1, subject1,
+                rating2, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNotEquals5 = new GvReviewOverview(id1, author1, date1, subject1, rating1, image1, headline2,
+        GvReviewOverview gvReviewNotEquals5 = new GvReviewOverview(id1, author1, date1, subject1,
+                rating1, image1, headline2,
                 locations1, tags1);
-        GvReviewOverview gvReviewNotEquals6 = new GvReviewOverview(id1, author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals6 = new GvReviewOverview(id1, author1, date1, subject1,
+                rating1, image1, headline1,
                 locations2, tags1);
-        GvReviewOverview gvReviewNotEquals7 = new GvReviewOverview(id1, author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals7 = new GvReviewOverview(id1, author1, date1, subject1,
+                rating1, image1, headline1,
                 locations1, tags2);
-        GvReviewOverview gvReviewNotEquals8 = new GvReviewOverview(id1, author2, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals8 = new GvReviewOverview(id1, author2, date1, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNotEquals9 = new GvReviewOverview(id1, author1, date2,subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNotEquals9 = new GvReviewOverview(id1, author1, date2, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
 
         GvReviewOverview gvReviewNull = new GvReviewOverview();
-        GvReviewOverview gvReviewNoId = new GvReviewOverview("", author1, date1, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNoId = new GvReviewOverview("", author1, date1, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNoAuthor = new GvReviewOverview(id1, DatumAuthor.NULL_AUTHOR, date1, subject1, rating1, image1,
+        GvReviewOverview gvReviewNoAuthor = new GvReviewOverview(id1, DatumAuthor.NULL_AUTHOR,
+                date1, subject1, rating1, image1,
                 headline1, locations1, tags1);
-        GvReviewOverview gvReviewNoDate = new GvReviewOverview(id1, author1, null, subject1, rating1, image1, headline1,
+        GvReviewOverview gvReviewNoDate = new GvReviewOverview(id1, author1, null, subject1,
+                rating1, image1, headline1,
                 locations1, tags1);
-        GvReviewOverview gvReviewNoSubject = new GvReviewOverview(id1, author1, date1, "", rating1, image1, headline1, locations1,
+        GvReviewOverview gvReviewNoSubject = new GvReviewOverview(id1, author1, date1, "",
+                rating1, image1, headline1, locations1,
                 tags1);
-        GvReviewOverview gvReviewNoTags = new GvReviewOverview(id1, author1, date1, "", rating1, image1, headline1, locations1,
+        GvReviewOverview gvReviewNoTags = new GvReviewOverview(id1, author1, date1, "", rating1,
+                image1, headline1, locations1,
                 new ArrayList<String>());
-        GvReviewOverview gvReviewNullTags = new GvReviewOverview(id1, author1, date1, "", rating1, image1, headline1, locations1,
+        GvReviewOverview gvReviewNullTags = new GvReviewOverview(id1, author1, date1, "",
+                rating1, image1, headline1, locations1,
                 null);
-        GvReviewOverview gvReviewNotEmpty = new GvReviewOverview(id1, author1, date1, subject1, 0f, null, null, null, tags1);
+        GvReviewOverview gvReviewNotEmpty = new GvReviewOverview(id1, author1, date1, subject1,
+                0f, null, null, null, tags1);
 
         assertNotNull(gvReview.getViewHolder());
         assertTrue(gvReview.isValidForDisplay());

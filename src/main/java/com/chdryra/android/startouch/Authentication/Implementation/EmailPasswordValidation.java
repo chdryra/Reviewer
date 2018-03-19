@@ -27,30 +27,30 @@ public class EmailPasswordValidation {
         validate(email, password);
     }
 
-    private void validate(String email, String password) {
-        EmailValidation emailValid = new EmailValidation(email);
-        EmailAddress address = emailValid.getEmailAddress();
-        if(address == null) {
-            mError = new Error(Reason.INVALID_EMAIL, emailValid.getError().getMessage());
-            return;
-        }
-
-        PasswordValidation passwordValid = new PasswordValidation(password);
-        Password pw = passwordValid.getPassword();
-        if(pw == null) {
-            mError = new Error(Reason.INVALID_PASSWORD, passwordValid.getError().getMessage());
-            return;
-        }
-
-        mIfValid = new EmailPassword(address, pw);
-    }
-
     public Error getError() {
         return mError;
     }
 
     public EmailPassword getEmailPassword() {
         return mIfValid;
+    }
+
+    private void validate(String email, String password) {
+        EmailValidation emailValid = new EmailValidation(email);
+        EmailAddress address = emailValid.getEmailAddress();
+        if (address == null) {
+            mError = new Error(Reason.INVALID_EMAIL, emailValid.getError().getMessage());
+            return;
+        }
+
+        PasswordValidation passwordValid = new PasswordValidation(password);
+        Password pw = passwordValid.getPassword();
+        if (pw == null) {
+            mError = new Error(Reason.INVALID_PASSWORD, passwordValid.getError().getMessage());
+            return;
+        }
+
+        mIfValid = new EmailPassword(address, pw);
     }
 
     public static class Error {

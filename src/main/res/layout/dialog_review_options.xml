@@ -12,17 +12,17 @@
 
     <Button
         android:id="@+id/button_share_review"
-        android:text= "@string/button_share"
-        style="@style/Button.LeftLabel"/>
+        style="@style/Button.LeftLabel"
+        android:text="@string/button_share"/>
 
     <Button
         android:id="@+id/button_another_review"
-        android:text="@string/button_copy"
-        style="@style/Button.LeftLabel"/>
+        style="@style/Button.LeftLabel"
+        android:text="@string/button_copy"/>
 
     <Button
         android:id="@+id/button_delete_review"
-        android:text="@string/button_delete"
-        style="@style/Button.LeftLabel"/>
+        style="@style/Button.LeftLabel"
+        android:text="@string/button_delete"/>
 
 </LinearLayout>

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -25,7 +26,8 @@ class FactoryFragment {
     private static final String TAG = TagKeyGenerator.getTag(FactoryFragment.class);
 
     public static <T extends Fragment, P extends Parcelable> T newFragment(Class<T> fragmentClass,
-                                                                           String key, @Nullable P data) {
+                                                                           String key, @Nullable
+                                                                                   P data) {
         T fragment = newInstance(fragmentClass);
 
         Bundle args = new Bundle();
@@ -35,7 +37,7 @@ class FactoryFragment {
         return fragment;
     }
 
-    private static <T extends Fragment>  T newInstance(Class<T> fragmentClass) {
+    private static <T extends Fragment> T newInstance(Class<T> fragmentClass) {
         try {
             return fragmentClass.newInstance();
         } catch (InstantiationException e) {

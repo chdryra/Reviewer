@@ -10,8 +10,10 @@ package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.ComparitorDate;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.DifferenceDate;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.ComparitorDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 
 import junit.framework.TestCase;

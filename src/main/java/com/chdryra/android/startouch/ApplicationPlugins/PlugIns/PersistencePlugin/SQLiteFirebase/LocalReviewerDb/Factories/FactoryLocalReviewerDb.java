@@ -6,24 +6,33 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories;
 
 
 import android.content.Context;
 
-import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.ContractorDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.FactoryContractor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.RelationalDbPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryDbSpecification;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbSpecification;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewTransactor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.ContractorDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.FactoryContractor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.RelationalDbPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Factories.FactoryDbSpecification;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbSpecification;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewTransactor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewerDbRepo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
@@ -43,7 +52,8 @@ public class FactoryLocalReviewerDb {
     private final int mPersistenceVer;
     private final Context mContext;
 
-    public FactoryLocalReviewerDb(Context context, String name, int version, RelationalDbPlugin dbPlugin) {
+    public FactoryLocalReviewerDb(Context context, String name, int version, RelationalDbPlugin
+            dbPlugin) {
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
         mDbFactory = new FactoryReviewerDb(rowFactory);
         mReviewTransactor = new FactoryReviewTransactor(rowFactory);
@@ -58,10 +68,12 @@ public class FactoryLocalReviewerDb {
         FactoryReviews reviewsFactory = model.getReviewsFactory();
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, reviewsFactory, validator);
         FactoryDbReference referenceFactory = new FactoryDbReference(model.getReferencesFactory());
-        return new ReviewerDbRepo(new ReviewDereferencer(), new SizeReferencer(), db, referenceFactory);
+        return new ReviewerDbRepo(new ReviewDereferencer(), new SizeReferencer(), db,
+                referenceFactory);
     }
 
-    public ReviewerDb newReviewerDb(String name, int version, ReviewMaker recreater, DataValidator validator) {
+    public ReviewerDb newReviewerDb(String name, int version, ReviewMaker recreater,
+                                    DataValidator validator) {
         DbSpecification<ReviewerDbContract> spec = newDbSpecification(name, mExt, version);
 
         ContractorDb<ReviewerDbContract> contractor

@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
-
-import com.chdryra.android.corelibrary.Aggregation.DifferenceFloat;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceFloat;
 import com.chdryra.android.corelibrary.LocationUtils.LatLngDistance;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -21,13 +21,15 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparatorLocationDistance implements DifferenceComparator<DataLocation, DifferenceFloat> {
+public class ComparatorLocationDistance implements DifferenceComparator<DataLocation,
+        DifferenceFloat> {
     @Override
     public DifferenceFloat compare(DataLocation lhs, DataLocation rhs) {
         float[] res = new float[1];
         LatLng ll1 = lhs.getLatLng();
         LatLng ll2 = rhs.getLatLng();
-        LatLngDistance.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude, res);
+        LatLngDistance.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude,
+                res);
 
         return new DifferenceFloat(res[0]);
     }

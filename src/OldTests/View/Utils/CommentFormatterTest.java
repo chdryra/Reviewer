@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.test.View.Utils;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .CommentFormatter;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;

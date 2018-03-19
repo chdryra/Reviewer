@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Factories;
 
 
 import android.content.Context;
@@ -15,22 +16,27 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Configs.ConfigDialogLayouts;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Implementation.AddEditLayoutNull;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -46,7 +52,8 @@ public class FactoryDialogLayout {
     private final ConfigDialogLayouts mConfig;
     private final LocationServices mServices;
 
-    public FactoryDialogLayout(Context context, ConfigDialogLayouts config, LocationServices services) {
+    public FactoryDialogLayout(Context context, ConfigDialogLayouts config, LocationServices
+            services) {
         mContext = context;
         mConfig = config;
         mServices = services;
@@ -54,16 +61,17 @@ public class FactoryDialogLayout {
 
     @Nullable
     public <T extends GvData> DatumLayoutEdit<T> newLayout
-    (GvDataType<T> dataType, GvDataAdder adder) {
-        if(dataType == GvLocation.TYPE) {
+            (GvDataType<T> dataType, GvDataAdder adder) {
+        if (dataType == GvLocation.TYPE) {
             //TODO make type safe
             return (DatumLayoutEdit<T>) new AddLocation(adder, mServices);
         }
 
         try {
-            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass
+                    (dataType);
 
-            if(addEditLayout == null) return newNullLayout(dataType);
+            if (addEditLayout == null) return newNullLayout(dataType);
 
             Constructor<? extends DatumLayoutEdit<T>> ctor
                     = addEditLayout.getDeclaredConstructor(GvDataAdder.class);
@@ -86,25 +94,13 @@ public class FactoryDialogLayout {
                 .getDatumName());
     }
 
-    @NonNull
-    private <T extends GvData> DatumLayoutEdit<T> newNullLayout(GvDataType<T> dataType) {
-        try {
-            return new AddEditLayoutNull<>(mContext, dataType.getDataClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
     public <T extends GvData> DatumLayoutEdit<T> newLayout
             (GvDataType<T> dataType, GvDataEditor editor) {
         try {
-            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
+            Class<? extends DatumLayoutEdit<T>> addEditLayout = mConfig.getAddEditLayoutClass
+                    (dataType);
 
-            if(addEditLayout == null) return newNullLayout(dataType);
+            if (addEditLayout == null) return newNullLayout(dataType);
 
             Constructor<? extends DatumLayoutEdit<T>> ctor =
                     addEditLayout.getDeclaredConstructor(GvDataEditor.class);
@@ -141,5 +137,18 @@ public class FactoryDialogLayout {
         }
         throw new RuntimeException("view layout constructor problem for " + dataType.getDatumName
                 ());
+    }
+
+    @NonNull
+    private <T extends GvData> DatumLayoutEdit<T> newNullLayout(GvDataType<T> dataType) {
+        try {
+            return new AddEditLayoutNull<>(mContext, dataType.getDataClass().newInstance());
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

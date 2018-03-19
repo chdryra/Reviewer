@@ -14,7 +14,8 @@ import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonActionNone;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,7 +41,7 @@ public class DoneEditingButton<T extends GvDataParcelable> extends ButtonActionN
 
     private ReviewDataEditor<T> getEditor() {
         try {
-            return (ReviewDataEditor<T>)getReviewView();
+            return (ReviewDataEditor<T>) getReviewView();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }

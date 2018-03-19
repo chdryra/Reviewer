@@ -10,6 +10,10 @@ package test.Plugins.PersistencePlugin.LocalReviewerDb;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagList;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Api.TableTransactor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -22,33 +26,47 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewInserterImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableAuthors;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableComments;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableCriteria;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableFacts;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableImages;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableLocations;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
-
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewInserterImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableAuthors;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableComments;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableCriteria;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableFacts;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableImages;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableLocations;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableTags;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
-import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagList;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -142,7 +160,8 @@ public class ReviewInserterImplTest {
     @Test
     public void addReviewCallsTransactorInsertWithLocationsTableWithCorrectRows() {
         Review review = newReview();
-        ArrayList<RowLocation> rows = getExpectedRows(review.getLocations(), RowLocation.class, true);
+        ArrayList<RowLocation> rows = getExpectedRows(review.getLocations(), RowLocation.class,
+                true);
         checkInsertCalled(review, mDb.getLocationsTable(), TableLocations.NAME, rows);
     }
 
@@ -178,14 +197,17 @@ public class ReviewInserterImplTest {
     }
 
     private void setTags(Review review) {
-        ItemTagImpl tag1 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString());
+        ItemTagImpl tag1 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString
+                ());
         tag1.addItemId(RandomReviewId.nextIdString());
         tag1.addItemId(RandomReviewId.nextIdString());
         tag1.addItemId(RandomReviewId.nextIdString());
-        ItemTagImpl tag2 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString());
+        ItemTagImpl tag2 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString
+                ());
         tag2.addItemId(RandomReviewId.nextIdString());
         tag2.addItemId(RandomReviewId.nextIdString());
-        ItemTagImpl tag3 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString());
+        ItemTagImpl tag3 = new ItemTagImpl(RandomString.nextWord(), review.getReviewId().toString
+                ());
         tag3.addItemId(RandomReviewId.nextIdString());
         mTags.add(tag1);
         mTags.add(tag2);
@@ -198,7 +220,7 @@ public class ReviewInserterImplTest {
                                                                    boolean indexed) {
         ArrayList<T> rows = new ArrayList<>();
         int i = 1;
-        for(D datum : data) {
+        for (D datum : data) {
             rows.add(indexed ? asRow(rowClass, datum, i++) : asRow(rowClass, datum));
         }
         return rows;
@@ -212,18 +234,20 @@ public class ReviewInserterImplTest {
     }
 
     private <T extends DbTableRow> void checkInsertOrReplaceCalled(Review review, DbTable<T> table,
-                                                          String tableName, ArrayList<T> rows) {
+                                                                   String tableName, ArrayList<T>
+                                                                           rows) {
         checkInsert(review, table, tableName, rows);
         assertThat(mTransactor.mInsertOrReplaceCalled, is(true));
     }
 
     private <T extends DbTableRow> void checkInsertCalled(Review review, DbTable<T> table,
-                                   String tableName, ArrayList<T> rows) {
+                                                          String tableName, ArrayList<T> rows) {
         checkInsert(review, table, tableName, rows);
         assertThat(mTransactor.mInsertOrReplaceCalled, is(false));
     }
 
-    private <T extends DbTableRow> void checkInsert(Review review, DbTable<T> table, String tableName, ArrayList<T> rows) {
+    private <T extends DbTableRow> void checkInsert(Review review, DbTable<T> table, String
+            tableName, ArrayList<T> rows) {
         setToCapture(table, tableName);
 
         checkNumberCaptured(0);
@@ -235,7 +259,7 @@ public class ReviewInserterImplTest {
     }
 
     private <T extends DbTableRow> void checkInsertNotCalled(Review review, DbTable<T> table,
-                                                          String tableName) {
+                                                             String tableName) {
         setToCapture(table, tableName);
 
         checkNumberCaptured(0);
@@ -276,6 +300,20 @@ public class ReviewInserterImplTest {
         private boolean mIsAuthorIdInTable = false;
 
         @Override
+        public <DbRow extends DbTableRow> boolean insertOrReplaceRow(DbRow row, DbTable<DbRow>
+                table) {
+            if (table.getName() != null && table.getName().equals(mCaptureTableName)) {
+                mInsertOrReplaceCalled = true;
+                mTablesCaptured++;
+                mCapturedRows.add(row);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
         public void beginTransaction() {
             fail();
         }
@@ -303,7 +341,7 @@ public class ReviewInserterImplTest {
 
         @Override
         public <DbRow extends DbTableRow, Type> int deleteRowsWhere(DbTable<DbRow> table,
-                                                                     RowEntry<DbRow, Type> clause) {
+                                                                    RowEntry<DbRow, Type> clause) {
             fail();
             return 0;
         }
@@ -318,25 +356,18 @@ public class ReviewInserterImplTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow> boolean insertOrReplaceRow(DbRow row, DbTable<DbRow> table) {
-            if (table.getName() != null && table.getName().equals(mCaptureTableName)) {
-                mInsertOrReplaceCalled = true;
-                mTablesCaptured++;
-                mCapturedRows.add(row);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
         public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table) {
             return mIsAuthorIdInTable;
         }
     }
 
     private class TagsMan implements TagsManager {
+        @Override
+        public ItemTagCollection getTags() {
+            fail();
+            return null;
+        }
+
         @Override
         public void tagItem(String id, String tag) {
             fail();
@@ -356,12 +387,6 @@ public class ReviewInserterImplTest {
         @Override
         public void clearTags(String id) {
             fail();
-        }
-
-        @Override
-        public ItemTagCollection getTags() {
-            fail();
-            return null;
         }
 
         @Override

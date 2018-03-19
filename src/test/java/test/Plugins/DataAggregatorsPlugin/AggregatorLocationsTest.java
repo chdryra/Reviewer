@@ -11,14 +11,15 @@ package test.Plugins.DataAggregatorsPlugin;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.LocationUtils.LatLngDistance;
 import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.corelibrary.LocationUtils.LatLngDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,10 +39,11 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 08/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLocation>{
+public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLocation> {
     @NonNull
     @Override
-    protected DataAggregator<DataLocation> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataLocation> newAggregator(DataAggregatorsApi factory,
+                                                         DataAggregatorParams params) {
         return factory.newLocationsAggregator(params.getSimilarLocation());
     }
 
@@ -64,7 +66,7 @@ public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLoc
     @Override
     protected DataLocation getExampleCanonical(ReviewId id, ArrayList<DataLocation> data) {
         ArrayList<LatLng> latLngs = new ArrayList<>();
-        for(DataLocation location : data) {
+        for (DataLocation location : data) {
             latLngs.add(location.getLatLng());
         }
         LatLngMidpoint midpoint = new LatLngMidpoint();
@@ -78,7 +80,7 @@ public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLoc
         Assert.assertNotNull(keyEquivalent);
         super.checkCanonicalItemsSize(keyEquivalent, size);
     }
-    
+
     @Override
     protected void checkCanonicalInMap(DataLocation canonical) {
         DataLocation keyEquivalent = findKey(canonical);
@@ -91,12 +93,13 @@ public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLoc
         LatLng latlng = canonical.getLatLng();
         DataLocation keyEquivalent = null;
         float[] res = new float[1];
-        for(DataLocation key : mCanonicalsMap.keySet()) {
+        for (DataLocation key : mCanonicalsMap.keySet()) {
             LatLng keyll = key.getLatLng();
 
-            LatLngDistance.distanceBetween(latlng.latitude, latlng.longitude, keyll.latitude, keyll.longitude, res);
+            LatLngDistance.distanceBetween(latlng.latitude, latlng.longitude, keyll.latitude,
+                    keyll.longitude, res);
 
-            if(res[0] < 1e-5) keyEquivalent = key;
+            if (res[0] < 1e-5) keyEquivalent = key;
         }
         return keyEquivalent;
     }

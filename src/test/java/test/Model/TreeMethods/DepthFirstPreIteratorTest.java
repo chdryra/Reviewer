@@ -8,10 +8,9 @@
 
 package test.Model.TreeMethods;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation
-        .DepthFirstPreIterator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.DepthFirstPreIterator;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +21,7 @@ import java.util.NoSuchElementException;
 import test.TestUtils.RandomReview;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,6 +29,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DepthFirstPreIteratorTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void HasNextBeforePopIsTrue() {
         ReviewNode node = RandomReview.nextReviewNode();
@@ -51,9 +53,6 @@ public class DepthFirstPreIteratorTest {
         iterator.next();
         assertThat(iterator.hasNext(), is(false));
     }
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void nextOnHasNextIsFalseThrowsNoSuchElementException() {
@@ -83,9 +82,9 @@ public class DepthFirstPreIteratorTest {
         root.addChild(child3);
 
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(root);
-        assertThat(iterator.next(), is((ReviewNode)root));
+        assertThat(iterator.next(), is((ReviewNode) root));
         assertThat(iterator.next(), is((ReviewNode) child3));
-        assertThat(iterator.next(), is((ReviewNode)child2));
+        assertThat(iterator.next(), is((ReviewNode) child2));
         assertThat(iterator.next(), is((ReviewNode) child1));
     }
 
@@ -100,10 +99,10 @@ public class DepthFirstPreIteratorTest {
         child2.addChild(child3);
 
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(root);
-        assertThat(iterator.next(), is((ReviewNode)root));
-        assertThat(iterator.next(), is((ReviewNode)child1));
-        assertThat(iterator.next(), is((ReviewNode)child2));
-        assertThat(iterator.next(), is((ReviewNode)child3));
+        assertThat(iterator.next(), is((ReviewNode) root));
+        assertThat(iterator.next(), is((ReviewNode) child1));
+        assertThat(iterator.next(), is((ReviewNode) child2));
+        assertThat(iterator.next(), is((ReviewNode) child3));
     }
 
     @Test
@@ -136,27 +135,27 @@ public class DepthFirstPreIteratorTest {
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(root);
         assertThat(iterator.next(), is((ReviewNode) root));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)child3));
+        assertThat(iterator.next(), is((ReviewNode) child3));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)grandchild31));
+        assertThat(iterator.next(), is((ReviewNode) grandchild31));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)child2));
+        assertThat(iterator.next(), is((ReviewNode) child2));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)grandchild21));
+        assertThat(iterator.next(), is((ReviewNode) grandchild21));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)greatgrandchild212));
+        assertThat(iterator.next(), is((ReviewNode) greatgrandchild212));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)greatgrandchild211));
+        assertThat(iterator.next(), is((ReviewNode) greatgrandchild211));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)child1));
+        assertThat(iterator.next(), is((ReviewNode) child1));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)grandchild12));
+        assertThat(iterator.next(), is((ReviewNode) grandchild12));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)grandchild11));
+        assertThat(iterator.next(), is((ReviewNode) grandchild11));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)greatgrandchild112));
+        assertThat(iterator.next(), is((ReviewNode) greatgrandchild112));
         assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is((ReviewNode)greatgrandchild111));
+        assertThat(iterator.next(), is((ReviewNode) greatgrandchild111));
         assertThat(iterator.hasNext(), is(false));
     }
 }

@@ -13,8 +13,10 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocationList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,7 +24,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterLocations extends
-        GvConverterReviewData.RefDataList<DataLocation, GvLocation, GvLocationList, GvLocation.Reference> {
+        GvConverterReviewData.RefDataList<DataLocation, GvLocation, GvLocationList, GvLocation
+                .Reference> {
 
     public GvConverterLocations() {
         super(GvLocationList.class, GvLocation.Reference.TYPE);

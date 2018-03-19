@@ -6,17 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,14 +25,6 @@ import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCommentMode extends CanonicalStringMaker<DataComment> {
-    @Override
-    public DataComment getCanonical(IdableList<? extends DataComment> data) {
-        ReviewId id = data.getReviewId();
-        if (data.size() == 0) return FactoryNullData.nullComment(id);
-
-        return new DatumComment(id, getModeString(data), false);
-    }
-
     @Override
     @NonNull
     protected ItemGetter<DataComment, String> getStringGetter() {
@@ -41,6 +34,14 @@ public class CanonicalCommentMode extends CanonicalStringMaker<DataComment> {
                 return datum.getComment();
             }
         };
+    }
+
+    @Override
+    public DataComment getCanonical(IdableList<? extends DataComment> data) {
+        ReviewId id = data.getReviewId();
+        if (data.size() == 0) return FactoryNullData.nullComment(id);
+
+        return new DatumComment(id, getModeString(data), false);
     }
 
     @NonNull

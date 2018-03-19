@@ -12,7 +12,8 @@ import android.view.MenuItem;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
 
 
 /**

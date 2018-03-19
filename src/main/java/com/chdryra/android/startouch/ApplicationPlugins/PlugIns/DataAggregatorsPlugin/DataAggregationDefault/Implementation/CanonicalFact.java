@@ -6,20 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,11 +41,6 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     }
 
     private static class LabelMaker extends CanonicalStringMaker<DataFact> {
-        @Override
-        public DataFact getCanonical(IdableList<? extends DataFact> data) {
-            return new DatumFact(data.getReviewId(), getModeString(data), "");
-        }
-
         @NonNull
         @Override
         protected ItemGetter<DataFact, String> getStringGetter() {
@@ -56,14 +51,14 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
                 }
             };
         }
+
+        @Override
+        public DataFact getCanonical(IdableList<? extends DataFact> data) {
+            return new DatumFact(data.getReviewId(), getModeString(data), "");
+        }
     }
 
     private static class ValueMaker extends CanonicalStringMaker<DataFact> {
-        @Override
-        public DataFact getCanonical(IdableList<? extends DataFact> data) {
-            return new DatumFact(data.getReviewId(), "", getModeString(data));
-        }
-
         @NonNull
         @Override
         protected ItemGetter<DataFact, String> getStringGetter() {
@@ -73,6 +68,11 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
                     return datum.getValue();
                 }
             };
+        }
+
+        @Override
+        public DataFact getCanonical(IdableList<? extends DataFact> data) {
+            return new DatumFact(data.getReviewId(), "", getModeString(data));
         }
 
         @NonNull

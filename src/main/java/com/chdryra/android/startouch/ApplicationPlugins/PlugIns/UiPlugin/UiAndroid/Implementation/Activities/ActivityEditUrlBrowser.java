@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,9 +16,10 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentEditUrlBrowser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditUrlBrowser;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -55,6 +57,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     private GvUrl getBundledUrl() {
         ParcelablePacker<GvUrl> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(URL);
-        return args != null? packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvUrl();
+        return args != null ? packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new
+                GvUrl();
     }
 }

@@ -35,7 +35,7 @@ public class ReviewStampTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
-    
+
     @Test
     public void validToStringFormatting() {
         AuthorName author = newAuthor();
@@ -49,15 +49,6 @@ public class ReviewStampTest {
         assertThat(Long.parseLong(split[1]), is(date.getTime()));
     }
 
-    private DateTime newDate() {
-        return RandomDataDate.nextDateTime();
-    }
-
-    @NonNull
-    private AuthorName newAuthor() {
-        return RandomAuthor.nextAuthor();
-    }
-
     @Test
     public void testEquals() {
         AuthorName author = newAuthor();
@@ -65,7 +56,7 @@ public class ReviewStampTest {
 
         ReviewStamp id1 = ReviewStamp.newStamp(author, date);
         ReviewStamp id2 = ReviewStamp.newStamp(author, date);
-        
+
         assertThat(id1, is(id2));
     }
 
@@ -102,5 +93,14 @@ public class ReviewStampTest {
 
         idString = "abc";
         assertThat(ReviewStamp.checkId(new DatumReviewId(idString)), is(false));
+    }
+
+    private DateTime newDate() {
+        return RandomDataDate.nextDateTime();
+    }
+
+    @NonNull
+    private AuthorName newAuthor() {
+        return RandomAuthor.nextAuthor();
     }
 }

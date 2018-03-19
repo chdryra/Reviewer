@@ -10,9 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonActionNone;
-
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonActionNone;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatform;
 

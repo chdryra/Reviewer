@@ -44,7 +44,7 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
     @Override
     protected void doAlertPositive(Bundle args) {
         GvImage newCover = unpackItem(args);
-        if(newCover == null) return;
+        if (newCover == null) return;
 
         ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {
@@ -57,9 +57,9 @@ public class GridItemEditImage extends GridItemEdit<GvImage> {
 
     @Override
     protected void onDataDeleted(GvImage datum) {
-        if(datum.isCover()) {
+        if (datum.isCover()) {
             GvDataList<GvImage> images = getGridData();
-            if(images.size() > 0) images.get(0).setIsCover(true);
+            if (images.size() > 0) images.get(0).setIsCover(true);
         }
         updateEditor();
     }

@@ -47,7 +47,7 @@ public class NetworkSuiteAndroid implements NetworkSuite {
             }
         }
 
-        if(!success && screen != null) screen.showToast(Strings.Toasts.NO_INTERNET);
+        if (!success && screen != null) screen.showToast(Strings.Toasts.NO_INTERNET);
         return success;
     }
 

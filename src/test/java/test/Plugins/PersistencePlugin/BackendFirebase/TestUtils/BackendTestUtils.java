@@ -22,7 +22,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .Backend.Implementation.LatitudeLongitude;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Location;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation

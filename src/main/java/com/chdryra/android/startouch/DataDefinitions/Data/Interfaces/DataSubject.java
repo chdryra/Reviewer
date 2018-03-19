@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataSubject extends HasReviewId, Validatable{
+public interface DataSubject extends HasReviewId, Validatable {
     String TYPE_NAME = "subject";
 
     String getSubject();

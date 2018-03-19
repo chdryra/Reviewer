@@ -12,13 +12,16 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentNodeMapper;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentEditLocationMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentNodeMapper;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.NodeLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
@@ -31,6 +34,10 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLaunche
 public class ActivityNodeMapper extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivityNodeMapper.class);
     private ReviewNode mNode;
+
+    public ReviewNode getReviewNode() {
+        return mNode;
+    }
 
     @Override
     public String getLaunchTag() {
@@ -51,8 +58,8 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         Bundle args = getIntent().getBundleExtra(getLaunchTag());
-        ReviewNode node = AppInstanceAndroid.getInstance(this).unpackNode(args);
-        if (node == null) noReview();
+        ReviewNode node = getApp().unpackNode(args);
+        if (node == null) return noReview();
 
         mNode = node;
         return FragmentNodeMapper.newInstance(NodeLauncher.isPublished(args));
@@ -64,12 +71,19 @@ public class ActivityNodeMapper extends ActivitySingleFragment implements Launch
         AppInstanceAndroid.setActivity(this);
     }
 
-    public ReviewNode getReviewNode() {
-        return mNode;
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        getApp().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private AppInstanceAndroid getApp() {
+        return AppInstanceAndroid.getInstance(this);
     }
 
     private Fragment noReview() {
-        try{
+        try {
             Toast.makeText(this, "No review found", Toast.LENGTH_SHORT).show();
             return FragmentNodeMapper.newInstance(false);
         } finally {

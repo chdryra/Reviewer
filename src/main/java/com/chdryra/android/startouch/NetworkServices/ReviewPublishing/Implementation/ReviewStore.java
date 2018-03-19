@@ -16,8 +16,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRe
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -67,7 +67,7 @@ public class ReviewStore implements ReviewsRepoWriteable.Callback, RepoCallback,
     public void onAddedToRepo(RepoResult result) {
         ReviewId id = result.getReviewId();
         String reviewId = id != null ? id.toString() : "";
-        if(result.isReview()) {
+        if (result.isReview()) {
             mWorkStoreCallback.onAddedToStore(result.getReview(), reviewId, result.getMessage());
         } else {
             mWorkStoreCallback.onFailed(result.getReview(), reviewId, result.getMessage());

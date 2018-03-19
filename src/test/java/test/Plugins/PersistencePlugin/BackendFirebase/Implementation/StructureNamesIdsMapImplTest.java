@@ -10,12 +10,16 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Author;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.StructureNamesAuthorsMapImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.StructureNamesAuthorsMapImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
 
@@ -29,11 +33,12 @@ import static junit.framework.Assert.assertNotNull;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureNamesIdsMapImplTest extends StructureTestBasic<User>{
-    private static final String PATH = FirebaseStructure.USERS + "/" + FirebaseStructure.AUTHOR_NAMES;
+public class StructureNamesIdsMapImplTest extends StructureTestBasic<User> {
+    private static final String PATH = FirebaseStructure.USERS + "/" + FirebaseStructure
+            .AUTHOR_NAMES;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         setStructure(new StructureNamesAuthorsMapImpl(PATH));
     }
 

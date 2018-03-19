@@ -17,7 +17,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConvert
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFact;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhFact;
 
 import java.net.URL;
 

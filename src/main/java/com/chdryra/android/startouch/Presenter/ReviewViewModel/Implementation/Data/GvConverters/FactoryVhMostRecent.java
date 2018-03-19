@@ -23,12 +23,18 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ReviewSelector;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.SelectorMostRecent;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewAbstract;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ReviewSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .SelectorMostRecent;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhReviewAbstract;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,16 +59,16 @@ public class FactoryVhMostRecent implements ViewHolderFactory<VhNode> {
                 this.<IdableList<DataLocation>>newCache());
     }
 
-    @NonNull
-    private <T> QueueCache<T> newCache() {
-        return new QueueCache<>(new InMemoryCache<T>(), CACHE_MAX);
-    }
-
     @Override
     public VhNode newViewHolder() {
         return new VhReviewAbstract(mRepository,
                 mCommandsfactory.getOptionsFactory(),
                 mCommandsfactory.newLaunchProfileCommand(),
                 new ReviewSelector(new SelectorMostRecent()), mCache);
+    }
+
+    @NonNull
+    private <T> QueueCache<T> newCache() {
+        return new QueueCache<>(new InMemoryCache<T>(), CACHE_MAX);
     }
 }

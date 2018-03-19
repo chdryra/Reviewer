@@ -17,21 +17,23 @@ import com.chdryra.android.startouch.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
+import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewNode;
 import com.chdryra.android.startouch.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
@@ -48,7 +50,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class UiSuiteAndroid implements UiSuite{
+public class UiSuiteAndroid implements UiSuite {
     private final UiConfig mUiConfig;
     private final UiLauncherAndroid mUiLauncher;
     private final FactoryLaunchCommands mCommandsFactory;
@@ -69,6 +71,20 @@ public class UiSuiteAndroid implements UiSuite{
         mCommandsFactory = commandsFactory;
         mViewFactory = viewFactory;
         mConverter = converter;
+    }
+
+    public void setActivity(Activity activity) {
+        mCurrentScreen = new CurrentScreenAndroid(activity);
+        mUiLauncher.setActivity(activity);
+    }
+
+    public void setSession(UserSession session) {
+        mUiLauncher.setSession(session);
+        mSessionUser = session.getAuthorId();
+    }
+
+    public void setApplication(ApplicationSuite app) {
+        mCommandsFactory.setApp(app);
     }
 
     @Override
@@ -125,20 +141,6 @@ public class UiSuiteAndroid implements UiSuite{
         LaunchableConfig feed = getConfig().getFeed();
         feed.launch(new UiLauncherArgs(feed.getDefaultRequestCode()).setClearBackStack());
         getCurrentScreen().close();
-    }
-
-    public void setActivity(Activity activity) {
-        mCurrentScreen = new CurrentScreenAndroid(activity);
-        mUiLauncher.setActivity(activity);
-    }
-
-    public void setSession(UserSession session) {
-        mUiLauncher.setSession(session);
-        mSessionUser = session.getAuthorId();
-    }
-
-    public void setApplication(ApplicationSuite app) {
-        mCommandsFactory.setApp(app);
     }
 
     ReviewPack unpackReview(Bundle args) {

@@ -10,8 +10,7 @@ package com.chdryra.android.startouch.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -36,7 +35,8 @@ public class ReviewTreeNodeTest extends TestCase {
         ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, mReview.getMdReviewId());
         assertNull(node.getParent());
 
-        ReviewTreeMutable parentNode = new ReviewTreeMutable(mParent, false, mParent.getMdReviewId());
+        ReviewTreeMutable parentNode = new ReviewTreeMutable(mParent, false, mParent
+                .getMdReviewId());
         assertEquals(0, parentNode.getChildren().size());
 
         node.setParent(parentNode);
@@ -55,7 +55,8 @@ public class ReviewTreeNodeTest extends TestCase {
         MdIdableCollection<ReviewTreeMutable> children = new MdIdableCollection<>();
         int i = 0;
         for (Review child : mChildren) {
-            ReviewTreeMutable childNode = new ReviewTreeMutable(child, false, child.getMdReviewId());
+            ReviewTreeMutable childNode = new ReviewTreeMutable(child, false, child.getMdReviewId
+                    ());
             children.add(childNode);
 
             assertNull(childNode.getParent());

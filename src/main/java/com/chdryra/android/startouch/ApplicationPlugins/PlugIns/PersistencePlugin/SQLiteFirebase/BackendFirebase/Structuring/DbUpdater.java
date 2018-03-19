@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring;
 
 
 import android.support.annotation.NonNull;
@@ -19,7 +20,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbUpdater<T> {
-    enum UpdateType{INSERT_OR_UPDATE, DELETE}
+    enum UpdateType {INSERT_OR_UPDATE, DELETE}
 
     @NonNull
     Map<String, Object> getUpdatesMap(T item, UpdateType updateType);

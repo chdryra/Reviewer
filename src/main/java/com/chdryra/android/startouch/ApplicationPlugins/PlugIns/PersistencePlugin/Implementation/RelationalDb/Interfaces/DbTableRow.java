@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Validatable;
@@ -17,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.Validatable
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbTableRow<DbRow extends DbTableRow>
-        extends Validatable, Iterable<RowEntry<DbRow, ?>>{
+        extends Validatable, Iterable<RowEntry<DbRow, ?>> {
     String getRowId();
 
     String getRowIdColumnName();

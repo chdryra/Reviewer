@@ -10,9 +10,10 @@ package com.chdryra.android.startouch.test.View.GvDataModel;
 
 import android.widget.EditText;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddEditComment;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddEditComment;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,6 +25,13 @@ public class AddEditCommentTest extends AddEditLayoutTest<GvComment> {
     public AddEditCommentTest() {
         super(GvComment.TYPE,
                 new AddEditComment(new UiAndroid.DefaultLaunchables.AddComment()));
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mEditText = (EditText) getView(AddEditComment.COMMENT);
+        assertNotNull(mEditText);
     }
 
     //Overridden
@@ -42,12 +50,5 @@ public class AddEditCommentTest extends AddEditLayoutTest<GvComment> {
         GvComment data = super.newDatum();
         data.setIsHeadline(false);
         return data;
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        mEditText = (EditText) getView(AddEditComment.COMMENT);
-        assertNotNull(mEditText);
     }
 }

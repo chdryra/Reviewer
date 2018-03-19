@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActionBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActionBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,17 +23,17 @@ public abstract class ReviewEditorActionBasic<GC extends GvDataList<? extends Gv
         extends ReviewViewActionBasic<GC> {
     private ReviewEditor<GC> mEditor;
 
-    ReviewEditor<GC> getEditor() {
-        return mEditor;
-    }
-
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
         try {
-            mEditor = (ReviewEditor<GC>)getReviewView();
+            mEditor = (ReviewEditor<GC>) getReviewView();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
+    }
+
+    ReviewEditor<GC> getEditor() {
+        return mEditor;
     }
 }

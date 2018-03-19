@@ -28,7 +28,8 @@ import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataRef
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;

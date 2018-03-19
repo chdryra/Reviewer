@@ -20,7 +20,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonical;
@@ -31,11 +32,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataAggregator;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
@@ -59,7 +62,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
         .ViewerReviewSummary;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ViewerTreeSummary;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ViewerTreeSummary;
 
 /**
  * Created by: Rizwan Choudrey
@@ -82,9 +86,33 @@ public class FactoryGridDataViewer {
         mConverter = converter;
     }
 
+    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToDataViewer
+            (GvCanonicalCollection<T> data, GvDataAggregator aggregateFactory) {
+        GridDataWrapper<GvCanonical> viewer;
+        if (data.getGvDataType().equals(GvCriterion.TYPE)) {
+            //TODO make type safe
+            viewer = new ViewerAggregateCriteria((GvCanonicalCollection<GvCriterion>) data,
+                    this, mAdapterFactory, aggregateFactory);
+        } else {
+            viewer = new ViewerAggregateToData<>(data, this, mAdapterFactory);
+        }
+
+        return viewer;
+    }
+
+    public <T extends GvData> GridDataWrapper<T> newDataToReviewsViewer(GvDataCollection<T> data) {
+        return new ViewerDataToReviews<>(data, mAdapterFactory);
+    }
+
+    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToReviewsViewer
+            (GvCanonicalCollection<T> data) {
+        return new ViewerAggregateToReviews<>(data, mAdapterFactory);
+    }
+
     <BucketingValue, Data extends HasReviewId>
     GridDataWrapper<GvBucket> newBucketViewer(ReviewNode node,
-                                              ViewHolderFactory<VhBucket<BucketingValue, Data>> vhFactory,
+                                              ViewHolderFactory<VhBucket<BucketingValue, Data>>
+                                                      vhFactory,
                                               DataBucketer<BucketingValue, Data> bucketer) {
         return new ViewerBuckets<>(node, mAdapterFactory, vhFactory, bucketer);
     }
@@ -94,7 +122,8 @@ public class FactoryGridDataViewer {
     }
 
     GridDataWrapper<GvNode> newChildViewer(ReviewNode node) {
-        return new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepo), mAdapterFactory);
+        return new ViewerChildList(node, mConverter.newConverterNodes(mAuthorsRepo),
+                mAdapterFactory);
     }
 
     GridDataWrapper<?> newTreeSummaryViewer(ReviewNode node) {
@@ -108,17 +137,27 @@ public class FactoryGridDataViewer {
     ViewerReviewData.CommentList newReviewCommentsViewer(ReviewNode node) {
         ReviewStamp stamp = ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());
         return new ViewerReviewData.CommentList(node.getComments(),
-                mConverter.newConverterComments().getReferencesConverter(), stamp, mAdapterFactory, mReferenceFactory);
+                mConverter.newConverterComments().getReferencesConverter(), stamp,
+                mAdapterFactory, mReferenceFactory);
     }
 
     ViewerTreeData.TreeCommentList newTreeCommentsViewer(ReviewNode node) {
         return new ViewerTreeData.TreeCommentList(node.getComments(),
-                mConverter.newConverterComments().getReferencesConverter(), mAdapterFactory, mReferenceFactory);
+                mConverter.newConverterComments().getReferencesConverter(), mAdapterFactory,
+                mReferenceFactory);
     }
+
+    //Old aggregate stuff
+//
+//    public <T extends GvData> GridDataWrapper<T> newDataToDataViewer(ReviewNode parent,
+//                                                                    GvDataType<T> dataType) {
+//        return new ViewerMetaDataToData<>(parent, dataType, mAdapterFactory);
+//    }
 
     ViewerTreeData.TreeAuthorList newTreeAuthorsViewer(ReviewNode node) {
         return new ViewerTreeData.TreeAuthorList(node.getAuthorIds(),
-                mConverter.newConverterAuthorsIds(mAuthorsRepo).getReferencesConverter(), mAdapterFactory);
+                mConverter.newConverterAuthorsIds(mAuthorsRepo).getReferencesConverter(),
+                mAdapterFactory);
     }
 
     @Nullable
@@ -131,18 +170,22 @@ public class FactoryGridDataViewer {
                     mConverter.newConverterTags().getReferencesConverter(), mAdapterFactory, stamp);
         } else if (dataType.equals(GvCriterion.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getCriteria(),
-                    mConverter.newConverterCriteria().getReferencesConverter(), mAdapterFactory, stamp);
+                    mConverter.newConverterCriteria().getReferencesConverter(), mAdapterFactory,
+                    stamp);
         } else if (dataType.equals(GvImage.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getImages(),
-                    mConverter.newConverterImages().getReferencesConverter(), mAdapterFactory, stamp);
+                    mConverter.newConverterImages().getReferencesConverter(), mAdapterFactory,
+                    stamp);
         } else if (dataType.equals(GvComment.TYPE)) {
             viewer = newReviewCommentsViewer(node);
         } else if (dataType.equals(GvLocation.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getLocations(),
-                    mConverter.newConverterLocations().getReferencesConverter(), mAdapterFactory, stamp);
+                    mConverter.newConverterLocations().getReferencesConverter(), mAdapterFactory,
+                    stamp);
         } else if (dataType.equals(GvFact.TYPE)) {
             viewer = new ViewerReviewData.DataList<>(node.getFacts(),
-                    mConverter.newConverterFacts().getReferencesConverter(), mAdapterFactory, stamp);
+                    mConverter.newConverterFacts().getReferencesConverter(), mAdapterFactory,
+                    stamp);
         }
 
         return viewer;
@@ -170,7 +213,7 @@ public class FactoryGridDataViewer {
             viewer = new ViewerTreeData<>(node.getFacts(), mConverter.newConverterFacts()
                     .getReferencesConverter(), mAdapterFactory);
         } else if (dataType.equals(GvAuthorId.TYPE)) {
-        viewer = newTreeAuthorsViewer(node);
+            viewer = newTreeAuthorsViewer(node);
         } else if (dataType.equals(GvSubject.TYPE)) {
             viewer = new ViewerTreeData<>(node.getSubjects(), mConverter.newConverterSubjects()
                     .getReferencesConverter(), mAdapterFactory);
@@ -180,35 +223,5 @@ public class FactoryGridDataViewer {
         }
 
         return viewer;
-    }
-
-    //Old aggregate stuff
-//
-//    public <T extends GvData> GridDataWrapper<T> newDataToDataViewer(ReviewNode parent,
-//                                                                    GvDataType<T> dataType) {
-//        return new ViewerMetaDataToData<>(parent, dataType, mAdapterFactory);
-//    }
-
-    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToDataViewer
-            (GvCanonicalCollection<T> data, GvDataAggregator aggregateFactory) {
-        GridDataWrapper<GvCanonical> viewer;
-        if (data.getGvDataType().equals(GvCriterion.TYPE)) {
-            //TODO make type safe
-            viewer = new ViewerAggregateCriteria((GvCanonicalCollection<GvCriterion>) data,
-                    this, mAdapterFactory, aggregateFactory);
-        } else {
-            viewer = new ViewerAggregateToData<>(data, this, mAdapterFactory);
-        }
-
-        return viewer;
-    }
-
-    public <T extends GvData> GridDataWrapper<T> newDataToReviewsViewer(GvDataCollection<T> data) {
-        return new ViewerDataToReviews<>(data, mAdapterFactory);
-    }
-
-    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToReviewsViewer
-            (GvCanonicalCollection<T> data) {
-        return new ViewerAggregateToReviews<>(data, mAdapterFactory);
     }
 }

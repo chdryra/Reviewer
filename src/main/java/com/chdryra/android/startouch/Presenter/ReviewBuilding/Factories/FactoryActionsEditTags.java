@@ -16,8 +16,10 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Don
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 

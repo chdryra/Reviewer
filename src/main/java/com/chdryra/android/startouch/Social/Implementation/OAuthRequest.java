@@ -16,7 +16,7 @@ import android.os.Parcelable;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class OAuthRequest implements Parcelable{
+public class OAuthRequest implements Parcelable {
     public static final Creator<OAuthRequest> CREATOR = new Creator<OAuthRequest>() {
         @Override
         public OAuthRequest createFromParcel(Parcel in) {

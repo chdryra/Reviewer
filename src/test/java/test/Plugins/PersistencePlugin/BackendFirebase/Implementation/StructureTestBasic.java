@@ -8,7 +8,8 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 
 import org.junit.Test;
 
@@ -22,10 +23,6 @@ import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.StructureTester;
 public abstract class StructureTestBasic<T> implements StructureTester.Testable<T> {
     private StructureTester<T> mTester;
 
-    protected void setStructure(DbUpdater<T> structure) {
-        mTester = new StructureTester<>(structure, this);
-    }
-
     @Test
     public void testInsertOrReplace() {
         mTester.testInsertOrReplace(getTestData());
@@ -36,8 +33,12 @@ public abstract class StructureTestBasic<T> implements StructureTester.Testable<
         mTester.testDelete(getTestData());
     }
 
+    protected abstract T getTestData();
+
+    protected void setStructure(DbUpdater<T> structure) {
+        mTester = new StructureTester<>(structure, this);
+    }
+
     @Override
     public abstract void testStructure(StructureTester<T> tester);
-
-    protected abstract T getTestData();
 }

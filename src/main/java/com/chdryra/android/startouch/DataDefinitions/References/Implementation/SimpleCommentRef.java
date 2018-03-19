@@ -9,7 +9,6 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -20,8 +19,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 
 /**
@@ -30,11 +29,12 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class SimpleCommentRef extends SimpleItemReference<DataComment> implements CommentRef {
-    private CommentRef mParent;
     private final boolean mIsHeadline;
     private final FactoryReferences mReferenceFactory;
+    private CommentRef mParent;
 
-    public SimpleCommentRef(boolean isHeadline, FactoryReferences referenceFactory, Dereferencer<DataComment> dereferencer) {
+    public SimpleCommentRef(boolean isHeadline, FactoryReferences referenceFactory,
+                            Dereferencer<DataComment> dereferencer) {
         super(dereferencer);
         mIsHeadline = isHeadline;
         mReferenceFactory = referenceFactory;
@@ -65,8 +65,8 @@ public class SimpleCommentRef extends SimpleItemReference<DataComment> implement
             @Override
             public void onDereferenced(DataValue<DataComment> value) {
                 IdableList<CommentRef> sentences = new IdableDataList<>(getReviewId());
-                if(value.hasValue()) {
-                    for(String string : DataFormatter.split(value.getData(), true)) {
+                if (value.hasValue()) {
+                    for (String string : DataFormatter.split(value.getData(), true)) {
                         sentences.add(newSentence(string));
                     }
                 }
@@ -75,13 +75,14 @@ public class SimpleCommentRef extends SimpleItemReference<DataComment> implement
         });
     }
 
-    @NonNull
-    private CommentRef newSentence(String string) {
-        return mReferenceFactory.newWrapper(new DatumComment(getReviewId(), string, isHeadline()), this);
-    }
-
     @Override
     public boolean isHeadline() {
         return mIsHeadline;
+    }
+
+    @NonNull
+    private CommentRef newSentence(String string) {
+        return mReferenceFactory.newWrapper(new DatumComment(getReviewId(), string, isHeadline())
+                , this);
     }
 }

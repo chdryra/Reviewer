@@ -19,7 +19,8 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
@@ -27,9 +28,11 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -68,7 +71,7 @@ public class BuildScreenDataEdit<GC extends GvDataList<? extends GvDataParcelabl
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(mImageChooser == null) return;
+        if (mImageChooser == null) return;
 
         boolean correctCode = requestCode == getImageRequestCode();
         boolean isOk = ActivityResultCode.OK.equals(resultCode);
@@ -112,8 +115,8 @@ public class BuildScreenDataEdit<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     @Override
-    public void onConnected(Location location, CallbackMessage message) {
-        onLocated(location, message);
+    public void onConnected(CallbackMessage message) {
+        if (message.isOk()) mLocationClient.locate();
     }
 
     private boolean isQuickReview() {
@@ -137,8 +140,8 @@ public class BuildScreenDataEdit<GC extends GvDataList<? extends GvDataParcelabl
     }
 
     private boolean isQuickReview(GvDataType<?> dataType) {
-        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
-            if(dataType.equals(non)) return false;
+        for (GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if (dataType.equals(non)) return false;
         }
         return isQuickReview();
     }

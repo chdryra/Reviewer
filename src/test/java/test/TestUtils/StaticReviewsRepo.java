@@ -9,15 +9,15 @@
 package test.TestUtils;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 
@@ -36,18 +36,8 @@ public class StaticReviewsRepo implements ReviewsRepoReadable {
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepoCallback callback) {
-        Review result = null;
-        for(Review review : mReviews) {
-            if(review.getReviewId().equals(reviewId)) {
-                result = review;
-                break;
-            }
-        }
-
-        CallbackMessage message = result == null ? CallbackMessage.error(reviewId + " not found") :
-                CallbackMessage.ok();
-        callback.onRepoCallback(new RepoResult(result, message));
+    public TagsManager getTagsManager() {
+        return mTagsManager;
     }
 
     @Override
@@ -58,15 +48,10 @@ public class StaticReviewsRepo implements ReviewsRepoReadable {
     @Override
     public void getReviews(AuthorName author, RepoCallback callback) {
         ArrayList<Review> result = new ArrayList<>();
-        for(Review review : mReviews) {
-            if(review.getAuthorId().getAuthorId().equals(author.getAuthorId())) result.add(review);
+        for (Review review : mReviews) {
+            if (review.getAuthorId().getAuthorId().equals(author.getAuthorId())) result.add(review);
         }
         callback.onRepoCallback(new RepoResult(author, result));
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mTagsManager;
     }
 
     @Override
@@ -77,5 +62,20 @@ public class StaticReviewsRepo implements ReviewsRepoReadable {
     @Override
     public void unregisterObserver(ReviewsRepositoryObserver observer) {
 
+    }
+
+    @Override
+    public void getReview(ReviewId reviewId, RepoCallback callback) {
+        Review result = null;
+        for (Review review : mReviews) {
+            if (review.getReviewId().equals(reviewId)) {
+                result = review;
+                break;
+            }
+        }
+
+        CallbackMessage message = result == null ? CallbackMessage.error(reviewId + " not found") :
+                CallbackMessage.ok();
+        callback.onRepoCallback(new RepoResult(result, message));
     }
 }

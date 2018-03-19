@@ -6,8 +6,8 @@
   ~
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/LinearLayoutVertical">
+<LinearLayout style="@style/LinearLayoutVertical"
+              xmlns:android="http://schemas.android.com/apk/res/android">
 
     <View style="@style/HorizontalDivider"/>
 

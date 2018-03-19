@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.V
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 
 /**
  * Created by: Rizwan Choudrey
@@ -47,28 +48,28 @@ public class ReviewViewPerspective<T extends GvData> {
     }
 
     public void attachToActions(ReviewView<T> view) {
-        if(!mIsAttachedToActions) {
+        if (!mIsAttachedToActions) {
             mActions.attachReviewView(view);
             mIsAttachedToActions = true;
         }
     }
 
     public void attachToAdapter(ReviewView<T> view) {
-        if(!mIsAttachedToAdapter) {
+        if (!mIsAttachedToAdapter) {
             mAdapter.attachReviewView(view);
             mIsAttachedToAdapter = true;
         }
     }
 
     public void detachFromActions() {
-        if(mIsAttachedToActions) {
+        if (mIsAttachedToActions) {
             mActions.detachReviewView();
             mIsAttachedToActions = false;
         }
     }
 
     public void detachFromAdapter() {
-        if(mIsAttachedToAdapter) {
+        if (mIsAttachedToAdapter) {
             mAdapter.detachReviewView();
             mIsAttachedToAdapter = false;
         }

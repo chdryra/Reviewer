@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.annotation.Nullable;
@@ -69,7 +69,7 @@ public class LocationPlotter implements CollectionReference
         mLocations.getSize().dereference(new DataReference.DereferenceCallback<DataSize>() {
             @Override
             public void onDereferenced(DataValue<DataSize> value) {
-                if(value.hasValue()) {
+                if (value.hasValue()) {
                     mInitialSize = value.getData().getSize();
                     mBuilder = mInitialSize > 0 ? new LatLngBounds.Builder() : null;
                 }
@@ -86,10 +86,10 @@ public class LocationPlotter implements CollectionReference
                 if (item != null) {
                     mClusterManager.addItem(item);
                     mClusterManager.cluster();
-                    if(mBuilder != null) mBuilder.include(location.getLatLng());
+                    if (mBuilder != null) mBuilder.include(location.getLatLng());
                 }
 
-                if(mBuilder != null && ++mInitialCounter >= mInitialSize) {
+                if (mBuilder != null && ++mInitialCounter >= mInitialSize) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(mBuilder.build(), 100));
                 }
             }

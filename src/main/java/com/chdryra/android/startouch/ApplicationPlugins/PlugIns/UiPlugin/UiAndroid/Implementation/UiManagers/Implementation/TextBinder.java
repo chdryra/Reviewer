@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.widget.TextView;
@@ -28,14 +28,14 @@ public class TextBinder<T> implements ReferenceBinder<T> {
     private final StringGetter<T> mGetter;
     private final TextView mView;
 
+    public interface StringGetter<T> {
+        String getString(T value);
+    }
+
     public TextBinder(DataReference<T> reference, TextView view, StringGetter<T> getter) {
         mReference = reference;
         mGetter = getter;
         mView = view;
-    }
-
-    public interface StringGetter<T> {
-        String getString(T value);
     }
 
     @Override

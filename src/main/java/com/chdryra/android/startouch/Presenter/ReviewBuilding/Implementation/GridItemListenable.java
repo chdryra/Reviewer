@@ -37,11 +37,11 @@ public class GridItemListenable<T extends GvData> extends GridItemActionNone<T>
     }
 
     public void registerListener(ClickListener<T> listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     public void unregisterListener(ClickListener<T> listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override

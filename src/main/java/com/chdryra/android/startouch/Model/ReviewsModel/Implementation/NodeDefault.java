@@ -20,13 +20,13 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryDataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -34,10 +34,10 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeCom
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
-    private DataReview mMeta;
+public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver {
     private final FactoryDataReference mReferenceFactory;
     private final IdableList<ReviewNodeComponent> mChildren;
+    private DataReview mMeta;
 
     public NodeDefault(DataReview meta, FactoryDataReference referenceFactory) {
         mMeta = meta;
@@ -120,7 +120,7 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
     @Override
     public void removeChild(ReviewId reviewId) {
         ReviewNodeComponent childNode = (ReviewNodeComponent) getChild(reviewId);
-        if(childNode == null) return;
+        if (childNode == null) return;
 
         mChildren.remove(childNode);
         childNode.setParent(null);
@@ -133,8 +133,8 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
     @Override
     @Nullable
     public ReviewNode getChild(ReviewId reviewId) {
-        for(ReviewNode child : mChildren) {
-            if(child.getReviewId().equals(reviewId)) return child;
+        for (ReviewNode child : mChildren) {
+            if (child.getReviewId().equals(reviewId)) return child;
         }
 
         return null;
@@ -188,28 +188,6 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
         return mMeta.getPublishDate();
     }
 
-    @NonNull
-    private DataRating getAverageRating() {
-        float rating = 0f;
-        int weight = 0;
-        for (ReviewNode child : getChildren()) {
-            DataRating childRating = child.getRating();
-            rating += childRating.getRating() * childRating.getRatingWeight();
-            weight += childRating.getRatingWeight();
-        }
-        if (weight > 0) rating /= weight;
-        return new DatumRating(getReviewId(), rating, weight);
-    }
-
-    private void unregisterWithChild(ReviewId childId) {
-        ReviewNode child = getChild(childId);
-        if(child != null) child.unregisterObserver(this);
-    }
-
-    private void registerWithChild(ReviewNode child) {
-        child.registerObserver(this);
-    }
-
     @Override
     public void onChildAdded(ReviewNode child) {
         onTreeChanged();
@@ -228,5 +206,27 @@ public class NodeDefault extends ReviewNodeComponentBasic implements ReviewNode.
     @Override
     public void onTreeChanged() {
         notifyOnTreeChanged();
+    }
+
+    @NonNull
+    private DataRating getAverageRating() {
+        float rating = 0f;
+        int weight = 0;
+        for (ReviewNode child : getChildren()) {
+            DataRating childRating = child.getRating();
+            rating += childRating.getRating() * childRating.getRatingWeight();
+            weight += childRating.getRatingWeight();
+        }
+        if (weight > 0) rating /= weight;
+        return new DatumRating(getReviewId(), rating, weight);
+    }
+
+    private void unregisterWithChild(ReviewId childId) {
+        ReviewNode child = getChild(childId);
+        if (child != null) child.unregisterObserver(this);
+    }
+
+    private void registerWithChild(ReviewNode child) {
+        child.registerObserver(this);
     }
 }

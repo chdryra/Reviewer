@@ -23,8 +23,6 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  */
 
 public abstract class SimpleViewUi<V extends View, Value> extends ViewUi<V, Value> {
-    abstract Value getValue();
-
     public SimpleViewUi(V view) {
         super(view);
     }
@@ -37,4 +35,6 @@ public abstract class SimpleViewUi<V extends View, Value> extends ViewUi<V, Valu
     public void onInvalidated() {
 
     }
+
+    abstract Value getValue();
 }

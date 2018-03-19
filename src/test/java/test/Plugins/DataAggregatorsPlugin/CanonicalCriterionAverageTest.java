@@ -8,14 +8,14 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalCriterionAverage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalStringMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalCriterionAverage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalStringMaker;
 
 import test.TestUtils.RandomRating;
 import test.TestUtils.RandomReviewId;
@@ -28,13 +28,22 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 06/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionAverageTest extends CanonicalStringMakerTest<DataCriterion>{
+public class CanonicalCriterionAverageTest extends CanonicalStringMakerTest<DataCriterion> {
     public CanonicalCriterionAverageTest() {
         this(new CanonicalCriterionAverage());
     }
 
     protected CanonicalCriterionAverageTest(CanonicalStringMaker<DataCriterion> canonical) {
         super(canonical);
+    }
+
+    protected float getExpectedRating() {
+        IdableList<DataCriterion> data = getData();
+        float average = 0f;
+        for (DataCriterion child : data) {
+            average += child.getRating() / (float) data.size();
+        }
+        return average;
     }
 
     @Override
@@ -58,14 +67,5 @@ public class CanonicalCriterionAverageTest extends CanonicalStringMakerTest<Data
     @Override
     protected DataCriterion newDatum(String string) {
         return new DatumCriterion(RandomReviewId.nextReviewId(), string, RandomRating.nextRating());
-    }
-
-    protected float getExpectedRating() {
-        IdableList<DataCriterion> data = getData();
-        float average = 0f;
-        for (DataCriterion child : data) {
-            average += child.getRating() / (float) data.size();
-        }
-        return average;
     }
 }

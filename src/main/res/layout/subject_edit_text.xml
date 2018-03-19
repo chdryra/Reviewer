@@ -7,6 +7,6 @@
   -->
 
 <com.chdryra.android.corelibrary.Widgets.ClearableEditText
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/subject_text"
-    style="@style/EditTextCapWords.Done.Subject"/>
+    style="@style/EditTextCapWords.Done.Subject"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

@@ -19,7 +19,7 @@ public interface ApplicationSuite {
     AccountsSuite getAccounts();
 
     RepositorySuite getRepository();
-    
+
     GeolocationSuite getGeolocation();
 
     SocialSuite getSocial();

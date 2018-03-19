@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 
 import android.app.Activity;
@@ -16,7 +16,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutEdit;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
 /**

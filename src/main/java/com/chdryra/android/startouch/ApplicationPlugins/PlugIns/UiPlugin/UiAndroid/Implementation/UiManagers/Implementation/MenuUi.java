@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.view.Menu;
@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListe
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuUi implements OptionSelectListener{
+public class MenuUi implements OptionSelectListener {
     private final MenuAction<?> mAction;
 
     public MenuUi(MenuAction<?> action) {

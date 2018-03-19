@@ -6,12 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories;
 
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.BackendValidator;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -53,8 +55,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
-import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.google.android.gms.maps.model.LatLng;
@@ -89,7 +89,7 @@ public class BackendReviewConverter {
     }
 
     private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
-        if(!mValidator.isValid(review)) return NULL_REVIEW;
+        if (!mValidator.isValid(review)) return NULL_REVIEW;
 
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
         AuthorId authorId = new AuthorIdParcelable(review.getAuthorId());
@@ -97,47 +97,48 @@ public class BackendReviewConverter {
         DateTime date = new DatumDate(reviewId, review.getPublishDate());
         String subject = review.getSubject();
         Rating fbRating = review.getRating();
-        float rating = (float)fbRating.getRating();
-        int ratingWeight = (int)fbRating.getRatingWeight();
+        float rating = (float) fbRating.getRating();
+        int ratingWeight = (int) fbRating.getRatingWeight();
 
         ArrayList<DataCriterion> criteria = new ArrayList<>();
-        for(Criterion criterion : review.getCriteria()) {
+        for (Criterion criterion : review.getCriteria()) {
             criteria.add(new DatumCriterion(reviewId, criterion.getSubject(),
                     (float) criterion.getRating()));
         }
 
         ArrayList<DataComment> comments = new ArrayList<>();
-        for(Comment comment : review.getComments()) {
+        for (Comment comment : review.getComments()) {
             comments.add(new DatumComment(reviewId, comment.toComment(), comment.isHeadline()));
         }
 
         ArrayList<DataFact> facts = new ArrayList<>();
-        for(Fact fact : review.getFacts()) {
+        for (Fact fact : review.getFacts()) {
             facts.add(new DatumFact(reviewId, fact.getLabel(), fact.getValue(), fact.isUrl()));
         }
 
         ArrayList<DataImage> images = new ArrayList<>();
-        for(ImageData image : review.getImages()) {
+        for (ImageData image : review.getImages()) {
             Bitmap bitmap = ImageData.asBitmap(image.getBitmap());
-            if(bitmap != null) images.add(new DatumImage(reviewId, bitmap, new DatumDate(reviewId,
+            if (bitmap != null) images.add(new DatumImage(reviewId, bitmap, new DatumDate(reviewId,
                     image.getDate()), image.getCaption(), image.toLatLng(), image.isCover()));
         }
 
         ArrayList<DataLocation> locations = new ArrayList<>();
-        for(Location location : review.getLocations()) {
+        for (Location location : review.getLocations()) {
             LatitudeLongitude latLng = location.getLatLng();
             LocId id = location.getLocationId();
             locations.add(new DatumLocation(reviewId,
                     new LatLng(latLng.getLatitude(), latLng.getLongitude()), location.getName(),
-                    location.getAddress(), new LocationId(new LocationProvider(id.getProvider()), id.getLocationId())));
+                    location.getAddress(), new LocationId(new LocationProvider(id.getProvider()),
+                    id.getLocationId())));
         }
 
         ArrayList<DataTag> tags = new ArrayList<>();
-        for(String tag : review.getTags()) {
+        for (String tag : review.getTags()) {
             tags.add(new DatumTag(reviewId, tag));
         }
 
-        return new ReviewDataHolderImpl(reviewId, authorId, date, subject,rating, ratingWeight,
+        return new ReviewDataHolderImpl(reviewId, authorId, date, subject, rating, ratingWeight,
                 tags, comments, images, facts, locations, criteria);
     }
 }

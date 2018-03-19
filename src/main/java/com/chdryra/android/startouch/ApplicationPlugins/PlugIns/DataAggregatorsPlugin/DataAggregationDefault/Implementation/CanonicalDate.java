@@ -6,17 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
 
 import java.util.Date;
 
@@ -41,6 +41,6 @@ public class CanonicalDate implements CanonicalDatumMaker<DataDate> {
             if (candidate.after(canon)) canon = candidate;
         }
 
-        return  canon.getTime();
+        return canon.getTime();
     }
 }

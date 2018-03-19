@@ -9,9 +9,10 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorDate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +30,12 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorDateTest {
-    private ComparatorDate mComparitor;
     private static final DifferenceDate DAY = new DifferenceDate(DifferenceDate.DateBucket.DAY);
     private static final DifferenceDate MONTH = new DifferenceDate(DifferenceDate.DateBucket.MONTH);
-    private static final DifferenceDate YEAR= new DifferenceDate(DifferenceDate.DateBucket.YEAR);
+    private static final DifferenceDate YEAR = new DifferenceDate(DifferenceDate.DateBucket.YEAR);
     private static final DifferenceDate MORE_THAN_YEAR
             = new DifferenceDate(DifferenceDate.DateBucket.MORE_THAN_YEAR);
+    private ComparatorDate mComparitor;
 
     @Before
     public void setUp() {
@@ -126,7 +127,8 @@ public class ComparitorDateTest {
     }
 
     @Test
-    public void nextYearLessThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear() {
+    public void nextYearLessThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear
+            () {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2016, 1, 1, 19, 15);
         DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
@@ -140,7 +142,8 @@ public class ComparitorDateTest {
     }
 
     @Test
-    public void nextYearMoreThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear() {
+    public void nextYearMoreThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear
+            () {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2016, 11, 26, 20, 15);
         DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());

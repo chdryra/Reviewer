@@ -6,19 +6,21 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .LocalReviewerDb.Interfaces.RowAuthorName;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
@@ -75,9 +77,9 @@ public class RowAuthorNameImpl extends RowTableBasic<RowAuthorName> implements R
 
     @Override
     protected RowEntry<RowAuthorName, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowAuthorName.class, AUTHOR_ID, mUserId);
-        } else if(position == 1){
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowAuthorName.class, AUTHOR_NAME, mName);
         } else {
             throw noElement();

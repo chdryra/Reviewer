@@ -11,13 +11,15 @@
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout style="@style/LinearLayoutHorizontal.WrappedVertical"
-                  android:layout_weight="1">
+    <LinearLayout
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
+        android:layout_weight="1">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="@android:style/Widget.ProgressBar.Horizontal"
@@ -27,32 +29,34 @@
             <TextView
                 android:id="@+id/number_reviews"
                 style="@style/TextViewGridCell.Small"
-                android:textColor="@color/Smoke"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_width="match_parent"/>
+                android:textColor="@color/Smoke"/>
 
         </FrameLayout>
 
-        <LinearLayout style="@style/LinearLayoutHorizontal"
-                  android:layout_weight="3"
-                  android:layout_width="match_parent"
-                  android:padding="@dimen/grid_item_text_padding">
+        <LinearLayout
+            style="@style/LinearLayoutHorizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="3"
+            android:padding="@dimen/grid_item_text_padding">
+
             <TextView
                 android:id="@+id/rating_bucket"
                 style="@style/TextViewGridCell.Small"
                 android:layout_height="match_parent"
+                android:layout_gravity="top"
                 android:layout_weight="1"
-                android:padding="2dp"
                 android:gravity="end|center"
-                android:layout_gravity="top"/>
+                android:padding="2dp"/>
 
             <ToggleButton
-                android:button="@android:drawable/btn_star"
                 style="@style/ToggleButtonStar"
                 android:layout_height="match_parent"
+                android:layout_gravity="top"
                 android:layout_weight="1"
-                android:gravity="start|center"
-                android:layout_gravity="top"/>
+                android:button="@android:drawable/btn_star"
+                android:gravity="start|center"/>
 
         </LinearLayout>
 

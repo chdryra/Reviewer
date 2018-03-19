@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.support.annotation.Nullable;
 
@@ -18,7 +19,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
  * On: 13/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewActionFilter<T extends GvData> extends ReviewViewActionBasic<T> implements ReviewViewAdapter.Filterable.Callback{
+public class ReviewViewActionFilter<T extends GvData> extends ReviewViewActionBasic<T> implements
+        ReviewViewAdapter.Filterable.Callback {
     @Nullable
     protected ReviewViewAdapter.Filterable<T> getFilterAdapter() {
         try {

@@ -19,7 +19,7 @@ public class GvDataRefList<Reference extends GvDataRef> extends GvDataListImpl<R
     }
 
     public void unbind() {
-        for(Reference reference : this) {
+        for (Reference reference : this) {
             reference.unbind();
         }
     }

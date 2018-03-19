@@ -32,25 +32,12 @@ public class ReviewOptions {
         mIsOffline = true;
     }
 
-    public ReviewOptions(CommandList basicCommands, ShareCommand share, BookmarkCommand bookmarkCommand) {
+    public ReviewOptions(CommandList basicCommands, ShareCommand share, BookmarkCommand
+            bookmarkCommand) {
         mBasicCommands = basicCommands;
         mShareCommand = share;
         mBookmarkCommand = bookmarkCommand;
         initialiseBookmark();
-    }
-
-    private void initialiseBookmark() {
-        mInitialising = true;
-        mBookmarkCommand.initialise(new BookmarkCommand.BookmarkReadyCallback() {
-            @Override
-            public void onBookmarkCommandReady() {
-                mInitialising = false;
-                if(mInterimCallback != null) {
-                    mInterimCallback.onBookmarkCommandReady();
-                    mInterimCallback = null;
-                }
-            }
-        });
     }
 
     public boolean isOffline() {
@@ -78,6 +65,20 @@ public class ReviewOptions {
 
     public void initialiseBookmark(BookmarkCommand.BookmarkReadyCallback callback) {
         if (isOffline() || mBookmarkCommand.isInitialised()) callback.onBookmarkCommandReady();
-        if(mInitialising) mInterimCallback = callback;
+        if (mInitialising) mInterimCallback = callback;
+    }
+
+    private void initialiseBookmark() {
+        mInitialising = true;
+        mBookmarkCommand.initialise(new BookmarkCommand.BookmarkReadyCallback() {
+            @Override
+            public void onBookmarkCommandReady() {
+                mInitialising = false;
+                if (mInterimCallback != null) {
+                    mInterimCallback.onBookmarkCommandReady();
+                    mInterimCallback = null;
+                }
+            }
+        });
     }
 }

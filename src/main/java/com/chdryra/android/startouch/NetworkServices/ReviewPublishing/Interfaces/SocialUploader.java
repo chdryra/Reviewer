@@ -25,7 +25,8 @@ public interface SocialUploader extends NetworkUploader<SocialUploader.Listener>
                 result);
 
         void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
-                                   Collection<PublishResults> publishedNotOk, CallbackMessage result);
+                                   Collection<PublishResults> publishedNotOk, CallbackMessage
+                                           result);
 
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
     }

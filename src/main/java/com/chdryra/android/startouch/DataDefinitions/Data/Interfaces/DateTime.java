@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DateTime extends Validatable{
+public interface DateTime extends Validatable {
     String TYPE_NAME = "date";
 
     long getTime();

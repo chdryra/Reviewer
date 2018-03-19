@@ -13,9 +13,10 @@ import com.chdryra.android.corelibrary.AsyncUtils.QueueConsumer;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactoryReviewUploader;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewUploader;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.UploadListener;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactoryReviewUploader;
 
 import java.util.ArrayList;
 
@@ -41,15 +42,6 @@ public class BackendConsumer extends QueueConsumer<Review> {
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
-    private void onUploadComplete(ReviewId reviewId, CallbackMessage result) {
-        onWorkCompleted(reviewId.toString());
-        if (result.isError()) {
-            notifyOnFailure(reviewId, result);
-        } else {
-            notifyOnSuccess(reviewId, result);
-        }
-    }
-
     @Override
     protected void OnFailedToRetrieve(String reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId);
@@ -58,12 +50,21 @@ public class BackendConsumer extends QueueConsumer<Review> {
 
     @Override
     protected void onWorkerRemoved(ItemWorker<Review> remove) {
-        ((BackendUploadWorker)remove).unregister();
+        ((BackendUploadWorker) remove).unregister();
     }
 
     @Override
     protected ItemWorker<Review> newWorker(String itemId) {
         return new BackendUploadWorker(mFactory.newUploader(new DatumReviewId(itemId)));
+    }
+
+    private void onUploadComplete(ReviewId reviewId, CallbackMessage result) {
+        onWorkCompleted(reviewId.toString());
+        if (result.isError()) {
+            notifyOnFailure(reviewId, result);
+        } else {
+            notifyOnSuccess(reviewId, result);
+        }
     }
 
     private void notifyOnSuccess(ReviewId reviewId, CallbackMessage result) {

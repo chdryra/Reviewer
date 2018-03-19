@@ -35,13 +35,15 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
     public ExpectedException expectedException = ExpectedException.none();
     private MdConverterBasic<T1, T2> mConverter;
 
+    protected abstract T1 newDatum();
+
+    protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum);
+
+    protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum, ReviewId mdDatumId);
+
     public MdConverterBasicTest(MdConverterBasic<T1, T2> converter) {
         mConverter = converter;
     }
-
-    protected abstract T1 newDatum();
-    protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum);
-    protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum, ReviewId mdDatumId);
 
     @Test
     public void convertDatum() {

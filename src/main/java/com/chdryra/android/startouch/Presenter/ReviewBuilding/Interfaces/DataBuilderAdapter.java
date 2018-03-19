@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
@@ -19,7 +20,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewViewAdapter<T>{
+public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewViewAdapter<T> {
     float getCriteriaAverage();
 
     boolean add(T datum);
@@ -40,17 +41,17 @@ public interface DataBuilderAdapter<T extends GvDataParcelable> extends ReviewVi
 
     void setSubject(String subject, boolean adjustTags);
 
-    void setRating(float rating);
-
     String getSubject();
 
     float getRating();
 
-    @Override
-    GvDataType<T> getGvDataType();
+    void setRating(float rating);
 
     GvImage getCover();
 
     ReviewNode buildPreview();
+
+    @Override
+    GvDataType<T> getGvDataType();
 }
 

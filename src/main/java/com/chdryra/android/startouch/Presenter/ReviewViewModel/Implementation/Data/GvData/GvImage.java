@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConvert
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhImage;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhImage;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -56,11 +57,13 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
         mCaption = "";
     }
 
-    public GvImage(Bitmap bitmap, GvDate date, @Nullable LatLng latLng, String caption, boolean isCover) {
+    public GvImage(Bitmap bitmap, GvDate date, @Nullable LatLng latLng, String caption, boolean
+            isCover) {
         this(null, bitmap, date, latLng, caption, isCover);
     }
 
-    public GvImage(@Nullable GvReviewId id, Bitmap bitmap, GvDate date, @Nullable LatLng latLng, String caption, boolean isCover) {
+    public GvImage(@Nullable GvReviewId id, Bitmap bitmap, GvDate date, @Nullable LatLng latLng,
+                   String caption, boolean isCover) {
         super(GvImage.TYPE, id);
         mBitmap = bitmap;
         mDate = date;
@@ -83,14 +86,14 @@ public class GvImage extends GvDataParcelableBasic<GvImage> implements DataImage
         mDate = in.readParcelable(GvDate.class.getClassLoader());
     }
 
+    public void setIsCover(boolean isCover) {
+        mIsCover = isCover;
+    }
+
     @Override
     @Nullable
     public LatLng getLatLng() {
         return mLatLng;
-    }
-
-    public void setIsCover(boolean isCover) {
-        mIsCover = isCover;
     }
 
     //Overridden

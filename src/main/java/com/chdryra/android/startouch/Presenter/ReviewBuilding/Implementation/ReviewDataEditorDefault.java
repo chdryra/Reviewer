@@ -13,11 +13,14 @@ import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewDefault;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey

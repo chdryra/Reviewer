@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class VhFactFormatted extends ViewHolderBasic{
+public class VhFactFormatted extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.formatted_facts;
     private static final int LABEL = R.id.fact_label;
     private static final int VALUE = R.id.fact_value;

@@ -29,8 +29,8 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Model.TreeMethods.Implementation.ConditionalDataGetter;
 import com.chdryra.android.startouch.Model.TreeMethods.Implementation.ConditionalValueGetter;
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDataBucketer;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeValueGetter;
 
@@ -178,7 +178,7 @@ public class FactoryVisitorReviewNode {
 
     @NonNull
     private <Value> ConditionalValueGetter<Value> newLeafValueGetter(NodeValueGetter<Value>
-                                                                                 getter) {
+                                                                             getter) {
         return new ConditionalValueGetter<>(IS_LEAF, getter);
     }
 

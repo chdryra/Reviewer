@@ -14,11 +14,11 @@ package com.chdryra.android.startouch.Social.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PlatformAuthoriser {
-    void seekAuthorisation(SocialPlatform<?> platform, Callback callback);
-
     interface Callback {
         void onAuthorisationGiven(SocialPlatform<?> platform);
 
         void onAuthorisationRefused(SocialPlatform<?> platform);
     }
+
+    void seekAuthorisation(SocialPlatform<?> platform, Callback callback);
 }

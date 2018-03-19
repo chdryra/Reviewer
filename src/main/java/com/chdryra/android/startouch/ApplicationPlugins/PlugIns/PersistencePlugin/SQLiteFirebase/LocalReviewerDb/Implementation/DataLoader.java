@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import android.os.AsyncTask;
@@ -19,8 +20,10 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewDataRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewDataRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
@@ -36,9 +39,9 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
     private final ReviewId mReviewId;
     private final String mClauseId;
     private final ReviewerDbReadable mDb;
-    private LoadedListener<T> mListener;
     private final DbTable<T> mTable;
     private final ColumnInfo<String> mIdCol;
+    private LoadedListener<T> mListener;
 
     public interface LoadedListener<T extends ReviewDataRow> {
         void onLoaded(IdableList<T> data);
@@ -60,14 +63,6 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
         return mReviewId;
     }
 
-    ReviewerDbReadable getDb() {
-        return mDb;
-    }
-
-    DbTable<T> getTable() {
-        return mTable;
-    }
-
     public ColumnInfo<String> getIdCol() {
         return mIdCol;
     }
@@ -75,6 +70,10 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
     public DataLoader<T> onLoaded(LoadedListener<T> listener) {
         mListener = listener;
         return this;
+    }
+
+    public RowLoader<T> newRowLoader(String rowId) {
+        return new RowLoader<>(getReviewId(), rowId, mDb, mTable, mIdCol);
     }
 
     @Override
@@ -86,6 +85,19 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
         return new IdableRowList<>(mReviewId, data);
     }
 
+    @Override
+    protected void onPostExecute(IdableRowList<T> data) {
+        if (mListener != null) mListener.onLoaded(data);
+    }
+
+    ReviewerDbReadable getDb() {
+        return mDb;
+    }
+
+    DbTable<T> getTable() {
+        return mTable;
+    }
+
     @NonNull
     ArrayList<T> loadData(RowEntry<T, String> clause) {
         ArrayList<T> data = new ArrayList<>();
@@ -95,25 +107,21 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
         return data;
     }
 
-    @Override
-    protected void onPostExecute(IdableRowList<T> data) {
-        if (mListener != null) mListener.onLoaded(data);
-    }
-
-    public RowLoader<T> newRowLoader(String rowId) {
-        return new RowLoader<>(getReviewId(), rowId, mDb, mTable, mIdCol);
-    }
-
     public static class RowLoader<T extends ReviewDataRow<T>> extends DataLoader<T> {
         private RowLoadedListener<T> mListener;
+
+        public interface RowLoadedListener<T extends ReviewDataRow> {
+            void onLoaded(@Nullable T data);
+        }
 
         private RowLoader(ReviewId reviewId, String clauseId, ReviewerDbReadable db, DbTable<T>
                 table, ColumnInfo<String> idCol) {
             super(reviewId, clauseId, db, table, idCol);
         }
 
-        public interface RowLoadedListener<T extends ReviewDataRow> {
-            void onLoaded(@Nullable T data);
+        public RowLoader<T> onLoaded(RowLoadedListener<T> listener) {
+            mListener = listener;
+            return this;
         }
 
         @NonNull
@@ -126,16 +134,11 @@ public class DataLoader<T extends ReviewDataRow<T>> extends AsyncTask<Void, Void
             return data;
         }
 
-        public RowLoader<T> onLoaded(RowLoadedListener<T> listener) {
-            mListener = listener;
-            return this;
-        }
-
         @Override
         protected void onPostExecute(IdableRowList<T> data) {
             super.onPostExecute(data);
-            if(mListener != null) {
-                if(data.size() == 1) {
+            if (mListener != null) {
+                if (data.size() == 1) {
                     mListener.onLoaded(data.get(0));
                 } else {
                     mListener.onLoaded(null);

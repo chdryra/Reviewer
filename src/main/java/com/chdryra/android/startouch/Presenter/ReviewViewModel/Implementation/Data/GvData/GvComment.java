@@ -19,10 +19,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConvert
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
-
-
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhComment;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhComment;
 
 /**
  * {@link GvData} version of: {@link com.chdryra
@@ -190,11 +190,11 @@ public class GvComment extends GvDataParcelableBasic<GvComment> implements DataC
                          DataConverter<DataComment, GvComment, ?> converter) {
             super(TYPE, reference, converter, VhComment.class, new
                     PlaceHolderFactory<DataComment>() {
-                @Override
-                public DataComment newPlaceHolder(String placeHolder) {
-                    return new GvComment(placeHolder, false);
-                }
-            });
+                        @Override
+                        public DataComment newPlaceHolder(String placeHolder) {
+                            return new GvComment(placeHolder, false);
+                        }
+                    });
         }
 
         public Reference getFullCommentReference() {

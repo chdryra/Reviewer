@@ -34,7 +34,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * {@link ReviewViewAdapter} for a {@link ReviewNode}.
  */
 
-public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements ReviewNode.NodeObserver {
+public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements
+        ReviewNode.NodeObserver {
     private final ReviewNode mNode;
     private final SubscribableReference<String> mSubject;
     private final SubscribableReference<Float> mRating;
@@ -66,6 +67,10 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         };
     }
 
+    public ReviewNode getNode() {
+        return mNode;
+    }
+
     @Override
     public DataReference<String> getSubjectReference() {
         return mSubject;
@@ -79,10 +84,6 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     @Override
     public DataReference<Bitmap> getCoverReference() {
         return mCover;
-    }
-
-    public ReviewNode getNode() {
-        return mNode;
     }
 
     @Override
@@ -128,12 +129,12 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
         @Override
         protected void doDereferencing(final DereferenceCallback<Bitmap> callback) {
-            if(!mFindingCover && mCover.getBitmap() == null) {
+            if (!mFindingCover && mCover.getBitmap() == null) {
                 mFindingCover = true;
                 mNode.getCover().dereference(new DataReference.DereferenceCallback<DataImage>() {
                     @Override
                     public void onDereferenced(DataValue<DataImage> value) {
-                        if(value.hasValue()) {
+                        if (value.hasValue()) {
                             mCover = mCoversConverter.convert(value.getData());
                             mFindingCover = false;
                             callback.onDereferenced(new DataValue<>(mCover.getBitmap()));
@@ -153,7 +154,8 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
                 public void onDereferenced(DataValue<ProfileImage> value) {
                     if (value.hasValue()) {
                         ProfileImage image = value.getData();
-                        mCover = new GvImage(image.getBitmap(), new GvDate(mNode.getPublishDate().getTime()), null, "", true);
+                        mCover = new GvImage(image.getBitmap(), new GvDate(mNode.getPublishDate()
+                                .getTime()), null, "", true);
                     } else {
                         mCover = new GvImage();
                     }

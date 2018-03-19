@@ -14,9 +14,8 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
-
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhSocialPlatform;
 import com.chdryra.android.startouch.Social.Interfaces.Authorisable;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
 
@@ -24,7 +23,8 @@ import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
  * {@link } version of: no equivalent as used for review sharing screen.
  * {@link ViewHolder}: {@link VhSocialPlatform}
  */
-public class GvSocialPlatform extends GvDualText implements DataSocialPlatform, Authorisable.AuthorisationListener {
+public class GvSocialPlatform extends GvDualText implements DataSocialPlatform, Authorisable
+        .AuthorisationListener {
     public static final GvDataType<GvSocialPlatform> TYPE =
             new GvDataType<>(GvSocialPlatform.class, TYPE_NAME, DATA_NAME);
     public static final Creator<GvSocialPlatform> CREATOR = new Creator<GvSocialPlatform>() {
@@ -49,13 +49,13 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform, 
         void onPlatformStateChange(GvSocialPlatform platform);
     }
 
-    private GvSocialPlatform() {
-    }
-
     public GvSocialPlatform(SocialPlatform<?> platform) {
         super(platform.getName(), PLACEHOLDER);
         mPlatform = platform;
         mPlatform.setAuthListener(this);
+    }
+
+    private GvSocialPlatform() {
     }
 
     private GvSocialPlatform(Parcel in) {
@@ -64,26 +64,6 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform, 
 
     public boolean isChosen() {
         return mIsChosen;
-    }
-
-    public void press() {
-        mIsChosen = !mIsChosen;
-        if(mListener != null) mListener.onPlatformStateChange(this);
-    }
-
-    public void setListener(PlatformStateListener listener) {
-        mListener = listener;
-        mListener.onPlatformStateChange(this);
-    }
-
-    @Override
-    public void onAuthorised(boolean isAuthorised) {
-        if(mListener != null) mListener.onPlatformStateChange(this);
-    }
-
-    @Override
-    public void getFollowers(SocialPlatform.FollowersListener listener) {
-        mPlatform.getFollowers(listener);
     }
 
     public boolean isAuthorised() {
@@ -96,6 +76,26 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform, 
 
     public SocialPlatform<?> getPlatform() {
         return mPlatform;
+    }
+
+    public void press() {
+        mIsChosen = !mIsChosen;
+        if (mListener != null) mListener.onPlatformStateChange(this);
+    }
+
+    public void setListener(PlatformStateListener listener) {
+        mListener = listener;
+        mListener.onPlatformStateChange(this);
+    }
+
+    @Override
+    public void onAuthorised(boolean isAuthorised) {
+        if (mListener != null) mListener.onPlatformStateChange(this);
+    }
+
+    @Override
+    public void getFollowers(SocialPlatform.FollowersListener listener) {
+        mPlatform.getFollowers(listener);
     }
 
     @Override

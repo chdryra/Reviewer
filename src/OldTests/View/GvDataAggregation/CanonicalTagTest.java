@@ -8,8 +8,12 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalTagMode;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalTagMode;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.testutils.RandomString;
 
@@ -34,6 +38,12 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTag> {
         return new CanonicalTagMode();
     }
 
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferent();
+    }
+
     private void checkDifferent() {
         mData = newDataList();
         GvTag tag1 = new GvTag(TAG1);
@@ -52,11 +62,5 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTag> {
         GvTag canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(TAG2 + " + 2", canon.getString());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferent();
     }
 }

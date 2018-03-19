@@ -13,7 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.NullUserAccount;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Authentication.Interfaces.LoginProvider;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * On: 16/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserSessionDefault implements UserSession, UserAccounts.GetAccountCallback{
+public class UserSessionDefault implements UserSession, UserAccounts.GetAccountCallback {
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
@@ -50,10 +51,6 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
         getAuthenticator().registerObserver(this);
 
         onUserStateChanged(null, getAuthenticator().getAuthenticatedUser());
-    }
-
-    private UserAuthenticator getAuthenticator() {
-        return mManager.getAuthenticator();
     }
 
     @Override
@@ -79,11 +76,6 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     @Override
     public UserAccount getAccount() {
         return isInSession() ? mAccount : nullAccount();
-    }
-
-    @NonNull
-    private NullUserAccount nullAccount() {
-        return new NullUserAccount();
     }
 
     @Override
@@ -114,7 +106,7 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
 
     @Override
     public void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable
-    AuthenticatedUser newUser) {
+            AuthenticatedUser newUser) {
         if (oldUser != null && newUser != null && oldUser.equals(newUser)) return;
 
         mAccount = null;
@@ -128,7 +120,7 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     @Override
     public void refreshSession() {
         AuthenticatedUser user = getAuthenticator().getAuthenticatedUser();
-        if(user != null ) {
+        if (user != null) {
             mManager.getAccounts().getAccount(user, this);
         } else {
             notifyOnSession(nullAccount(),
@@ -140,13 +132,22 @@ public class UserSessionDefault implements UserSession, UserAccounts.GetAccountC
     @Override
     public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
         if (error == null) {
-            if(mAccount != null && !mAccount.getAuthorId().equals(account.getAuthorId())) {
+            if (mAccount != null && !mAccount.getAuthorId().equals(account.getAuthorId())) {
                 notifySessionEnded(CallbackMessage.ok());
             }
             mAccount = account;
         }
 
         notifyOnSession(account, error);
+    }
+
+    private UserAuthenticator getAuthenticator() {
+        return mManager.getAuthenticator();
+    }
+
+    @NonNull
+    private NullUserAccount nullAccount() {
+        return new NullUserAccount();
     }
 
     private void notifySessionEnded(CallbackMessage message) {

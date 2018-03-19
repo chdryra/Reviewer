@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPublisher;
 
 /**

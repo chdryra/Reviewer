@@ -9,14 +9,14 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalStringMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalStringMaker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -32,13 +32,24 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 06/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation>{
+public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation> {
     public CanonicalLocationTest() {
         this(new CanonicalLocation());
     }
 
     protected CanonicalLocationTest(CanonicalStringMaker<DataLocation> canonical) {
         super(canonical);
+    }
+
+    protected LatLng getExpectedLatLng() {
+        IdableList<DataLocation> data = getData();
+        ArrayList<LatLng> latLngs = new ArrayList<>();
+        for (DataLocation location : data) {
+            latLngs.add(location.getLatLng());
+        }
+
+        LatLngMidpoint midpoint = new LatLngMidpoint();
+        return midpoint.getGeoMidpoint(latLngs);
     }
 
     @Override
@@ -62,16 +73,5 @@ public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation
     @Override
     protected DataLocation newDatum(String string) {
         return new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), string);
-    }
-
-    protected LatLng getExpectedLatLng() {
-        IdableList<DataLocation> data = getData();
-        ArrayList<LatLng> latLngs = new ArrayList<>();
-        for (DataLocation location : data) {
-            latLngs.add(location.getLatLng());
-        }
-
-        LatLngMidpoint midpoint = new LatLngMidpoint();
-        return midpoint.getGeoMidpoint(latLngs);
     }
 }

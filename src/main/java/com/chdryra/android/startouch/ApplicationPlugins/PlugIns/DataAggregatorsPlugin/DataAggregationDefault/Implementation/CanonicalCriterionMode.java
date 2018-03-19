@@ -6,18 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Aggregation.ItemCounter;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,14 +26,6 @@ import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCriterionMode extends CanonicalStringMaker<DataCriterion> {
-
-    @Override
-    public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
-        ReviewId id = data.getReviewId();
-        if (data.size() == 0) return FactoryNullData.nullCriterion(id);
-
-        return new DatumCriterion(id, getModeString(data), getRating(data));
-    }
 
     @NonNull
     @Override
@@ -43,6 +36,14 @@ public class CanonicalCriterionMode extends CanonicalStringMaker<DataCriterion> 
                 return datum.getSubject();
             }
         };
+    }
+
+    @Override
+    public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
+        ReviewId id = data.getReviewId();
+        if (data.size() == 0) return FactoryNullData.nullCriterion(id);
+
+        return new DatumCriterion(id, getModeString(data), getRating(data));
     }
 
     @NonNull

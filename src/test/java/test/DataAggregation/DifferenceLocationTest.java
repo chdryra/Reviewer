@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,7 +34,7 @@ public class DifferenceLocationTest {
     @Before
     public void setup() {
         mCloseBy = RAND.nextFloat() / 2f;
-        mSimilarName = RAND.nextDouble()/2.;
+        mSimilarName = RAND.nextDouble() / 2.;
         DifferenceFloat locationDiff = new DifferenceFloat(mCloseBy);
         DifferencePercentage nameDiff = new DifferencePercentage(mSimilarName);
         mLocationThreshold = new DifferenceLocation(locationDiff, nameDiff);

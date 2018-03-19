@@ -6,22 +6,30 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbAuthorsDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendValidator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbAuthorsDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
@@ -143,7 +151,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
                     Review added = mConverter.convert(review);
                     result = new RepoResult(added);
                     ReviewId reviewId = added.getReviewId();
-                    if(mCache.contains(reviewId)) {
+                    if (mCache.contains(reviewId)) {
                         mCache.remove(reviewId);
                         mCache.add(added);
                     }
@@ -168,7 +176,7 @@ public class FbAuthorsDbWriteable extends FbAuthorsDbReadable implements Reviews
                         CallbackMessage.ok() : CallbackMessage.error(backendError.getMessage());
 
                 ReviewId reviewId = new DatumReviewId(review.getReviewId());
-                if(message.isOk() && mCache.contains(reviewId)) mCache.remove(reviewId);
+                if (message.isOk() && mCache.contains(reviewId)) mCache.remove(reviewId);
 
                 callback.onRemovedFromRepo(new RepoResult(mConverter.convert
                         (review), message));

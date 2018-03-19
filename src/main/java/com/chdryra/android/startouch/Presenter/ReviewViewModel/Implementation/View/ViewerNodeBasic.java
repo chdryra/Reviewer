@@ -16,7 +16,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataCache;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 import java.util.Comparator;
 
@@ -123,8 +124,8 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
         sortCache(new OnSortedCallback() {
             @Override
             public void onSorted(CallbackMessage message) {
-                if(callback != null) callback.onSorted(message);
-                if(message.isOk()) notifyDataObservers();
+                if (callback != null) callback.onSorted(message);
+                if (message.isOk()) notifyDataObservers();
             }
         });
     }

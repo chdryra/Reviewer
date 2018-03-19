@@ -20,9 +20,12 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Rev
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryActionsBuildReview;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories.FactoryReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories
+        .FactoryActionsBuildReview;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories
+        .FactoryReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 

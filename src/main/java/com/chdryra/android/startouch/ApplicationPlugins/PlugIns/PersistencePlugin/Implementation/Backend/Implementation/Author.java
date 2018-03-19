@@ -6,10 +6,11 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
@@ -29,7 +30,11 @@ public class Author {
         authorId = author.getAuthorId().toString();
     }
 
-    public String getName(){
+    public static int size() {
+        return 2;
+    }
+
+    public String getName() {
         return name;
     }
 
@@ -39,9 +44,5 @@ public class Author {
 
     public AuthorName toDataAuthor() {
         return new AuthorNameDefault(name, new AuthorIdParcelable(authorId));
-    }
-
-    public static int size() {
-        return 2;
     }
 }

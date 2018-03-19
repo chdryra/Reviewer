@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.view.View;
 
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
@@ -35,6 +36,6 @@ public class GridItemSummary extends GridItemLauncher<GvSize.Reference> {
 
     @Override
     void onClickNotExpandable(GvSize.Reference item, int position, View v) {
-        if(item.getSizedType().equals(GvNode.TYPE)) mCommand.execute();
+        if (item.getSizedType().equals(GvNode.TYPE)) mCommand.execute();
     }
 }

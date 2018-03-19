@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Fact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.ReviewItemConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.ReviewItemConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -40,7 +41,7 @@ public class ConverterFact implements ReviewItemConverter<DataFact> {
     private DataFact newUrlOrFact(ReviewId id, Fact fact) {
         String label = fact.getLabel();
         String value = fact.getValue();
-        if(fact.isUrl()) {
+        if (fact.isUrl()) {
             try {
                 return new DatumUrl(id, label, new URL(value));
             } catch (MalformedURLException e) {

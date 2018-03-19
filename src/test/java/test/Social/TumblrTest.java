@@ -19,7 +19,8 @@ import org.junit.Test;
  */
 public class TumblrTest {
     private static final String CONSUMER_KEY = "5DQowY8DHyhvKycydG2bJc6RytQ6OjSzgFB0XvzjB9rKTVkgx5";
-    private static final String CONSUMER_SECRET = "YPX5LE3T7XujtGg6kCpPnyXtPUUF8TYfRCqBnwMHZrs78rtFwR";
+    private static final String CONSUMER_SECRET =
+            "YPX5LE3T7XujtGg6kCpPnyXtPUUF8TYfRCqBnwMHZrs78rtFwR";
 
     @Test
     public void test() {

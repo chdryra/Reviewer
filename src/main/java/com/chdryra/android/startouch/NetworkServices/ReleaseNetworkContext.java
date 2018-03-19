@@ -11,9 +11,11 @@ package com.chdryra.android.startouch.NetworkServices;
 import android.content.Context;
 
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.NetworkContext;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .NetworkServicesPlugin;
 import com.chdryra.android.startouch.NetworkServices.ReviewDeleting.FactoryReviewDeleter;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Factories.FactoryReviewPublisher;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Factories
+        .FactoryReviewPublisher;
 
 /**
  * Created by: Rizwan Choudrey

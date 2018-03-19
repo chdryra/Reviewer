@@ -12,10 +12,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.LayoutEditImage;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation
-        .LayoutEditImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,6 +30,15 @@ public class LayoutEditImageTest extends AddEditLayoutTest<GvImage> {
         super(GvImage.TYPE, new LayoutEditImage(new UiAndroid.DefaultLaunchables.EditImage()));
     }
 
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mEditText = (EditText) getView(LayoutEditImage.CAPTION);
+        mImageView = (ImageView) getView(LayoutEditImage.IMAGE);
+        assertNotNull(mEditText);
+        assertNotNull(mImageView);
+    }
+
     //Overridden
     @Override
     protected void enterData(GvImage datum) {
@@ -41,14 +50,5 @@ public class LayoutEditImageTest extends AddEditLayoutTest<GvImage> {
         assertEquals(result, ((BitmapDrawable) mImageView.getDrawable()).getBitmap().sameAs
                 (datum.getBitmap()));
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getCaption()));
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        mEditText = (EditText) getView(LayoutEditImage.CAPTION);
-        mImageView = (ImageView) getView(LayoutEditImage.IMAGE);
-        assertNotNull(mEditText);
-        assertNotNull(mImageView);
     }
 }

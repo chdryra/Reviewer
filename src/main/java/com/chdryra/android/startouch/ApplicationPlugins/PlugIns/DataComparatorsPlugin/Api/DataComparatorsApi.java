@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api;
 
 import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -20,7 +21,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey

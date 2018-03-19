@@ -22,6 +22,12 @@ import java.util.ArrayList;
 public class DataObservableDefault implements DataObservable {
     private final ArrayList<DataObserver> mObservers = new ArrayList<>();
 
+    protected void notifyDataObservers() {
+        for (DataObserver observer : mObservers) {
+            observer.onDataChanged();
+        }
+    }
+
     @Override
     public void registerObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
@@ -30,11 +36,5 @@ public class DataObservableDefault implements DataObservable {
     @Override
     public void unregisterObserver(DataObserver observer) {
         if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    protected void notifyDataObservers() {
-        for (DataObserver observer : mObservers) {
-            observer.onDataChanged();
-        }
     }
 }

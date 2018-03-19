@@ -14,8 +14,8 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface IdableList<T extends HasReviewId> extends IdableCollection<T>, HasReviewId {
+    DataSize getDataSize();
+
     @Override
     ReviewId getReviewId();
-
-    DataSize getDataSize();
 }

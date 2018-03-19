@@ -11,9 +11,12 @@ package com.chdryra.android.startouch.test.View.GvDataAggregation;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.ComparitorLocationDistance;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.ComparitorLocationDistance;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 

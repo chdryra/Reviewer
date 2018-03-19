@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid
         .Implementation.BackendService;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;

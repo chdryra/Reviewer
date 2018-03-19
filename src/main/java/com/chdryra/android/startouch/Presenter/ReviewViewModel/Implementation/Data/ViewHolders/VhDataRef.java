@@ -12,10 +12,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -46,25 +46,17 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
         mPlaceHolderFactory = placeHolderFactory;
     }
 
-    void onReference(GvReference gvReference) {
-
-    }
-
     public GvDataRef.PlaceHolderFactory<ValueType> getPlaceHolderFactory() {
         return mPlaceHolderFactory;
     }
 
-    DataConverter<ValueType, ? extends GvData, ?> getConverter() {
-        return mConverter;
+    public ValueHolder getValueHolder() {
+        return mValueHolder;
     }
 
     @Override
     public ValueType getDataValue() {
         return mDataValue;
-    }
-
-    public ValueHolder getValueHolder() {
-        return mValueHolder;
     }
 
     @Override
@@ -123,6 +115,14 @@ public class VhDataRef<GvReference extends GvDataRef<GvReference, ValueType, Val
     @Override
     public void onInvalidated(DataReference<ValueType> reference) {
         showPlaceholder();
+    }
+
+    DataConverter<ValueType, ? extends GvData, ?> getConverter() {
+        return mConverter;
+    }
+
+    void onReference(GvReference gvReference) {
+
     }
 
     private void showPlaceholder() {

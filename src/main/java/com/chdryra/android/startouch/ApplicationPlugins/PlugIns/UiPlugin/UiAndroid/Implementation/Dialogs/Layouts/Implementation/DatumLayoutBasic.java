@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,8 +15,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,6 +31,10 @@ public abstract class DatumLayoutBasic<T extends GvData> implements DatumLayoutV
         mHolder = holder;
     }
 
+    protected void onLayoutInflated() {
+
+    }
+
     @Override
     public void initialise(T data) {
         updateView(data);
@@ -38,12 +44,8 @@ public abstract class DatumLayoutBasic<T extends GvData> implements DatumLayoutV
     public View createLayoutUi(Context context, @Nullable T data) {
         mHolder.inflate(context);
         onLayoutInflated();
-        if(data != null) initialise(data);
+        if (data != null) initialise(data);
         return mHolder.getView();
-    }
-
-    protected void onLayoutInflated() {
-
     }
 
     @Override

@@ -18,8 +18,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogCancelActionDoneFragment;
-import com.chdryra.android.startouch.Application.ApplicationInstance;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.Application.ApplicationInstance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
@@ -34,19 +38,20 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .CommentFormatter;
 import com.chdryra.android.startouch.R;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.CommentFormatter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
 import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
@@ -106,7 +111,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
         testDialogShowing(true);
         final GvDataList data = GvDataMocker.getData(GvTag.TYPE, 1);
-        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(GvTag.TYPE).getAdderConfig().getTag();
+        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(GvTag.TYPE).getAdderConfig()
+                .getTag();
         enterData(data, tag, false);
         mSolo.waitForDialogToClose(TIMEOUT);
         mSolo.sleep(1000);
@@ -247,7 +253,14 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkAdapterSubjectRating(child.getSubject(), getAverageRating(false));
     }
 
-//protected methods
+    @SmallTest
+    public void testSubjectRating() {
+        FragmentReviewView fragment = getFragmentViewReview();
+        assertEquals(mAdapter.getSubject(), fragment.getSubject());
+        assertEquals(mAdapter.getRating(), fragment.getRating());
+    }
+
+    //protected methods
     @Override
     protected ReviewView getView() {
         return mScreen.getEditor();
@@ -281,6 +294,29 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         clickDoneButton(tag);
     }
 
+    //Overridden
+    @Override
+    protected void setAdapter() {
+        ReviewBuilder builder =
+                new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
+        mAdapter = new ReviewBuilderAdapter(builder);
+        mScreen = new PresenterReviewBuild(getActivity(), (ReviewBuilderAdapter) mAdapter);
+    }
+
+    @Override
+    protected void setUp() {
+        super.setUp();
+
+        mList = (WrapperGridData) mAdapter.getGridData();
+        mOriginalSubject = mAdapter.getSubject();
+        mOriginalRating = mAdapter.getRating();
+
+        checkSubjectRating();
+        checkBuilderChanges(null);
+
+        mSignaler = new CallBackSignaler(5);
+    }
+
     //private methods
     private ReviewBuilderAdapter getBuilder() {
         return (ReviewBuilderAdapter) mAdapter;
@@ -301,7 +337,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testInBuilder(GvDataList data, boolean result) {
-        GvDataList fromBuilder = getBuilder().getDataBuilderAdapter(data.getGvDataType()).getGridData();
+        GvDataList fromBuilder = getBuilder().getDataBuilderAdapter(data.getGvDataType())
+                .getGridData();
         fromBuilder.sort();
         data.sort();
         if (data.getGvDataType() == GvLocation.TYPE) {
@@ -493,7 +530,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
         testDialogShowing(true);
 
-        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(dataType).getAdderConfig().getTag();
+        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(dataType).getAdderConfig()
+                .getTag();
         enterData(data, tag, entryWithPause);
 
         mSolo.waitForDialogToClose(TIMEOUT);
@@ -543,7 +581,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void clickDoneButton(final String tag) {
         Runnable clicker = new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -624,35 +662,5 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private void clickShare() {
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_share));
-    }
-
-    //Overridden
-    @Override
-    protected void setAdapter() {
-        ReviewBuilder builder =
-                new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
-        mAdapter = new ReviewBuilderAdapter(builder);
-        mScreen = new PresenterReviewBuild(getActivity(), (ReviewBuilderAdapter) mAdapter);
-    }
-
-    @SmallTest
-    public void testSubjectRating() {
-        FragmentReviewView fragment = getFragmentViewReview();
-        assertEquals(mAdapter.getSubject(), fragment.getSubject());
-        assertEquals(mAdapter.getRating(), fragment.getRating());
-    }
-
-    @Override
-    protected void setUp() {
-        super.setUp();
-
-        mList = (WrapperGridData) mAdapter.getGridData();
-        mOriginalSubject = mAdapter.getSubject();
-        mOriginalRating = mAdapter.getRating();
-
-        checkSubjectRating();
-        checkBuilderChanges(null);
-
-        mSignaler = new CallBackSignaler(5);
     }
 }

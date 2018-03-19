@@ -26,7 +26,8 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EditUiLauncher extends PackingLauncherImpl<Review> {
-    private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class, "TemplateOrEdit");
+    private static final String TEMPLATE_OR_EDIT = TagKeyGenerator.getKey(EditUiLauncher.class,
+            "TemplateOrEdit");
     private final EditorSuite mBuilder;
     private final ReviewNodeRepo mRepo;
 
@@ -37,7 +38,7 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
     }
 
     public void launchCreate(@Nullable ReviewId template) {
-        if(template == null ) {
+        if (template == null) {
             super.launch(null);
         } else {
             launch(template, ReviewPack.TemplateOrEdit.TEMPLATE);
@@ -48,12 +49,17 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
         Review review = super.unpack(args);
         ReviewPack.TemplateOrEdit templateOrEdit
                 = (ReviewPack.TemplateOrEdit) args.getSerializable(TEMPLATE_OR_EDIT);
-        if(templateOrEdit == null) templateOrEdit = ReviewPack.TemplateOrEdit.TEMPLATE;
+        if (templateOrEdit == null) templateOrEdit = ReviewPack.TemplateOrEdit.TEMPLATE;
         return review != null ? new ReviewPack(review, templateOrEdit) : new ReviewPack();
     }
 
     public void launchEdit(ReviewId review) {
         launch(review, ReviewPack.TemplateOrEdit.EDIT);
+    }
+
+    @Override
+    protected void onPrelaunch() {
+        mBuilder.discardEditor(false, null);
     }
 
     private void launch(ReviewId review, final ReviewPack.TemplateOrEdit templateOrEdit) {
@@ -65,10 +71,5 @@ public class EditUiLauncher extends PackingLauncherImpl<Review> {
                 EditUiLauncher.super.launch(result.getReview(), args);
             }
         });
-    }
-
-    @Override
-    protected void onPrelaunch() {
-        mBuilder.discardEditor(false, null);
     }
 }

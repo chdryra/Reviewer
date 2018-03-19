@@ -58,9 +58,9 @@ public class GridItemEditComment extends GridItemEdit<GvComment> {
 
     @Override
     protected void onDataDeleted(GvComment datum) {
-        if(datum.isHeadline()) {
+        if (datum.isHeadline()) {
             GvDataList<GvComment> comments = getGridData();
-            if(comments.size() > 0) comments.get(0).setIsHeadline(true);
+            if (comments.size() > 0) comments.get(0).setIsHeadline(true);
         }
         updateEditor();
     }

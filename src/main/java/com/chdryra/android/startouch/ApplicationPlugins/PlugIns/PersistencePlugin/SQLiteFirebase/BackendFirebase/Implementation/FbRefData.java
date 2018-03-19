@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -15,7 +16,8 @@ import android.util.Log;
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReferenceBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,8 +33,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefData<T> extends SubscribableReferenceBasic<T> {
-    private Firebase mReference;
     private final Map<ValueSubscriber<T>, ValueEventListener> mBindings;
+    private Firebase mReference;
     private SnapshotConverter<T> mConverter;
 
     public FbRefData(Firebase reference, SnapshotConverter<T> converter) {
@@ -41,16 +43,13 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
         mBindings = new HashMap<>();
     }
 
-    Firebase getFbReference() {
-        return mReference;
-    }
-
     protected SnapshotConverter<T> getConverter() {
         return mConverter;
     }
 
-    void onDereferenced(T value) {
-
+    @Override
+    protected Collection<ValueSubscriber<T>> getSubscribers() {
+        return mBindings.keySet();
     }
 
     @Override
@@ -76,15 +75,18 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
     }
 
     @Override
-    protected Collection<ValueSubscriber<T>> getSubscribers() {
-        return mBindings.keySet();
-    }
-
-    @Override
     protected void bind(ValueSubscriber<T> subscriber) {
         ValueEventListener listener = newListener(subscriber);
         mBindings.put(subscriber, listener);
         mReference.addValueEventListener(mBindings.get(subscriber));
+    }
+
+    Firebase getFbReference() {
+        return mReference;
+    }
+
+    void onDereferenced(T value) {
+
     }
 
     @NonNull
@@ -92,7 +94,7 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(isValidReference()) {
+                if (isValidReference()) {
                     T value = mConverter.convert(dataSnapshot);
                     if (value != null) {
                         onDereferenced(value);
@@ -106,7 +108,8 @@ public class FbRefData<T> extends SubscribableReferenceBasic<T> {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onDereferenced(newValue(CallbackMessage.error("Call to Firebase cancelled")));
+                callback.onDereferenced(newValue(CallbackMessage.error("Call to Firebase " +
+                        "cancelled")));
             }
         };
     }

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -27,15 +28,15 @@ public class LatitudeLongitude {
         longitude = latLng.longitude;
     }
 
+    public static int size() {
+        return 2;
+    }
+
     public double getLatitude() {
         return latitude;
     }
 
     public double getLongitude() {
         return longitude;
-    }
-
-    public static int size() {
-        return 2;
     }
 }

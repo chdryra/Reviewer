@@ -15,7 +15,8 @@ import com.chdryra.android.corelibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.CallBackSignaler;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,6 +56,66 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocation>
         super(UiAndroid.DefaultLaunchables.AddLocation.class);
     }
 
+    //Overridden
+    @Override
+    public void testQuickSet() {
+        launchDialogAndTestShowing(true);
+
+        assertEquals(0, getData(mAdapter).size());
+
+        GvData datum1 = testQuickSet(true, 0);
+        GvData datum2 = testQuickSet(true, 1);
+        GvData datum3 = testQuickSet(false, 2);
+
+        pressDialogButton(DialogButton.DONE);
+        GvDataList data = getData(mAdapter);
+
+        assertEquals(3, data.size());
+        assertEquals(datum1, data.getItem(0));
+        assertEquals(datum2, data.getItem(1));
+        assertEquals(datum3, data.getItem(2));
+    }
+
+    //Problems with wating for locater thread. Never returns.
+//    @SmallTest
+//    public void testEnterNameForCurrentLocation() {
+//        launchDialogAndTestShowing(true);
+//
+//        assertEquals(0, getData(mAdapter).size());
+//
+//        GvData datum = enterRandomNameForCurrent();
+//
+//        pressDialogButton(DialogButton.DONE);
+//
+//        GvDataList data = getData(mAdapter);
+//
+//        assertEquals(1, data.size());
+//        assertEquals(datum, data.getItem(0));
+//    }
+//
+    @Override
+    public void onLocated(Location location) {
+        mCurrent = new LatLng(location.getLatitude(), location.getLongitude());
+        mSignaler.signal();
+        mSignaler.reset();
+    }
+
+    @Override
+    public void onLocationClientConnected(Location location) {
+        onLocated(location);
+    }
+
+    protected GvData enterDataAndTest() {
+        return enterDataAndTest(0);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mLocater = new LocationClientConnector(getActivity(), this);
+        mSignaler = new CallBackSignaler(5000);
+    }
+
     private GvData enterDataAndTest(int index) {
         assertTrue(index < 3);
         assertTrue(isDataNulled());
@@ -89,66 +150,6 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocation>
 
         assertFalse(mSignaler.timedOut());
         return data;
-    }
-
-    //Overridden
-    @Override
-    public void testQuickSet() {
-        launchDialogAndTestShowing(true);
-
-        assertEquals(0, getData(mAdapter).size());
-
-        GvData datum1 = testQuickSet(true, 0);
-        GvData datum2 = testQuickSet(true, 1);
-        GvData datum3 = testQuickSet(false, 2);
-
-        pressDialogButton(DialogButton.DONE);
-        GvDataList data = getData(mAdapter);
-
-        assertEquals(3, data.size());
-        assertEquals(datum1, data.getItem(0));
-        assertEquals(datum2, data.getItem(1));
-        assertEquals(datum3, data.getItem(2));
-    }
-
-    protected GvData enterDataAndTest() {
-        return enterDataAndTest(0);
-    }
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mLocater = new LocationClientConnector(getActivity(), this);
-        mSignaler = new CallBackSignaler(5000);
-    }
-
-    //Problems with wating for locater thread. Never returns.
-//    @SmallTest
-//    public void testEnterNameForCurrentLocation() {
-//        launchDialogAndTestShowing(true);
-//
-//        assertEquals(0, getData(mAdapter).size());
-//
-//        GvData datum = enterRandomNameForCurrent();
-//
-//        pressDialogButton(DialogButton.DONE);
-//
-//        GvDataList data = getData(mAdapter);
-//
-//        assertEquals(1, data.size());
-//        assertEquals(datum, data.getItem(0));
-//    }
-//
-    @Override
-    public void onLocated(Location location) {
-        mCurrent = new LatLng(location.getLatitude(), location.getLongitude());
-        mSignaler.signal();
-        mSignaler.reset();
-    }
-
-    @Override
-    public void onLocationClientConnected(Location location) {
-        onLocated(location);
     }
 //
 //    private GvData enterRandomNameForCurrent() {

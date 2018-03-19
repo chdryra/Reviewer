@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataCollection;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataCollection;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 
-public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements GvDataList<T>{
+public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements GvDataList<T> {
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
@@ -34,6 +35,11 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
 
     private final GvDataType<T> mType;
     private final GvReviewId mReviewId;
+
+    public GvDataListImpl(@NotNull GvDataType<T> type, GvReviewId reviewId) {
+        mReviewId = reviewId;
+        mType = type;
+    }
 
     //Constructors
     GvDataListImpl(GvReviewId reviewId, GvDataList<T> data) {
@@ -43,19 +49,19 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         }
     }
 
+    GvDataListImpl(GvDataList<T> data) {
+        this(data.getGvReviewId(), data);
+    }
+
+    @Override
+    protected Comparator<? super T> getDefaultComparator() {
+        return GvDataComparators.getDefaultComparator(mType);
+    }
+
     @Nullable
     @Override
     public GvDataParcelable getParcelable() {
         return null;
-    }
-
-    public GvDataListImpl(@NotNull GvDataType<T> type, GvReviewId reviewId) {
-        mReviewId = reviewId;
-        mType = type;
-    }
-
-    GvDataListImpl(GvDataList<T> data) {
-        this(data.getGvReviewId(), data);
     }
 
     @Override
@@ -66,11 +72,6 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     @Override
     public DataSize getDataSize() {
         return new GvSize(getGvReviewId(), mType, size());
-    }
-
-    @Override
-    protected Comparator<? super T> getDefaultComparator() {
-        return GvDataComparators.getDefaultComparator(mType);
     }
 
     @Override

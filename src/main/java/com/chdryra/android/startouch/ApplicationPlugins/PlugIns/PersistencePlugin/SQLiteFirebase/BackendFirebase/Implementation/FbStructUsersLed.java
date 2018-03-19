@@ -114,7 +114,7 @@ public class FbStructUsersLed implements FirebaseStructure {
                 authorId));
         StructureCollectionNames names = new StructureCollectionNames(pathToCollectionNamesIndex
                 (name,
-                authorId));
+                        authorId));
         StructureBuilder<ReviewId> builderCollection = new StructureBuilder<>();
         return builderCollection.add(collection).add(names).build();
     }

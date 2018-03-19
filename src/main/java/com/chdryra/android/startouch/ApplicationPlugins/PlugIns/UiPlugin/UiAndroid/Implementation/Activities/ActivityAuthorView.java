@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 
 import android.app.Fragment;
@@ -17,10 +17,13 @@ import android.os.Bundle;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentProfileEdit;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentAuthorView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentAuthorView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentProfileEdit;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
@@ -52,7 +55,8 @@ public class ActivityAuthorView extends ActivitySingleFragment implements Launch
         Bundle bundleArgs = getIntent().getBundleExtra(KEY);
         ParcelablePacker<GvAuthorId> unpacker = new ParcelablePacker<>();
         GvAuthorId args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
-        mFragment = args != null ? FragmentAuthorView.newInstance(args) : FragmentProfileEdit.newInstance();
+        mFragment = args != null ? FragmentAuthorView.newInstance(args) : FragmentProfileEdit
+                .newInstance();
         return (Fragment) mFragment;
     }
 

@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
 
 /**
  * Created by: Rizwan Choudrey

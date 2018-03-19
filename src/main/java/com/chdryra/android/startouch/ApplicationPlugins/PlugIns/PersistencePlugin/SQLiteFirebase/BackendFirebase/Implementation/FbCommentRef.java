@@ -6,16 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryListItemsReferencer;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Comment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryListItemsReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
@@ -62,11 +64,11 @@ public class FbCommentRef extends FbReviewItemRef<DataComment> implements Commen
     public void toSentences(final SentencesCallback callback) {
         mReferencer.toItemReferences(getFbReference().child(SENTENCES), mSizeReference,
                 new ListItemsReferencer.Callback<DataComment, CommentRef>() {
-            @Override
-            public void onItemReferences(IdableList<CommentRef> sentences) {
-                callback.onSentenceReferences(sentences);
-            }
-        });
+                    @Override
+                    public void onItemReferences(IdableList<CommentRef> sentences) {
+                        callback.onSentenceReferences(sentences);
+                    }
+                });
     }
 
     @Override

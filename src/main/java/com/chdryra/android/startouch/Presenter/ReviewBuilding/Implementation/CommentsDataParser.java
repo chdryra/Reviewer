@@ -15,10 +15,13 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +37,8 @@ import java.util.regex.Pattern;
  */
 
 public class CommentsDataParser {
-    public static final String SEPARATOR = "(\\s+" + Strings.Buttons.CommentEdit.SEPARATOR + "\\s+)";
+    public static final String SEPARATOR = "(\\s+" + Strings.Buttons.CommentEdit.SEPARATOR +
+            "\\s+)";
     private static final String WORD = "#?(\\w+)";
     private static final String STARS = "(\\d+(\\.\\d*)?)\\*";
     private static final String VALUE = "#?(\\S+?)((?:\\p{Punct}+\\s+)|$)";
@@ -116,10 +120,10 @@ public class CommentsDataParser {
         while (matcher.find()) {
             String subject = matcher.group(1);
             String stars = matcher.group(3);
-            if(subject == null || stars == null) continue;
+            if (subject == null || stars == null) continue;
 
             float rating = Float.valueOf(stars.trim());
-            if(rating > 5f) continue;
+            if (rating > 5f) continue;
 
             criteria.add(new GvCriterion(upperFirst(subject.trim()), rating));
         }
@@ -136,9 +140,9 @@ public class CommentsDataParser {
         while (matcher.find()) {
             String label = matcher.group(1);
             String value = matcher.group(5);
-            if(label == null || value == null) continue;
+            if (label == null || value == null) continue;
 
-            if(links.contains(label)) {
+            if (links.contains(label)) {
                 String temp = value;
                 value = label;
                 label = temp;
@@ -148,7 +152,7 @@ public class CommentsDataParser {
             value = value.trim().replaceAll("\\p{Punct}+$", "").trim();
             label = camelCaseToSpace(label);
             GvFact fact;
-            if(links.contains(value)) {
+            if (links.contains(value)) {
                 links.remove(value);
                 fact = newUrl(upperFirst(label), value);
             } else {
@@ -159,7 +163,7 @@ public class CommentsDataParser {
             facts.add(fact);
         }
 
-        for(int i = 0; i < links.size(); ++i) {
+        for (int i = 0; i < links.size(); ++i) {
             facts.add(newUrl(Strings.Web.LINK + " " + String.valueOf(i + 1), links.get(i)));
         }
 

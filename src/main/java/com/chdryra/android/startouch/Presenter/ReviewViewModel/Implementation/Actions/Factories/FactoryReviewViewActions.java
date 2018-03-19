@@ -17,7 +17,8 @@ import com.chdryra.android.corelibrary.Comparators.NamedComparator;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -30,22 +31,33 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ActionsParameters;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
@@ -128,7 +140,8 @@ public class FactoryReviewViewActions {
                                                                                viewFactory) {
         FactoryActionsSearch<?> factoryActions;
         if (dataType.equals(GvAuthorName.TYPE)) {
-            factoryActions = new FactoryActionsSearch.Author(getLauncher(), viewFactory, mCommandsFactory.newLaunchProfileCommand());
+            factoryActions = new FactoryActionsSearch.Author(getLauncher(), viewFactory,
+                    mCommandsFactory.newLaunchProfileCommand());
         } else {
             factoryActions = new FactoryActionsSearch<>(dataType, getLauncher(), viewFactory);
         }
@@ -137,8 +150,10 @@ public class FactoryReviewViewActions {
     }
 
     @NonNull
-    public <T extends GvData> FactoryActionsReviewView<T> newDataActions(ReviewViewAdapter<T> adapter,
-                                                                         FactoryReviewView viewFactory) {
+    public <T extends GvData> FactoryActionsReviewView<T> newDataActions(ReviewViewAdapter<T>
+                                                                                     adapter,
+                                                                         FactoryReviewView
+                                                                                 viewFactory) {
         GvDataType<T> dataType = getDataType(adapter);
         ActionsParameters<T> params
                 = newDefaultActionsParameters(dataType, viewFactory).setStamp(adapter.getStamp());
@@ -177,7 +192,8 @@ public class FactoryReviewViewActions {
         } else {
             if (dataType.equals(GvBucket.TYPE) && node != null) {
                 params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings
-                        .Commands.BUCKETS, false)).setComparators(getPlaceholderComparator("High-Low"));
+                        .Commands.BUCKETS, false)).setComparators(getPlaceholderComparator
+                        ("High-Low"));
             }
 
             factory = new FactoryActionsViewData<>(params);
@@ -203,7 +219,8 @@ public class FactoryReviewViewActions {
     private ActionsParameters<GvNode> newListActionParams(ReviewNode node, FactoryReviewView
             viewFactory, boolean withFollow) {
         ActionsParameters<GvNode> params = newActionParams(GvNode.TYPE, viewFactory);
-        params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Commands.LIST,
+        params.setContextCommands(getDefaultContextCommands(node, viewFactory, Strings.Commands
+                        .LIST,
                 withFollow)).setComparators(mComparators.newReviewComparators());
         return params;
     }
@@ -240,8 +257,10 @@ public class FactoryReviewViewActions {
     }
 
     @NonNull
-    private <T extends GvData> CommandList getDataContextCommands(final ReviewViewAdapter<T> adapter,
-                                                                  final FactoryReviewView viewFactory) {
+    private <T extends GvData> CommandList getDataContextCommands(final ReviewViewAdapter<T>
+                                                                              adapter,
+                                                                  final FactoryReviewView
+                                                                          viewFactory) {
 
         String name = TextUtils.capitalize(getDataType(adapter).getDataName());
         CommandList list = new CommandList(name);

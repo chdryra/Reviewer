@@ -6,11 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.TableTransactor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +30,7 @@ public class FactoryTransactorSqLite {
     }
 
     public TableTransactor newTransactor(SQLiteDatabase db, TablesSql sql) {
-        return new TableTransactorSqLite(new AndroidSqLiteDb(db), sql, mRowConverter, mEntryConverter);
+        return new TableTransactorSqLite(new AndroidSqLiteDb(db), sql, mRowConverter,
+                mEntryConverter);
     }
 }

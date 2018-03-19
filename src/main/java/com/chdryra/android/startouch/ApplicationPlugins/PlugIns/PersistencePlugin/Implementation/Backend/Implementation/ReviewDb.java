@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
@@ -53,10 +54,6 @@ public class ReviewDb {
     public ReviewDb() {
     }
 
-    public int size(){
-        return 4 + Rating.size() + 6;
-    }
-
     public ReviewDb(Review review) {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
@@ -65,43 +62,43 @@ public class ReviewDb {
         publishDate = review.getPublishDate().getTime();
 
         criteria = new ArrayList<>();
-        for(DataCriterion criterion : review.getCriteria()) {
+        for (DataCriterion criterion : review.getCriteria()) {
             criteria.add(new Criterion(criterion));
         }
 
         comments = new ArrayList<>();
-        for(DataComment comment : review.getComments()) {
+        for (DataComment comment : review.getComments()) {
             comments.add(new Comment(comment));
         }
 
         facts = new ArrayList<>();
-        for(DataFact fact : review.getFacts()) {
+        for (DataFact fact : review.getFacts()) {
             facts.add(new Fact(fact));
         }
 
         images = new ArrayList<>();
-        for(DataImage image : review.getImages()) {
+        for (DataImage image : review.getImages()) {
             ImageData data = new ImageData(image);
             images.add(data);
         }
 
         locations = new ArrayList<>();
-        for(DataLocation location : review.getLocations()) {
+        for (DataLocation location : review.getLocations()) {
             locations.add(new Location(location));
         }
 
         tags = new ArrayList<>();
-        for(DataTag tag : review.getTags()) {
+        for (DataTag tag : review.getTags()) {
             tags.add(tag.getTag());
         }
     }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
-    }
-
     public String getReviewId() {
         return reviewId;
+    }
+
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
     }
 
     public String getSubject() {
@@ -123,7 +120,7 @@ public class ReviewDb {
     public List<String> getTags() {
         return tags;
     }
-    
+
     public List<Criterion> getCriteria() {
         return criteria != null ? criteria : new ArrayList<Criterion>();
     }
@@ -142,5 +139,9 @@ public class ReviewDb {
 
     public List<Location> getLocations() {
         return locations != null ? locations : new ArrayList<Location>();
+    }
+
+    public int size() {
+        return 4 + Rating.size() + 6;
     }
 }

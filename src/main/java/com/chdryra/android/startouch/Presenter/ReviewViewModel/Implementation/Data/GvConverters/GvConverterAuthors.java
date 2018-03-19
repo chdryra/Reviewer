@@ -12,10 +12,14 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +35,7 @@ public class GvConverterAuthors extends GvConverterBasic<AuthorName, GvAuthorNam
     @Override
     public GvAuthorName convert(AuthorName datum, @Nullable ReviewId reviewId) {
         GvReviewId gvReviewId = newId(reviewId);
-        return new GvAuthorName(gvReviewId, datum.getName(), new GvAuthorId(datum.getAuthorId().toString()));
+        return new GvAuthorName(gvReviewId, datum.getName(), new GvAuthorId(datum.getAuthorId()
+                .toString()));
     }
 }

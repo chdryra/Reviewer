@@ -10,22 +10,21 @@ package com.chdryra.android.startouch.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdCriterionList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -134,11 +133,6 @@ public class ReviewUserTest extends TestCase {
         assertFalse(node.isRatingAverageOfChildren());
     }
 
-    private Review newCriterion(ReviewStamp publisher) {
-        return FactoryReviews.createUserReview(RandomString.nextWord(), RandomRating
-                .nextRating());
-    }
-
     //Overridden
     @Override
     protected void setUp() throws Exception {
@@ -162,5 +156,10 @@ public class ReviewUserTest extends TestCase {
         mReview = new ReviewUser(MdReviewId.newId(mPublisher), mPublisher.getAuthor(),
                 mPublisher.getDate(), mSubject, mRating, mComments, mImages, mFacts,
                 mLocations, mCriteria, false);
+    }
+
+    private Review newCriterion(ReviewStamp publisher) {
+        return FactoryReviews.createUserReview(RandomString.nextWord(), RandomRating
+                .nextRating());
     }
 }

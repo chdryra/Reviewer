@@ -15,7 +15,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
@@ -60,9 +61,6 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
         void onEditMode(EditMode mode);
     }
 
-    @Override
-    ReviewBuilderAdapter<GC> getAdapter();
-
     String getSubject();
 
     float getRating();
@@ -92,4 +90,7 @@ public interface ReviewEditor<GC extends GvDataList<? extends GvDataParcelable>>
     void unregisterModeListener(ModeListener listener);
 
     ReviewNode buildPreview();
+
+    @Override
+    ReviewBuilderAdapter<GC> getAdapter();
 }

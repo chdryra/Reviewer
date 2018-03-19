@@ -8,10 +8,10 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -50,7 +50,7 @@ public class DatumAuthorName implements DataAuthorName {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate((AuthorName)this);
+        return dataValidator.validate((AuthorName) this);
     }
 
     @Override
@@ -81,6 +81,6 @@ public class DatumAuthorName implements DataAuthorName {
 
     @Override
     public String toString() {
-        return StringParser.parse((AuthorName)this);
+        return StringParser.parse((AuthorName) this);
     }
 }

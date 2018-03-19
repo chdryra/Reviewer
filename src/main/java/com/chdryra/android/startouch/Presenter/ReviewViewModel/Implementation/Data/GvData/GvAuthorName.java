@@ -13,8 +13,8 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
@@ -35,7 +35,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 public class GvAuthorName extends GvDataParcelableBasic<GvAuthorName> implements DataAuthorName {
     public static final GvDataType<GvAuthorName> TYPE =
             new GvDataType<>(GvAuthorName.class, AuthorName.TYPE_NAME);
-    public static final Parcelable.Creator<GvAuthorName> CREATOR = new Parcelable.Creator<GvAuthorName>() {
+    public static final Parcelable.Creator<GvAuthorName> CREATOR = new Parcelable
+            .Creator<GvAuthorName>() {
         @Override
         public GvAuthorName createFromParcel(Parcel in) {
             return new GvAuthorName(in);
@@ -50,10 +51,6 @@ public class GvAuthorName extends GvDataParcelableBasic<GvAuthorName> implements
     private final String mName;
     private final GvAuthorId mAuthorId;
 
-    private GvAuthorName() {
-        this(null, "", new GvAuthorId(""));
-    }
-
     public GvAuthorName(String name, GvAuthorId authorId) {
         this(null, name, authorId);
     }
@@ -62,6 +59,10 @@ public class GvAuthorName extends GvDataParcelableBasic<GvAuthorName> implements
         super(GvAuthorName.TYPE, id);
         mName = name;
         mAuthorId = authorId;
+    }
+
+    private GvAuthorName() {
+        this(null, "", new GvAuthorId(""));
     }
 
     private GvAuthorName(GvAuthorName author) {
@@ -121,7 +122,7 @@ public class GvAuthorName extends GvDataParcelableBasic<GvAuthorName> implements
 
     @Override
     public String toString() {
-        return StringParser.parse((AuthorName)this);
+        return StringParser.parse((AuthorName) this);
     }
 
     @Override
@@ -145,7 +146,8 @@ public class GvAuthorName extends GvDataParcelableBasic<GvAuthorName> implements
 
         public Reference(ReviewItemReference<DataAuthorName> reference,
                          DataConverter<DataAuthorName, GvAuthorName, ?> converter) {
-            super(TYPE, reference, converter, VhAuthor.class, new PlaceHolderFactory<DataAuthorName>() {
+            super(TYPE, reference, converter, VhAuthor.class, new
+                    PlaceHolderFactory<DataAuthorName>() {
                 @Override
                 public DataAuthorName newPlaceHolder(String placeHolder) {
                     return new GvAuthorName(placeHolder, new GvAuthorId(AuthorId.NULL_ID_STRING));

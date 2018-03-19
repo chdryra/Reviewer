@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
@@ -27,15 +27,16 @@ import java.util.Stack;
  * On: 15/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewSelector implements ReviewListReference.ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>,
+public class ReviewSelector implements ReviewListReference
+        .ItemReferencesCallback<ReviewReference, ReviewItemReference<ReviewReference>>,
         DataReference.DereferenceCallback<ReviewReference>, ReviewNode.NodeObserver {
     private final Selector mSelector;
+    private final Stack<ReviewNode> mPending;
     private ReviewSelectorCallback mCallback;
     private ReviewNode mNode;
     private ReviewReference mReview;
     private int mNumReviews;
     private int mCount;
-    private final Stack<ReviewNode> mPending;
     private boolean mInProgress = false;
 
     interface Selector {
@@ -61,7 +62,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
     }
 
     public void unregister(ReviewId nodeId) {
-        if(mNode != null && mNode.getReviewId().equals(nodeId)) unregisterAndReset();
+        if (mNode != null && mNode.getReviewId().equals(nodeId)) unregisterAndReset();
     }
 
     @Override
@@ -115,7 +116,7 @@ public class ReviewSelector implements ReviewListReference.ItemReferencesCallbac
 
     private void reselect() {
         reset();
-        if(mNode != null) doSelection(mNode);
+        if (mNode != null) doSelection(mNode);
     }
 
     private void unregisterAndReset() {

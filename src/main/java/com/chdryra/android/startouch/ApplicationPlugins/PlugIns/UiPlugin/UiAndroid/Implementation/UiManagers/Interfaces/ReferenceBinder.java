@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Interfaces;
 
 
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
@@ -18,5 +18,5 @@ import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReferenceBinder<T> extends ValueBinder, DataReference.ValueSubscriber<T>{
+public interface ReferenceBinder<T> extends ValueBinder, DataReference.ValueSubscriber<T> {
 }

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,27 +24,28 @@ public abstract class NodeTitler<T> {
         void onTitle(String title);
     }
 
+    protected abstract void fireForBinder();
+
     public NodeTitler(DataReference<T> reference) {
         mReference = reference;
     }
 
     public void bind(TitleBinder binder) {
-        if(mBinder != null) throw new IllegalStateException("Already bound!");
+        if (mBinder != null) throw new IllegalStateException("Already bound!");
         mBinder = binder;
         fireForBinder();
+    }
+
+    protected TitleBinder getBinder() {
+        return mBinder;
     }
 
     protected void bindToReference(DataReference.ValueSubscriber<T> binder) {
         mReference.subscribe(binder);
     }
 
-    protected abstract void fireForBinder();
-
-    protected TitleBinder getBinder() {
-        return mBinder;
-    }
-
-    public static class AuthorsTree extends NodeTitler<AuthorName> implements DataReference.ValueSubscriber<AuthorName> {
+    public static class AuthorsTree extends NodeTitler<AuthorName> implements DataReference
+            .ValueSubscriber<AuthorName> {
         private static final String SEPARATOR = "/";
 
         private String mTitle;

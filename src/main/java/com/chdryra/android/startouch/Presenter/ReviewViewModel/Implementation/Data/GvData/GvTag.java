@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhTag;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhTag;
 
 /**
  * {@link } version of: {@link ItemTag}

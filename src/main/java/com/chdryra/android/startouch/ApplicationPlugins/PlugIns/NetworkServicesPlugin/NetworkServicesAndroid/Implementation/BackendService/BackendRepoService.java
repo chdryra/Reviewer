@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid
         .Implementation.BackendService;
 
 import android.app.IntentService;
@@ -91,7 +92,7 @@ public class BackendRepoService extends IntentService {
     }
 
     private void broadcastUploadComplete(CallbackMessage message) {
-        if(mToken != null) mPublisher.workComplete(mToken);
+        if (mToken != null) mPublisher.workComplete(mToken);
         broadcastServiceComplete(new Intent(Service.UPLOAD.completed()), message);
     }
 
@@ -116,16 +117,23 @@ public class BackendRepoService extends IntentService {
         }
     }
 
-    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepoWriteable.Callback {
+    @NonNull
+    private String getErrorString(RepoResult result, int error) {
+        return getString(error) + " - " + result.getMessage();
+    }
+
+    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepoWriteable
+            .Callback {
         @Override
         public void onAddedToRepo(RepoResult result) {
             CallbackMessage message;
             String subject = "";
-            if(result.isReview()) {
+            if (result.isReview()) {
                 subject = result.getReview().getSubject().getSubject();
                 message = CallbackMessage.ok(subject + " " + getString(UPLOAD_SUCCESSFUL));
             } else {
-                message = CallbackMessage.error(subject + " " + getErrorString(result, UPLOAD_ERROR));
+                message = CallbackMessage.error(subject + " " + getErrorString(result,
+                        UPLOAD_ERROR));
             }
 
             broadcastUploadComplete(message);
@@ -158,11 +166,5 @@ public class BackendRepoService extends IntentService {
                 message) {
             broadcastUploadComplete(message);
         }
-    }
-
-
-    @NonNull
-    private String getErrorString(RepoResult result, int error) {
-        return getString(error) + " - " + result.getMessage();
     }
 }

@@ -14,8 +14,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.startouch.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
+import com.chdryra.android.startouch.Application.Interfaces.NetworkSuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -34,7 +34,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewPublish implements ActivityResultListener, PlatformAuthoriser, PublishAction.PublishCallback {
+public class PresenterReviewPublish implements ActivityResultListener, PlatformAuthoriser,
+        PublishAction.PublishCallback {
     private final UiSuite mUi;
     private final NetworkSuite mNetwork;
     private final LaunchableUi mAuthLaunchable;
@@ -53,12 +54,12 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
         mAuthLaunchable = authLaunchable;
     }
 
-    private void setView(ReviewView<?> view) {
-        mView = view;
-    }
-
     public ReviewView<?> getView() {
         return mView;
+    }
+
+    private void setView(ReviewView<?> view) {
+        mView = view;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class PresenterReviewPublish implements ActivityResultListener, PlatformA
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, Callback callback) {
-        if(mNetwork.isOnline(mUi.getCurrentScreen())) {
+        if (mNetwork.isOnline(mUi.getCurrentScreen())) {
             mAuthUi = platform.getLoginUi(mAuthLaunchable, callback);
             mAuthUi.launchUi(mUi.getLauncher());
         }

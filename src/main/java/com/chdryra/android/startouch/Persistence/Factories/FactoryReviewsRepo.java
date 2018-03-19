@@ -8,9 +8,9 @@
 
 package com.chdryra.android.startouch.Persistence.Factories;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Persistence.Implementation.FeedRepo;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoCollection;
@@ -18,8 +18,8 @@ import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferenc
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewNodeRepoImpl;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewsRepoCached;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 
@@ -38,13 +38,15 @@ public class FactoryReviewsRepo {
     public ReviewNodeRepo newReviewsNodeRepo(ReviewsRepo reviewsRepo,
                                              AuthorsRepo authorsRepo,
                                              FactoryReviews reviewsFactory) {
-        return new ReviewNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer(), newSizeReferencer());
+        return new ReviewNodeRepoImpl(reviewsRepo, authorsRepo, reviewsFactory, newDereferencer()
+                , newSizeReferencer());
     }
 
     public ReviewsRepo newCachedRepo(ReviewsRepo archive,
                                      ReviewsCache cache,
                                      FactoryReviews reviewsFactory) {
-        return new ReviewsRepoCached<>(cache, archive, reviewsFactory, newDereferencer(), newSizeReferencer());
+        return new ReviewsRepoCached<>(cache, archive, reviewsFactory, newDereferencer(),
+                newSizeReferencer());
     }
 
     public ReviewsCache newCache() {

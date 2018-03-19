@@ -8,26 +8,34 @@
 
 package test.Plugins.PersistencePlugin.LocalReviewerDb;
 
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Implementation.ByteArray;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories
-        .FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 
@@ -89,7 +97,7 @@ public class FactoryReviewerDbTableRowTest {
     public void emptyRowCriterion() {
         checkEmptyRowConstruction(RowCriterion.class);
     }
-    
+
     @Test
     public void emptyRowFact() {
         checkEmptyRowConstruction(RowFact.class);
@@ -174,7 +182,8 @@ public class FactoryReviewerDbTableRowTest {
 
     @Test
     public void newRowCriterionWithDataCriterionConstructor() {
-        RowCriterion row = mFactory.newRow(RowCriterion.class, RandomReviewData.nextCriterion(), INDEX);
+        RowCriterion row = mFactory.newRow(RowCriterion.class, RandomReviewData.nextCriterion(),
+                INDEX);
 
         assertThat(row, not(nullValue()));
         assertThat(row.hasData(mValidator), is(true));
@@ -193,7 +202,7 @@ public class FactoryReviewerDbTableRowTest {
         assertThat(row, not(nullValue()));
         assertThat(row.hasData(mValidator), is(true));
     }
-    
+
     @Test
     public void newRowCommentWithDataCommentConstructor() {
         RowComment row = mFactory.newRow(RowComment.class, RandomReviewData.nextComment(), INDEX);
@@ -241,7 +250,8 @@ public class FactoryReviewerDbTableRowTest {
 
     @Test
     public void newRowLocationWithDataLocationConstructor() {
-        RowLocation row = mFactory.newRow(RowLocation.class, RandomReviewData.nextLocation(), INDEX);
+        RowLocation row = mFactory.newRow(RowLocation.class, RandomReviewData.nextLocation(),
+                INDEX);
 
         assertThat(row, not(nullValue()));
         assertThat(row.hasData(mValidator), is(true));
@@ -266,7 +276,8 @@ public class FactoryReviewerDbTableRowTest {
     public void newRowImageWithDataImageConstructor() {
         //TODO do properly when android Bitmap utils are mocked
         DataImage image = new DatumImage(RandomReviewId.nextReviewId(), null,
-                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
+                RandomDataDate.nextDateTime(), RandomString.nextSentence(), RandomBoolean
+                .nextBoolean());
         RowImage row = mFactory.newRow(RowImage.class, image, INDEX);
 
         assertThat(row, not(nullValue()));

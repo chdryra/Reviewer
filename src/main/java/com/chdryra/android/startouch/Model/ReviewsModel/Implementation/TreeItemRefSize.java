@@ -8,10 +8,10 @@
 
 package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -32,7 +32,8 @@ public class TreeItemRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
 
     @Override
     protected void incrementForChild(ReviewNode child) {
-        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<Value>() {
+        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic
+                .GetDataCallback<Value>() {
             @Override
             public void onData(IdableList<Value> items) {
                 addSize(items.size());
@@ -43,7 +44,8 @@ public class TreeItemRefSize<Value extends HasReviewId> extends TreeSizeRefBasic
 
     @Override
     protected void decrementForChild(ReviewNode child) {
-        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic.GetDataCallback<Value>() {
+        getReference().getData(child.getReviewId(), new TreeDataReferenceBasic
+                .GetDataCallback<Value>() {
             @Override
             public void onData(IdableList<Value> items) {
                 removeSize(items.size());

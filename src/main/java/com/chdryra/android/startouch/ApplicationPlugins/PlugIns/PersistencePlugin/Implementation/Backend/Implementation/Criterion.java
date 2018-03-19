@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 
@@ -27,15 +28,15 @@ public class Criterion {
         rating = criterion.getRating();
     }
 
+    public static int size() {
+        return 2;
+    }
+
     public String getSubject() {
         return subject;
     }
 
     public double getRating() {
         return rating;
-    }
-
-    public static int size() {
-        return 2;
     }
 }

@@ -41,7 +41,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 /**
  * Singleton that controls app-wide duties.
  */
-public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.OnRequestPermissionsResultCallback {
+public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat
+        .OnRequestPermissionsResultCallback {
     private static final int GOOGLE_API_CHECK
             = RequestCodeGenerator.getCode(AppInstanceAndroid.class, "GoogleApiCheck");
 
@@ -63,7 +64,8 @@ public class AppInstanceAndroid implements ApplicationInstance, ActivityCompat.O
 //    private static void printHashKey(Context context) {
 //        String tag = "FB_HASH";
 //        try {
-//            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+//            PackageInfo info = context.getPackageManager().getPackageInfo(context
+// .getPackageName(), PackageManager.GET_SIGNATURES);
 //            for (android.content.pm.Signature signature : info.signatures) {
 //                MessageDigest md = MessageDigest.getInstance("SHA");
 //                md.update(signature.toByteArray());

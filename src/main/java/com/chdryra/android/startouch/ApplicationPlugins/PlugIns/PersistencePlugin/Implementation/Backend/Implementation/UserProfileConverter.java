@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import com.chdryra.android.startouch.Authentication.Factories.FactoryAuthorProfileSnapshot;
@@ -32,7 +32,8 @@ public class UserProfileConverter {
     }
 
     public User toUser(AuthenticatedUser user, AuthorProfile oldProfile, AuthorProfile newProfile) {
-        return new User(user.getProvider(), user.getProvidersId(), new ProfileAuthor(oldProfile), new ProfileAuthor(newProfile));
+        return new User(user.getProvider(), user.getProvidersId(), new ProfileAuthor(oldProfile),
+                new ProfileAuthor(newProfile));
     }
 
     public AuthenticatedUser newAuthenticatedUser(String providerName, String providerUserId) {

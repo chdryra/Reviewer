@@ -6,11 +6,12 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
@@ -37,7 +38,8 @@ public interface FbReviewsStructure extends FbReviewsUpdateable {
 
     Firebase getCollectionDb(Firebase root, AuthorId authorId, String playlistName);
 
-    Firebase getCollectionEntryDb(Firebase root, AuthorId authorId, String playlistName, ReviewId reviewId);
+    Firebase getCollectionEntryDb(Firebase root, AuthorId authorId, String playlistName, ReviewId
+            reviewId);
 
     DbUpdater<ReviewId> getCollectionUpdater(String name, AuthorId authorId);
 }

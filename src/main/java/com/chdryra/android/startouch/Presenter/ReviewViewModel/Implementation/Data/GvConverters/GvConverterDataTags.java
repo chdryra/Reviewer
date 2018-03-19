@@ -22,7 +22,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterDataTags extends GvConverterReviewData.RefDataList<DataTag, GvTag, GvTagList, GvTag.Reference> {
+public class GvConverterDataTags extends GvConverterReviewData.RefDataList<DataTag, GvTag,
+        GvTagList, GvTag.Reference> {
     public GvConverterDataTags() {
         super(GvTagList.class, GvTag.Reference.TYPE);
     }

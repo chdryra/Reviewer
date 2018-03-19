@@ -6,16 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -24,14 +25,16 @@ import com.firebase.client.Firebase;
  * On: 23/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ListItemsReferencer<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> {
+public class ListItemsReferencer<Value extends HasReviewId, Reference extends
+        ReviewItemReference<Value>> {
     private final ItemReferenceFactory<Value, Reference> mFactory;
 
     public interface Callback<T extends HasReviewId, Reference extends ReviewItemReference<T>> {
         void onItemReferences(IdableList<Reference> references);
     }
 
-    public interface ItemReferenceFactory<T extends HasReviewId, Reference extends ReviewItemReference<T>> {
+    public interface ItemReferenceFactory<T extends HasReviewId, Reference extends
+            ReviewItemReference<T>> {
         Reference newReference(ReviewId id, Firebase child, int index);
     }
 

@@ -16,15 +16,15 @@
         android:gravity="top"
         android:hint="@string/edit_text_add_comment_hint"
         android:inputType="textCapSentences|textMultiLine"
-        android:scrollbars="vertical"
+        android:maxLines="7"
         android:minLines="4"
-        android:maxLines="7"/>
+        android:scrollbars="vertical"/>
 
     <View style="@style/HorizontalDivider"/>
 
     <Button
-        style="@style/Button.Narrow"
         android:id="@+id/comment_hash"
+        style="@style/Button.Narrow"
         android:layout_weight="1"/>
 
 </LinearLayout>

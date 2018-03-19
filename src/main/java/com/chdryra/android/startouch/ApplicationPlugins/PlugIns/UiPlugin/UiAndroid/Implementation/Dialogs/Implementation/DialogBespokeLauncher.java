@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Implementation;
 
 
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndro
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
@@ -27,7 +30,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLaunche
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class DialogBespokeLauncher<T extends GvDataParcelable> extends DialogGvDataView2Button<T> {
+public abstract class DialogBespokeLauncher<T extends GvDataParcelable> extends
+        DialogGvDataView2Button<T> {
     private final String mButtonTitle;
 
     public DialogBespokeLauncher(GvDataType<T> dataType, String buttonTitle) {
@@ -38,7 +42,8 @@ public abstract class DialogBespokeLauncher<T extends GvDataParcelable> extends 
     @Override
     protected void onRightButtonClick() {
         ApplicationInstance app = AppInstanceAndroid.getInstance(getActivity());
-        LaunchableConfig config = app.getUi().getConfig().getBespokeDatumViewer(getDataType().getDatumName());
+        LaunchableConfig config = app.getUi().getConfig().getBespokeDatumViewer(getDataType()
+                .getDatumName());
         ParcelablePacker<T> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, getDatum(), args);

@@ -10,8 +10,12 @@ package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,6 +43,22 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImage> {
     @Override
     protected CanonicalDatumMaker<GvImage> getCanonicalMaker() {
         return new CanonicalImage();
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentBitmapsNotValid();
+        checkSameBitmapsDifferentDatesNoCaptions();
+        checkSameBitmapsDifferentCaptions();
+    }
+
+    @Override
+    protected void checkEquality(GvImage lhs, GvImage rhs) {
+        assertTrue(lhs.getBitmap().sameAs(rhs.getBitmap()));
+        assertTrue(lhs.getCaption().equals(rhs.getCaption()));
+        assertTrue(lhs.getDate().equals(rhs.getDate()));
+        assertEquals(lhs.getLatLng(), rhs.getLatLng());
     }
 
     private void checkDifferentBitmapsNotValid() {
@@ -111,21 +131,5 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImage> {
         assertEquals(imageDate1, canon.getDate());
         assertEquals("3 captions", canon.getCaption());
         assertTrue(canon.isCover());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferentBitmapsNotValid();
-        checkSameBitmapsDifferentDatesNoCaptions();
-        checkSameBitmapsDifferentCaptions();
-    }
-
-    @Override
-    protected void checkEquality(GvImage lhs, GvImage rhs) {
-        assertTrue(lhs.getBitmap().sameAs(rhs.getBitmap()));
-        assertTrue(lhs.getCaption().equals(rhs.getCaption()));
-        assertTrue(lhs.getDate().equals(rhs.getDate()));
-        assertEquals(lhs.getLatLng(), rhs.getLatLng());
     }
 }

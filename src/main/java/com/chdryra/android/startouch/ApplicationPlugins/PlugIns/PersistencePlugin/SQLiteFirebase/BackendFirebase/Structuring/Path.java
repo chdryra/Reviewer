@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,15 +17,15 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 public abstract class Path<T> {
     public abstract String getPath(T item);
 
-    public static String path(String root, String...elements) {
+    public static String path(String root, String... elements) {
         boolean hasRoot = root.length() > 0;
         boolean hasElements = elements.length > 0;
         String path = hasRoot ? root : hasElements ? elements[0] : "";
 
         int elementStart = hasRoot ? 0 : hasElements ? 1 : elements.length;
-        for(int i = elementStart; i < elements.length; ++i) {
+        for (int i = elementStart; i < elements.length; ++i) {
             String element = elements[i];
-            if(element.length() == 0) continue;
+            if (element.length() == 0) continue;
             path += "/" + element;
         }
 

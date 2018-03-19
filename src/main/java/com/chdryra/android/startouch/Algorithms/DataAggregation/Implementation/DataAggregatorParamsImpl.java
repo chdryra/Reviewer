@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataA
  * On: 05/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataAggregatorParamsImpl implements DataAggregatorParams{
+public class DataAggregatorParamsImpl implements DataAggregatorParams {
     private final DifferenceBoolean mBoolean;
     private final DifferencePercentage mPercentage;
     private final DifferenceDate mDate;

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import android.os.Bundle;
@@ -39,9 +39,10 @@ public class LaunchProfileCommand extends Command {
 
     public void execute(@Nullable AuthorId authorId) {
         Bundle args = new Bundle();
-        if(authorId != null) {
+        if (authorId != null) {
             ParcelablePacker<GvAuthorId> packer = new ParcelablePacker<>();
-            packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, new GvAuthorId(authorId.toString()), args);
+            packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, new GvAuthorId(authorId
+                    .toString()), args);
         }
 
         mProfile.launch(new UiLauncherArgs(mProfile.getDefaultRequestCode()).setBundle(args));

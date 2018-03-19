@@ -21,7 +21,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterUrls extends GvConverterReviewData.RefDataList<DataUrl, GvUrl, GvUrlList, GvUrl.Reference> {
+public class GvConverterUrls extends GvConverterReviewData.RefDataList<DataUrl, GvUrl, GvUrlList,
+        GvUrl.Reference> {
     public GvConverterUrls() {
         super(GvUrlList.class, GvUrl.Reference.TYPE);
     }

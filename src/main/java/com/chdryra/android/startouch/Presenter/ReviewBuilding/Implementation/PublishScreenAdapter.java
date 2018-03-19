@@ -13,12 +13,18 @@ import android.graphics.Bitmap;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.GridDataWrapperBasic;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataListParcelable;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .GridDataWrapperBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,17 +41,17 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         mBuilder = builder;
     }
 
-    @Override
-    public GvDataType<GvSocialPlatform> getGvDataType() {
-        return TYPE;
-    }
-
     public String getSubject() {
         return mBuilder.getSubject();
     }
 
     public float getRating() {
         return mBuilder.getRating();
+    }
+
+    @Override
+    public GvDataType<GvSocialPlatform> getGvDataType() {
+        return TYPE;
     }
 
     @Override

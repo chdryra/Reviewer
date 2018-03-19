@@ -24,12 +24,16 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterReferences;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataRefList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -58,18 +62,6 @@ public abstract class ViewerReviewData<Value extends HasReviewId,
         mAdapterFactory = adapterFactory;
         mStamp = stamp == null ? ReviewStamp.noStamp() : stamp;
         mCache = newDataList();
-    }
-
-    List getReference() {
-        return mReference;
-    }
-
-    void makeGridData(IdableList<Reference> references) {
-        mCache = newDataList();
-        for (Reference reference : references) {
-            mCache.add(mConverter.convert(reference));
-        }
-        notifyDataObservers();
     }
 
     protected FactoryReviewViewAdapter getAdapterFactory() {
@@ -118,8 +110,21 @@ public abstract class ViewerReviewData<Value extends HasReviewId,
         super.onDetach();
     }
 
+    List getReference() {
+        return mReference;
+    }
+
+    void makeGridData(IdableList<Reference> references) {
+        mCache = newDataList();
+        for (Reference reference : references) {
+            mCache.add(mConverter.convert(reference));
+        }
+        notifyDataObservers();
+    }
+
     void makeGridData() {
-        mReference.toItemReferences(new ReviewListReference.ItemReferencesCallback<Value, Reference>() {
+        mReference.toItemReferences(new ReviewListReference.ItemReferencesCallback<Value,
+                Reference>() {
             @Override
             public void onItemReferences(IdableList<Reference> references) {
                 makeGridData(references);
@@ -134,7 +139,8 @@ public abstract class ViewerReviewData<Value extends HasReviewId,
     }
 
     public static class DataList<Value extends HasReviewId, GvRef extends GvDataRef<GvRef, Value,
-            ?>> extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>, DataListRef<Value>> {
+            ?>> extends ViewerReviewData<Value, GvRef, ReviewItemReference<Value>,
+            DataListRef<Value>> {
 
         public DataList(DataListRef<Value> reference,
                         GvConverterReferences<Value, GvRef, ReviewItemReference<Value>> converter,
@@ -152,7 +158,8 @@ public abstract class ViewerReviewData<Value extends HasReviewId,
                            GvConverterReferences<DataComment, GvComment.Reference, CommentRef>
                                    converter,
                            @Nullable ReviewStamp stamp,
-                           FactoryReviewViewAdapter adapterFactory, FactoryReferences referenceFactory) {
+                           FactoryReviewViewAdapter adapterFactory, FactoryReferences
+                                   referenceFactory) {
             super(reference, converter, adapterFactory, stamp);
             mReferenceFactory = referenceFactory;
         }
@@ -176,7 +183,8 @@ public abstract class ViewerReviewData<Value extends HasReviewId,
                     .ItemReferencesCallback<DataComment, CommentRef>() {
                 @Override
                 public void onItemReferences(IdableList<CommentRef> references) {
-                    makeGridData(mReferenceFactory.newSentencesCollector(references).collectFirst());
+                    makeGridData(mReferenceFactory.newSentencesCollector(references).collectFirst
+                            ());
                 }
             });
         }

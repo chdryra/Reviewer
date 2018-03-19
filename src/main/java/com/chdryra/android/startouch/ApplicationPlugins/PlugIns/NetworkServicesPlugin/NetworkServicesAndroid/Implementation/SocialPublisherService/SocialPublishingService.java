@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid
         .Implementation.SocialPublisherService;
 
 import android.app.IntentService;
@@ -38,17 +39,14 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService {
-    private static final String REVIEW_ID = "SocialPublishingService.ReviewId";
-
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";
     public static final String STATUS_RESULTS = "SocialPublishingService.PublishResults";
-
     public static final String PUBLISHING_COMPLETED = "SocialPublishingService.PublishFinished";
     public static final String PUBLISH_OK = "SocialPublishingService.PublishResultsOk";
     public static final String PUBLISH_NOT_OK = "SocialPublishingService.PublishResultsNotOk";
     public static final String RESULT = "SocialPublishingService.Result";
-
+    private static final String REVIEW_ID = "SocialPublishingService.ReviewId";
     private static final int PUBLISH_SUCCESSFUL = R.string.review_published;
     private static final int PUBLISH_ERROR = R.string.publishing_error;
     private static final String SERVICE = "SocialPublishingService";

@@ -12,11 +12,13 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.startouch.Application.ApplicationInstance;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.startouch.ApplicationContexts.TestDatabaseApplicationContext;
-import com.chdryra.android.startouch.Application.ApplicationInstance;
-import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.startouch.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityUsersFeed;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -25,8 +27,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvSocialPlatform;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.R;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.startouch.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.RandomRating;
 import com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens.ActivityReviewViewTest;
@@ -69,17 +71,26 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testPublishButton() {
-        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityUsersFeed.class
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor
+                (ActivityUsersFeed.class
                 .getName(), null, false);
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
         getInstrumentation().waitForIdleSync();
 
-        ActivityUsersFeed feedActivity = (ActivityUsersFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
+        ActivityUsersFeed feedActivity = (ActivityUsersFeed) monitor.waitForActivityWithTimeout
+                (TIMEOUT);
         assertNotNull(feedActivity);
         assertEquals(ActivityUsersFeed.class, feedActivity.getClass());
         feedActivity.finish();
+    }
+
+    @SmallTest
+    public void testSubjectRating() {
+        FragmentReviewView fragment = getFragmentViewReview();
+        assertEquals(mAdapter.getSubject(), fragment.getSubject());
+        assertEquals(mAdapter.getRating(), fragment.getRating());
     }
 
     //protected methods
@@ -87,10 +98,6 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     protected ReviewView getView() {
         FactoryShareScreenView builder = new FactoryShareScreenView();
         return builder.buildView("ShareScreen", mList, (ReviewBuilderAdapter) mAdapter);
-    }
-
-    private GvSocialPlatform getPlatform(int index) {
-        return (GvSocialPlatform) getGridItem(index);
     }
 
     //Overridden
@@ -109,13 +116,6 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         mAdapter = builder;
     }
 
-    @SmallTest
-    public void testSubjectRating() {
-        FragmentReviewView fragment = getFragmentViewReview();
-        assertEquals(mAdapter.getSubject(), fragment.getSubject());
-        assertEquals(mAdapter.getRating(), fragment.getRating());
-    }
-
     @Override
     protected void setUp() {
         Context context = getInstrumentation().getTargetContext();
@@ -123,5 +123,9 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         ApplicationContext testContext = new TestDatabaseApplicationContext(context);
         mAdmin = ApplicationInstance.newInstance(context, testContext);
         super.setUp();
+    }
+
+    private GvSocialPlatform getPlatform(int index) {
+        return (GvSocialPlatform) getGridItem(index);
     }
 }

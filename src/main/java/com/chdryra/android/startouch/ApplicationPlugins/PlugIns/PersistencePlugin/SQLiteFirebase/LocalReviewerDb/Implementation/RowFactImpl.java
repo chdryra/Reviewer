@@ -6,18 +6,21 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,7 +57,7 @@ public class RowFactImpl extends RowTableBasic<RowFact> implements RowFact {
         mLabel = values.getValue(LABEL.getName(), LABEL.getType());
         mValue = values.getValue(VALUE.getName(), VALUE.getType());
         Boolean isUrl = values.getValue(IS_URL.getName(), IS_URL.getType());
-        if(isUrl == null) mValidIsUrl = false;
+        if (isUrl == null) mValidIsUrl = false;
         mIsUrl = mValidIsUrl && isUrl;
     }
 
@@ -104,15 +107,15 @@ public class RowFactImpl extends RowTableBasic<RowFact> implements RowFact {
 
     @Override
     protected RowEntry<RowFact, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowFact.class, FACT_ID, mFactId);
-        } else if(position == 1) {
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowFact.class, REVIEW_ID, mReviewId);
-        } else if(position == 2) {
+        } else if (position == 2) {
             return new RowEntryImpl<>(RowFact.class, LABEL, mLabel);
-        } else if(position == 3) {
+        } else if (position == 3) {
             return new RowEntryImpl<>(RowFact.class, VALUE, mValue);
-        } else if(position == 4){
+        } else if (position == 4) {
             return new RowEntryImpl<>(RowFact.class, IS_URL, mIsUrl);
         } else {
             throw noElement();

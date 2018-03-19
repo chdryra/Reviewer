@@ -13,27 +13,27 @@
     android:background="@drawable/background">
 
     <LinearLayout
-        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:id="@+id/usersProfile"
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:layout_gravity="top|center"
-        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp">
+        android:gravity="center">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_face_black_36dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
             android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_face_black_36dp"/>
 
         <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical">
 

@@ -30,11 +30,14 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.LocalPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .PersistencePlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Plugin
+        .DefaultPersistence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Plugin.BackendFirebase;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .LocalReviewerDb.Plugin.LocalReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Plugin.SqlLiteDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Plugin.BackendFirebase;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Plugin.DefaultPersistence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Plugin.SqlLiteDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 

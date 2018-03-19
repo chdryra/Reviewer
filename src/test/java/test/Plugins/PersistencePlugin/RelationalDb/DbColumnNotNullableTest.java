@@ -43,7 +43,8 @@ public class DbColumnNotNullableTest {
 
     @Test
     public void notNullableReturnsFalse() {
-        DbColumnNotNullable col = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
+        DbColumnNotNullable col = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
         assertThat(col.getNullable(), is(ValueNullable.FALSE));
     }
 }

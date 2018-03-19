@@ -29,14 +29,16 @@ import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CellDimensionsCalculator;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.PresenterProfileEdit;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .PresenterProfileEdit;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.R;
 
@@ -45,7 +47,8 @@ import com.chdryra.android.startouch.R;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentProfileEdit extends Fragment implements PresenterProfileEdit.ProfileListener, ActivityResultListener {
+public class FragmentProfileEdit extends Fragment implements PresenterProfileEdit
+        .ProfileListener, ActivityResultListener {
     private static final String PROFILE_IMAGE_FILENAME = "Profile" + ApplicationInstance.APP_NAME;
     private static final int LAYOUT = R.layout.fragment_profile_edit;
     private static final int PROFILE_IMAGE = R.id.profile_photo;
@@ -108,27 +111,6 @@ public class FragmentProfileEdit extends Fragment implements PresenterProfileEdi
         return view;
     }
 
-    private void setImageView() {
-        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
-        float padding = getResources().getDimension(IMAGE_PADDING);
-        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)
-                padding);
-        mImageView.getLayoutParams().width = dims.getCellWidth();
-        mImageView.getLayoutParams().height = dims.getCellHeight();
-        mImageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP) launchImageChooser();
-                return true;
-            }
-        });
-        setImagePlaceholder();
-    }
-
-    private void setImagePlaceholder() {
-        mImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
-    }
-
     @Override
     public void onProfileFetched(AuthorProfile profile, CallbackMessage message) {
         if (message.isOk()) {
@@ -177,6 +159,27 @@ public class FragmentProfileEdit extends Fragment implements PresenterProfileEdi
         return getApp().getAccounts().getUserSession().getAccount();
     }
 
+    private void setImageView() {
+        CellDimensionsCalculator calculator = new CellDimensionsCalculator(getActivity());
+        float padding = getResources().getDimension(IMAGE_PADDING);
+        CellDimensionsCalculator.Dimensions dims = calculator.calcDimensions(HALF, HALF, (int)
+                padding);
+        mImageView.getLayoutParams().width = dims.getCellWidth();
+        mImageView.getLayoutParams().height = dims.getCellHeight();
+        mImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) launchImageChooser();
+                return true;
+            }
+        });
+        setImagePlaceholder();
+    }
+
+    private void setImagePlaceholder() {
+        mImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), IMAGE_PLACEHOLDER));
+    }
+
     private void launchImageChooser() {
         mPresenter.launchImageChooser();
     }
@@ -190,7 +193,7 @@ public class FragmentProfileEdit extends Fragment implements PresenterProfileEdi
 
     private void setImage(@Nullable Bitmap bitmap) {
         mImage = bitmap;
-        if(mImage != null) {
+        if (mImage != null) {
             mImageView.setImageBitmap(mImage);
         } else {
             setImagePlaceholder();
@@ -221,7 +224,7 @@ public class FragmentProfileEdit extends Fragment implements PresenterProfileEdi
             return;
         }
 
-        if(mProfile != null) {
+        if (mProfile != null) {
             AuthorProfile newProfile
                     = mPresenter.createUpdatedProfile(mProfile, name, mImage);
             if (!mProfile.equals(newProfile)) {

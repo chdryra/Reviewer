@@ -51,9 +51,9 @@ public class TreeTraverserIterated implements TreeTraverser {
 
         @Override
         protected Void doInBackground(Void... params) {
-            while(mIterator.hasNext()) {
+            while (mIterator.hasNext()) {
                 ReviewNode node = mIterator.next();
-                for(VisitorReviewNode visitor : mVisitors.values()) {
+                for (VisitorReviewNode visitor : mVisitors.values()) {
                     node.acceptVisitor(visitor);
                 }
             }

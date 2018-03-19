@@ -16,18 +16,21 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.CacheUtils.ItemPacker;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.corelibrary.Permissions.PermissionResult;
 import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
+import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditData;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogShower;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
@@ -45,14 +48,15 @@ import java.util.List;
  */
 
 public class UiLauncherAndroid implements UiLauncher {
-    private static final PermissionsManager.Permission CAMERA = PermissionsManager.Permission.CAMERA;
-    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(UiLauncherAndroid.class);
-    private Activity mCommissioner;
-
+    private static final PermissionsManager.Permission CAMERA = PermissionsManager.Permission
+            .CAMERA;
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode(UiLauncherAndroid
+            .class);
     private final EditUiLauncher mEditUiLauncher;
     private final ReviewLauncherImpl mReviewLauncher;
     private final Class<? extends Activity> mDefaultActivity;
     private final ItemPacker<ReviewView<?>> mViewPacker;
+    private Activity mCommissioner;
 
     public UiLauncherAndroid(EditUiLauncher editUiLauncher,
                              ReviewLauncherImpl reviewLauncher,
@@ -74,6 +78,20 @@ public class UiLauncherAndroid implements UiLauncher {
 
     public void setSession(UserSession session) {
         mReviewLauncher.setSessionAuthor(session.getAuthorId());
+    }
+
+    public ReviewPack unpackReview(Bundle args) {
+        return mEditUiLauncher.unpackReview(args);
+    }
+
+    @Nullable
+    public ReviewNode unpackNode(Bundle args) {
+        return mReviewLauncher.unpack(args);
+    }
+
+    @Nullable
+    public ReviewView<?> unpackView(Intent i) {
+        return mViewPacker.unpack(i);
     }
 
     @Override
@@ -100,24 +118,20 @@ public class UiLauncherAndroid implements UiLauncher {
     public void launchImageChooser(final ImageChooser chooser, final int requestCode) {
         PermissionsManager permissions = AppInstanceAndroid.getInstance(mCommissioner)
                 .getPermissions();
-        if(permissions.hasPermissions(CAMERA)) {
+        if (permissions.hasPermissions(CAMERA)) {
             launchChooser(chooser, requestCode);
         } else {
-            permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsManager.PermissionsCallback() {
+            permissions.requestPermissions(PERMISSION_REQUEST, new PermissionsManager
+                    .PermissionsCallback() {
                 @Override
                 public void onPermissionsResult(int permRequest, List<PermissionResult> results) {
-                    if(permRequest == PERMISSION_REQUEST
+                    if (permRequest == PERMISSION_REQUEST
                             && results.size() == 1 && results.get(0).isGranted(CAMERA)) {
-                            launchChooser(chooser, requestCode);
+                        launchChooser(chooser, requestCode);
                     }
                 }
             }, CAMERA);
         }
-    }
-
-    private void launchChooser(ImageChooser chooser, int requestCode) {
-        Intent chooserIntents = chooser.getChooserIntents();
-        mCommissioner.startActivityForResult(chooserIntents, requestCode);
     }
 
     @Override
@@ -125,18 +139,9 @@ public class UiLauncherAndroid implements UiLauncher {
         return mReviewLauncher;
     }
 
-    public ReviewPack unpackReview(Bundle args) {
-        return mEditUiLauncher.unpackReview(args);
-    }
-
-    @Nullable
-    public ReviewNode unpackNode(Bundle args) {
-        return mReviewLauncher.unpack(args);
-    }
-
-    @Nullable
-    public ReviewView<?> unpackView(Intent i) {
-        return mViewPacker.unpack(i);
+    private void launchChooser(ImageChooser chooser, int requestCode) {
+        Intent chooserIntents = chooser.getChooserIntents();
+        mCommissioner.startActivityForResult(chooserIntents, requestCode);
     }
 
     private class AndroidTypeLauncher implements UiTypeLauncher {
@@ -152,14 +157,16 @@ public class UiLauncherAndroid implements UiLauncher {
 
         @Override
         public void launch(DialogFragment launchableUI) {
-            DialogShower.show(launchableUI, mCommissioner, mArgs.getRequestCode(), mTag, mArgs.getBundle());
+            DialogShower.show(launchableUI, mCommissioner, mArgs.getRequestCode(), mTag, mArgs
+                    .getBundle());
         }
 
         @Override
         public void launch(Class<? extends Activity> activityClass, String argsKey) {
             Intent i = new Intent(mCommissioner, activityClass);
             i.putExtra(argsKey, mArgs.getBundle());
-            if(mArgs.isClearBackStack()) i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (mArgs.isClearBackStack())
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             mCommissioner.startActivityForResult(i, mArgs.getRequestCode());
         }
 

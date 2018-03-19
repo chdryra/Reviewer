@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +22,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
     private CommentsDataParser mParser;
 
-    public GvCommentsBuilder(GvDataList<GvComment> data, FactoryGvData dataFactory, CommentsDataParser parser) {
+    public GvCommentsBuilder(GvDataList<GvComment> data, FactoryGvData dataFactory,
+                             CommentsDataParser parser) {
         super(data, dataFactory);
         mParser = parser;
     }
@@ -57,11 +59,11 @@ public class GvCommentsBuilder extends DataBuilderImpl<GvComment> {
 
     @Override
     public void commitData() {
-        for(GvComment comment : getOriginalData()) {
+        for (GvComment comment : getOriginalData()) {
             mParser.delete(comment);
         }
 
-        for(GvComment comment : getData()) {
+        for (GvComment comment : getData()) {
             mParser.add(comment);
         }
 

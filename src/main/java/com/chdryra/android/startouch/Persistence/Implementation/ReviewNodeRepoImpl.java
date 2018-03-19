@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
@@ -20,7 +21,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableColle
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -234,13 +234,13 @@ public class ReviewNodeRepoImpl extends RepoReadableBasic implements ReviewNodeR
             mId = id;
         }
 
-        private void onCallback(RepoResult result) {
-            if (result.isReviewNode()) setNode(result.getReviewNode());
-        }
-
         @Override
         public ReviewId getReviewId() {
             return mId != null ? mId : super.getReviewId();
+        }
+
+        private void onCallback(RepoResult result) {
+            if (result.isReviewNode()) setNode(result.getReviewNode());
         }
     }
 

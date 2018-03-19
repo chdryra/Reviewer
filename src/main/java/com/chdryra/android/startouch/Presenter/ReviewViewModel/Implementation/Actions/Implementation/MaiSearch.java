@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.view.MenuItem;
 
@@ -21,7 +22,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiSearch<T extends GvData> extends MenuActionItemBasic<T>{
+public class MaiSearch<T extends GvData> extends MenuActionItemBasic<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("Search");
 
     private UiLauncher mLauncher;

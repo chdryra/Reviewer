@@ -13,7 +13,8 @@ import android.view.MenuItem;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUp;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUp;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +28,7 @@ public class MaiUpEditor<GC extends GvDataList<? extends GvDataParcelable>> exte
         getApp().getEditor().discardEditor(true, new EditorSuite.DiscardListener() {
             @Override
             public void onDiscarded(boolean discardConfirmed) {
-                if(discardConfirmed) MaiUpEditor.super.doAction(item);
+                if (discardConfirmed) MaiUpEditor.super.doAction(item);
             }
         });
     }

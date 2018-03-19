@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.view.View;
@@ -22,7 +22,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class GridViewUi<V extends View, T extends GvData> extends ViewUi<V, GvDataList<T>> {
+public abstract class GridViewUi<V extends View, T extends GvData> extends ViewUi<V,
+        GvDataList<T>> {
     public GridViewUi(V view) {
         super(view);
     }

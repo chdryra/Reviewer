@@ -35,7 +35,8 @@ public class FactoryCredentialsProvider {
         return new CredentialsProviderEmailPassword(login);
     }
 
-    public CredentialsProvider<com.facebook.AccessToken> newCredentialsProvider(LoginFacebook login) {
+    public CredentialsProvider<com.facebook.AccessToken> newCredentialsProvider(LoginFacebook
+                                                                                        login) {
         return new CredentialsProviderFacebook(login);
     }
 

@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.CriterionComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.CriterionComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.testutils.RandomString;
@@ -47,9 +48,12 @@ public class CriterionSubjectThenRatingTest extends ComparatorTest<DataCriterion
     @Test
     public void subjectAlphabeticalAscendingDifferentFirstLetter_SameRating() {
         float rating = RandomRating.nextRating();
-        DataCriterion reviewA = new DatumCriterion(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord(), rating);
-        DataCriterion reviewB = new DatumCriterion(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord(), rating);
-        DataCriterion reviewC = new DatumCriterion(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord(), rating);
+        DataCriterion reviewA = new DatumCriterion(RandomReviewId.nextReviewId(), "A" +
+                RandomString.nextWord(), rating);
+        DataCriterion reviewB = new DatumCriterion(RandomReviewId.nextReviewId(), "B" +
+                RandomString.nextWord(), rating);
+        DataCriterion reviewC = new DatumCriterion(RandomReviewId.nextReviewId(), "C" +
+                RandomString.nextWord(), rating);
 
         ComparatorTester<DataCriterion> tester = newComparatorTester();
         tester.testFirstSecond(reviewA, reviewB);
@@ -79,9 +83,9 @@ public class CriterionSubjectThenRatingTest extends ComparatorTest<DataCriterion
         DataCriterion review2 = new DatumCriterion(RandomReviewId.nextReviewId(), subject2, rating);
 
         ComparatorTester<DataCriterion> tester = newComparatorTester();
-        if(subject1.compareToIgnoreCase(subject2) < 0) {
+        if (subject1.compareToIgnoreCase(subject2) < 0) {
             tester.testFirstSecond(review1, review2);
-        } else if(subject1.compareToIgnoreCase(subject2) > 0){
+        } else if (subject1.compareToIgnoreCase(subject2) > 0) {
             tester.testFirstSecond(review2, review1);
         } else {
             tester.testEquals(review1, review2);
@@ -90,10 +94,12 @@ public class CriterionSubjectThenRatingTest extends ComparatorTest<DataCriterion
 
     @Test
     public void comparatorEqualitySameSubject_SameRating() {
-        String subject  = RandomString.nextWord();
+        String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
-        DataCriterion criterion1 = new DatumCriterion(RandomReviewId.nextReviewId(), subject, rating);
-        DataCriterion criterion2 = new DatumCriterion(RandomReviewId.nextReviewId(), subject, rating);
+        DataCriterion criterion1 = new DatumCriterion(RandomReviewId.nextReviewId(), subject,
+                rating);
+        DataCriterion criterion2 = new DatumCriterion(RandomReviewId.nextReviewId(), subject,
+                rating);
 
         ComparatorTester<DataCriterion> tester = newComparatorTester();
         tester.testEquals(criterion1, criterion1);
@@ -102,11 +108,13 @@ public class CriterionSubjectThenRatingTest extends ComparatorTest<DataCriterion
 
     @Test
     public void comparatorEqualityIgnoresSubjectCase_SameRating() {
-        String subject  = RandomString.nextWord();
+        String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
         DataCriterion review = new DatumCriterion(RandomReviewId.nextReviewId(), subject, rating);
-        DataCriterion reviewLower = new DatumCriterion(RandomReviewId.nextReviewId(), subject.toLowerCase(), rating);
-        DataCriterion reviewUpper = new DatumCriterion(RandomReviewId.nextReviewId(), subject.toUpperCase(), rating);
+        DataCriterion reviewLower = new DatumCriterion(RandomReviewId.nextReviewId(), subject
+                .toLowerCase(), rating);
+        DataCriterion reviewUpper = new DatumCriterion(RandomReviewId.nextReviewId(), subject
+                .toUpperCase(), rating);
 
         ComparatorTester<DataCriterion> tester = newComparatorTester();
         tester.testEquals(review, reviewLower);

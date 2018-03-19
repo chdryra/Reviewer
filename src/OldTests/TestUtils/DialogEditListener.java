@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.test.TestUtils;
 
 import android.app.Fragment;
 
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 
 /**
  * Created by: Rizwan Choudrey

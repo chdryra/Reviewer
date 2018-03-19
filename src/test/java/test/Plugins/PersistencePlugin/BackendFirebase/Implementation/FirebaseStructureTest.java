@@ -12,15 +12,20 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Author;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbStructReviewsLed;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbStructReviewsLed;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -185,6 +190,15 @@ public class FirebaseStructureTest {
         });
     }
 
+    @NonNull
+    private User getRandomUser() {
+        return BackendTestUtils.randomUser();
+    }
+
+    private ReviewDb getRandomReview() {
+        return BackendTestUtils.randomReview();
+    }
+
     private void testUserInsert(StructureTester.Testable<User> testable) {
         testInsert(testable, mStructure.getUsersUpdater(), getRandomUser());
     }
@@ -201,11 +215,13 @@ public class FirebaseStructureTest {
         testDelete(testable, mStructure.getReviewUpdater(), getRandomReview());
     }
 
-    private <T> void testInsert(StructureTester.Testable<T> testable, DbUpdater<T> updater, T data) {
+    private <T> void testInsert(StructureTester.Testable<T> testable, DbUpdater<T> updater, T
+            data) {
         new StructureTester<>(updater, testable).testInsertOrReplace(data);
     }
 
-    private <T> void testDelete(StructureTester.Testable<T> testable, DbUpdater<T> updater,T data) {
+    private <T> void testDelete(StructureTester.Testable<T> testable, DbUpdater<T> updater, T
+            data) {
         new StructureTester<>(updater, testable).testDelete(data);
     }
 
@@ -213,7 +229,8 @@ public class FirebaseStructureTest {
         User user = getUser(tester);
 
         checkUserUpdatesMapSize(tester);
-        tester.checkKeyValue(Path.path(FirebaseStructure.ProviderIds_AuthorIds, user.getProviderUserId()),
+        tester.checkKeyValue(Path.path(FirebaseStructure.ProviderIds_AuthorIds, user
+                        .getProviderUserId()),
                 user.getAuthorId());
     }
 
@@ -246,7 +263,8 @@ public class FirebaseStructureTest {
     private void testReviewsDb(StructureTester<ReviewDb> tester) {
         ReviewDb reviewDb = getReview(tester);
 
-        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_DATA, reviewDb.getReviewId());
+        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_DATA,
+                reviewDb.getReviewId());
 
         checkReviewUploadUpdatesMapSize(tester);
         tester.checkKeyValue(Path.path(reviewPath, "reviewId"), reviewDb.getReviewId());
@@ -278,7 +296,8 @@ public class FirebaseStructureTest {
     private void testReviewsListDb(StructureTester<ReviewDb> tester) {
         ReviewDb reviewDb = getReview(tester);
         checkReviewUploadUpdatesMapSize(tester);
-        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_LIST, reviewDb.getReviewId());
+        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_LIST,
+                reviewDb.getReviewId());
         testListEntry(tester, reviewDb, reviewPath);
     }
 
@@ -292,9 +311,11 @@ public class FirebaseStructureTest {
         String authorId = getAuthorId(tester);
 
         checkReviewUploadUpdatesMapSize(tester);
-        for(String tag : reviewDb.getTags()) {
-            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.REVIEWS, reviewId), true);
-            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.USERS, authorId, reviewId), true);
+        for (String tag : reviewDb.getTags()) {
+            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure
+                    .REVIEWS, reviewId), true);
+            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.USERS,
+                    authorId, reviewId), true);
         }
     }
 
@@ -306,11 +327,13 @@ public class FirebaseStructureTest {
         String authorPath = Path.path(FirebaseStructure.USERS, authorId);
 
         checkReviewUploadUpdatesMapSize(tester);
-        for(String tag : reviewDb.getTags()) {
-            tester.checkKeyValue(Path.path(authorPath, FirebaseStructure.TAGS, tag, reviewId), true);
+        for (String tag : reviewDb.getTags()) {
+            tester.checkKeyValue(Path.path(authorPath, FirebaseStructure.TAGS, tag, reviewId),
+                    true);
         }
 
-        String reviewPath = Path.path(authorPath, FirebaseStructure.REVIEWS, reviewDb.getReviewId());
+        String reviewPath = Path.path(authorPath, FirebaseStructure.REVIEWS, reviewDb.getReviewId
+                ());
         testListEntry(tester, reviewDb, reviewPath);
 
         String feedPath = Path.path(authorPath, FirebaseStructure.FEED, reviewDb.getReviewId());
@@ -336,15 +359,6 @@ public class FirebaseStructureTest {
 
     private void checkReviewUploadUpdatesMapSize(StructureTester<ReviewDb> tester) {
         tester.checkMapSize(35);
-    }
-
-    @NonNull
-    private User getRandomUser() {
-        return BackendTestUtils.randomUser();
-    }
-
-    private ReviewDb getRandomReview() {
-        return BackendTestUtils.randomReview();
     }
 
     private User getUser(StructureTester<User> tester) {

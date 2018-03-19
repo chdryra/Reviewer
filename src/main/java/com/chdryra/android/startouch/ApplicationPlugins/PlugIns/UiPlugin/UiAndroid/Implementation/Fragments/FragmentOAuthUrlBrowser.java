@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -34,7 +35,8 @@ import com.chdryra.android.startouch.Social.Implementation.OAuthRequest;
  * </p>
  */
 public class FragmentOAuthUrlBrowser extends Fragment {
-    private static final String REQUEST = TagKeyGenerator.getKey(FragmentOAuthUrlBrowser.class, "Request");
+    private static final String REQUEST = TagKeyGenerator.getKey(FragmentOAuthUrlBrowser.class,
+            "Request");
 
     private static final int LAYOUT = R.layout.fragment_review_url_browser;
     private static final int WEB_VIEW = R.id.web_view;
@@ -60,7 +62,7 @@ public class FragmentOAuthUrlBrowser extends Fragment {
         WebView webView = (WebView) v.findViewById(WEB_VIEW);
         //webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new OAuthWebViewClient());
-        if(mRequest != null) webView.loadUrl(mRequest.getAuthorisationUrl());
+        if (mRequest != null) webView.loadUrl(mRequest.getAuthorisationUrl());
 
         return v;
     }
@@ -68,7 +70,7 @@ public class FragmentOAuthUrlBrowser extends Fragment {
     private class OAuthWebViewClient extends WebViewClient {
         @Override
         public void onPageFinished(WebView view, String url) {
-            if(mRequest != null) mRequest.setCallbackResult(view.getUrl());
+            if (mRequest != null) mRequest.setCallbackResult(view.getUrl());
             super.onPageFinished(view, url);
         }
     }

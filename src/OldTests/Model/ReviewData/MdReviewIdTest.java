@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
 

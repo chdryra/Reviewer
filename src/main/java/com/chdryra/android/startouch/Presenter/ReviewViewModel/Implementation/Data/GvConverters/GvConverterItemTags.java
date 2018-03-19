@@ -10,8 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
@@ -20,14 +20,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterItemTags extends GvConverterBasic<ItemTag, GvTag, GvTagList>{
+public class GvConverterItemTags extends GvConverterBasic<ItemTag, GvTag, GvTagList> {
     public GvConverterItemTags() {
         super(GvTagList.class);
     }
 
     @Override
     public GvTag convert(ItemTag datum, @Nullable ReviewId reviewId) {
-        if(reviewId == null || !datum.tagsItem(reviewId.toString())) {
+        if (reviewId == null || !datum.tagsItem(reviewId.toString())) {
             throw new IllegalArgumentException("ItemTag does not tag id: " + reviewId);
         }
         return new GvTag(newId(reviewId), datum.getTag());

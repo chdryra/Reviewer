@@ -13,11 +13,11 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface VerboseData extends Validatable{
-    @Override
-    String toString();
-
+public interface VerboseData extends Validatable {
     boolean hasElements();
 
     boolean isCollection();
+
+    @Override
+    String toString();
 }

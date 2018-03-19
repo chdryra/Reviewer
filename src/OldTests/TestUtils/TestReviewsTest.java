@@ -15,19 +15,17 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdCriterionList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.R;
 
 import java.io.IOException;

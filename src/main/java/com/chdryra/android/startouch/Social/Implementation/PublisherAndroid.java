@@ -24,7 +24,8 @@ public class PublisherAndroid extends SocialPublisherBasic {
 
     private final Context mContext;
 
-    public PublisherAndroid(Context context, ReviewSummariser summariser, ReviewFormatter formatter) {
+    public PublisherAndroid(Context context, ReviewSummariser summariser, ReviewFormatter
+            formatter) {
         super(NAME, summariser, formatter);
         mContext = context;
     }

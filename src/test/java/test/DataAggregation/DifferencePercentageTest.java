@@ -57,7 +57,7 @@ public class DifferencePercentageTest {
     @Test
     public void lessThanOrEqualShowsAppropriateBehaviourForDifference() {
         double percentage = RAND.nextDouble();
-        DifferencePercentage lower = new DifferencePercentage(percentage/2.);
+        DifferencePercentage lower = new DifferencePercentage(percentage / 2.);
         DifferencePercentage higher = new DifferencePercentage(percentage);
         assertThat(lower.lessThanOrEqualTo(higher), is(true));
         assertThat(higher.lessThanOrEqualTo(lower), is(false));

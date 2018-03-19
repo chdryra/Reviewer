@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -47,14 +48,14 @@ public class ReviewLauncherImpl implements ReviewLauncher {
         mReviewNodeRepo = reviewNodeRepo;
         mViewFactory = viewFactory;
         mLaunchers = new HashMap<>();
-        for(NodeLauncher<?> launcher : nodeLaunchers) {
+        for (NodeLauncher<?> launcher : nodeLaunchers) {
             mLaunchers.put(launcher.getDataType().getDatumName(), launcher);
         }
     }
 
     @Nullable
     public ReviewNode unpack(Bundle args) {
-        if(args == null) return null;
+        if (args == null) return null;
         NodeLauncher<?> launcher = mLaunchers.get(args.getString(TYPE));
         return launcher != null ? launcher.unpack(args) : null;
     }
@@ -62,7 +63,7 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     @Override
     public void setUiLauncher(UiLauncher uiLauncher) {
         mUiLauncher = uiLauncher;
-        for(NodeLauncher<?> launcher : mLaunchers.values()) {
+        for (NodeLauncher<?> launcher : mLaunchers.values()) {
             launcher.setUiLauncher(uiLauncher);
         }
     }
@@ -84,11 +85,12 @@ public class ReviewLauncherImpl implements ReviewLauncher {
     }
 
     @Override
-    public void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean isPublished) {
+    public void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean
+            isPublished) {
         Bundle bundle = new Bundle();
         bundle.putString(TYPE, dataType.getDatumName());
         NodeLauncher<?> launcher = mLaunchers.get(dataType.getDatumName());
-        if(launcher != null) launcher.launch(node, datumIndex, isPublished, bundle);
+        if (launcher != null) launcher.launch(node, datumIndex, isPublished, bundle);
     }
 
     void setSessionAuthor(AuthorId authorId) {

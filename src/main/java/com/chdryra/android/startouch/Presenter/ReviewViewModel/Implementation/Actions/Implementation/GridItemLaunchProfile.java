@@ -6,14 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.view.View;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchProfileCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchProfileCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
 
 /**
  * Created by: Rizwan Choudrey

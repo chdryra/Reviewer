@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.firebase.client.DataSnapshot;
 
 import java.util.ArrayList;
@@ -34,9 +35,9 @@ public class ListConverter<Value> implements SnapshotConverter<List<Value>> {
     @Nullable
     public List<Value> convert(DataSnapshot snapshot) {
         List<Value> data = new ArrayList<>();
-        for(DataSnapshot item : snapshot.getChildren()) {
+        for (DataSnapshot item : snapshot.getChildren()) {
             Value converted = mItemConverter.convert(item);
-            if(converted != null) data.add(converted);
+            if (converted != null) data.add(converted);
         }
 
         return data;

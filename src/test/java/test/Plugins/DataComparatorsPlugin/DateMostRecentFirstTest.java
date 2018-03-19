@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.DateComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
@@ -24,7 +25,7 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DateMostRecentFirstTest extends ComparatorTest<DateTime>{
+public class DateMostRecentFirstTest extends ComparatorTest<DateTime> {
     private static final Random RAND = new Random();
 
     public DateMostRecentFirstTest() {

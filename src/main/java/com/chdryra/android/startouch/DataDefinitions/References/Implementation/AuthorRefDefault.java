@@ -9,11 +9,11 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 /**
  * Created by: Rizwan Choudrey

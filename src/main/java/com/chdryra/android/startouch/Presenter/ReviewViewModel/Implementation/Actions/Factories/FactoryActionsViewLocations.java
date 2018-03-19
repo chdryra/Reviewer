@@ -15,15 +15,16 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
         .Implementation.ActionsParameters;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.GridItemLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewLocations;
-
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuViewLocations;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterLocations;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -49,11 +50,13 @@ public class FactoryActionsViewLocations extends FactoryActionsViewData<GvLocati
     public MenuAction<GvLocation.Reference> newMenu() {
         LaunchBespokeViewCommand command
                 = getCommandsFactory().newLaunchMappedCommand(mNode);
-        return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>(command));
+        return new MenuViewLocations(newOptionsMenuItem(), new MaiCommand<GvLocation.Reference>
+                (command));
     }
 
     @Override
     public GridItemAction<GvLocation.Reference> newGridItem() {
-        return new GridItemLocation(getLauncher(), getViewFactory(), getGridItemConfig(), mMapper, mConverter);
+        return new GridItemLocation(getLauncher(), getViewFactory(), getGridItemConfig(),
+                mMapper, mConverter);
     }
 }

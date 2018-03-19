@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.view.View;
@@ -39,13 +40,19 @@ public class ButtonActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         mListeners = new ArrayList<>();
     }
 
-    protected void setTitle(String title) {
-        mTitle.setData(title);
+    protected void notifyListeners() {
+        for (ClickListener listener : mListeners) {
+            listener.onButtonClick();
+        }
     }
 
     @Override
     public DataReference<String> getTitle() {
         return mTitle;
+    }
+
+    protected void setTitle(String title) {
+        mTitle.setData(title);
     }
 
     @Override
@@ -61,17 +68,11 @@ public class ButtonActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     @Override
     public void registerListener(ClickListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     @Override
     public void unregisterListener(ClickListener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
-    }
-
-    protected void notifyListeners() {
-        for(ClickListener listener : mListeners) {
-            listener.onButtonClick();
-        }
     }
 }

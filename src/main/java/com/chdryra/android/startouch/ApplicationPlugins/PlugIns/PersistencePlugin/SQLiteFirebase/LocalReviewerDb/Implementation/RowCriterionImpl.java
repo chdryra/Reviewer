@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowValues;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
@@ -29,7 +30,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  */
 public class RowCriterionImpl extends RowTableBasic<RowCriterion> implements RowCriterion {
     private static final String SEPARATOR = ":";
-    
+
     private String mCriterionId;
     private String mReviewId;
     private String mSubject;
@@ -81,7 +82,8 @@ public class RowCriterionImpl extends RowTableBasic<RowCriterion> implements Row
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(mCriterionId) && validator.validate(getReviewId()) && validator.validate(this);
+        return validator.validateString(mCriterionId) && validator.validate(getReviewId()) &&
+                validator.validate(this);
     }
 
     @Override
@@ -91,13 +93,13 @@ public class RowCriterionImpl extends RowTableBasic<RowCriterion> implements Row
 
     @Override
     protected RowEntry<RowCriterion, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowCriterion.class, CRITERION_ID, mCriterionId);
-        } else if(position == 1) {
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowCriterion.class, REVIEW_ID, mReviewId);
-        } else if(position == 2) {
+        } else if (position == 2) {
             return new RowEntryImpl<>(RowCriterion.class, SUBJECT, mSubject);
-        } else if(position == 3){
+        } else if (position == 3) {
             return new RowEntryImpl<>(RowCriterion.class, RATING, mRating);
         } else {
             throw noElement();

@@ -10,27 +10,39 @@ package test.Persistence;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbRepo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowTagImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.corelibrary.TagsModel.Implementation.ItemTagImpl;
 import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.TableTransactor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewerDbRepo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowTagImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableTags;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
@@ -170,7 +182,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onAddedToRepo(RepoResult result) {
                 verifyZeroInteractions(observer1, observer2);
-                assertThat(result.isError(),is(true));
+                assertThat(result.isError(), is(true));
             }
 
             @Override
@@ -202,7 +214,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.getReview(id, new RepoCallback() {
             @Override
             public void onRepoCallback(RepoResult result) {
-                assertThat(result.isError(),is(true));
+                assertThat(result.isError(), is(true));
                 assertThat(result.getReview(), is(nullValue()));
             }
         });
@@ -219,7 +231,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onRepoCallback(RepoResult result) {
                 assertThat(result.getReview(), is(review));
-                assertThat(result.isError(),is(false));
+                assertThat(result.isError(), is(false));
             }
         });
     }
@@ -315,7 +327,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.getReviews(new RepoCallback() {
             @Override
             public void onRepoCallback(RepoResult result) {
-                assertThat(result.isError(),is(false));
+                assertThat(result.isError(), is(false));
                 assertThat(result.getReviews(), is(reviews));
             }
         });
@@ -403,7 +415,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onRemovedFromRepo(RepoResult result) {
                 verifyZeroInteractions(observer1, observer2);
-                assertThat(result.isError(),is(true));
+                assertThat(result.isError(), is(true));
             }
         });
     }
@@ -427,7 +439,7 @@ public class ReviewerDbRepositoryTest {
         return mTransactor;
     }
 
-    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow>rowClass,
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
                                                                       ColumnInfo<T> column,
                                                                       @Nullable T value) {
         return new RowEntryImpl<>(rowClass, column, value);

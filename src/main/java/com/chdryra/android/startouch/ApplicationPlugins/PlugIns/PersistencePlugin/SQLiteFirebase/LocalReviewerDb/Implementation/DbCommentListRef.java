@@ -6,23 +6,26 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbCommentListRef extends DbListReferenceBasic<RowComment, DataComment, CommentRef> implements CommentListRef {
+public class DbCommentListRef extends DbListReferenceBasic<RowComment, DataComment, CommentRef>
+        implements CommentListRef {
     public DbCommentListRef(DataLoader<RowComment> loader,
                             FactoryDbReference referenceFactory,
                             Converter<RowComment, DataComment> converter) {
@@ -34,7 +37,8 @@ public class DbCommentListRef extends DbListReferenceBasic<RowComment, DataComme
         toItemReferences(new ItemReferencesCallback<DataComment, CommentRef>() {
             @Override
             public void onItemReferences(IdableList<CommentRef> commentRefs) {
-                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(commentRefs).collectAll(callback);
+                getDbReferenceFactory().getReferenceFactory().newSentencesCollector(commentRefs)
+                        .collectAll(callback);
             }
         });
     }

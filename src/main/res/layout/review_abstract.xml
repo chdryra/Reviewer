@@ -7,18 +7,19 @@
   ~
   -->
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutVertical.GridCell">
+    style="@style/LinearLayoutVertical.GridCell"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/review_abstract_profile"
-             android:id="@+id/profile"
-             android:layout_width="match_parent"
-             android:layout_height="36dp">
+    <include
+        android:id="@+id/profile"
+        layout="@layout/review_abstract_profile"
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
     </include>
 
     <RelativeLayout
-        style="@style/LinearLayoutVertical"
-        android:id="@+id/review_abstract">
+        android:id="@+id/review_abstract"
+        style="@style/LinearLayoutVertical">
 
         <include
             android:id="@+id/social_options"
@@ -28,35 +29,38 @@
             android:layout_alignParentBottom="true">
         </include>
 
-        <include layout="@layout/review_text_abstract"
-                 android:id="@+id/review_text_abstract"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_above="@id/social_options">
+        <include
+            android:id="@+id/review_text_abstract"
+            layout="@layout/review_text_abstract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/social_options">
         </include>
 
-        <include layout="@layout/image_view"
-                 android:id="@+id/review_image"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:contentDescription="@string/image_review_cd"
-                 android:layout_above="@id/review_text_abstract">
+        <include
+            android:id="@+id/review_image"
+            layout="@layout/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/review_text_abstract"
+            android:contentDescription="@string/image_review_cd">
         </include>
 
         <TextView
             android:id="@+id/review_tags"
             style="@style/TextViewGridCell.Left.Tiny"
-            android:textColor="?inverseText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/review_image"
             android:background="?inverseDarkBackground"
-            android:layout_alignBottom="@id/review_image"/>
+            android:textColor="?inverseText"/>
 
-        <include layout="@layout/subject_rating_horizontal_small"
-                 android:id="@+id/subject_rating"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_alignTop="@id/review_image">
+        <include
+            android:id="@+id/subject_rating"
+            layout="@layout/subject_rating_horizontal_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/review_image">
         </include>
 
     </RelativeLayout>

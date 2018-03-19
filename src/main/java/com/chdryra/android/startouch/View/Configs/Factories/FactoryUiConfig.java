@@ -67,7 +67,8 @@ public class FactoryUiConfig {
         bespokeDataViewers.put(DataImage.TYPE_NAME, config(classes.getImagesViewer(), IMAGES_VIEW));
 
         Map<String, LaunchableConfig> bespokeDatumViewers = new HashMap<>();
-        bespokeDatumViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperLocation(), LOC_MAP));
+        bespokeDatumViewers.put(DataLocation.TYPE_NAME, config(classes.getMapperLocation(),
+                LOC_MAP));
         bespokeDatumViewers.put(DataImage.TYPE_NAME, config(classes.getImagesViewer(), IMAGE_VIEW));
 
         LaunchableConfig login = config(classes.getLogin(), LOGIN);

@@ -30,18 +30,19 @@ import test.TestUtils.RandomDataDate;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewUserTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     private MdReviewId mRightId;
     private DataMocker mWrongMocker;
     private DataMocker mRightMocker;
     private FactoryReviewNode mNodeFactory;
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
-
     @Before
     public void setup() {
-        mRightId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDateTime()));
-        MdReviewId wrongId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDateTime()));
+        mRightId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate
+                .nextDateTime()));
+        MdReviewId wrongId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(),
+                RandomDataDate.nextDateTime()));
         mRightMocker = new DataMocker(mRightId);
         mWrongMocker = new DataMocker(wrongId);
         mNodeFactory = new FactoryReviewNode();
@@ -62,7 +63,7 @@ public class ReviewUserTest {
         new ReviewUser(mRightId, mWrongMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
                 mRightMocker.newImageList(0), mRightMocker.newFactList(0),
-                mRightMocker.newLocationList(0),mRightMocker.newCriterionList(0), false,
+                mRightMocker.newLocationList(0), mRightMocker.newCriterionList(0), false,
                 mNodeFactory);
     }
 

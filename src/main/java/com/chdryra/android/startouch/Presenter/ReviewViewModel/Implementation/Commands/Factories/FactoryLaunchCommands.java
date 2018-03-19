@@ -18,16 +18,26 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CreateAggregateView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CreateBucketsView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CreateListView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeExpandedCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchProfileCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateAggregateView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateBucketsView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CreateListView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeExpandedCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchProfileCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
@@ -46,13 +56,13 @@ public class FactoryLaunchCommands {
         mOptionsFactory = new FactoryReviewOptions(this);
     }
 
+    public FactoryReviewOptions getOptionsFactory() {
+        return mOptionsFactory;
+    }
+
     public void setApp(ApplicationSuite app) {
         mApp = app;
         mOptionsFactory.setApp(app);
-    }
-
-    public FactoryReviewOptions getOptionsFactory() {
-        return mOptionsFactory;
     }
 
     public Command newLaunchViewCommand(final ReviewView<?> view) {

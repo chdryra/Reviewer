@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,13 +35,13 @@ public class MaiCommand<T extends GvData> extends MenuActionItemBasic<T> {
         mToast = toast;
     }
 
-    @Override
-    public void doAction(MenuItem item) {
-        if(mToast != null) getCurrentScreen().showToast(mToast);
-        mCommand.execute();
-    }
-
     protected Command getCommand() {
         return mCommand;
+    }
+
+    @Override
+    public void doAction(MenuItem item) {
+        if (mToast != null) getCurrentScreen().showToast(mToast);
+        mCommand.execute();
     }
 }

@@ -16,8 +16,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +35,8 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
-    private static final String ILLEGAL_ARGUMENT_ERR = "Need to override newList if listClass not passed";
+    private static final String ILLEGAL_ARGUMENT_ERR = "Need to override newList if listClass not" +
+            " passed";
 
     private GvDataType<T2> mDataType;
     private Class<T3> mListClass;
@@ -51,11 +54,6 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         return mDataType;
     }
 
-    @Nullable
-    GvReviewId newId(@Nullable ReviewId reviewId) {
-        return reviewId != null ? new GvReviewId(reviewId) : null;
-    }
-
     @Override
     public abstract T2 convert(T1 datum, @Nullable ReviewId reviewId);
 
@@ -67,7 +65,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     @Override
     public T3 convert(Iterable<? extends T1> data, @Nullable ReviewId reviewId) {
         T3 list = newList(reviewId);
-        for(T1 datum : data) {
+        for (T1 datum : data) {
             list.add(convert(datum, reviewId));
         }
 
@@ -77,26 +75,21 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     @Override
     public T3 convert(IdableList<? extends T1> data) {
         T3 list = newList(data.getReviewId());
-        for(T1 datum : data) {
+        for (T1 datum : data) {
             list.add(convert(datum));
         }
 
         return list;
     }
 
-    private void setDataType() {
-        try {
-            mDataType = mListClass.newInstance().getGvDataType();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + mListClass.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + mListClass.getName(), e);
-        }
+    @Nullable
+    GvReviewId newId(@Nullable ReviewId reviewId) {
+        return reviewId != null ? new GvReviewId(reviewId) : null;
     }
 
     T3 newList(@Nullable ReviewId reviewId) {
         GvReviewId id = reviewId != null ? new GvReviewId(reviewId) : new GvReviewId();
-        if(mListClass != null) {
+        if (mListClass != null) {
             try {
                 Constructor<T3> ctor = mListClass.getConstructor(GvReviewId.class);
                 return ctor.newInstance(id);
@@ -111,6 +104,16 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
             }
         } else {
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ERR);
+        }
+    }
+
+    private void setDataType() {
+        try {
+            mDataType = mListClass.newInstance().getGvDataType();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + mListClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + mListClass.getName(), e);
         }
     }
 }

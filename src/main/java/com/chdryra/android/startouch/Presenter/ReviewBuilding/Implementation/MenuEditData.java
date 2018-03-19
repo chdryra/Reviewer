@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuActionNone;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +27,7 @@ class MenuEditData<T extends GvData> extends MenuActionNone<T> {
                  MenuActionItem<T> previewAction) {
 
         super(menuId, title, upAction);
-        if(itemIds.length != 2) {
+        if (itemIds.length != 2) {
             throw new IllegalArgumentException("itemIds should be length 3");
         }
 

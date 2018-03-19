@@ -11,17 +11,19 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
-import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -50,7 +52,7 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
     private final LocationId mLocationId;
 
     public GvLocation() {
-        this(null, new LatLng(0,0), "", "", LocationId.nullId());
+        this(null, new LatLng(0, 0), "", "", LocationId.nullId());
     }
 
     public GvLocation(LatLng latLng, String name, String address, LocationId locationId) {
@@ -67,7 +69,8 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
     }
 
     public GvLocation(GvLocation location) {
-        this(location.getGvReviewId(), location.getLatLng(), location.getName(), location.getAddress(), location.getLocationId());
+        this(location.getGvReviewId(), location.getLatLng(), location.getName(), location
+                .getAddress(), location.getLocationId());
     }
 
     public GvLocation(Parcel in) {
@@ -167,10 +170,12 @@ public class GvLocation extends GvDataParcelableBasic<GvLocation> implements Dat
 
         public Reference(ReviewItemReference<DataLocation> reference,
                          DataConverter<DataLocation, GvLocation, ?> converter) {
-            super(TYPE, reference, converter, VhLocation.class, new PlaceHolderFactory<DataLocation>() {
+            super(TYPE, reference, converter, VhLocation.class, new
+                    PlaceHolderFactory<DataLocation>() {
                 @Override
                 public DataLocation newPlaceHolder(String placeHolder) {
-                    return new GvLocation(new LatLng(0,0), placeHolder, "address", LocationId.nullId());
+                    return new GvLocation(new LatLng(0, 0), placeHolder, "address", LocationId
+                            .nullId());
                 }
             });
         }

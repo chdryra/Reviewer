@@ -32,17 +32,17 @@ public class MaiSplitCommentVals extends MaiSplitCommentsBasic<GvComment> {
         setSplit();
     }
 
+    @Override
+    public void onDetachReviewView() {
+        doSplit(false);
+        super.onDetachReviewView();
+    }
+
     private void setSplit() {
         try {
             ((CommentBuilderAdapter) getReviewView().getAdapter()).setSplitComments(mSplit);
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onDetachReviewView() {
-        doSplit(false);
-        super.onDetachReviewView();
     }
 }

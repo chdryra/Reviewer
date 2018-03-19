@@ -29,7 +29,7 @@ public class UserAccountImpl implements UserAccount {
                            AuthorProfileRef authorProfile,
                            SocialProfileRef socialProfile) {
         mAccountHolder = accountHolder;
-        if(mAccountHolder.getAuthorId() == null) {
+        if (mAccountHolder.getAuthorId() == null) {
             throw new IllegalArgumentException("User should be an author!");
         }
         mAuthorId = mAccountHolder.getAuthorId();
@@ -37,8 +37,8 @@ public class UserAccountImpl implements UserAccount {
         mSocialProfile = socialProfile;
 
         String id = mAuthorId.toString();
-        if(!id.equals(mAuthorProfile.getAuthorId().toString()) ||
-           !id.equals(mSocialProfile.getAuthorId().toString())     ) {
+        if (!id.equals(mAuthorProfile.getAuthorId().toString()) ||
+                !id.equals(mSocialProfile.getAuthorId().toString())) {
             throw new IllegalArgumentException("AuthorIds should match!");
         }
     }

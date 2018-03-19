@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
+public abstract class OAuthRequester10a<T> implements OAuthRequester<T> {
     private static final String OAUTH_VERIFIER = "oauth_verifier=";
 
     private final String mPlatformName;
@@ -36,7 +36,7 @@ public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
 
     OAuthRequester10a(String consumerKey, String consumerSecret, String callBack,
                       DefaultApi10a api, String platformName) {
-        mCallBack= callBack;
+        mCallBack = callBack;
         mService = new ServiceBuilder()
                 .apiKey(consumerKey)
                 .apiSecret(consumerSecret)
@@ -61,7 +61,7 @@ public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
     private class OAuthRequestTask extends AsyncTask<Void, Void, OAuthRequest> {
         private final RequestListener<T> mListener;
 
-        public OAuthRequestTask(RequestListener<T> listener ) {
+        public OAuthRequestTask(RequestListener<T> listener) {
             mListener = listener;
         }
 
@@ -83,7 +83,7 @@ public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
         private final Verifier mVerifier;
         private final RequestListener<T> mListener;
 
-        public OAuthResponseTask (Verifier verifier, RequestListener<T> listener ) {
+        public OAuthResponseTask(Verifier verifier, RequestListener<T> listener) {
             mVerifier = verifier;
             mListener = listener;
         }

@@ -23,7 +23,8 @@ import com.twitter.sdk.android.core.TwitterSession;
  */
 public interface UserAuthenticator {
     interface UserStateObserver {
-        void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable AuthenticatedUser newUser);
+        void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable AuthenticatedUser
+                newUser);
     }
 
     void logout();

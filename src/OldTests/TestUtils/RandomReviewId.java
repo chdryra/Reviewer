@@ -8,7 +8,8 @@
 
 package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey

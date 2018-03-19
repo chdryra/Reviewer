@@ -10,9 +10,12 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -121,10 +124,14 @@ public class DbStructureBasicTest {
         assertThat(updatesMap.containsKey("a/b/c/d/e/address"), is(true));
         assertThat(updatesMap.containsKey("a/b/f/g/h/member/name"), is(true));
         assertThat(updatesMap.containsKey("a/b/f/g/h/member/address"), is(true));
-        assertThat(updatesMap.get("a/b/c/d/e/name"), isDelete ? nullValue() : is((Object) obj1.getName()));
-        assertThat(updatesMap.get("a/b/c/d/e/address"), isDelete ? nullValue() : is((Object) obj1.getAddress()));
-        assertThat(updatesMap.get("a/b/f/g/h/member/name"), isDelete ? nullValue() : is((Object) obj2.getMember().getName()));
-        assertThat(updatesMap.get("a/b/f/g/h/member/address"), isDelete ? nullValue() : is((Object) obj2.getMember().getAddress()));
+        assertThat(updatesMap.get("a/b/c/d/e/name"), isDelete ? nullValue() : is((Object)
+                obj1.getName()));
+        assertThat(updatesMap.get("a/b/c/d/e/address"), isDelete ? nullValue() : is((Object)
+                obj1.getAddress()));
+        assertThat(updatesMap.get("a/b/f/g/h/member/name"), isDelete ? nullValue() : is((Object)
+                obj2.getMember().getName()));
+        assertThat(updatesMap.get("a/b/f/g/h/member/address"), isDelete ? nullValue() : is(
+                (Object) obj2.getMember().getAddress()));
     }
 
     private void putObjectReturnsMappedObject(DbUpdater.UpdateType type) {
@@ -142,8 +149,10 @@ public class DbStructureBasicTest {
         assertThat(updatesMap, not(nullValue()));
         assertThat(updatesMap.containsKey(path + "/member/name"), is(true));
         assertThat(updatesMap.containsKey(path + "/member/address"), is(true));
-        assertThat(updatesMap.get(path + "/member/name"), isDelete ? nullValue() : is((Object) insertObject.getMember().getName()));
-        assertThat(updatesMap.get(path + "/member/address"), isDelete ? nullValue() : is((Object) insertObject.getMember().getAddress()));
+        assertThat(updatesMap.get(path + "/member/name"), isDelete ? nullValue() : is((Object)
+                insertObject.getMember().getName()));
+        assertThat(updatesMap.get(path + "/member/address"), isDelete ? nullValue() : is((Object)
+                insertObject.getMember().getAddress()));
     }
 
     private void putValueWithExtraElementsReturnsCorrectPathAndValue(DbUpdater.UpdateType type) {

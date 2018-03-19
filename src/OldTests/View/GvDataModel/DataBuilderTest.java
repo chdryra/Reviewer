@@ -15,7 +15,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
@@ -91,7 +92,7 @@ public class DataBuilderTest extends AndroidTestCase {
     private <T extends GvData> DataBuilder.AddConstraint<T> getAlwaysAddAddConstraint
             (GvDataList<T> dummy) {
         return new DataBuilder.AddConstraint<T>() {
-//Overridden
+            //Overridden
             @Override
             public boolean passes(GvDataList<T> data, T datum) {
                 return true;

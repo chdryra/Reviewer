@@ -8,9 +8,14 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalCriterionAverage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalCriterionAverage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -26,7 +31,7 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
     private static final float RATING2 = 2f;
     private static final float RATING3 = 3f;
 
-//protected methods
+    //protected methods
     @Override
     protected GvCriterion getTestDatum() {
         return new GvCriterion(SUBJECT1, RATING1);
@@ -35,6 +40,13 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
     @Override
     protected CanonicalDatumMaker<GvCriterion> getCanonicalMaker() {
         return new CanonicalCriterionAverage();
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferent();
+        checkSameSubjectDifferentRatings();
     }
 
     private void checkSameSubjectDifferentRatings() {
@@ -92,12 +104,5 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT2 + " + 1", canon.getSubject());
         assertEquals(avg, canon.getRating());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferent();
-        checkSameSubjectDifferentRatings();
     }
 }

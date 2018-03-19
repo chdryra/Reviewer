@@ -19,15 +19,18 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewDataEdit<T extends GvDataParcelable> implements ActivityResultListener, AlertListener {
+public class PresenterReviewDataEdit<T extends GvDataParcelable> implements
+        ActivityResultListener, AlertListener {
     private static final int ALERT = RequestCodeGenerator.getCode(PresenterReviewDataEdit.class);
 
     private final ReviewDataEditor<T> mEditor;
@@ -78,6 +81,11 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
         }
     }
 
+    public void onBackPressed() {
+        mEditor.getCurrentScreen().showAlert(Strings.Alerts.DISCARD_EDITS, ALERT, this, new
+                Bundle());
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == mBannerButton.getLaunchableRequestCode()) {
@@ -85,10 +93,6 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
         } else if (requestCode == mGridItem.getLaunchableRequestCode()) {
             mGridItem.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    public void onBackPressed() {
-        mEditor.getCurrentScreen().showAlert(Strings.Alerts.DISCARD_EDITS, ALERT, this, new Bundle());
     }
 
     @Override
@@ -104,6 +108,7 @@ public class PresenterReviewDataEdit<T extends GvDataParcelable> implements Acti
 
     public static class Builder<T extends GvDataParcelable> {
         private final GvDataType<T> mDataType;
+
         public Builder(GvDataType<T> dataType) {
             mDataType = dataType;
         }

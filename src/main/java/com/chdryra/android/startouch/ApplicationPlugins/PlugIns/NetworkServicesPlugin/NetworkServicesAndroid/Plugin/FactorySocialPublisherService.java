@@ -6,16 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Plugin;
 
 import android.content.Context;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.SocialPublisherService.SocialPublisherAndroid;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.SocialPublisherService.SocialPublishingReceiver;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactorySocialPublisher;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService.SocialPublisherAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.SocialPublisherService.SocialPublishingReceiver;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,7 @@ public class FactorySocialPublisherService implements FactorySocialPublisher {
 
     @Override
     public SocialUploader newPublisher(ReviewId id, ArrayList<String> platformNames) {
-        return new SocialPublisherAndroid(mContext, platformNames, new SocialPublishingReceiver(id));
+        return new SocialPublisherAndroid(mContext, platformNames, new SocialPublishingReceiver
+                (id));
     }
 }

@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
@@ -41,7 +42,7 @@ public class LaunchBespokeViewCommand extends Command {
     }
 
     public void execute(@Nullable ReviewNode node, int datumIndex, boolean isPublished) {
-        if(node != null) mLauncher.launchNodeView(node, mDataType, datumIndex, isPublished);
+        if (node != null) mLauncher.launchNodeView(node, mDataType, datumIndex, isPublished);
         onExecutionComplete();
     }
 

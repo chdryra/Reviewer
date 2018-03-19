@@ -6,11 +6,12 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.DbEntryType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,8 @@ public class SqLiteTypeDefinitions {
     private static final String BLOB = "BLOB";
 
     private static final Map<DbEntryType<?>, String> mMap;
-    static{
+
+    static {
         mMap = new HashMap<>();
         mMap.put(DbEntryType.TEXT, TEXT);
         mMap.put(DbEntryType.FLOAT, REAL);

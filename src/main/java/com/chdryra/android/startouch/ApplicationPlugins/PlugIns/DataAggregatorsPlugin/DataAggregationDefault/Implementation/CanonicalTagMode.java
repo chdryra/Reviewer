@@ -6,17 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,13 +25,6 @@ import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalTagMode extends CanonicalStringMaker<DataTag> {
-    @Override
-    public DataTag getCanonical(IdableList<? extends DataTag> data) {
-        ReviewId id = data.getReviewId();
-        if (data.size() == 0) return FactoryNullData.nullTag(id);
-        return new DatumTag(id, getModeString(data));
-    }
-
     @NonNull
     @Override
     protected ItemGetter<DataTag, String> getStringGetter() {
@@ -40,5 +34,12 @@ public class CanonicalTagMode extends CanonicalStringMaker<DataTag> {
                 return datum.getTag();
             }
         };
+    }
+
+    @Override
+    public DataTag getCanonical(IdableList<? extends DataTag> data) {
+        ReviewId id = data.getReviewId();
+        if (data.size() == 0) return FactoryNullData.nullTag(id);
+        return new DatumTag(id, getModeString(data));
     }
 }

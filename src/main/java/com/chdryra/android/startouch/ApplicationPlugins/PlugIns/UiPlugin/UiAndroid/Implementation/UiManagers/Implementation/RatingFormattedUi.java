@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.annotation.Nullable;
@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRa
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,11 +32,11 @@ public class RatingFormattedUi extends SimpleViewUi<RatingBar, DataRating> {
 
     public RatingFormattedUi(RatingBar view, @Nullable final Command onTouch) {
         super(view);
-        if(onTouch != null) {
+        if (onTouch != null) {
             getView().setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    if(motionEvent.getAction() == MotionEvent.ACTION_UP) onTouch.execute();
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) onTouch.execute();
                     return true;
                 }
             });

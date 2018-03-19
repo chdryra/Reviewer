@@ -19,16 +19,26 @@ import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityNodeMapper;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ClusterInfoFactory;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ItemInfoFactory;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.LocationPlotter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewCluster;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewClusterItem;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewClusterManager;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewClusterRenderer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.ReviewInfoWindowAdapter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.InfoWindowLauncher;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityNodeMapper;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ClusterInfoFactory;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ItemInfoFactory;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.LocationPlotter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewCluster;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterItem;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterManager;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewClusterRenderer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.ReviewInfoWindowAdapter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.InfoWindowLauncher;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -36,7 +46,8 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.Utils.RatingFormatter;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
@@ -44,7 +55,6 @@ import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLaunche
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.MarkerManager;
 import com.google.maps.android.clustering.Cluster;
@@ -61,7 +71,6 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     private ReviewInfoWindowAdapter mClusterAdapter;
     private ReviewClusterRenderer mRenderer;
     private LocationPlotter mLocationPlotter;
-    private LatLngBounds.Builder mBuilder;
 
     public static FragmentNodeMapper newInstance(boolean isPublished) {
         //Can't use FactoryFragment as Support fragment rather than normal fragment
@@ -84,7 +93,8 @@ public class FragmentNodeMapper extends FragmentMapLocation implements InfoWindo
     void onMapReady() {
         Bundle args = getArguments();
         mIsPublished = args != null && args.getBoolean(PUBLISHED);
-        mLocationPlotter = new LocationPlotter(mNode.getLocations(), getMap(), newManager(), getReviews());
+        mLocationPlotter = new LocationPlotter(mNode.getLocations(), getMap(), newManager(),
+                getReviews());
         mLocationPlotter.bind();
     }
 

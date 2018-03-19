@@ -21,7 +21,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthenticatedUser implements Parcelable{
+public class AuthenticatedUser implements Parcelable {
     public static final Creator<AuthenticatedUser> CREATOR = new Creator<AuthenticatedUser>() {
         @Override
         public AuthenticatedUser createFromParcel(Parcel in) {
@@ -33,7 +33,7 @@ public class AuthenticatedUser implements Parcelable{
             return new AuthenticatedUser[size];
         }
     };
-    
+
     private String mProvider;
     private String mProvidersId;
     private String mAuthorId;
@@ -57,10 +57,6 @@ public class AuthenticatedUser implements Parcelable{
         mAuthorId = in.readString();
     }
 
-    public void setAuthorId(String authorId) {
-        mAuthorId = authorId;
-    }
-
     public String getProvider() {
         return mProvider;
     }
@@ -72,6 +68,10 @@ public class AuthenticatedUser implements Parcelable{
     @Nullable
     public AuthorId getAuthorId() {
         return mAuthorId != null ? new AuthorIdParcelable(mAuthorId) : null;
+    }
+
+    public void setAuthorId(String authorId) {
+        mAuthorId = authorId;
     }
 
     @Override

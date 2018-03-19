@@ -6,16 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbReviewReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbReviewReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbReviewsStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -34,7 +37,8 @@ public class ConverterReviewReference implements SnapshotConverter<ReviewReferen
     private final FbReviewsStructure mStructure;
     private final FbReviewReferencer mReferencer;
 
-    public ConverterReviewReference(Firebase dataBase, FbReviewsStructure structure, FbReviewReferencer
+    public ConverterReviewReference(Firebase dataBase, FbReviewsStructure structure,
+                                    FbReviewReferencer
             referencer) {
         mDataBase = dataBase;
         mStructure = structure;
@@ -46,7 +50,8 @@ public class ConverterReviewReference implements SnapshotConverter<ReviewReferen
     public ReviewReference convert(DataSnapshot snapshot) {
         ReviewListEntry value = snapshot.getValue(ReviewListEntry.class);
         return value == null ? null :
-                mReferencer.newReference(value.toInverseDate(), getReviewDb(value), getAggregatesDb(value));
+                mReferencer.newReference(value.toInverseDate(), getReviewDb(value),
+                        getAggregatesDb(value));
     }
 
     private Firebase getAggregatesDb(ReviewListEntry entry) {

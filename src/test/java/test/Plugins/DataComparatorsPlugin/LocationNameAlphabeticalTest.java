@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.LocationNameAlphabetical;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.LocationNameAlphabetical;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.testutils.RandomLatLng;
@@ -30,9 +31,12 @@ public class LocationNameAlphabeticalTest extends ComparatorTest<DataLocation> {
 
     @Test
     public void alphabeticalAscendingDifferentFirstLetter() {
-        DataLocation A = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), "a" + RandomString.nextWord());
-        DataLocation B = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), "b" + RandomString.nextWord());
-        DataLocation C = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), "C" + RandomString.nextWord());
+        DataLocation A = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng
+                (), "a" + RandomString.nextWord());
+        DataLocation B = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng
+                (), "b" + RandomString.nextWord());
+        DataLocation C = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng
+                (), "C" + RandomString.nextWord());
 
         ComparatorTester<DataLocation> tester = newComparatorTester();
         tester.testFirstSecond(A, B);
@@ -44,25 +48,29 @@ public class LocationNameAlphabeticalTest extends ComparatorTest<DataLocation> {
     public void alphabeticalAscendingStartingStemSame() {
         String name1 = RandomString.nextWord();
         String name2 = name1 + RandomString.nextWord();
-        DataLocation loc1 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name1);
-        DataLocation loc2 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name2);
+        DataLocation loc1 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name1);
+        DataLocation loc2 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name2);
 
         ComparatorTester<DataLocation> tester = newComparatorTester();
-        if(name1.compareToIgnoreCase(name2) < 0) {
+        if (name1.compareToIgnoreCase(name2) < 0) {
             tester.testFirstSecond(loc1, loc2);
-        } else if(name1.compareToIgnoreCase(name2) > 0){
+        } else if (name1.compareToIgnoreCase(name2) > 0) {
             tester.testFirstSecond(loc2, loc1);
         } else {
             tester.testEquals(loc1, loc2);
         }
     }
-    
+
     @Test
     public void comparatorEqualitySameLocationName() {
         String name = RandomString.nextWord();
 
-        DataLocation loc1 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name);
-        DataLocation loc2 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name);
+        DataLocation loc1 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name);
+        DataLocation loc2 = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name);
 
         ComparatorTester<DataLocation> tester = newComparatorTester();
         tester.testEquals(loc1, loc1);
@@ -73,13 +81,16 @@ public class LocationNameAlphabeticalTest extends ComparatorTest<DataLocation> {
     public void comparatorEqualitySameLocationNameIgnoresCase() {
         String name = RandomString.nextWord();
 
-        DataLocation loc = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name);
-        DataLocation locLower = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name.toLowerCase());
-        DataLocation locUpper = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(), name.toUpperCase());
+        DataLocation loc = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name);
+        DataLocation locLower = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name.toLowerCase());
+        DataLocation locUpper = new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng
+                .nextLatLng(), name.toUpperCase());
 
         ComparatorTester<DataLocation> tester = newComparatorTester();
         tester.testEquals(loc, locLower);
         tester.testEquals(locLower, locUpper);
     }
-    
+
 }

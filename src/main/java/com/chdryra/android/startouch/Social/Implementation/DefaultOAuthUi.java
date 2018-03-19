@@ -12,15 +12,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.Social.Interfaces.LoginUi;
 import com.chdryra.android.startouch.Social.Interfaces.OAuthListener;
 import com.chdryra.android.startouch.Social.Interfaces.OAuthRequester;
+import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
-import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +36,7 @@ public class DefaultOAuthUi<T> implements
     private final LaunchableUi mAuthorisationUi;
     private final SocialPlatform<T> mPlatform;
     private final PlatformAuthoriser.Callback mListener;
-    private final ParcelablePacker<OAuthRequest>mPacker;
+    private final ParcelablePacker<OAuthRequest> mPacker;
 
     private UiLauncher mLauncher;
 
@@ -78,24 +78,24 @@ public class DefaultOAuthUi<T> implements
         requester.parseRequestResponse(response, this);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        OAuthRequest response = null;
+        if (requestCode == AUTHORISATION && data != null) {
+            response = mPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
+        }
+
+        if (response == null) {
+            mListener.onAuthorisationRefused(mPlatform);
+        } else {
+            onAuthorisationCallback(response);
+        }
+    }
+
     private void launchUi(OAuthRequest request) {
         Bundle args = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, args);
         mLauncher.launch(mAuthorisationUi, new UiLauncherArgs(AUTHORISATION).setBundle(args));
         mLauncher = null;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        OAuthRequest response = null;
-        if(requestCode == AUTHORISATION && data != null) {
-            response = mPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-        }
-
-        if(response == null) {
-            mListener.onAuthorisationRefused(mPlatform);
-        } else {
-            onAuthorisationCallback(response);
-        }
     }
 }

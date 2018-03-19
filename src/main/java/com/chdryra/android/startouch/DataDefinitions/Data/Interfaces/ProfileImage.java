@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ProfileImage extends HasAuthorId, Validatable{
+public interface ProfileImage extends HasAuthorId, Validatable {
     String TYPE_NAME = "profileImage";
 
     @Nullable

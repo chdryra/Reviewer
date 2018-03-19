@@ -9,9 +9,10 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorAuthor;
 
 import org.junit.Before;
 import org.junit.Rule;

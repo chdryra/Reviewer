@@ -10,20 +10,22 @@ package com.chdryra.android.startouch.DataDefinitions.References.Factories;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.SimpleFirstSentenceRef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.SimpleFirstSentenceRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SentencesCollector;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleCommentRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperCommentRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.StaticItemReference;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperCommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation
+        .WrapperCommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperCommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.WrapperDataListRef;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
@@ -51,7 +53,8 @@ public class FactoryReferences {
         return new WrapperCommentListRef(list, this);
     }
 
-    public <T extends HasReviewId> DataListRef<T> newSuperClassWrapper(IdableList<? extends T> data) {
+    public <T extends HasReviewId> DataListRef<T> newSuperClassWrapper(IdableList<? extends T>
+                                                                               data) {
         IdableList<T> list = new IdableDataList<>(data.getReviewId());
         list.addAll(data);
         return new WrapperDataListRef<>(list, this);
@@ -61,7 +64,8 @@ public class FactoryReferences {
         return new WrapperCommentRef(comment, parent);
     }
 
-    public CommentRef newCommentReference(boolean isHeadline, SimpleItemReference.Dereferencer<DataComment> dereferencer) {
+    public CommentRef newCommentReference(boolean isHeadline, SimpleItemReference
+            .Dereferencer<DataComment> dereferencer) {
         return new SimpleCommentRef(isHeadline, this, dereferencer);
     }
 

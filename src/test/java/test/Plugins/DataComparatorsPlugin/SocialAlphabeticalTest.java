@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.SocialAlphabetical;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSocialPlatform;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.testutils.RandomString;
@@ -22,7 +23,7 @@ import java.util.Random;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialAlphabeticalTest extends ComparatorTest<DataSocialPlatform>{
+public class SocialAlphabeticalTest extends ComparatorTest<DataSocialPlatform> {
     private static final Random RAND = new Random();
 
     public SocialAlphabeticalTest() {
@@ -51,9 +52,9 @@ public class SocialAlphabeticalTest extends ComparatorTest<DataSocialPlatform>{
         DataSocialPlatform platform2 = new Platform(name2, followers);
 
         ComparatorTester<DataSocialPlatform> tester = newComparatorTester();
-        if(name1.compareToIgnoreCase(name2) < 0) {
+        if (name1.compareToIgnoreCase(name2) < 0) {
             tester.testFirstSecond(platform1, platform2);
-        } else if(name1.compareToIgnoreCase(name2) > 0){
+        } else if (name1.compareToIgnoreCase(name2) > 0) {
             tester.testFirstSecond(platform2, platform1);
         } else {
             tester.testEquals(platform1, platform2);

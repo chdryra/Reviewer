@@ -23,21 +23,17 @@ public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mReviewsFactory;
     private FactoryDataBucketer mBucketerFactory;
 
-    protected void setReviewsFactory(FactoryReviews factoryReviews) {
-        mReviewsFactory = factoryReviews;
-    }
-
     protected void setReferenceFactory(FactoryReferences referenceFactory) {
         mReferenceFactory = referenceFactory;
-    }
-
-    protected void setBucketerFactory(FactoryDataBucketer bucketerFactory) {
-        mBucketerFactory = bucketerFactory;
     }
 
     @Override
     public FactoryReviews getReviewsFactory() {
         return mReviewsFactory;
+    }
+
+    protected void setReviewsFactory(FactoryReviews factoryReviews) {
+        mReviewsFactory = factoryReviews;
     }
 
     @Override
@@ -48,5 +44,9 @@ public abstract class ModelContextBasic implements ModelContext {
     @Override
     public FactoryDataBucketer getBucketerFactory() {
         return mBucketerFactory;
+    }
+
+    protected void setBucketerFactory(FactoryDataBucketer bucketerFactory) {
+        mBucketerFactory = bucketerFactory;
     }
 }

@@ -9,9 +9,10 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceFloat;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorLocationDistance;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLocationDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;

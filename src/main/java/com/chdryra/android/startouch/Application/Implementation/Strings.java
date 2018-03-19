@@ -77,7 +77,7 @@ public class Strings {
         public static final String CREATING_ACCOUNT = "Creating account...";
         public static final String UPDATING_PROFILE = "Updating profile...";
     }
-    
+
     public static class Screens {
         public static final String LOCATION = "location";
         public static final String URL = "link";
@@ -143,7 +143,7 @@ public class Strings {
         public static final String REVIEWS = Strings.REVIEWS;
         public static final String REVIEW = Strings.REVIEW;
     }
-    
+
     public static class Placeholders {
         public static final String NO_SUBJECT = "(no subject)";
     }
@@ -176,7 +176,7 @@ public class Strings {
         public static final String BUCKETS = "Buckets";
         public static final String LIST = "List";
     }
-    
+
     public static class Comparators {
         public static final String A_TO_Z = "A-Z";
         public static final String Z_TO_A = "Z-A";

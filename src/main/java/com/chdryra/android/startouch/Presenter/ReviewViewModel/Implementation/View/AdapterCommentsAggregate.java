@@ -8,10 +8,10 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -26,7 +26,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,9 +36,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  */
 public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private final GvCanonicalCollection<GvComment> mComments;
-    private GvCanonicalCollection<GvComment> mCommentsSplit;
     private final FactoryGridDataViewer mViewerFactory;
     private final GvDataAggregator mAggregater;
+    private GvCanonicalCollection<GvComment> mCommentsSplit;
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,

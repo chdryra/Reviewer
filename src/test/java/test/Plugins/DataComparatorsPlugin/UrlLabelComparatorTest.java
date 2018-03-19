@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.UrlLabelComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.UrlLabelComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -25,17 +26,21 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UrlLabelComparatorTest extends ComparatorTest<DataUrl>{
+public class UrlLabelComparatorTest extends ComparatorTest<DataUrl> {
     public UrlLabelComparatorTest() {
         super(new UrlLabelComparator());
     }
 
     @Test
     public void labelAlphabeticalAscendingFirst_AscendingValueSecond() {
-        DataUrl AA = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"), RandomString.toRandomCase("A"));
-        DataUrl AZ = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"), RandomString.toRandomCase("Z"));
-        DataUrl BC = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("B"), RandomString.toRandomCase("C"));
-        DataUrl CA = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("C"), RandomString.toRandomCase("A"));
+        DataUrl AA = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"),
+                RandomString.toRandomCase("A"));
+        DataUrl AZ = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"),
+                RandomString.toRandomCase("Z"));
+        DataUrl BC = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("B"),
+                RandomString.toRandomCase("C"));
+        DataUrl CA = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase("C"),
+                RandomString.toRandomCase("A"));
 
         ComparatorTester<DataUrl> tester = newComparatorTester();
         tester.testFirstSecond(AA, AZ);
@@ -47,9 +52,12 @@ public class UrlLabelComparatorTest extends ComparatorTest<DataUrl>{
     @Test
     public void labelAlphabeticalAscendingDifferentFirstLetter_SameValue() {
         String value = RandomString.nextWord();
-        DataUrl urlA = new DatumUrl(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord(), RandomString.toRandomCase(value));
-        DataUrl urlB = new DatumUrl(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord(), RandomString.toRandomCase(value));
-        DataUrl urlC = new DatumUrl(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord(), RandomString.toRandomCase(value));
+        DataUrl urlA = new DatumUrl(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord(),
+                RandomString.toRandomCase(value));
+        DataUrl urlB = new DatumUrl(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord(),
+                RandomString.toRandomCase(value));
+        DataUrl urlC = new DatumUrl(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord(),
+                RandomString.toRandomCase(value));
 
         ComparatorTester<DataUrl> tester = newComparatorTester();
         tester.testFirstSecond(urlA, urlB);
@@ -60,9 +68,12 @@ public class UrlLabelComparatorTest extends ComparatorTest<DataUrl>{
     @Test
     public void valueAscending_SameLabel() {
         String label = RandomString.nextWord();
-        DataUrl url1 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "A");
-        DataUrl url2 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "B");
-        DataUrl url3 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "C");
+        DataUrl url1 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase
+                (label), "A");
+        DataUrl url2 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase
+                (label), "B");
+        DataUrl url3 = new DatumUrl(RandomReviewId.nextReviewId(), RandomString.toRandomCase
+                (label), "C");
 
         ComparatorTester<DataUrl> tester = newComparatorTester();
         tester.testFirstSecond(url1, url2);
@@ -79,9 +90,9 @@ public class UrlLabelComparatorTest extends ComparatorTest<DataUrl>{
         DataUrl url2 = new DatumUrl(RandomReviewId.nextReviewId(), label2, value.toUpperCase());
 
         ComparatorTester<DataUrl> tester = newComparatorTester();
-        if(label1.compareToIgnoreCase(label2) < 0) {
+        if (label1.compareToIgnoreCase(label2) < 0) {
             tester.testFirstSecond(url1, url2);
-        } else if(label1.compareToIgnoreCase(label2) > 0){
+        } else if (label1.compareToIgnoreCase(label2) > 0) {
             tester.testFirstSecond(url2, url1);
         } else {
             tester.testEquals(url1, url2);
@@ -103,17 +114,19 @@ public class UrlLabelComparatorTest extends ComparatorTest<DataUrl>{
     @Test
     public void comparatorEqualityIgnoresLabelCase_SameValue() {
         String label = RandomString.nextWord();
-        String value  = RandomString.nextWord();
+        String value = RandomString.nextWord();
         DataUrl url = new DatumUrl(RandomReviewId.nextReviewId(), label, value);
-        DataUrl urlLower = new DatumUrl(RandomReviewId.nextReviewId(), label.toLowerCase(), value.toUpperCase());
-        DataUrl urlUpper = new DatumUrl(RandomReviewId.nextReviewId(), label.toUpperCase(), value.toLowerCase());
+        DataUrl urlLower = new DatumUrl(RandomReviewId.nextReviewId(), label.toLowerCase(), value
+                .toUpperCase());
+        DataUrl urlUpper = new DatumUrl(RandomReviewId.nextReviewId(), label.toUpperCase(), value
+                .toLowerCase());
 
         ComparatorTester<DataUrl> tester = newComparatorTester();
         tester.testEquals(url, urlLower);
         tester.testEquals(url, urlUpper);
     }
 
-    private class DatumUrl extends DatumFact implements DataUrl{
+    private class DatumUrl extends DatumFact implements DataUrl {
         public DatumUrl(ReviewId reviewId, String label, String value) {
             super(reviewId, label, value);
         }

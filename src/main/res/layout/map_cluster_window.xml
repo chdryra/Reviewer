@@ -9,6 +9,7 @@
 
 <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical"
               xmlns:android="http://schemas.android.com/apk/res/android">
+
     <include
         android:id="@+id/cluster_num_reviews_rating"
         layout="@layout/map_window_subject_rating"

@@ -95,11 +95,13 @@ public class RandomReview {
         return reviews;
     }
 
-    private static class MockReview extends ReviewUser{
-        //Need to ignore images as Bitmap.createBitmap(.) not mocked in Android unit testing framework
+    private static class MockReview extends ReviewUser {
+        //Need to ignore images as Bitmap.createBitmap(.) not mocked in Android unit testing
+        // framework
         private MockReview(MdReviewId id, DataMocker mocker, boolean ratingIsAverage) {
             super(id, mocker.newAuthor(), mocker.newDate(), mocker.newSubject(), mocker.newRating(),
-                    mocker.newCommentList(NUM), new MdDataList<MdImage>(id), mocker.newFactList(NUM),
+                    mocker.newCommentList(NUM), new MdDataList<MdImage>(id), mocker.newFactList
+                            (NUM),
                     mocker.newLocationList(NUM), mocker.newCriterionList(NUM), ratingIsAverage,
                     NODE_FACTORY);
         }

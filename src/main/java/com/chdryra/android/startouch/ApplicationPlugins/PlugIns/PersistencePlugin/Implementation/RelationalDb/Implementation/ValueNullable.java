@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,6 +19,7 @@ public enum ValueNullable {
     FALSE(false);
 
     private final boolean mNullable;
+
     ValueNullable(boolean nullable) {
         mNullable = nullable;
     }

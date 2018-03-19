@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
@@ -25,6 +26,18 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  */
 public abstract class MenuActionItemBasic<T extends GvData> implements MenuActionItem<T> {
     private MenuAction<T> mParent;
+
+    protected ReviewView<T> getReviewView() {
+        return mParent.getReviewView();
+    }
+
+    protected ApplicationInstance getApp() {
+        return mParent.getReviewView().getApp();
+    }
+
+    protected CurrentScreen getCurrentScreen() {
+        return mParent.getCurrentScreen();
+    }
 
     @Override
     public void setParent(MenuAction<T> parent) {
@@ -58,17 +71,5 @@ public abstract class MenuActionItemBasic<T extends GvData> implements MenuActio
 
     boolean isAttached() {
         return mParent != null;
-    }
-
-    protected ReviewView<T> getReviewView() {
-        return mParent.getReviewView();
-    }
-
-    protected ApplicationInstance getApp() {
-        return mParent.getReviewView().getApp();
-    }
-
-    protected CurrentScreen getCurrentScreen() {
-        return mParent.getCurrentScreen();
     }
 }

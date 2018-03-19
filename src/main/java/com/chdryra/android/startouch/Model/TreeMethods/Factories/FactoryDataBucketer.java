@@ -31,7 +31,8 @@ public class FactoryDataBucketer {
     }
 
     public RatingBucketer newRatingsBucketer() {
-        return new RatingBucketerImpl(mTraverserFactory, new VisitorFactory.BucketVisitor<Float, DataRating>() {
+        return new RatingBucketerImpl(mTraverserFactory, new VisitorFactory.BucketVisitor<Float,
+                DataRating>() {
             @Override
             public VisitorDataBucketer<Float, DataRating> newVisitor() {
                 return mVisitorFactory.newRatingValueBucketer();

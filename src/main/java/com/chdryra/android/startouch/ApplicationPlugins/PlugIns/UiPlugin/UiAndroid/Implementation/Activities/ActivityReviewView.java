@@ -17,7 +17,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
@@ -32,6 +33,11 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         OptionSelectListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
     private static final String FRAGMENT = "Fragment";
+
+    @Nullable
+    public ReviewView<?> createReviewView() {
+        return getApp().unpackView(getIntent());
+    }
 
     protected AppInstanceAndroid getApp() {
         return AppInstanceAndroid.getInstance(this);
@@ -91,10 +97,5 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         getApp().onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Nullable
-    public ReviewView<?> createReviewView() {
-        return getApp().unpackView(getIntent());
     }
 }

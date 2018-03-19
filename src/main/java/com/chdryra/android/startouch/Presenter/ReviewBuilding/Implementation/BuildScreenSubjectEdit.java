@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
  */
 public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcelable>>
         extends ReviewEditorActionBasic<GC>
-        implements SubjectAction<GC>{
+        implements SubjectAction<GC> {
 
     @Override
     public void onKeyboardDone(CharSequence s) {
@@ -28,6 +28,6 @@ public class BuildScreenSubjectEdit<GC extends GvDataList<? extends GvDataParcel
 
     @Override
     public void onTextChanged(CharSequence s) {
-        if(!getEditor().getSubject().equals(s.toString())) getEditor().setSubject();
+        if (!getEditor().getSubject().equals(s.toString())) getEditor().setSubject();
     }
 }

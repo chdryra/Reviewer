@@ -16,7 +16,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasAuthorId
  * On: 25/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface UserAccount extends HasAuthorId{
+public interface UserAccount extends HasAuthorId {
     AuthenticatedUser getAccountHolder();
 
     SocialProfileRef getSocialProfile();

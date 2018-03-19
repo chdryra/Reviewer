@@ -11,14 +11,18 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparators
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
-import com.chdryra.android.corelibrary.Comparators.NamedComparator;
-import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
 import com.chdryra.android.corelibrary.Comparators.ComparatorCollectionImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DataGetters;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.FactoryComparators;
+import com.chdryra.android.corelibrary.Comparators.NamedComparator;
+import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.DataGetters;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.FactoryComparators;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -31,7 +35,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 import java.util.Comparator;
 
@@ -59,19 +62,19 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataComment> newCommentComparators() {
-        NamedComparator<DataComment> isHeadline 
+        NamedComparator<DataComment> isHeadline
                 = trueThenFalse("Headlines first", new DataGetters.CommentIsHeadline());
-        NamedComparator<DataComment> aToZ 
+        NamedComparator<DataComment> aToZ
                 = aToZ(upper(DataComment.TYPE_NAME), new DataGetters.CommentString());
-        
-        NamedComparator.Builder<DataComment> builder 
+
+        NamedComparator.Builder<DataComment> builder
                 = newBuilder(isHeadline.getId(), isHeadline)
                 .withReverseName("Headlines last")
                 .addTieBreaker(aToZ);
-        
+
         return new ComparatorCollectionImpl<>(builder.build());
     }
-    
+
     @Override
     public ComparatorCollection<DataCriterion> newCriterionComparators() {
         String rating = DataCriterion.RATING;
@@ -79,14 +82,14 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
         NamedComparator<DataCriterion> descRating
                 = ascRating(rating, new DataGetters.CriterionRating()).reverse();
-        NamedComparator<DataCriterion> aToZ 
+        NamedComparator<DataCriterion> aToZ
                 = aToZ(subject, new DataGetters.CriterionSubject());
-        
-        NamedComparator.Builder<DataCriterion> builder 
+
+        NamedComparator.Builder<DataCriterion> builder
                 = newBuilder(rating, descRating)
                 .withReverseName(descRating.getReverseName())
                 .addTieBreaker(aToZ);
-        
+
         NamedComparator<DataCriterion> desc = builder.build();
 
         ComparatorCollection<DataCriterion> comparators = new ComparatorCollectionImpl<>(desc);
@@ -104,7 +107,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
         ComparatorCollection<DateTime> comparators
                 = new ComparatorCollectionImpl<>(oldest.reverse());
         comparators.add(oldest);
-        
+
         return comparators;
     }
 
@@ -127,13 +130,13 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataLocation> newLocationComparators() {
-        NamedComparator<DataLocation> locations 
+        NamedComparator<DataLocation> locations
                 = aToZ(upper(DataLocation.TYPE_NAME), new DataGetters.LocationName());
-        
+
         ComparatorCollection<DataLocation> comparator
                 = new ComparatorCollectionImpl<>(locations);
         comparator.add(locations.reverse());
-        
+
         return comparator;
     }
 
@@ -189,7 +192,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataSocialPlatform> newSocialPlatformComparators() {
-        NamedComparator<DataSocialPlatform> platformNames 
+        NamedComparator<DataSocialPlatform> platformNames
                 = aToZ(upper(DataSocialPlatform.TYPE_NAME), new DataGetters.PlatformName());
         return new ComparatorCollectionImpl<>(platformNames);
     }
@@ -204,12 +207,12 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataTag> newTagComparators() {
-        NamedComparator<DataTag> aToZ 
+        NamedComparator<DataTag> aToZ
                 = aToZ(upper(DataTag.TYPE_NAME), new DataGetters.TagString());
         ComparatorCollection<DataTag> comparators
                 = new ComparatorCollectionImpl<>(aToZ);
         comparators.add(aToZ.reverse());
-        
+
         return comparators;
     }
 

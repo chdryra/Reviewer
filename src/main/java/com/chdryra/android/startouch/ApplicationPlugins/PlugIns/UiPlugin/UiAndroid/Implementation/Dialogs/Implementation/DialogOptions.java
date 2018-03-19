@@ -23,8 +23,10 @@ import android.widget.LinearLayout;
 import com.chdryra.android.corelibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -81,6 +83,18 @@ public class DialogOptions extends DialogOneButtonFragment implements
         hideKeyboardOnLaunch();
     }
 
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        mListener.onOptionsCancelled(getTargetRequestCode());
+    }
+
+    @Override
+    protected void onLeftButtonClick() {
+        super.onLeftButtonClick();
+        mListener.onOptionsCancelled(getTargetRequestCode());
+    }
+
     private List<String> getOptions() {
         List<String> options = null;
         if (getArguments() != null) options = getArguments().getStringArrayList(OPTIONS);
@@ -120,25 +134,13 @@ public class DialogOptions extends DialogOneButtonFragment implements
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mSelected != null) mSelected.setPressed(false);
+                if (mSelected != null) mSelected.setPressed(false);
                 mListener.onOptionSelected(getTargetRequestCode(), option);
                 dismiss();
             }
         });
 
         return button;
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        mListener.onOptionsCancelled(getTargetRequestCode());
-    }
-
-    @Override
-    protected void onLeftButtonClick() {
-        super.onLeftButtonClick();
-        mListener.onOptionsCancelled(getTargetRequestCode());
     }
 }
 

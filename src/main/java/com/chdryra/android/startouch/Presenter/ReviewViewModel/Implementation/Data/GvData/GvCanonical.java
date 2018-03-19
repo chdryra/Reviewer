@@ -21,7 +21,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCanonical;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhCanonical;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -38,7 +39,7 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     private GvDataList<T> mData;
     private GvDataType<T> mType;
 
-    public GvCanonical(){
+    public GvCanonical() {
 
     }
 
@@ -73,12 +74,14 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
 
     @Override
     public boolean add(T datum) {
-        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
+        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use " +
+                "constructor");
     }
 
     @Override
     public boolean addAll(@NonNull Collection<? extends T> collection) {
-        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
+        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use " +
+                "constructor");
     }
 
     @Override

@@ -8,10 +8,10 @@
 
 package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.corelibrary.AsyncUtils.AsyncWorkQueueImpl;
 import com.chdryra.android.corelibrary.AsyncUtils.WorkStore;
 import com.chdryra.android.corelibrary.AsyncUtils.WorkStoreCallback;
-import com.chdryra.android.corelibrary.AsyncUtils.AsyncWorkQueueImpl;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +29,7 @@ public class ReviewQueue extends AsyncWorkQueueImpl<Review> {
 
     @Override
     public void addItemToQueue(Review review, String reviewId, WorkStoreCallback<Review> callback) {
-        if(!reviewId.equals(review.getReviewId().toString())) {
+        if (!reviewId.equals(review.getReviewId().toString())) {
             throw new IllegalArgumentException("ItemId should be ReviewId!");
         }
 

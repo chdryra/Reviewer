@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollection;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.ComparatorCollection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.junit.Test;
 import java.util.Comparator;
 
 import static org.apache.commons.lang3.Range.is;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.*;
 
 /**

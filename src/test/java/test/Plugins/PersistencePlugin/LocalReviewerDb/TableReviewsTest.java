@@ -14,10 +14,14 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableAuthors;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableAuthors;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
 
 
 /**
@@ -25,7 +29,7 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 20/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
+public class TableReviewsTest extends ReviewerDbTableTest<RowReview> {
     private static final String NAME = "Reviews";
     private static final ColumnInfo<?>[] ROWS = {RowReview.REVIEW_ID,
             RowReview.AUTHOR_ID, RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING,
@@ -39,7 +43,8 @@ public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
     }
 
     @Override
-    protected DbTable<RowReview> getTableToTest(FactoryDbColumnDef colFactory, FactoryForeignKeyConstraint constraintFactory) {
+    protected DbTable<RowReview> getTableToTest(FactoryDbColumnDef colFactory,
+                                                FactoryForeignKeyConstraint constraintFactory) {
         mAuthorsTable = new TableAuthors(colFactory);
         return new TableReviews(colFactory, mAuthorsTable, constraintFactory);
     }

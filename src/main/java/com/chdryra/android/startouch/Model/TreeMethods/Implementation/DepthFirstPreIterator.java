@@ -36,24 +36,24 @@ public class DepthFirstPreIterator implements Iterator<ReviewNode> {
 
     @Override
     public ReviewNode next() {
-        if(!hasNext()) throw new NoSuchElementException("No nodes left");
+        if (!hasNext()) throw new NoSuchElementException("No nodes left");
         ReviewNode next = mStack.pop();
         pushChildren(next);
         return next;
     }
 
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Remove is not supported");
+    }
+
     private void pushChildren(ReviewNode node) {
-        for(ReviewNode child : node.getChildren()) {
+        for (ReviewNode child : node.getChildren()) {
             push(child);
         }
     }
 
     private void push(ReviewNode node) {
         mStack.push(node);
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("Remove is not supported");
     }
 }

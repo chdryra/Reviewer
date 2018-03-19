@@ -11,9 +11,9 @@ package com.chdryra.android.startouch.Application.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
+import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.NullAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;

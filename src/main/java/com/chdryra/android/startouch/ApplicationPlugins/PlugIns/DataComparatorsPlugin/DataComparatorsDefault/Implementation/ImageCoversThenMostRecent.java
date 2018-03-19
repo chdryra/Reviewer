@@ -6,10 +6,11 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
 import java.util.Comparator;
 

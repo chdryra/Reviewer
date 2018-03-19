@@ -54,33 +54,8 @@ public class FactorySocialPlatformList {
     }
 
     public SocialPlatformList getPlatforms() {
-        if(sPlatforms == null) sPlatforms = newPlatforms();
+        if (sPlatforms == null) sPlatforms = newPlatforms();
         return sPlatforms;
-    }
-
-    private SocialPlatformList newPlatforms() {
-        SocialPlatformList list = new SocialPlatformList();
-        list.add(newTwitter4j());
-        list.add(newFacebook());
-
-        return list;
-    }
-
-    private SocialPlatform<AccessToken> newTwitter4j() {
-        String key = string(PlatformTwitter.KEY);
-        String secret = string(PlatformTwitter.SECRET);
-        String name = PlatformTwitter.NAME;
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        Twitter twitter = tf.getInstance();
-
-        ReviewSummariser summariser = new ReviewSummariser();
-        ReviewFormatter formatter = new ReviewFormatterTwitter();
-        PublisherTwitter4j publisher = new PublisherTwitter4j(name, twitter, summariser, formatter);
-
-        return new PlatformTwitter4j(mContext, publisher);
     }
 
     public SocialPlatform<TwitterAuthToken> newTwitterFabric() {
@@ -91,15 +66,6 @@ public class FactorySocialPlatformList {
         PublisherTwitterFabric publisher = new PublisherTwitterFabric(name, summariser, formatter);
 
         return new PlatformTwitterFabric(mContext, publisher);
-    }
-    
-    private SocialPlatform<com.facebook.AccessToken> newFacebook() {
-        ReviewSummariser summariser = new ReviewSummariser();
-        ReviewFormatter formatter = new ReviewFormatterFacebook();
-        PublisherFacebook publisher
-                = new PublisherFacebook(PlatformFacebook.NAME, summariser, formatter);
-
-        return new PlatformFacebook(mContext, publisher);
     }
 
     public SocialPlatform<AccessTokenDefault> newTumblr() {
@@ -130,6 +96,40 @@ public class FactorySocialPlatformList {
                 .newFoursquareAuthorisationRequester(key, secret, name);
 
         return new PlatformFoursquare(publisher, authRequester);
+    }
+
+    private SocialPlatformList newPlatforms() {
+        SocialPlatformList list = new SocialPlatformList();
+        list.add(newTwitter4j());
+        list.add(newFacebook());
+
+        return list;
+    }
+
+    private SocialPlatform<AccessToken> newTwitter4j() {
+        String key = string(PlatformTwitter.KEY);
+        String secret = string(PlatformTwitter.SECRET);
+        String name = PlatformTwitter.NAME;
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterTwitter();
+        PublisherTwitter4j publisher = new PublisherTwitter4j(name, twitter, summariser, formatter);
+
+        return new PlatformTwitter4j(mContext, publisher);
+    }
+
+    private SocialPlatform<com.facebook.AccessToken> newFacebook() {
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterFacebook();
+        PublisherFacebook publisher
+                = new PublisherFacebook(PlatformFacebook.NAME, summariser, formatter);
+
+        return new PlatformFacebook(mContext, publisher);
     }
 
     private String string(int id) {

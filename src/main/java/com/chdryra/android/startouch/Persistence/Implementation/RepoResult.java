@@ -26,14 +26,14 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RepoResult {
+    private final Collection<Review> mReviews = new ArrayList<>();
+    private final Collection<ReviewReference> mReferences = new ArrayList<>();
+    private final CallbackMessage mMessage;
     private AuthorId mAuthorId;
     private Review mReview;
     private ReviewNode mNode;
     private ReviewId mId;
     private ReviewReference mReference;
-    private final Collection<Review> mReviews = new ArrayList<>();
-    private final Collection<ReviewReference> mReferences = new ArrayList<>();
-    private final CallbackMessage mMessage;
 
     public RepoResult(CallbackMessage message) {
         mMessage = message;
@@ -64,20 +64,21 @@ public class RepoResult {
         mId = review != null ? mReview.getReviewId() : null;
         mMessage = message;
     }
+
     public RepoResult(ReviewReference reference) {
         this(reference, CallbackMessage.ok());
     }
 
 
-    private RepoResult(@Nullable ReviewReference reference, CallbackMessage message) {
-        mReference = reference;
-        mId = reference != null ? mReference.getReviewId() : null;
-        mMessage = message;
-    }
-
     public RepoResult(ReviewNode node, CallbackMessage message) {
         mNode = node;
         mId = node != null ? node.getReviewId() : null;
+        mMessage = message;
+    }
+
+    private RepoResult(@Nullable ReviewReference reference, CallbackMessage message) {
+        mReference = reference;
+        mId = reference != null ? mReference.getReviewId() : null;
         mMessage = message;
     }
 

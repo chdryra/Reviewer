@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConvert
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhFact;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhFact;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -62,6 +63,10 @@ public class GvFact extends GvDualText implements DataFact {
         this(fact.getGvReviewId(), fact.getLabel(), fact.getValue());
     }
 
+    protected GvFact(Parcel in) {
+        super(in);
+    }
+
     public static GvFact newFactOrUrl(String label, String urlCandidate) {
         String urlGuess = URLUtil.guessUrl(urlCandidate.toLowerCase());
         try {
@@ -69,10 +74,6 @@ public class GvFact extends GvDualText implements DataFact {
         } catch (MalformedURLException e) {
             return new GvFact(label, urlCandidate);
         }
-    }
-
-    protected GvFact(Parcel in) {
-        super(in);
     }
 
     @Override

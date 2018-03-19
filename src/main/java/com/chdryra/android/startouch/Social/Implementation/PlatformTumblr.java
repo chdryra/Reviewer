@@ -8,11 +8,11 @@
 
 package com.chdryra.android.startouch.Social.Implementation;
 
-import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.R;
 import com.chdryra.android.startouch.Social.Interfaces.LoginUi;
 import com.chdryra.android.startouch.Social.Interfaces.OAuthRequester;
+import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**

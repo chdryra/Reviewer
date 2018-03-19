@@ -16,5 +16,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullAuthor {
-    public static final AuthorName AUTHOR = new AuthorNameDefault("NULL", new AuthorIdParcelable("NULL"));
+    public static final AuthorName AUTHOR = new AuthorNameDefault("NULL", new AuthorIdParcelable
+            ("NULL"));
 }

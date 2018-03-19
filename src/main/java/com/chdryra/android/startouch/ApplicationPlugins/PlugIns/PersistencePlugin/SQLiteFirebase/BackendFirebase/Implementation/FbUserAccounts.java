@@ -15,14 +15,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbProfile;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryUserAccount;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbDataReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryFbProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbDataReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.Authentication.Factories.FactoryAuthorProfileSnapshot;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
@@ -32,7 +40,6 @@ import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Utils.EmailAddress;
 import com.chdryra.android.startouch.Utils.EmailPassword;
@@ -59,7 +66,8 @@ public class FbUserAccounts implements UserAccounts {
             (FirebaseBackend.NAME, AuthenticationError.Reason.UNKNOWN_USER);
     private static final AuthenticationError UNKNOWN_AUTHOR_ERROR = new AuthenticationError
             (FirebaseBackend.NAME, AuthenticationError.Reason.UNKNOWN_AUTHOR);
-    private static final AuthenticationError MISMATCH_ERROR = new AuthenticationError(ApplicationInstance
+    private static final AuthenticationError MISMATCH_ERROR = new AuthenticationError
+            (ApplicationInstance
             .APP_NAME, AuthenticationError.Reason
             .AUTHORISATION_REFUSED, "Account and profile author do not match");
 
@@ -256,7 +264,8 @@ public class FbUserAccounts implements UserAccounts {
                     .newNullAccount(user);
         } else {
             AuthorId authorId = user.getAuthorId();
-            return mAccountFactory.newAccount(user, getAuthorProfile(authorId), getSocialProfile(authorId));
+            return mAccountFactory.newAccount(user, getAuthorProfile(authorId), getSocialProfile
+                    (authorId));
         }
     }
 

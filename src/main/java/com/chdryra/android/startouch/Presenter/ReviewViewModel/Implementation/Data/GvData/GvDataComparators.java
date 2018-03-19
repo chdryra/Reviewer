@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsApi;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 
 import java.util.Comparator;
@@ -38,7 +39,8 @@ public class GvDataComparators {
         mMap.put(GvImage.TYPE, comparatorsFactory.newImageComparators().getDefault());
         mMap.put(GvLocation.TYPE, comparatorsFactory.newLocationComparators().getDefault());
         mMap.put(GvNode.TYPE, comparatorsFactory.newReviewComparators().getDefault());
-        mMap.put(GvSocialPlatform.TYPE, comparatorsFactory.newSocialPlatformComparators().getDefault());
+        mMap.put(GvSocialPlatform.TYPE, comparatorsFactory.newSocialPlatformComparators()
+                .getDefault());
         mMap.put(GvTag.TYPE, comparatorsFactory.newTagComparators().getDefault());
         mMap.put(GvUrl.TYPE, comparatorsFactory.newUrlComparators().getDefault());
     }
@@ -52,9 +54,10 @@ public class GvDataComparators {
         return sComparator;
     }
 
-    public static <T extends GvData> Comparator<? super T> getDefaultComparator(GvDataType<T> elementType) {
+    public static <T extends GvData> Comparator<? super T> getDefaultComparator(GvDataType<T>
+                                                                                        elementType) {
         Comparator<? super T> sorter = sComparator.mMap.get(elementType);
-        if(sorter != null) {
+        if (sorter != null) {
             return sorter;
         } else {
             return newBasicComparator(elementType);
@@ -75,7 +78,8 @@ public class GvDataComparators {
         private final Map<GvDataType<? extends GvData>, Comparator<?>> mMap = new HashMap<>();
 
 
-        private <T extends GvData> void put(GvDataType<T> dataType, Comparator<? super T> comparator) {
+        private <T extends GvData> void put(GvDataType<T> dataType, Comparator<? super T>
+                comparator) {
             mMap.put(dataType, comparator);
         }
 

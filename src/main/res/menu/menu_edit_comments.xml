@@ -13,21 +13,21 @@
         android:id="@+id/menu_item_split_comment"
         android:icon="@drawable/ic_action_full_screen"
         android:showAsAction="always|withText"
-        tools:ignore="AppCompatResource"
-        android:title="@string/menu_sentences"/>
+        android:title="@string/menu_sentences"
+        tools:ignore="AppCompatResource"/>
 
     <item
         android:id="@+id/menu_item_delete"
         android:icon="@drawable/ic_menu_delete"
         android:showAsAction="always|withText"
-        tools:ignore="AppCompatResource"
-        android:title="@string/gl_menu_delete"/>
+        android:title="@string/gl_menu_delete"
+        tools:ignore="AppCompatResource"/>
 
     <item
         android:id="@+id/menu_item_preview"
         android:icon="@drawable/ic_menu_view"
         android:showAsAction="ifRoom|withText"
-        tools:ignore="AppCompatResource"
-        android:title="@string/menu_preview_review"/>
+        android:title="@string/menu_preview_review"
+        tools:ignore="AppCompatResource"/>
 
 </menu>

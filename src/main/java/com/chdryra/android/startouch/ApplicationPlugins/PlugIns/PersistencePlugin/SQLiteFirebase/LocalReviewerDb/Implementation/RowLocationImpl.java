@@ -6,23 +6,23 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
+import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
-
-
-
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
-import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
@@ -64,14 +64,14 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
         Double lat = values.getValue(LATITUDE.getName(), LATITUDE.getType());
         mLatitude = lat != null ? lat : -91.;
         Double lng = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
-        mLongitude = lng !=  null ? lng : -181.;
+        mLongitude = lng != null ? lng : -181.;
         mName = values.getValue(NAME.getName(), NAME.getType());
         mAddress = values.getValue(ADDRESS.getName(), ADDRESS.getType());
         String provider = values.getValue(PROVIDER.getName(), PROVIDER.getType());
         String providerId = values.getValue(PROVIDER_ID.getName(), PROVIDER_ID.getType());
 
         mId = provider != null ? new LocationId(new LocationProvider(provider), providerId) :
-        LocationId.withProviderName(mName, new LatLng(mLatitude, mLongitude));
+                LocationId.withProviderName(mName, new LatLng(mLatitude, mLongitude));
     }
 
     @Override
@@ -128,21 +128,22 @@ public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLo
 
     @Override
     protected RowEntry<RowLocation, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowLocation.class, LOCATION_ID, mLocationId);
-        } else if(position == 1) {
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowLocation.class, REVIEW_ID, mReviewId);
-        } else if(position == 2) {
+        } else if (position == 2) {
             return new RowEntryImpl<>(RowLocation.class, LATITUDE, mLatitude);
-        } else if(position == 3) {
+        } else if (position == 3) {
             return new RowEntryImpl<>(RowLocation.class, LONGITUDE, mLongitude);
-        } else if(position == 4) {
+        } else if (position == 4) {
             return new RowEntryImpl<>(RowLocation.class, NAME, mName);
-        } else if(position == 5) {
+        } else if (position == 5) {
             return new RowEntryImpl<>(RowLocation.class, ADDRESS, mAddress);
-        } else if(position == 6) {
-            return new RowEntryImpl<>(RowLocation.class, PROVIDER, mId.getProvider().getProviderName());
-        } else if(position == 7) {
+        } else if (position == 6) {
+            return new RowEntryImpl<>(RowLocation.class, PROVIDER, mId.getProvider()
+                    .getProviderName());
+        } else if (position == 7) {
             return new RowEntryImpl<>(RowLocation.class, PROVIDER_ID, mId.getId());
         } else {
             throw noElement();

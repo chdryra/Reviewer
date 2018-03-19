@@ -224,9 +224,19 @@ public class TagsManagerImplTest {
 
         ItemTagCollection tagCollection = mManager.getTags(id2);
         checkInArrayOfTags(id2Tags, tagCollection);
-        for(ItemTag tag : tagCollection) {
+        for (ItemTag tag : tagCollection) {
             assertThat(tag.tagsItem(id2), is(true));
         }
+    }
+
+    @NonNull
+    private ArrayList<String> getTags() {
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        return tags;
     }
 
     private void checkCorrectItemIdsTagged(String idExisiting, String idAll, String new1, String
@@ -251,15 +261,5 @@ public class TagsManagerImplTest {
             assertThat(tagsLeft.contains(tagString), is(true));
             tagsLeft.remove(tagString);
         }
-    }
-
-    @NonNull
-    private ArrayList<String> getTags() {
-        ArrayList<String> tags = new ArrayList<>();
-        tags.add(RandomString.nextWordLowerCase());
-        tags.add(RandomString.nextWordLowerCase());
-        tags.add(RandomString.nextWordLowerCase());
-        tags.add(RandomString.nextWordLowerCase());
-        return tags;
     }
 }

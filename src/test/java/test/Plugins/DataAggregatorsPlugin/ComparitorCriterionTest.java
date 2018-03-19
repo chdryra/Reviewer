@@ -9,10 +9,11 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class ComparitorCriterionTest {
         mSubjectRhs = RandomString.nextWord();
         mRatingLhs = RandomRating.nextRating();
         mRatingRhs = RandomRating.nextRating();
-        while(mRatingRhs == mRatingLhs) mRatingRhs = RandomRating.nextRating();
+        while (mRatingRhs == mRatingLhs) mRatingRhs = RandomRating.nextRating();
     }
 
     @Test

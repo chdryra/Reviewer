@@ -6,12 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
@@ -20,7 +22,7 @@ import com.firebase.client.Firebase;
  * On: 10/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbUsersStructure extends FbProfilesStructure, FbSocialStructure{
+public interface FbUsersStructure extends FbProfilesStructure, FbSocialStructure {
     String PROVIDER_IDS_TO_AUTHOR_IDS = "ProviderIds_AuthorIds";
     String AUTHOR_IDS_TO_PROVIDER_IDS = "AuthorIds_ProviderIds";
     String AUTHOR_NAMES_TO_AUTHOR_IDS = "AuthorNames_AuthorIds";

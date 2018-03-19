@@ -18,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorIdParcelable implements AuthorId, Parcelable{
+public class AuthorIdParcelable implements AuthorId, Parcelable {
     public static final Creator<AuthorIdParcelable> CREATOR = new Creator<AuthorIdParcelable>() {
         @Override
         public AuthorIdParcelable createFromParcel(Parcel in) {

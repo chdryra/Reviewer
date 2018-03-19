@@ -16,7 +16,7 @@ import android.os.Parcelable;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishResults implements Parcelable{
+public class PublishResults implements Parcelable {
     public static final Creator<PublishResults> CREATOR = new Creator<PublishResults>() {
         @Override
         public PublishResults createFromParcel(Parcel in) {

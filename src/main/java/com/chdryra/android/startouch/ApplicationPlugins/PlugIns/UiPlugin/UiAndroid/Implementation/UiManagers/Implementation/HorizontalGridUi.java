@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.content.Context;
@@ -17,7 +17,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,7 +41,7 @@ public class HorizontalGridUi<T extends HasReviewId> extends ViewUi<RecyclerView
 
         getView().setLayoutManager(layout);
         getView().setAdapter(mAdapter);
-        if(onClick != null) getView().addOnItemTouchListener(new TouchIsClickListener(onClick));
+        if (onClick != null) getView().addOnItemTouchListener(new TouchIsClickListener(onClick));
     }
 
     @Override

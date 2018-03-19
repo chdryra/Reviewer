@@ -6,16 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Plugin;
 
 import android.content.Context;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.ReviewUploaderAndroid;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.ReviewUploaderReceiver;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactoryReviewUploader;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewUploader;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactoryReviewUploader;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.ReviewUploaderAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendService.ReviewUploaderReceiver;
 
 /**
  * Created by: Rizwan Choudrey

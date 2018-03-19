@@ -32,12 +32,15 @@ import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndro
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.MenuUpAppLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.MenuUpAppLevel;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiUpAppLevel;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiUpAppLevel;
 import com.chdryra.android.startouch.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -65,11 +68,11 @@ public abstract class FragmentMapLocation extends Fragment implements
     private static final int MAP_VIEW = R.id.mapView;
     private static final int REVIEW_BUTTON = R.id.button_left;
     private static final int DONE_BUTTON = R.id.button_right;
+
     private static final float DEFAULT_ZOOM = 15;
-    private static final PermissionsManager.Permission LOCATION = PermissionsManager.Permission
-            .LOCATION;
-    private static final int PERMISSION = RequestCodeGenerator.getCode
-            (FragmentMapLocation.class);
+    private static final int PERMISSION = RequestCodeGenerator.getCode(FragmentMapLocation.class);
+    private static final PermissionsManager.Permission LOCATION
+            = PermissionsManager.Permission.LOCATION;
 
     private GoogleMap mGoogleMap;
     private MapView mMapView;
@@ -160,8 +163,8 @@ public abstract class FragmentMapLocation extends Fragment implements
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mGoogleMap = googleMap;
+                initialiseMapOnly();
                 enableMyLocation();
-                initialiseMap();
             }
         });
 
@@ -177,7 +180,7 @@ public abstract class FragmentMapLocation extends Fragment implements
     }
 
     @Override
-    public void onConnected(Location location, CallbackMessage message) {
+    public void onConnected(CallbackMessage message) {
 
     }
 
@@ -292,14 +295,17 @@ public abstract class FragmentMapLocation extends Fragment implements
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
         } catch (SecurityException e) {
-            getApp().getPermissions().requestPermissions(PERMISSION, this, LOCATION);
+            requestPermission();
         }
     }
 
-    private void initialiseMap() {
+    private void requestPermission() {
+        getApp().getPermissions().requestPermissions(PERMISSION, this, LOCATION);
+    }
+
+    private void initialiseMapOnly() {
         mGoogleMap.clear();
         setMapListeners();
-
         //Any map camera manipulation in onMapReady() can only be done post layout
         if (mMapView.getViewTreeObserver().isAlive()) {
             mMapView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -308,9 +314,11 @@ public abstract class FragmentMapLocation extends Fragment implements
                         public void onGlobalLayout() {
                             onMapReady();
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                                mMapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                                mMapView.getViewTreeObserver().removeGlobalOnLayoutListener
+                                        (this);
                             } else {
-                                mMapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                mMapView.getViewTreeObserver().removeOnGlobalLayoutListener
+                                        (this);
                             }
                         }
                     });

@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataCollection;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataCollection;
 
 import java.util.AbstractCollection;
 import java.util.Comparator;
@@ -30,7 +31,7 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<GvCanonical>
-        implements GvDataCollection<GvCanonical>{
+        implements GvDataCollection<GvCanonical> {
     private final GvReviewId mReviewId;
     private final GvDataList<GvCanonical> mData;
     private final GvDataType<T> mType;
@@ -46,14 +47,18 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
         setComparator();
     }
 
+    public boolean addCanonnical(GvCanonical<T> canonical) {
+        return mData.add(canonical);
+    }
+
+    public T getCanonical(int position) {
+        return get(position).getCanonical();
+    }
+
     @Nullable
     @Override
     public GvDataParcelable getParcelable() {
         return null;
-    }
-
-    public boolean addCanonnical(GvCanonical<T> canonical) {
-        return mData.add(canonical);
     }
 
     @Override
@@ -72,18 +77,6 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
         return datum.getGvDataType().equals(mType) && addCanonnical(datum);
     }
 
-    private void setComparator() {
-        final Comparator<? super T> comparator = GvDataComparators.getDefaultComparator(mType);
-        mComparator = new Comparator<GvCanonical>() {
-            //Overridden
-            @Override
-            public int compare(GvCanonical lhs, GvCanonical rhs) {
-                //TODO make type safe
-                return comparator.compare((T) lhs.getCanonical(), (T) rhs.getCanonical());
-            }
-        };
-    }
-
     //Overridden
     @Override
     public int size() {
@@ -99,10 +92,6 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
     public GvCanonical<T> get(int position) {
         //TODO make type safe
         return mData.get(position);
-    }
-
-    public T getCanonical(int position) {
-        return get(position).getCanonical();
     }
 
     @Override
@@ -172,5 +161,17 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
         int result = mData.hashCode();
         result = 31 * result + mType.hashCode();
         return result;
+    }
+
+    private void setComparator() {
+        final Comparator<? super T> comparator = GvDataComparators.getDefaultComparator(mType);
+        mComparator = new Comparator<GvCanonical>() {
+            //Overridden
+            @Override
+            public int compare(GvCanonical lhs, GvCanonical rhs) {
+                //TODO make type safe
+                return comparator.compare((T) lhs.getCanonical(), (T) rhs.getCanonical());
+            }
+        };
     }
 }

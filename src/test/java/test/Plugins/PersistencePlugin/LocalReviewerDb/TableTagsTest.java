@@ -14,16 +14,19 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.TableTags;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.TableTags;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 20/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableTagsTest extends ReviewerDbTableTest<RowTag>{
+public class TableTagsTest extends ReviewerDbTableTest<RowTag> {
     private static final String NAME = "Tags";
     private static final ColumnInfo<?>[] COLS = {RowTag.TAG, RowTag.REVIEWS};
     private static final ColumnInfo<?>[] NULLABLE = {};
@@ -33,7 +36,8 @@ public class TableTagsTest extends ReviewerDbTableTest<RowTag>{
     }
 
     @Override
-    protected DbTable<RowTag> getTableToTest(FactoryDbColumnDef colFactory, FactoryForeignKeyConstraint constraintFactory) {
+    protected DbTable<RowTag> getTableToTest(FactoryDbColumnDef colFactory,
+                                             FactoryForeignKeyConstraint constraintFactory) {
         return new TableTags(colFactory);
     }
 }

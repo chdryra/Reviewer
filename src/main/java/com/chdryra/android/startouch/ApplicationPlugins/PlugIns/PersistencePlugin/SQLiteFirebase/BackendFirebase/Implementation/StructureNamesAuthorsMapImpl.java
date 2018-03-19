@@ -6,16 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureNamesAuthorsMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
 
 import java.util.Map;
 
@@ -24,7 +28,8 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureNamesAuthorsMapImpl extends DbStructureBasic<User> implements StructureNamesAuthorsMap {
+public class StructureNamesAuthorsMapImpl extends DbStructureBasic<User> implements
+        StructureNamesAuthorsMap {
     public StructureNamesAuthorsMapImpl(String path) {
         setPathToStructure(path);
     }
@@ -38,7 +43,7 @@ public class StructureNamesAuthorsMapImpl extends DbStructureBasic<User> impleme
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
         ProfileAuthor profile = user.getProfile();
-        if(profile == null) return noUpdates();
+        if (profile == null) return noUpdates();
 
         String name = profile.getAuthor().getName();
         String authorId = user.getAuthorId();

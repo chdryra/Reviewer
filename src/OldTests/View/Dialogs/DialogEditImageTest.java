@@ -45,7 +45,7 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImage> {
         return mCurrent;
     }
 
-//Overridden
+    //Overridden
     @Override
     protected GvData newDatum() {
         mCurrent = (GvImage) super.newDatum();

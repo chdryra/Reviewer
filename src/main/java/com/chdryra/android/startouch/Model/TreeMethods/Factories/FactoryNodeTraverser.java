@@ -8,10 +8,9 @@
 
 package com.chdryra.android.startouch.Model.TreeMethods.Factories;
 
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation
-        .DepthFirstPreIterator;
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.DepthFirstPreIterator;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.TreeTraverser;
 
 import java.util.Iterator;

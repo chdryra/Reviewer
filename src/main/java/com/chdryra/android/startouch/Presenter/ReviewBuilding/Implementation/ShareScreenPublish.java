@@ -13,8 +13,10 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
 
 import java.util.ArrayList;
 
@@ -27,7 +29,8 @@ public class ShareScreenPublish extends UploadButton<GvSocialPlatform> {
     private final ReviewEditor<?> mEditor;
     private final GvSocialPlatformList mPlatforms;
 
-    public ShareScreenPublish(ReviewEditor<?> editor, PublishAction publishAction, GvSocialPlatformList platforms) {
+    public ShareScreenPublish(ReviewEditor<?> editor, PublishAction publishAction,
+                              GvSocialPlatformList platforms) {
         super(Strings.Buttons.PUBLISH, publishAction);
         mEditor = editor;
         mPlatforms = platforms;
@@ -42,8 +45,8 @@ public class ShareScreenPublish extends UploadButton<GvSocialPlatform> {
     @Override
     protected ArrayList<String> getSocialPlatforms() {
         ArrayList<String> chosenPlatforms = new ArrayList<>();
-        for(GvSocialPlatform platform : mPlatforms) {
-            if(platform.isChosen()) chosenPlatforms.add(platform.getName());
+        for (GvSocialPlatform platform : mPlatforms) {
+            if (platform.isChosen()) chosenPlatforms.add(platform.getName());
         }
 
         return chosenPlatforms;

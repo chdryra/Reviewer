@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
 
 /**
  * {@link ViewHolder}: {@link com.chdryra.android.reviewer
@@ -32,8 +33,8 @@ public class VhSocialPlatform extends VhDualText implements GvSocialPlatform.Pla
     @Override
     public void onPlatformStateChange(GvSocialPlatform platform) {
         String name = platform.getName();
-        if(platform.isAuthorised()) {
-            if(platform.isChosen()) {
+        if (platform.isAuthorised()) {
+            if (platform.isChosen()) {
                 getView().setActivated(true);
                 super.updateView(platform.getName(), SHARE);
             } else {

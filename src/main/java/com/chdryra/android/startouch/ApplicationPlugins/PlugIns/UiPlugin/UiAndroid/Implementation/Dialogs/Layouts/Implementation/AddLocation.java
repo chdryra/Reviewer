@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 
 import android.app.Activity;
@@ -21,14 +22,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocatedPlace;
+import com.chdryra.android.corelibrary.LocationServices.LocationAutoCompleter;
 import com.chdryra.android.corelibrary.LocationServices.LocationDetails;
 import com.chdryra.android.corelibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.LocationServices.LocationProvider;
 import com.chdryra.android.corelibrary.LocationServices.NearestPlacesSuggester;
 import com.chdryra.android.corelibrary.LocationServices.UserLocatedPlace;
+import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
 import com.chdryra.android.corelibrary.LocationUtils.LocationClientGoogle;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.corelibrary.Viewholder.VhDataList;
@@ -38,11 +40,16 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.NullLocatedPlace;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .NullLocatedPlace;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhdLocatedPlace;
 import com.chdryra.android.startouch.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -58,78 +65,36 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientGoogle.Locatable,
         NearestPlacesSuggester.NearestPlacesListener,
         LocationDetailsFetcher.LocationDetailsListener {
+    public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
+    public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
     private static final int LAYOUT = R.layout.dialog_location_add;
     private static final int NAME = R.id.location_add_edit_text;
     private static final int LIST = R.id.suggestions_list_view;
-
-    public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
-    public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
-
     private static final String NO_LOCATIONS = Strings.EditTexts.NO_SUGGESTIONS;
     private static final String SEARCHING_HERE = Strings.EditTexts.SEARCHING_NEAR_HERE;
     private static final String SEARCHING_PHOTO = Strings.EditTexts.SEARCHING_NEAR_PHOTO;
-
+    private final LocationServices mLocationServices;
+    private final LocationDetailsFetcher mFetcher;
     private Context mContext;
     private LatLng mCurrentLatLng;
     private LatLng mSelectedLatLng;
     private ViewHolderAdapterFiltered mFilteredAdapter;
-
     private String mSearching;
     private String mHint;
-
     private VhdLocatedPlace mNoLocationMessage;
     private VhdLocatedPlace mSearchingMessage;
-
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
-
-    private final LocationServices mLocationServices;
-    private final LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
     private LocationAutoCompleter mAutoCompleter;
 
     private LocationDetails mDetails;
+    private LocationClient mLocationClient;
 
     public AddLocation(GvDataAdder adder, LocationServices locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newLocationDetailsFetcher();
-    }
-
-    private void fetchPlaceDetails(LocatedPlace place) {
-        mNameEditText.setText(null);
-        mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
-        mFetcher.fetchPlaceDetails(place, this);
-    }
-
-    private void findPlaceSuggestions() {
-        //Initial suggestions
-        mSuggester.fetchSuggestions(new UserLocatedPlace(mCurrentLatLng), this);
-
-        //Whilst initial suggestions are being found....
-        ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
-        message.add(mSearchingMessage);
-        setNewSuggestionsAdapter(message);
-    }
-
-    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
-        mAutoCompleter = mLocationServices.newAutoCompleter(place);
-        mFilteredAdapter = new ViewHolderAdapterFiltered<>(mContext, names,
-                new VhdLocatedPlace(new NullLocatedPlace()), new VhdLocatedPlaceFilter(mAutoCompleter));
-        ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
-    }
-
-    private void onLatLngFound(LatLng latLng) {
-        mCurrentLatLng = latLng;
-        mSelectedLatLng = latLng;
-        setMessages();
-        findPlaceSuggestions();
-    }
-
-    private void setMessages() {
-        mNoLocationMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, NO_LOCATIONS));
-        mSearchingMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mSearching));
     }
 
     @Override
@@ -138,7 +103,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         String address = mDetails != null ? mDetails.getAddress() : name;
         LocationId locationId = mDetails != null ?
                 new LocationId(mDetails.getProvider(), mDetails.getId())
-                : new LocationId(new LocationProvider(Strings.APP_NAME), mSelectedLatLng.toString());
+                : new LocationId(new LocationProvider(Strings.APP_NAME), mSelectedLatLng.toString
+                ());
         return new GvLocation(mSelectedLatLng, name, address, locationId);
     }
 
@@ -189,7 +155,9 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (mCurrentLatLng != null) {
             onLatLngFound(mCurrentLatLng);
         } else {
-            AppInstanceAndroid.getInstance(mContext).getGeolocation().newLocationClient().connect(this);
+            mLocationClient = AppInstanceAndroid.getInstance(mContext)
+                    .getGeolocation().newLocationClient();
+            mLocationClient.connect(this);
         }
 
         return v;
@@ -210,14 +178,14 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onLocated(Location location, CallbackMessage message) {
-        if(message.isOk()) {
+        if (message.isOk()) {
             onLatLngFound(new LatLng(location.getLatitude(), location.getLongitude()));
         }
     }
 
     @Override
-    public void onConnected(Location location, CallbackMessage message) {
-        onLocated(location, message);
+    public void onConnected(CallbackMessage message) {
+        if (message.isOk()) mLocationClient.locate();
     }
 
     @Override
@@ -253,6 +221,44 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         super.onActivityStopped();
     }
 
+    private void fetchPlaceDetails(LocatedPlace place) {
+        mNameEditText.setText(null);
+        mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
+        mFetcher.fetchPlaceDetails(place, this);
+    }
+
+    private void findPlaceSuggestions() {
+        //Initial suggestions
+        mSuggester.fetchSuggestions(new UserLocatedPlace(mCurrentLatLng), this);
+
+        //Whilst initial suggestions are being found....
+        ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
+        message.add(mSearchingMessage);
+        setNewSuggestionsAdapter(message);
+    }
+
+    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
+        LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
+        mAutoCompleter = mLocationServices.newAutoCompleter(place);
+        mFilteredAdapter = new ViewHolderAdapterFiltered<>(mContext, names,
+                new VhdLocatedPlace(new NullLocatedPlace()), new VhdLocatedPlaceFilter
+                (mAutoCompleter));
+        ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
+    }
+
+    private void onLatLngFound(LatLng latLng) {
+        mCurrentLatLng = latLng;
+        mSelectedLatLng = latLng;
+        setMessages();
+        findPlaceSuggestions();
+    }
+
+    private void setMessages() {
+        mNoLocationMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng,
+                NO_LOCATIONS));
+        mSearchingMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mSearching));
+    }
+
     private static class VhdLocatedPlaceFilter implements VhQueryFilter<VhdLocatedPlace> {
         private final LocationAutoCompleter mAutoCompleter;
 
@@ -264,7 +270,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         public VhDataList<VhdLocatedPlace> filter(String query) {
             List<LocatedPlace> filterResults = mAutoCompleter.filter(query);
             VhDataList<VhdLocatedPlace> list = new VhDataList<>();
-            for(LocatedPlace place : filterResults) {
+            for (LocatedPlace place : filterResults) {
                 list.add(new VhdLocatedPlace(place));
             }
 

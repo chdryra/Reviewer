@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Factories.FactoryDbColumnDef;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbTableImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Factories.FactoryDbColumnDef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.DbTableImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,12 +30,12 @@ class ReviewerDbTableImpl<T extends DbTableRow> extends DbTableImpl<T> {
         mColumnFactory = columnFactory;
     }
 
-    <Type> void addPkColumn(ColumnInfo<Type> info) {
-        addPrimaryKeyColumn(mColumnFactory.newPkColumn(info.getName(), info.getType()));
-    }
-
     protected <Type> void addNullableColumn(ColumnInfo<Type> info) {
         addColumn(mColumnFactory.newNullableColumn(info.getName(), info.getType()));
+    }
+
+    <Type> void addPkColumn(ColumnInfo<Type> info) {
+        addPrimaryKeyColumn(mColumnFactory.newPkColumn(info.getName(), info.getType()));
     }
 
     <Type> void addNotNullableColumn(ColumnInfo<Type> info) {

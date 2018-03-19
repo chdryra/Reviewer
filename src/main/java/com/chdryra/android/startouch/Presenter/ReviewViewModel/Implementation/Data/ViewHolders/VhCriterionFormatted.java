@@ -12,7 +12,8 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.startouch.R;
 
 /**
@@ -21,7 +22,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class VhCriterionFormatted extends ViewHolderBasic{
+public class VhCriterionFormatted extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.formatted_criterion_bar;
     private static final int SUBJECT = R.id.criterion_subject;
     private static final int RATING = R.id.criterion_rating;

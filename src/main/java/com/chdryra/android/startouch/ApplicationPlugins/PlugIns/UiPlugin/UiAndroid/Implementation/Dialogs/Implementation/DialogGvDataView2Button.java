@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Implementation;
 
 
 import android.os.Bundle;
@@ -15,7 +15,8 @@ import android.view.View;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogTwoButtonFragment;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -23,7 +24,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Dialogs.Layouts.Interfaces.DatumLayoutView;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
@@ -34,7 +36,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLaunche
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extends DialogTwoButtonFragment
+public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extends
+        DialogTwoButtonFragment
         implements LaunchableUi {
     private final GvDataType<T> mDataType;
     private DatumLayoutView<T> mLayout;
@@ -46,6 +49,15 @@ public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extend
 
     public GvDataType<T> getDataType() {
         return mDataType;
+    }
+
+    protected T getDatum() {
+        return mDatum;
+    }
+
+    protected void setDialogParameters() {
+        dismissDialogOnLeftClick();
+        hideKeyboardOnLaunch();
     }
 
     @Override
@@ -80,8 +92,10 @@ public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extend
 
     private void setLayout() {
         LocationServices api
-                = AppInstanceAndroid.getInstance(getActivity()).getGeolocation().getLocationServices();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new DefaultLayoutConfig(), api);
+                = AppInstanceAndroid.getInstance(getActivity()).getGeolocation()
+                .getLocationServices();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(getActivity(), new
+                DefaultLayoutConfig(), api);
         //TODO make type safe
         mLayout = (DatumLayoutView<T>) layoutFactory.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), getArguments());
@@ -91,15 +105,6 @@ public abstract class DialogGvDataView2Button<T extends GvDataParcelable> extend
         Bundle args = getArguments();
         ParcelablePacker<T> unpacker = new ParcelablePacker<>();
         mDatum = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
-    }
-
-    protected void setDialogParameters() {
-        dismissDialogOnLeftClick();
-        hideKeyboardOnLaunch();
-    }
-
-    protected T getDatum() {
-        return mDatum;
     }
 }
 

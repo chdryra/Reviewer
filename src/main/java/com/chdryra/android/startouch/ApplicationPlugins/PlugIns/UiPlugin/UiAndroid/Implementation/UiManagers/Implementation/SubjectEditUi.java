@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -31,7 +31,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Vi
 public class SubjectEditUi extends SubjectViewUi<EditText> {
     private SubjectAction<?> mSubjectAction;
 
-    public SubjectEditUi(EditText view, SubjectAction<?> subjectAction, ReviewViewParams.Subject params) {
+    public SubjectEditUi(EditText view, SubjectAction<?> subjectAction, ReviewViewParams.Subject
+            params) {
         super(view, params);
         mSubjectAction = subjectAction;
         initialise();
@@ -53,7 +54,7 @@ public class SubjectEditUi extends SubjectViewUi<EditText> {
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean hasFocus) {
-                    if(!hasFocus && getView().getText().length() > 0) setSubject();
+                    if (!hasFocus && getView().getText().length() > 0) setSubject();
                 }
             });
 
@@ -63,7 +64,7 @@ public class SubjectEditUi extends SubjectViewUi<EditText> {
 
     private void setSubject() {
         String newText = getView().getText().toString().trim();
-        if(!newText.equals(getTextCache())) {
+        if (!newText.equals(getTextCache())) {
             updateTextCache();
             mSubjectAction.onKeyboardDone(newText);
         }

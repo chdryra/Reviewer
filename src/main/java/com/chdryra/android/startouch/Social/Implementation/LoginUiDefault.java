@@ -18,8 +18,8 @@ import com.chdryra.android.startouch.Social.Interfaces.LoginUi;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
-import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,7 +53,7 @@ public class LoginUiDefault<T> implements LoginUi {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AUTHORISATION && ActivityResultCode.OK.equals(resultCode)) {
+        if (requestCode == AUTHORISATION && ActivityResultCode.OK.equals(resultCode)) {
             T accessToken = mGetter.getAuthorisationToken();
             if (accessToken != null) {
                 mPlatform.setAuthorisation(accessToken);

@@ -6,21 +6,33 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewDataRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowCriterion;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewDataRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
@@ -37,7 +49,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Implementation.SimpleItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
@@ -57,7 +68,8 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     private final ReviewerDbRepo mRepo;
     private final FactoryDbReference mReferenceFactory;
 
-    public ReviewerDbReference(DataReview info, ReviewerDbRepo repo, FactoryDbReference referenceFactory) {
+    public ReviewerDbReference(DataReview info, ReviewerDbRepo repo, FactoryDbReference
+            referenceFactory) {
         super(new ReviewDereferencer(info.getReviewId(), repo));
         mInfo = info;
         mRepo = repo;
@@ -178,7 +190,8 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
 
     @NonNull
     private <T extends ReviewDataRow<T>, R extends HasReviewId> DataListRef<R>
-    newListReference(DbTable<T> table, ColumnInfo<String> idCol, DbDataListRef.Converter<T, R> converter) {
+    newListReference(DbTable<T> table, ColumnInfo<String> idCol, DbDataListRef.Converter<T, R>
+            converter) {
         return mReferenceFactory.newListReference(getReviewId(), getDb(), table, idCol, converter);
     }
 
@@ -187,11 +200,11 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
     newCommentListReference(ColumnInfo<String> idCol) {
         return mReferenceFactory.newCommentListReference(getReviewId(), getDb(), idCol,
                 new DbListReferenceBasic.Converter<RowComment, DataComment>() {
-            @Override
-            public IdableList<DataComment> convert(IdableList<RowComment> data) {
-                return newList(DataComment.class, data);
-            }
-        });
+                    @Override
+                    public IdableList<DataComment> convert(IdableList<RowComment> data) {
+                        return newList(DataComment.class, data);
+                    }
+                });
     }
 
     private static class ReviewDereferencer implements Dereferencer<Review> {
@@ -235,9 +248,9 @@ public class ReviewerDbReference extends SimpleItemReference<Review> implements 
                 public void onDereferenced(DataValue<IdableList<DataImage>> value) {
                     DataValue<DataImage> cover
                             = new DataValue<DataImage>(new DatumImage(getReviewId()));
-                    if(value.hasValue()) {
-                        for(DataImage image : value.getData()) {
-                            if(image.isCover()) {
+                    if (value.hasValue()) {
+                        for (DataImage image : value.getData()) {
+                            if (image.isCover()) {
                                 cover = new DataValue<>(image);
                                 break;
                             }

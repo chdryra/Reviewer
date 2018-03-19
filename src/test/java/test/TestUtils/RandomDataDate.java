@@ -8,10 +8,10 @@
 
 package test.TestUtils;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.testutils.RandomDate;
 
 import java.util.Date;

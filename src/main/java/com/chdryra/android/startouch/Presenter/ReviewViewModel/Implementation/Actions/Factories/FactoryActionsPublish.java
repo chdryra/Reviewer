@@ -14,13 +14,15 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenShare;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenPlatform;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenPlatform;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenPublish;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ShareScreenShare;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 
 /**

@@ -17,7 +17,8 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBui
  * On: 04/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReplaceConstraintDefault<G extends GvData> implements DataBuilder.ReplaceConstraint<G> {
+public class ReplaceConstraintDefault<G extends GvData> implements DataBuilder
+        .ReplaceConstraint<G> {
     @Override
     public DataBuilder.ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum) {
         if (data == null) {

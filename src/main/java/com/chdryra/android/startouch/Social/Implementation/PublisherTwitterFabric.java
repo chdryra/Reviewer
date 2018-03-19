@@ -56,8 +56,8 @@ public class PublisherTwitterFabric implements SocialPublisherAsync {
         TwitterApiClient client = TwitterCore.getInstance().getApiClient();
         StatusesService service = client.getStatusesService();
         LatLng latLng = null;
-        if(review.getLocations().getDataSize().getSize() > 0) {
-            latLng= review.getLocations().get(0).getLatLng();
+        if (review.getLocations().getDataSize().getSize() > 0) {
+            latLng = review.getLocations().get(0).getLatLng();
         }
 
         Call<Tweet> update = service.update(formatted.getBody(),

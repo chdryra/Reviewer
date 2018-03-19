@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -24,7 +25,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;

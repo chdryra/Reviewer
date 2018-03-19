@@ -8,11 +8,14 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.StructureUserTagsImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.StructureUserTagsImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
 
@@ -45,7 +48,7 @@ public class StructureUserTagsImplTest extends StructureTestBasic<ReviewDb> {
         String reviewId = reviewDb.getReviewId();
 
         tester.checkMapSize(BackendTestUtils.NUM_TAGS);
-        for(String tag : reviewDb.getTags()) {
+        for (String tag : reviewDb.getTags()) {
             tester.checkKeyValue(Path.path(TAGS, tag, reviewId), true);
         }
     }

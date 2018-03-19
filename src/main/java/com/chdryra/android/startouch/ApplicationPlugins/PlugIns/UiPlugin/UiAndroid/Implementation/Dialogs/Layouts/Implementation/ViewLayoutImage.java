@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 
 import android.view.View;
@@ -46,7 +47,7 @@ public class ViewLayoutImage extends DatumLayoutBasic<GvImage> {
         ((ImageView) getView(mImageView)).setImageBitmap(image.getBitmap());
         String caption = image.getCaption();
         TextView view = (TextView) getView(mImageCaption);
-        if(caption.length() == 0 && mHideEmptyCaption) {
+        if (caption.length() == 0 && mHideEmptyCaption) {
             view.setVisibility(View.GONE);
         } else {
             view.setVisibility(View.VISIBLE);

@@ -46,39 +46,6 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
         setAccessTracker();
     }
 
-    private void initialiseFacebook(Context context) {
-        FacebookSdk.sdkInitialize(context, new FacebookSdk.InitializeCallback() {
-            @Override
-            public void onInitialized() {
-                setAccessToken();
-            }
-        });
-    }
-
-    private void setAccessToken() {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        if(accessToken != null) {
-            Set<String> permissions = accessToken.getPermissions();
-            if (permissions.contains(REQUIRED_PERMISSION)) {
-                setAuthorisation(accessToken);
-            } else {
-                setAuthorisation(null);
-            }
-        } else {
-            setAuthorisation(null);
-        }
-    }
-
-    private void setAccessTracker() {
-        AccessTokenTracker tracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken
-                    currentAccessToken) {
-                setAccessToken();
-            }
-        };
-    }
-
     @Override
     public void getFollowers(final FollowersListener listener) {
         GraphRequest request = GraphRequest.newMyFriendsRequest(
@@ -108,5 +75,38 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     public void logout() {
         LoginManager.getInstance().logOut();
         setAuthorisation(null);
+    }
+
+    private void initialiseFacebook(Context context) {
+        FacebookSdk.sdkInitialize(context, new FacebookSdk.InitializeCallback() {
+            @Override
+            public void onInitialized() {
+                setAccessToken();
+            }
+        });
+    }
+
+    private void setAccessToken() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if (accessToken != null) {
+            Set<String> permissions = accessToken.getPermissions();
+            if (permissions.contains(REQUIRED_PERMISSION)) {
+                setAuthorisation(accessToken);
+            } else {
+                setAuthorisation(null);
+            }
+        } else {
+            setAuthorisation(null);
+        }
+    }
+
+    private void setAccessTracker() {
+        AccessTokenTracker tracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken
+                    currentAccessToken) {
+                setAccessToken();
+            }
+        };
     }
 }

@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.*;
 public class FactoryReviewNodeTest {
     @Test
     public void createReviewNodeComponentNotAverageReturnsObjectWithExpectedAttributes() {
-        FactoryReviewNode factory= new FactoryReviewNode();
+        FactoryReviewNode factory = new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent node = factory.createLeafNode(review, false);
         assertThat(node, notNullValue());
@@ -39,7 +39,7 @@ public class FactoryReviewNodeTest {
 
     @Test
     public void createReviewNodeComponentAverageReturnsObjectWithExpectedAttributes() {
-        FactoryReviewNode factory= new FactoryReviewNode();
+        FactoryReviewNode factory = new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent node = factory.createLeafNode(review, true);
         assertThat(node, notNullValue());
@@ -49,7 +49,7 @@ public class FactoryReviewNodeTest {
 
     @Test
     public void createReviewNodeNotAverageReturnsObjectWithExpectedAttributes() {
-        FactoryReviewNode factory= new FactoryReviewNode();
+        FactoryReviewNode factory = new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNode node = factory.createComponent(review, false);
         assertThat(node, notNullValue());
@@ -59,7 +59,7 @@ public class FactoryReviewNodeTest {
 
     @Test
     public void createReviewNodeAverageReturnsObjectWithExpectedAttributes() {
-        FactoryReviewNode factory= new FactoryReviewNode();
+        FactoryReviewNode factory = new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNode node = factory.createComponent(review, true);
         assertThat(node, notNullValue());
@@ -69,7 +69,7 @@ public class FactoryReviewNodeTest {
 
     @Test
     public void createReviewNodeReturnsObjectWithExpectedAttributes() {
-        FactoryReviewNode factory= new FactoryReviewNode();
+        FactoryReviewNode factory = new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent component = factory.createLeafNode(review, false);
         ReviewNode node = factory.freezeNode(component);

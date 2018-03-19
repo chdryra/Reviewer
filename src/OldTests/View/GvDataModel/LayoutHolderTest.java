@@ -12,7 +12,8 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.DialogLayoutBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.DialogLayoutBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,15 +38,15 @@ public class LayoutHolderTest extends AndroidTestCase {
         }
     }
 
-    //private methods
-    private DialogLayoutBasic.LayoutHolder getHolder() {
-        return new DialogLayoutBasic.LayoutHolder(LAYOUT, VIEWIDS);
-    }
-
     //Overridden
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mHolder = getHolder();
+    }
+
+    //private methods
+    private DialogLayoutBasic.LayoutHolder getHolder() {
+        return new DialogLayoutBasic.LayoutHolder(LAYOUT, VIEWIDS);
     }
 }

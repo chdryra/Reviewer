@@ -19,12 +19,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Ac
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewDataEditorActionBasic<T extends GvData> extends ReviewViewActionBasic<T> {
+public abstract class ReviewDataEditorActionBasic<T extends GvData> extends
+        ReviewViewActionBasic<T> {
     private ReviewDataEditor<T> mEditor;
-
-    ReviewDataEditor<T> getEditor() {
-        return mEditor;
-    }
 
     protected GvDataList<T> getGridData() {
         return getEditor().getAdapter().getGridData();
@@ -34,9 +31,13 @@ public abstract class ReviewDataEditorActionBasic<T extends GvData> extends Revi
     public void onAttachReviewView() {
         super.onAttachReviewView();
         try {
-            mEditor = (ReviewDataEditor<T>)getReviewView();
+            mEditor = (ReviewDataEditor<T>) getReviewView();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
+    }
+
+    ReviewDataEditor<T> getEditor() {
+        return mEditor;
     }
 }

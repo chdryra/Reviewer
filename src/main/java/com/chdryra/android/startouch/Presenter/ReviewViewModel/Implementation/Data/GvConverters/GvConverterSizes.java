@@ -12,9 +12,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSizeList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSizeList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,12 +31,12 @@ public class GvConverterSizes extends GvConverterBasic<DataSize, GvSize, GvSizeL
         mType = type;
     }
 
-    public void setType(GvDataType<?> type) {
-        mType = type;
-    }
-
     public GvDataType<?> getType() {
         return mType;
+    }
+
+    public void setType(GvDataType<?> type) {
+        mType = type;
     }
 
     @Override

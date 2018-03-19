@@ -8,10 +8,14 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.StructureReviewsList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.StructureReviewsList;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FirebaseStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
 
@@ -45,8 +49,10 @@ public class StructureReviewListImplTest extends StructureTestBasic<ReviewDb> {
 
         tester.checkMapSize(4);
         tester.checkKeyValue(Path.path(reviewPath, "subject"), reviewDb.getSubject());
-        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating().getRating());
-        tester.checkKeyValue(Path.path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating().getRatingWeight());
+        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating()
+                .getRating());
+        tester.checkKeyValue(Path.path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating
+                ().getRatingWeight());
         tester.checkKeyValue(Path.path(reviewPath, "publishDate"), reviewDb.getPublishDate());
     }
 }

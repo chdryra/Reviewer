@@ -6,14 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -36,6 +38,6 @@ public class ConverterRating implements SnapshotConverter<DataRating> {
     public DataRating convert(DataSnapshot snapshot) {
         Rating value = snapshot.getValue(Rating.class);
         return value == null ? null
-                : new DatumRating(mId, (float)value.getRating(), (int)value.getRatingWeight());
+                : new DatumRating(mId, (float) value.getRating(), (int) value.getRatingWeight());
     }
 }

@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
  * On: 13/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiUpDataEditor<T extends GvData> extends MaiDataEditor<T> implements AlertListener{
+public class MaiUpDataEditor<T extends GvData> extends MaiDataEditor<T> implements AlertListener {
     private static final int ALERT = RequestCodeGenerator.getCode(MaiDataEditor.class);
     private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
 

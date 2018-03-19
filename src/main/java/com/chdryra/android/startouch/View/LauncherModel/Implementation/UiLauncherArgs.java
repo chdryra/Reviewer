@@ -25,21 +25,6 @@ public class UiLauncherArgs {
         mRequestCode = requestCode;
     }
 
-    public UiLauncherArgs setClearBackStack() {
-        mClearBackStack = true;
-        return this;
-    }
-
-    public UiLauncherArgs setBundle(Bundle args) {
-        mBundle = args;
-        return this;
-    }
-
-    UiLauncherArgs setRequestCode(int requestCode) {
-        mRequestCode = requestCode;
-        return this;
-    }
-
     public boolean isClearBackStack() {
         return mClearBackStack;
     }
@@ -48,7 +33,22 @@ public class UiLauncherArgs {
         return mBundle;
     }
 
+    public UiLauncherArgs setBundle(Bundle args) {
+        mBundle = args;
+        return this;
+    }
+
     public int getRequestCode() {
         return mRequestCode;
+    }
+
+    UiLauncherArgs setRequestCode(int requestCode) {
+        mRequestCode = requestCode;
+        return this;
+    }
+
+    public UiLauncherArgs setClearBackStack() {
+        mClearBackStack = true;
+        return this;
     }
 }

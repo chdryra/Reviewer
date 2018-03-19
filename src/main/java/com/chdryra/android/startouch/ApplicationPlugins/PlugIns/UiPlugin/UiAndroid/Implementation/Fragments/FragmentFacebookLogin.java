@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
 import android.app.Fragment;
@@ -21,8 +21,8 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivitySocialAuthUi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.LoginFacebookAndroid;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .LoginProviders.LoginFacebookAndroid;
 import com.chdryra.android.startouch.Authentication.Interfaces.LoginFacebook;
 import com.chdryra.android.startouch.R;
 import com.facebook.FacebookException;
@@ -33,7 +33,7 @@ import com.facebook.login.LoginResult;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentFacebookLogin extends Fragment{
+public class FragmentFacebookLogin extends Fragment {
     private static final int LAYOUT = R.layout.login_facebook;
 
     private LoginFacebookAndroid mLogin;
@@ -46,6 +46,11 @@ public class FragmentFacebookLogin extends Fragment{
         mLogin.setListener(getActivityAsListener());
 
         return inflater.inflate(LAYOUT, container, false);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mLogin.onActivityResult(requestCode, resultCode, data);
     }
 
     @NonNull
@@ -68,10 +73,5 @@ public class FragmentFacebookLogin extends Fragment{
                 activity.onFailure(result);
             }
         };
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mLogin.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -12,8 +12,8 @@ import com.chdryra.android.startouch.ApplicationContexts.Interfaces.PersistenceC
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,22 +27,6 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewNodeRepo mReviewsRepo;
     private FactoryReviewsRepo mRepoFactory;
 
-    protected void setLocalRepo(ReviewsRepoWriteable localRepo) {
-        mLocalRepo = localRepo;
-    }
-
-    protected void setAuthorsRepo(AuthorsRepo authorsRepo) {
-        mAuthorsRepo = authorsRepo;
-    }
-
-    protected void setAccountsManager(AccountsManager accountsManager) {
-        mAccountsManager = accountsManager;
-    }
-
-    protected void setReviewsRepo(ReviewNodeRepo reviewsRepo) {
-        mReviewsRepo = reviewsRepo;
-    }
-
     protected void setReposFactory(FactoryReviewsRepo repoFactory) {
         mRepoFactory = repoFactory;
     }
@@ -52,9 +36,17 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         return mReviewsRepo;
     }
 
+    protected void setReviewsRepo(ReviewNodeRepo reviewsRepo) {
+        mReviewsRepo = reviewsRepo;
+    }
+
     @Override
     public ReviewsRepoWriteable getLocalRepo() {
         return mLocalRepo;
+    }
+
+    protected void setLocalRepo(ReviewsRepoWriteable localRepo) {
+        mLocalRepo = localRepo;
     }
 
     @Override
@@ -62,9 +54,17 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         return mAuthorsRepo;
     }
 
+    protected void setAuthorsRepo(AuthorsRepo authorsRepo) {
+        mAuthorsRepo = authorsRepo;
+    }
+
     @Override
     public AccountsManager getAccountsManager() {
         return mAccountsManager;
+    }
+
+    protected void setAccountsManager(AccountsManager accountsManager) {
+        mAccountsManager = accountsManager;
     }
 
     @Override

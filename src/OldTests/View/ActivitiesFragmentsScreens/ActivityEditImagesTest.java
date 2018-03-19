@@ -104,13 +104,6 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImage> {
         assertFalse(newCover.equals(newnewCover));
     }
 
-    //private methods
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
-    }
-
     //Overridden
     @SmallTest
     public void testBannerButtonAddDone() {
@@ -134,6 +127,13 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImage> {
     protected GvImage newEditDatum(GvImage current) {
         return new GvImage(current.getBitmap(), current.getDate(),
                 current.getLatLng(), RandomString.nextSentence(), current.isCover());
+    }
+
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
     }
 }
 

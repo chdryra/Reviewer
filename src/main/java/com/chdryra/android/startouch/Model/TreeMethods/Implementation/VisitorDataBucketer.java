@@ -22,7 +22,8 @@ import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewN
  * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorDataBucketer<BucketingValue, Data extends HasReviewId> implements VisitorReviewNode {
+public class VisitorDataBucketer<BucketingValue, Data extends HasReviewId> implements
+        VisitorReviewNode {
     private final BucketDistribution<BucketingValue, Data> mDistribution;
     private final NodeValueGetter<BucketingValue> mBucketValueGetter;
     private final NodeDataGetter<Data> mDataGetter;
@@ -35,18 +36,18 @@ public class VisitorDataBucketer<BucketingValue, Data extends HasReviewId> imple
         mDataGetter = dataGetter;
     }
 
+    public BucketDistribution<BucketingValue, Data> getDistribution() {
+        return mDistribution;
+    }
+
     @Override
     public void visit(@NonNull ReviewNode node) {
         BucketingValue value = mBucketValueGetter.getData(node);
         Data datum = mDataGetter.getData(node);
-        if(value != null && datum != null) {
+        if (value != null && datum != null) {
             mDistribution.bucket(value, datum);
-        } else if(value == null && datum != null){
+        } else if (value == null && datum != null) {
             mDistribution.dontBucket(datum);
         }
-    }
-
-    public BucketDistribution<BucketingValue, Data> getDistribution() {
-        return mDistribution;
     }
 }

@@ -18,15 +18,18 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.DataObservableDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .DataObservableDefault;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
  *
  * @param <T>: {@link GvData} type.
  */
-public class DataBuilderImpl<T extends GvData> extends DataObservableDefault implements DataBuilder<T> {
+public class DataBuilderImpl<T extends GvData> extends DataObservableDefault implements
+        DataBuilder<T> {
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
     private final FactoryGvData mCopier;
@@ -84,9 +87,9 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
     @Override
     public ConstraintResult replace(T oldDatum, T newDatum) {
         ConstraintResult res;
-        if(oldDatum.equals(newDatum)) {
+        if (oldDatum.equals(newDatum)) {
             res = ConstraintResult.OLD_EQUALS_NEW;
-        } else if(!isValid(oldDatum) || !isValid(newDatum)) {
+        } else if (!isValid(oldDatum) || !isValid(newDatum)) {
             res = ConstraintResult.INVALID_DATUM;
         } else {
             res = mReplaceConstraint.passes(mData, oldDatum, newDatum);
@@ -126,14 +129,6 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
         resetData();
     }
 
-    GvDataList<T> getOriginalData() {
-        return mOriginalData;
-    }
-
-    private boolean isValid(T datum) {
-        return datum != null && datum.isValidForDisplay();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,5 +152,13 @@ public class DataBuilderImpl<T extends GvData> extends DataObservableDefault imp
         result = 31 * result + mOriginalData.hashCode();
         result = 31 * result + mData.hashCode();
         return result;
+    }
+
+    GvDataList<T> getOriginalData() {
+        return mOriginalData;
+    }
+
+    private boolean isValid(T datum) {
+        return datum != null && datum.isValidForDisplay();
     }
 }

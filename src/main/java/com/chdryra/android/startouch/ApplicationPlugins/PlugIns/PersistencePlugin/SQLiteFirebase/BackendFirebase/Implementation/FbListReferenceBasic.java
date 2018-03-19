@@ -12,11 +12,11 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlug
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .BackendFirebase.Interfaces.SnapshotConverter;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -70,10 +70,6 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
         return mItemBinders.keySet();
     }
 
-    SnapshotConverter<T> getItemConverter() {
-        return mItemConverter;
-    }
-
     @Override
     protected void onInvalidate() {
         super.onInvalidate();
@@ -101,6 +97,10 @@ public abstract class FbListReferenceBasic<T, C extends Collection<T>, S extends
     @Override
     public boolean containsSubscriber(ItemSubscriber<T> subscriber) {
         return mItemBinders.containsKey(subscriber);
+    }
+
+    SnapshotConverter<T> getItemConverter() {
+        return mItemConverter;
     }
 
     @NonNull

@@ -12,8 +12,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.startouch.LocationServices.Implementation.AutoCompleterLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.startouch.LocationServices.Interfaces.AutoCompleter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;

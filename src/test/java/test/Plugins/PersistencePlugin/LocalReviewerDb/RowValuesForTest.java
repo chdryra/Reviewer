@@ -14,7 +14,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Implementation.DbEntryType;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowValues;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +28,6 @@ import java.util.Map;
 class RowValuesForTest implements RowValues {
     private Map<ColumnInfo<?>, Object> mValues = new HashMap<>();
 
-
-    void put(ColumnInfo<?> col, @Nullable Object value) {
-        mValues.put(col, value);
-    }
-
     @Override
     public <T> T getValue(String columnName, DbEntryType<T> entryType) {
         ColumnInfo<T> col = new ColumnInfo<>(columnName, entryType);
@@ -43,5 +39,9 @@ class RowValuesForTest implements RowValues {
             e.printStackTrace();
         }
         return cast;
+    }
+
+    void put(ColumnInfo<?> col, @Nullable Object value) {
+        mValues.put(col, value);
     }
 }

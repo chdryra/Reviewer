@@ -58,7 +58,7 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     @Override
     public void setAuthorisation(@Nullable T token) {
         mAuthToken = token;
-        if(mAuthListener != null) mAuthListener.onAuthorised(token != null);
+        if (mAuthListener != null) mAuthListener.onAuthorised(token != null);
     }
 
     @Override

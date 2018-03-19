@@ -8,11 +8,11 @@
 
 package com.chdryra.android.startouch.Persistence.Implementation;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepo;
@@ -73,30 +73,15 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
     }
 
     private void unbindFromFollowingIfNecessary() {
-        if(mFollowersBinder.isBound()) mFollowersBinder.unbind();
+        if (mFollowersBinder.isBound()) mFollowersBinder.unbind();
     }
 
     private void bindToFollowingIfNecessary() {
-        if(!mFollowersBinder.isBound()) mFollowersBinder.bind();
+        if (!mFollowersBinder.isBound()) mFollowersBinder.bind();
     }
 
     private class FollowersSubscriber implements ItemSubscriber<AuthorId> {
         private boolean mIsBound = false;
-
-        private void bind() {
-            onItemAdded(mFollower);
-            mFollowing.subscribe(this);
-            mIsBound = true;
-        }
-
-        private void unbind() {
-            mFollowing.unsubscribe(this);
-            mIsBound = false;
-        }
-
-        private boolean isBound() {
-            return mIsBound;
-        }
 
         @Override
         public void onItemAdded(AuthorId item) {
@@ -127,6 +112,21 @@ public class FeedRepo extends RepoCollection<AuthorId> implements ReviewsRepoRea
             for (AuthorId toRemoveId : getKeys()) {
                 remove(toRemoveId);
             }
+        }
+
+        private boolean isBound() {
+            return mIsBound;
+        }
+
+        private void bind() {
+            onItemAdded(mFollower);
+            mFollowing.subscribe(this);
+            mIsBound = true;
+        }
+
+        private void unbind() {
+            mFollowing.unsubscribe(this);
+            mIsBound = false;
         }
     }
 }

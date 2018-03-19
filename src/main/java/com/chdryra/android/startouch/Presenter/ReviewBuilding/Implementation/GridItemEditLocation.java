@@ -13,7 +13,8 @@ import android.view.View;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 

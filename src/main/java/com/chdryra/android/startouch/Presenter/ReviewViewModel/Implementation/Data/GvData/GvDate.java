@@ -17,7 +17,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDate;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDate;
 
 /**
  * {@link } version of: {@link java.util.Date}

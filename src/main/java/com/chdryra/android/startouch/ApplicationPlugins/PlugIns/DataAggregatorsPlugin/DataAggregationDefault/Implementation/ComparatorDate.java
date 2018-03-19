@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
-
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 import java.util.Calendar;
 import java.util.Date;

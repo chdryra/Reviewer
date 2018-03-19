@@ -13,10 +13,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriteri
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 
 /**

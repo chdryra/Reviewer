@@ -13,9 +13,10 @@ import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.startouch.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -51,9 +52,17 @@ public class RowImageTest extends TestCase {
         testRow(new RowImage(cursor));
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mImage = mocker.newImage();
+    }
+
     //private methods
     private String getDatumId() {
-        return mImage.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "i" + String.valueOf
+        return mImage.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "i" +
+                String.valueOf
                 (INDEX);
     }
 
@@ -72,12 +81,5 @@ public class RowImageTest extends TestCase {
         assertEquals(mImage.getCaption(), values.getAsString(RowImage.CAPTION));
         assertTrue(mImage.isCover() == values.getAsBoolean(RowImage.IS_COVER));
         assertEquals(mImage, row.toMdData());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mImage = mocker.newImage();
     }
 }

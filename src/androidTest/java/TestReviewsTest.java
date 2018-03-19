@@ -16,6 +16,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
 import com.chdryra.android.corelibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -24,11 +26,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.R;
 
 import org.junit.Before;
@@ -51,16 +51,8 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 @RunWith(AndroidJUnit4.class)
-public class TestReviewsTest extends InstrumentationTestCase{
+public class TestReviewsTest extends InstrumentationTestCase {
     private ReviewsRepoReadable mRepo;
-
-    @Before
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        mRepo = TestReviews.getReviews(getInstrumentation(), new TagsManagerImpl());
-    }
 
     @Test
     public void testGetReviews() {
@@ -77,6 +69,14 @@ public class TestReviewsTest extends InstrumentationTestCase{
             }
         });
 
+    }
+
+    @Before
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        mRepo = TestReviews.getReviews(getInstrumentation(), new TagsManagerImpl());
     }
 
     private void testReview1(Review review) {
@@ -176,7 +176,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
     private void testReview3(Review review) {
         ReviewId reviewId = review.getReviewId();
-        checkReviewBasics(review, "Tayyabs", 8f/3f, true, date(2015, 7, 20, 12, 30));
+        checkReviewBasics(review, "Tayyabs", 8f / 3f, true, date(2015, 7, 20, 12, 30));
 
         //Tags
         checkTags(reviewId, new String[]{"Restaurant", "Pakistani", "London"});
@@ -252,15 +252,16 @@ public class TestReviewsTest extends InstrumentationTestCase{
     private void checkTags(ReviewId reviewId, String[] strings) {
         ItemTagCollection tags = mRepo.getTagsManager().getTags(reviewId.toString());
         checkSize(tags, strings.length);
-        for(int i = 0; i < tags.size(); ++i) {
+        for (int i = 0; i < tags.size(); ++i) {
             assertThat(tags.getItemTag(i).getTag(), is(strings[i]));
         }
     }
 
-    private void checkReviewBasics(Review review, String subject, float rating, boolean isAverage, Date date) {
+    private void checkReviewBasics(Review review, String subject, float rating, boolean
+            isAverage, Date date) {
         assertThat(review.getSubject().getSubject(), is(subject));
         assertThat(review.isRatingAverageOfCriteria(), is(isAverage));
-        assertThat(review.getRating().getRating(),is(rating));
+        assertThat(review.getRating().getRating(), is(rating));
         assertThat(review.getPublishDate().getTime(), is(date.getTime()));
     }
 
@@ -275,7 +276,8 @@ public class TestReviewsTest extends InstrumentationTestCase{
         assertThat(location.getLatLng().longitude, is(lng));
     }
 
-    private void checkCriterion(DataCriterion criterion, String criterionSubject, float criterionRating, ReviewId reviewId) {
+    private void checkCriterion(DataCriterion criterion, String criterionSubject, float
+            criterionRating, ReviewId reviewId) {
         assertThat(criterion.getReviewId(), is(reviewId));
         assertThat(criterion.getSubject(), is(criterionSubject));
         assertThat(criterion.getRating(), is(criterionRating));

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 
@@ -30,15 +31,15 @@ public class Rating {
         ratingWeight = rating.getRatingWeight();
     }
 
+    public static int size() {
+        return 2;
+    }
+
     public double getRating() {
         return rating;
     }
 
     public long getRatingWeight() {
         return ratingWeight;
-    }
-
-    public static int size() {
-        return 2;
     }
 }

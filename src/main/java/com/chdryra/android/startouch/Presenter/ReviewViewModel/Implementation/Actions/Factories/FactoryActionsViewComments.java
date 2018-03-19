@@ -12,9 +12,12 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemComments;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentRefs;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewComments;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemComments;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiSplitCommentRefs;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuViewComments;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**

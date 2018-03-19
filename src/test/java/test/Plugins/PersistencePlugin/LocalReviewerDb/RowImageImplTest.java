@@ -10,10 +10,14 @@ package test.Plugins.PersistencePlugin.LocalReviewerDb;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.ByteArray;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowImageImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.ByteArray;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowImageImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.testutils.RandomString;
@@ -68,7 +72,8 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
         assertThat(row.getDate().getTime(), is(imageDate));
     }
 
-    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not mocked
+    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not
+    // mocked
 //    @Test
 //    public void constructionWithDataImageAndGetters() {
 //        DataImage reference = new DatumImage(RandomReviewId.nextReviewId(), null,
@@ -78,7 +83,8 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
 //        checkAgainstReference(new RowImageImpl(reference, INDEX), reference);
 //    }
 
-    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not mocked
+    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not
+    // mocked
 //    @Test
 //    public void constructionWithInvalidImageIdMakesRowImageInvalid() {
 //        RowImage reference = newRow();
@@ -96,7 +102,8 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
 //        assertThat(row.hasData(new DataValidator()), is(false));
 //    }
 
-    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not mocked
+    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not
+    // mocked
 //    @Test
 //    public void constructionWithInvalidReviewIdMakesRowImageInvalid() {
 //        RowImage reference = newRow();
@@ -114,7 +121,8 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
 //        assertThat(row.hasData(new DataValidator()), is(false));
 //    }
 
-    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not mocked
+    //java.lang.RuntimeException: Method decodeByteArray in android.graphics.BitmapFactory not
+    // mocked
 
 //    @Test
 //    public void constructionWithNullBitmapIdMakesRowImageInvalid() {
@@ -200,16 +208,16 @@ public class RowImageImplTest extends RowTableBasicTest<RowImage, RowImageImpl> 
         return new RowImageImpl(values);
     }
 
+    @Override
+    protected String getRowId(RowImageImpl row) {
+        return rowId(row, 314);
+    }
+
     @NonNull
     private ByteArray nextByteArray() {
         byte[] data = new byte[40];
         RAND.nextBytes(data);
         return new ByteArray(data);
-    }
-
-    @Override
-    protected String getRowId(RowImageImpl row) {
-        return rowId(row, 314);
     }
 
     private void checkAgainstReference(RowImageImpl row, DataImage reference) {

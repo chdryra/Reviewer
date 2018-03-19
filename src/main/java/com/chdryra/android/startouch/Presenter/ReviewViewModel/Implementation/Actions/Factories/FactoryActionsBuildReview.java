@@ -20,19 +20,22 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.RatingBarActio
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenShare;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenEditMode;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenDataEdit;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenEditMode;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenMenu;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenRatingEdit;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenShare;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenSubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiAverageRating;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiPreviewEditor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiUpEditor;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenMenu;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenRatingEdit;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenSubjectEdit;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 
 /**
@@ -40,7 +43,8 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
  * On: 27/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsNone<GC> {
+public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataParcelable>> extends
+        FactoryActionsNone<GC> {
     private final UiConfig mConfig;
     private final FactoryLaunchCommands mFactoryLaunchCommands;
     private final LocationClient mLocationClient;
@@ -56,6 +60,11 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
         mFactoryLaunchCommands = factoryLaunchCommands;
         mLocationClient = locationClient;
         mDefaultEditMode = defaultEditMode;
+    }
+
+    @NonNull
+    protected String getMenuTitle() {
+        return Strings.Screens.CREATE;
     }
 
     @Override
@@ -75,7 +84,8 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
 
     @Override
     public GridItemAction<GC> newGridItem() {
-        return new BuildScreenDataEdit<>(mConfig, mConfig.getUiLauncher(), mDefaultEditMode, mLocationClient);
+        return new BuildScreenDataEdit<>(mConfig, mConfig.getUiLauncher(), mDefaultEditMode,
+                mLocationClient);
     }
 
     @Override
@@ -83,11 +93,6 @@ public class FactoryActionsBuildReview<GC extends GvDataList<? extends GvDataPar
         LaunchBespokeViewCommand command = mFactoryLaunchCommands.newLaunchPagedCommand(null);
         return new BuildScreenMenu<>(getMenuTitle(), new MaiUpEditor<GC>(),
                 new MaiPreviewEditor<GC>(command), new MaiAverageRating<GC>());
-    }
-
-    @NonNull
-    protected String getMenuTitle() {
-        return Strings.Screens.CREATE;
     }
 
     @Nullable

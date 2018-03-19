@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import com.chdryra.android.corelibrary.Collections.CollectionIdable;
@@ -20,7 +20,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class NamedReviewView<T extends GvData> implements CollectionIdable.Idable<String>{
+public class NamedReviewView<T extends GvData> implements CollectionIdable.Idable<String> {
     private final String mName;
     private final ReviewView<T> mView;
 
@@ -29,12 +29,12 @@ public class NamedReviewView<T extends GvData> implements CollectionIdable.Idabl
         mView = view;
     }
 
+    public ReviewView<T> getView() {
+        return mView;
+    }
+
     @Override
     public String getId() {
         return mName;
-    }
-
-    public ReviewView<T> getView() {
-        return mView;
     }
 }

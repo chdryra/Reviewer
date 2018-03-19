@@ -14,16 +14,19 @@ import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditLocationMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
 import com.chdryra.android.startouch.R;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -153,6 +156,35 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
         }
     }
 
+    //Overridden
+    @Override
+    protected void setUpFinish(boolean withData) {
+        super.setUpFinish(withData);
+        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
+                false);
+        mMapMonitor = getInstrumentation().addMonitor(ActivityEditLocationMap.class.getName(),
+                null, false);
+    }
+
+    @Override
+    protected GvLocation newEditDatum(GvLocation oldDatum) {
+        return new GvLocation(oldDatum.getLatLng(), RandomString.nextWord());
+    }
+
+    @Override
+    protected GvDataListImpl<GvLocation> newData() {
+        return mLocs;
+    }
+
+    @Override
+    protected void enterDatum(GvDataList data, int index) {
+        assertTrue(index < NUM_DATA);
+        SoloDataEntry.enter(mSolo, (GvData) data.getItem(index));
+        mSolo.waitForText(LOCSADD[index]);
+        mSolo.clickInList(1);
+        mSolo.sleep(3000);
+    }
+
     //private methods
     private DialogAlertFragment getAlertDialog() {
         FragmentManager manager = getEditActivity().getFragmentManager();
@@ -184,7 +216,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
         assertTrue(mSolo.searchText(alert));
 
         runOnUiThread(new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -238,35 +270,6 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
                 : new GvLocation(clickedOn.getLatLng(), newName);
 
         checkInGrid(testData, !delete);
-    }
-
-    //Overridden
-    @Override
-    protected void setUpFinish(boolean withData) {
-        super.setUpFinish(withData);
-        mMainMonitor = getInstrumentation().addMonitor(ActivityReviewView.class.getName(), null,
-                false);
-        mMapMonitor = getInstrumentation().addMonitor(ActivityEditLocationMap.class.getName(),
-                null, false);
-    }
-
-    @Override
-    protected GvLocation newEditDatum(GvLocation oldDatum) {
-        return new GvLocation(oldDatum.getLatLng(), RandomString.nextWord());
-    }
-
-    @Override
-    protected GvDataListImpl<GvLocation> newData() {
-        return mLocs;
-    }
-
-    @Override
-    protected void enterDatum(GvDataList data, int index) {
-        assertTrue(index < NUM_DATA);
-        SoloDataEntry.enter(mSolo, (GvData) data.getItem(index));
-        mSolo.waitForText(LOCSADD[index]);
-        mSolo.clickInList(1);
-        mSolo.sleep(3000);
     }
 }
 

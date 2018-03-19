@@ -27,7 +27,7 @@ public class GvCriterionList extends GvDataListParcelable<GvCriterion> {
             return new GvCriterionList[size];
         }
     };
-    
+
     //Constructors
     public GvCriterionList() {
         super(GvCriterion.TYPE, new GvReviewId());

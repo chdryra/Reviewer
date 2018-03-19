@@ -6,19 +6,22 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Plugin;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Plugin;
 
 
 import android.content.Context;
 
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryQueueCache;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .FactoryQueueCache;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.LocalPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.RelationalDbPlugin;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryLocalReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Api.RelationalDbPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryLocalReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.FactoryReviewerDbCache;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
@@ -32,7 +35,8 @@ public class LocalReviewerDb implements LocalPlugin {
     private final FactoryQueueCache mCacheFactory;
     private final FactoryLocalReviewerDb mLocalFactory;
 
-    public LocalReviewerDb(Context context, String localName, int localVersion, RelationalDbPlugin localDb) {
+    public LocalReviewerDb(Context context, String localName, int localVersion,
+                           RelationalDbPlugin localDb) {
         mLocalFactory = new FactoryLocalReviewerDb(context, localName, localVersion, localDb);
         mCacheFactory = new FactoryReviewerDbCache(mLocalFactory);
     }

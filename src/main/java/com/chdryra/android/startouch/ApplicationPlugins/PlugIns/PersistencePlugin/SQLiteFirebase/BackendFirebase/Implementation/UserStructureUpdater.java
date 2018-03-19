@@ -6,16 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 
 import java.util.Map;
 
@@ -34,7 +38,7 @@ public class UserStructureUpdater extends DbStructureBasic<User> {
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
-        if(updateType == UpdateType.DELETE) return noUpdates();
+        if (updateType == UpdateType.DELETE) return noUpdates();
 
         User oldUser = user.getCurrentUser();
         User newUser = user.getUpdatedUser();
@@ -42,7 +46,8 @@ public class UserStructureUpdater extends DbStructureBasic<User> {
         ProfileAuthor oldProfile = oldUser.getProfile();
         ProfileAuthor newProfile = newUser.getProfile();
 
-        if(oldProfile == null || newProfile == null || oldProfile == newProfile) return noUpdates();
+        if (oldProfile == null || newProfile == null || oldProfile == newProfile)
+            return noUpdates();
 
         Map<String, Object> oldMap = mStructure.getUpdatesMap(oldUser, UpdateType
                 .INSERT_OR_UPDATE);

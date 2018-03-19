@@ -16,7 +16,7 @@ import android.os.Parcelable;
  * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress implements Parcelable{
+public class EmailAddress implements Parcelable {
     public static final Creator<EmailAddress> CREATOR = new Creator<EmailAddress>() {
         @Override
         public EmailAddress createFromParcel(Parcel in) {
@@ -28,18 +28,18 @@ public class EmailAddress implements Parcelable{
             return new EmailAddress[size];
         }
     };
-    
+
     private String mEmail;
 
-    public EmailAddress(String email) throws EmailAddressException{
-        if(!EmailValidator.isValid(email)) throw new EmailAddressException(email);
+    public EmailAddress(String email) throws EmailAddressException {
+        if (!EmailValidator.isValid(email)) throw new EmailAddressException(email);
         mEmail = email;
     }
 
     public EmailAddress(Parcel in) {
         mEmail = in.readString();
     }
-    
+
     @Override
     public String toString() {
         return mEmail;

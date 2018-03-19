@@ -8,11 +8,11 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalCommentMode;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalCommentMode;
 
 import test.TestUtils.RandomReviewId;
 
@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 06/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCommentModeTest extends CanonicalStringMakerTest<DataComment>{
+public class CanonicalCommentModeTest extends CanonicalStringMakerTest<DataComment> {
     public CanonicalCommentModeTest() {
         super(new CanonicalCommentMode());
     }

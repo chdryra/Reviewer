@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import com.chdryra.android.corelibrary.LocationServices.LocationId;
@@ -28,15 +29,15 @@ public class LocId {
         this.locationId = id.getId();
     }
 
+    public static int size() {
+        return 2;
+    }
+
     public String getProvider() {
         return provider;
     }
 
     public String getLocationId() {
         return locationId;
-    }
-
-    public static int size() {
-        return 2;
     }
 }

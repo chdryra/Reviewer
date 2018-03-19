@@ -19,12 +19,11 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
  */
 
 public class ReviewPack {
-    public enum TemplateOrEdit {TEMPLATE, EDIT}
-
     private final Review mReview;
     private final TemplateOrEdit mTemplateOrEdit;
+    public enum TemplateOrEdit {TEMPLATE, EDIT}
 
-    public  ReviewPack() {
+    public ReviewPack() {
         mReview = null;
         mTemplateOrEdit = TemplateOrEdit.TEMPLATE;
     }

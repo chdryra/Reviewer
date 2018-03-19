@@ -16,13 +16,12 @@ import com.chdryra.android.startouch.Application.Implementation.Strings;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewParams {
-    private Alpha mAlpha = Alpha.FOG;
     private final Subject mSubjectParams = new Subject();
     private final RatingBar mRatingBarParams = new RatingBar();
     private final BannerButton mBannerButton = new BannerButton();
     private final GridView mGridViewParams = new GridView();
     private final ContextView mContextView = new ContextView();
-
+    private Alpha mAlpha = Alpha.FOG;
     private boolean mCoverManager = true;
     private ViewType mViewType;
 
@@ -53,6 +52,7 @@ public class ReviewViewParams {
         WRAPPED(-1);
 
         private final int mDivider;
+
         CellDimension(int divider) {
             mDivider = divider;
         }
@@ -126,9 +126,17 @@ public class ReviewViewParams {
             mHint = Strings.EditTexts.Hints.SUBJECT;
         }
 
+        public boolean isEditable() {
+            return mIsEditable;
+        }
+
         public Subject setEditable(boolean editable) {
             mIsEditable = editable;
             return this;
+        }
+
+        public boolean isUpdateOnRefresh() {
+            return mUpdateOnRefresh;
         }
 
         public Subject setUpdateOnRefresh(boolean updateOnRefresh) {
@@ -136,21 +144,13 @@ public class ReviewViewParams {
             return this;
         }
 
+        public String getHint() {
+            return mHint;
+        }
+
         public Subject setHint(String hint) {
             mHint = hint;
             return this;
-        }
-
-        public boolean isEditable() {
-            return mIsEditable;
-        }
-
-        public boolean isUpdateOnRefresh() {
-            return mUpdateOnRefresh;
-        }
-
-        public String getHint() {
-            return mHint;
         }
 
         public int getAlpha() {
@@ -167,22 +167,22 @@ public class ReviewViewParams {
             mIsVisible = true;
         }
 
+        public boolean isEditable() {
+            return mIsEditable;
+        }
+
         public RatingBar setEditable(boolean editable) {
             mIsEditable = editable;
             return this;
         }
 
+        public boolean isVisible() {
+            return mIsVisible;
+        }
+
         public RatingBar setVisible(boolean visible) {
             mIsVisible = visible;
             return this;
-        }
-
-        public boolean isEditable() {
-            return mIsEditable;
-        }
-
-        public boolean isVisible() {
-            return mIsVisible;
         }
 
         public int getAlpha() {

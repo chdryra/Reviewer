@@ -38,6 +38,10 @@ public class SocialSuiteAndroid implements SocialSuite {
         mFormatter = formatter;
     }
 
+    public void setActivity(Activity activity) {
+        mActivity = activity;
+    }
+
     @Override
     public SocialPlatformList getSocialPlatforms() {
         return mList;
@@ -46,9 +50,5 @@ public class SocialSuiteAndroid implements SocialSuite {
     @Override
     public SocialPublisher newPublisher() {
         return new PublisherAndroid(mActivity, mSummariser, mFormatter);
-    }
-
-    public void setActivity(Activity activity) {
-        mActivity = activity;
     }
 }

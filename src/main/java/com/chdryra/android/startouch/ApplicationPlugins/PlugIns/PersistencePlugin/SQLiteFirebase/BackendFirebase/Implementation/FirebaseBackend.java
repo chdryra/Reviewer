@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
-        .BackendError;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
 import com.firebase.client.FirebaseError;
 
@@ -21,10 +21,10 @@ import com.firebase.client.FirebaseError;
  * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseBackend         {
+public class FirebaseBackend {
     public static final String ROOT = "https://teeqr.firebaseio.com/";
     public static final String NAME = ApplicationInstance.APP_NAME;
-    
+
     public static AuthenticationError authenticationError(FirebaseError error) {
         if (error.getCode() == FirebaseError.EMAIL_TAKEN) {
             return new AuthenticationError(NAME, AuthenticationError.Reason.EMAIL_TAKEN);

@@ -8,9 +8,9 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
         .DataFormatter;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,13 +29,14 @@ public class DatumLocation implements DataLocation {
 
     public DatumLocation(ReviewId reviewId) {
         mReviewId = reviewId;
-        mLatLng = new LatLng(0,0);
+        mLatLng = new LatLng(0, 0);
         mName = "";
         mAddress = "";
         mLocationId = LocationId.withProviderName(reviewId.toString(), mLatLng);
     }
 
-    public DatumLocation(ReviewId reviewId, LatLng latLng, String name, String address, LocationId locationId) {
+    public DatumLocation(ReviewId reviewId, LatLng latLng, String name, String address,
+                         LocationId locationId) {
         mReviewId = reviewId;
         mLatLng = latLng;
         mName = name;

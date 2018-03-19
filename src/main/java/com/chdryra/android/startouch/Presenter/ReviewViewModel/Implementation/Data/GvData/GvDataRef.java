@@ -11,10 +11,10 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -66,10 +66,6 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
         return mReference;
     }
 
-    DataConverter<ValueType, ? extends GvDataParcelable, ?> getConverter() {
-        return mConverter;
-    }
-
     @Nullable
     public VhDataReference<ValueType> getReferenceViewHolder() {
         return mViewHolder;
@@ -83,21 +79,6 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
     public void unbind() {
         if (mViewHolder != null && mViewHolder.isBoundTo(mReference)) {
             mViewHolder.unbindFromReference();
-        }
-    }
-
-    PlaceHolderFactory<ValueType> getPlaceholderFactory() {
-        return mFactory;
-    }
-
-    VhDataReference<ValueType> newViewHolder() {
-        try {
-            ValueHolder valueHolder = mValueHolderClass.newInstance();
-            return new VhDataRef<Reference, ValueType, ValueHolder>(valueHolder, mConverter, mFactory);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -119,7 +100,8 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
 
     @Override
     public String toString() {
-        return getDataValue() != null ? getDataValue().toString() : getGvReviewId().toString() + ": " + getGvDataType().getDataName();
+        return getDataValue() != null ? getDataValue().toString() : getGvReviewId().toString() +
+                ": " + getGvDataType().getDataName();
     }
 
     @Override
@@ -135,5 +117,25 @@ public class GvDataRef<Reference extends GvDataRef<Reference, ValueType, ValueHo
     @Override
     public void onInvalidated(DataReference<?> reference) {
         unbind();
+    }
+
+    DataConverter<ValueType, ? extends GvDataParcelable, ?> getConverter() {
+        return mConverter;
+    }
+
+    PlaceHolderFactory<ValueType> getPlaceholderFactory() {
+        return mFactory;
+    }
+
+    VhDataReference<ValueType> newViewHolder() {
+        try {
+            ValueHolder valueHolder = mValueHolderClass.newInstance();
+            return new VhDataRef<Reference, ValueType, ValueHolder>(valueHolder, mConverter,
+                    mFactory);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

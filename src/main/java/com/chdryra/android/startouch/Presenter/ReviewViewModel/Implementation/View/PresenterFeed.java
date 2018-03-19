@@ -16,7 +16,8 @@ import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .ReviewPublisherListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Social.Implementation.PlatformFacebook;
@@ -63,6 +64,35 @@ public class PresenterFeed implements ReviewPublisherListener {
         mPublisher.unregisterListener(this);
     }
 
+    @Override
+    public void onUploadFailed(ReviewId id, CallbackMessage result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onUploadCompleted(ReviewId id, CallbackMessage result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
+            result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults
+            justUploaded) {
+        mListener.onPublishingStatus(reviewId, percentage, justUploaded);
+    }
+
+    @Override
+    public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk,
+                                      Collection<PublishResults> platformsNotOk, CallbackMessage
+                                              result) {
+        makeToast(getPublishedMessage(platformsOk, platformsNotOk, result));
+    }
+
     private String getPublishedMessage(Collection<PublishResults> platformsOk,
                                        Collection<PublishResults> platformsNotOk,
                                        CallbackMessage callbackMessage) {
@@ -105,35 +135,6 @@ public class PresenterFeed implements ReviewPublisherListener {
         return message;
     }
 
-    @Override
-    public void onUploadFailed(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onUploadCompleted(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
-            result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults
-            justUploaded) {
-        mListener.onPublishingStatus(reviewId, percentage, justUploaded);
-    }
-
-    @Override
-    public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk,
-                                      Collection<PublishResults> platformsNotOk, CallbackMessage
-                                              result) {
-        makeToast(getPublishedMessage(platformsOk, platformsNotOk, result));
-    }
-
     private void makeToast(String message) {
         mScreen.showToast(message);
     }
@@ -142,7 +143,8 @@ public class PresenterFeed implements ReviewPublisherListener {
         public PresenterFeed build(ApplicationInstance app, PresenterListener listener) {
             UiSuite ui = app.getUi();
             RepositorySuite repo = app.getRepository();
-            SocialProfileRef profile = app.getAccounts().getUserSession().getAccount().getSocialProfile();
+            SocialProfileRef profile = app.getAccounts().getUserSession().getAccount()
+                    .getSocialProfile();
 
             return new PresenterFeed(ui.newFeedView(repo, profile),
                     ui.getCurrentScreen(), repo.getReviewPublisher(), listener);

@@ -16,10 +16,11 @@ import com.chdryra.android.corelibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .ReviewPublisherListener;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.UploadListener;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.startouch.Social.Implementation.PublishResults;
 
 import java.util.ArrayList;
@@ -111,7 +112,8 @@ public class ReviewPublisherImpl implements ReviewPublisher, UploadListener,
     }
 
     @Override
-    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults
+            justUploaded) {
         notifyListenersOnPublishingStatus(reviewId, percentage, justUploaded);
     }
 
@@ -149,7 +151,7 @@ public class ReviewPublisherImpl implements ReviewPublisher, UploadListener,
             QueueCallback callback = mAddCallbacks.remove(item);
             mSocial.unsetPlatforms(item.getReviewId());
             callback.onFailed(item, reviewId(itemId), result);
-        } else if(itemId != null){
+        } else if (itemId != null) {
             //Failed onRetrieved...
             QueueCallback callback = mGetCallbacks.remove(reviewId(itemId));
             callback.onFailed(null, reviewId(itemId), result);
@@ -187,7 +189,8 @@ public class ReviewPublisherImpl implements ReviewPublisher, UploadListener,
         }
     }
 
-    private void notifyListenersOnPublishingStatus(ReviewId id, double percentage, PublishResults justUploaded) {
+    private void notifyListenersOnPublishingStatus(ReviewId id, double percentage, PublishResults
+            justUploaded) {
         for (ReviewPublisherListener listener : mListeners) {
             listener.onPublishingStatus(id, percentage, justUploaded);
         }

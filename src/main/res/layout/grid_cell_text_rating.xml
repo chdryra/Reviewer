@@ -17,24 +17,25 @@
             style="@style/TextViewGridCell"
             android:layout_weight="1"/>
 
-    <LinearLayout style="@style/LinearLayoutHorizontal.GridCell"
-                  android:layout_weight="1">
+        <LinearLayout
+            style="@style/LinearLayoutHorizontal.GridCell"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/rating_text_view"
-            style="@style/TextViewGridCell"
-            android:gravity="end|center_vertical"
-            android:text="4.0"
-            android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/rating_text_view"
+                style="@style/TextViewGridCell"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:text="4.0"/>
 
-        <TextView
-            style="@style/TextViewGridCell"
-            android:drawableStart="@android:drawable/btn_star_big_on"
-            android:drawableLeft="@android:drawable/btn_star_big_on"
-            android:singleLine="true"
-            android:layout_weight="1"/>
+            <TextView
+                style="@style/TextViewGridCell"
+                android:layout_weight="1"
+                android:drawableLeft="@android:drawable/btn_star_big_on"
+                android:drawableStart="@android:drawable/btn_star_big_on"
+                android:singleLine="true"/>
 
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </com.chdryra.android.corelibrary.Viewholder.ViewHolderLayout>

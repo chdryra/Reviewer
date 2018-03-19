@@ -19,15 +19,17 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Application.ApplicationInstance;
 import com.chdryra.android.startouch.Application.ReviewViewPacker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .PresenterReviewDataEditImpl;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-
 import com.chdryra.android.startouch.test.TestUtils.DialogAddListener;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
@@ -177,7 +179,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
     protected void pressDialogButton(final DialogButton button) {
         mSignaler.reset();
         mActivity.runOnUiThread(new Runnable() {
-//Overridden
+            //Overridden
             public void run() {
                 if (button == DialogButton.CANCEL) {
                     mDialog.clickCancelButton();
@@ -191,6 +193,33 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         });
 
         mSignaler.waitForSignal();
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mDialog = mDialogClass.newInstance();
+        mListener = new DialogAddListener<>();
+
+        mAdapter = ApplicationInstance.getInstance(getInstrumentation().getTargetContext())
+                .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
+
+        Intent i = new Intent();
+        Context context = getInstrumentation().getTargetContext();
+        ReviewView screen = PresenterReviewDataEditImpl.newScreen(context, mDialog.getGvDataType
+                ()).getEditor();
+        ReviewViewPacker.packView(context, screen, i);
+        setActivityIntent(i);
+        mActivity = getActivity();
+
+        FragmentManager manager = mActivity.getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(mListener, DIALOG_TAG);
+        ft.commit();
+
+        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
     private void testNotQuickSet(final boolean addButton) {
@@ -225,31 +254,5 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         } else {
             assertFalse(mDialog.isShowing());
         }
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mDialog = mDialogClass.newInstance();
-        mListener = new DialogAddListener<>();
-
-        mAdapter = ApplicationInstance.getInstance(getInstrumentation().getTargetContext())
-                .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
-
-        Intent i = new Intent();
-        Context context = getInstrumentation().getTargetContext();
-        ReviewView screen = PresenterReviewDataEditImpl.newScreen(context, mDialog.getGvDataType()).getEditor();
-        ReviewViewPacker.packView(context, screen, i);
-        setActivityIntent(i);
-        mActivity = getActivity();
-
-        FragmentManager manager = mActivity.getFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(mListener, DIALOG_TAG);
-        ft.commit();
-
-        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 }

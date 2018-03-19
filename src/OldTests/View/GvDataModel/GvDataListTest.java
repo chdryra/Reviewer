@@ -14,7 +14,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.test.TestUtils.ParcelableTester;
 import com.chdryra.android.startouch.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -70,6 +71,13 @@ public class GvDataListTest extends TestCase {
         mList.addAll(newData(id));
         GvDataList<GvComment> idList = new GvDataListImpl<>(id, mList);
         ParcelableTester.testParcelable(idList);
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mList = new GvDataListImpl<>(GvComment.TYPE, null);
     }
 
     private void testAdd(GvReviewId id, GvDataListImpl<GvComment> list) {
@@ -133,7 +141,7 @@ public class GvDataListTest extends TestCase {
     }
 
     private ArrayList<GvComment> addData(GvReviewId id,
-                                                       GvDataListImpl<GvComment> list) {
+                                         GvDataListImpl<GvComment> list) {
         ArrayList<GvComment> comments = newData(id);
         for (int i = 0; i < NUM; ++i) {
             list.add(comments.get(i));
@@ -152,12 +160,5 @@ public class GvDataListTest extends TestCase {
         }
 
         return comments;
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mList = new GvDataListImpl<>(GvComment.TYPE, null);
     }
 }

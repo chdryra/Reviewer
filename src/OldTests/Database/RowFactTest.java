@@ -12,9 +12,10 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.startouch.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -55,9 +56,18 @@ public class RowFactTest extends TestCase {
         testRow(new RowFact(cursor), true);
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mFact = mocker.newFact();
+        mUrl = mocker.newUrl();
+    }
+
     //private methods
     private String getDatumId() {
-        return mFact.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "f" + String.valueOf
+        return mFact.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "f" +
+                String.valueOf
                 (INDEX);
     }
 
@@ -70,13 +80,5 @@ public class RowFactTest extends TestCase {
         assertEquals(fact.getValue(), values.getAsString(RowFact.VALUE));
         assertTrue(fact.isUrl() == values.getAsBoolean(RowFact.IS_URL));
         assertEquals(isUrl ? mUrl : mFact, row.toMdData());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mFact = mocker.newFact();
-        mUrl = mocker.newUrl();
     }
 }

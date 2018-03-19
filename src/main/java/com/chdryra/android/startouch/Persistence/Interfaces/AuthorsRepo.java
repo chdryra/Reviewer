@@ -9,12 +9,12 @@
 package com.chdryra.android.startouch.Persistence.Interfaces;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorRef;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 
 import java.util.List;
 
@@ -25,7 +25,8 @@ import java.util.List;
  */
 public interface AuthorsRepo {
     int SEARCH_LIMIT = 8;
-    enum Error{NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
+
+    enum Error {NAME_NOT_FOUND, NETWORK_ERROR, CANCELLED}
 
     interface SearchAuthorsCallback {
         void onAuthors(List<AuthorName> suggestions, CallbackMessage message);

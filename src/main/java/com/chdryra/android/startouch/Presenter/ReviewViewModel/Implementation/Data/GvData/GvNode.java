@@ -17,8 +17,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNode.NodeObserver {
     public static final GvDataType<GvNode> TYPE = new GvDataType<>(GvNode.class, TYPE_NAME);
@@ -27,16 +29,24 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNod
     private ViewHolderFactory<VhNode> mViewHolderFactory;
     private VhNode mViewHolder;
 
-    private GvNode() {
-        super(GvNode.TYPE);
-    }
-
     public GvNode(ReviewNode node,
                   ViewHolderFactory<VhNode> viewHolderFactory) {
         super(GvNode.TYPE, new GvReviewId(node.getReviewId()));
         mNode = node;
         mNode.registerObserver(this);
         mViewHolderFactory = viewHolderFactory;
+    }
+
+    private GvNode() {
+        super(GvNode.TYPE);
+    }
+
+    public ReviewNode getNode() {
+        return mNode;
+    }
+
+    public void unbind() {
+        if (mViewHolder != null && mViewHolder.isBoundTo(mNode)) mViewHolder.unbind();
     }
 
     @Override
@@ -57,24 +67,6 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNod
     @Override
     public void onTreeChanged() {
         refresh();
-    }
-
-    public ReviewNode getNode() {
-        return mNode;
-    }
-
-    public void unbind() {
-        if(mViewHolder != null && mViewHolder.isBoundTo(mNode)) mViewHolder.unbind();
-    }
-
-    public void setViewHolder(VhNode viewHolder) {
-        if(viewHolder.equals(mViewHolder)) return;
-        unbind();
-        mViewHolder = viewHolder;
-    }
-
-    private void refresh() {
-        if(mViewHolder != null) mViewHolder.refresh(mNode);
     }
 
     @Override
@@ -102,6 +94,12 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNod
         return mViewHolderFactory.newViewHolder();
     }
 
+    public void setViewHolder(VhNode viewHolder) {
+        if (viewHolder.equals(mViewHolder)) return;
+        unbind();
+        mViewHolder = viewHolder;
+    }
+
     @Override
     public boolean isValidForDisplay() {
         return getGvReviewId() != null;
@@ -115,5 +113,9 @@ public class GvNode extends GvDataBasic<GvNode> implements DataReview, ReviewNod
     @Override
     public String toString() {
         return StringParser.parse(this);
+    }
+
+    private void refresh() {
+        if (mViewHolder != null) mViewHolder.refresh(mNode);
     }
 }

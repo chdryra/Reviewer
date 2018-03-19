@@ -15,14 +15,21 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.corelibrary.Dialogs.DialogDeleteConfirm;
-import com.chdryra.android.startouch.Application.ApplicationInstance;
-import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.Application.ApplicationInstance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogGvDataEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentReviewView;
+import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .PresenterReviewDataEditImpl;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -30,10 +37,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
@@ -148,6 +153,12 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
         checkBuildersSubjectRatingAsExpected();
         checkInBuilder(mData, true);
+    }
+
+    @Override
+    public void testSubjectRating() {
+        setUp(false);
+        super.testSubjectRating();
     }
 
     //protected methods
@@ -309,7 +320,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     protected T newEditDatum(T oldDatum) {
         //TODO make type safe
-        return (T)GvDataMocker.getDatum(mDataType);
+        return (T) GvDataMocker.getDatum(mDataType);
     }
 
     protected GvDataListImpl<T> newData() {
@@ -495,6 +506,30 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         return currentDatum;
     }
 
+    //Overridden
+    @Override
+    protected void setAdapter() {
+        mReviewBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new
+                TagsManager());
+        ReviewBuilderAdapter builder = new ReviewBuilderAdapter(mReviewBuilder);
+        mBuilder = builder.getDataBuilderAdapter(mDataType);
+
+        if (mWithData) {
+            mData = newData();
+            for (int i = 0; i < mData.size(); ++i) {
+                //TODO make type safe
+                mBuilder.add(mData.getItem(i));
+            }
+            mBuilder.publishData();
+        }
+
+        mAdapter = mBuilder;
+    }
+
+    @Override
+    protected void setUp() {
+    }
+
     //private methods
     private DialogGvDataEdit getEditDialog() {
         FragmentManager manager = getActivity().getFragmentManager();
@@ -656,7 +691,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         });
 
         mClickRunnables.put(Button.ADDADD, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -666,7 +701,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         });
 
         mClickRunnables.put(Button.ADDDONE, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -678,7 +713,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     private void setEditorDialogButtonClicks() {
         mClickRunnables.put(Button.EDITCANCEL, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -688,7 +723,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         });
 
         mClickRunnables.put(Button.EDITDELETE, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -698,7 +733,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         });
 
         mClickRunnables.put(Button.EDITDONE, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -710,7 +745,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     private void setDeleteConfirmButtonClicks() {
         mClickRunnables.put(Button.DELETECANCEL, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -720,7 +755,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         });
 
         mClickRunnables.put(Button.DELETECONFIRM, new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -738,35 +773,6 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
             assertFalse(mSolo.searchButton("Cancel"));
             assertFalse(mSolo.searchButton("DONE"));
         }
-    }
-
-    //Overridden
-    @Override
-    protected void setAdapter() {
-        mReviewBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
-        ReviewBuilderAdapter builder = new ReviewBuilderAdapter(mReviewBuilder);
-        mBuilder = builder.getDataBuilderAdapter(mDataType);
-
-        if (mWithData) {
-            mData = newData();
-            for (int i = 0; i < mData.size(); ++i) {
-                //TODO make type safe
-                mBuilder.add(mData.getItem(i));
-            }
-            mBuilder.publishData();
-        }
-
-        mAdapter = mBuilder;
-    }
-
-    @Override
-    public void testSubjectRating() {
-        setUp(false);
-        super.testSubjectRating();
-    }
-
-    @Override
-    protected void setUp() {
     }
 }
 

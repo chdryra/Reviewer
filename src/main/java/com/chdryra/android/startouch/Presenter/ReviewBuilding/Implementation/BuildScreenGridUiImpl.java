@@ -9,10 +9,11 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class BuildScreenGridUiImpl implements BuildScreenGridUi<DataBuilderGridC
 
     @Override
     public void setParentAdapter(ReviewBuilderAdapter<?> adapter) {
-        for(GvDataType<? extends GvDataParcelable> dataType : mCells) {
+        for (GvDataType<? extends GvDataParcelable> dataType : mCells) {
             mWrapper.addNewGridCell(adapter.getDataBuilderAdapter(dataType), mVhFactory);
         }
     }

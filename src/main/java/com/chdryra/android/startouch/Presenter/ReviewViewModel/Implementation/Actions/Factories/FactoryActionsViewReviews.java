@@ -15,16 +15,26 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Autho
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchNodeView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiBookmarks;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiLogout;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiProfileEdit;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSearch;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuFeed;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ActionsParameters;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLaunchNodeView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiBookmarks;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiLogout;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiProfileEdit;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiSearch;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuFeed;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -51,16 +61,18 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
 
     @Override
     public MenuAction<GvNode> newMenu() {
-        return mRepo != null ? newFeedMenu(mRepo) : super.newDefaultMenu(getDataType().getDataName());
+        return mRepo != null ? newFeedMenu(mRepo) : super.newDefaultMenu(getDataType()
+                .getDataName());
     }
 
     @Override
     public GridItemAction<GvNode> newGridItem() {
         LaunchBespokeViewCommand click = getCommandsFactory().newLaunchPagedCommand(null);
-        ReviewOptionsSelector longClick = getCommandsFactory().getOptionsFactory().newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.BASIC);
+        ReviewOptionsSelector longClick = getCommandsFactory().getOptionsFactory()
+                .newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.BASIC);
         return new GridItemLaunchNodeView(click, longClick);
     }
-    
+
     @NonNull
     private MenuAction<GvNode> newFeedMenu(ReviewNodeRepo repo) {
         UiLauncher launcher = getLauncher();
@@ -68,7 +80,8 @@ public class FactoryActionsViewReviews extends FactoryActionsViewData<GvNode> {
                 (getCommandsFactory().newLaunchCreatorCommand(null));
         MaiBookmarks<GvNode> bookmarks = new MaiBookmarks<>(launcher, repo, getViewFactory());
         MaiSearch<GvNode> search = new MaiSearch<>(launcher, getViewFactory());
-        MaiProfileEdit<GvNode> profile = new MaiProfileEdit<>(getCommandsFactory().newLaunchProfileCommand());
+        MaiProfileEdit<GvNode> profile = new MaiProfileEdit<>(getCommandsFactory()
+                .newLaunchProfileCommand());
         MaiLogout<GvNode> logout = new MaiLogout<>();
 
         return new MenuFeed<>(newReview, bookmarks, search, profile, logout);

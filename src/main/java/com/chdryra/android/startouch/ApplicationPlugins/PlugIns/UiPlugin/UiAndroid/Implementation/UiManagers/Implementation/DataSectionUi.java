@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.widget.LinearLayout;
@@ -23,7 +23,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class DataSectionUi<T extends HasReviewId> extends FormattedSectionUi<IdableList<T>> {
+public abstract class DataSectionUi<T extends HasReviewId> extends
+        FormattedSectionUi<IdableList<T>> {
 
     protected abstract void updateView(IdableList<T> data);
 
@@ -34,7 +35,7 @@ public abstract class DataSectionUi<T extends HasReviewId> extends FormattedSect
     }
 
     protected void setView(IdableList<T> data) {
-        if(data.size() > 0) {
+        if (data.size() > 0) {
             updateView(data);
         } else {
             setEmpty(Strings.Formatted.NONE);

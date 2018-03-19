@@ -15,8 +15,8 @@ import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndro
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 
 import org.junit.Before;
@@ -42,24 +42,6 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     private ReviewsRepoWriteable mRepo;
     private Context mContext;
 
-    @Before
-    @Override
-    public void setUp() {
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        mContext = getInstrumentation().getTargetContext();
-        ApplicationInstance instance = AppInstanceAndroid.getInstance();
-        mRepo = (ReviewsRepoWriteable) instance.getReviews(instance.getUserSession().getAuthorId());
-        deleteDatabaseIfNecessary();
-        mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
-        mTestRepo.getRepository(new RepoCallback() {
-            @Override
-            public void onRepoCallback(RepoResult result) {
-                Collection<Review> reviews = result.getReviews();
-                populateRepository(reviews);
-            }
-        });
-    }
-
     @Test
     public void testDatabase() {
         mTestRepo.getRepository(new RepoCallback() {
@@ -79,13 +61,34 @@ public class TestDatabaseTest extends InstrumentationTestCase {
                             assertThat(review.getRating(), is(testReview.getRating()));
                             assertThat(review.getAuthorId(), is(testReview.getAuthorId()));
                             assertThat(review.getPublishDate(), is(testReview.getPublishDate()));
-                            assertThat(review.getComments().size(), is(testReview.getComments().size()));
+                            assertThat(review.getComments().size(), is(testReview.getComments()
+                                    .size()));
                             assertThat(review.getFacts().size(), is(testReview.getFacts().size()));
-                            assertThat(review.getLocations().size(), is(testReview.getLocations().size()));
-                            assertThat(review.getImages().size(), is(testReview.getImages().size()));
+                            assertThat(review.getLocations().size(), is(testReview.getLocations()
+                                    .size()));
+                            assertThat(review.getImages().size(), is(testReview.getImages().size
+                                    ()));
                         }
                     }
                 });
+            }
+        });
+    }
+
+    @Before
+    @Override
+    public void setUp() {
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        mContext = getInstrumentation().getTargetContext();
+        ApplicationInstance instance = AppInstanceAndroid.getInstance();
+        mRepo = (ReviewsRepoWriteable) instance.getReviews(instance.getUserSession().getAuthorId());
+        deleteDatabaseIfNecessary();
+        mTestRepo = TestReviews.getReviews(getInstrumentation(), mRepo.getTagsManager());
+        mTestRepo.getRepository(new RepoCallback() {
+            @Override
+            public void onRepoCallback(RepoResult result) {
+                Collection<Review> reviews = result.getReviews();
+                populateRepository(reviews);
             }
         });
     }

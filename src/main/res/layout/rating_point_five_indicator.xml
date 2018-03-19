@@ -10,8 +10,9 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:background="@drawable/background">
-<RatingBar
-    android:id="@+id/review_rating_bar"
-    style="@style/RatingBarFiveStar.Indicator.PointFiveStep"/>
+
+    <RatingBar
+        android:id="@+id/review_rating_bar"
+        style="@style/RatingBarFiveStar.Indicator.PointFiveStep"/>
 
 </FrameLayout>

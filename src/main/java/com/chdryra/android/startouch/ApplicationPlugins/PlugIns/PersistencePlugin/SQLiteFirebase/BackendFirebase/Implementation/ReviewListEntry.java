@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReview;
 
 /**
@@ -82,6 +82,7 @@ public class ReviewListEntry {
     }
 
     public ReviewListEntry toInverseDate() {
-        return new ReviewListEntry(getReviewId(), getSubject(), getRating(), getAuthorId(), -getPublishDate());
+        return new ReviewListEntry(getReviewId(), getSubject(), getRating(), getAuthorId(),
+                -getPublishDate());
     }
 }

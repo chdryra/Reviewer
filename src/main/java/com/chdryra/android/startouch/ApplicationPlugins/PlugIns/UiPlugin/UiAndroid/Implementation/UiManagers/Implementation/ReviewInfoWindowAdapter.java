@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.app.Activity;
@@ -46,6 +47,11 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
         }
     }
 
+    public void resetInfoWindow(Marker marker) {
+        MapInfoWindow info = mInflated.get(marker);
+        if (info != null) info.resetWindow();
+    }
+
     @Override
     @Nullable
     public View getInfoWindow(Marker marker) {
@@ -69,10 +75,5 @@ public class ReviewInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Goo
     public void onInfoWindowClick(Marker marker) {
         MapInfoWindow info = mInflated.get(marker);
         if (info != null) info.onClick();
-    }
-
-    public void resetInfoWindow(Marker marker) {
-        MapInfoWindow info = mInflated.get(marker);
-        if (info != null) info.resetWindow();
     }
 }

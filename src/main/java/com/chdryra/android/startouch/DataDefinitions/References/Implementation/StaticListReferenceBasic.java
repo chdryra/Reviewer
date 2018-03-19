@@ -23,10 +23,13 @@ import java.util.Collection;
  * On: 14/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
+public abstract class StaticListReferenceBasic<Value extends HasReviewId, Reference extends
+        ReviewItemReference<Value>>
         extends StaticItemReference<IdableList<Value>>
         implements ReviewListReference<Value, Reference> {
     private final Collection<ItemSubscriber<Value>> mItemBinders;
+
+    protected abstract Reference newStaticReference(Value item);
 
     StaticListReferenceBasic(IdableList<Value> value) {
         super(value);
@@ -67,6 +70,4 @@ public abstract class StaticListReferenceBasic<Value extends HasReviewId, Refere
         }
         callback.onItemReferences(refs);
     }
-
-    protected abstract Reference newStaticReference(Value item);
 }

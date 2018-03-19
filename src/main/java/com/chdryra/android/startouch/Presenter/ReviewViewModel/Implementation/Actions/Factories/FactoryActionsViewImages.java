@@ -12,8 +12,10 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemBespokeView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchBespokeViewCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemBespokeView;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchBespokeViewCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
@@ -34,6 +36,7 @@ public class FactoryActionsViewImages extends FactoryActionsViewData<GvImage.Ref
     public GridItemAction<GvImage.Reference> newGridItem() {
         LaunchBespokeViewCommand click = getCommandsFactory().newLaunchBespokeViewCommand(mNode,
                 "Launch Image Viewer", GvImage.TYPE);
-        return new GridItemBespokeView<>(getLauncher(), getViewFactory(), getGridItemConfig(), click);
+        return new GridItemBespokeView<>(getLauncher(), getViewFactory(), getGridItemConfig(),
+                click);
     }
 }

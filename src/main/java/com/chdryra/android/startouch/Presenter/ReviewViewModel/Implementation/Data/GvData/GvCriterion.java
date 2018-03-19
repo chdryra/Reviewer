@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConvert
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhCriterion;
 
 /**
  * {@link GvData} version of: no equivalent as used
@@ -138,7 +139,8 @@ public class GvCriterion extends GvDataParcelableBasic<GvCriterion> implements D
 
         public Reference(ReviewItemReference<DataCriterion> reference,
                          DataConverter<DataCriterion, GvCriterion, ?> converter) {
-            super(TYPE, reference, converter, VhCriterion.class, new PlaceHolderFactory<DataCriterion>() {
+            super(TYPE, reference, converter, VhCriterion.class, new
+                    PlaceHolderFactory<DataCriterion>() {
                 @Override
                 public DataCriterion newPlaceHolder(String placeHolder) {
                     return new GvCriterion(placeHolder, 0f);

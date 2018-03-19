@@ -3,8 +3,8 @@ package com.chdryra.android.startouch.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
@@ -15,7 +15,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
@@ -134,7 +135,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
         for (GvDataType dataType : TYPES) {
             DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
-            if(dataType.equals(GvCriterion.TYPE)) {
+            if (dataType.equals(GvCriterion.TYPE)) {
                 assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
             } else {
                 assertEquals(criteria.getAverageRating(), builder.getAverageRating());
@@ -189,14 +190,14 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testAdd() {
-        for(GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             addAndTestDatum(dataType, 0, new GridObserver(mSignaler));
         }
     }
 
     @SmallTest
     public void testDelete() {
-        for(GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             GvData datum = addAndTestDatum(dataType, 0, observer);
             DataBuilderAdapter adapter = getBuilder(dataType);
@@ -210,7 +211,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testDeleteAll() {
-        for(GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             addAndTestDatum(dataType, 0, observer);
             addAndTestDatum(dataType, 1, null);
@@ -228,7 +229,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testReplace() {
-        for(GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             GvData oldDatum = addAndTestDatum(dataType, 0, observer);
             GvData newDatum = GvDataMocker.getDatum(dataType);
@@ -245,7 +246,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testReset() {
-        for(GvDataType dataType : TYPES) {
+        for (GvDataType dataType : TYPES) {
             GvDataList<?> origData = GvDataMocker.getData(dataType, NUM);
             setBuilderData(origData);
 
@@ -264,20 +265,31 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         }
     }
 
-    private <T extends GvData> T addAndTestDatum(GvDataType<T> dataType, int index, GridObserver observer) {
-        T datum = (T)GvDataMocker.getDatum(dataType); //TODO make type safe
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        DatumAuthor author = RandomAuthor.nextAuthor();
+        TagsManager tagsManager = new TagsManager();
+        ReviewBuilder builder = new ReviewBuilder(getContext(), author, tagsManager);
+        mAdapter = new ReviewBuilderAdapter(builder);
+        mSignaler = new CallBackSignaler(5000);
+    }
+
+    private <T extends GvData> T addAndTestDatum(GvDataType<T> dataType, int index, GridObserver
+            observer) {
+        T datum = (T) GvDataMocker.getDatum(dataType); //TODO make type safe
         DataBuilderAdapter<T> adapter = getBuilder(dataType);
         GvDataList data = adapter.getGridData();
         assertEquals(index, data.size());
 
-        if(observer != null) {
+        if (observer != null) {
             observer.reset();
             adapter.registerDataObserver(observer);
         }
 
         assertTrue(adapter.add(datum));
 
-        if(observer != null) observer.waitAndTestForNotification();
+        if (observer != null) observer.waitAndTestForNotification();
 
         data = adapter.getGridData();
         assertEquals(index + 1, data.size());
@@ -301,16 +313,6 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     private <T extends GvData> DataBuilderAdapter<T> getBuilder(GvDataType<T> dataType) {
         return mAdapter.getDataBuilderAdapter(dataType);
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        DatumAuthor author = RandomAuthor.nextAuthor();
-        TagsManager tagsManager = new TagsManager();
-        ReviewBuilder builder = new ReviewBuilder(getContext(), author, tagsManager);
-        mAdapter = new ReviewBuilderAdapter(builder);
-        mSignaler = new CallBackSignaler(5000);
     }
 
     private static class GridObserver implements DataObservable.DataObserver {

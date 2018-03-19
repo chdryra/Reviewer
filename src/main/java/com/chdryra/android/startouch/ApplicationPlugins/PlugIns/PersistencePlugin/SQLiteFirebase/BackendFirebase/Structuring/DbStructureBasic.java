@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring;
 
 
 import android.support.annotation.NonNull;
@@ -29,10 +30,6 @@ import java.util.Map;
 public abstract class DbStructureBasic<T> implements DbStructure<T> {
     private Path<T> mPath;
 
-    @NonNull
-    @Override
-    public abstract Map<String, Object> getUpdatesMap(T item, UpdateType updateType);
-
     protected String path(String root, String... elements) {
         return Path.path(root, elements);
     }
@@ -40,6 +37,33 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
     protected Map<String, Object> noUpdates() {
         return new HashMap<>();
     }
+
+    protected Map<String, Object> getDifference(Map<String, Object> toDelete, Map<String, Object>
+            toInsert) {
+        Map<String, Object> updatesMap = new HashMap<>();
+
+        //Replacements and deletes
+        for (Map.Entry<String, Object> entry : toDelete.entrySet()) {
+            String key = entry.getKey();
+            Object deleteValue = entry.getValue();
+            Object insertValue = toInsert.get(key);
+            if (!deleteValue.equals(insertValue)) updatesMap.put(key, insertValue);
+        }
+
+        //New inserts
+        for (Map.Entry<String, Object> entry : toInsert.entrySet()) {
+            String key = entry.getKey();
+            if (!toDelete.containsKey(key) && !updatesMap.containsKey(key)) {
+                updatesMap.put(key, toInsert.get(key));
+            }
+        }
+
+        return updatesMap;
+    }
+
+    @NonNull
+    @Override
+    public abstract Map<String, Object> getUpdatesMap(T item, UpdateType updateType);
 
     @Override
     public void setPathToStructure(Path<T> path) {
@@ -70,32 +94,10 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
         return mPath != null ? mPath.getPath(item) : item.toString();
     }
 
-    protected Map<String, Object> getDifference(Map<String, Object> toDelete, Map<String, Object> toInsert) {
-        Map<String, Object> updatesMap = new HashMap<>();
-
-        //Replacements and deletes
-        for(Map.Entry<String, Object> entry : toDelete.entrySet()) {
-            String key = entry.getKey();
-            Object deleteValue = entry.getValue();
-            Object insertValue = toInsert.get(key);
-            if(!deleteValue.equals(insertValue)) updatesMap.put(key, insertValue);
-        }
-
-        //New inserts
-        for(Map.Entry<String, Object> entry : toInsert.entrySet()) {
-            String key = entry.getKey();
-            if(!toDelete.containsKey(key) && !updatesMap.containsKey(key)) {
-                updatesMap.put(key, toInsert.get(key));
-            }
-        }
-
-        return updatesMap;
-    }
-
     protected class Updates {
+        private final boolean mDelete;
         private Map<String, Object> mUpdatesMap;
         private List<Update<T>> mUpdates;
-        private final boolean mDelete;
 
         public Updates(UpdateType type) {
             mDelete = type == UpdateType.DELETE;

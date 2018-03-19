@@ -12,9 +12,10 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.startouch.test.TestUtils.MdDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -49,9 +50,17 @@ public class RowLocationTest extends TestCase {
         testRow(new RowLocation(cursor));
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mLocation = mocker.newLocation();
+    }
+
     //private methods
     private String getDatumId() {
-        return mLocation.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "l" + String.valueOf
+        return mLocation.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "l" +
+                String.valueOf
                 (INDEX);
     }
 
@@ -64,12 +73,5 @@ public class RowLocationTest extends TestCase {
         assertEquals(latlng.longitude, values.getAsDouble(RowLocation.LNG));
         assertEquals(mLocation.getName(), values.getAsString(RowLocation.NAME));
         assertEquals(mLocation, row.toMdData());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mLocation = mocker.newLocation();
     }
 }

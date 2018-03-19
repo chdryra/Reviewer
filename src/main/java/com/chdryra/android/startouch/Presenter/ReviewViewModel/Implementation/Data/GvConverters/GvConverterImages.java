@@ -11,21 +11,24 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterImages extends GvConverterReviewData.RefDataList<DataImage, GvImage, GvImageList, GvImage.Reference> {
+public class GvConverterImages extends GvConverterReviewData.RefDataList<DataImage, GvImage,
+        GvImageList, GvImage.Reference> {
 
     private final DataConverter<DateTime, GvDate, ?> mConverter;
 

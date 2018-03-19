@@ -16,7 +16,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableD
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.CommentRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 import java.util.ArrayList;
 

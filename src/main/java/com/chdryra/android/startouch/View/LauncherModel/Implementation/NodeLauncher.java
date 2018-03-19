@@ -14,7 +14,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
 
 /**
@@ -33,26 +34,27 @@ public class NodeLauncher<T extends GvData> extends PackingLauncherImpl<ReviewNo
         mType = dataType;
     }
 
-    public GvDataType<T> getDataType() {
-        return mType;
-    }
-
-    @Override
-    public void launch(@Nullable ReviewNode item) {
-        launch(item, 0, false, new Bundle());
-    }
-
-    public void launch(@Nullable ReviewNode item, int datumIndex, boolean isPublished, Bundle bundle) {
-        bundle.putInt(INDEX, datumIndex);
-        bundle.putBoolean(PUBLISHED, isPublished);
-        launch(item, bundle);
-    }
-
     public static boolean isPublished(Bundle args) {
         return args.getBoolean(PUBLISHED);
     }
 
     public static int getIndex(Bundle args) {
         return args.getInt(INDEX);
+    }
+
+    public GvDataType<T> getDataType() {
+        return mType;
+    }
+
+    public void launch(@Nullable ReviewNode item, int datumIndex, boolean isPublished, Bundle
+            bundle) {
+        bundle.putInt(INDEX, datumIndex);
+        bundle.putBoolean(PUBLISHED, isPublished);
+        launch(item, bundle);
+    }
+
+    @Override
+    public void launch(@Nullable ReviewNode item) {
+        launch(item, 0, false, new Bundle());
     }
 }

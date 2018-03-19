@@ -10,8 +10,7 @@ package com.chdryra.android.startouch.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .ReviewTreeComparer;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeComparer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.test.TestUtils.ReviewMocker;
@@ -29,7 +28,8 @@ public class ReviewTreeComparerTest extends TestCase {
     public void testCompareNodes() {
         ReviewNode node1 = ReviewMocker.newReviewNode(true);
 
-        ReviewTreeMutable node2 = new ReviewTreeMutable(node1.getReview(), true, node1.getMdReviewId());
+        ReviewTreeMutable node2 = new ReviewTreeMutable(node1.getReview(), true,
+                node1.getMdReviewId());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));
         node2.setParent((ReviewTreeMutable) node1.getParent());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));

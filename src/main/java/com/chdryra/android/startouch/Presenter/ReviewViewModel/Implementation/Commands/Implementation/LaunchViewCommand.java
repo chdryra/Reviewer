@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
@@ -46,7 +47,7 @@ public class LaunchViewCommand extends Command {
     @Override
     public void execute() {
         ReviewView<?> view = mCreator.newView();
-        if(view == null) return;
+        if (view == null) return;
         int code = RequestCodeGenerator.getCode(view.getClass(), view.getLaunchTag());
         mLauncher.launch(view, new UiLauncherArgs(code));
     }

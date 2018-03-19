@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation;
 
 import android.content.BroadcastReceiver;
 
@@ -18,7 +19,8 @@ import java.util.Iterator;
  * On: 21/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class BroadcastingServiceReceiver<L> extends BroadcastReceiver implements Iterable<L>{
+public abstract class BroadcastingServiceReceiver<L> extends BroadcastReceiver implements
+        Iterable<L> {
     private final ArrayList<L> mListeners;
 
     public BroadcastingServiceReceiver() {
@@ -26,11 +28,11 @@ public abstract class BroadcastingServiceReceiver<L> extends BroadcastReceiver i
     }
 
     public void registerListener(L listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     public void unregisterListener(L listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override

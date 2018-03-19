@@ -23,22 +23,32 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
         .Implementation.ActionsParameters;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonAuthorReviews;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSelectorWithDefault;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ButtonSorter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemConfigLauncher;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiOptionsCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuViewDataDefault;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.RatingBarExpandGrid;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonAuthorReviews;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonSelectorWithDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ButtonSorter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemConfigLauncher;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiOptionsCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuViewDataDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.RatingBarExpandGrid;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryReviewOptions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelectAndExecute;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelectAndExecute;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.ReviewOptionsSelector;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
@@ -76,10 +86,6 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
         return mLauncher;
     }
 
-    private OptionsSelector newSelector() {
-        return getCommandsFactory().getOptionsFactory().newOptionsSelector();
-    }
-
     @Override
     public MenuAction<T> newMenu() {
         return new MenuViewDataDefault<>(getDataType().getDataName(), newOptionsMenuItem());
@@ -94,7 +100,7 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     public ButtonAction<T> newBannerButton() {
         if (hasStamp()) {
             return new ButtonAuthorReviews<>(mCommands.newLaunchProfileCommand(), mStamp, mRepo);
-        } else if(mComparators != null){
+        } else if (mComparators != null) {
             return new ButtonSorter<>(newSelector(), mComparators);
         } else {
             return super.newBannerButton();
@@ -131,8 +137,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
     MenuOptionsItem<T> newOptionsMenuItem() {
         OptionsSelectAndExecute command;
         FactoryReviewOptions factory = mCommands.getOptionsFactory();
-        if(hasStamp()) {
-            command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL, mStamp.getDataAuthorId());
+        if (hasStamp()) {
+            command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL,
+                    mStamp.getDataAuthorId());
         } else {
             command = factory.newReviewOptionsSelector(ReviewOptionsSelector.SelectorType.ALL);
         }
@@ -141,5 +148,9 @@ public class FactoryActionsViewData<T extends GvData> extends FactoryActionsNone
 
     boolean hasStamp() {
         return mStamp != null && mStamp.isValid();
+    }
+
+    private OptionsSelector newSelector() {
+        return getCommandsFactory().getOptionsFactory().newOptionsSelector();
     }
 }

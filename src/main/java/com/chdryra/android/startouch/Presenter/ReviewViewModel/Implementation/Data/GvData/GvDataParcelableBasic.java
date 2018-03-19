@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends GvDataBasic<T> implements GvDataParcelable{
+public abstract class GvDataParcelableBasic<T extends GvDataParcelable> extends GvDataBasic<T>
+        implements GvDataParcelable {
     GvDataParcelableBasic(Parcel in) {
         //TODO make type safe
         super((GvDataType<T>) GvDataType.loadFromParcel(in),

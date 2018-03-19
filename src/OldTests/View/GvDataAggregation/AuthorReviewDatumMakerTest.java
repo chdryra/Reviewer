@@ -8,8 +8,12 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
@@ -39,6 +43,12 @@ public class AuthorReviewDatumMakerTest extends CanonicalGvDataTest<GvAuthor> {
         return new CanonicalAuthor();
     }
 
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentAuthorsNotValid();
+    }
+
     private void checkDifferentAuthorsNotValid() {
         mData = newDataList();
         mData.add(AUTHOR1);
@@ -47,11 +57,5 @@ public class AuthorReviewDatumMakerTest extends CanonicalGvDataTest<GvAuthor> {
         mData.add(AUTHOR4);
         GvAuthor canon = mCanonical.getCanonical(mData);
         assertFalse(canon.isValidForDisplay());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferentAuthorsNotValid();
     }
 }

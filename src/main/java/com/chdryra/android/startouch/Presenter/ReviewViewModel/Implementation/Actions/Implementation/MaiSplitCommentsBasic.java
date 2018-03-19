@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.view.MenuItem;
 
@@ -30,7 +31,7 @@ public abstract class MaiSplitCommentsBasic<T extends GvData> extends MenuAction
     @Override
     public void onInflateMenu() {
         MenuItem menuItem = getMenuItem();
-        if(menuItem != null) updateMenuItem(menuItem);
+        if (menuItem != null) updateMenuItem(menuItem);
     }
 
     @Override

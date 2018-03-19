@@ -38,16 +38,6 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
         setAuthorisation(getAccessToken());
     }
 
-    private void initialiseTwitter(Context context) {
-        TwitterConfig config = new TwitterConfig.Builder(context)
-                .logger(new DefaultLogger(Log.DEBUG))
-                .twitterAuthConfig(new TwitterAuthConfig(context.getString(KEY),
-                        context.getString(SECRET)))
-                .debug(true)
-                .build();
-        Twitter.initialize(config);
-    }
-
     @Override
     public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
         return new LoginUiDefault<>(loginLaunchable, this,
@@ -57,5 +47,15 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
                 return PlatformTwitter.this.getAccessToken();
             }
         });
+    }
+
+    private void initialiseTwitter(Context context) {
+        TwitterConfig config = new TwitterConfig.Builder(context)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(context.getString(KEY),
+                        context.getString(SECRET)))
+                .debug(true)
+                .build();
+        Twitter.initialize(config);
     }
 }

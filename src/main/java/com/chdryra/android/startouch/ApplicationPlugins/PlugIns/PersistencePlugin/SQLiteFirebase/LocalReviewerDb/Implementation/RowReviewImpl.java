@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -24,14 +27,13 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview {
+    private final boolean mValidIsAverage = true;
     private String mReviewId;
     private String mAuthorId;
     private long mPublishDate;
     private String mSubject;
     private float mRating;
     private int mRatingWeight;
-
-    private final boolean mValidIsAverage = true;
 
     public RowReviewImpl(Review review) {
         mReviewId = review.getReviewId().toString();
@@ -122,17 +124,17 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     @Override
     protected RowEntry<RowReview, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowReview.class, REVIEW_ID, mReviewId);
-        } else if(position == 1) {
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowReview.class, AUTHOR_ID, mAuthorId);
-        } else if(position == 2) {
+        } else if (position == 2) {
             return new RowEntryImpl<>(RowReview.class, PUBLISH_DATE, mPublishDate);
-        } else if(position == 3) {
+        } else if (position == 3) {
             return new RowEntryImpl<>(RowReview.class, SUBJECT, mSubject);
-        } else if(position == 4) {
+        } else if (position == 4) {
             return new RowEntryImpl<>(RowReview.class, RATING, mRating);
-        } else if(position == 5) {
+        } else if (position == 5) {
             return new RowEntryImpl<>(RowReview.class, RATING_WEIGHT, mRatingWeight);
         } else {
             throw noElement();

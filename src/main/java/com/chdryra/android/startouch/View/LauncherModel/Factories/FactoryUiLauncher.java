@@ -15,9 +15,11 @@ import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.EditUiLauncher;
@@ -51,12 +53,14 @@ public class FactoryUiLauncher {
         ReviewLauncherImpl reviewLauncher
                 = new ReviewLauncherImpl(masterRepo, launchers, viewFactory);
 
-        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE.getDatumName()), builder, masterRepo);
+        EditUiLauncher buildUi = new EditUiLauncher(config.getBespokeEditor(GvNode.TYPE
+                .getDatumName()), builder, masterRepo);
         return new UiLauncherAndroid(buildUi, reviewLauncher, mDefaultActivity);
     }
 
     @NonNull
-    private <T extends GvData> NodeLauncher<T> newLauncher(UiConfig config, GvDataType<T> dataType) {
+    private <T extends GvData> NodeLauncher<T> newLauncher(UiConfig config, GvDataType<T>
+            dataType) {
         return new NodeLauncher<>(config.getBespokeViewer(dataType.getDatumName()), dataType);
     }
 }

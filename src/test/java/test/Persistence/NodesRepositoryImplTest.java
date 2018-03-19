@@ -12,9 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Collections.SortableListImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
@@ -22,19 +23,18 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseDataReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewNodeRepoImpl;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
-import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewNodeRepo;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
+import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -66,7 +66,8 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class NodesRepositoryImplTest {
     private static final int NUM = 5;
-    private static final AuthorName AUTHOR = new AuthorNameDefault("Author", AuthorIdGenerator.newId());
+    private static final AuthorName AUTHOR = new AuthorNameDefault("Author", AuthorIdGenerator
+            .newId());
     private static final Random RAND = new Random();
 
     @Mock
@@ -87,7 +88,8 @@ public class NodesRepositoryImplTest {
 
     @Test
     public void asMetaReview_ReviewId_ReturnsErrorIfNoReviewFound() {
-        mSource.getMetaReview(RandomReviewId.nextReviewId(), new ReviewNodeRepo.ReviewsSourceCallback() {
+        mSource.getMetaReview(RandomReviewId.nextReviewId(), new ReviewNodeRepo
+                .ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepoResult result) {
                 assertThat(result.isError(), is(true));
@@ -106,17 +108,11 @@ public class NodesRepositoryImplTest {
         });
     }
 
-    private ReviewNode getNode(RepoResult result) {
-        assertThat(result.isError(), is(false));
-        ReviewNode node = result.getReviewNodeComponent();
-        assertThat(node, not(nullValue()));
-        return node;
-    }
-
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithCorrectChildNode() {
         final Review expectedReview = getRandomReview();
-        mSource.getMetaReview(expectedReview.getReviewId(), new ReviewNodeRepo.ReviewsSourceCallback() {
+        mSource.getMetaReview(expectedReview.getReviewId(), new ReviewNodeRepo
+                .ReviewsSourceCallback() {
             @Override
             public void onMetaReviewCallback(RepoResult result) {
                 assertCorrectReview(getNode(result).getChildren().get(0), expectedReview);
@@ -188,7 +184,8 @@ public class NodesRepositoryImplTest {
             collection.add(new VerboseDatum(id));
         }
 
-        mSource.asMetaReview(collection, RandomString.nextWord(), new ReviewNodeRepo.ReviewsSourceCallback() {
+        mSource.asMetaReview(collection, RandomString.nextWord(), new ReviewNodeRepo
+                .ReviewsSourceCallback() {
 
             @Override
             public void onMetaReviewCallback(RepoResult result) {
@@ -231,8 +228,9 @@ public class NodesRepositoryImplTest {
     @Test
     public void
     getMetaReviewReturnsErrorIfDataDoesNotHaveReviewIdsInSource() {
-        final VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(), "");
-        for(int i = 0; i < NUM; ++i) {
+        final VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(),
+                "");
+        for (int i = 0; i < NUM; ++i) {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
@@ -337,7 +335,8 @@ public class NodesRepositoryImplTest {
     @NonNull
     private FactoryReviews getReviewFactory() {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
+        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter,
+                new DataValidator());
         factoryReviews.setReviewStamper(new FactoryReviews.AuthorsStamp(AUTHOR));
         return factoryReviews;
     }
@@ -345,6 +344,13 @@ public class NodesRepositoryImplTest {
     private Review getRandomReview() {
         int index = RAND.nextInt(mReviews.size());
         return mReviews.get(index);
+    }
+
+    private ReviewNode getNode(RepoResult result) {
+        assertThat(result.isError(), is(false));
+        ReviewNode node = result.getReviewNodeComponent();
+        assertThat(node, not(nullValue()));
+        return node;
     }
 
     private void assertNodeHasCorrectData(String subject, ReviewNode node) {
@@ -367,7 +373,7 @@ public class NodesRepositoryImplTest {
         }
 
         assertThat(node.getSubject().getSubject(), is(subject));
-        assertThat((double)node.getRating().getRating(), closeTo((double)averageRating, 0.001));
+        assertThat((double) node.getRating().getRating(), closeTo((double) averageRating, 0.001));
         assertThat(node.getRating().getRatingWeight(), is(numChildren));
     }
 
@@ -441,7 +447,7 @@ public class NodesRepositoryImplTest {
         @Override
         public VerboseDatum getItem(ReviewId id) {
             for (VerboseDatum datum : this) {
-                if(datum.getReviewId().equals(id)) return datum;
+                if (datum.getReviewId().equals(id)) return datum;
             }
 
             return null;

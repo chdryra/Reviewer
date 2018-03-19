@@ -6,10 +6,12 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.TitleDecorator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.TitleDecorator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +22,9 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 public class Styles {
     public static class TitleDecorators {
         public static final TitleDecorator NONE = TitleDecorator.NO_DECOR;
-        public static final TitleDecorator OPTION_BUTTON = new TitleDecorator("/", "", TitleDecorator.Style.START);
-        public static final TitleDecorator DONE_BUTTON = new TitleDecorator("-", " ", TitleDecorator.Style.WRAP);
+        public static final TitleDecorator OPTION_BUTTON = new TitleDecorator("/", "",
+                TitleDecorator.Style.START);
+        public static final TitleDecorator DONE_BUTTON = new TitleDecorator("-", " ",
+                TitleDecorator.Style.WRAP);
     }
 }

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.os.Bundle;
@@ -39,7 +40,15 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         super(launcher, launchableFactory);
         mDataConfig = dataConfig;
         mPacker = new ParcelablePacker<>();
-        mLaunchCode = RequestCodeGenerator.getCode(TAG + String.valueOf(mDataConfig.getDefaultRequestCode()));
+        mLaunchCode = RequestCodeGenerator.getCode(TAG + String.valueOf(mDataConfig
+                .getDefaultRequestCode()));
+    }
+
+    protected void launchViewerIfPossible(T item, int position) {
+        if (item.isCollection() || mDataConfig == null || item.getParcelable() == null) return;
+        Bundle bundle = new Bundle();
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), bundle);
+        mDataConfig.launch(new UiLauncherArgs(mLaunchCode).setBundle(bundle));
     }
 
     @Override
@@ -56,12 +65,5 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     @Override
     public void onLongClickNotExpandable(T item, int position, View v) {
         onClickNotExpandable(item, position, v);
-    }
-
-    protected void launchViewerIfPossible(T item, int position) {
-        if (item.isCollection() || mDataConfig == null || item.getParcelable() == null) return;
-        Bundle bundle = new Bundle();
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item.getParcelable(), bundle);
-        mDataConfig.launch(new UiLauncherArgs(mLaunchCode).setBundle(bundle));
     }
 }

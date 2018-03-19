@@ -8,8 +8,7 @@
 
 package com.chdryra.android.startouch.test.TestUtils;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -44,7 +43,8 @@ public class ReviewMocker {
     private static ReviewNode getNewNode(boolean ratingIsAverage) {
         Review root = getNewReview(true);
         Review parent = getNewReview(false);
-        ReviewTreeMutable rootNode = new ReviewTreeMutable(root, ratingIsAverage, root.getMdReviewId());
+        ReviewTreeMutable rootNode = new ReviewTreeMutable(root, ratingIsAverage, root
+                .getMdReviewId());
         ReviewTreeMutable parentNode = new ReviewTreeMutable(parent, false, parent.getMdReviewId());
         rootNode.setParent(parentNode);
 

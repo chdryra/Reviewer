@@ -8,8 +8,12 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalCommentMode;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalCommentMode;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.testutils.RandomString;
 
@@ -24,7 +28,7 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvComment> {
     private static final String COMMENT3 = RandomString.nextSentence();
     private static final String COMMENT4 = RandomString.nextSentence();
 
-//protected methods
+    //protected methods
     @Override
     protected GvComment getTestDatum() {
         return new GvComment(COMMENT1);
@@ -33,6 +37,12 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvComment> {
     @Override
     protected CanonicalDatumMaker<GvComment> getCanonicalMaker() {
         return new CanonicalCommentMode();
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentComments();
     }
 
     private void checkDifferentComments() {
@@ -53,11 +63,5 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvComment> {
         GvComment canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(COMMENT2 + " + 2", canon.getComment());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferentComments();
     }
 }

@@ -18,11 +18,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.corelibrary.Dialogs.DialogDeleteConfirm;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityUsersFeed;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
-
 import com.chdryra.android.startouch.test.TestUtils.DialogEditListener;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.SoloDataEntry;
@@ -185,7 +186,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
 
         final FragmentManager manager = mActivity.getFragmentManager();
         mActivity.runOnUiThread(new Runnable() {
-//Overridden
+            //Overridden
             public void run() {
                 manager.executePendingTransactions();
 
@@ -196,6 +197,23 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         assertEquals(datum, getDataShown());
 
         return datum;
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        mDialog = mDialogClass.newInstance();
+
+        mListener = new DialogEditListener<>();
+        FragmentManager manager = getActivity().getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(mListener, DIALOG_TAG);
+        ft.commit();
+
+        mActivity = getActivity();
+        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 
     private boolean deleteConfirmIsShowing() {
@@ -221,7 +239,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
     private void pressDialogButton(final DialogButton button) {
         mSignaler.reset();
         mActivity.runOnUiThread(new Runnable() {
-//Overridden
+            //Overridden
             public void run() {
                 if (button == DialogButton.CANCEL) {
                     mDialog.clickCancelButton();
@@ -235,23 +253,6 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
         });
 
         mSignaler.waitForSignal();
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mDialog = mDialogClass.newInstance();
-
-        mListener = new DialogEditListener<>();
-        FragmentManager manager = getActivity().getFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(mListener, DIALOG_TAG);
-        ft.commit();
-
-        mActivity = getActivity();
-        mSolo = new Solo(getInstrumentation(), mActivity);
     }
 }
 

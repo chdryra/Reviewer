@@ -28,7 +28,8 @@ public class FactoryCredentialsHandler {
         mUserAuthenticator = userAuthenticator;
     }
 
-    public CredentialsHandler<EmailPassword> newEmailPasswordHandler(CredentialsAuthenticator.Callback callback) {
+    public CredentialsHandler<EmailPassword> newEmailPasswordHandler(CredentialsAuthenticator
+                                                                             .Callback callback) {
         return new CredentialsHandler<>(new CredentialsAuthenticator<EmailPassword>() {
             @Override
             public void authenticate(EmailPassword credentials, Callback callback) {
@@ -37,7 +38,8 @@ public class FactoryCredentialsHandler {
         }, callback);
     }
 
-    public CredentialsHandler<AccessToken> newFacebookHandler(CredentialsAuthenticator.Callback callback) {
+    public CredentialsHandler<AccessToken> newFacebookHandler(CredentialsAuthenticator.Callback
+                                                                      callback) {
         return new CredentialsHandler<>(new CredentialsAuthenticator<AccessToken>() {
             @Override
             public void authenticate(AccessToken credentials, Callback callback) {
@@ -46,7 +48,8 @@ public class FactoryCredentialsHandler {
         }, callback);
     }
 
-    public CredentialsHandler<GoogleSignInAccount> newGoogleHandler(CredentialsAuthenticator.Callback callback) {
+    public CredentialsHandler<GoogleSignInAccount> newGoogleHandler(CredentialsAuthenticator
+                                                                            .Callback callback) {
         return new CredentialsHandler<>(new CredentialsAuthenticator<GoogleSignInAccount>() {
             @Override
             public void authenticate(GoogleSignInAccount credentials, Callback callback) {
@@ -55,7 +58,8 @@ public class FactoryCredentialsHandler {
         }, callback);
     }
 
-    public CredentialsHandler<TwitterSession> newTwitterHandler(CredentialsAuthenticator.Callback callback) {
+    public CredentialsHandler<TwitterSession> newTwitterHandler(CredentialsAuthenticator.Callback
+                                                                        callback) {
         return new CredentialsHandler<>(new CredentialsAuthenticator<TwitterSession>() {
             @Override
             public void authenticate(TwitterSession credentials, Callback callback) {

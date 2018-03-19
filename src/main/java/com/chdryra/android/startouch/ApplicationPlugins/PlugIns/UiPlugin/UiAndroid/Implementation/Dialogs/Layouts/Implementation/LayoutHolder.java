@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Dialogs.Layouts.Implementation;
 
 
 import android.content.Context;
@@ -25,7 +26,7 @@ public class LayoutHolder {
     private final SparseArray<View> mUpdateableViews;
     private View mInflated;
 
-    public LayoutHolder(int layoutId, Integer...viewIds) {
+    public LayoutHolder(int layoutId, Integer... viewIds) {
         mLayout = layoutId;
         mUpdateableViewIds = viewIds;
         mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);

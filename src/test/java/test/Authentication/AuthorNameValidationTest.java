@@ -12,9 +12,11 @@ import com.chdryra.android.startouch.Authentication.Implementation.AuthorNameVal
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 11/05/2016
@@ -48,7 +50,7 @@ public class AuthorNameValidationTest {
     public void invalidCharactersGivesInvalidCharactersReason() {
         String illegalString = "`¬¦!\"£$%^&*()-+={}[]:;@\'~#<,>.?/|\\";
         char[] illegalChars = illegalString.toCharArray();
-        for(char illegal : illegalChars) {
+        for (char illegal : illegalChars) {
             AuthorNameValidation validation = new AuthorNameValidation("abc" + illegal);
             assertThat(validation.getName(), is(nullValue()));
             assertThat(validation.getReason(), is(AuthorNameValidation.Reason.INVALID_CHARACTERS));

@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.BackendError;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -28,7 +29,6 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -75,12 +75,14 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
     }
 
     @Override
-    public void followUnfollow(final AuthorId toFollow, final FollowUnfollow type, final FollowCallback callback) {
+    public void followUnfollow(final AuthorId toFollow, final FollowUnfollow type, final
+    FollowCallback callback) {
         DbUpdater.UpdateType updateType = type.equals(FollowUnfollow.FOLLOW) ?
                 DbUpdater.UpdateType.INSERT_OR_UPDATE : DbUpdater.UpdateType.DELETE;
 
         DbUpdater<Follow> updater = mStructure.getSocialUpdater();
-        Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, toFollow), updateType);
+        Map<String, Object> map = updater.getUpdatesMap(new Follow(mAuthorId, toFollow),
+                updateType);
 
         mRootReference.updateChildren(map, new Firebase.CompletionListener() {
             @Override
@@ -95,16 +97,17 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
         getFollowing().dereference(new DereferenceCallback<List<AuthorId>>() {
             @Override
             public void onDereferenced(DataValue<List<AuthorId>> value) {
-                if(value.hasValue()) {
+                if (value.hasValue()) {
                     for (AuthorId author : value.getData()) {
-                        if(author.equals(authorId)) {
+                        if (author.equals(authorId)) {
                             callback.onIsFollowing(authorId, true, CallbackMessage.ok());
                             break;
                         }
                     }
                     callback.onIsFollowing(authorId, false, CallbackMessage.ok());
                 } else {
-                    callback.onIsFollowing(authorId, false, CallbackMessage.error("Error dereferencing"));
+                    callback.onIsFollowing(authorId, false, CallbackMessage.error("Error " +
+                            "dereferencing"));
                 }
             }
         });
@@ -113,7 +116,7 @@ public class FbSocialProfileRef extends FbRefData<SocialProfile> implements Soci
     @NonNull
     private CallbackMessage getCallbackMessage(FirebaseError firebaseError) {
         CallbackMessage message = CallbackMessage.ok();
-        if(firebaseError != null) {
+        if (firebaseError != null) {
             BackendError backendError = FirebaseBackend.backendError(firebaseError);
             message = CallbackMessage.error(backendError.getMessage());
         }

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Typeface;
@@ -31,7 +31,7 @@ public class ImagesSizeUi extends FormattedSectionUi<DataSize> {
 
     @Override
     public void update(DataSize value) {
-        if(value.getSize() > 0) {
+        if (value.getSize() > 0) {
             showGrid();
         } else {
             showPlaceholder();

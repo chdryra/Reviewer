@@ -8,8 +8,8 @@
 
 <LinearLayout
     style="@style/LinearLayoutVertical.WrappedVertical"
-    android:layout_width="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content">
 
     <ImageView
         android:id="@+id/photo_image_view"
@@ -24,7 +24,7 @@
         android:id="@+id/caption_edit_text"
         style="@style/EditTextCapSentences.Done"
         android:cursorVisible="false"
-        android:text="caption"
-        android:hint="@string/edit_text_image_caption_hint"/>
+        android:hint="@string/edit_text_image_caption_hint"
+        android:text="caption"/>
 
 </LinearLayout>

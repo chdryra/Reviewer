@@ -36,7 +36,7 @@ public class DialogEditCommentTest extends
         return newDatum();
     }
 
-//Overridden
+    //Overridden
     @Override
     protected GvData newDatum() {
         GvComment data = (GvComment) super.newDatum();

@@ -8,10 +8,10 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalCriterionMode;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalCriterionMode;
 
 import test.TestUtils.RandomRating;
 import test.TestUtils.RandomReviewId;
@@ -21,7 +21,7 @@ import test.TestUtils.RandomReviewId;
  * On: 06/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionModeTest extends CanonicalCriterionAverageTest{
+public class CanonicalCriterionModeTest extends CanonicalCriterionAverageTest {
     private float mModeRating;
 
     public CanonicalCriterionModeTest() {
@@ -30,18 +30,18 @@ public class CanonicalCriterionModeTest extends CanonicalCriterionAverageTest{
     }
 
     @Override
+    protected float getExpectedRating() {
+        return mModeRating;
+    }
+
+    @Override
     protected DataCriterion newDatum(String string) {
         //To ensure it's the most common rating...
         String modeString = getModeString();
-        if(string.equals(modeString)) {
+        if (string.equals(modeString)) {
             return new DatumCriterion(RandomReviewId.nextReviewId(), modeString, mModeRating);
         } else {
             return super.newDatum(string);
         }
-    }
-
-    @Override
-    protected float getExpectedRating() {
-        return mModeRating;
     }
 }

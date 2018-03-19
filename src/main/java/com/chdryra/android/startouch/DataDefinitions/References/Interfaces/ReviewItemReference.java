@@ -16,6 +16,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewItemReference<T extends HasReviewId> extends DataReference<T>, HasReviewId{
+public interface ReviewItemReference<T extends HasReviewId> extends DataReference<T>, HasReviewId {
 
 }

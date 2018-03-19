@@ -13,8 +13,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -61,7 +60,8 @@ public class ViewerChildListTest extends AndroidTestCase {
                 location += " +" + String.valueOf(locs.size() - 1) + loc;
             }
             assertEquals(location, item.getLocationString());
-            GvCommentList headlines = MdGvConverter.toGvDataList(child.getComments()).getHeadlines();
+            GvCommentList headlines = MdGvConverter.toGvDataList(child.getComments())
+                    .getHeadlines();
             String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
             assertEquals(headline, item.getHeadline());
             MdImageList covers = child.getImages().getCovers();

@@ -6,16 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureAuthorsNamesMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureAuthorsNamesMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
 
 import java.util.Map;
 
@@ -24,7 +28,8 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureAuthorsNamesMapImpl extends DbStructureBasic<User> implements StructureAuthorsNamesMap {
+public class StructureAuthorsNamesMapImpl extends DbStructureBasic<User> implements
+        StructureAuthorsNamesMap {
     public StructureAuthorsNamesMapImpl(String path) {
         setPathToStructure(path);
     }
@@ -38,13 +43,13 @@ public class StructureAuthorsNamesMapImpl extends DbStructureBasic<User> impleme
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
         ProfileAuthor profile = user.getProfile();
-        if(profile == null) return noUpdates();
+        if (profile == null) return noUpdates();
 
         String name = profile.getAuthor().getName();
         String authorId = user.getAuthorId();
 
         Updates updates = new Updates(updateType);
-        if(authorId != null) updates.atPath(user, relativePathToAuthor(authorId)).putValue(name);
+        if (authorId != null) updates.atPath(user, relativePathToAuthor(authorId)).putValue(name);
 
         return updates.toMap();
     }

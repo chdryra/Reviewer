@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
@@ -61,7 +60,8 @@ public class AuthorProfileDefault implements AuthorProfile {
         AuthorProfileDefault that = (AuthorProfileDefault) o;
 
         if (!mAuthor.getName().equals(that.mAuthor.getName())) return false;
-        if (!mAuthor.getAuthorId().toString().equals(that.mAuthor.getAuthorId().toString())) return false;
+        if (!mAuthor.getAuthorId().toString().equals(that.mAuthor.getAuthorId().toString()))
+            return false;
         if (!(mDateJoined.getTime() == that.mDateJoined.getTime())) return false;
         return mProfilePhoto != null ? mProfilePhoto.equals(that.mProfilePhoto) : that
                 .mProfilePhoto == null;

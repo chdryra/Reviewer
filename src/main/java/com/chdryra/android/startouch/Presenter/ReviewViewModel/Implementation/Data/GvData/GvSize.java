@@ -14,9 +14,12 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSizes;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhDataReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSize;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterSizes;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhDataReference;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhSize;
 
 
 /**
@@ -24,7 +27,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvSize extends GvDualText implements DataSize{
+public class GvSize extends GvDualText implements DataSize {
     public static final GvDataType<GvSize> TYPE = new GvDataType<>(GvSize.class, TYPE_NAME);
 
     public static final Creator<GvSize> CREATOR = new Creator<GvSize>() {
@@ -44,13 +47,13 @@ public class GvSize extends GvDualText implements DataSize{
     private int mSize;
     private GvDataType<?> mType;
 
-    private GvSize() {
-    }
-
     public GvSize(GvReviewId id, GvDataType<?> type, int size) {
         super(id, String.valueOf(size), size == 1 ? type.getDatumName() : type.getDataName());
         mType = type;
         mSize = size;
+    }
+
+    private GvSize() {
     }
 
     private GvSize(GvReviewId id, GvDataType<?> type) {
@@ -67,17 +70,17 @@ public class GvSize extends GvDualText implements DataSize{
         return mType;
     }
 
-    @Override
-    public int getSize() {
-        return mSize;
-    }
-
     public String getPlaceholder() {
         return PLACEHOLDER;
     }
 
     public boolean hasSize() {
         return !getUpper().equals(PLACEHOLDER);
+    }
+
+    @Override
+    public int getSize() {
+        return mSize;
     }
 
     @Override
@@ -125,7 +128,7 @@ public class GvSize extends GvDualText implements DataSize{
         public Reference(ReviewItemReference<DataSize> reference, GvConverterSizes converter) {
             super(TYPE, reference, converter, VhSize.class, new Factory());
             mSizedType = converter.getType();
-            ((Factory)getPlaceholderFactory()).setType(mSizedType);
+            ((Factory) getPlaceholderFactory()).setType(mSizedType);
         }
 
         public GvDataType<?> getSizedType() {
@@ -140,13 +143,13 @@ public class GvSize extends GvDualText implements DataSize{
         public static class Factory implements PlaceHolderFactory<DataSize> {
             private GvDataType<?> mSizedType;
 
+            public void setType(GvDataType<?> sizedType) {
+                mSizedType = sizedType;
+            }
+
             @Override
             public DataSize newPlaceHolder(String placeHolder) {
                 return new GvSize(new GvReviewId(), mSizedType);
-            }
-
-            public void setType(GvDataType<?> sizedType) {
-                mSizedType = sizedType;
             }
         }
     }

@@ -30,9 +30,9 @@ public class ReviewFormatterDefault implements ReviewFormatter {
 
         String body = "";
         ArrayList<String> headlines = summary.getHeadlines();
-        if(headlines.size() > 0) body += headlines.get(0);
+        if (headlines.size() > 0) body += headlines.get(0);
         body += " #" + APP;
-        for(String tag : summary.getTags()) {
+        for (String tag : summary.getTags()) {
             body += " " + "#" + tag;
         }
 

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.GoogleLocationServices;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin
+        .GoogleLocationServices;
 
 
 import android.content.Context;
@@ -26,7 +26,8 @@ import com.chdryra.android.corelibrary.LocationServices.LocationDetailsFetcher;
 import com.chdryra.android.corelibrary.LocationServices.NearestPlacesSuggester;
 import com.chdryra.android.corelibrary.LocationServices.PlaceSearcher;
 import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
 

@@ -11,9 +11,10 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemActionNone;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
 import com.chdryra.android.startouch.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.startouch.Social.Interfaces.SocialPlatform;
 
@@ -41,7 +42,8 @@ public class ShareScreenPlatform extends GridItemActionNone<GvSocialPlatform> {
     }
 
     @NonNull
-    private PlatformAuthoriser.Callback callback(final GvSocialPlatform platform, final int position, final View v) {
+    private PlatformAuthoriser.Callback callback(final GvSocialPlatform platform, final int
+            position, final View v) {
         return new PlatformAuthoriser.Callback() {
             @Override
             public void onAuthorisationGiven(SocialPlatform<?> socialPlatform) {

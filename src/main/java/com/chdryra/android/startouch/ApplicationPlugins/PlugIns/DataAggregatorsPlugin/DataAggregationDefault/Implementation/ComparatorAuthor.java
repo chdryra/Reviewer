@@ -6,15 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 
 /**
  * Created by: Rizwan Choudrey

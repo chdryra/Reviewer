@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,6 +38,21 @@ public class GridItemCommand<T extends GvData> extends GridItemActionNone<T> {
         mToast = toast;
     }
 
+    @Override
+    public void onGridItemClick(T item, int position, View v) {
+        if (mToast != null) showToast(mToast);
+        mClick.execute();
+    }
+
+    @Override
+    public void onGridItemLongClick(T item, int position, View v) {
+        if (mLongClick == null) {
+            super.onGridItemLongClick(item, position, v);
+        } else {
+            mLongClick.execute();
+        }
+    }
+
     Command getClick() {
         return mClick;
     }
@@ -44,20 +60,5 @@ public class GridItemCommand<T extends GvData> extends GridItemActionNone<T> {
     @Nullable
     Command getLongClick() {
         return mLongClick;
-    }
-
-    @Override
-    public void onGridItemClick(T item, int position, View v) {
-        if(mToast != null) showToast(mToast);
-        mClick.execute();
-    }
-
-    @Override
-    public void onGridItemLongClick(T item, int position, View v) {
-        if(mLongClick == null) {
-            super.onGridItemLongClick(item, position, v);
-        } else {
-            mLongClick.execute();
-        }
     }
 }

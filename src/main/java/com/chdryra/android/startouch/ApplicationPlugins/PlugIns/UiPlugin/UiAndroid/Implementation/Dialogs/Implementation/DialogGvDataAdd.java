@@ -18,15 +18,21 @@ import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndro
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DatumLayoutEdit;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.DatumLayoutEdit;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -114,21 +120,27 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mEditor != null) mEditor.detachFromBuilder();
+        super.onDestroyView();
+    }
+
     private boolean isQuickAdd() {
         return mQuickAdd && mEditor != null;
+    }
+
+    private boolean isQuickType() {
+        for (GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if (mDataType.equals(non)) return false;
+        }
+        return true;
     }
 
     private void setIsQuickReview() {
         Bundle args = getArguments();
         boolean quickReview = args != null && args.getBoolean(EditorSuite.QUICK_REVIEW);
         if (quickReview && isQuickType()) setHideMiddleButton();
-    }
-
-    private boolean isQuickType() {
-        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
-            if(mDataType.equals(non)) return false;
-        }
-        return true;
     }
 
     private void setIsQuickSet() {
@@ -158,12 +170,6 @@ public abstract class DialogGvDataAdd<T extends GvDataParcelable> extends
                 DefaultLayoutConfig(), api);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
-    }
-
-    @Override
-    public void onDestroyView() {
-        if(mEditor != null) mEditor.detachFromBuilder();
-        super.onDestroyView();
     }
 }
 

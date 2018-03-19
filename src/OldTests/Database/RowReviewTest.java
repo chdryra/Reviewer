@@ -12,7 +12,8 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
@@ -42,6 +43,14 @@ public class RowReviewTest extends TestCase {
         testToCursorConstructor(mCriterion.getReview(), mCriterion.getReviewId().toString());
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mReview = ReviewMocker.newReview();
+        MdCriterionList criteria = mReview.getCriteria();
+        mCriterion = criteria.getItem(0);
+    }
+
     private void testToCursorConstructor(Review review, String parentId) {
         String[] cols = new String[]{RowReview.REVIEW_ID, RowReview.PARENT_ID, RowReview.USER_ID,
                 RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING, RowReview.IS_AVERAGE};
@@ -68,13 +77,5 @@ public class RowReviewTest extends TestCase {
         assertEquals(review.getRating().getRating(), values.getAsFloat(RowReview.RATING));
         assertEquals(review.isRatingAverageOfCriteria(),
                 values.getAsBoolean(RowReview.IS_AVERAGE).booleanValue());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mReview = ReviewMocker.newReview();
-        MdCriterionList criteria = mReview.getCriteria();
-        mCriterion = criteria.getItem(0);
     }
 }

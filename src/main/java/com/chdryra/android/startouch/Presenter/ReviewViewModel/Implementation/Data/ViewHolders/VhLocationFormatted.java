@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.R;
 
 
@@ -20,7 +21,7 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class VhLocationFormatted extends ViewHolderBasic{
+public class VhLocationFormatted extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.formatted_locations;
     private static final int NAME = R.id.short_name;
     private static final int ADDRESS = R.id.address;

@@ -16,10 +16,12 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation
-        .EntryToStringConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation.EntryToStringConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.testutils.RandomString;
 
@@ -62,30 +64,35 @@ public class EntryToStringConverterTest {
     @Test
     public void convertInteger() {
         int value = RAND.nextInt();
-        assertThat(mConverter.convert(getRowEntry(DbEntryType.INTEGER, value)), is(String.valueOf(value)));
+        assertThat(mConverter.convert(getRowEntry(DbEntryType.INTEGER, value)), is(String.valueOf
+                (value)));
     }
 
     @Test
     public void convertFloat() {
         float value = RAND.nextFloat();
-        assertThat(mConverter.convert(getRowEntry(DbEntryType.FLOAT, value)), is(String.valueOf(value)));
+        assertThat(mConverter.convert(getRowEntry(DbEntryType.FLOAT, value)), is(String.valueOf
+                (value)));
     }
 
     @Test
     public void convertDouble() {
         double value = RAND.nextDouble();
-        assertThat(mConverter.convert(getRowEntry(DbEntryType.DOUBLE, value)), is(String.valueOf(value)));
+        assertThat(mConverter.convert(getRowEntry(DbEntryType.DOUBLE, value)), is(String.valueOf
+                (value)));
     }
 
     @Test
     public void convertLong() {
         long value = RAND.nextInt();
-        assertThat(mConverter.convert(getRowEntry(DbEntryType.LONG, value)), is(String.valueOf(value)));
+        assertThat(mConverter.convert(getRowEntry(DbEntryType.LONG, value)), is(String.valueOf
+                (value)));
     }
 
     @NonNull
     private <T> RowEntryImpl<Row, T> getRowEntry(DbEntryType<T> type, T value) {
-        return new RowEntryImpl<>(Row.class, new ColumnInfo<>(RandomString.nextWord(), type), value);
+        return new RowEntryImpl<>(Row.class, new ColumnInfo<>(RandomString.nextWord(), type),
+                value);
     }
 
     private class Row implements DbTableRow<Row> {

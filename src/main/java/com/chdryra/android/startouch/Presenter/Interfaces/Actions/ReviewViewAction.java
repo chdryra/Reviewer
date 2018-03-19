@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewViewAction<T extends GvData> extends OptionSelectListener{
+public interface ReviewViewAction<T extends GvData> extends OptionSelectListener {
     void onAttachReviewView();
 
     void onDetachReviewView();

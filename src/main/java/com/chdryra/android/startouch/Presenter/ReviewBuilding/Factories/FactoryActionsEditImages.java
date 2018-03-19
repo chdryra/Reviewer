@@ -14,8 +14,10 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.But
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.GridItemEditImage;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;

@@ -40,7 +40,8 @@ public class MdConverterCriteriaTest extends MdConverterBasicTest<DataCriterion,
     }
 
     @Override
-    protected void checkDatumEquivalence(DataCriterion datum, MdCriterion mdDatum, ReviewId mdDatumId) {
+    protected void checkDatumEquivalence(DataCriterion datum, MdCriterion mdDatum, ReviewId
+            mdDatumId) {
         DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
     }
 

@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.TagComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.TagComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.testutils.RandomString;
@@ -22,7 +23,7 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagAlphabeticalTest extends ComparatorTest<DataTag>{
+public class TagAlphabeticalTest extends ComparatorTest<DataTag> {
     public TagAlphabeticalTest() {
         super(new TagComparator());
     }
@@ -47,9 +48,9 @@ public class TagAlphabeticalTest extends ComparatorTest<DataTag>{
         DataTag tag2 = new DatumTag(RandomReviewId.nextReviewId(), string2);
 
         ComparatorTester<DataTag> tester = newComparatorTester();
-        if(string1.compareToIgnoreCase(string2) < 0) {
+        if (string1.compareToIgnoreCase(string2) < 0) {
             tester.testFirstSecond(tag1, tag2);
-        } else if(string1.compareToIgnoreCase(string2) > 0){
+        } else if (string1.compareToIgnoreCase(string2) > 0) {
             tester.testFirstSecond(tag2, tag1);
         } else {
             tester.testEquals(tag2, tag1);

@@ -16,5 +16,5 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListe
  * On: 14/11/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MenuOptionsItem<T extends GvData> extends MenuActionItem<T>, OptionSelectListener{
+public interface MenuOptionsItem<T extends GvData> extends MenuActionItem<T>, OptionSelectListener {
 }

@@ -14,17 +14,22 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDateList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDateList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -37,7 +42,6 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvText;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTextList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
@@ -60,13 +64,13 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final  GvDataType[] DATATYPES        = {GvComment.TYPE,
+    public static final GvDataType[] DATATYPES = {GvComment.TYPE,
             GvFact.TYPE, GvImage.TYPE, GvLocation.TYPE, GvUrl.TYPE, GvTag.TYPE,
             GvCriterion.TYPE};
-    public static final  GvDataType[] TYPES            = ArrayUtils.addAll(DATATYPES,
+    public static final GvDataType[] TYPES = ArrayUtils.addAll(DATATYPES,
             GvReviewOverview.TYPE);
     private static final RandomString STRING_GENERATOR = new RandomString();
-    private static final Random RAND             = new Random();
+    private static final Random RAND = new Random();
 
     //Just a convenient method even if it uses GvType.....
     public static GvDataList getData(GvDataType dataType, int size, boolean withId) {

@@ -17,14 +17,31 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
  *
  * @param <T>: {@link GvData} type.
  */
-public interface DataBuilder<T extends GvData> extends DataObservable{
+public interface DataBuilder<T extends GvData> extends DataObservable {
+    enum ConstraintResult {
+        PASSED,
+        NULL_LIST,
+        HAS_DATUM,
+        INVALID_DATUM,
+        OLD_EQUALS_NEW
+    }
+
+    interface AddConstraint<G extends GvData> {
+        ConstraintResult passes(GvDataList<G> data, G datum);
+    }
+
+    interface ReplaceConstraint<G extends GvData> {
+        ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum);
+    }
+
     GvDataType<T> getGvDataType();
 
     GvDataList<T> getData();
@@ -40,20 +57,4 @@ public interface DataBuilder<T extends GvData> extends DataObservable{
     void resetData();
 
     void commitData();
-
-    interface AddConstraint<G extends GvData> {
-        ConstraintResult passes(GvDataList<G> data, G datum);
-    }
-
-    interface ReplaceConstraint<G extends GvData> {
-        ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum);
-    }
-
-    enum ConstraintResult {
-        PASSED,
-        NULL_LIST,
-        HAS_DATUM,
-        INVALID_DATUM,
-        OLD_EQUALS_NEW
-    }
 }

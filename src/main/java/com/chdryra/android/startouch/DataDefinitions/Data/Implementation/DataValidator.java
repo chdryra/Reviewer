@@ -9,6 +9,7 @@
 package com.chdryra.android.startouch.DataDefinitions.Data.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
@@ -19,7 +20,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,19 +36,23 @@ public class DataValidator {
     }
 
     public boolean validate(DataComment comment) {
-        return NotNull(comment) && validateString(comment.getComment()) && validate(comment.getReviewId());
+        return NotNull(comment) && validateString(comment.getComment()) && validate(comment
+                .getReviewId());
     }
 
     public boolean validate(DataSubject subject) {
-        return NotNull(subject) && validateString(subject.getSubject()) && validate(subject.getReviewId());
+        return NotNull(subject) && validateString(subject.getSubject()) && validate(subject
+                .getReviewId());
     }
 
     public boolean validate(DataRating rating) {
-        return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0 && validate(rating.getReviewId());
+        return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0 &&
+                validate(rating.getReviewId());
     }
 
     public boolean validate(DataCriterion criterion) {
-        return NotNull(criterion) && criterion.getRating() >= 0f && validateString(criterion.getSubject()) && validate(criterion.getReviewId());
+        return NotNull(criterion) && criterion.getRating() >= 0f && validateString(criterion
+                .getSubject()) && validate(criterion.getReviewId());
     }
 
     public boolean validate(DataTag tag) {
@@ -61,7 +65,8 @@ public class DataValidator {
         if (fact.isUrl()) {
             return validateUrl((DataUrl) fact);
         } else {
-            return validateString(fact.getLabel()) && validateString(fact.getValue()) && validate(fact.getReviewId());
+            return validateString(fact.getLabel()) && validateString(fact.getValue()) && validate
+                    (fact.getReviewId());
 
         }
     }
@@ -78,15 +83,12 @@ public class DataValidator {
         LatLng latLng = location.getLatLng();
         return NotNull(location) && validateString(location.getName()) && NotNull(latLng)
                 && latLng.latitude >= -90. && latLng.latitude <= 90.
-                && latLng.longitude >= -180. && latLng.longitude <= 180. && validate(location.getReviewId());
+                && latLng.longitude >= -180. && latLng.longitude <= 180. && validate(location
+                .getReviewId());
     }
 
     public boolean validate(DateTime date) {
         return date.getTime() > 0;
-    }
-
-    private boolean validateUrl(DataUrl url) {
-        return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel()) && validate(url.getReviewId());
     }
 
     public boolean validateString(String string) {
@@ -98,7 +100,13 @@ public class DataValidator {
     }
 
     public boolean validate(AuthorId authorId) {
-        return !authorId.toString().equals(AuthorId.NULL_ID_STRING) && validateString(authorId.toString());
+        return !authorId.toString().equals(AuthorId.NULL_ID_STRING) && validateString(authorId
+                .toString());
+    }
+
+    private boolean validateUrl(DataUrl url) {
+        return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel()) &&
+                validate(url.getReviewId());
     }
 
     private boolean NotNull(Object obj) {

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
@@ -28,7 +28,7 @@ public class ReviewClusterItem implements ClusterItem {
     private final DataLocation mLocation;
 
     public ReviewClusterItem(ReviewReference reference, DataLocation location) {
-        if(!reference.getReviewId().equals(location.getReviewId())) {
+        if (!reference.getReviewId().equals(location.getReviewId())) {
             throw new IllegalArgumentException("Reference and location must have same ReviewId");
         }
 

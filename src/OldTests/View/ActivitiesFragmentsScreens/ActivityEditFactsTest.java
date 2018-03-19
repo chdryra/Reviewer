@@ -15,14 +15,16 @@ import android.app.Instrumentation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.corelibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditUrlBrowser;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.R;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditUrlBrowser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -93,7 +95,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFact> {
         mSolo.waitForDialogToOpen(TIMEOUT);
         assertTrue(mSolo.searchText(alert));
         runOnUiThread(new Runnable() {
-//Overridden
+            //Overridden
             @Override
             public void run() {
                 mSignaler.reset();
@@ -129,23 +131,6 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFact> {
         }
     }
 
-    //private methods
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
-    }
-
-    private ActivityEditUrlBrowser waitForBrowserToLaunch() {
-        ActivityEditUrlBrowser browser = (ActivityEditUrlBrowser)
-                mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
-        assertNotNull(browser);
-        assertEquals(ActivityEditUrlBrowser.class, browser.getClass());
-        getInstrumentation().waitForIdleSync();
-
-        return browser;
-    }
-
     //Overridden
     @Override
     protected void setUpFinish(boolean withData) {
@@ -167,6 +152,23 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFact> {
         } else {
             return super.newData();
         }
+    }
+
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
+    }
+
+    private ActivityEditUrlBrowser waitForBrowserToLaunch() {
+        ActivityEditUrlBrowser browser = (ActivityEditUrlBrowser)
+                mBrowserMonitor.waitForActivityWithTimeout(TIMEOUT);
+        assertNotNull(browser);
+        assertEquals(ActivityEditUrlBrowser.class, browser.getClass());
+        getInstrumentation().waitForIdleSync();
+
+        return browser;
     }
 }
 

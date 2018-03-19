@@ -40,7 +40,7 @@ public class VhBuildReviewFull extends VhDataCollection {
 
     @Override
     public void inflate(Context context, ViewGroup parent) {
-        if(mDatumView != null) {
+        if (mDatumView != null) {
             mDatumView.inflate(context, parent);
         } else {
             super.inflate(context, parent);
@@ -49,7 +49,7 @@ public class VhBuildReviewFull extends VhDataCollection {
 
     @Override
     protected void updateDataView(GvDataCollection data) {
-        if(mDatumView != null && data.size() == 1) {
+        if (mDatumView != null && data.size() == 1) {
             mDatumView.updateView(data.get(0));
         } else {
             super.updateDataView(data);

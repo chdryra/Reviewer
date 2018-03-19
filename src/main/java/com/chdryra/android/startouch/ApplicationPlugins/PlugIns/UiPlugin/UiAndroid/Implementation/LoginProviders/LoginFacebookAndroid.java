@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.LoginProviders;
 
 
 import android.app.Fragment;
@@ -39,8 +40,8 @@ public class LoginFacebookAndroid
     }
 
     private final Fragment mFragment;
-    private Callback mListener;
     private final CallbackManager mCallbackManager;
+    private Callback mListener;
 
     public LoginFacebookAndroid(Fragment fragment) {
         mFragment = fragment;

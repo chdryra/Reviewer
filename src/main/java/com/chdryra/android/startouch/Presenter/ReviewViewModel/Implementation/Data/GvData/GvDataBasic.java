@@ -53,7 +53,8 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         GvDataParcelableBasic<?> that = (GvDataParcelableBasic<?>) o;
 
         if (!mType.equals(that.getGvDataType())) return false;
-        return !(mReviewId != null ? !mReviewId.equals(that.getReviewId()) : that.getReviewId() != null);
+        return !(mReviewId != null ? !mReviewId.equals(that.getReviewId()) : that.getReviewId()
+                != null);
 
     }
 

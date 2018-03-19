@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 /**
@@ -30,10 +31,6 @@ public class ReviewAggregates {
     private long tags;
 
     public ReviewAggregates() {
-    }
-
-    public int size(){
-        return 6;
     }
 
     public ReviewAggregates(ReviewDb review) {
@@ -67,5 +64,9 @@ public class ReviewAggregates {
 
     public long getLocations() {
         return locations;
+    }
+
+    public int size() {
+        return 6;
     }
 }

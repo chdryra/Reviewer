@@ -6,13 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import com.chdryra.android.corelibrary.CacheUtils.QueueCache;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryQueueCache;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryLocalReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .FactoryQueueCache;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryLocalReviewerDb;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewMaker;
@@ -25,16 +29,16 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewMaker;
 public class FactoryReviewerDbCache implements FactoryQueueCache {
     private static final String CACHE_NAME = "ReviewerDbCache";
     private static final int CACHE_VER = 1;
-
-    private int mIndex = 0;
     private final FactoryLocalReviewerDb mDbFactory;
+    private int mIndex = 0;
 
     public FactoryReviewerDbCache(FactoryLocalReviewerDb dbFactory) {
         mDbFactory = dbFactory;
     }
 
     @Override
-    public QueueCache.Cache<Review> newReviewsCache(ReviewMaker recreater, DataValidator validator) {
+    public QueueCache.Cache<Review> newReviewsCache(ReviewMaker recreater, DataValidator
+            validator) {
         String name = CACHE_NAME + mIndex++;
         ReviewerDb db = mDbFactory.newReviewerDb(name, CACHE_VER, recreater, validator);
         return new ReviewerDbCache(db);

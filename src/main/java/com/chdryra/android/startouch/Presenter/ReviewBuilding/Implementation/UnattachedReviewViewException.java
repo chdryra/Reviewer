@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
  * On: 01/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UnattachedReviewViewException extends RuntimeException{
+public class UnattachedReviewViewException extends RuntimeException {
     public UnattachedReviewViewException() {
         super();
     }

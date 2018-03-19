@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.test.View.Dialogs;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +44,7 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocation> {
         return mCurrent;
     }
 
-//Overridden
+    //Overridden
     @Override
     protected GvData newDatum() {
         mCurrent = (GvLocation) super.newDatum();

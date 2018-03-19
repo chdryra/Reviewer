@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * Singleton that holds the list of social platforms on which reviews can be shared. Placeholders
  * for finding latest number of followers on each platform.
  */
-public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
+public class SocialPlatformList implements Iterable<SocialPlatform<?>> {
     private final LinkedList<SocialPlatform<?>> mPlatforms;
 
     public SocialPlatformList() {
@@ -34,26 +34,27 @@ public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
 
     public SocialPlatform<?> getPlatform(String name) {
         SocialPlatform<?> platform = null;
-        for(SocialPlatform<?> p : mPlatforms) {
-            if(p.getName().equals(name)) {
+        for (SocialPlatform<?> p : mPlatforms) {
+            if (p.getName().equals(name)) {
                 platform = p;
                 break;
             }
         }
 
-        if(platform == null) throw new IllegalArgumentException("Platform " + name + " not found!");
+        if (platform == null)
+            throw new IllegalArgumentException("Platform " + name + " not found!");
 
         return platform;
+    }
+
+    public void logout() {
+        for (SocialPlatform<?> platform : mPlatforms) {
+            platform.logout();
+        }
     }
 
     @Override
     public Iterator<SocialPlatform<?>> iterator() {
         return mPlatforms.iterator();
-    }
-
-    public void logout() {
-        for(SocialPlatform<?> platform : mPlatforms) {
-            platform.logout();
-        }
     }
 }

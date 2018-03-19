@@ -41,6 +41,6 @@ public class GvSizeList extends GvDataListParcelable<GvSize> {
 
     @Override
     public void sort() {
-        
+
     }
 }

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.text.format.DateFormat;
@@ -20,7 +20,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchProfileCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchProfileCommand;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,12 +30,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  */
 
 public class ButtonAuthorReviews<T extends GvData> extends ButtonActionNone<T>
-implements DataReference.DereferenceCallback<AuthorName>{
+        implements DataReference.DereferenceCallback<AuthorName> {
     private final LaunchProfileCommand mLaunchProfile;
     private final AuthorId mAuthorId;
     private final String mDate;
 
-    public ButtonAuthorReviews(LaunchProfileCommand launchProfile, ReviewStamp stamp, AuthorsRepo repo) {
+    public ButtonAuthorReviews(LaunchProfileCommand launchProfile, ReviewStamp stamp, AuthorsRepo
+            repo) {
         super(stamp.toReadableDate());
         mLaunchProfile = launchProfile;
         mAuthorId = stamp.getAuthorId();
@@ -50,6 +52,6 @@ implements DataReference.DereferenceCallback<AuthorName>{
 
     @Override
     public void onDereferenced(DataValue<AuthorName> value) {
-        if(value.hasValue()) setTitle(value.getData().getName() + "\n" + mDate);
+        if (value.hasValue()) setTitle(value.getData().getName() + "\n" + mDate);
     }
 }

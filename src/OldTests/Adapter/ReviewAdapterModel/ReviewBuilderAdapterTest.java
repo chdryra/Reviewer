@@ -11,14 +11,13 @@ package com.chdryra.android.startouch.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.corelibrary.TextUtils.TextUtils;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdCriterionList;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.corelibrary.TextUtils.TextUtils;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
@@ -32,11 +31,13 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
@@ -220,6 +221,17 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertEquals(images.getItem(0), mAdapter.getCovers().getItem(0));
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mAuthor = RandomAuthor.nextAuthor();
+        mTagsManager = new TagsManager();
+        mBuilder = new ReviewBuilder(getContext(), mAuthor, mTagsManager);
+        mAdapter = new ReviewBuilderAdapter(mBuilder);
+        mSignaler = new CallBackSignaler(5000);
+        mAdapter.registerDataObserver(new GridObserver(mSignaler));
+    }
+
     private <T extends GvData> void setBuilderData(GvDataList<T> data) {
         DataBuilderAdapter<T> builder =
                 mAdapter.getDataBuilderAdapter(data.getGvDataType());
@@ -232,17 +244,6 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         mSignaler.waitForSignal();
         assertFalse(mSignaler.timedOut());
         mSignaler.reset();
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mAuthor = RandomAuthor.nextAuthor();
-        mTagsManager = new TagsManager();
-        mBuilder = new ReviewBuilder(getContext(), mAuthor, mTagsManager);
-        mAdapter = new ReviewBuilderAdapter(mBuilder);
-        mSignaler = new CallBackSignaler(5000);
-        mAdapter.registerDataObserver(new GridObserver(mSignaler));
     }
 
     private static class GridObserver implements DataObservable.DataObserver {

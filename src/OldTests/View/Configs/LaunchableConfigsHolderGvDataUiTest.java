@@ -12,7 +12,8 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Application.ApplicationInstance;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchablesList;
@@ -42,7 +43,8 @@ public class LaunchableConfigsHolderGvDataUiTest extends AndroidTestCase {
     @SmallTest
     public void testGetConfigAndConfigClass() {
         for (GvDataType dataType : TYPES) {
-            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi.getConfig
+            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi
+                    .getConfig
                     (dataType);
             assertNotNull(launchableConfigsHolder);
             assertNotNull(launchableConfigsHolder.getAdderConfig());
@@ -55,7 +57,8 @@ public class LaunchableConfigsHolderGvDataUiTest extends AndroidTestCase {
         ArrayList<Integer> requestCodes = new ArrayList<>();
         ArrayList<String> tags = new ArrayList<>();
         for (GvDataType dataType : TYPES) {
-            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi.getConfig(dataType);
+            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi
+                    .getConfig(dataType);
             assertNotNull(launchableConfigsHolder);
 
             //Add
@@ -107,7 +110,8 @@ public class LaunchableConfigsHolderGvDataUiTest extends AndroidTestCase {
     @SmallTest
     public void testGetReviewDataUI() {
         for (GvDataType dataType : TYPES) {
-            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi.getConfig(dataType);
+            LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi
+                    .getConfig(dataType);
             assertNotNull(launchableConfigsHolder);
 
             //Add

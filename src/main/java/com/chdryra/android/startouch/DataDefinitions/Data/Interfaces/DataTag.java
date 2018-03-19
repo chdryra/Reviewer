@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataTag extends HasReviewId, Validatable{
+public interface DataTag extends HasReviewId, Validatable {
     String TYPE_NAME = "tag";
 
     String getTag();

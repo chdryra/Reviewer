@@ -6,12 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,7 +24,8 @@ public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
     private final int mOptionsId;
     private MenuOptionsItem<T> mOptions;
 
-    public MenuViewData(GvDataType<T> dataType, int menuId, int optionsId, MenuOptionsItem<T> options) {
+    public MenuViewData(GvDataType<T> dataType, int menuId, int optionsId, MenuOptionsItem<T>
+            options) {
         this(dataType.getDataName(), menuId, optionsId, options);
     }
 
@@ -38,10 +41,6 @@ public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
         return itemId != mOptionsId || !hasStamp();
     }
 
-    private boolean hasStamp() {
-        return getReviewView().getAdapter().getStamp().isValid();
-    }
-
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
         return mOptions.onOptionSelected(requestCode, option);
@@ -50,5 +49,9 @@ public class MenuViewData<T extends GvData> extends MenuHideableActions<T> {
     @Override
     public boolean onOptionsCancelled(int requestCode) {
         return mOptions.onOptionsCancelled(requestCode);
+    }
+
+    private boolean hasStamp() {
+        return getReviewView().getAdapter().getStamp().isValid();
     }
 }

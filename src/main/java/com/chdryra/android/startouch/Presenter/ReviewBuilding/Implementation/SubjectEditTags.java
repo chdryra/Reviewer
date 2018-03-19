@@ -36,7 +36,7 @@ public class SubjectEditTags extends SubjectEdit<GvTag> {
         getEditor().getEditorSubject().dereference(new DataReference.DereferenceCallback<String>() {
             @Override
             public void onDereferenced(DataValue<String> value) {
-                if(value.hasValue()) mTagAdjuster.setCurrentSubjectTag(value.getData());
+                if (value.hasValue()) mTagAdjuster.setCurrentSubjectTag(value.getData());
             }
         });
     }

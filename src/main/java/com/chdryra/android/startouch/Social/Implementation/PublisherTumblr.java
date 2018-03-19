@@ -16,7 +16,8 @@ import com.chdryra.android.startouch.Social.Interfaces.ReviewFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherTumblr extends SocialPublisherBasic {
-    public PublisherTumblr(String platformName, ReviewSummariser summariser, ReviewFormatter formatter) {
+    public PublisherTumblr(String platformName, ReviewSummariser summariser, ReviewFormatter
+            formatter) {
         super(platformName, summariser, formatter);
     }
 

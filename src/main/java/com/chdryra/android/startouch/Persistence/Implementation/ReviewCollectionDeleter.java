@@ -28,7 +28,8 @@ public class ReviewCollectionDeleter implements ReviewCollection.Callback {
         void onDeletedFromCollection(String name, ReviewId reviewId, CallbackMessage message);
     }
 
-    public ReviewCollectionDeleter(ReviewId reviewId, ReviewCollection reviewCollection, DeleteCallback callback) {
+    public ReviewCollectionDeleter(ReviewId reviewId, ReviewCollection reviewCollection,
+                                   DeleteCallback callback) {
         mReviewId = reviewId;
         mReviewCollection = reviewCollection;
         mCallback = callback;
@@ -51,7 +52,8 @@ public class ReviewCollectionDeleter implements ReviewCollection.Callback {
     @Override
     public void onCollectionHasEntry(String name, boolean hasEntry, CallbackMessage message) {
         if (!hasEntry && message.isOk()) {
-            mCallback.onDeletedFromCollection(name, mReviewId, CallbackMessage.ok(Strings.REVIEW + " not in " + name));
+            mCallback.onDeletedFromCollection(name, mReviewId, CallbackMessage.ok(Strings.REVIEW
+                    + " not in " + name));
         } else {
             mReviewCollection.removeEntry(mReviewId, this);
         }

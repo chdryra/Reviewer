@@ -14,6 +14,9 @@ package com.chdryra.android.startouch.Authentication.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AuthenticationError {
+    private final String mProvider;
+    private final Reason mReason;
+    private final String mDetail;
     public enum Reason {
         PROVIDER_ERROR("Provider error"),
         INVALID_NAME("Name is invalid"),
@@ -41,10 +44,6 @@ public class AuthenticationError {
         }
     }
 
-    private final String mProvider;
-    private final Reason mReason;
-    private final String mDetail;
-
     public AuthenticationError(String provider, Reason reason) {
         this(provider, reason, "");
     }
@@ -64,13 +63,13 @@ public class AuthenticationError {
                 + (mDetail != null && mDetail.length() > 0 ? "(" + mDetail + ")" : mDetail);
     }
 
+    public boolean is(Reason reason) {
+        return reason.equals(mReason);
+    }
+
     @Override
     public String toString() {
         return getMessage();
-    }
-
-    public boolean is(Reason reason) {
-        return reason.equals(mReason);
     }
 
     @Override

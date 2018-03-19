@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
@@ -31,6 +31,7 @@ public class ConverterAuthorName implements SnapshotConverter<AuthorName> {
     @Nullable
     public AuthorName convert(DataSnapshot snapshot) {
         Author author = snapshot.getValue(Author.class);
-        return author != null ? new AuthorNameDefault(author.getName(), new AuthorIdParcelable(author.getAuthorId())) : null;
+        return author != null ? new AuthorNameDefault(author.getName(), new AuthorIdParcelable
+                (author.getAuthorId())) : null;
     }
 }

@@ -9,10 +9,11 @@
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
 import com.chdryra.android.corelibrary.Viewholder.VHDataStringGetter;
-import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringParser;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 
 /**
  * {@link ViewHolder}: {@link com.chdryra.android.reviewer

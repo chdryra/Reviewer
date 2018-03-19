@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import android.view.View;
 
@@ -41,6 +42,14 @@ public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
         mListeners = new ArrayList<>();
     }
 
+    public void performFiltering(String query) {
+        if (!mFiltering) {
+            mFiltering = true;
+            mTitleReference.setData(mWorkingMessage);
+            doFiltering(query);
+        }
+    }
+
     @Override
     public void onKeyboardDone(CharSequence s) {
         performFiltering(s.toString());
@@ -67,14 +76,6 @@ public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
         performFiltering(getReviewView().getContainerSubject());
     }
 
-    public void performFiltering(String query) {
-        if(!mFiltering) {
-            mFiltering = true;
-            mTitleReference.setData(mWorkingMessage);
-            doFiltering(query);
-        }
-    }
-
     @Override
     public void onFiltered() {
         mFiltering = false;
@@ -83,7 +84,7 @@ public class SubjectFilter<T extends GvData> extends ReviewViewActionFilter<T>
 
     @Override
     public void registerListener(ClickListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     @Override

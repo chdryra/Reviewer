@@ -13,10 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.Assert;
@@ -35,10 +36,11 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 08/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<DataCriterion>{
+public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<DataCriterion> {
     @NonNull
     @Override
-    protected DataAggregator<DataCriterion> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataCriterion> newAggregator(DataAggregatorsApi factory,
+                                                          DataAggregatorParams params) {
         return factory.newCriteriaAggregatorSameSubject(params.getSimilarPercentage());
     }
 
@@ -58,8 +60,8 @@ public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<
     @Override
     protected DataCriterion getExampleCanonical(ReviewId id, ArrayList<DataCriterion> data) {
         float averageRating = 0f;
-        for(DataCriterion criterion : data) {
-            averageRating += criterion.getRating() / (float)data.size();
+        for (DataCriterion criterion : data) {
+            averageRating += criterion.getRating() / (float) data.size();
         }
 
         return new DatumCriterion(id, data.get(0).getSubject(), averageRating);
@@ -83,9 +85,9 @@ public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<
     private DataCriterion findKey(DataCriterion canonical) {
         float rating = canonical.getRating();
         DataCriterion keyEquivalent = null;
-        for(DataCriterion key : mCanonicalsMap.keySet()) {
+        for (DataCriterion key : mCanonicalsMap.keySet()) {
             float diff = key.getRating() - rating;
-            if(Math.sqrt(diff*diff) < 1e-5) keyEquivalent = key;
+            if (Math.sqrt(diff * diff) < 1e-5) keyEquivalent = key;
         }
         return keyEquivalent;
     }

@@ -25,7 +25,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class TraversalBucketer<BucketingValue, Data extends HasReviewId> implements DataBucketer<BucketingValue, Data> {
+public class TraversalBucketer<BucketingValue, Data extends HasReviewId> implements
+        DataBucketer<BucketingValue, Data> {
     private static final String VISITOR
             = TagKeyGenerator.getTag(TraversalBucketer.class, "Visitor");
 
@@ -39,7 +40,8 @@ public class TraversalBucketer<BucketingValue, Data extends HasReviewId> impleme
     }
 
     @Override
-    public void bucketData(ReviewNode root, final DataBucketerCallback<BucketingValue, Data> callback) {
+    public void bucketData(ReviewNode root, final DataBucketerCallback<BucketingValue, Data>
+            callback) {
         TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
         final VisitorDataBucketer<BucketingValue, Data> visitor = mVisitorFactory.newVisitor();
         traverser.addVisitor(VISITOR, visitor);

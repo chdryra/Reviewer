@@ -69,7 +69,7 @@ public class NodeInternalTest {
         parent.addChild(child);
 
         assertThat(parent.getChildren().size(), is(1));
-        assertThat(parent.getChildren().get(0), is((ReviewNode)child));
+        assertThat(parent.getChildren().get(0), is((ReviewNode) child));
     }
 
     @Test
@@ -93,7 +93,7 @@ public class NodeInternalTest {
 
         parent.addChild(child);
 
-        assertThat(child.getParent(), is((ReviewNode)parent));
+        assertThat(child.getParent(), is((ReviewNode) parent));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class NodeInternalTest {
 
         parentNew.addChild(child1);
         assertThat(parentOld.getChildren().size(), is(1));
-        assertThat(parentOld.getChildren().get(0), is((ReviewNode)child2));
+        assertThat(parentOld.getChildren().get(0), is((ReviewNode) child2));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class NodeInternalTest {
 
         parent.removeChild(child1.getReviewId());
         assertThat(parent.getChildren().size(), is(1));
-        assertThat(parent.getChildren().get(0), is((ReviewNode)child2));
+        assertThat(parent.getChildren().get(0), is((ReviewNode) child2));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class NodeInternalTest {
         grandParent.addChild(parent);
         parent.addChild(child);
 
-        assertThat(child.getRoot(), is((ReviewNode)greatGrandParent));
+        assertThat(child.getRoot(), is((ReviewNode) greatGrandParent));
     }
 
     @Test
@@ -443,15 +443,16 @@ public class NodeInternalTest {
     }
 
     private <T extends HasReviewId> void getDataIsForWholeTree(DataGetter<T> getter) {
-        ReviewNodeComponent node = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
+        ReviewNodeComponent node = newComponent(RandomReviewId.nextMdReviewId(), RandomReview
+                .nextReview(), true);
         IdableList<Review> reviews = makeTree(node);
         IdableList<? extends T> dataNode = getter.getData(node);
         IdableList<T> allData = new IdableDataList<>(node.getReviewId());
-        for(Review review : reviews) {
+        for (Review review : reviews) {
             allData.addAll(getter.getData(review));
         }
         assertThat(dataNode.size(), is(allData.size()));
-        for(T datum : allData) {
+        for (T datum : allData) {
             assertThat(dataNode.contains(datum), is(true));
         }
     }
@@ -473,7 +474,7 @@ public class NodeInternalTest {
         allNodes.addAll(ggc);
 
         IdableList<Review> reviews = new IdableDataList<>(node.getReviewId());
-        for(ReviewNodeComponent component : allNodes) {
+        for (ReviewNodeComponent component : allNodes) {
             reviews.add(component.getReference());
         }
         return reviews;
@@ -482,7 +483,7 @@ public class NodeInternalTest {
     private float getAverageRating(IdableList<? extends ReviewNode> nodes) {
         float rating = 0f;
         int weights = 0;
-        for(ReviewNode node : nodes) {
+        for (ReviewNode node : nodes) {
             weights += node.getRating().getRatingWeight();
             rating += node.getRating().getRating() * node.getRating().getRatingWeight();
         }
@@ -493,7 +494,7 @@ public class NodeInternalTest {
     private IdableList<ReviewNodeComponent> addChildren(ReviewNodeComponent parent, int num,
                                                         boolean isAverage) {
         IdableList<ReviewNodeComponent> children = new IdableDataList<>(parent.getReviewId());
-        for(int i = 0; i < num ; ++i) {
+        for (int i = 0; i < num; ++i) {
             ReviewNodeComponent child = newComponent(RandomReviewId.nextMdReviewId(),
                     RandomReview.nextReview(), isAverage);
             parent.addChild(child);
@@ -518,13 +519,14 @@ public class NodeInternalTest {
 
     private class VisitorForTest implements VisitorReviewNode {
         private boolean mVisited = false;
-        @Override
-        public void visit(@NonNull ReviewNode reviewNode) {
-            mVisited = true;
-        }
 
         public boolean isVisited() {
             return mVisited;
+        }
+
+        @Override
+        public void visit(@NonNull ReviewNode reviewNode) {
+            mVisited = true;
         }
     }
 

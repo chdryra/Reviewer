@@ -8,14 +8,14 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/section_title"
-        style="@style/FormattedTitle"/>
+        style="@style/FormattedTitle"
+        xmlns:android="http://schemas.android.com/apk/res/android"/>
 
     <include
         android:id="@+id/title_separator"

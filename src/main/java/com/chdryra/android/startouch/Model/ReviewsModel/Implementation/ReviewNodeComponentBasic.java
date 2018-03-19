@@ -19,22 +19,13 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNodeCom
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
-        implements ReviewNodeComponent{
+        implements ReviewNodeComponent {
     private ReviewNodeComponent mParent;
 
     @Nullable
     @Override
     public ReviewNode getParent() {
         return getParentAsComponent();
-    }
-
-    ReviewNodeComponent getParentAsComponent() {
-        return mParent;
-    }
-
-    @Override
-    public ReviewNode getRoot() {
-        return mParent != null ? mParent.getRoot() : this;
     }
 
     @Override
@@ -47,6 +38,11 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
         if (mParent != null) mParent.removeChild(getReviewId());
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
+    }
+
+    @Override
+    public ReviewNode getRoot() {
+        return mParent != null ? mParent.getRoot() : this;
     }
 
     @Override
@@ -66,5 +62,9 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
         int result = super.hashCode();
         result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
         return result;
+    }
+
+    ReviewNodeComponent getParentAsComponent() {
+        return mParent;
     }
 }

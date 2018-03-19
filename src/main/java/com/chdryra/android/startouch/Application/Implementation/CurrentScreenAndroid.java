@@ -18,7 +18,8 @@ import android.widget.Toast;
 
 import com.chdryra.android.corelibrary.Dialogs.AlertListener;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogShower;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Implementation.DialogShower;
 
 /**
  * Created by: Rizwan Choudrey

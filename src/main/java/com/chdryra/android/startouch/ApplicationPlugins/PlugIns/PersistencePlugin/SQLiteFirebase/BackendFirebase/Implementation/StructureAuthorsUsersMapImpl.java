@@ -6,15 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.StructureAuthorsUsersMap;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.StructureAuthorsUsersMap;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
 
 import java.util.Map;
 
@@ -23,7 +26,8 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureAuthorsUsersMapImpl extends DbStructureBasic<User> implements StructureAuthorsUsersMap {
+public class StructureAuthorsUsersMapImpl extends DbStructureBasic<User> implements
+        StructureAuthorsUsersMap {
     public StructureAuthorsUsersMapImpl(String path) {
         setPathToStructure(path);
     }
@@ -40,7 +44,7 @@ public class StructureAuthorsUsersMapImpl extends DbStructureBasic<User> impleme
         String authorId = user.getAuthorId();
 
         Updates updates = new Updates(updateType);
-        if(authorId != null) updates.atPath(user, relativePathToAuthor(authorId)).putValue(userId);
+        if (authorId != null) updates.atPath(user, relativePathToAuthor(authorId)).putValue(userId);
 
         return updates.toMap();
     }

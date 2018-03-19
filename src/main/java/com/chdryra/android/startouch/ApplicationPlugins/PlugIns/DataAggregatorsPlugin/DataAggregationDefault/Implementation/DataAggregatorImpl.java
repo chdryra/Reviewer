@@ -6,23 +6,23 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceLevel;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.AggregatedDataImpl;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.AggregatedListImpl;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 
 /**
@@ -67,7 +67,8 @@ public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel
         }
     }
 
-    private void addAggregatedDataToResults(AggregatedListImpl<T> results, IdableList<T> aggregate) {
+    private void addAggregatedDataToResults(AggregatedListImpl<T> results, IdableList<T>
+            aggregate) {
         results.add(new AggregatedDataImpl<>(mCanonical.getCanonical(aggregate), aggregate));
     }
 

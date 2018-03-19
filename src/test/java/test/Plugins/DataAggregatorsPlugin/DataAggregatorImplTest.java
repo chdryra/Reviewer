@@ -10,18 +10,18 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceLevel;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceLevel;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.DataAggregatorImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.DataAggregatorImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.Before;
@@ -140,7 +140,8 @@ public class DataAggregatorImplTest {
         assertThat(totalSize, is(NUM_DATA));
     }
 
-    private int checkAggregateSize(AggregatedData<ReviewInteger> aggregate, int numAggregatesExpected, int totalSize) {
+    private int checkAggregateSize(AggregatedData<ReviewInteger> aggregate, int
+            numAggregatesExpected, int totalSize) {
         int groupSize = aggregate.getAggregatedItems().size();
         assertThat(groupSize, is(NUM_DATA / numAggregatesExpected));
         totalSize += groupSize;
@@ -200,7 +201,7 @@ public class DataAggregatorImplTest {
     }
 
     private class IntegerComparator implements DifferenceComparator<ReviewInteger,
-                    IntegerDifference> {
+            IntegerDifference> {
         @Override
         public IntegerDifference compare(ReviewInteger lhs, ReviewInteger rhs) {
             return new IntegerDifference(Math.abs(lhs.getInt() - rhs.getInt()));

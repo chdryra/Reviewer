@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
 import android.app.Fragment;
@@ -17,10 +18,12 @@ import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 
 public class FragmentViewLocation extends FragmentMapLocation {
-    private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
+    private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class,
+            "Location");
 
     private DataLocation mCurrent;
 

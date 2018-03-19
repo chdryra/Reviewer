@@ -10,12 +10,14 @@ package test.Plugins.DataComparatorsPlugin;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateComparator;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewDate;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.DateComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.ReviewDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataReviewSummary;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.testutils.RandomString;
 
@@ -72,7 +74,7 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
     private DataReviewSummary getReview(Date publishDate) {
         return new Review(new PublishDate(publishDate.getTime()));
     }
-    
+
     private class Review implements DataReviewSummary {
         private DateTime mDate;
         private AuthorName mAuthor;
@@ -89,7 +91,7 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
             mAuthor = RandomAuthor.nextAuthor();
             mHeadline = RandomString.nextSentence();
             mTags = new ArrayList<>();
-            for(int i = 0; i < 3; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 mTags.add(RandomString.nextWord());
             }
             mLocation = RandomString.nextWord();

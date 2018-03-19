@@ -24,8 +24,8 @@ public class FactoryLoginResultHandler {
         mPlatforms = platforms;
     }
 
-    public BinaryResultCallback<?,?> newSocialLoginHandler(String platform) {
-        if(platform.equals(PlatformGoogle.NAME)) {
+    public BinaryResultCallback<?, ?> newSocialLoginHandler(String platform) {
+        if (platform.equals(PlatformGoogle.NAME)) {
             PlatformGoogle google = (PlatformGoogle) mPlatforms.getPlatform(PlatformGoogle.NAME);
             return google.newSignInResultHandler();
         } else {

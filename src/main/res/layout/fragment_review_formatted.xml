@@ -8,14 +8,14 @@
   -->
 
 <ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_formatted"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background"
     android:clickable="false"
     android:focusable="false"
-    android:focusableInTouchMode="false"
-    android:background="@drawable/background">
+    android:focusableInTouchMode="false">
 
     <LinearLayout style="@style/LinearLayoutVertical.WrappedVertical">
 
@@ -27,23 +27,23 @@
             android:scaleType="centerCrop"/>
 
         <LinearLayout
-            style="@style/LinearLayoutVertical.WrappedVertical"
-            android:id="@+id/subject_rating_formatted">
+            android:id="@+id/subject_rating_formatted"
+            style="@style/LinearLayoutVertical.WrappedVertical">
 
             <TextView
-            android:id="@+id/subject_formatted"
-            style="@style/TextView.Subject.Bold"
-            android:background="?darkBackground"/>
+                android:id="@+id/subject_formatted"
+                style="@style/TextView.Subject.Bold"
+                android:background="?darkBackground"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?darkBackground">
 
-            <RatingBar
-                android:id="@+id/rating_formatted"
-                style="@style/RatingBarFiveStar.Indicator.PointOneStep"
-                android:background="?darkBackground"/>
+                <RatingBar
+                    android:id="@+id/rating_formatted"
+                    style="@style/RatingBarFiveStar.Indicator.PointOneStep"
+                    android:background="?darkBackground"/>
             </FrameLayout>
 
             <TextView

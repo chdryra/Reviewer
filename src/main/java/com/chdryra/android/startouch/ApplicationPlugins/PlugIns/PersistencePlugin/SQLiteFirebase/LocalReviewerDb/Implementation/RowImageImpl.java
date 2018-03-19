@@ -6,18 +6,22 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.ByteArray;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.ByteArray;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
@@ -63,7 +67,7 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
         mCaption = image.getCaption();
         mDate = image.getDate() != null ? image.getDate().getTime() : -1;
         Bitmap bitmap = image.getBitmap();
-        if(bitmap != null) {
+        if (bitmap != null) {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
             mBitmap = bos.toByteArray();
@@ -84,7 +88,7 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
         mBitmap = array != null ? array.getData() : null;
 
         Boolean cover = values.getValue(IS_COVER.getName(), IS_COVER.getType());
-        if(cover == null) mValidIsCover = false;
+        if (cover == null) mValidIsCover = false;
         mIsCover = mValidIsCover && cover;
 
         Double lat = values.getValue(LATITUDE.getName(), LATITUDE.getType());
@@ -110,7 +114,7 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
 
     @Override
     public Bitmap getBitmap() {
-        byte[] data = mBitmap != null? mBitmap : new byte[]{};
+        byte[] data = mBitmap != null ? mBitmap : new byte[]{};
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
@@ -159,21 +163,21 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
 
     @Override
     protected RowEntry<RowImage, ?> getEntry(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new RowEntryImpl<>(RowImage.class, IMAGE_ID, mImageId);
-        } else if(position == 1) {
+        } else if (position == 1) {
             return new RowEntryImpl<>(RowImage.class, REVIEW_ID, mReviewId);
-        } else if(position == 2) {
+        } else if (position == 2) {
             return new RowEntryImpl<>(RowImage.class, BITMAP, new ByteArray(mBitmap));
-        } else if(position == 3) {
+        } else if (position == 3) {
             return new RowEntryImpl<>(RowImage.class, IS_COVER, mIsCover);
-        } else if(position == 4) {
+        } else if (position == 4) {
             return new RowEntryImpl<>(RowImage.class, CAPTION, mCaption);
-        } else if(position == 5) {
+        } else if (position == 5) {
             return new RowEntryImpl<>(RowImage.class, IMAGE_DATE, mDate);
-        } else if(position == 6) {
+        } else if (position == 6) {
             return new RowEntryImpl<>(RowImage.class, LATITUDE, mLatitude);
-        } else if(position == 7) {
+        } else if (position == 7) {
             return new RowEntryImpl<>(RowImage.class, LONGITUDE, mLongitude);
         } else {
             throw noElement();

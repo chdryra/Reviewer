@@ -54,34 +54,24 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
     }
 
     public void addListener(BookmarkListener observer) {
-        if(!mObservers.contains(observer)) {
+        if (!mObservers.contains(observer)) {
             mObservers.add(observer);
-            if(mInitialised) observer.onBookmarked(mIsBookmarked);
+            if (mInitialised) observer.onBookmarked(mIsBookmarked);
         }
     }
 
     public void removeListener(BookmarkListener observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    private void notifyObservers() {
-        for(BookmarkListener observer :mObservers) {
-            observer.onBookmarked(mIsBookmarked);
-        }
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     public void initialise(BookmarkReadyCallback callback) {
-        if(!mInitialised) {
+        if (!mInitialised) {
             mCallback = callback;
             lock();
             mBookmarks.hasEntry(mReviewId, this);
         } else {
             callback.onBookmarkCommandReady();
         }
-    }
-
-    boolean isInitialised() {
-        return mInitialised;
     }
 
     @Override
@@ -129,6 +119,16 @@ public class BookmarkCommand extends Command implements ReviewCollection.Callbac
         mInitialised = true;
         notifyObservers();
         mCallback.onBookmarkCommandReady();
+    }
+
+    boolean isInitialised() {
+        return mInitialised;
+    }
+
+    private void notifyObservers() {
+        for (BookmarkListener observer : mObservers) {
+            observer.onBookmarked(mIsBookmarked);
+        }
     }
 
     private void lock() {

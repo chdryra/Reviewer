@@ -14,21 +14,24 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Comparators.BooleanComparator;
 import com.chdryra.android.corelibrary.Comparators.DataComparator;
-import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
 import com.chdryra.android.corelibrary.Comparators.FloatComparator;
 import com.chdryra.android.corelibrary.Comparators.NamedComparator;
 import com.chdryra.android.corelibrary.Comparators.StringComparator;
+import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 
 import java.util.Comparator;
 
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.A_TO_Z;
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.FALSE;
-import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.HIGH_TO_LOW;
-import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.LOW_TO_HIGH;
+import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators
+        .HIGH_TO_LOW;
+import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators
+        .LOW_TO_HIGH;
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.NEWEST;
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.OLDEST;
-import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.SEPARATOR;
+import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators
+        .SEPARATOR;
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.TRUE;
 import static com.chdryra.android.startouch.Application.Implementation.Strings.Comparators.Z_TO_A;
 
@@ -67,6 +70,11 @@ public class FactoryComparators {
         return newBuilder(OLDEST, new DateComparator()).withReverseName(NEWEST).build();
     }
 
+    @NonNull
+    public <T> NamedComparator.Builder<T> newBuilder(String name, Comparator<T> comparator) {
+        return new NamedComparator.Builder<>(name, comparator);
+    }
+
     private <T, S> NamedComparator<T> newNamed(String compName,
                                                String reverseName,
                                                Comparator<S> comparator,
@@ -77,11 +85,6 @@ public class FactoryComparators {
 
     private String concat(String name, String order) {
         return name.length() > 0 ? name + SEPARATOR + " " + order : order;
-    }
-
-    @NonNull
-    public <T> NamedComparator.Builder<T> newBuilder(String name, Comparator<T> comparator) {
-        return new NamedComparator.Builder<>(name, comparator);
     }
 
     @NonNull

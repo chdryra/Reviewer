@@ -35,22 +35,17 @@ public class PublishDate implements DateTime {
         mTime = time;
     }
 
-    //public methods
-    private Date getDate() {
-        return new Date(mTime);
-    }
-
     @Override
     public long getTime() {
         return mTime;
     }
 
-    //Overridden
-
     @Override
     public boolean hasData(DataValidator validator) {
         return mTime > 0;
     }
+
+    //Overridden
 
     @Override
     public boolean equals(Object o) {
@@ -71,5 +66,10 @@ public class PublishDate implements DateTime {
     @Override
     public String toString() {
         return StringParser.parse(this);
+    }
+
+    //public methods
+    private Date getDate() {
+        return new Date(mTime);
     }
 }

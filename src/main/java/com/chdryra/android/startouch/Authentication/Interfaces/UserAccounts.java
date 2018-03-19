@@ -36,18 +36,22 @@ public interface UserAccounts {
     }
 
     interface CreateAccountCallback {
-        void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable AuthenticationError error);
+        void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable
+                AuthenticationError error);
     }
 
     AuthorProfile newProfile(String name, @Nullable Bitmap photo);
 
-    AuthorProfile newProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo);
+    AuthorProfile newProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap
+            photo);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
+    void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback
+            callback);
 
-    void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile newProfile, UpdateProfileCallback callback);
+    void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile newProfile,
+                       UpdateProfileCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

@@ -17,20 +17,20 @@ import android.support.v4.app.ActivityCompat;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.chdryra.android.corelibrary.Permissions.PermissionsManagerAndroid;
-import com.chdryra.android.startouch.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.startouch.Application.Interfaces.AccountsSuite;
+import com.chdryra.android.startouch.Application.Interfaces.ApplicationSuite;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
+import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Application.Interfaces.GeolocationSuite;
 import com.chdryra.android.startouch.Application.Interfaces.NetworkSuite;
-import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
 import com.chdryra.android.startouch.Application.Interfaces.RepositorySuite;
-import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
 import com.chdryra.android.startouch.Application.Interfaces.SocialSuite;
 import com.chdryra.android.startouch.Application.Interfaces.UiSuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
+import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.View.LauncherModel.Implementation.ReviewPack;
@@ -83,13 +83,8 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mPermissions.setActivity(mActivity);
     }
 
-    private void setSession() {
-        UserSession session = getAccounts().getUserSession();
-        mUi.setSession(session);
-    }
-
-    void setReturnResult(ActivityResultCode result) {
-        if (result != null) mActivity.setResult(result.get(), null);
+    public void logout() {
+        getAccounts().logout();
     }
 
     @Override
@@ -154,8 +149,8 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
         mPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void logout() {
-        getAccounts().logout();
+    void setReturnResult(ActivityResultCode result) {
+        if (result != null) mActivity.setResult(result.get(), null);
     }
 
     ReviewPack unpackReview(Bundle args) {
@@ -170,5 +165,10 @@ public class ApplicationSuiteAndroid implements ApplicationSuite, UserSession.Se
     @Nullable
     ReviewView<?> unpackView(Intent i) {
         return mUi.unpackView(i);
+    }
+
+    private void setSession() {
+        UserSession session = getAccounts().getUserSession();
+        mUi.setSession(session);
     }
 }

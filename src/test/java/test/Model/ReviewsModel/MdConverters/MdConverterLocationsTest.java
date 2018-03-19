@@ -40,7 +40,8 @@ public class MdConverterLocationsTest extends MdConverterBasicTest<DataLocation,
     }
 
     @Override
-    protected void checkDatumEquivalence(DataLocation datum, MdLocation mdDatum, ReviewId mdDatumId) {
+    protected void checkDatumEquivalence(DataLocation datum, MdLocation mdDatum, ReviewId
+            mdDatumId) {
         DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
     }
 

@@ -28,7 +28,7 @@ public class DifferenceFloatTest {
     @Test
     public void lessThanOrEqualShowsAppropriateBehaviourForDifference() {
         float value = RAND.nextFloat();
-        DifferenceFloat lower = new DifferenceFloat(value/2f);
+        DifferenceFloat lower = new DifferenceFloat(value / 2f);
         DifferenceFloat higher = new DifferenceFloat(value);
         assertThat(lower.lessThanOrEqualTo(higher), is(true));
         assertThat(higher.lessThanOrEqualTo(lower), is(false));

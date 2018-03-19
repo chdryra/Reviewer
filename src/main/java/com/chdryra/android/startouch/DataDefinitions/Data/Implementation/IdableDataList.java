@@ -19,7 +19,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<T>
-        implements IdableList<T>{
+        implements IdableList<T> {
     private final ReviewId mReviewId;
 
     public IdableDataList() {

@@ -6,15 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
 
 
 /**
@@ -37,7 +40,7 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
         mOptions = new CommandList();
         setClick(new ClickCommand());
         mRequestCode = RequestCodeGenerator.getCode(ButtonSelector.class, commands.getListName());
-        for(Command option : commands) {
+        for (Command option : commands) {
             addOption(option);
         }
     }
@@ -48,18 +51,22 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
 
     protected void setCurrentlySelected(String optionName) {
         Command option = null;
-        for(int i = 0; i < mOptions.size(); ++i) {
+        for (int i = 0; i < mOptions.size(); ++i) {
             option = mOptions.get(i);
-            if(optionName.equals(option.getName())) break;
+            if (optionName.equals(option.getName())) break;
         }
 
-        if(option != null) mCurrentlySelected = optionName;
+        if (option != null) mCurrentlySelected = optionName;
+    }
+
+    protected void launchSelector() {
+        mSelector.execute(mOptions.getCommandNames(), mCurrentlySelected, mRequestCode, null);
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        if(requestCode == mRequestCode) {
-            if(!option.equals(mCurrentlySelected) || !mIgnoreCurrent) {
+        if (requestCode == mRequestCode) {
+            if (!option.equals(mCurrentlySelected) || !mIgnoreCurrent) {
                 mCurrentlySelected = option;
                 mOptions.execute(option);
             }
@@ -79,9 +86,5 @@ public class ButtonSelector<T extends GvData> extends ButtonCommandable<T> {
         public void execute() {
             launchSelector();
         }
-    }
-
-    protected void launchSelector() {
-        mSelector.execute(mOptions.getCommandNames(), mCurrentlySelected, mRequestCode, null);
     }
 }

@@ -6,20 +6,28 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Comment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComments;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ConverterComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbCommentRef;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbReviewItemRef;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.FbSentence;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation.ListItemsReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.ConverterComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.ConverterComments;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbCommentRef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbReviewItemRef;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.FbSentence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation.ListItemsReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
@@ -40,12 +48,6 @@ public class FactoryListItemsReferencer {
         mReferenceFactory = referenceFactory;
     }
 
-    private <T extends HasReviewId, R extends ReviewItemReference<T>>
-    ListItemsReferencer<T, R> newReferencer(ListItemsReferencer.ItemReferenceFactory<T, R>
-                                                    factory) {
-        return new ListItemsReferencer<>(factory);
-    }
-
     public <T extends HasReviewId>
     ListItemsReferencer<T, ReviewItemReference<T>> newReferencer(final SnapshotConverter<T>
                                                                          converter) {
@@ -62,12 +64,19 @@ public class FactoryListItemsReferencer {
         final SnapshotConverter<DataComment> converter =
                 new ConverterComments.SentenceConverter(parent.getReviewId(),
                         new ConverterComment.ConverterSentence(), parent.isHeadline());
-        return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment, CommentRef>() {
+        return newReferencer(new ListItemsReferencer.ItemReferenceFactory<DataComment,
+                CommentRef>() {
             @Override
             public CommentRef newReference(ReviewId id, Firebase child, int index) {
                 return new FbSentence(id, child, converter, parent);
             }
         });
+    }
+
+    private <T extends HasReviewId, R extends ReviewItemReference<T>>
+    ListItemsReferencer<T, R> newReferencer(ListItemsReferencer.ItemReferenceFactory<T, R>
+                                                    factory) {
+        return new ListItemsReferencer<>(factory);
     }
 
     @NonNull

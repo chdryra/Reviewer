@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import test.TestUtils.RandomReviewId;
@@ -25,10 +26,11 @@ import test.TestUtils.RandomReviewId;
  * On: 07/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatorTagsTest extends AggregatedDistinctItemsTest<DataTag>{
+public class AggregatorTagsTest extends AggregatedDistinctItemsTest<DataTag> {
     @NonNull
     @Override
-    protected DataAggregator<DataTag> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataTag> newAggregator(DataAggregatorsApi factory,
+                                                    DataAggregatorParams params) {
         return factory.newTagsAggregator(params.getSimilarPercentage());
     }
 

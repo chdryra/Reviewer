@@ -11,22 +11,22 @@ package com.chdryra.android.startouch.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
 import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.ReviewTreeMutable;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.UserModel.AuthorId;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverviewList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
 import com.chdryra.android.startouch.test.TestUtils.RandomReviewsRepository;
 import com.chdryra.android.startouch.test.TestUtils.ReviewMocker;
@@ -83,6 +83,14 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         }
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mAuthor = new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
+        setAdapter();
+    }
+
     //private methods
     private float getRating() {
         float rating = 0f;
@@ -110,13 +118,5 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         ReviewsFeed repo = RandomReviewsRepository.nextRepository(mNode);
         ViewerChildList wrapper = new ViewerChildList(getContext(), mNode, repo);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mAuthor = new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
-        setAdapter();
     }
 }

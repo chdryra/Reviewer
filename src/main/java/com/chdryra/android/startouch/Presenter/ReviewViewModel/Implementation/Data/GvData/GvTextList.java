@@ -30,7 +30,7 @@ public class GvTextList<T extends GvText> extends GvDataListParcelable<T> {
         }
     };
 
-    GvTextList(Parcel in)  {
+    GvTextList(Parcel in) {
         super(in);
     }
 

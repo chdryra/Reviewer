@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataComment extends HasReviewId, Validatable{
+public interface DataComment extends HasReviewId, Validatable {
     String TYPE_NAME = "comment";
 
     String getComment();

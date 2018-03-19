@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndr
 
 
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ValueBinder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ValueBinder;
 
 /**
  * Created by: Rizwan Choudrey

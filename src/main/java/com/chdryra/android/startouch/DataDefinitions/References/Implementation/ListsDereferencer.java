@@ -9,10 +9,10 @@
 package com.chdryra.android.startouch.DataDefinitions.References.Implementation;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeDataReferenceBasic;

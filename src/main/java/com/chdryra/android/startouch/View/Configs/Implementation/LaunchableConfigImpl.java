@@ -10,9 +10,10 @@ package com.chdryra.android.startouch.View.Configs.Implementation;
 
 import android.util.Log;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
@@ -38,20 +39,6 @@ public class LaunchableConfigImpl implements LaunchableConfig {
         mRequestCode = requestCode;
     }
 
-    private LaunchableUi newLaunchable() {
-        try {
-            return mUiClass.newInstance();
-        } catch (InstantiationException e) {
-            //If this happens not good so throwing runtime exception
-            Log.e(TAG, "Couldn't create UI for " + mUiClass.getName(), e);
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            //If this happens not good so throwing runtime exception
-            Log.e(TAG, "IllegalAccessException: trying to create " + mUiClass.getName(), e);
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public int getDefaultRequestCode() {
         return mRequestCode;
@@ -69,6 +56,20 @@ public class LaunchableConfigImpl implements LaunchableConfig {
 
     @Override
     public void launch(UiLauncherArgs args) {
-        if(mLauncher != null) mLauncher.launch(newLaunchable(), args);
+        if (mLauncher != null) mLauncher.launch(newLaunchable(), args);
+    }
+
+    private LaunchableUi newLaunchable() {
+        try {
+            return mUiClass.newInstance();
+        } catch (InstantiationException e) {
+            //If this happens not good so throwing runtime exception
+            Log.e(TAG, "Couldn't create UI for " + mUiClass.getName(), e);
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            //If this happens not good so throwing runtime exception
+            Log.e(TAG, "IllegalAccessException: trying to create " + mUiClass.getName(), e);
+            throw new RuntimeException(e);
+        }
     }
 }

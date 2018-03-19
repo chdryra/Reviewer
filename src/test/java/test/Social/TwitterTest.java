@@ -15,8 +15,6 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-import static org.junit.Assert.fail;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 11/02/2016

@@ -11,9 +11,11 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSizes;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterSizes;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
  * {@link ViewHolder}: {@link com.chdryra.android.reviewer
@@ -40,7 +42,7 @@ public class VhSize extends VhDualText {
         protected void onReference(GvSize.Reference reference) {
             GvDataType<?> sizedType = reference.getSizedType();
             ((GvConverterSizes) getConverter()).setType(sizedType);
-            ((GvSize.Reference.Factory)getPlaceHolderFactory()).setType(sizedType);
+            ((GvSize.Reference.Factory) getPlaceHolderFactory()).setType(sizedType);
         }
 
     }

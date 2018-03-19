@@ -25,7 +25,7 @@ public class TagAdjuster {
 
     public void setCurrentSubjectTag(String tag) {
         mCurrentSubjectTag = null;
-        if(tag != null && tag.length() > 0) {
+        if (tag != null && tag.length() > 0) {
             mCurrentSubjectTag = new GvTag(tag);
         }
     }
@@ -33,20 +33,20 @@ public class TagAdjuster {
     public void adjustTagsIfNecessary(ReviewDataEditor<GvTag> editor) {
         GvTag toAdd = new GvTag(editor.getContainerSubject());
         GvTag toRemove = mCurrentSubjectTag;
-        if(toAdd.equals(toRemove)) return;
+        if (toAdd.equals(toRemove)) return;
 
         GvDataList<GvTag> tags = editor.getAdapter().getGridData();
         String subject = toAdd.getTag();
-        if(subject != null && subject.length() > 0) {
-            if(!tags.contains(toAdd)) {
-                if(toRemove != null ) {
+        if (subject != null && subject.length() > 0) {
+            if (!tags.contains(toAdd)) {
+                if (toRemove != null) {
                     editor.replace(toRemove, toAdd);
                 } else {
                     editor.add(toAdd);
                 }
                 mCurrentSubjectTag = toAdd;
             }
-        } else if(mCurrentSubjectTag != null){
+        } else if (mCurrentSubjectTag != null) {
             editor.delete(toRemove);
             mCurrentSubjectTag = null;
         }

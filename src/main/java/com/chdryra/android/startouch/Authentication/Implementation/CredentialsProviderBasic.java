@@ -32,15 +32,6 @@ public abstract class CredentialsProviderBasic<Cred, ProvCb extends BinaryResult
 
     protected abstract ProvCb getProviderCallback();
 
-    void notifyOnSuccess(Cred credentials) {
-        mCallback.onCredentialsObtained(new Credentials<>(mProvider.getName(), credentials));
-    }
-
-    void notifyOnFailure(String message) {
-        mCallback.onCredentialsFailure(new AuthenticationError(mProvider.getName(),
-                AuthenticationError.Reason.PROVIDER_ERROR, message));
-    }
-
     @Override
     public void requestCredentials(Callback<Cred> callback) {
         mCallback = callback;
@@ -55,5 +46,14 @@ public abstract class CredentialsProviderBasic<Cred, ProvCb extends BinaryResult
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
+    }
+
+    void notifyOnSuccess(Cred credentials) {
+        mCallback.onCredentialsObtained(new Credentials<>(mProvider.getName(), credentials));
+    }
+
+    void notifyOnFailure(String message) {
+        mCallback.onCredentialsFailure(new AuthenticationError(mProvider.getName(),
+                AuthenticationError.Reason.PROVIDER_ERROR, message));
     }
 }

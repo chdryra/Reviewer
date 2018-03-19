@@ -14,8 +14,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorI
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorIdList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorIdList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +25,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterAuthorIds extends
-        GvConverterReviewData.RefDataList<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId.Reference> {
+        GvConverterReviewData.RefDataList<DataAuthorId, GvAuthorId, GvAuthorIdList, GvAuthorId
+                .Reference> {
     private final AuthorsRepo mRepo;
 
     public GvConverterAuthorIds(AuthorsRepo repo) {

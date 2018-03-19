@@ -12,8 +12,8 @@ import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribableReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
@@ -43,10 +43,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
     private boolean mIsAttached = false;
     private SubscribableReference<GvDataList<T>> mReference;
 
-    protected ReviewViewAdapterBasic() {
-        this(null);
-    }
-
     public ReviewViewAdapterBasic(@Nullable GridDataWrapper<T> wrapper) {
         mWrapper = wrapper;
         mReference = new SubscribableReference<GvDataList<T>>() {
@@ -55,6 +51,10 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> extends DataObser
                 callback.onDereferenced(new DataValue<>(getGridData()));
             }
         };
+    }
+
+    protected ReviewViewAdapterBasic() {
+        this(null);
     }
 
     protected GridDataWrapper<T> getWrapper() {

@@ -55,19 +55,20 @@ public class GvDataType<T extends GvData> implements Parcelable {
         mDataName = forNaming.getDataName();
     }
 
+    public GvDataType(Parcel in) {
+        this((GvDataType<T>) loadFromParcel(in));
+    }
+
     private GvDataType(GvDataType<T> dataType) {
         mDataClass = dataType.getDataClass();
         mDatumName = dataType.getDatumName();
         mDataName = dataType.getDataName();
     }
 
-    public GvDataType(Parcel in) {
-        this((GvDataType<T>) loadFromParcel(in));
-    }
-
     public static GvDataType<? extends GvData> loadFromParcel(Parcel in) {
         try {
-            Class<? extends GvData> aClass = (Class<? extends GvData>) Class.forName(in.readString());
+            Class<? extends GvData> aClass = (Class<? extends GvData>) Class.forName(in
+                    .readString());
             return new GvDataType<>(aClass, in.readString(), in.readString());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -162,8 +163,8 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
 
     @NonNull
     private Firebase.AuthResultHandler getResultHandler(final CredentialsAuthenticator.Callback
-                                                                    callback, final
-    String provider) {
+                                                                callback, final
+                                                        String provider) {
         return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
@@ -185,7 +186,7 @@ public class FbAuthenticator implements UserAuthenticator, Firebase.AuthStateLis
 
     private void notifyOnAuthenticated(AuthData authData, String provider,
                                        CredentialsAuthenticator.Callback
-            callback) {
+                                               callback) {
         AuthenticatedUser user
                 = mUsersFactory.newAuthenticatedUser(provider, authData.getUid());
         callback.onAuthenticated(user);

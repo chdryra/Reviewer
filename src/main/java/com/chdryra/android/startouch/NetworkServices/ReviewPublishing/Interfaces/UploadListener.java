@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey

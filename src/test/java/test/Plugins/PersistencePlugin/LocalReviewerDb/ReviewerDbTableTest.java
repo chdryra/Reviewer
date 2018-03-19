@@ -22,7 +22,8 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.ForeignKeyConstraint;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ColumnInfo;
 
 import org.junit.Test;
 
@@ -48,7 +49,6 @@ public abstract class ReviewerDbTableTest<T extends DbTableRow> {
 
     protected abstract DbTable<T> getTableToTest(FactoryDbColumnDef colFactory,
                                                  FactoryForeignKeyConstraint constraintFactory);
-    protected void setFkConstraints() {};
 
     public ReviewerDbTableTest(String tableName, ColumnInfo<?>[] cols, ColumnInfo<?>[] nullables) {
         mTableName = tableName;
@@ -57,6 +57,8 @@ public abstract class ReviewerDbTableTest<T extends DbTableRow> {
         mTableToTest = getTableToTest(new FactoryDbColumnDef(), new FactoryForeignKeyConstraint());
         setFkConstraints();
     }
+
+    ;
 
     @Test
     public void tableNameIsCorrect() {
@@ -77,7 +79,7 @@ public abstract class ReviewerDbTableTest<T extends DbTableRow> {
         ArrayList<DbColumnDefinition> cols = mTableToTest.getColumns();
         assertThat(cols.size(), is(mCols.length));
 
-        for(int i = 0; i < cols.size(); ++i) {
+        for (int i = 0; i < cols.size(); ++i) {
             checkColumn(cols.get(i), mCols[i]);
         }
     }
@@ -85,13 +87,13 @@ public abstract class ReviewerDbTableTest<T extends DbTableRow> {
     @Test
     public void checkNullabilityOfColumns() {
         ArrayList<String> nullables = new ArrayList<>();
-        for(ColumnInfo<?> col : mNullables) {
+        for (ColumnInfo<?> col : mNullables) {
             nullables.add(col.getName());
         }
-        
-        for(ColumnInfo<?> col : mCols) {
+
+        for (ColumnInfo<?> col : mCols) {
             DbColumnDefinition column = mTableToTest.getColumn(col.getName());
-            if(nullables.contains(column.getName())) {
+            if (nullables.contains(column.getName())) {
                 assertThat(column.getNullable(), is(ValueNullable.TRUE));
             } else {
                 assertThat(column.getNullable(), is(ValueNullable.FALSE));
@@ -102,21 +104,24 @@ public abstract class ReviewerDbTableTest<T extends DbTableRow> {
     @Test
     public void checkConstraints() {
         ArrayList<ForeignKeyConstraint<?>> constraints = mTableToTest.getForeignKeyConstraints();
-        for(ForeignKeyConstraint<?> constraint : constraints) {
+        for (ForeignKeyConstraint<?> constraint : constraints) {
             DbTable<?> table = constraint.getForeignTable();
             ArrayList<DbColumnDefinition> fkCols = constraint.getFkColumns();
             ArrayList<ColumnInfo<?>> expected = mFkMap.get(table);
             assertNotNull(expected);
             assertThat(fkCols.size(), is(expected.size()));
-            for(int i = 0; i < expected.size(); ++i) {
+            for (int i = 0; i < expected.size(); ++i) {
                 assertThat(fkCols.get(i).getName(), is(expected.get(i).getName()));
             }
         }
     }
 
+    protected void setFkConstraints() {
+    }
+
     protected void addConstraint(DbTable<?> table, ColumnInfo<?> col) {
         ArrayList<ColumnInfo<?>> cols = mFkMap.get(table);
-        if(cols == null) {
+        if (cols == null) {
             cols = new ArrayList<>();
             mFkMap.put(table, cols);
         }

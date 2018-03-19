@@ -8,6 +8,7 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Factories;
 
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
@@ -17,7 +18,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumIm
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumTag;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
@@ -28,7 +29,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey

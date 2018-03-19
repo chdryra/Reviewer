@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import android.os.Bundle;
@@ -57,13 +57,14 @@ public class OptionsSelector extends Command {
     public void execute(Collection<String> options, @Nullable String currentlySelected) {
         mOptions = new ArrayList<>(options);
         mCurrentlySelected = currentlySelected;
-        mCode = RequestCodeGenerator.getCode(OptionsSelector.class, TextUtils.commaDelimited(mOptions));
+        mCode = RequestCodeGenerator.getCode(OptionsSelector.class, TextUtils.commaDelimited
+                (mOptions));
         execute();
     }
 
     @Override
     public void execute() {
-        if(mOptions == null) return;
+        if (mOptions == null) return;
 
         Bundle args = new Bundle();
         args.putStringArrayList(OPTIONS, mOptions);

@@ -12,7 +12,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.ComparitorReview;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.testutils.ExceptionTester;
 

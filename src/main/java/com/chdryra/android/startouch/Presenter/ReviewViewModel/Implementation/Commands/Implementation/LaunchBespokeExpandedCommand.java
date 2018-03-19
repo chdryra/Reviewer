@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.ReviewLauncher;
 
 /**
@@ -41,6 +43,6 @@ public class LaunchBespokeExpandedCommand extends LaunchBespokeViewCommand {
             e.printStackTrace();
         }
 
-        if(adapter != null) execute(adapter.getNode(), 0, true);
+        if (adapter != null) execute(adapter.getNode(), 0, true);
     }
 }

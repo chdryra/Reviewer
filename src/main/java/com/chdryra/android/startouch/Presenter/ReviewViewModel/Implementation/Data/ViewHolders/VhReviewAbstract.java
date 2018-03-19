@@ -18,13 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chdryra.android.corelibrary.AsyncUtils.DelayTask;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumRating;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
@@ -39,23 +40,25 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
         .FactoryReviewOptions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.BookmarkCommand;
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.BookmarkCommand;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
         .Implementation.LaunchProfileCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ReviewOptionsSelector;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.ShareCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.CacheVhNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ReviewOptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.ShareCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .CacheVhNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 import com.chdryra.android.startouch.R;
 import com.chdryra.android.startouch.Utils.RatingFormatter;
 
@@ -343,7 +346,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void clickProfile() {
-        if(mReview != null) mLaunchProfile.execute(mReview.getAuthorId());
+        if (mReview != null) mLaunchProfile.execute(mReview.getAuthorId());
     }
 
     private void underConstruction() {
@@ -424,7 +427,7 @@ public class VhReviewAbstract extends ViewHolderBasic implements ReviewSelector
     }
 
     private void setProfileImage(@Nullable Bitmap profile) {
-        if(profile == null) {
+        if (profile == null) {
             getView(PROFILE_IMAGE).setBackgroundResource(PROFILE_PLACEHOLDER);
         } else {
             setImage(PROFILE_IMAGE, profile);

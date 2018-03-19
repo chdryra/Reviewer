@@ -8,8 +8,7 @@ import com.chdryra.android.startouch.Application.ApplicationInstance;
 import com.chdryra.android.startouch.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
@@ -138,7 +137,7 @@ public class ReviewsFeedTest extends InstrumentationTestCase {
     private MdCommentList getComments() {
         MdIdableCollection<Review> reviews = mRepo.getReviews();
         MdCommentList comments = new MdCommentList(null);
-        for(Review review : reviews) {
+        for (Review review : reviews) {
             comments.addList(review.getComments());
         }
 

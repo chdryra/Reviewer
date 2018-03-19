@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import com.chdryra.android.corelibrary.OtherUtils.DataGetter;
@@ -18,7 +19,7 @@ import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class WrapperBinder<ObjectType, DataType> extends DataBinder<ObjectType>{
+public class WrapperBinder<ObjectType, DataType> extends DataBinder<ObjectType> {
     public WrapperBinder(final Bindable<DataType> bindable,
                          DataReference<ObjectType> reference,
                          final DataGetter<ObjectType, DataType> getter) {

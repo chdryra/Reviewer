@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 
 import android.app.Fragment;
@@ -17,7 +17,8 @@ import android.os.Bundle;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentLogin;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -43,7 +44,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null) mFragment = ((FragmentLogin) getFragment());
+        if (savedInstanceState != null) mFragment = ((FragmentLogin) getFragment());
         AppInstanceAndroid.setActivity(this);
     }
 
@@ -55,7 +56,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
 
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
-        if(mFragment == null) mFragment = FragmentLogin.newInstance();
+        if (mFragment == null) mFragment = FragmentLogin.newInstance();
         return mFragment;
     }
 

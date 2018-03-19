@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Bitmap;
@@ -29,7 +29,8 @@ import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataRef
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.Styles;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces.ReviewViewContainerLayout;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Interfaces.ReviewViewContainerLayout;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.ButtonAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
@@ -91,10 +92,13 @@ public class ReviewEditLayout implements ReviewViewContainerLayout {
         ReviewViewAdapter<T> adapter = reviewView.getAdapter();
 
         mMenu = newMenuUi(actions.getMenuAction());
-        mSubject = bindSubject(adapter.getSubjectReference(), actions.getSubjectAction(), params.getSubjectParams());
-        mRating = bindRating(adapter.getRatingReference(), actions.getRatingBarAction(), params.getRatingBarParams());
+        mSubject = bindSubject(adapter.getSubjectReference(), actions.getSubjectAction(), params
+                .getSubjectParams());
+        mRating = bindRating(adapter.getRatingReference(), actions.getRatingBarAction(), params
+                .getRatingBarParams());
         mBanner = bindBanner(actions.getBannerButtonAction(), params.getBannerButtonParams());
-        mGridData = bindGridView(adapter.getGridDataReference(), actions.getGridItemAction(), params.getGridViewParams(), calculator);
+        mGridData = bindGridView(adapter.getGridDataReference(), actions.getGridItemAction(),
+                params.getGridViewParams(), calculator);
         mCover = bindCover(adapter.getCoverReference());
         mContextual = newContextUi(actions.getContextualAction(), params.getContextViewParams());
     }
@@ -155,10 +159,12 @@ public class ReviewEditLayout implements ReviewViewContainerLayout {
     }
 
     @NonNull
-    private DataBinder<String> newContextUi(@Nullable ButtonAction<?> action, ReviewViewParams.ContextView params) {
+    private DataBinder<String> newContextUi(@Nullable ButtonAction<?> action, ReviewViewParams
+            .ContextView params) {
         ContextUi ui = new ContextUi(mView.findViewById(CONTEXT_VIEW), CONTEXT_BUTTON,
                 action, params, CONTEXT_DECORATOR);
-        return new DataBinder<>(ui, action != null ? action.getTitle() : new NullDataReference<String>());
+        return new DataBinder<>(ui, action != null ? action.getTitle() : new
+                NullDataReference<String>());
     }
 
     @NonNull
@@ -186,14 +192,16 @@ public class ReviewEditLayout implements ReviewViewContainerLayout {
 
 
     @NonNull
-    private DataBinder<String> bindBanner(ButtonAction<?> action, ReviewViewParams.BannerButton params) {
+    private DataBinder<String> bindBanner(ButtonAction<?> action, ReviewViewParams.BannerButton
+            params) {
         BannerButtonUi ui = new BannerButtonUi((Button) mView.findViewById(BANNER),
                 action, params.getAlpha(), BANNER_DECORATOR);
         return new DataBinder<>(ui, action.getTitle());
     }
 
     @NonNull
-    private DataBinder<Float> bindRating(DataReference<Float> rating, RatingBarAction<?> action, ReviewViewParams.RatingBar params) {
+    private DataBinder<Float> bindRating(DataReference<Float> rating, RatingBarAction<?> action,
+                                         ReviewViewParams.RatingBar params) {
         mRatingUi = new RatingBarRvUi((FrameLayout) mView.findViewById(RATING), action, params);
         return new DataBinder<>(mRatingUi, rating);
     }

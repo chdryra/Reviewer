@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -17,9 +18,11 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentEditLocationMap;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Utils.ParcelablePacker;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -66,13 +69,6 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
         mFragment.handleSearch();
     }
 
-    @Nullable
-    private GvLocation getBundledLocation() {
-        Bundle args = getIntent().getBundleExtra(LOCATION);
-        return args != null ?
-                mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
-    }
-
     @Override
     public void onDelete(GvLocation location, Intent returnResult) {
         mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, location, returnResult);
@@ -80,14 +76,24 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Override
     public void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult) {
-        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, currentLocation, returnResult);
-        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newLocation , returnResult);
+        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, currentLocation,
+                returnResult);
+        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newLocation, returnResult);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        AppInstanceAndroid.getInstance(this).onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AppInstanceAndroid.getInstance(this).onRequestPermissionsResult(requestCode, permissions,
+                grantResults);
+    }
+
+    @Nullable
+    private GvLocation getBundledLocation() {
+        Bundle args = getIntent().getBundleExtra(LOCATION);
+        return args != null ?
+                mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new
+                GvLocation();
     }
 }

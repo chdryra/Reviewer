@@ -68,18 +68,21 @@ public class FactoryReviewOptions {
             commands.add(delete(reviewId));
         }
 
-        return new ReviewOptions(commands, share(reviewId), bookmark(session.getAuthorId(), reviewId));
+        return new ReviewOptions(commands, share(reviewId), bookmark(session.getAuthorId(),
+                reviewId));
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.SelectorType
                                                                   selectorType) {
-        return new ReviewOptionsSelector(newOptionsSelector(), mLaunchCommands, getSession(), selectorType);
+        return new ReviewOptionsSelector(newOptionsSelector(), mLaunchCommands, getSession(),
+                selectorType);
     }
 
     public ReviewOptionsSelector newReviewOptionsSelector(ReviewOptionsSelector.SelectorType
                                                                   selectorType, DataAuthorId
                                                                   authorId) {
-        return new ReviewOptionsSelector(newOptionsSelector(), mLaunchCommands, getSession(), selectorType,
+        return new ReviewOptionsSelector(newOptionsSelector(), mLaunchCommands, getSession(),
+                selectorType,
                 authorId);
     }
 
@@ -101,6 +104,18 @@ public class FactoryReviewOptions {
         return mApp.getAccounts().getUserSession();
     }
 
+    private RepositorySuite getRepo() {
+        return mApp.getRepository();
+    }
+
+    private CurrentScreen getScreen() {
+        return mApp.getUi().getCurrentScreen();
+    }
+
+    private UiLauncher getLauncher() {
+        return mApp.getUi().getLauncher();
+    }
+
     private Command newLaunchEditorCommand(final ReviewId toEdit) {
         return new Command() {
             @Override
@@ -110,6 +125,7 @@ public class FactoryReviewOptions {
             }
         };
     }
+
     private boolean isReviewAuthor(DataAuthorId authorId, UserSession session) {
         return authorId.toString().equals(session.getAuthorId().toString());
     }
@@ -122,7 +138,8 @@ public class FactoryReviewOptions {
     @NonNull
     private BookmarkCommand bookmark(AuthorId authorId, ReviewId reviewId) {
         return new BookmarkCommand(reviewId,
-                getRepo().getReviews().getCollectionForAuthor(authorId, Strings.Playlists.BOOKMARKS));
+                getRepo().getReviews().getCollectionForAuthor(authorId, Strings.Playlists
+                        .BOOKMARKS));
     }
 
     @NonNull
@@ -138,19 +155,8 @@ public class FactoryReviewOptions {
 
     @NonNull
     private ShareCommand share(ReviewId reviewId) {
-        return new ShareCommand(reviewId, getRepo().getReviews(), getScreen(), mApp.getSocial().newPublisher());
-    }
-
-    private RepositorySuite getRepo() {
-        return mApp.getRepository();
-    }
-
-    private CurrentScreen getScreen() {
-        return mApp.getUi().getCurrentScreen();
-    }
-
-    private UiLauncher getLauncher() {
-        return mApp.getUi().getLauncher();
+        return new ShareCommand(reviewId, getRepo().getReviews(), getScreen(), mApp.getSocial()
+                .newPublisher());
     }
 
 }

@@ -30,14 +30,14 @@ public class VisitorDataGetter<T extends HasReviewId> implements VisitorReviewNo
         mGetter = getter;
     }
 
+    public IdableList<T> getData() {
+        return mData == null ? new IdableDataList<T>(null) : mData;
+    }
+
     @Override
     public void visit(@NonNull ReviewNode node) {
         T data = mGetter.getData(node);
-        if(data != null) getDataList(node).add(data);
-    }
-
-    public IdableList<T> getData() {
-        return mData == null ? new IdableDataList<T>(null) : mData;
+        if (data != null) getDataList(node).add(data);
     }
 
     private IdableList<T> getDataList(@NonNull ReviewNode node) {

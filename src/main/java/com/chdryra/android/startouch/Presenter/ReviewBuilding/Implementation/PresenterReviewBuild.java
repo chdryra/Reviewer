@@ -30,7 +30,7 @@ import com.chdryra.android.startouch.View.LauncherModel.Implementation.ReviewPac
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewBuild implements ActivityResultListener, PublishAction.PublishCallback{
+public class PresenterReviewBuild implements ActivityResultListener, PublishAction.PublishCallback {
 
     private final CurrentScreen mScreen;
 
@@ -41,17 +41,17 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
         mScreen = screen;
     }
 
-    private void setSuite(EditorSuite suite) {
-        mSuite = suite;
-        mEditor = suite.getEditor();
-    }
-
     public ReviewEditor getEditor() {
         return mEditor;
     }
 
-    private void showToast(String publishing) {
-        mScreen.showToast(publishing);
+    public void onBackPressed() {
+        mSuite.discardEditor(true, new EditorSuite.DiscardListener() {
+            @Override
+            public void onDiscarded(boolean discardConfirmed) {
+                if (discardConfirmed) mEditor.getCurrentScreen().close();
+            }
+        });
     }
 
     @Override
@@ -73,13 +73,13 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
         getEditor().onActivityResult(requestCode, resultCode, data);
     }
 
-    public void onBackPressed() {
-        mSuite.discardEditor(true, new EditorSuite.DiscardListener() {
-            @Override
-            public void onDiscarded(boolean discardConfirmed) {
-                if(discardConfirmed) mEditor.getCurrentScreen().close();
-            }
-        });
+    private void setSuite(EditorSuite suite) {
+        mSuite = suite;
+        mEditor = suite.getEditor();
+    }
+
+    private void showToast(String publishing) {
+        mScreen.showToast(publishing);
     }
 
     public static class Builder {
@@ -96,10 +96,12 @@ public class PresenterReviewBuild implements ActivityResultListener, PublishActi
             LocationClient client = app.getGeolocation().newLocationClient();
             EditorSuite suite = app.getEditor();
             ReviewPublisher publisher = app.getRepository().getReviewPublisher();
-            PresenterReviewBuild presenter = new PresenterReviewBuild(app.getUi().getCurrentScreen());
-            if(suite.getEditor() == null) {
-                if(mReview == null || mTemplateOrEdit == ReviewPack.TemplateOrEdit.TEMPLATE) {
-                    suite.createReviewCreator(Settings.BuildReview.DEFAULT_EDIT_MODE, client, mReview);
+            PresenterReviewBuild presenter = new PresenterReviewBuild(app.getUi()
+                    .getCurrentScreen());
+            if (suite.getEditor() == null) {
+                if (mReview == null || mTemplateOrEdit == ReviewPack.TemplateOrEdit.TEMPLATE) {
+                    suite.createReviewCreator(Settings.BuildReview.DEFAULT_EDIT_MODE, client,
+                            mReview);
                 } else {
                     suite.createReviewEditor(client, mReview, publisher, presenter);
                 }

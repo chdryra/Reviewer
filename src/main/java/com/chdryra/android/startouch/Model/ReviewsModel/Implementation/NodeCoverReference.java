@@ -11,13 +11,13 @@ package com.chdryra.android.startouch.Model.ReviewsModel.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.InvalidatableReferenceBasic;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.InvalidatableReferenceBasic;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
@@ -33,7 +33,8 @@ import java.util.Collections;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NodeCoverReference extends InvalidatableReferenceBasic<DataImage> implements
-        ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference.InvalidationListener {
+        ReviewItemReference<DataImage>, ReviewNode.NodeObserver, DataReference
+        .InvalidationListener {
     private final ReviewNode mRoot;
     private final ArrayList<ValueSubscriber<DataImage>> mBinders;
     private ReviewItemReference<ReviewReference> mReview;
@@ -137,7 +138,7 @@ public class NodeCoverReference extends InvalidatableReferenceBasic<DataImage> i
 
     private void findReviewWithCover(final ArrayList<ReviewItemReference<ReviewReference>> list,
                                      final int index, final ChoiceCallback callback) {
-        if(index >= list.size()) {
+        if (index >= list.size()) {
             callback.onChosen(false);
             return;
         }

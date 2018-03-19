@@ -10,6 +10,7 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Algorithms.DataSorting.RatingBucketer;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataRating;
@@ -17,7 +18,6 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ProfileImage;
 import com.chdryra.android.startouch.DataDefinitions.References.Factories.FactoryReferences;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryDataBucketer;
@@ -30,29 +30,46 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishScreenAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonicalCollection;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataListImpl;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterAuthorSearch;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhBucket;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterAuthorSearch;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterComments;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewsList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterCommentsAggregate;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewsList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewTreeFlat;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ViewerAuthors;
@@ -95,7 +112,8 @@ public class FactoryReviewViewAdapter {
 
     //List reviews generating this datum
     public <T extends GvDataRef> ReviewViewAdapter<?> newReviewsListAdapter(T datum,
-                                                                            @Nullable String title) {
+                                                                            @Nullable String
+                                                                                    title) {
         HasReviewId dataValue = datum.getDataValue();
         if (title == null) title = dataValue != null ? dataValue.toString() : datum.toString();
         return newReviewsListAdapter(mReviewSource.asMetaReview(datum, title));
@@ -108,7 +126,7 @@ public class FactoryReviewViewAdapter {
 
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(IdableCollection<T>
                                                                                  data, String
-            title) {
+                                                                                 title) {
         return newReviewsListAdapter(mReviewSource.getMetaReview(data, title));
     }
 

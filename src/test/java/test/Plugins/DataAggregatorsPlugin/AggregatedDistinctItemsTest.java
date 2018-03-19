@@ -16,13 +16,16 @@ import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.Aggre
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation.ComparatorLevenshteinDistance;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,14 +53,16 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     private static final int MAX_EXTRA_DATA = 20;
 
     private static Random RAND = new Random();
-
-    private DataAggregator<T> mAggregator;
     protected Map<T, Integer> mCanonicalsMap;
+    private DataAggregator<T> mAggregator;
 
     @NonNull
-    protected abstract DataAggregator<T> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params);
+    protected abstract DataAggregator<T> newAggregator(DataAggregatorsApi factory,
+                                                       DataAggregatorParams params);
+
     @NonNull
     protected abstract T randomDatum();
+
     @NonNull
     protected abstract T newSimilarDatum(ReviewId reviewId, T template);
 
@@ -69,7 +74,8 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams defaultParams = paramsFactory.getDefaultParams();
-        mAggregator = newAggregator(new DataAggregatorsApiDefault(new ComparatorLevenshteinDistance()), defaultParams);
+        mAggregator = newAggregator(new DataAggregatorsApiDefault(new
+                ComparatorLevenshteinDistance()), defaultParams);
         mCanonicalsMap = new HashMap<>();
     }
 
@@ -81,6 +87,18 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     @Test
     public void separateTypesAggregateIntoSeparatePiles() {
         checkAggregation(nextNumTypes());
+    }
+
+    protected void checkCanonicalItemsSize(T canonical, int size) {
+        assertThat(mCanonicalsMap.get(canonical), is(size));
+    }
+
+    protected void checkCanonicalInMap(T canonical) {
+        assertThat(mCanonicalsMap.containsKey(canonical), is(true));
+    }
+
+    protected T getExampleCanonical(ReviewId id, ArrayList<T> data) {
+        return newSimilarDatum(id, data.get(0));
     }
 
     private void checkAggregation(int numTypes) {
@@ -99,14 +117,6 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
         }
     }
 
-    protected void checkCanonicalItemsSize(T canonical, int size) {
-        assertThat(mCanonicalsMap.get(canonical), is(size));
-    }
-
-    protected void checkCanonicalInMap(T canonical) {
-        assertThat(mCanonicalsMap.containsKey(canonical), is(true));
-    }
-
     @NonNull
     private IdableList<T> getData(ReviewId id, int numTypes) {
         ArrayList<T> dataArray = new ArrayList<>();
@@ -116,10 +126,6 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
         }
 
         return getIdableList(id, dataArray);
-    }
-
-    protected T getExampleCanonical(ReviewId id, ArrayList<T> data) {
-        return newSimilarDatum(id, data.get(0));
     }
 
     @NonNull

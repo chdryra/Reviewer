@@ -6,14 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ProfileSocial;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ProfileSocial;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.Authentication.Implementation.SocialProfileDefault;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -35,7 +37,7 @@ public class ConverterSocialProfile implements SnapshotConverter<SocialProfile> 
     @Override
     public SocialProfile convert(DataSnapshot snapshot) {
         ProfileSocial value = snapshot.getValue(ProfileSocial.class);
-        if(value == null) return null;
+        if (value == null) return null;
         return new SocialProfileDefault(mAuthorId, value.getFollowing(), value.getFollowers());
     }
 }

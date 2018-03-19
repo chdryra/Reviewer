@@ -10,8 +10,8 @@ package test.Model.TreeMethods;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
@@ -69,7 +69,7 @@ public class TreeTraverserIteratedTest {
 
         traverser.traverse();
 
-        for(int i = 0; i < nodes.size(); ++i) {
+        for (int i = 0; i < nodes.size(); ++i) {
             ReviewNode node = nodes.get(i);
             assertThat(visitor1.mSubjects.get(i), is(node.getSubject().getSubject() + "1"));
             assertThat(visitor2.mSubjects.get(i), is(node.getSubject().getSubject() + "2"));
@@ -90,6 +90,7 @@ public class TreeTraverserIteratedTest {
 
     private class Visitor1 implements VisitorReviewNode {
         private ArrayList<String> mSubjects = new ArrayList<>();
+
         @Override
         public void visit(@NonNull ReviewNode reviewNode) {
             mSubjects.add(reviewNode.getSubject().getSubject() + "1");
@@ -100,6 +101,7 @@ public class TreeTraverserIteratedTest {
 
     private class Visitor2 implements VisitorReviewNode {
         private ArrayList<String> mSubjects = new ArrayList<>();
+
         @Override
         public void visit(@NonNull ReviewNode reviewNode) {
             mSubjects.add(reviewNode.getSubject().getSubject() + "2");
@@ -108,6 +110,7 @@ public class TreeTraverserIteratedTest {
 
     private class Visitor3 implements VisitorReviewNode {
         private ArrayList<String> mSubjects = new ArrayList<>();
+
         @Override
         public void visit(@NonNull ReviewNode reviewNode) {
             mSubjects.add(reviewNode.getSubject().getSubject() + "3");

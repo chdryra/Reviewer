@@ -11,14 +11,14 @@ package com.chdryra.android.startouch.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.CollectionReferenceBasic;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
 import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SubscribersManager;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.CollectionReference;
 import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
@@ -33,8 +33,10 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewReference, List<ReviewReference>, Size>
-        implements ReviewsRepoReadable, SubscribersManager.SubscribableCollectionReference<ReviewReference, List<ReviewReference>, Size> {
+public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewReference,
+        List<ReviewReference>, Size>
+        implements ReviewsRepoReadable, SubscribersManager
+        .SubscribableCollectionReference<ReviewReference, List<ReviewReference>, Size> {
     private final ReviewDereferencer mDereferencer;
     private final SizeReferencer mSizeReferencer;
 
@@ -43,11 +45,16 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
         mSizeReferencer = sizeReferencer;
     }
 
+    @Nullable
+    @Override
+    protected List<ReviewReference> getNullValue() {
+        return new ArrayList<>();
+    }
+
     @Override
     public DataReference<Size> getSize() {
         return mSizeReferencer.newSizeReference(this);
     }
-
 
     @Override
     public void getReview(ReviewId reviewId, RepoCallback callback) {
@@ -60,9 +67,9 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
             @Override
             public void onDereferenced(DataValue<List<ReviewReference>> value) {
                 RepoResult result = new RepoResult(CallbackMessage.error("Reference not found"));
-                if(value.hasValue()) {
-                    for(ReviewReference reference : value.getData()) {
-                        if(reference.getReviewId().equals(reviewId)) {
+                if (value.hasValue()) {
+                    for (ReviewReference reference : value.getData()) {
+                        if (reference.getReviewId().equals(reviewId)) {
                             result = new RepoResult(reference);
                             break;
                         }
@@ -78,8 +85,8 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
         doDereferencing(new DereferenceCallback<List<ReviewReference>>() {
             @Override
             public void onDereferenced(DataValue<List<ReviewReference>> value) {
-                if(value.hasValue()) {
-                    for(ReviewReference reference : value.getData()) {
+                if (value.hasValue()) {
+                    for (ReviewReference reference : value.getData()) {
                         subscriber.onItemAdded(reference);
                     }
                 }
@@ -90,12 +97,6 @@ public abstract class RepoReadableBasic extends CollectionReferenceBasic<ReviewR
     @Override
     protected void onUnbinding(ItemSubscriber<ReviewReference> subscriber) {
 
-    }
-
-    @Nullable
-    @Override
-    protected List<ReviewReference> getNullValue() {
-        return new ArrayList<>();
     }
 
     void notifyOnAdd(ReviewReference reference) {

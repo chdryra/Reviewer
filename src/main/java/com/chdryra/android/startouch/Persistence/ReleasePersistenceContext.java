@@ -32,7 +32,8 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                                      PersistencePlugin plugin) {
 
         LocalPlugin local = plugin.getLocal();
-        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, local.getCacheFactory());
+        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, local
+                .getCacheFactory());
         setReposFactory(new FactoryReviewsRepo(cacheFactory));
 
         setLocalRepo(local.newReviewsRepo(model, validator));
@@ -46,6 +47,7 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                 backend.getReviews(model, validator, getRepoFactory(), cache);
         ReviewsRepo cachedReviews =
                 getRepoFactory().newCachedRepo(reviews, cache, model.getReviewsFactory());
-        setReviewsRepo(getRepoFactory().newReviewsNodeRepo(cachedReviews, getAuthorsRepo(), model.getReviewsFactory()));
+        setReviewsRepo(getRepoFactory().newReviewsNodeRepo(cachedReviews, getAuthorsRepo(), model
+                .getReviewsFactory()));
     }
 }

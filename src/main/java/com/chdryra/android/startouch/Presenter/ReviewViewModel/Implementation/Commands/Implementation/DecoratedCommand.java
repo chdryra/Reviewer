@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
@@ -23,7 +24,8 @@ public class DecoratedCommand extends Command {
     private final Command mCommand;
     private final CurrentScreen mScreen;
 
-    public DecoratedCommand(String name, String toastOnExecution, Command command, CurrentScreen screen) {
+    public DecoratedCommand(String name, String toastOnExecution, Command command, CurrentScreen
+            screen) {
         super(name);
         mToastOnExecution = toastOnExecution;
         mScreen = screen;

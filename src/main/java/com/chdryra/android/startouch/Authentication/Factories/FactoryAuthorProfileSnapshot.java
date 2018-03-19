@@ -14,8 +14,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthorProfileDefault;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ProfileImageDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
@@ -28,18 +28,21 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorProfileSnapshot {
-    public AuthorProfileDefault newProfile(String name, AuthorId id, long dateJoined, @Nullable Bitmap photo) {
+    public AuthorProfileDefault newProfile(String name, AuthorId id, long dateJoined, @Nullable
+            Bitmap photo) {
         AuthorName author = new AuthorNameDefault(name, id);
-        return new AuthorProfileDefault(author, new DatumDateTime(dateJoined), new ProfileImageDefault(id, photo));
+        return new AuthorProfileDefault(author, new DatumDateTime(dateJoined), new
+                ProfileImageDefault(id, photo));
     }
 
     public AuthorProfileDefault newProfile(String name, @Nullable Bitmap photo) {
         return newProfile(name, AuthorIdGenerator.newId(), new Date().getTime(), photo);
     }
 
-    public AuthorProfile newUpdatedProfile(AuthorProfile oldProfile, @Nullable String name, @Nullable Bitmap photo) {
+    public AuthorProfile newUpdatedProfile(AuthorProfile oldProfile, @Nullable String name,
+                                           @Nullable Bitmap photo) {
         AuthorName author = oldProfile.getAuthor();
-        if(name == null || name.length() == 0) name = author.getName();
+        if (name == null || name.length() == 0) name = author.getName();
 
         return newProfile(name, author.getAuthorId(), oldProfile.getJoined().getTime(), photo);
     }

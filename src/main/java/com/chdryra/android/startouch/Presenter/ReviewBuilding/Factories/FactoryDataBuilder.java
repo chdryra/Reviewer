@@ -24,7 +24,8 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
@@ -41,8 +42,54 @@ public class FactoryDataBuilder {
         mDataFactory = dataFactory;
     }
 
+    private static DataBuilder.ConstraintResult imageAdd(GvImageList images, GvImage image) {
+        DataBuilder.ConstraintResult res;
+        if (images == null) {
+            res = DataBuilder.ConstraintResult.NULL_LIST;
+        } else if (!image.isValidForDisplay()) {
+            res = DataBuilder.ConstraintResult.INVALID_DATUM;
+        } else {
+            res = !images.contains(image.getBitmap()) ? DataBuilder.ConstraintResult.PASSED :
+                    DataBuilder.ConstraintResult.HAS_DATUM;
+        }
+
+        return res;
+    }
+
+    private static DataBuilder.ConstraintResult childAdd(GvCriterionList children,
+                                                         GvCriterion child) {
+        DataBuilder.ConstraintResult res;
+        if (children == null) {
+            res = DataBuilder.ConstraintResult.NULL_LIST;
+        } else if (child == null || !child.isValidForDisplay()) {
+            res = DataBuilder.ConstraintResult.INVALID_DATUM;
+        } else {
+            res = !children.contains(child.getSubject()) ? DataBuilder.ConstraintResult.PASSED :
+                    DataBuilder.ConstraintResult.HAS_DATUM;
+        }
+        return res;
+    }
+
+    private static DataBuilder.ConstraintResult childReplace(GvCriterionList children,
+                                                             GvCriterion oldChild,
+                                                             GvCriterion newChild) {
+        DataBuilder.ConstraintResult res;
+        if (children == null) {
+            res = DataBuilder.ConstraintResult.NULL_LIST;
+        } else if (oldChild == null || !oldChild.isValidForDisplay() ||
+                newChild == null || !newChild.isValidForDisplay()) {
+            res = DataBuilder.ConstraintResult.INVALID_DATUM;
+        } else {
+            boolean passed = (oldChild.getSubject().equals(newChild.getSubject())
+                    || !children.contains(newChild.getSubject()));
+            res = passed ? DataBuilder.ConstraintResult.PASSED :
+                    DataBuilder.ConstraintResult.HAS_DATUM;
+        }
+        return res;
+    }
+
     public <T extends GvData> DataBuilder<T> newDataBuilder
-    (final GvDataType<T> dataType, ReviewBuilder builder) {
+            (final GvDataType<T> dataType, ReviewBuilder builder) {
         GvDataList<T> data = mDataFactory.newDataList(dataType);
         if (dataType.equals(GvImage.TYPE)) {
             return newImageDataBuilder(data);
@@ -50,7 +97,8 @@ public class FactoryDataBuilder {
             return newCriterionDataBuilder(data);
         } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
-            return (DataBuilder<T>) new GvCommentsBuilder((GvDataList<GvComment>) data, mDataFactory, new CommentsDataParser(builder));
+            return (DataBuilder<T>) new GvCommentsBuilder((GvDataList<GvComment>) data,
+                    mDataFactory, new CommentsDataParser(builder));
         } else {
             return new DataBuilderImpl<>(data, mDataFactory);
         }
@@ -90,57 +138,11 @@ public class FactoryDataBuilder {
     private <T extends GvData> DataBuilder<T> newImageDataBuilder(GvDataList<T> data) {
         return new DataBuilderImpl<>(data, mDataFactory,
                 new AddConstraintDefault<T>() {
-            //Overridden
-            @Override
-            public DataBuilder.ConstraintResult passes(GvDataList<T> data, T datum) {
-                return imageAdd((GvImageList) data, (GvImage) datum);
-            }
-        });
-    }
-
-    private static DataBuilder.ConstraintResult imageAdd(GvImageList images, GvImage image) {
-        DataBuilder.ConstraintResult res;
-        if(images == null) {
-            res = DataBuilder.ConstraintResult.NULL_LIST;
-        } else if (!image.isValidForDisplay()) {
-            res = DataBuilder.ConstraintResult.INVALID_DATUM;
-        } else {
-            res = !images.contains(image.getBitmap()) ? DataBuilder.ConstraintResult.PASSED :
-                    DataBuilder.ConstraintResult.HAS_DATUM;
-        }
-
-        return res;
-    }
-
-    private static DataBuilder.ConstraintResult childAdd(GvCriterionList children,
-                                                           GvCriterion child) {
-        DataBuilder.ConstraintResult res;
-        if(children == null) {
-            res = DataBuilder.ConstraintResult.NULL_LIST;
-        } else if (child == null || !child.isValidForDisplay()) {
-            res = DataBuilder.ConstraintResult.INVALID_DATUM;
-        } else {
-            res = !children.contains(child.getSubject()) ? DataBuilder.ConstraintResult.PASSED :
-                    DataBuilder.ConstraintResult.HAS_DATUM;
-        }
-        return res;
-    }
-
-    private static DataBuilder.ConstraintResult childReplace(GvCriterionList children,
-                                        GvCriterion oldChild,
-                                        GvCriterion newChild) {
-        DataBuilder.ConstraintResult res;
-        if(children == null) {
-            res = DataBuilder.ConstraintResult.NULL_LIST;
-        } else if (oldChild == null || !oldChild.isValidForDisplay() ||
-                newChild == null || !newChild.isValidForDisplay()) {
-            res = DataBuilder.ConstraintResult.INVALID_DATUM;
-        } else {
-            boolean passed = (oldChild.getSubject().equals(newChild.getSubject())
-                    || !children.contains(newChild.getSubject()));
-            res = passed ? DataBuilder.ConstraintResult.PASSED :
-                    DataBuilder.ConstraintResult.HAS_DATUM;
-        }
-        return res;
+                    //Overridden
+                    @Override
+                    public DataBuilder.ConstraintResult passes(GvDataList<T> data, T datum) {
+                        return imageAdd((GvImageList) data, (GvImage) datum);
+                    }
+                });
     }
 }

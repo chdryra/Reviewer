@@ -26,6 +26,11 @@ public class CredentialsProviderEmailPassword extends
     }
 
     @Override
+    protected LoginEmailPassword.Callback getProviderCallback() {
+        return this;
+    }
+
+    @Override
     public void onSuccess(EmailPassword emailPassword) {
         notifyOnSuccess(emailPassword);
     }
@@ -33,10 +38,5 @@ public class CredentialsProviderEmailPassword extends
     @Override
     public void onFailure(String error) {
         notifyOnFailure(error);
-    }
-
-    @Override
-    protected LoginEmailPassword.Callback getProviderCallback() {
-        return this;
     }
 }

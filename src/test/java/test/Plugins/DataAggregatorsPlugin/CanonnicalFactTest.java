@@ -11,13 +11,13 @@ package test.Plugins.DataAggregatorsPlugin;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalFact;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -83,7 +83,7 @@ public class CanonnicalFactTest {
 
     private void newData(boolean variable) {
         mData = newDataList();
-        if(variable) {
+        if (variable) {
             addData(mData, mModeLabel, null, mNumLabelMode);
             addData(mData, null, mModeValue, mNumValueMode);
         } else {
@@ -96,12 +96,13 @@ public class CanonnicalFactTest {
         return new IdableDataList<>(RandomReviewId.nextReviewId());
     }
 
-    private void addData(IdableList<DataFact> data, @Nullable String label, @Nullable String value, int numData) {
+    private void addData(IdableList<DataFact> data, @Nullable String label, @Nullable String
+            value, int numData) {
         boolean randomLabel = label == null;
         boolean randomValue = value == null;
         for (int j = 0; j < numData; ++j) {
-            if(randomLabel) label = RandomString.nextWord();
-            if(randomValue) value = RandomString.nextWord();
+            if (randomLabel) label = RandomString.nextWord();
+            if (randomValue) value = RandomString.nextWord();
             data.add(newDatum(label, value));
         }
     }

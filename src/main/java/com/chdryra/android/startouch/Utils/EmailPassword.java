@@ -16,8 +16,9 @@ import android.os.Parcelable;
  * On: 28/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailPassword implements Parcelable{
-    public static final Parcelable.Creator<EmailPassword> CREATOR = new Parcelable.Creator<EmailPassword>() {
+public class EmailPassword implements Parcelable {
+    public static final Parcelable.Creator<EmailPassword> CREATOR = new Parcelable
+            .Creator<EmailPassword>() {
         @Override
         public EmailPassword createFromParcel(Parcel in) {
             return new EmailPassword(in);

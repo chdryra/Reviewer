@@ -13,7 +13,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey

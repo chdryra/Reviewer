@@ -33,12 +33,12 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
 
         String body = "#" + title + ": ";
         ArrayList<String> headlines = summary.getHeadlines();
-        if(headlines.size() > 0) body += headlines.get(0);
+        if (headlines.size() > 0) body += headlines.get(0);
         int i = 0;
-        for(String tag : summary.getTags()) {
+        for (String tag : summary.getTags()) {
             if (tag.equalsIgnoreCase(subjectTag)) continue;
             body += " " + "#" + tag;
-            if(++i == MAX_TAGS) break;
+            if (++i == MAX_TAGS) break;
         }
 
         body += " #" + APP + " " + SITE;

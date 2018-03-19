@@ -6,24 +6,24 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
 import com.chdryra.android.corelibrary.Aggregation.ItemCounter;
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,12 +39,22 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
 
         String caption = getCaption(data);
         DataImage lastEquivalentBitmap = getLastImage(data, nullImage);
-        if(lastEquivalentBitmap == nullImage) return nullImage;
+        if (lastEquivalentBitmap == nullImage) return nullImage;
         DateTime date = lastEquivalentBitmap.getDate();
         DateTime finalDate = new DatumDate(id, date.getTime());
 
         return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption,
                 lastEquivalentBitmap.getLatLng(), true);
+    }
+
+    @NonNull
+    private ItemCounter<DataImage, String> getCaptionCounter() {
+        return new ItemCounter<>(new ItemGetter<DataImage, String>() {
+            @Override
+            public String getItem(DataImage datum) {
+                return datum.getCaption();
+            }
+        });
     }
 
     private String getCaption(IdableList<? extends DataImage> data) {
@@ -69,12 +79,12 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         DataImage lastImage = null;
         DateTime lastDate = null;
         int i = 0;
-        while(lastDate == null && i < data.size()) {
+        while (lastDate == null && i < data.size()) {
             lastImage = data.get(i++);
             lastDate = lastImage.getDate();
         }
 
-        if(lastDate == null) return reference;
+        if (lastDate == null) return reference;
 
         for (int j = i; j < data.size(); ++j) {
             DataImage image = data.get(j);
@@ -85,7 +95,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
                 break;
             }
 
-            if(imageDate == null) continue;
+            if (imageDate == null) continue;
 
             if (imageDate.getTime() > lastDate.getTime()) {
                 lastImage = image;
@@ -94,16 +104,6 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         }
 
         return lastImage;
-    }
-
-    @NonNull
-    private ItemCounter<DataImage, String> getCaptionCounter() {
-        return new ItemCounter<>(new ItemGetter<DataImage, String>() {
-            @Override
-            public String getItem(DataImage datum) {
-                return datum.getCaption();
-            }
-        });
     }
 
 }

@@ -15,7 +15,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.StringP
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhText;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,16 +37,16 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
         }
     };
 
+    public GvSubject(@Nullable GvReviewId id, String subject) {
+        super(TYPE, id, subject);
+    }
+
     private GvSubject() {
         super(TYPE);
     }
 
     private GvSubject(String subject) {
         super(TYPE, subject);
-    }
-
-    public GvSubject(@Nullable GvReviewId id, String subject) {
-        super(TYPE, id, subject);
     }
 
     private GvSubject(GvSubject subject) {

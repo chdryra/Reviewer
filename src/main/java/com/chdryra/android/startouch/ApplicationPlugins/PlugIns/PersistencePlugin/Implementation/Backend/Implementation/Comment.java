@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
-
-
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 import java.util.List;
 
@@ -37,9 +37,14 @@ public class Comment {
     public Comment(DataComment comment) {
         String commentString = comment.getComment();
         headline = comment.isHeadline();
-        sentences = DataFormatter.split(new DatumComment(comment.getReviewId(), commentString, headline), false);
+        sentences = DataFormatter.split(new DatumComment(comment.getReviewId(), commentString,
+                headline), false);
         string = commentString.replaceAll("\n", "<\n>");
         numSentences = sentences.size();
+    }
+
+    public static int size() {
+        return 4;
     }
 
     public String getString() {
@@ -60,9 +65,5 @@ public class Comment {
 
     public String toComment() {
         return string.replaceAll("<\\n>", "\n");
-    }
-
-    public static int size() {
-        return 4;
     }
 }

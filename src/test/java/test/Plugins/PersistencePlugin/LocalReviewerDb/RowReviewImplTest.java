@@ -10,9 +10,12 @@ package test.Plugins.PersistencePlugin.LocalReviewerDb;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowReviewImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowReviewImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 
@@ -30,7 +33,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImpl>{
+public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImpl> {
 
     public RowReviewImplTest() {
         super(RowReview.REVIEW_ID.getName(), 7);

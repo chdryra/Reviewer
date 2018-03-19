@@ -10,7 +10,8 @@ package test.Plugins.PersistencePlugin.BackendFirebase.TestUtils;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
 
 import org.hamcrest.Matcher;
 
@@ -35,13 +36,13 @@ public class StructureTester<T> {
     private T mData;
     private Testable<T> mTestable;
 
+    public interface Testable<T> {
+        void testStructure(StructureTester<T> tester);
+    }
+
     public StructureTester(DbUpdater<T> structure, Testable<T> testable) {
         mStructure = structure;
         mTestable = testable;
-    }
-
-    public interface Testable<T> {
-        void testStructure(StructureTester<T> tester);
     }
 
     public T getTestData() {
@@ -58,18 +59,18 @@ public class StructureTester<T> {
         testStructureWithType(DbUpdater.UpdateType.DELETE);
     }
 
-    public void testStructureWithType(DbUpdater.UpdateType updateType){
+    public void testStructureWithType(DbUpdater.UpdateType updateType) {
         mUpdateType = updateType;
-        if(mData != null) {
+        if (mData != null) {
             mUpdatesMap = mStructure.getUpdatesMap(mData, mUpdateType);
-        } else{
+        } else {
             fail("no data set!");
             return;
         }
 
-        if(mTestable != null) {
+        if (mTestable != null) {
             mTestable.testStructure(this);
-        } else{
+        } else {
             fail("No Testable set!");
         }
     }
@@ -78,23 +79,8 @@ public class StructureTester<T> {
         checkMapSize(mUpdatesMap, size);
     }
 
-    private void checkMapSize(Map<String, Object> map, int size) {
-        assertThat(map, not(nullValue()));
-        assertThat(map.size(), is(size));
-    }
-
     public void checkKeyValue(String key, @Nullable Object value) {
         checkKeyValue(mUpdatesMap, key, value);
-    }
-
-    private void checkKeyValue(Map<String, Object> map, String key, @Nullable Object value) {
-        assertThat(map.containsKey(key), is(true));
-        assertThat(map.get(key), isValue(value));
-    }
-
-    private Matcher<Object> isValue(@Nullable Object value) {
-        boolean isDelete = mUpdateType == DbUpdater.UpdateType.DELETE;
-        return isDelete || value == null ? nullValue() : is(value);
     }
 
     public <T> void checkKeyList(String key, List<T> reviewItems, List<DataGetter<T, ?>> getters) {
@@ -118,6 +104,21 @@ public class StructureTester<T> {
         } catch (ClassCastException e) {
             fail();
         }
+    }
+
+    private void checkMapSize(Map<String, Object> map, int size) {
+        assertThat(map, not(nullValue()));
+        assertThat(map.size(), is(size));
+    }
+
+    private void checkKeyValue(Map<String, Object> map, String key, @Nullable Object value) {
+        assertThat(map.containsKey(key), is(true));
+        assertThat(map.get(key), isValue(value));
+    }
+
+    private Matcher<Object> isValue(@Nullable Object value) {
+        boolean isDelete = mUpdateType == DbUpdater.UpdateType.DELETE;
+        return isDelete || value == null ? nullValue() : is(value);
     }
 
     private <In> void checkMapping(Map<String, Object> objectMap,

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.widget.TextView;
@@ -28,6 +29,6 @@ public class TextUi<T extends TextView> extends SimpleViewUi<T, String> {
 
     @Override
     public void update(String s) {
-        if(!getValue().equals(s)) getView().setText(s);
+        if (!getValue().equals(s)) getView().setText(s);
     }
 }

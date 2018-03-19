@@ -44,7 +44,8 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
     }
 
     @Override
-    public void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template) {
+    public void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client,
+                                    @Nullable Review template) {
         mReviewEditor = mViewFactory.newReviewCreator(editMode, client, template);
     }
 
@@ -62,8 +63,9 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
     @Override
     public void discardEditor(boolean showAlert, @Nullable final DiscardListener listener) {
         mDiscardListener = listener;
-        if(showAlert) {
-            mReviewEditor.getCurrentScreen().showAlert(Strings.Alerts.DISCARD_REVIEW, ALERT, this, new Bundle());
+        if (showAlert) {
+            mReviewEditor.getCurrentScreen().showAlert(Strings.Alerts.DISCARD_REVIEW, ALERT,
+                    this, new Bundle());
         } else {
             discard();
         }
@@ -74,15 +76,9 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
         return mFactoryImageChooser.newImageChooser(fileName);
     }
 
-    private void discard() {
-        if(mDiscardListener != null) mDiscardListener.onDiscarded(true);
-        mReviewEditor = null;
-        mDiscardListener = null;
-    }
-
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
-        if(mDiscardListener != null) {
+        if (mDiscardListener != null) {
             mDiscardListener.onDiscarded(false);
             mDiscardListener = null;
         }
@@ -91,6 +87,12 @@ public class EditorSuiteAndroid implements EditorSuite, AlertListener {
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         discard();
+    }
+
+    private void discard() {
+        if (mDiscardListener != null) mDiscardListener.onDiscarded(true);
+        mReviewEditor = null;
+        mDiscardListener = null;
     }
 }
 

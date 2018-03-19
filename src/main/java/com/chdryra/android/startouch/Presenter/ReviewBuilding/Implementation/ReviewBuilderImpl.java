@@ -20,14 +20,19 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryD
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.DataObservableDefault;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .DataObservableDefault;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +54,9 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
     private float mRating;
     private boolean mIsAverage = false;
 
-    public enum TemplateOrEdit {TEMPLATE, EDIT};
+    public enum TemplateOrEdit {TEMPLATE, EDIT}
+
+    ;
 
     public ReviewBuilderImpl(FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
@@ -70,7 +77,7 @@ public class ReviewBuilderImpl extends DataObservableDefault implements ReviewBu
                              FactoryDataBuilder dataBuilderFactory,
                              DataValidator dataValidator) {
         this(reviewFactory, dataBuilderFactory, dataValidator);
-        if(templateOrEdit.equals(TemplateOrEdit.TEMPLATE)) {
+        if (templateOrEdit.equals(TemplateOrEdit.TEMPLATE)) {
             initialiser.useTemplate(this, review);
         } else {
             mReviewId = review.getReviewId();

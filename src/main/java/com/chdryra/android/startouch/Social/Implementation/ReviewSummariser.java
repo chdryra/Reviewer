@@ -12,7 +12,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils.DataFormatter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.Utils
+        .DataFormatter;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class ReviewSummariser {
 
     private ArrayList<String> getTags(Review review) {
         ArrayList<String> tags = new ArrayList<>();
-        for(DataTag tag : review.getTags()) {
+        for (DataTag tag : review.getTags()) {
             tags.add(tag.getTag());
         }
         return tags;
@@ -40,8 +41,8 @@ public class ReviewSummariser {
 
     private ArrayList<String> getHeadlines(Review review) {
         ArrayList<String> headlines = new ArrayList<>();
-        for(DataComment comment : review.getComments()) {
-            if(comment.isHeadline()) {
+        for (DataComment comment : review.getComments()) {
+            if (comment.isHeadline()) {
                 headlines.add(DataFormatter.getFirstSentence(comment));
             }
         }
@@ -51,7 +52,7 @@ public class ReviewSummariser {
 
     private ArrayList<String> getLocationNames(Review review) {
         ArrayList<String> mNames = new ArrayList<>();
-        for(DataLocation location : review.getLocations()) {
+        for (DataLocation location : review.getLocations()) {
             mNames.add(location.getName());
         }
 

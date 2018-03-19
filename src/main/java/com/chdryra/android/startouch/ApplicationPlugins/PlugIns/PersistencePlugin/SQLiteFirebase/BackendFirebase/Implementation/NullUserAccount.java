@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
@@ -25,6 +26,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
  */
 public class NullUserAccount implements UserAccount {
     private final AuthenticatedUser mUser;
+
     public NullUserAccount() {
         mUser = new AuthenticatedUser();
     }

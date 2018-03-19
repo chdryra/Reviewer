@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.widget.TextView;
@@ -31,11 +31,11 @@ public class SubjectUi<T extends TextView> extends TextUi<T> {
         updateTextCache();
     }
 
-    void updateTextCache() {
-        mTextCache = getValue();
-    }
-
     String getTextCache() {
         return mTextCache;
+    }
+
+    void updateTextCache() {
+        mTextCache = getValue();
     }
 }

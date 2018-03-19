@@ -11,11 +11,14 @@ package com.chdryra.android.startouch.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
@@ -178,6 +181,13 @@ public class GvCommentListTest extends TestCase {
         assertTrue(isSorted());
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mList = new GvCommentList();
+    }
+
     //private methods
     private boolean isSorted() {
         assertTrue(mList.size() > 0);
@@ -193,12 +203,5 @@ public class GvCommentListTest extends TestCase {
         }
 
         return isSorted;
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        mList = new GvCommentList();
     }
 }

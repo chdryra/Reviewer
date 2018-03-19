@@ -16,7 +16,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements SubjectAction<T> {
+public class SubjectEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements
+        SubjectAction<T> {
 
     @Override
     public void onKeyboardDone(CharSequence s) {

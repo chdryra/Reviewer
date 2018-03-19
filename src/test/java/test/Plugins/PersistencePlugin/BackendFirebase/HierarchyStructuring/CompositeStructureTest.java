@@ -10,12 +10,16 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring
-        .DbStructureBasic;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.Path;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring.StructureBuilder;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.Path;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring.StructureBuilder;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -23,7 +27,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -76,10 +80,10 @@ public class CompositeStructureTest {
         assertThat(updatesMap.containsKey(key3), is(true));
         assertThat(updatesMap.containsKey(key4), is(true));
 
-        assertThat(updatesMap.get(key1), isDelete ? nullValue() : is((Object)item.getName()));
-        assertThat(updatesMap.get(key2), isDelete ? nullValue() : is((Object)item.getAddress()));
-        assertThat(updatesMap.get(key3), isDelete ? nullValue() : is((Object)item.getAddress()));
-        assertThat(updatesMap.get(key4), isDelete ? nullValue() : is((Object)item.getName()));
+        assertThat(updatesMap.get(key1), isDelete ? nullValue() : is((Object) item.getName()));
+        assertThat(updatesMap.get(key2), isDelete ? nullValue() : is((Object) item.getAddress()));
+        assertThat(updatesMap.get(key3), isDelete ? nullValue() : is((Object) item.getAddress()));
+        assertThat(updatesMap.get(key4), isDelete ? nullValue() : is((Object) item.getName()));
     }
 
     private class NameToAddress extends DbStructureBasic<NameAddress> {
@@ -102,7 +106,8 @@ public class CompositeStructureTest {
         public Map<String, Object> getUpdatesMap(NameAddress item, UpdateType updateType) {
             boolean delete = updateType == UpdateType.DELETE;
             Map<String, Object> updatesMap = new HashMap<>();
-            updatesMap.put(path(item.getAddress(), item.getName()), delete ? null : item.getAddress());
+            updatesMap.put(path(item.getAddress(), item.getName()), delete ? null : item
+                    .getAddress());
             updatesMap.put(item.getAddress(), delete ? null : item.getName());
 
             return updatesMap;

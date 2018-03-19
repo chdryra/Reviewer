@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories;
 
 
 import android.support.annotation.NonNull;
@@ -159,9 +159,12 @@ public class FbDataReferencer {
     }
 
 
-
     public <T> DataReference<T> newNullReference(Class<T> clazz) {
         return new NullDataReference<>();
+    }
+
+    public SentencesCollector newSentencesCollector(IdableList<CommentRef> comments) {
+        return new SentencesCollector(comments);
     }
 
     @NonNull
@@ -170,11 +173,12 @@ public class FbDataReferencer {
                                                                             ReviewItemReference<DataSize> size,
                                                                             ReviewItemConverter<Value> itemConverter) {
         final IdableListConverter<Value> converter = newListConverter(id, itemConverter);
-        return new FbDataListRef<>(id, ref, size, converter, newItemsReferencer(converter.getItemConverter()));
+        return new FbDataListRef<>(id, ref, size, converter, newItemsReferencer(converter
+                .getItemConverter()));
     }
 
     @NonNull
-    private <T extends HasReviewId> ListItemsReferencer<T, ReviewItemReference<T>> 
+    private <T extends HasReviewId> ListItemsReferencer<T, ReviewItemReference<T>>
     newItemsReferencer(final SnapshotConverter<T> converter) {
         return mReferencerFactory.newReferencer(converter);
     }
@@ -182,11 +186,7 @@ public class FbDataReferencer {
     @NonNull
     private <T extends HasReviewId> IdableListConverter<T> newListConverter(ReviewId id,
                                                                             ReviewItemConverter<T>
-                                                                              itemConverter) {
+                                                                                    itemConverter) {
         return new IdableListConverter<>(id, itemConverter);
-    }
-
-    public SentencesCollector newSentencesCollector(IdableList<CommentRef> comments) {
-        return new SentencesCollector(comments);
     }
 }

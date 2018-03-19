@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.ReviewItemConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.ReviewItemConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
@@ -24,7 +27,8 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableListConverter<Value extends HasReviewId> implements SnapshotConverter<IdableList<Value>> {
+public class IdableListConverter<Value extends HasReviewId> implements
+        SnapshotConverter<IdableList<Value>> {
     private final ReviewId mId;
     private final ReviewItemConverter<Value> mReviewItemConverter;
     private final ItemConverter<Value> mItemConverter;
@@ -35,21 +39,21 @@ public class IdableListConverter<Value extends HasReviewId> implements SnapshotC
         mItemConverter = new ItemConverter<>(id, reviewItemConverter);
     }
 
-    protected ReviewId getId() {
-        return mId;
-    }
-
     public SnapshotConverter<Value> getItemConverter() {
         return mItemConverter;
+    }
+
+    protected ReviewId getId() {
+        return mId;
     }
 
     @Override
     @Nullable
     public IdableList<Value> convert(DataSnapshot snapshot) {
         IdableList<Value> data = new IdableDataList<>(mId);
-        for(DataSnapshot item : snapshot.getChildren()) {
+        for (DataSnapshot item : snapshot.getChildren()) {
             Value converted = mReviewItemConverter.convert(mId, item);
-            if(converted != null) data.add(converted);
+            if (converted != null) data.add(converted);
         }
 
         return data;

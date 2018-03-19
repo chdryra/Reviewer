@@ -14,7 +14,8 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
 
 /**
  * Created by: Rizwan Choudrey

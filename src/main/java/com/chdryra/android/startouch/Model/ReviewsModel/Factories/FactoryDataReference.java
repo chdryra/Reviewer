@@ -23,12 +23,12 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Comme
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.NodeCoverReference;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeItemRefSize;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListRefSize;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListReferences;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeCommentListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeDataListRef;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeItemListRef;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeItemRefSize;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListRefSize;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.TreeListReferences;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.VisitorFactory;
@@ -58,11 +58,13 @@ public class FactoryDataReference {
         return mReferenceFactory;
     }
 
-    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeItemListRef<Value> treeRef) {
+    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize
+            (TreeItemListRef<Value> treeRef) {
         return new TreeItemRefSize<>(treeRef);
     }
 
-    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeListReferences<Value, ?, ?> treeRef) {
+    public <Value extends HasReviewId> ReviewItemReference<DataSize> newSize
+            (TreeListReferences<Value, ?, ?> treeRef) {
         return new TreeListRefSize<>(treeRef);
     }
 
@@ -159,13 +161,14 @@ public class FactoryDataReference {
             }
         });
     }
-    
+
     private <Value extends HasReviewId> DataListRef<Value>
     newDataList(ReviewNode root, VisitorFactory.ListVisitor<DataListRef<Value>> visitorFactory) {
         return new TreeDataListRef<>(root, this, mTraverserFactory, visitorFactory);
     }
 
-    private CommentListRef newCommentList(ReviewNode root, VisitorFactory.ListVisitor<CommentListRef> visitorFactory) {
+    private CommentListRef newCommentList(ReviewNode root, VisitorFactory
+            .ListVisitor<CommentListRef> visitorFactory) {
         return new TreeCommentListRef(root, this, mTraverserFactory, visitorFactory);
     }
 

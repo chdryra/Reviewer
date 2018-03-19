@@ -17,7 +17,8 @@ import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
@@ -35,9 +36,11 @@ public interface EditorSuite {
         void onDiscarded(boolean discardConfirmed);
     }
 
-    void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable Review template);
+    void createReviewCreator(ReviewEditor.EditMode editMode, LocationClient client, @Nullable
+            Review template);
 
-    void createReviewEditor(LocationClient client, Review toEdit, ReviewPublisher publisher, PublishAction.PublishCallback callback);
+    void createReviewEditor(LocationClient client, Review toEdit, ReviewPublisher publisher,
+                            PublishAction.PublishCallback callback);
 
     ReviewEditor<?> getEditor();
 

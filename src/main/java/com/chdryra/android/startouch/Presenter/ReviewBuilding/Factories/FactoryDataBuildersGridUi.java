@@ -12,12 +12,13 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Application.Implementation.DataTypeCellOrder;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.BuildScreenGridUiImpl;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.DataBuilderGridCell;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 import java.util.List;
 
@@ -39,8 +40,10 @@ public class FactoryDataBuildersGridUi implements FactoryGridUi<DataBuilderGridC
 
     @NonNull
     private BuildScreenGridUi<DataBuilderGridCell> newGridUiWrapper(List<GvDataType<? extends
-                                                                            GvDataParcelable>>
-                                                                            full, FactoryVhDataCollection vhFactory) {
+            GvDataParcelable>>
+                                                                            full,
+                                                                    FactoryVhDataCollection
+                                                                            vhFactory) {
         BuildScreenGridUiImpl ui = new BuildScreenGridUiImpl(vhFactory);
         for (GvDataType<? extends GvDataParcelable> type : full) {
             ui.addGridCell(type);

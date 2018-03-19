@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 import com.firebase.client.Firebase;
 
@@ -26,7 +27,8 @@ import java.util.List;
  * On: 15/02/2018
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorListRef extends FbListReference<AuthorId, List<AuthorId>> implements AuthorListRef {
+public class FbAuthorListRef extends FbListReference<AuthorId, List<AuthorId>> implements
+        AuthorListRef {
     public FbAuthorListRef(Firebase reference,
                            SnapshotConverter<List<AuthorId>> listConverter,
                            SnapshotConverter<AuthorId> itemConverter,

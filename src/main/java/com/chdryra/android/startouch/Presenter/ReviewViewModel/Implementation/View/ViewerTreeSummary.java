@@ -18,8 +18,10 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
@@ -36,7 +38,8 @@ import java.util.Map;
 public class ViewerTreeSummary extends ViewerReviewSummary {
     private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.Meta.ORDER;
 
-    public ViewerTreeSummary(ReviewNode node, FactoryReviewViewAdapter adapterFactory, ConverterGv converter) {
+    public ViewerTreeSummary(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
+                             ConverterGv converter) {
         super(node, adapterFactory, converter, ORDER);
     }
 

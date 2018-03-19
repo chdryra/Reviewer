@@ -35,12 +35,6 @@ public class PackingLauncherImpl<T> implements PackingLauncher<T> {
         launch(item, new Bundle());
     }
 
-    void launch(@Nullable T item, Bundle args) {
-        if (item != null) mPacker.pack(item, args);
-        onPrelaunch();
-        launchUi(args);
-    }
-
     @Override
     public void setUiLauncher(UiLauncher uiLauncher) {
         mUi.setLauncher(uiLauncher);
@@ -49,6 +43,12 @@ public class PackingLauncherImpl<T> implements PackingLauncher<T> {
     @Override
     public T unpack(Bundle args) {
         return mPacker.unpack(args);
+    }
+
+    void launch(@Nullable T item, Bundle args) {
+        if (item != null) mPacker.pack(item, args);
+        onPrelaunch();
+        launchUi(args);
     }
 
     void onPrelaunch() {

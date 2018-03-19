@@ -11,11 +11,12 @@ package com.chdryra.android.startouch.Application.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.startouch.Application.Interfaces.AccountsSuite;
-import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.LoginGoogleAndroid;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .LoginProviders.LoginGoogleAndroid;
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAuthenticator;
+import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +32,10 @@ public class AccountsSuiteAndroid implements AccountsSuite {
     public AccountsSuiteAndroid(AccountsManager manager, UserSession session) {
         mManager = manager;
         mSession = session;
+    }
+
+    public void setActivity(Activity activity) {
+        mGoogleLogin = new LoginGoogleAndroid(activity);
     }
 
     @Override
@@ -51,9 +56,5 @@ public class AccountsSuiteAndroid implements AccountsSuite {
     @Override
     public void logout() {
         mSession.logout(mGoogleLogin);
-    }
-
-    public void setActivity(Activity activity) {
-        mGoogleLogin = new LoginGoogleAndroid(activity);
     }
 }

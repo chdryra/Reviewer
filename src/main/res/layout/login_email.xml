@@ -9,30 +9,30 @@
 
 <LinearLayout
     style="@style/LinearLayoutVertical.WrappedVertical"
-    android:layout_gravity="center"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/edit_text_login_email"
-        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/edit_text_email"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionNext"
+        android:inputType="textEmailAddress"/>
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
         android:id="@+id/edit_text_login_password"
-        android:hint="@string/edit_text_password"/>
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
+        android:hint="@string/edit_text_password"
+        android:inputType="textPassword"/>
+
+    <EditText
         android:id="@+id/edit_text_login_password_confirm"
-        android:hint="@string/edit_text_password_confirm"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edit_text_password_confirm"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/login_button_email"

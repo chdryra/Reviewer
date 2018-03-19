@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Bitmap;
@@ -38,7 +38,7 @@ public class ImageUi extends SimpleViewUi<ImageView, Bitmap> {
 
     @Override
     public void update(@Nullable Bitmap value) {
-        if(value != null) {
+        if (value != null) {
             getView().setImageBitmap(value);
         } else {
             setPlaceholder();
@@ -47,11 +47,11 @@ public class ImageUi extends SimpleViewUi<ImageView, Bitmap> {
 
     @Override
     Bitmap getValue() {
-        return ((BitmapDrawable)getView().getDrawable()).getBitmap();
+        return ((BitmapDrawable) getView().getDrawable()).getBitmap();
     }
 
     private void setPlaceholder() {
-        if(mPlaceholder != -1) {
+        if (mPlaceholder != -1) {
             getView().setImageResource(mPlaceholder);
         } else {
             getView().setImageBitmap(null);

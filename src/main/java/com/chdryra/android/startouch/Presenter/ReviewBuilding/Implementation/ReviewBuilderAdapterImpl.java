@@ -25,11 +25,14 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBui
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataTypes;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewAdapterBasic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -205,10 +208,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         notifyDataObservers();
     }
 
-    private BuildScreenGridUi<GC> getGridUi() {
-        return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
-    }
-
     @Override
     protected void notifyDataObservers() {
         super.notifyDataObservers();
@@ -221,6 +220,10 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvDataParc
         mSubject.notifySubscribers();
         mRating.notifySubscribers();
         mCover.notifySubscribers();
+    }
+
+    private BuildScreenGridUi<GC> getGridUi() {
+        return mUiType == ReviewEditor.EditMode.QUICK ? mQuickGridUi : mFullGridUi;
     }
 
     private void adjustTagsIfNecessary(boolean adjustTags) {

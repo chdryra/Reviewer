@@ -29,7 +29,7 @@ public class FactoryFileIncrementor {
     }
 
     public FileIncrementor newJpgFileIncrementor(String fileName) {
-        if(fileName == null || fileName.length() > 0) fileName = mDefaultStem;
+        if (fileName == null || fileName.length() > 0) fileName = mDefaultStem;
         return new FileIncrementor(mSystemDir, mDir, fileName, "jpg");
     }
 }

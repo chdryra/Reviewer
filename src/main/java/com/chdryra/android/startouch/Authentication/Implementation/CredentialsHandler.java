@@ -20,7 +20,8 @@ public class CredentialsHandler<T> implements CredentialsProvider.Callback<T> {
     private final CredentialsAuthenticator<T> mAuthenticator;
     private final CredentialsAuthenticator.Callback mCallback;
 
-    public CredentialsHandler(CredentialsAuthenticator<T> authenticator, CredentialsAuthenticator.Callback callback) {
+    public CredentialsHandler(CredentialsAuthenticator<T> authenticator, CredentialsAuthenticator
+            .Callback callback) {
         mCallback = callback;
         mAuthenticator = authenticator;
     }

@@ -20,7 +20,8 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewE
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class FinishEditsButton<GC extends GvDataList<? extends GvDataParcelable>> extends UploadButton<GC> {
+public class FinishEditsButton<GC extends GvDataList<? extends GvDataParcelable>> extends
+        UploadButton<GC> {
     public FinishEditsButton(PublishAction publishAction) {
         super(Strings.Buttons.FINISH_EDITING, publishAction);
     }
@@ -28,7 +29,7 @@ public class FinishEditsButton<GC extends GvDataList<? extends GvDataParcelable>
     @Override
     protected Review getReview() {
         try {
-            ReviewEditor<GC> editor = (ReviewEditor<GC>)getReviewView();
+            ReviewEditor<GC> editor = (ReviewEditor<GC>) getReviewView();
             return editor.buildReview();
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);

@@ -6,15 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.SocialPublisherService;
 
 import android.content.Context;
 import android.content.Intent;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BroadcastingService;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingService;
-import com.chdryra.android.startouch.Social.Implementation.PublishingAction;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
+import com.chdryra.android.startouch.Social.Implementation.PublishingAction;
 
 import java.util.ArrayList;
 
@@ -24,7 +26,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublisherAndroid extends
-        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialUploader.Listener>
+        BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialUploader
+                .Listener>
         implements SocialUploader {
 
     private final ArrayList<String> mPlatformNames;

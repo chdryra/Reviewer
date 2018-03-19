@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.test.View.ActivitiesFragmentsScreens;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditUrlBrowser;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityEditUrlBrowser;
 
 /**
  * Created by: Rizwan Choudrey

@@ -16,9 +16,12 @@ import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.Gri
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MaiMapLocations;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.MenuEditLocations;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 
 
@@ -38,14 +41,16 @@ public class FactoryActionsEditLocations extends FactoryActionsEditData<GvLocati
 
     @Override
     public ButtonAction<GvLocation> newBannerButton() {
-        return new ButtonAddLocation(getAdderConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
+        return new ButtonAddLocation(getAdderConfig(), getUiConfig().getBespokeEditor(TYPE
+                .getDatumName()),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE),
                 getPacker());
     }
 
     @Override
     public GridItemAction<GvLocation> newGridItem() {
-        return new GridItemEditLocation(getEditorConfig(), getUiConfig().getBespokeEditor(TYPE.getDatumName()),
+        return new GridItemEditLocation(getEditorConfig(), getUiConfig().getBespokeEditor(TYPE
+                .getDatumName()),
                 getPacker());
     }
 

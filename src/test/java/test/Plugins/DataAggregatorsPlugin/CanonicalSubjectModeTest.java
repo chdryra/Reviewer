@@ -8,11 +8,11 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation.CanonicalSubjectMode;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Implementation.CanonicalSubjectMode;
 
 import test.TestUtils.RandomReviewId;
 
@@ -24,9 +24,14 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 06/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubject>{
+public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubject> {
     public CanonicalSubjectModeTest() {
         super(new CanonicalSubjectMode());
+    }
+
+    @Override
+    protected String getModeString() {
+        return super.getModeString().toLowerCase();
     }
 
     @Override
@@ -48,10 +53,5 @@ public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubje
     @Override
     protected DataSubject newDatum(String string) {
         return new DatumSubject(RandomReviewId.nextReviewId(), string);
-    }
-
-    @Override
-    protected String getModeString() {
-        return super.getModeString().toLowerCase();
     }
 }

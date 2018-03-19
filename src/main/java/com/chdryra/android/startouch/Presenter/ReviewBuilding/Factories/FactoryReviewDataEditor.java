@@ -9,15 +9,19 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewDataEditorDefault;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .ReviewDataEditorDefault;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActions;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
@@ -49,7 +53,8 @@ public class FactoryReviewDataEditor {
         GvDataType<T> type = adapter.getGvDataType();
 
         FactoryEditActions actionsFactory
-                = new FactoryEditActions(mConfig, mDataFactory, launcher, mCommandsFactory, imageChooser);
+                = new FactoryEditActions(mConfig, mDataFactory, launcher, mCommandsFactory,
+                imageChooser);
 
         ReviewViewActions<T> actions = actionsFactory.newActions(type);
         ReviewViewParams params = mParamsFactory.newEditorParams(type);

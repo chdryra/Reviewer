@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
@@ -23,8 +23,10 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewListRef<Value extends HasReviewId, Reference extends ReviewItemReference<Value>>
-        extends FbListReferenceBasic<Value, IdableList<Value>, DataSize> implements ReviewListReference<Value, Reference> {
+public class FbReviewListRef<Value extends HasReviewId, Reference extends
+        ReviewItemReference<Value>>
+        extends FbListReferenceBasic<Value, IdableList<Value>, DataSize> implements
+        ReviewListReference<Value, Reference> {
     private final ReviewId mId;
     private final ReviewItemReference<DataSize> mSizeReference;
     private final ListItemsReferencer<Value, Reference> mItemReferencer;
@@ -54,10 +56,10 @@ public class FbReviewListRef<Value extends HasReviewId, Reference extends Review
     public void toItemReferences(final ItemReferencesCallback<Value, Reference> callback) {
         mItemReferencer.toItemReferences(getFbReference(), mSizeReference,
                 new ListItemsReferencer.Callback<Value, Reference>() {
-            @Override
-            public void onItemReferences(IdableList<Reference> references) {
-                callback.onItemReferences(references);
-            }
-        });
+                    @Override
+                    public void onItemReferences(IdableList<Reference> references) {
+                        callback.onItemReferences(references);
+                    }
+                });
     }
 }

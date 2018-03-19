@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.View.LauncherModel.Interfaces;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,5 +26,6 @@ public interface ReviewLauncher extends UiLauncherWrapper {
 
     void launchAsList(AuthorId authorId);
 
-    void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean isPublished);
+    void launchNodeView(ReviewNode node, GvDataType<?> dataType, int datumIndex, boolean
+            isPublished);
 }

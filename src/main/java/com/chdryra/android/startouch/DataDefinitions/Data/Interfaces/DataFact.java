@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataFact extends HasReviewId, Validatable{
+public interface DataFact extends HasReviewId, Validatable {
     String TYPE_NAME = "fact";
     String LABEL = "label";
     String VALUE = "value";

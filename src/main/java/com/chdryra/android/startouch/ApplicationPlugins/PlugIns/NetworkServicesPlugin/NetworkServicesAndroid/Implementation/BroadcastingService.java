@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -31,6 +32,14 @@ public class BroadcastingService<S extends IntentService,
         mReceiver = receiver;
     }
 
+    public void registerListener(Listener listener) {
+        mReceiver.registerListener(listener);
+    }
+
+    public void unregisterListener(Listener listener) {
+        mReceiver.unregisterListener(listener);
+    }
+
     protected Intent newService() {
         return new Intent(mContext, mServiceClass);
     }
@@ -42,13 +51,5 @@ public class BroadcastingService<S extends IntentService,
     protected void registerReceiverAction(String action) {
         IntentFilter actionFilter = new IntentFilter(action);
         LocalBroadcastManager.getInstance(mContext).registerReceiver(mReceiver, actionFilter);
-    }
-
-    public void registerListener(Listener listener) {
-        mReceiver.registerListener(listener);
-    }
-
-    public void unregisterListener(Listener listener) {
-        mReceiver.unregisterListener(listener);
     }
 }

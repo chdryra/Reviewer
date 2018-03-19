@@ -46,19 +46,19 @@ public class ReviewStamp implements Validatable, ReviewId {
         this(StampId.getAuthorId(reviewId), StampId.getDate(reviewId));
     }
 
-    public static ReviewStamp newStamp(ReviewId reviewId){
+    public static ReviewStamp newStamp(ReviewId reviewId) {
         return new ReviewStamp(reviewId);
     }
 
-    public static ReviewStamp newStamp(AuthorId authorId, DateTime date){
+    public static ReviewStamp newStamp(AuthorId authorId, DateTime date) {
         return new ReviewStamp(authorId, date);
     }
 
-    public static ReviewStamp newStamp(AuthorId authorId){
+    public static ReviewStamp newStamp(AuthorId authorId) {
         return new ReviewStamp(authorId, new PublishDate(new Date().getTime()));
     }
 
-    public static ReviewStamp noStamp(){
+    public static ReviewStamp noStamp() {
         return new ReviewStamp();
     }
 
@@ -69,6 +69,10 @@ public class ReviewStamp implements Validatable, ReviewId {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static String toReadableDate(DateTime date) {
+        return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(date.getTime()));
     }
 
     public AuthorId getAuthorId() {
@@ -83,12 +87,12 @@ public class ReviewStamp implements Validatable, ReviewId {
         return mId.isValid();
     }
 
-    public String toReadableDate(){
-        return toReadableDate(mDate);
+    public DatumAuthorId getDataAuthorId() {
+        return new DatumAuthorId(mId, mAuthorId.toString());
     }
 
-    public static String toReadableDate(DateTime date) {
-        return DateFormat.getDateInstance(DateFormat.SHORT).format(new Date(date.getTime()));
+    public String toReadableDate() {
+        return toReadableDate(mDate);
     }
 
     @Override
@@ -96,13 +100,10 @@ public class ReviewStamp implements Validatable, ReviewId {
         return mId;
     }
 
-    public DatumAuthorId getDataAuthorId() {
-        return new DatumAuthorId(mId, mAuthorId.toString());
-    }
-
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(mAuthorId) && validator.validate(mDate) && validator.validate(mId);
+        return validator.validate(mAuthorId) && validator.validate(mDate) && validator.validate
+                (mId);
     }
 
     @Override
@@ -139,7 +140,7 @@ public class ReviewStamp implements Validatable, ReviewId {
         }
 
         private StampId(@NotNull String userId, long time) {
-            if(userId.length() == 0) {
+            if (userId.length() == 0) {
                 throwException();
             }
             mId = userId + SPLITTER + String.valueOf(time);
@@ -151,7 +152,7 @@ public class ReviewStamp implements Validatable, ReviewId {
 
         private StampId(String idString) {
             String[] split = idString.split(SPLITTER);
-            if(split.length != 2) throwException(idString);
+            if (split.length != 2) throwException(idString);
             try {
                 String userId = split[0];
                 long time = Long.parseLong(split[1]);
@@ -165,7 +166,7 @@ public class ReviewStamp implements Validatable, ReviewId {
         private static AuthorId getAuthorId(ReviewId id) {
             String idString = id.toString();
             String[] split = idString.split(SPLITTER);
-            if(split.length != 2) throwException(idString);
+            if (split.length != 2) throwException(idString);
             AuthorId authorId = new DatumAuthorId();
             try {
                 String userId = split[0];
@@ -181,7 +182,7 @@ public class ReviewStamp implements Validatable, ReviewId {
         private static DateTime getDate(ReviewId id) {
             String idString = id.toString();
             String[] split = idString.split(SPLITTER);
-            if(split.length != 2) throwException(idString);
+            if (split.length != 2) throwException(idString);
             DateTime date = new DatumDate();
             try {
                 String userId = split[0];
@@ -196,7 +197,7 @@ public class ReviewStamp implements Validatable, ReviewId {
 
         private static void check(@NonNull String userId, long time, String idString) {
             boolean correct = new StampId(userId, time).toString().equals(idString);
-            if(!correct) throwException(idString);
+            if (!correct) throwException(idString);
         }
 
         private static void throwException(String id, Throwable cause) {
@@ -207,8 +208,8 @@ public class ReviewStamp implements Validatable, ReviewId {
             throwException("On id: " + idString, new Throwable(ILLEGAL_FORMAT));
         }
 
-        private void throwException() {
-            throw new IllegalArgumentException(ILLEGAL_FORMAT);
+        public boolean isValid() {
+            return mId.length() > 1;
         }
 
         @Override
@@ -235,8 +236,8 @@ public class ReviewStamp implements Validatable, ReviewId {
             return mId;
         }
 
-        public boolean isValid() {
-            return mId.length() > 1;
+        private void throwException() {
+            throw new IllegalArgumentException(ILLEGAL_FORMAT);
         }
     }
 }

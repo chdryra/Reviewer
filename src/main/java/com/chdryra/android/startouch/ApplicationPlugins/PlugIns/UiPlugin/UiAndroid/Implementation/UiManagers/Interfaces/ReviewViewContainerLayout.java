@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Interfaces;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Interfaces;
 
 
 import android.view.LayoutInflater;
@@ -17,7 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation.CellDimensionsCalculator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .UiManagers.Implementation.CellDimensionsCalculator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
@@ -28,10 +29,11 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public interface ReviewViewContainerLayout extends OptionSelectListener{
+public interface ReviewViewContainerLayout extends OptionSelectListener {
     View inflateLayout(LayoutInflater inflater, ViewGroup container);
 
-    <T extends GvData> void bindToReviewView(ReviewView<T> reviewView, CellDimensionsCalculator calculator);
+    <T extends GvData> void bindToReviewView(ReviewView<T> reviewView, CellDimensionsCalculator
+            calculator);
 
     void inflateMenu(Menu menu, MenuInflater inflater);
 

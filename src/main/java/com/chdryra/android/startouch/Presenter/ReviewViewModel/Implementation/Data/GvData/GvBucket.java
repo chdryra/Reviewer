@@ -8,11 +8,13 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Bucketing.Bucket;
+import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhBucket;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhBucket;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +45,7 @@ public class GvBucket<BucketingValue, Data> extends GvDataBasic<GvBucket> {
 
     public double getPercentageOfTotal() {
         return mTotalItems != 0 ?
-                (double)mBucket.getBucketedItems().size() / (double) mTotalItems : 0;
+                (double) mBucket.getBucketedItems().size() / (double) mTotalItems : 0;
     }
 
     @Override

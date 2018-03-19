@@ -52,7 +52,8 @@ public abstract class FbReviewsListBasic<T extends HasReviewId> extends FbListRe
     private final SizeReferencer mSizeReferencer;
 
     protected interface ReferenceReadyCallback {
-        void onReferenceReady(ReviewId reviewId, @Nullable ReviewReference reference, CallbackMessage message);
+        void onReferenceReady(ReviewId reviewId, @Nullable ReviewReference reference,
+                              CallbackMessage message);
     }
 
     protected abstract void getReference(ReviewId reviewId,
@@ -69,13 +70,17 @@ public abstract class FbReviewsListBasic<T extends HasReviewId> extends FbListRe
         mSizeReferencer = sizeReferencer;
     }
 
+    public FbReviews getStructure() {
+        return mStructure;
+    }
+
     public void getReference(ReviewId reviewId, RepoCallback callback) {
         Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
         doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
     }
 
-    public FbReviews getStructure() {
-        return mStructure;
+    protected Query getRoot() {
+        return mStructure.getListEntriesDb(mDataBase);
     }
 
     @Override
@@ -92,11 +97,6 @@ public abstract class FbReviewsListBasic<T extends HasReviewId> extends FbListRe
     protected void doUnbinding(ChildEventListener listener) {
         getRoot().removeEventListener(listener);
     }
-
-    protected Query getRoot() {
-        return mStructure.getListEntriesDb(mDataBase);
-    }
-
 
     @NonNull
     private ValueEventListener newGetReferenceListener(final ReviewId reviewId,

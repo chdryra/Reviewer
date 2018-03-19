@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 
 import android.content.Intent;
@@ -22,7 +22,7 @@ import com.chdryra.android.startouch.Social.Implementation.PublishResults;
  * UI Activity holding published reviews feed.
  */
 public class ActivityFeed extends ActivityReviewView implements
-        PresenterFeed.PresenterListener{
+        PresenterFeed.PresenterListener {
     private static final String TAG = TagKeyGenerator.getTag(ActivityFeed.class);
 
     private PresenterFeed mPresenter;
@@ -41,7 +41,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     protected void onDestroy() {
-        if(mPresenter != null) mPresenter.detach();
+        if (mPresenter != null) mPresenter.detach();
         super.onDestroy();
     }
 
@@ -52,7 +52,8 @@ public class ActivityFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults
+            justUploaded) {
         //TODO show publishing status
     }
 }

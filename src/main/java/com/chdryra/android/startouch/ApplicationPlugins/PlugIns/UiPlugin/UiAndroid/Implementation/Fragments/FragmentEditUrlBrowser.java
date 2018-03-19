@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -32,11 +33,11 @@ import com.chdryra.android.corelibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.corelibrary.Widgets.ClearableEditText;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
+import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.R;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -103,6 +104,42 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         return v;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(MENU, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int i = item.getItemId();
+        if (i == MENU_ITEM_SEARCH) {
+            mUrlEditText.setText(mSearchUrl);
+            loadUrlInEditText();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mCurrent != null;
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent,
+                getNewReturnData());
+    }
+
+    @Override
+    protected void onDoneSelected() {
+        Intent i = getNewReturnData();
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        GvUrl newDatum = createGvDataFromBrowser();
+        if (newDatum != null) mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newDatum, i);
+    }
+
     @NonNull
     private TextView.OnEditorActionListener newLoadPageOnActionGoListener() {
         return new TextView.OnEditorActionListener() {
@@ -157,42 +194,6 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(MENU, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int i = item.getItemId();
-        if (i == MENU_ITEM_SEARCH) {
-            mUrlEditText.setText(mSearchUrl);
-            loadUrlInEditText();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mCurrent != null;
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnData());
-    }
-
-    @Override
-    protected void onDoneSelected() {
-        Intent i = getNewReturnData();
-        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        GvUrl newDatum = createGvDataFromBrowser();
-        if(newDatum != null) mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newDatum, i);
     }
 
     @Nullable

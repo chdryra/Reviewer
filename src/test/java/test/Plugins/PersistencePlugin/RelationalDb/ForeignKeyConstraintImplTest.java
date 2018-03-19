@@ -40,14 +40,18 @@ public class ForeignKeyConstraintImplTest {
     public ExpectedException mExpectedException = ExpectedException.none();
 
     @Test
-    public void constructorThrowsIllegalArgumentExceptionIfNumberColsDoesNotEqualNumberPrimaryKeys() {
+    public void
+    constructorThrowsIllegalArgumentExceptionIfNumberColsDoesNotEqualNumberPrimaryKeys() {
         mExpectedException.expect(IllegalArgumentException.class);
         DbTableForTesting<DbTableRow> table
                 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
 
-        DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
-        DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
-        DbColumnDefinition col3 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
+        DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
+        DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
+        DbColumnDefinition col3 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
 
         table.addPrimaryKeyColumn(col1);
         table.addPrimaryKeyColumn(col2);
@@ -64,9 +68,12 @@ public class ForeignKeyConstraintImplTest {
         DbTableForTesting<DbTableRow> table
                 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
 
-        DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
-        DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
-        DbColumnDefinition col3 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
+        DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
+        DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
+        DbColumnDefinition col3 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
+                .TEXT);
 
         table.addPrimaryKeyColumn(col1);
         table.addPrimaryKeyColumn(col2);

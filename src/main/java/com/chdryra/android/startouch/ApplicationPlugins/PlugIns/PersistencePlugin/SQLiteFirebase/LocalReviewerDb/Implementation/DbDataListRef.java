@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewDataRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableDataList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
@@ -25,7 +28,8 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.Revie
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbDataListRef<Row extends ReviewDataRow<Row>, Value extends HasReviewId>
-        extends DbListReferenceBasic<Row, Value, ReviewItemReference<Value>> implements DataListRef<Value> {
+        extends DbListReferenceBasic<Row, Value, ReviewItemReference<Value>> implements
+        DataListRef<Value> {
     private final FactoryDbReference mReferenceFactory;
 
     public DbDataListRef(DataLoader<Row> loader,

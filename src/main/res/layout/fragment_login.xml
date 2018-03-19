@@ -8,15 +8,15 @@
   -->
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LinearLayoutVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_weight="1">
 
     <FrameLayout
         android:id="@+id/progress_layout"
-        android:paddingTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/progress_text_view"
@@ -27,48 +27,48 @@
         <ProgressBar
             android:id="@+id/progressbar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_gravity="center|bottom"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
             android:indeterminate="true"
             android:max="100"/>
 
     </FrameLayout>
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         style="@style/LinearLayoutVertical"
-        android:gravity="center|bottom"
-        android:layout_weight="1">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_weight="1"
+        android:gravity="center|bottom">
 
 
         <include
             android:id="@+id/login_email"
-            android:gravity="center"
-            layout="@layout/login_email"/>
+            layout="@layout/login_email"
+            android:gravity="center"/>
 
         <include
-            android:gravity="center"
-            layout="@layout/line_with_or"/>
+            layout="@layout/line_with_or"
+            android:gravity="center"/>
 
         <Button
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/login_button_google"
             style="@style/LoginButton"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_gravity="center|bottom"
             android:text="@string/button_login_google"/>
 
         <Button
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/login_button_facebook"
             style="@style/LoginButton"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_gravity="center|bottom"
             android:text="@string/button_login_facebook"/>
 
         <Button
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/login_button_twitter"
             style="@style/LoginButton"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_gravity="center|bottom"
             android:text="@string/button_login_twitter"/>
 

@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
  */
 public class ComparatorImageBitmap implements DifferenceComparator<DataImage, DifferenceBoolean> {
     @Override
-    public DifferenceBoolean compare(DataImage  lhs, DataImage rhs) {
+    public DifferenceBoolean compare(DataImage lhs, DataImage rhs) {
         return new DifferenceBoolean(!lhs.getBitmap().sameAs(rhs.getBitmap()));
     }
 }

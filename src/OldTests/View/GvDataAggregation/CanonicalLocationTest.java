@@ -8,9 +8,14 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -34,7 +39,7 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocation> {
     private static final double MID_LAT = 39.423527;
     private static final double MID_LNG = -80.077744;
 
-//protected methods
+    //protected methods
     @Override
     protected GvLocation getTestDatum() {
         return new GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
@@ -43,6 +48,12 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocation> {
     @Override
     protected CanonicalDatumMaker<GvLocation> getCanonicalMaker() {
         return new CanonicalLocation();
+    }
+
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkMidpoint();
     }
 
     private void checkMidpoint() {
@@ -67,11 +78,5 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocation> {
         assertEquals(mid.getName(), canon.getName());
         assertEquals(mid.getLatLng().latitude, canon.getLatLng().latitude, 0.01);
         assertEquals(mid.getLatLng().longitude, canon.getLatLng().longitude, 0.01);
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkMidpoint();
     }
 }

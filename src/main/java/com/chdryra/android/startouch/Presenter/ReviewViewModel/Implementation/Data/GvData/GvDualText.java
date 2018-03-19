@@ -45,12 +45,12 @@ public class GvDualText extends VHDDualString implements GvDataParcelable {
             = new GvDataType<>(GvDualText.class, "DualText");
     private GvReviewId mId;
 
-    GvDualText() {
-        super("", "");
-    }
-
     public GvDualText(String upper, String lower) {
         super(upper, lower);
+    }
+
+    GvDualText() {
+        super("", "");
     }
 
     GvDualText(@Nullable GvReviewId id, String upper, String lower) {

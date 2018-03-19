@@ -9,8 +9,10 @@
 package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.R;
 
 /**

@@ -6,15 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation;
 
 
 import android.content.ContentValues;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.ByteArray;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Implementation.DbEntryType;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.ByteArray;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.DbEntryType;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +30,7 @@ public class RowToValuesConverter {
 
     public <DbRow extends DbTableRow> ContentValues convert(DbTableRow<DbRow> row) {
         ContentValues values = new ContentValues();
-        for(RowEntry<DbRow, ?> entry : row) {
+        for (RowEntry<DbRow, ?> entry : row) {
             putEntry(entry, values);
         }
 
@@ -36,19 +41,19 @@ public class RowToValuesConverter {
         String columnName = entry.getColumnName();
         Object value = entry.getValue();
         DbEntryType<?> type = entry.getEntryType();
-        if(type.equals(DbEntryType.TEXT)) {
-            values.put(columnName, (String)value);
-        } else if(type.equals(DbEntryType.BOOLEAN)) {
-            values.put(columnName, (Boolean)value);
-        } else if(type.equals(DbEntryType.INTEGER)) {
-            values.put(columnName, (Integer)value);
-        } else if(type.equals(DbEntryType.FLOAT)) {
-            values.put(columnName, (Float)value);
-        } else if(type.equals(DbEntryType.DOUBLE)) {
-            values.put(columnName, (Double)value);
-        } else if(type.equals(DbEntryType.LONG)) {
-            values.put(columnName, (Long)value);
-        } else if(type.equals(DbEntryType.BYTE_ARRAY)) {
+        if (type.equals(DbEntryType.TEXT)) {
+            values.put(columnName, (String) value);
+        } else if (type.equals(DbEntryType.BOOLEAN)) {
+            values.put(columnName, (Boolean) value);
+        } else if (type.equals(DbEntryType.INTEGER)) {
+            values.put(columnName, (Integer) value);
+        } else if (type.equals(DbEntryType.FLOAT)) {
+            values.put(columnName, (Float) value);
+        } else if (type.equals(DbEntryType.DOUBLE)) {
+            values.put(columnName, (Double) value);
+        } else if (type.equals(DbEntryType.LONG)) {
+            values.put(columnName, (Long) value);
+        } else if (type.equals(DbEntryType.BYTE_ARRAY)) {
             ByteArray array = (ByteArray) value;
             values.put(columnName, array != null ? array.getData() : null);
         } else {

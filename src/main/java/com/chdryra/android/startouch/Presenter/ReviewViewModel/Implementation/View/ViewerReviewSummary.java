@@ -19,15 +19,21 @@ import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRefList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataRefList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSize;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
@@ -48,14 +54,6 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     private final ConverterGv mConverter;
     private List<GvDataType<?>> mCellOrder;
 
-    ViewerReviewSummary(ReviewNode node,
-                        FactoryReviewViewAdapter adapterFactory,
-                        ConverterGv converter,
-                        List<GvDataType<?>> cellOrder) {
-        this(node, adapterFactory, converter);
-        mCellOrder = cellOrder;
-    }
-
     public ViewerReviewSummary(ReviewNode node,
                                FactoryReviewViewAdapter adapterFactory,
                                ConverterGv converter) {
@@ -66,35 +64,16 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
         mCellOrder.addAll(DataTypeCellOrder.Review.FULL);
     }
 
-    FactoryReviewViewAdapter getAdapterFactory() {
-        return mAdapterFactory;
+    ViewerReviewSummary(ReviewNode node,
+                        FactoryReviewViewAdapter adapterFactory,
+                        ConverterGv converter,
+                        List<GvDataType<?>> cellOrder) {
+        this(node, adapterFactory, converter);
+        mCellOrder = cellOrder;
     }
 
     protected ConverterGv getConverter() {
         return mConverter;
-    }
-
-    @Nullable
-    ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
-        return mAdapterFactory.newReviewDataAdapter(getReviewNode(), datum.getSizedType());
-    }
-
-    @NonNull
-    Map<GvDataType<?>, GvSize.Reference> getDataSizesMap(ReviewNode node) {
-        Map<GvDataType<?>, GvSize.Reference> map = new HashMap<>();
-        put(map, GvTag.TYPE, node.getTags().getSize());
-        put(map, GvCriterion.TYPE, node.getCriteria().getSize());
-        put(map, GvImage.TYPE, node.getImages().getSize());
-        put(map, GvComment.TYPE, node.getComments().getSize());
-        put(map, GvLocation.TYPE, node.getLocations().getSize());
-        put(map, GvFact.TYPE, node.getFacts().getSize());
-
-        return map;
-    }
-
-    void put(Map<GvDataType<?>, GvSize.Reference> map, GvDataType<?> type,
-             ReviewItemReference<DataSize> size) {
-        map.put(type, new GvSize.Reference(size, mConverter.newConverterSizes(type)));
     }
 
     @Override
@@ -134,7 +113,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     @Override
     protected void onNullifyCache() {
         GvDataRefList<GvSize.Reference> cache = (GvDataRefList<GvSize.Reference>) getCache();
-        if(cache != null) cache.unbind();
+        if (cache != null) cache.unbind();
     }
 
     @Override
@@ -146,5 +125,32 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvSize.Reference> {
     @Override
     public ReviewViewAdapter<?> expandGridData() {
         return null;
+    }
+
+    FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
+    @Nullable
+    ReviewViewAdapter<?> getExpansionAdapter(GvSize.Reference datum) {
+        return mAdapterFactory.newReviewDataAdapter(getReviewNode(), datum.getSizedType());
+    }
+
+    @NonNull
+    Map<GvDataType<?>, GvSize.Reference> getDataSizesMap(ReviewNode node) {
+        Map<GvDataType<?>, GvSize.Reference> map = new HashMap<>();
+        put(map, GvTag.TYPE, node.getTags().getSize());
+        put(map, GvCriterion.TYPE, node.getCriteria().getSize());
+        put(map, GvImage.TYPE, node.getImages().getSize());
+        put(map, GvComment.TYPE, node.getComments().getSize());
+        put(map, GvLocation.TYPE, node.getLocations().getSize());
+        put(map, GvFact.TYPE, node.getFacts().getSize());
+
+        return map;
+    }
+
+    void put(Map<GvDataType<?>, GvSize.Reference> map, GvDataType<?> type,
+             ReviewItemReference<DataSize> size) {
+        map.put(type, new GvSize.Reference(size, mConverter.newConverterSizes(type)));
     }
 }

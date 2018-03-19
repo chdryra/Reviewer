@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
  */
 public class RandomReviewId {
     public static ReviewId nextReviewId() {
-        return ReviewStamp.newStamp(RandomAuthor.nextAuthorId(), RandomDataDate.nextDateTime()).getReviewId();
+        return ReviewStamp.newStamp(RandomAuthor.nextAuthorId(), RandomDataDate.nextDateTime())
+                .getReviewId();
     }
 
     public static String nextIdString() {

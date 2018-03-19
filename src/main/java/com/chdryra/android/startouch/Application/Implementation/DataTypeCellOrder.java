@@ -10,15 +10,18 @@ package com.chdryra.android.startouch.Application.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
@@ -34,6 +37,8 @@ import java.util.List;
 public class DataTypeCellOrder {
     public static class Review {
         public static final List<GvDataType<? extends GvDataParcelable>> FULL = new ArrayList<>();
+        public static final List<GvDataType<? extends GvDataParcelable>> QUICK = new ArrayList<>();
+
         static {
             FULL.add(GvTag.TYPE);
             FULL.add(GvComment.TYPE);
@@ -43,7 +48,6 @@ public class DataTypeCellOrder {
             FULL.add(GvFact.TYPE);
         }
 
-        public static final List<GvDataType<? extends GvDataParcelable>> QUICK = new ArrayList<>();
         static {
             QUICK.add(GvTag.TYPE);
             QUICK.add(GvComment.TYPE);
@@ -54,6 +58,7 @@ public class DataTypeCellOrder {
 
     public static class Meta {
         public static final List<GvDataType<? extends GvData>> ORDER = new ArrayList<>();
+
         static {
             ORDER.add(GvNode.TYPE);
             ORDER.add(GvAuthorId.TYPE);

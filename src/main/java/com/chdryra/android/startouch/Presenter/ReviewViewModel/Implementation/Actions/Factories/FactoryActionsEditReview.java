@@ -19,8 +19,10 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.FinishEditsButton;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.PublishAction;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 
 /**
@@ -28,7 +30,8 @@ import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
  * On: 27/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParcelable>> extends FactoryActionsBuildReview<GC> {
+public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParcelable>> extends
+        FactoryActionsBuildReview<GC> {
     private final PublishAction mPublishAction;
 
     public FactoryActionsEditReview(GvDataType<GC> dataType,
@@ -41,15 +44,15 @@ public class FactoryActionsEditReview<GC extends GvDataList<? extends GvDataParc
         mPublishAction = publishAction;
     }
 
-    @Nullable
-    @Override
-    public ButtonAction<GC> newContextButton() {
-        return new FinishEditsButton<>(mPublishAction);
-    }
-
     @NonNull
     @Override
     protected String getMenuTitle() {
         return Strings.Screens.EDIT;
+    }
+
+    @Nullable
+    @Override
+    public ButtonAction<GC> newContextButton() {
+        return new FinishEditsButton<>(mPublishAction);
     }
 }

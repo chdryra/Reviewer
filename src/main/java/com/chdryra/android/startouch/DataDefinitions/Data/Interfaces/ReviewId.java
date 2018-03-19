@@ -13,7 +13,7 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewId extends HasReviewId{
+public interface ReviewId extends HasReviewId {
     String TYPE_NAME = "reviewId";
 
     @Override

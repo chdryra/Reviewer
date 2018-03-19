@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.view.MenuItem;
@@ -25,19 +25,16 @@ import java.util.ArrayList;
 public abstract class MenuHideableActions<T extends GvData> extends MenuActionNone<T> {
     private final ArrayList<Integer> mItemIds;
 
+    protected abstract boolean hideCondition(int itemId);
+
     public MenuHideableActions(String title, int menuId) {
         super(menuId, title, true);
         mItemIds = new ArrayList<>();
     }
 
-    void bindHideableItem(MenuActionItem<T> item, int itemId, boolean finishActivity) {
-        mItemIds.add(itemId);
-        bindMenuActionItem(item, itemId, finishActivity);
-    }
-
     @Override
     protected void onMenuInflated() {
-        for(int itemId : mItemIds) {
+        for (int itemId : mItemIds) {
             if (hideCondition(itemId)) {
                 MenuItem item = getItem(itemId);
                 if (item != null) item.setVisible(false);
@@ -45,5 +42,8 @@ public abstract class MenuHideableActions<T extends GvData> extends MenuActionNo
         }
     }
 
-    protected abstract boolean hideCondition(int itemId);
+    void bindHideableItem(MenuActionItem<T> item, int itemId, boolean finishActivity) {
+        mItemIds.add(itemId);
+        bindMenuActionItem(item, itemId, finishActivity);
+    }
 }

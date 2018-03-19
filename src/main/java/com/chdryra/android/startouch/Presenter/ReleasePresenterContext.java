@@ -10,19 +10,22 @@ package com.chdryra.android.startouch.Presenter;
 
 import android.content.Context;
 
-import com.chdryra.android.startouch.Algorithms.DataAggregation.Factories.FactoryDataAggregatorParams;
+import com.chdryra.android.startouch.Algorithms.DataAggregation.Factories
+        .FactoryDataAggregatorParams;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 import com.chdryra.android.startouch.ApplicationContexts.Implementation.PresenterContextBasic;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
         .DataComparatorsApi;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api
+        .DataComparatorsPlugin;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.Persistence.Factories.FactoryReviewsRepo;
 import com.chdryra.android.startouch.Persistence.Interfaces.AuthorsRepo;
@@ -44,10 +47,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.Factory
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Factories
         .FactoryReviewViewActions;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataComparators;
 import com.chdryra.android.startouch.View.Configs.Interfaces.UiConfig;
 
 /**
@@ -74,10 +81,12 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryFileIncrementor factoryFileIncrementor = setFactoryImageChooser(context,
                 deviceContext);
         setFactoryReviewView(modelContext, viewContext, persistenceContext,
-                aggregatorsPlugin, getGvConverter(), comparators, validator, factoryFileIncrementor);
+                aggregatorsPlugin, getGvConverter(), comparators, validator,
+                factoryFileIncrementor);
     }
 
-    private FactoryFileIncrementor setFactoryImageChooser(Context context, DeviceContext deviceContext) {
+    private FactoryFileIncrementor setFactoryImageChooser(Context context, DeviceContext
+            deviceContext) {
         String dir = deviceContext.getImageStorageDirectory();
         FactoryFileIncrementor incrementorFactory
                 = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
@@ -98,21 +107,24 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryGvData dataFactory = new FactoryGvData();
 
         FactoryReviewBuilderAdapter<?> builderFactory =
-                getReviewBuilderAdapterFactory(modelContext, gvConverter,dataFactory, validator);
+                getReviewBuilderAdapterFactory(modelContext, gvConverter, dataFactory, validator);
 
         FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
         UiConfig uiConfig = viewContext.getUiConfig();
         FactoryReviewDataEditor dataEditorFactory
-                = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(), paramsFactory);
+                = new FactoryReviewDataEditor(uiConfig, dataFactory, getCommandsFactory(),
+                paramsFactory);
 
 
         AuthorsRepo authorRepo = persistenceContext.getAuthorsRepo();
         ReviewNodeRepo reviewsRepo = persistenceContext.getReviewsRepo();
 
         FactoryReviewViewActions actionsFactory
-                = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo, getCommandsFactory(), comparators, gvConverter);
+                = new FactoryReviewViewActions(uiConfig, reviewsRepo, authorRepo,
+                getCommandsFactory(), comparators, gvConverter);
         FactoryReviewEditor<?> editorFactory
-                = new FactoryReviewEditor<>(uiConfig, builderFactory, actionsFactory, paramsFactory, dataEditorFactory,
+                = new FactoryReviewEditor<>(uiConfig, builderFactory, actionsFactory,
+                paramsFactory, dataEditorFactory,
                 incrementorFactory, getImageChooserFactory());
         FactoryReviewViewAdapter adapterFactory
                 = newAdaptersFactory(modelContext,
@@ -123,17 +135,18 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 aggregatorsPlugin.getAggregatorsApi());
 
         FactoryReviewView factoryReviewView
-                = new FactoryReviewView(editorFactory, adapterFactory, actionsFactory, paramsFactory);
+                = new FactoryReviewView(editorFactory, adapterFactory, actionsFactory,
+                paramsFactory);
 
         setFactoryReviewView(factoryReviewView);
     }
 
     private FactoryReviewViewAdapter newAdaptersFactory(ModelContext modelContext,
-                                    FactoryReviewsRepo reposFactory,
-                                    ReviewNodeRepo reviewNodeRepo,
-                                    AuthorsRepo authorsRepo,
-                                    ConverterGv gvConverter,
-                                    DataAggregatorsApi aggregator) {
+                                                        FactoryReviewsRepo reposFactory,
+                                                        ReviewNodeRepo reviewNodeRepo,
+                                                        AuthorsRepo authorsRepo,
+                                                        ConverterGv gvConverter,
+                                                        DataAggregatorsApi aggregator) {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams params = paramsFactory.getDefaultParams();
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
@@ -146,9 +159,9 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private FactoryReviewBuilderAdapter<?> getReviewBuilderAdapterFactory(ModelContext modelContext,
-                                                ConverterGv converter,
-                                                FactoryGvData dataFactory,
-                                                DataValidator validator) {
+                                                                          ConverterGv converter,
+                                                                          FactoryGvData dataFactory,
+                                                                          DataValidator validator) {
         FactoryReviewBuilder builder
                 = new FactoryReviewBuilder(validator, modelContext.getReviewsFactory(),
                 new FactoryDataBuilder(dataFactory), new ReviewBuilderInitialiser(converter));

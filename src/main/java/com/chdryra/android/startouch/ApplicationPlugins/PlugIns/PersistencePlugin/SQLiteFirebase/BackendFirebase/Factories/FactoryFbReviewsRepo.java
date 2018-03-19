@@ -6,10 +6,11 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories;
 
 
-
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -23,7 +24,6 @@ import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.SizeReferencer;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.startouch.Persistence.Implementation.ReviewDereferencer;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewCollection;
@@ -71,6 +71,7 @@ public class FactoryFbReviewsRepo {
     }
 
     public ReviewCollection getReviewCollection(Firebase root, AuthorId authorId, String name) {
-        return mCollectionFactory.newCollection(root, name, authorId, mDereferencer, mSizeReferencer);
+        return mCollectionFactory.newCollection(root, name, authorId, mDereferencer,
+                mSizeReferencer);
     }
 }

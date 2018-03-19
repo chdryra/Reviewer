@@ -13,7 +13,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.C
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorId;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,10 +50,6 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         this(optionsCommand, factory, session, selectorType);
         mAuthorId = authorId;
         setOptions(false);
-    }
-
-    private boolean checkOnline() {
-        return  !mOptions.isOffline();
     }
 
     public ReviewOptions getOptions() {
@@ -95,6 +92,10 @@ public class ReviewOptionsSelector extends OptionsSelectAndExecute {
         } else {
             setOptions(true);
         }
+    }
+
+    private boolean checkOnline() {
+        return !mOptions.isOffline();
     }
 
     private void doExecute() {

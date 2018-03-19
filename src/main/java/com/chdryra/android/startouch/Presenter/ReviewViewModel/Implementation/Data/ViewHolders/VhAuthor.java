@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import com.chdryra.android.corelibrary.Viewholder.VHDataStringGetter;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
 
 
 /**

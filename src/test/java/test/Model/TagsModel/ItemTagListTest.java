@@ -32,6 +32,9 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ItemTagListTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void testGetItemTag() {
         ItemTagList list = new ItemTagList();
@@ -100,7 +103,7 @@ public class ItemTagListTest {
         ArrayList<ItemTag> itemTags = addTags(list);
         Iterator<ItemTag> iterator = list.iterator();
         int i = 0;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             assertThat(iterator.next(), is(itemTags.get(i++)));
         }
     }
@@ -116,9 +119,6 @@ public class ItemTagListTest {
         assertThat(list.size(), is(2));
         assertThat(list.getItemTag(1), is(itemTags.get(2)));
     }
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Test
     public void iteratorRemoveThrowsExceptionIfNoNextCalled() {
@@ -137,7 +137,7 @@ public class ItemTagListTest {
         ItemTagList list = new ItemTagList();
         addTags(list);
         Iterator<ItemTag> iterator = list.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             iterator.next();
             iterator.remove();
         }
@@ -148,9 +148,12 @@ public class ItemTagListTest {
     @NonNull
     private ArrayList<ItemTag> addTags(ItemTagList list) {
         ArrayList<ItemTag> tags = new ArrayList<>();
-        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
-        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
-        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase
+                ()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase
+                ()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase
+                ()));
         list.add(tags.get(0));
         list.add(tags.get(1));
         list.add(tags.get(2));

@@ -40,7 +40,8 @@ public class DataEquivalence {
         checkEquivalence(lhs, rhs, lhs.getReviewId());
     }
 
-    public static void checkEquivalence(DataCriterion lhs, DataCriterion rhs, ReviewId rhsIdExpected) {
+    public static void checkEquivalence(DataCriterion lhs, DataCriterion rhs, ReviewId
+            rhsIdExpected) {
         assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getSubject(), is(lhs.getSubject()));
         assertThat(rhs.getRating(), is(lhs.getRating()));
@@ -51,7 +52,7 @@ public class DataEquivalence {
         assertThat(rhs.getSubject(), is(review.getSubject().getSubject()));
         assertThat(rhs.getRating(), is(review.getRating().getRating()));
     }
-    
+
     public static void checkEquivalence(DataFact lhs, DataFact rhs) {
         checkEquivalence(lhs, rhs, lhs.getReviewId());
     }
@@ -79,7 +80,8 @@ public class DataEquivalence {
         checkEquivalence(lhs, rhs, lhs.getReviewId());
     }
 
-    public static void checkEquivalence(DataLocation lhs, DataLocation rhs, ReviewId rhsIdExpected) {
+    public static void checkEquivalence(DataLocation lhs, DataLocation rhs, ReviewId
+            rhsIdExpected) {
         assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getLatLng(), is(lhs.getLatLng()));
         assertThat(rhs.getName(), is(lhs.getName()));

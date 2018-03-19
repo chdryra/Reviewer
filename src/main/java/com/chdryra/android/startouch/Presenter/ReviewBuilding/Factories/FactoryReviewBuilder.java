@@ -14,7 +14,8 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataVal
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewBuilderImpl;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ReviewBuilderInitialiser;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .ReviewBuilderInitialiser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 
 /**
@@ -47,13 +48,15 @@ public class FactoryReviewBuilder {
         if (template == null) {
             builder = new ReviewBuilderImpl(mFactoryReviews, mBuilderFactory, mValidator);
         } else {
-            builder = new ReviewBuilderImpl(template, mInitialiser, TEMPLATE, mFactoryReviews, mBuilderFactory, mValidator);
+            builder = new ReviewBuilderImpl(template, mInitialiser, TEMPLATE, mFactoryReviews,
+                    mBuilderFactory, mValidator);
         }
 
         return builder;
     }
 
     ReviewBuilder newEditBuilder(Review toEdit) {
-        return new ReviewBuilderImpl(toEdit, mInitialiser, EDIT, mFactoryReviews, mBuilderFactory, mValidator);
+        return new ReviewBuilderImpl(toEdit, mInitialiser, EDIT, mFactoryReviews,
+                mBuilderFactory, mValidator);
     }
 }

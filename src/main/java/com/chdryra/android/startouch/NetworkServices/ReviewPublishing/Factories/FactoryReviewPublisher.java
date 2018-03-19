@@ -8,14 +8,17 @@
 
 package com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Factories;
 
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactoryReviewUploader;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation.BackendConsumer;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation
+        .BackendConsumer;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation
         .ReviewPublisherImpl;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation.ReviewQueue;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation.ReviewStore;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Implementation.SocialConsumer;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactoryReviewUploader;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactorySocialPublisher;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoWriteable;
 

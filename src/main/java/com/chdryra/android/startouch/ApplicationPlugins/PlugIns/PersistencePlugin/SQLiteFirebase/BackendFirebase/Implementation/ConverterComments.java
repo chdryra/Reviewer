@@ -6,12 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
@@ -22,7 +24,8 @@ import com.firebase.client.DataSnapshot;
  * On: 29/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterComments extends IdableListConverter<DataComment> implements SnapshotConverter<IdableList<DataComment>> {
+public class ConverterComments extends IdableListConverter<DataComment> implements
+        SnapshotConverter<IdableList<DataComment>> {
     protected ReviewId mId;
 
     public ConverterComments(ReviewId id, ConverterComment commentConverter) {
@@ -34,7 +37,8 @@ public class ConverterComments extends IdableListConverter<DataComment> implemen
         private final ConverterComment.ConverterSentence mConverter;
         private final boolean mIsHeadline;
 
-        public SentenceConverter(ReviewId id, ConverterComment.ConverterSentence converter, boolean isHeadline) {
+        public SentenceConverter(ReviewId id, ConverterComment.ConverterSentence converter,
+                                 boolean isHeadline) {
             mId = id;
             mConverter = converter;
             mIsHeadline = isHeadline;

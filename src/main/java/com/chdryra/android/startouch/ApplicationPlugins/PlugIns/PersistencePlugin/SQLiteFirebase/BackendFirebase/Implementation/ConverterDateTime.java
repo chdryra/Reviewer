@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DateTime;
 import com.firebase.client.DataSnapshot;
@@ -27,6 +28,6 @@ public class ConverterDateTime implements SnapshotConverter<DateTime> {
     @Nullable
     public DateTime convert(DataSnapshot snapshot) {
         Long value = snapshot.getValue(Long.class);
-        return  value == null ? null : new DatumDateTime(value);
+        return value == null ? null : new DatumDateTime(value);
     }
 }

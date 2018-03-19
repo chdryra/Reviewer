@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.test.TestUtils;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerPersistence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerPersistence;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 
@@ -27,7 +28,8 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         TestDatabase.recreateDatabase(getInstrumentation());
         ReviewerPersistence db = TestDatabase.getDatabase(getInstrumentation());
         assertNotNull(db);
-        MdIdableCollection<Review> testReviews = TestReviews.getReviews(getInstrumentation()).getReviews();
+        MdIdableCollection<Review> testReviews = TestReviews.getReviews(getInstrumentation())
+                .getReviews();
         MdIdableCollection<Review> reviews = db.getReviews();
         assertEquals(testReviews.size(), reviews.size());
         for (int i = 0; i < reviews.size(); ++i) {

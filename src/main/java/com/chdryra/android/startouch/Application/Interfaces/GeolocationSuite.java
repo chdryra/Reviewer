@@ -9,7 +9,8 @@
 package com.chdryra.android.startouch.Application.Interfaces;
 
 import com.chdryra.android.corelibrary.LocationUtils.LocationClient;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
 
 /**
  * Created by: Rizwan Choudrey

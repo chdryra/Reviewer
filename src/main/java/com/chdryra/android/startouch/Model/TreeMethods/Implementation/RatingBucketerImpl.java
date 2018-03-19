@@ -19,7 +19,8 @@ import com.chdryra.android.startouch.Model.TreeMethods.Factories.FactoryNodeTrav
  * Email: rizwan.choudrey@gmail.com
  */
 
-public class RatingBucketerImpl extends TraversalBucketer<Float, DataRating> implements RatingBucketer {
+public class RatingBucketerImpl extends TraversalBucketer<Float, DataRating> implements
+        RatingBucketer {
     public RatingBucketerImpl(FactoryNodeTraverser traverserFactory, VisitorFactory
             .BucketVisitor<Float, DataRating> visitorFactory) {
         super(traverserFactory, visitorFactory);

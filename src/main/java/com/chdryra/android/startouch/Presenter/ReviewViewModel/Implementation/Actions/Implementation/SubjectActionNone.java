@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;

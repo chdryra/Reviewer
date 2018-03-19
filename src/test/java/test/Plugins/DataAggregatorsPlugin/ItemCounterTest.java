@@ -89,12 +89,12 @@ public class ItemCounterTest {
         ArrayList<Datum> data = new ArrayList<>();
         int num1 = addItems(item1, data);
         int num2 = addItems(item2, data);
-        if(num2 == num1) {
+        if (num2 == num1) {
             data.add(new Datum(item2));
             num2++;
         }
         int num3 = addItems(item3, data);
-        if(num3 == Math.max(num1, num2)) {
+        if (num3 == Math.max(num1, num2)) {
             data.add(new Datum(item3));
             num3++;
         }
@@ -114,8 +114,8 @@ public class ItemCounterTest {
         numData.add(num3);
         Integer maxNum = Collections.max(numData);
         String modeItem = item1;
-        if(maxNum == num2) modeItem = item2;
-        if(maxNum == num3) modeItem = item3;
+        if (maxNum == num2) modeItem = item2;
+        if (maxNum == num3) modeItem = item3;
         return modeItem;
     }
 
@@ -127,9 +127,10 @@ public class ItemCounterTest {
             }
         };
     }
+
     private int addItems(String item, ArrayList<Datum> data) {
         int numItem = 1 + RAND.nextInt(MAX_ITEMS);
-        for(int i = 0; i < numItem; ++i) {
+        for (int i = 0; i < numItem; ++i) {
             data.add(new Datum(item));
         }
         return numItem;
@@ -137,6 +138,7 @@ public class ItemCounterTest {
 
     private class Datum {
         private String mData;
+
         private Datum(String data) {
             mData = data;
         }

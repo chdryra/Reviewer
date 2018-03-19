@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
-
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.corelibrary.Aggregation.ComparatorString;
 import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 
 /**
  * Created by: Rizwan Choudrey

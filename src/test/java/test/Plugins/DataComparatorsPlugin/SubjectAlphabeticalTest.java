@@ -8,7 +8,8 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SubjectComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataComparatorsPlugin
+        .DataComparatorsDefault.Implementation.SubjectComparator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.testutils.RandomString;
@@ -22,16 +23,19 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectAlphabeticalTest extends ComparatorTest<DataSubject>{
+public class SubjectAlphabeticalTest extends ComparatorTest<DataSubject> {
     public SubjectAlphabeticalTest() {
         super(new SubjectComparator());
     }
 
     @Test
     public void alphabeticalAscendingDifferentFirstLetter() {
-        DataSubject A = new DatumSubject(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord());
-        DataSubject B = new DatumSubject(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord());
-        DataSubject C = new DatumSubject(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord());
+        DataSubject A = new DatumSubject(RandomReviewId.nextReviewId(), "A" + RandomString
+                .nextWord());
+        DataSubject B = new DatumSubject(RandomReviewId.nextReviewId(), "B" + RandomString
+                .nextWord());
+        DataSubject C = new DatumSubject(RandomReviewId.nextReviewId(), "C" + RandomString
+                .nextWord());
 
         ComparatorTester<DataSubject> tester = newComparatorTester();
         tester.testFirstSecond(A, B);
@@ -47,9 +51,9 @@ public class SubjectAlphabeticalTest extends ComparatorTest<DataSubject>{
         DataSubject subject2 = new DatumSubject(RandomReviewId.nextReviewId(), string2);
 
         ComparatorTester<DataSubject> tester = newComparatorTester();
-        if(string1.compareToIgnoreCase(string2) < 0) {
+        if (string1.compareToIgnoreCase(string2) < 0) {
             tester.testFirstSecond(subject1, subject2);
-        } else if(string1.compareToIgnoreCase(string2) > 0){
+        } else if (string1.compareToIgnoreCase(string2) > 0) {
             tester.testFirstSecond(subject2, subject1);
         } else {
             tester.testEquals(subject2, subject1);
@@ -71,8 +75,10 @@ public class SubjectAlphabeticalTest extends ComparatorTest<DataSubject>{
     public void comparatorEqualityIgnoresCase() {
         String string = RandomString.nextWord();
         DataSubject subject = new DatumSubject(RandomReviewId.nextReviewId(), string);
-        DataSubject subjectLower = new DatumSubject(RandomReviewId.nextReviewId(), string.toLowerCase());
-        DataSubject subjectUpper = new DatumSubject(RandomReviewId.nextReviewId(), string.toUpperCase());
+        DataSubject subjectLower = new DatumSubject(RandomReviewId.nextReviewId(), string
+                .toLowerCase());
+        DataSubject subjectUpper = new DatumSubject(RandomReviewId.nextReviewId(), string
+                .toUpperCase());
 
         ComparatorTester<DataSubject> tester = newComparatorTester();
         tester.testEquals(subject, subjectLower);

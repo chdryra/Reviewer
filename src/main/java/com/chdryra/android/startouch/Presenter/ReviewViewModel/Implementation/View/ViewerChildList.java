@@ -8,17 +8,16 @@
 
 package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataReferenceWrapper;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNode;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvNodeList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvNodeList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,19 +39,15 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
         mAdapterFactory = adapterFactory;
     }
 
-    FactoryReviewViewAdapter getAdapterFactory() {
-        return mAdapterFactory;
-    }
-
     @Override
     protected GvDataList<GvNode> makeGridData() {
-        return  mConverter.convert(getReviewNode().getChildren());
+        return mConverter.convert(getReviewNode().getChildren());
     }
 
     @Override
     public void onChildAdded(ReviewNode child) {
         GvDataList<GvNode> cache = getCache();
-        if(cache == null) cache = makeGridData();
+        if (cache == null) cache = makeGridData();
         cache.add(mConverter.convert(child));
         setCache(cache);
     }
@@ -60,17 +55,17 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     @Override
     public void onChildRemoved(ReviewNode child) {
         GvDataList<GvNode> cache = getCache();
-        if(cache == null) {
+        if (cache == null) {
             cache = makeGridData();
         } else {
             GvNode toRemove = null;
             for (GvNode item : cache) {
-                if(item.getNode().equals(child)) {
+                if (item.getNode().equals(child)) {
                     toRemove = item;
                     break;
                 }
             }
-            if(toRemove != null) {
+            if (toRemove != null) {
                 toRemove.unbind();
                 cache.remove(toRemove);
             }
@@ -86,7 +81,7 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     @Override
     protected void onNullifyCache() {
         GvDataList<GvNode> cache = getCache();
-        if(cache != null) {
+        if (cache != null) {
             for (GvNode gvNode : cache) {
                 gvNode.unbind();
             }
@@ -96,7 +91,7 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     @Override
     protected void onDetach() {
         GvNodeList cache = (GvNodeList) getCache();
-        if(cache != null) cache.unbind();
+        if (cache != null) cache.unbind();
         super.onDetach();
     }
 
@@ -114,6 +109,10 @@ public class ViewerChildList extends ViewerNodeBasic<GvNode> {
     @Override
     public ReviewViewAdapter<?> expandGridData() {
         return newNodeAdapter(getReviewNode());
+    }
+
+    FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
     }
 
     private ReviewViewAdapter<?> newNodeAdapter(ReviewNode node) {

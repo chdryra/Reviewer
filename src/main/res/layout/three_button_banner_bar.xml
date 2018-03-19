@@ -8,13 +8,13 @@
   -->
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutHorizontal.WrappedVertical">
+    style="@style/LinearLayoutHorizontal.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- treated as a contextual view by ReviewVIewFragmentLayout -->
     <LinearLayout
-        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:id="@+id/view_selector_layout"
+        style="@style/LinearLayoutHorizontal.WrappedVertical"
         android:layout_weight="1">
 
         <include
@@ -37,10 +37,10 @@
 
     <View style="@style/VerticalDivider"/>
 
-        <include
-            android:id="@+id/right_button"
-            layout="@layout/banner_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+    <include
+        android:id="@+id/right_button"
+        layout="@layout/banner_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 </LinearLayout>

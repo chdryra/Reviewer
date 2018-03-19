@@ -16,8 +16,10 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataUrl;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 
 import java.net.MalformedURLException;
@@ -28,7 +30,8 @@ import java.net.URL;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact, GvFact, GvFactList, GvFact.Reference> {
+public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact, GvFact,
+        GvFactList, GvFact.Reference> {
     private final GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {
@@ -42,9 +45,14 @@ public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact
         GvFact fact = null;
         if (datum.isUrl()) fact = getGvUrl(datum, id);
 
-        if(fact == null) fact = new GvFact(id, datum.getLabel(), datum.getValue());
+        if (fact == null) fact = new GvFact(id, datum.getLabel(), datum.getValue());
 
         return fact;
+    }
+
+    @Override
+    protected GvFact.Reference convertReference(ReviewItemReference<DataFact> reference) {
+        return new GvFact.Reference(reference, this);
     }
 
     @Nullable
@@ -63,10 +71,5 @@ public class GvConverterFacts extends GvConverterReviewData.RefDataList<DataFact
         }
 
         return null;
-    }
-
-    @Override
-    protected GvFact.Reference convertReference(ReviewItemReference<DataFact> reference) {
-        return new GvFact.Reference(reference, this);
     }
 }

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 
@@ -31,6 +32,10 @@ public class Location {
         locationId = new LocId(location.getLocationId());
     }
 
+    public static int size() {
+        return 1 + LatitudeLongitude.size() + 1 + LocId.size();
+    }
+
     public LatitudeLongitude getLatLng() {
         return latLng;
     }
@@ -45,9 +50,5 @@ public class Location {
 
     public LocId getLocationId() {
         return locationId;
-    }
-
-    public static int size() {
-        return 1 + LatitudeLongitude.size() + 1 + LocId.size();
     }
 }

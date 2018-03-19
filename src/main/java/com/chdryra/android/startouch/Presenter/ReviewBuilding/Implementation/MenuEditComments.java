@@ -10,9 +10,11 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.DataObservable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MaiSplitCommentVals;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MaiSplitCommentVals;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.R;
 
 /**

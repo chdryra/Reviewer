@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
@@ -30,14 +31,16 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorFactsTest extends AggregatedDistinctItemsTest<DataFact> {
     @NonNull
     @Override
-    protected DataAggregator<DataFact> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataFact> newAggregator(DataAggregatorsApi factory,
+                                                     DataAggregatorParams params) {
         return factory.newFactsAggregator(params.getSimilarPercentage());
     }
 
     @NonNull
     @Override
     protected DataFact randomDatum() {
-        return new DatumFact(RandomReviewId.nextReviewId(), RandomString.nextWord(), RandomString.nextWord());
+        return new DatumFact(RandomReviewId.nextReviewId(), RandomString.nextWord(), RandomString
+                .nextWord());
     }
 
     @NonNull

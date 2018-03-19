@@ -42,7 +42,7 @@ public class CacheVhNode {
     private final QueueCache<Bitmap> mCovers;
 
     CacheVhNode(QueueCache<AuthorName> authors,
-                QueueCache<ProfileImage> profiles, 
+                QueueCache<ProfileImage> profiles,
                 QueueCache<DataSubject> subjects,
                 QueueCache<DataRating> ratings,
                 QueueCache<DataDate> dates,

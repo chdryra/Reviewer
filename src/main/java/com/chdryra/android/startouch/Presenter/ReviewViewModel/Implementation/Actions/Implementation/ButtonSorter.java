@@ -6,20 +6,22 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.Comparators.ComparatorCollection;
-import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.corelibrary.Comparators.NamedComparator;
+import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.Sortable;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
-
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.CommandList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsSelector;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.CommandList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsSelector;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +45,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         mComparators = comparators;
 
         mCurrentComparator = mComparators.iterator().next();
-        for(NamedComparator<? super T> comparator : mComparators) {
+        for (NamedComparator<? super T> comparator : mComparators) {
             addOption(new ComparatorCommand(comparator));
         }
         setCurrentlySelected(mCurrentComparator.getId());
@@ -55,6 +57,11 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         sort(mCurrentComparator);
     }
 
+    @Override
+    protected void launchSelector() {
+        if (!mLocked) super.launchSelector();
+    }
+
     private void sort(final NamedComparator<? super T> comparator) {
         mLocked = true;
         mCurrentComparator = comparator;
@@ -62,16 +69,11 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         getAdapter().sort(comparator, new Sortable.OnSortedCallback() {
             @Override
             public void onSorted(CallbackMessage message) {
-                if(message.isOk()) mCurrentComparator = comparator;
+                if (message.isOk()) mCurrentComparator = comparator;
                 setTitle(mCurrentComparator.getId());
                 mLocked = false;
             }
         });
-    }
-
-    @Override
-    protected void launchSelector() {
-        if(!mLocked) super.launchSelector();
     }
 
     private class ComparatorCommand extends Command {
@@ -82,7 +84,7 @@ public class ButtonSorter<T extends GvData> extends ButtonSelector<T> {
         @Override
         public void execute() {
             NamedComparator<? super T> comparator = mComparators.get(getName());
-            if(comparator != null) sort(comparator);
+            if (comparator != null) sort(comparator);
         }
     }
 }

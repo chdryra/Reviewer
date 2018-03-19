@@ -18,7 +18,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements RatingBarAction<T>{
+public class RatingEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements
+        RatingBarAction<T> {
     @Override
     public void onClick(View v) {
 
@@ -27,6 +28,6 @@ public class RatingEdit<T extends GvData> extends ReviewDataEditorActionBasic<T>
     @Override
     public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
                                 boolean fromUser) {
-        if(fromUser) getEditor().setRating(rating, true);
+        if (fromUser) getEditor().setRating(rating, true);
     }
 }

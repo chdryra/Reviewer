@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Bitmap;
@@ -23,7 +23,7 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  * Created by: Rizwan Choudrey
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
- *
+ * <p>
  * This doesn't work very well as binding is lost if cover deleted due to null path.
  * Maybe should dereference instead.
  */
@@ -38,7 +38,7 @@ public class CoverFormattedUi extends ViewUi<ImageView, DataImage> {
     @Override
     public void update(DataImage value) {
         Bitmap image = value.getBitmap();
-        if(image != null) {
+        if (image != null) {
             getView().setImageBitmap(image);
         } else {
             getView().setImageResource(mPlaceholder);

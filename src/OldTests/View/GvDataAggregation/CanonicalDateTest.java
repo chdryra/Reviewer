@@ -8,8 +8,12 @@
 
 package com.chdryra.android.startouch.test.View.GvDataAggregation;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalDate;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Implementation.CanonicalDate;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault
+        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.testutils.RandomDate;
 
@@ -37,6 +41,12 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDate> {
         return new CanonicalDate();
     }
 
+    //Overridden
+    @Override
+    protected void additionalTests() {
+        checkDifferentDates();
+    }
+
     private void checkDifferentDates() {
         mData = newDataList();
         GvDate date1 = new GvDate(DATE1);
@@ -58,11 +68,5 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDate> {
         GvDate canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(maxDate, canon.getDate());
-    }
-
-    //Overridden
-    @Override
-    protected void additionalTests() {
-        checkDifferentDates();
     }
 }

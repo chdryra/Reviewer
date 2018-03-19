@@ -14,9 +14,12 @@ import com.chdryra.android.startouch.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonical;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonicalCollection;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,15 +37,6 @@ public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasi
         mData = aggregateData;
         mAdapterFactory = adapterFactory;
         mViewer = viewerfactory.newAggregateToReviewsViewer(mData);
-    }
-
-    FactoryReviewViewAdapter getAdapterFactory() {
-        return mAdapterFactory;
-    }
-
-    ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
-        return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
-                datum.getCanonical().toString());
     }
 
     @Override
@@ -77,5 +71,14 @@ public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasi
     @Override
     public ReviewViewAdapter expandGridData() {
         return mViewer.expandGridData();
+    }
+
+    FactoryReviewViewAdapter getAdapterFactory() {
+        return mAdapterFactory;
+    }
+
+    ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
+        return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
+                datum.getCanonical().toString());
     }
 }

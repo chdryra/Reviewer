@@ -15,7 +15,7 @@ import com.chdryra.android.startouch.Social.Implementation.OAuthRequest;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface OAuthRequester<Token>  {
+public interface OAuthRequester<Token> {
     interface RequestListener<Token> {
         void onRequestGenerated(OAuthRequest request);
 

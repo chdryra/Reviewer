@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSize;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
+import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataListRef;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.firebase.client.Firebase;
 
@@ -21,7 +22,8 @@ import com.firebase.client.Firebase;
  * On: 29/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbDataListRef<Value extends HasReviewId> extends FbReviewListRef<Value, ReviewItemReference<Value>> implements DataListRef<Value> {
+public class FbDataListRef<Value extends HasReviewId> extends FbReviewListRef<Value,
+        ReviewItemReference<Value>> implements DataListRef<Value> {
     public FbDataListRef(ReviewId id, Firebase reference, ReviewItemReference<DataSize>
             sizeReference, IdableListConverter<Value> converter, ListItemsReferencer<Value,
             ReviewItemReference<Value>> itemReferencer) {

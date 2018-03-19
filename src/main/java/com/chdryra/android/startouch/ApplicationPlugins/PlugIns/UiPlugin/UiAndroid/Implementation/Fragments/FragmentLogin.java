@@ -26,7 +26,8 @@ import android.widget.TextView;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.CurrentScreen;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.LoginProviders.FactoryLoginProviders;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .LoginProviders.FactoryLoginProviders;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.startouch.Authentication.Implementation.EmailValidation;

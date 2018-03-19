@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Fragments;
 
 
 import android.app.Dialog;
@@ -24,7 +25,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ErrorDialogFragment extends DialogFragment {
-    public static final String DIALOG_ERROR = TagKeyGenerator.getKey(ErrorDialogFragment.class, "DialogError");
+    public static final String DIALOG_ERROR = TagKeyGenerator.getKey(ErrorDialogFragment.class,
+            "DialogError");
     private static final int RESOLVE_ERROR = RequestCodeGenerator.getCode("ResolveErrorDialog");
 
     public ErrorDialogFragment() {

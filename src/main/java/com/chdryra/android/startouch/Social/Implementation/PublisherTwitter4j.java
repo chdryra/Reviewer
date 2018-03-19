@@ -38,6 +38,14 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
         mPlatformName = platformName;
     }
 
+    public void setAccessToken(@Nullable AccessToken token) {
+        mTwitter.setOAuthAccessToken(token);
+    }
+
+    public void logout() {
+        mTwitter.setOAuthAccessToken(null);
+    }
+
     @Override
     protected PublishResults publish(FormattedReview review) {
         PublishResults results;
@@ -61,13 +69,5 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
             e.printStackTrace();
             return 0;
         }
-    }
-
-    public void setAccessToken(@Nullable AccessToken token) {
-        mTwitter.setOAuthAccessToken(token);
-    }
-
-    public void logout() {
-        mTwitter.setOAuthAccessToken(null);
     }
 }

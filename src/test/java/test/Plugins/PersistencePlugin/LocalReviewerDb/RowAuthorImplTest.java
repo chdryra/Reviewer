@@ -12,14 +12,14 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.RowAuthorNameImpl;
-
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthorName;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.RowAuthorNameImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.AuthorIdGenerator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
 import com.chdryra.android.testutils.RandomString;
@@ -36,7 +36,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorName, RowAuthorNameImpl>{
+public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorName, RowAuthorNameImpl> {
 
     public RowAuthorImplTest() {
         super(RowAuthorName.AUTHOR_ID.getName(), 2);
@@ -70,7 +70,8 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorName, RowAutho
 
     @Test
     public void constructionWithDataAuthorWithInvalidUserIdMakesRowAuthorInvalid() {
-        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), new AuthorIdParcelable(""));
+        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), new AuthorIdParcelable
+                (""));
         RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
@@ -84,7 +85,8 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorName, RowAutho
 
     @Test
     public void constructionWithValidDataAuthorMakesRowAuthorValid() {
-        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), AuthorIdGenerator.newId());
+        AuthorName author = new AuthorNameDefault(RandomString.nextWord(), AuthorIdGenerator
+                .newId());
         RowAuthorNameImpl row = new RowAuthorNameImpl(author);
         assertThat(row.hasData(new DataValidator()), is(true));
     }

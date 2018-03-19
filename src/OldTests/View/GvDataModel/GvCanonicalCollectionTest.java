@@ -16,10 +16,12 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvCriterion;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
@@ -83,6 +85,12 @@ public class GvCanonicalCollectionTest extends TestCase {
         assertTrue(listEquals2.equals(listNotEquals));
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mList = newList(GvComment.TYPE);
+    }
+
     private <T extends GvData> void checkComparator(GvDataType<T> type) {
         GvCanonicalCollection<T> list = newList(type);
         GvDataListImpl<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
@@ -104,11 +112,5 @@ public class GvCanonicalCollectionTest extends TestCase {
             list.addCanonnical(new GvCanonical<>(canonical, data));
         }
         return list;
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mList = newList(GvComment.TYPE);
     }
 }

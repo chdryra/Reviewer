@@ -13,7 +13,8 @@ import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.DataDefinitions.References.Implementation.IdableListReferenceBasic;
+import com.chdryra.android.startouch.DataDefinitions.References.Implementation
+        .IdableListReferenceBasic;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewListReference;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -28,7 +29,8 @@ import java.util.Map;
  * On: 04/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Reference extends ReviewItemReference<Value>> extends
+public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Reference extends
+        ReviewItemReference<Value>> extends
         IdableListReferenceBasic<Value>
         implements
         ReviewListReference<Value, Reference>,
@@ -74,16 +76,6 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
         ReviewNode child = mRoot.getChild(childId);
         if (child == null) return;
         getData(child, callback);
-    }
-
-    void doTraversal(TreeTraversalCallback callback) {
-        doTraversal(mRoot, callback);
-    }
-
-    void doTraversal(ReviewId childId, TreeTraversalCallback callback) {
-        ReviewNode child = mRoot.getChild(childId);
-        if (child == null) return;
-        doTraversal(child, callback);
     }
 
     @Override
@@ -151,7 +143,8 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
 
     @Override
     public boolean isValidReference() {
-        return super.isValidReference() && mRoot.getChildren().size() > 0 || mRoot.getReference() != null;
+        return super.isValidReference() && mRoot.getChildren().size() > 0 || mRoot.getReference()
+                != null;
     }
 
     @Override
@@ -164,6 +157,16 @@ public abstract class TreeDataReferenceBasic<Value extends HasReviewId, Referenc
     @Override
     public ReviewId getReviewId() {
         return mRoot.getReviewId();
+    }
+
+    void doTraversal(TreeTraversalCallback callback) {
+        doTraversal(mRoot, callback);
+    }
+
+    void doTraversal(ReviewId childId, TreeTraversalCallback callback) {
+        ReviewNode child = mRoot.getChild(childId);
+        if (child == null) return;
+        doTraversal(child, callback);
     }
 
     private void getData(ReviewNode root, final GetDataCallback<Value> post) {

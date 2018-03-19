@@ -12,7 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.startouch.Application.Interfaces.EditorSuite;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,12 +27,12 @@ public class VhBuildReviewQuick extends VhBuildReviewFull {
 
     @Override
     String getLowerString(int number, GvDataType dataType) {
-        return isQuickType(dataType)? dataType.getDatumName() : dataType.getDataName();
+        return isQuickType(dataType) ? dataType.getDatumName() : dataType.getDataName();
     }
 
     private boolean isQuickType(GvDataType<?> dataType) {
-        for(GvDataType<?> non : EditorSuite.NON_QUICK) {
-            if(dataType.equals(non)) return false;
+        for (GvDataType<?> non : EditorSuite.NON_QUICK) {
+            if (dataType.equals(non)) return false;
         }
         return true;
     }

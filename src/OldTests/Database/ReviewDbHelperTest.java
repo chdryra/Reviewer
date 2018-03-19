@@ -14,11 +14,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Implementation.SQL;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbContractImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerPersistence;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Implementation.SQL;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewerDbContractImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerPersistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +53,20 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         for (DbTable table : mTables) {
             testTableColumns(table, db);
         }
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mDatabase = ReviewerPersistence.getTestDatabase(getContext(), new TagsManager());
+        mHelper = mDatabase.getHelper();
+        mTables = new ArrayList<>();
+        mTables = ReviewerDbContractImpl.getContract().getTableDefinitions();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 
     private void testTableColumns(DbTable tableDef, SQLiteDatabase db) {
@@ -85,19 +103,5 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         ArrayList<String> ret = new ArrayList<>();
         ret.addAll(Arrays.asList(colNames));
         return ret;
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mDatabase = ReviewerPersistence.getTestDatabase(getContext(), new TagsManager());
-        mHelper = mDatabase.getHelper();
-        mTables = new ArrayList<>();
-        mTables = ReviewerDbContractImpl.getContract().getTableDefinitions();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        getContext().deleteDatabase(mDatabase.getDatabaseName());
     }
 }

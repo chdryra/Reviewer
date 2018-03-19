@@ -12,8 +12,10 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.startouch.test.TestUtils.MdDataMocker;
 
@@ -47,9 +49,17 @@ public class RowCommentTest extends TestCase {
         testRow(new RowComment(cursor));
     }
 
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        MdDataMocker mocker = new MdDataMocker();
+        mComment = mocker.newComment();
+    }
+
     //private methods
     private String getDatumId() {
-        return mComment.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "c" + String.valueOf
+        return mComment.getReviewId().toString() + FactoryReviewerDbTableRow.SEPARATOR + "c" +
+                String.valueOf
                 (INDEX);
     }
 
@@ -60,12 +70,5 @@ public class RowCommentTest extends TestCase {
         assertEquals(mComment.getComment(), values.getAsString(RowComment.COMMENT));
         assertTrue(mComment.isHeadline() == values.getAsBoolean(RowComment.IS_HEADLINE));
         assertEquals(mComment, row.toMdData());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        MdDataMocker mocker = new MdDataMocker();
-        mComment = mocker.newComment();
     }
 }

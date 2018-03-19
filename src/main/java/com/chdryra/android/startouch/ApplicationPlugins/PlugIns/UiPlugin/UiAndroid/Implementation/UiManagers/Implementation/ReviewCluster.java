@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -37,12 +38,12 @@ public class ReviewCluster {
         float average = 0f;
         int size = 0;
 
-        if(mCluster.getSize() > 0) {
+        if (mCluster.getSize() > 0) {
             Set<ReviewId> ids = new HashSet<>();
-            for(ReviewClusterItem item : mCluster.getItems()) {
+            for (ReviewClusterItem item : mCluster.getItems()) {
                 ReviewReference reference = item.getReference();
                 ReviewId reviewId = reference.getReviewId();
-                if(ids.contains(reviewId)) continue;
+                if (ids.contains(reviewId)) continue;
                 ids.add(reviewId);
                 average += reference.getRating().getRating();
             }
@@ -66,7 +67,7 @@ public class ReviewCluster {
     @NonNull
     private Set<ReviewReference> getReviewReferences() {
         Set<ReviewReference> set = new HashSet<>();
-        for(ReviewClusterItem item : mCluster.getItems()) {
+        for (ReviewClusterItem item : mCluster.getItems()) {
             set.add(item.getReference());
         }
         return set;

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.startouch.DataDefinitions.Data.Factories;
 
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
 
 import java.util.UUID;

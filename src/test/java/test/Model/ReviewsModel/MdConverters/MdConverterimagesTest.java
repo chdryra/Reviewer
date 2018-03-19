@@ -4,7 +4,8 @@ import com.chdryra.android.startouch.DataDefinitions.Implementation.DataValidato
 import com.chdryra.android.startouch.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.Implementation.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.startouch.Model.Implementation.ReviewsModel.MdConverters.MdConverterLocations;
+import com.chdryra.android.startouch.Model.Implementation.ReviewsModel.MdConverters
+        .MdConverterLocations;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,15 +26,15 @@ public class MdConverterimagesTest extends MdConverterBasicTest<DataLocation, Md
     }
 
     @Override
-    protected DataLocation newDatum() {
-        return new Location();
-    }
-
-    @Override
     protected void checkDatum(DataLocation datum, MdLocation mdDatum) {
         assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
         assertThat(mdDatum.getLatLng(), is(datum.getLatLng()));
         assertThat(mdDatum.getName(), is(datum.getName()));
+    }
+
+    @Override
+    protected DataLocation newDatum() {
+        return new Location();
     }
 
     private static class Location implements DataLocation {

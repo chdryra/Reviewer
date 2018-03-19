@@ -8,8 +8,8 @@
   -->
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/LinearLayoutHorizontal.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:weightSum="10">
 
     <TextView
@@ -23,22 +23,22 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="7"
-        android:layout_gravity="end|center">
+        android:layout_gravity="end|center"
+        android:layout_weight="7">
 
         <RatingBar
             android:id="@+id/criterion_rating"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_gravity="center"
+            android:gravity="center"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="0.0"
-            android:stepSize="0.5"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:rating="0.0"
+            android:stepSize="0.5"/>
 
     </FrameLayout>
 

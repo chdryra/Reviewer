@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.Activities;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -14,15 +15,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.corelibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.corelibrary.AsyncUtils.BinaryResultCallback;
 import com.chdryra.android.corelibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.startouch.Application.Implementation.AppInstanceAndroid;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentSocialLogin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
-import com.chdryra.android.corelibrary.AsyncUtils.BinaryResultCallback;
-import com.chdryra.android.startouch.Utils.ParcelablePacker;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FactoryFragmentSocialLogin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments.FragmentOAuthLogin;
 import com.chdryra.android.startouch.Social.Factories.FactoryLoginResultHandler;
 import com.chdryra.android.startouch.Social.Implementation.OAuthRequest;
 import com.chdryra.android.startouch.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.startouch.Utils.ParcelablePacker;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLauncher;
 
@@ -34,7 +37,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiTypeLaunche
 public class ActivitySocialAuthUi extends ActivitySingleFragment
         implements BinaryResultCallback<Object, Object>, LaunchableUi {
     private static final String TAG = TagKeyGenerator.getTag(ActivitySocialAuthUi.class);
-    private static final String PLATFORM = TagKeyGenerator.getKey(ActivitySocialAuthUi.class, "Platform");
+    private static final String PLATFORM = TagKeyGenerator.getKey(ActivitySocialAuthUi.class,
+            "Platform");
 
     private Fragment mFragment;
     private BinaryResultCallback mHandler;
@@ -42,10 +46,11 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     @Override
     protected Fragment createFragment(Bundle savedInstanceState) {
         OAuthRequest request = getBundledRequest();
-        if(request != null) return FragmentOAuthLogin.newInstance(request);
+        if (request != null) return FragmentOAuthLogin.newInstance(request);
 
         AppInstanceAndroid.setActivity(this);
-        SocialPlatformList platforms = AppInstanceAndroid.getInstance(this).getSocial().getSocialPlatforms();
+        SocialPlatformList platforms = AppInstanceAndroid.getInstance(this).getSocial()
+                .getSocialPlatforms();
 
         String platform = getBundledPlatform();
 
@@ -81,6 +86,11 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
         launcher.launch(getClass(), PLATFORM);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Nullable
     private OAuthRequest getBundledRequest() {
         Bundle args = getIntent().getBundleExtra(PLATFORM);
@@ -99,10 +109,5 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
 
     private void throwError() {
         throw new RuntimeException("No platform specified!");
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -14,14 +14,16 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDateList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDateList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterDateReviews extends GvConverterReviewData.RefDataList<DataDate, GvDate, GvDateList, GvDate.Reference> {
+public class GvConverterDateReviews extends GvConverterReviewData.RefDataList<DataDate, GvDate,
+        GvDateList, GvDate.Reference> {
 
     public GvConverterDateReviews() {
         super(GvDateList.class, GvDate.Reference.TYPE);

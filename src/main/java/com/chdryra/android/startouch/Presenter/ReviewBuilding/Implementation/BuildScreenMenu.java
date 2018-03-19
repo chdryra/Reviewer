@@ -14,7 +14,8 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuActionItem
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataParcelable;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuActionNone;
 import com.chdryra.android.startouch.R;
 
 /**
@@ -23,14 +24,15 @@ import com.chdryra.android.startouch.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenMenu<GC extends GvDataList<? extends GvDataParcelable>>
-        extends MenuActionNone<GC> implements ReviewEditor.ModeListener{
+        extends MenuActionNone<GC> implements ReviewEditor.ModeListener {
     private static final int MENU_PREVIEW_ID = R.id.menu_item_preview;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
     private static final int MENU = R.menu.menu_build_review;
 
     private ReviewEditor<GC> mEditor;
 
-    public BuildScreenMenu(String title, MenuActionItem<GC> upAction, MenuActionItem<GC> preview, MenuActionItem<GC> averageRating) {
+    public BuildScreenMenu(String title, MenuActionItem<GC> upAction, MenuActionItem<GC> preview,
+                           MenuActionItem<GC> averageRating) {
         super(MENU, title, upAction);
         bindMenuActionItem(preview, MENU_PREVIEW_ID, false);
         bindMenuActionItem(averageRating, MENU_AVERAGE_ID, false);
@@ -61,6 +63,6 @@ public class BuildScreenMenu<GC extends GvDataList<? extends GvDataParcelable>>
     @Override
     public void onEditMode(ReviewEditor.EditMode mode) {
         MenuItem item = getItem(MENU_AVERAGE_ID);
-        if(item != null) item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
+        if (item != null) item.setVisible(mode.equals(ReviewEditor.EditMode.FULL));
     }
 }

@@ -10,8 +10,10 @@ package test.Presenter;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.UnattachedReviewViewException;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.ReviewViewActionBasic;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation
+        .UnattachedReviewViewException;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.ReviewViewActionBasic;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -23,9 +25,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,14 +36,14 @@ import static org.mockito.Mockito.mock;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewViewActionBasicTest {
+    private static final int ON_UNATTACH = 0;
+    private static final int ON_ATTACH = 1;
     @Rule
     public ExpectedException mExpectedException = ExpectedException.none();
     @Mock
     private ReviewView<GvData> mReviewView;
     private ReviewViewActionBasic<GvData> mReviewViewAction;
     private ArrayList<Integer> mOrder = new ArrayList<>();
-    private static final int ON_UNATTACH = 0;
-    private static final int ON_ATTACH = 1;
 
     @Before
     public void setUp() {

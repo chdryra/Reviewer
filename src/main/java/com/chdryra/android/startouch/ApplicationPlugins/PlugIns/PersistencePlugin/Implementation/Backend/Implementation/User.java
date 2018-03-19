@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -43,13 +43,14 @@ public class User {
         this(providerName, providerUserId, profile, null);
     }
 
-    public User(String providerName, String providerUserId, ProfileAuthor oldProfile, @Nullable ProfileAuthor newProfile) {
+    public User(String providerName, String providerUserId, ProfileAuthor oldProfile, @Nullable
+            ProfileAuthor newProfile) {
         mProviderName = providerName;
         mProviderUserId = providerUserId;
         mAuthorId = oldProfile.getAuthor().getAuthorId();
         mProfile = oldProfile;
         mNewProfile = newProfile != null ? newProfile : mProfile;
-        if(!mNewProfile.getAuthor().getAuthorId().equals(mProfile.getAuthor().getAuthorId())) {
+        if (!mNewProfile.getAuthor().getAuthorId().equals(mProfile.getAuthor().getAuthorId())) {
             throw new IllegalArgumentException("Profiles should refer to same authorId!");
         }
     }
@@ -76,12 +77,12 @@ public class User {
         return newUser(mProfile);
     }
 
+    public User getUpdatedUser() {
+        return newUser(mNewProfile);
+    }
+
     @NonNull
     private User newUser(ProfileAuthor profile) {
         return new User(mProviderName, mProviderUserId, profile, null);
-    }
-
-    public User getUpdatedUser() {
-        return newUser(mNewProfile);
     }
 }

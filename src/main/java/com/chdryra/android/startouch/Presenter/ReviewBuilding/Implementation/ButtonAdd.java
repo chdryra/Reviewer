@@ -52,10 +52,6 @@ public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAct
         initDataList();
     }
 
-    boolean addData(T data) {
-        return getEditor().add(data);
-    }
-
     @Override
     public void onClick(View v) {
         launchDefaultConfig(new Bundle());
@@ -74,7 +70,7 @@ public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAct
 
     @Override
     public boolean onAdd(T data, int requestCode) {
-        if(data == null) return false;
+        if (data == null) return false;
 
         boolean success = false;
         if (requestCode == getLaunchableRequestCode()) {
@@ -106,18 +102,22 @@ public class ButtonAdd<T extends GvDataParcelable> extends LaunchAndAlertableAct
                 && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE
                 && data != null) {
             T datum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
-            if(datum != null) onAdd(datum, requestCode);
+            if (datum != null) onAdd(datum, requestCode);
         }
     }
 
     @Override
     public void registerListener(ClickListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
+        if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     @Override
     public void unregisterListener(ClickListener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
+    }
+
+    boolean addData(T data) {
+        return getEditor().add(data);
     }
 
     private void initDataList() {

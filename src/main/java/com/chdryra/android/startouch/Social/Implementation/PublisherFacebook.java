@@ -57,7 +57,7 @@ public class PublisherFacebook implements SocialPublisherAsync {
                 .build();
 
         ShareApi api = new ShareApi(content);
-        if(api.canShare()) api.share(getShareCallback(listener));
+        if (api.canShare()) api.share(getShareCallback(listener));
     }
 
     @NonNull

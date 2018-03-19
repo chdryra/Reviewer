@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 
 import android.graphics.Bitmap;
@@ -38,22 +39,26 @@ public class ImageData {
         bitmap = asString(image.getBitmap());
         date = image.getDate().getTime();
         caption = image.getCaption();
-        if(image.getLatLng() != null) latLng = new LatitudeLongitude(image.getLatLng());
+        if (image.getLatLng() != null) latLng = new LatitudeLongitude(image.getLatLng());
         cover = image.isCover();
-    }
-
-    static String asString(@Nullable Bitmap bitmap) {
-        if(bitmap == null) return "";
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
     }
 
     @Nullable
     public static Bitmap asBitmap(String base64) {
-        if(base64 == null || base64.length() == 0) return null;
+        if (base64 == null || base64.length() == 0) return null;
         byte[] imageAsBytes = Base64.decode(base64, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+    }
+
+    public static int size() {
+        return 5;
+    }
+
+    static String asString(@Nullable Bitmap bitmap) {
+        if (bitmap == null) return "";
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
     }
 
     public String getBitmap() {
@@ -72,16 +77,12 @@ public class ImageData {
         return latLng;
     }
 
-    @Nullable
-    public LatLng toLatLng() {
-        return latLng != null ? new LatLng(latLng.getLatitude(), latLng.getLongitude()) : null;
-    }
-
     public boolean isCover() {
         return cover;
     }
 
-    public static int size() {
-        return 5;
+    @Nullable
+    public LatLng toLatLng() {
+        return latLng != null ? new LatLng(latLng.getLatitude(), latLng.getLongitude()) : null;
     }
 }

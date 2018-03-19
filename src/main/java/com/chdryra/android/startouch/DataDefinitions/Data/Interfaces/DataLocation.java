@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataLocation extends HasReviewId, Validatable{
+public interface DataLocation extends HasReviewId, Validatable {
     String TYPE_NAME = "location";
 
     LatLng getLatLng();

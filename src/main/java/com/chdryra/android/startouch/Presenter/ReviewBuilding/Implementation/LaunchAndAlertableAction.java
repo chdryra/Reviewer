@@ -13,8 +13,8 @@ import android.os.Bundle;
 import com.chdryra.android.corelibrary.Dialogs.AlertListener;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.startouch.View.LauncherModel.Implementation.UiLauncherArgs;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,10 +39,11 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
     }
 
     protected void setLaunchableRequestCode(int defaultCode) {
-        mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + String.valueOf(defaultCode));
+        mLaunchableRequestCode = RequestCodeGenerator.getCode(mLaunchTag + String.valueOf
+                (defaultCode));
     }
 
-    protected void launchDefaultConfig(Bundle args){
+    protected void launchDefaultConfig(Bundle args) {
         launch(mConfig, args);
     }
 
@@ -55,6 +56,11 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
 
     }
 
+    protected void showAlert(String alert, int requestCode, Bundle args) {
+        mAlertDialogRequestCode = requestCode;
+        getCurrentScreen().showAlert(alert, requestCode, this, args);
+    }
+
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == mAlertDialogRequestCode) doAlertPositive(args);
@@ -63,10 +69,5 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
 
-    }
-
-    protected void showAlert(String alert, int requestCode, Bundle args) {
-        mAlertDialogRequestCode = requestCode;
-        getCurrentScreen().showAlert(alert, requestCode, this, args);
     }
 }

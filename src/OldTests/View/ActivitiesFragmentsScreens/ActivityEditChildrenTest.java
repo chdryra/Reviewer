@@ -114,16 +114,6 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterion
         assertEquals(mGridRatingBeforeDone, getBuilder().getParentBuilder().getRating());
     }
 
-    private float getAverageRating(boolean nearestHalf) {
-        int numCells = getGridSize();
-        float rating = 0;
-        for (int i = 0; i < numCells; ++i) {
-            rating += getGridItem(i).getRating() / numCells;
-        }
-
-        return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
-    }
-
     //Overridden
     @Override
     protected void clickMenuDone() {
@@ -177,6 +167,16 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterion
     protected void setAdapter() {
         super.setAdapter();
         getBuilder().getParentBuilder().setRatingIsAverage(mIsAverage);
+    }
+
+    private float getAverageRating(boolean nearestHalf) {
+        int numCells = getGridSize();
+        float rating = 0;
+        for (int i = 0; i < numCells; ++i) {
+            rating += getGridItem(i).getRating() / numCells;
+        }
+
+        return nearestHalf ? Math.round(rating * 2f) / 2f : rating;
     }
 }
 

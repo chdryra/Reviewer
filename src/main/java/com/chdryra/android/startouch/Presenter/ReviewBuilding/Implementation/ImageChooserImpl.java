@@ -119,7 +119,7 @@ public class ImageChooserImpl implements ImageChooser {
                     LatLng ll = ImageHelper.getLatLngFromExif(exif);
                     Date date = ImageHelper.getDateTimeFromEXIF(exif);
                     GvDate gvDate;
-                    if(date == null) {
+                    if (date == null) {
                         gvDate = new GvDate();
                     } else {
                         gvDate = new GvDate(date.getTime());
@@ -139,7 +139,7 @@ public class ImageChooserImpl implements ImageChooser {
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
             cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            if(cursor != null) {
+            if (cursor != null) {
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 cursor.moveToFirst();
                 return cursor.getString(column_index);

@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation;
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation;
 
 
 import android.support.annotation.Nullable;
@@ -14,7 +15,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .AdapterReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,6 +35,10 @@ abstract class CreateView implements LaunchViewCommand.ViewCreator {
         mUnexpanded = unexpanded;
     }
 
+    public FactoryReviewView getViewFactory() {
+        return mViewFactory;
+    }
+
     @Override
     @Nullable
     public ReviewView<?> newView() {
@@ -44,9 +50,5 @@ abstract class CreateView implements LaunchViewCommand.ViewCreator {
         }
 
         return adapter != null ? createView(adapter) : null;
-    }
-
-    public FactoryReviewView getViewFactory() {
-        return mViewFactory;
     }
 }

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.view.MotionEvent;
@@ -24,12 +24,13 @@ import com.chdryra.android.startouch.R;
  * On: 26/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-    public class RatingBarRvUi extends RatingBarUi {
+public class RatingBarRvUi extends RatingBarUi {
     private static final int RATING_BAR = R.id.review_rating_bar;
 
     private FrameLayout mFrame;
 
-    public RatingBarRvUi(FrameLayout ratingBarFrame, RatingBarAction<?> action, ReviewViewParams.RatingBar params) {
+    public RatingBarRvUi(FrameLayout ratingBarFrame, RatingBarAction<?> action, ReviewViewParams
+            .RatingBar params) {
         super((RatingBar) ratingBarFrame.findViewById(RATING_BAR));
 
         mFrame = ratingBarFrame;
@@ -37,7 +38,7 @@ import com.chdryra.android.startouch.R;
     }
 
     private void initialise(final RatingBarAction<?> action, ReviewViewParams.RatingBar params) {
-        if(!params.isVisible()) {
+        if (!params.isVisible()) {
             mFrame.setVisibility(View.GONE);
             return;
         }
@@ -58,11 +59,12 @@ import com.chdryra.android.startouch.R;
             }
         });
 
-        if (isEditable) ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                action.onRatingChanged(ratingBar, rating, fromUser);
-            }
-        });
+        if (isEditable)
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    action.onRatingChanged(ratingBar, rating, fromUser);
+                }
+            });
     }
 }

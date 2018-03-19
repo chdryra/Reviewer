@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 import com.chdryra.android.corelibrary.Aggregation.ComparatorString;
+import com.chdryra.android.corelibrary.Aggregation.DifferencePercentage;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,6 +38,6 @@ public class ComparatorLevenshteinDistance implements ComparatorString {
 
     private double getDifference(String longer, String shorter) {
         int editDistance = getEditDistance(longer, shorter);
-        return longer.length() == 0 ? 0.0 : (double)editDistance / (double)longer.length();
+        return longer.length() == 0 ? 0.0 : (double) editDistance / (double) longer.length();
     }
 }

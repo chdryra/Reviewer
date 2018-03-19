@@ -19,8 +19,10 @@ import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.DataL
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.ReviewItemReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterReferences;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataRef;
 
@@ -39,6 +41,10 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         super(reference, converter, adapterFactory, null);
     }
 
+    protected ReviewViewAdapter<?> newAdapter(GvRef datum) {
+        return getAdapterFactory().newReviewsListAdapter(datum, null);
+    }
+
     @Override
     public boolean isExpandable(GvRef datum) {
         return getGridData().contains(datum);
@@ -47,10 +53,6 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvRef datum) {
         return isExpandable(datum) ? newAdapter(datum) : null;
-    }
-
-    protected ReviewViewAdapter<?> newAdapter(GvRef datum) {
-        return getAdapterFactory().newReviewsListAdapter(datum, null);
     }
 
     public static class TreeAuthorList extends ViewerTreeData<DataAuthorId, GvAuthorId.Reference> {
@@ -74,7 +76,8 @@ public class ViewerTreeData<Value extends HasReviewId, GvRef extends
         private final FactoryReviewViewAdapter mAdapterFactory;
 
         public TreeCommentList(CommentListRef reference,
-                               GvConverterReferences<DataComment, GvComment.Reference, CommentRef> converter,
+                               GvConverterReferences<DataComment, GvComment.Reference,
+                                       CommentRef> converter,
                                FactoryReviewViewAdapter adapterFactory,
                                FactoryReferences referenceFactory) {
             super(reference, converter, null, adapterFactory, referenceFactory);

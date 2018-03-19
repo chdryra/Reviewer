@@ -18,43 +18,48 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
+import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Application.ReviewViewPacker;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters
-        .ConverterMd;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverters;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewView;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.PublishDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverters;
 import com.chdryra.android.startouch.Model.Factories.FactoryReviews;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
-import com.chdryra.android.startouch.Persistence.Implementation.ReviewsSourceAuthored;
 import com.chdryra.android.startouch.Model.Implementation.ReviewsRepositoryModel
         .StaticReviewsRepository;
-import com.chdryra.android.corelibrary.TagsModel.Implementation.TagsManagerImpl;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.startouch.Model.ReviewsModel.MdConverters.ConverterMd;
+import com.chdryra.android.startouch.Persistence.Implementation.ReviewsSourceAuthored;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryConfiguredGridUi;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
+import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryChildListView;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemFeedScreen;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .MenuFeedScreen;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
@@ -62,10 +67,9 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Da
         .GvReviewOverviewList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.View
+        .PresenterUsersFeed;
 import com.chdryra.android.startouch.R;
-import com.chdryra.android.startouch.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 import com.chdryra.android.startouch.test.TestUtils.RandomAuthor;
 import com.chdryra.android.startouch.test.TestUtils.RandomRating;
@@ -138,21 +142,6 @@ public class ActivityFeedTest extends
         assertEquals(ActivityReviewView.class, buildActivity.getClass());
     }
 
-    //private methods
-    private GridView getGridView() {
-        ArrayList views = mSolo.getCurrentViews(GridView.class);
-        assertEquals(1, views.size());
-        return (GridView) views.get(0);
-    }
-
-    private int getGridSize() {
-        return getGridView().getAdapter().getCount();
-    }
-
-    private GvData getGridItem(int position) {
-        return (GvData) getGridView().getItemAtPosition(position);
-    }
-
     //Overridden
     @Override
     protected void setUp() {
@@ -169,7 +158,8 @@ public class ActivityFeedTest extends
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         GvDataAggregator aggregator = new GvDataAggregator();
         ReviewsFeed feed = createFeed(converterGv, tagsManager, reviewFactory);
-        FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder, viewerFactory, aggregator, feed, converterGv);
+        FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder,
+                viewerFactory, aggregator, feed, converterGv);
         PresenterUsersFeed screen = new PresenterUsersFeed(new GridItemFeedScreen());
         ReviewView feedScreen = screen.getView(feed, publishDate, reviewFactory, converterGv,
                 builder, adapterFactory, new MenuFeedScreen());
@@ -184,20 +174,39 @@ public class ActivityFeedTest extends
         SoloUtils.pretouchScreen(mActivity, mSolo);
     }
 
-    private ReviewsFeed createFeed(ConverterGv converterGv, TagsManager tagsManager, FactoryReviews reviewFactory) {
+    //private methods
+    private GridView getGridView() {
+        ArrayList views = mSolo.getCurrentViews(GridView.class);
+        assertEquals(1, views.size());
+        return (GridView) views.get(0);
+    }
+
+    private int getGridSize() {
+        return getGridView().getAdapter().getCount();
+    }
+
+    private GvData getGridItem(int position) {
+        return (GvData) getGridView().getItemAtPosition(position);
+    }
+
+    private ReviewsFeed createFeed(ConverterGv converterGv, TagsManager tagsManager,
+                                   FactoryReviews reviewFactory) {
         DatumAuthor author = RandomAuthor.nextAuthor();
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converterGv);
         DataValidator validator = new DataValidator();
         FactoryDataBuildersGridUi gridCellFactory = new FactoryDataBuildersGridUi();
         FactoryConfiguredGridUi gridUiFactory = new FactoryConfiguredGridUi(gridCellFactory);
-        FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(FILE_DIR_EXT, "ActivityFeedTest", "test", validator);
+        FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(FILE_DIR_EXT,
+                "ActivityFeedTest", "test", validator);
         FactoryImageChooser chooserFactory = new FactoryImageChooser();
         AuthorsStamp publisherFactory = new AuthorsStamp(author);
         for (int i = 0; i < NUM; ++i) {
-            ReviewBuilder builder = new ReviewBuilder(converterGv, tagsManager, reviewFactory, dataBuilderFactory, validator);
+            ReviewBuilder builder = new ReviewBuilder(converterGv, tagsManager, reviewFactory,
+                    dataBuilderFactory, validator);
             ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(getActivity(),
-                    builder, gridUiFactory.newReviewBuilderAdapterGridUi(), validator, incrementorFactory, chooserFactory);
+                    builder, gridUiFactory.newReviewBuilderAdapterGridUi(), validator,
+                    incrementorFactory, chooserFactory);
 
             adapter.setSubject(RandomString.nextWord());
             adapter.setRating(RandomRating.nextRating());

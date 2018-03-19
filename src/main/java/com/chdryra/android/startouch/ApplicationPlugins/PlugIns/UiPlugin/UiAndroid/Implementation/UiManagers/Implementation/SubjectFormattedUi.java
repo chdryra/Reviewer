@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.graphics.Typeface;
@@ -32,7 +32,7 @@ public class SubjectFormattedUi extends SimpleViewUi<TextView, DataSubject> {
 
     public SubjectFormattedUi(TextView view, @Nullable final Command onClick) {
         super(view);
-        if(onClick != null) setOnClickCommand(onClick);
+        if (onClick != null) setOnClickCommand(onClick);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SubjectFormattedUi extends SimpleViewUi<TextView, DataSubject> {
     public void update(DataSubject value) {
         String subject = value.getSubject();
         TextView view = getView();
-        if(subject.length() > 0) {
+        if (subject.length() > 0) {
             view.setText(subject);
         } else {
             view.setTypeface(view.getTypeface(), Typeface.ITALIC);

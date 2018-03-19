@@ -10,24 +10,37 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterionList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDateList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDateList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvFactList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocation;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocationList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubjectList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSubjectList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
@@ -57,8 +70,25 @@ public class FactoryGvData {
     }
 
     public <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType,
-                                                               GvReviewId id) {
+                                                        GvReviewId id) {
         return newDataList(mMap.get(dataType), id);
+    }
+
+    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 copy(T2 data) {
+        //TODO make type safe
+        Class<T2> listClass = (Class<T2>) data.getClass();
+        try {
+            Constructor<T2> ctor = listClass.getConstructor(listClass);
+            return ctor.newInstance(data);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(NO_CTOR_ERR + listClass.getName(), e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + listClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + listClass.getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(INVOCATION_ERR + listClass.getName());
+        }
     }
 
     private <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> listClass) {
@@ -78,23 +108,6 @@ public class FactoryGvData {
         try {
             Constructor<T2> ctor = listClass.getConstructor(GvReviewId.class);
             return ctor.newInstance(id);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(NO_CTOR_ERR + listClass.getName(), e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(INSTANTIATION_ERR + listClass.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(ILLEGAL_ACCESS_ERR + listClass.getName(), e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(INVOCATION_ERR + listClass.getName());
-        }
-    }
-
-    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 copy(T2 data) {
-        //TODO make type safe
-        Class<T2> listClass = (Class<T2>) data.getClass();
-        try {
-            Constructor<T2> ctor = listClass.getConstructor(listClass);
-            return ctor.newInstance(data);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(NO_CTOR_ERR + listClass.getName(), e);
         } catch (InstantiationException e) {

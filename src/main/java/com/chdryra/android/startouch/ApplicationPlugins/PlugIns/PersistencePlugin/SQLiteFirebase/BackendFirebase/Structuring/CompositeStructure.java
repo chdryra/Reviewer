@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Structuring;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Structuring;
 
 
 import android.support.annotation.NonNull;
@@ -31,7 +31,7 @@ public class CompositeStructure<T> extends DbStructureBasic<T> {
     @Override
     public Map<String, Object> getUpdatesMap(T item, UpdateType updateType) {
         Updates updates = new Updates(updateType);
-        for(DbUpdater<T> structure : mStructures) {
+        for (DbUpdater<T> structure : mStructures) {
             updates.atPath(item).putMap(structure.getUpdatesMap(item, updateType));
         }
 

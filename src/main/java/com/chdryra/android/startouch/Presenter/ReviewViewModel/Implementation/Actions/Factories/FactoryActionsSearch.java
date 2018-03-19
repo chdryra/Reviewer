@@ -15,13 +15,20 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLaunchProfile;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.GridItemLauncher;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.MenuActionNone;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation.SubjectFilter;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.LaunchProfileCommand;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorName;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLaunchProfile;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.GridItemLauncher;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.MenuActionNone;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation.SubjectFilter;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.LaunchProfileCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorName;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
 
 /**
@@ -40,17 +47,13 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
         mFactory = factory;
     }
 
-    UiLauncher getLauncher() {
-        return mLauncher;
+    public SubjectFilter<T> newSubjectBannerFilter() {
+        return new SubjectFilter<>(Strings.Buttons.AUTHORS, Strings.Progress.SEARCHING);
     }
 
     @Override
     public SubjectAction<T> newSubject() {
         return newSubjectBannerFilter();
-    }
-
-    public SubjectFilter<T> newSubjectBannerFilter() {
-        return new SubjectFilter<>(Strings.Buttons.AUTHORS, Strings.Progress.SEARCHING);
     }
 
     @Override
@@ -68,10 +71,15 @@ public class FactoryActionsSearch<T extends GvData> extends FactoryActionsNone<T
         return new MenuActionNone<>(Strings.Screens.SEARCH);
     }
 
+    UiLauncher getLauncher() {
+        return mLauncher;
+    }
+
     public static class Author extends FactoryActionsSearch<GvAuthorName> {
         private final LaunchProfileCommand mCommand;
 
-        public Author(UiLauncher launcher, FactoryReviewView factory, LaunchProfileCommand command) {
+        public Author(UiLauncher launcher, FactoryReviewView factory, LaunchProfileCommand
+                command) {
             super(GvAuthorName.TYPE, launcher, factory);
             mCommand = command;
         }

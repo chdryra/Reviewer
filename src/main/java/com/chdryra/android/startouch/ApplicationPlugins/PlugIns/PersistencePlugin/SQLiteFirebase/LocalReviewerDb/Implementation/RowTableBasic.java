@@ -6,11 +6,14 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation;
 
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -27,13 +30,13 @@ public abstract class RowTableBasic<DbRow extends DbTableRow>
 
     protected abstract RowEntry<DbRow, ?> getEntry(int position);
 
-    NoSuchElementException noElement() {
-        throw new NoSuchElementException("No more elements left");
-    }
-
     @Override
     public Iterator<RowEntry<DbRow, ?>> iterator() {
         return new RowIterator();
+    }
+
+    NoSuchElementException noElement() {
+        throw new NoSuchElementException("No more elements left");
     }
 
     private class RowIterator implements Iterator<RowEntry<DbRow, ?>> {

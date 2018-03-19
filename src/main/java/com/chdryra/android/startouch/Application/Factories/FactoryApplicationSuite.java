@@ -30,7 +30,8 @@ import com.chdryra.android.startouch.ApplicationContexts.Interfaces.PresenterCon
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.startouch.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.startouch.ApplicationPlugins.ApplicationPlugins;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
 import com.chdryra.android.startouch.Authentication.Implementation.UserSessionDefault;
 import com.chdryra.android.startouch.Authentication.Interfaces.AccountsManager;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserSession;
@@ -69,14 +70,16 @@ public class FactoryApplicationSuite {
 
         AccountsSuiteAndroid auth = newAuthenticationSuite(model, persistence, social);
         PermissionsManagerAndroid permissions = new PermissionsManagerAndroid(context);
-        GeolocationSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices().getApi(permissions), permissions);
+        GeolocationSuiteAndroid location = newLocationServicesSuite(plugins.getLocationServices()
+                .getApi(permissions), permissions);
         RepositorySuiteAndroid repo = newRepositorySuite(persistence, network);
         EditorSuiteAndroid editor = newReviewEditorSuite(presenter);
         UiSuiteAndroid ui = newUiSuite(persistence, view, presenter, editor);
         SocialSuiteAndroid socialSuite = newSocialSuite(social);
         NetworkSuiteAndroid networkSuite = new NetworkSuiteAndroid(context);
 
-        return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite, networkSuite, permissions);
+        return new ApplicationSuiteAndroid(auth, location, ui, repo, editor, socialSuite,
+                networkSuite, permissions);
     }
 
     private AccountsSuiteAndroid newAuthenticationSuite(ModelContext model,
@@ -94,20 +97,24 @@ public class FactoryApplicationSuite {
         return new AccountsSuiteAndroid(accountsManager, session);
     }
 
-    private GeolocationSuiteAndroid newLocationServicesSuite(LocationServices services, PermissionsManagerAndroid permissions) {
+    private GeolocationSuiteAndroid newLocationServicesSuite(LocationServices services,
+                                                             PermissionsManagerAndroid
+                                                                     permissions) {
         return new GeolocationSuiteAndroid(services, permissions);
     }
 
     private RepositorySuiteAndroid newRepositorySuite(PersistenceContext persistence,
                                                       NetworkContext network) {
-        return new RepositorySuiteAndroid(persistence.getAuthorsRepo(), persistence.getReviewsRepo(),
+        return new RepositorySuiteAndroid(persistence.getAuthorsRepo(), persistence
+                .getReviewsRepo(),
                 persistence.getRepoFactory(),
                 network.getDeleterFactory(),
                 network.getPublisherFactory().newPublisher(persistence.getLocalRepo()));
     }
 
     private SocialSuiteAndroid newSocialSuite(SocialContext social) {
-        return new SocialSuiteAndroid(social.getSocialPlatforms(), new ReviewSummariser(), new ReviewFormatterTwitter());
+        return new SocialSuiteAndroid(social.getSocialPlatforms(), new ReviewSummariser(), new
+                ReviewFormatterTwitter());
     }
 
     private UiSuiteAndroid newUiSuite(PersistenceContext persistence,
@@ -124,6 +131,7 @@ public class FactoryApplicationSuite {
     }
 
     private EditorSuiteAndroid newReviewEditorSuite(PresenterContext context) {
-        return new EditorSuiteAndroid(context.getReviewViewFactory(), context.getImageChooserFactory());
+        return new EditorSuiteAndroid(context.getReviewViewFactory(), context
+                .getImageChooserFactory());
     }
 }

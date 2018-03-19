@@ -9,10 +9,10 @@
 package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Plugin;
 
 
-
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.BackendPlugin;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.LocalPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePlugin;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .PersistencePlugin;
 
 /**
  * Created by: Rizwan Choudrey

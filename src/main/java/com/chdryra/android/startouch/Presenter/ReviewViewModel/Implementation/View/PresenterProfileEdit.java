@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.corelibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.Application.Interfaces.ApplicationInstance;
 import com.chdryra.android.startouch.Authentication.Implementation.AuthenticatedUser;
@@ -23,8 +25,6 @@ import com.chdryra.android.startouch.Authentication.Implementation.AuthorNameVal
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccount;
 import com.chdryra.android.startouch.Authentication.Interfaces.UserAccounts;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.DataValue;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.ActivityResultListener;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -36,7 +36,8 @@ import com.chdryra.android.startouch.View.LauncherModel.Interfaces.UiLauncher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
-        UserAccounts.UpdateProfileCallback, ImageChooser.ImageChooserListener, ActivityResultListener {
+        UserAccounts.UpdateProfileCallback, ImageChooser.ImageChooserListener,
+        ActivityResultListener {
     private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason.INVALID_LENGTH
@@ -46,7 +47,8 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
             .INVALID_CHARACTERS.getMessage());
     private static final AuthenticationError UNKNOWN_ERROR = new AuthenticationError(APP,
             AuthenticationError.Reason.UNKNOWN_ERROR);
-    private static final int IMAGE_REQUEST_CODE = RequestCodeGenerator.getCode(PresenterProfileEdit.class);
+    private static final int IMAGE_REQUEST_CODE = RequestCodeGenerator.getCode
+            (PresenterProfileEdit.class);
 
     private final UserAccounts mAccounts;
     private final ImageChooser mImageChooser;
@@ -65,7 +67,8 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
         void onProfileError(CallbackMessage message);
     }
 
-    private PresenterProfileEdit(UserAccounts accounts, ImageChooser imageChooser, UiLauncher launcher, ProfileListener listener) {
+    private PresenterProfileEdit(UserAccounts accounts, ImageChooser imageChooser, UiLauncher
+            launcher, ProfileListener listener) {
         mAccounts = accounts;
         mImageChooser = imageChooser;
         mLauncher = launcher;
@@ -82,12 +85,14 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
         }
     }
 
-    public AuthorProfile createUpdatedProfile(AuthorProfile oldProfile, @Nullable String newName, @Nullable Bitmap photo) {
+    public AuthorProfile createUpdatedProfile(AuthorProfile oldProfile, @Nullable String newName,
+                                              @Nullable Bitmap photo) {
         return mAccounts.newProfile(oldProfile, newName, photo);
     }
 
     public void getProfile(UserAccount account) {
-        account.getAuthorProfile().dereference(new DataReference.DereferenceCallback<AuthorProfile>() {
+        account.getAuthorProfile().dereference(new DataReference
+                .DereferenceCallback<AuthorProfile>() {
             @Override
             public void onDereferenced(DataValue<AuthorProfile> value) {
                 mListener.onProfileFetched(value.getData(), value.getMessage());
@@ -95,13 +100,18 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
         });
     }
 
-    public void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile newProfile) {
+    public void updateProfile(UserAccount account, AuthorProfile oldProfile, AuthorProfile
+            newProfile) {
         mAccounts.updateProfile(account, oldProfile, newProfile, this);
+    }
+
+    public void launchImageChooser() {
+        mLauncher.launchImageChooser(mImageChooser, IMAGE_REQUEST_CODE);
     }
 
     @Override
     public void onAccountUpdated(AuthorProfile profile, @Nullable AuthenticationError error) {
-        if(error != null) {
+        if (error != null) {
             notifyOnError(profile, error);
             return;
         }
@@ -110,24 +120,14 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
     }
 
     @Override
-    public void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable AuthenticationError error) {
-        if(error != null) {
+    public void onAccountCreated(UserAccount account, AuthorProfile profile, @Nullable
+            AuthenticationError error) {
+        if (error != null) {
             notifyOnError(profile, error);
             return;
         }
 
         mListener.onProfileCreated(profile, CallbackMessage.ok(Strings.Callbacks.PROFILE_CREATED));
-    }
-
-    private void notifyOnError(AuthorProfile profile, AuthenticationError error) {
-        String message;
-        if(error.is(AuthenticationError.Reason.NAME_TAKEN)) {
-            message = profile.getAuthor().getName() + " " + Strings.Callbacks.NAME_TAKEN;
-        } else {
-            message = error.getMessage();
-        }
-
-        mListener.onProfileError(CallbackMessage.error(message));
     }
 
     @Override
@@ -137,16 +137,23 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
         mListener.onImageChosen(image, message);
     }
 
-    public void launchImageChooser() {
-        mLauncher.launchImageChooser(mImageChooser, IMAGE_REQUEST_CODE);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         ActivityResultCode result = ActivityResultCode.get(resultCode);
         if (requestCode == IMAGE_REQUEST_CODE && mImageChooser.chosenImageExists(result, data)) {
             mImageChooser.getChosenImage(this);
         }
+    }
+
+    private void notifyOnError(AuthorProfile profile, AuthenticationError error) {
+        String message;
+        if (error.is(AuthenticationError.Reason.NAME_TAKEN)) {
+            message = profile.getAuthor().getName() + " " + Strings.Callbacks.NAME_TAKEN;
+        } else {
+            message = error.getMessage();
+        }
+
+        mListener.onProfileError(CallbackMessage.error(message));
     }
 
     private void notifySignUpError(AuthenticationError error) {
@@ -164,7 +171,8 @@ public class PresenterProfileEdit implements UserAccounts.CreateAccountCallback,
     }
 
     public static class Builder {
-        public PresenterProfileEdit build(ApplicationInstance app, String profileImageName, ProfileListener listener) {
+        public PresenterProfileEdit build(ApplicationInstance app, String profileImageName,
+                                          ProfileListener listener) {
             return new PresenterProfileEdit(app.getAccounts().getUserAccounts(),
                     app.getEditor().newImageChooser(profileImageName),
                     app.getUi().getLauncher(), listener);

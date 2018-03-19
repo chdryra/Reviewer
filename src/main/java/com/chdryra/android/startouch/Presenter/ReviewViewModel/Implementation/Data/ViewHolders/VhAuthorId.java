@@ -10,11 +10,12 @@ package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.D
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Application.Implementation.Strings;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorName;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.DataReference;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvAuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,10 +26,15 @@ public class VhAuthorId extends VhText implements DataReference.ValueSubscriber<
     private DataReference<AuthorName> mReference;
     private AuthorName mAuthor;
 
+    @Nullable
+    public AuthorName getAuthor() {
+        return mAuthor;
+    }
+
     @Override
     public void updateView(ViewHolderData data) {
         GvAuthorId datum = (GvAuthorId) data;
-        if(datum.getReference() != null) {
+        if (datum.getReference() != null) {
             if (mReference != null) mReference.unsubscribe(this);
             mReference = datum.getReference();
             mReference.subscribe(this);
@@ -45,10 +51,5 @@ public class VhAuthorId extends VhText implements DataReference.ValueSubscriber<
     @Override
     public void onInvalidated(DataReference<AuthorName> reference) {
         updateView("");
-    }
-
-    @Nullable
-    public AuthorName getAuthor() {
-        return mAuthor;
     }
 }

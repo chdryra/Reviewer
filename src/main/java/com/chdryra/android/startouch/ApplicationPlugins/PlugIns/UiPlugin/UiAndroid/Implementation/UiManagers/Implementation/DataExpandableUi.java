@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.UiManagers.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid
+        .Implementation.UiManagers.Implementation;
 
 
 import android.content.Context;
@@ -21,7 +21,8 @@ import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.ViewHolderFactory;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .ViewHolderFactory;
 
 /**
  * Created by: Rizwan Choudrey
@@ -58,7 +59,7 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T> {
         mDataSize = data.size();
         getValueView().setVisibility(View.GONE);
 
-        if(mLayout != null) {
+        if (mLayout != null) {
             mLayout.removeAllViews();
         } else {
             LinearLayout view = getView();
@@ -77,6 +78,6 @@ public class DataExpandableUi<T extends HasReviewId> extends DataSectionUi<T> {
 
     @Override
     public void onClick(View v) {
-        if(mDataSize > 0) super.onClick(v);
+        if (mDataSize > 0) super.onClick(v);
     }
 }

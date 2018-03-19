@@ -8,17 +8,22 @@
 
 package test.Plugins.PersistencePlugin.AndroidSqLiteDb;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbContract;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerDbContract;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .LocalReviewerDb.Interfaces.RowAuthorName;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation.SqLiteTypeDefinitions;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.SqLiteDb.Implementation.TablesSql;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbContract;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerDbContract;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation.SqLiteTypeDefinitions;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.SqLiteDb.Implementation.TablesSql;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -29,12 +34,15 @@ import org.junit.rules.ExpectedException;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 31/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class TablesSqlTest {
+    @Rule
+    public ExpectedException mExpectedException = ExpectedException.none();
     private TablesSql mSql;
     private ReviewerDbContract mContract;
 
@@ -139,27 +147,28 @@ public class TablesSqlTest {
     @Test
     public void dropAllTablesSql() {
         String expected = "SET foreign_key_checks = 0;\n" +
-                "DROP TABLE IF EXISTS Authors,Reviews,Criteria,Comments,Facts,Locations,Images,Tags;\n" +
+                "DROP TABLE IF EXISTS Authors,Reviews,Criteria,Comments,Facts,Locations,Images," +
+                "Tags;\n" +
                 "SET foreign_key_checks = 1;";
         assertThat(mSql.dropAllTablesSql(mContract.getTableNames()), is(expected));
     }
 
-    @Rule
-    public ExpectedException mExpectedException = ExpectedException.none();
-
     @Test
-    public void getFromTableWhereQueryNonNullColumnAndColumnNotInTableThrowsIllegalArgumentExcpetion() {
+    public void
+    getFromTableWhereQueryNonNullColumnAndColumnNotInTableThrowsIllegalArgumentExcpetion() {
         DbTable<RowAuthorName> table = mContract.getAuthorsTable();
         String column = RowReview.SUBJECT.getName();
 
         mExpectedException.expect(IllegalArgumentException.class);
-        mExpectedException.expectMessage("Column " + column + " not found in table " + table.getName());
+        mExpectedException.expectMessage("Column " + column + " not found in table " + table
+                .getName());
 
         mSql.getFromTableWhereQuery(table, column, RandomString.nextWord());
     }
 
     @Test
-    public void getFromTableWhereQueryNonNullColumnNullValueButColumnNotNullableThrowsIllegalArgumentExcpetion() {
+    public void
+    getFromTableWhereQueryNonNullColumnNullValueButColumnNotNullableThrowsIllegalArgumentExcpetion() {
         DbTable<RowAuthorName> table = mContract.getAuthorsTable();
         String column = RowAuthorName.AUTHOR_NAME.getName();
 
@@ -186,7 +195,8 @@ public class TablesSqlTest {
     public void getFromTableWhereQueryNullColumnNullValueSelectsAll() {
         String expected = "SELECT * FROM Authors";
 
-        TablesSql.Query query = mSql.getFromTableWhereQuery(mContract.getAuthorsTable(), null, null);
+        TablesSql.Query query = mSql.getFromTableWhereQuery(mContract.getAuthorsTable(), null,
+                null);
 
         assertThat(query.getQuery(), is(expected));
         assertThat(query.getArgs(), is(nullValue()));

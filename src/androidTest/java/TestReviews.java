@@ -14,14 +14,15 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.corelibrary.Imaging.ImageHelper;
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.corelibrary.TextUtils.TextUtils;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorIdParcelable;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.AuthorNameDefault;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DataValidator;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDateTime;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumFact;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
@@ -38,10 +39,9 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocatio
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewDataHolder;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.startouch.Model.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.Persistence.Implementation.RepoResult;
 import com.chdryra.android.startouch.Persistence.Interfaces.RepoCallback;
 import com.chdryra.android.startouch.Persistence.Interfaces.ReviewsRepoReadable;
@@ -65,12 +65,23 @@ import static org.junit.Assert.fail;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestReviews {
-    private static AuthorNameDefault AUTHOR = new AuthorNameDefault("Riz", new AuthorIdParcelable("123"));
+    private static AuthorNameDefault AUTHOR = new AuthorNameDefault("Riz", new AuthorIdParcelable
+            ("123"));
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;
     private FactoryReviewNode mNodeFactory;
     private FactoryReviews mFactory;
+
+    private TestReviews(Instrumentation instr) {
+        mInstr = instr;
+        mReviews = new IdableDataCollection<>();
+        FactoryMdConverter converter = new FactoryMdConverter();
+        mNodeFactory = new FactoryReviewNode();
+        mFactory = new FactoryReviews(mNodeFactory,
+                converter.newMdConverter(), new DataValidator());
+        mFactory.setReviewStamper(new FactoryReviews.AuthorsStamp(AUTHOR));
+    }
 
     //Static methods
     public static ReviewsRepoReadable getReviews(Instrumentation instr, TagsManager tagsManager) {
@@ -85,16 +96,6 @@ public class TestReviews {
         }
 
         return new StaticReviewsRepo(reviews, tagsManager);
-    }
-
-    private TestReviews(Instrumentation instr) {
-        mInstr = instr;
-        mReviews = new IdableDataCollection<>();
-        FactoryMdConverter converter = new FactoryMdConverter();
-        mNodeFactory = new FactoryReviewNode();
-        mFactory = new FactoryReviews(mNodeFactory,
-                converter.newMdConverter(), new DataValidator());
-        mFactory.setReviewStamper(new FactoryReviews.AuthorsStamp(AUTHOR));
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -240,43 +241,44 @@ public class TestReviews {
     }
 
     private Review getReview(TestReview review, TagsManager tagsManager) {
-        ReviewStamp stamp = ReviewStamp.newStamp(AUTHOR, new DatumDateTime(review.mPublishDate.getTime()));
+        ReviewStamp stamp = ReviewStamp.newStamp(AUTHOR, new DatumDateTime(review.mPublishDate
+                .getTime()));
         ReviewId id = new MdReviewId(stamp);
-        
+
         ArrayList<DataComment> comments = new ArrayList<>();
         int i = 0;
-        for(String comment : review.mComments) {
-            DatumComment item = new DatumComment(id, comment, i++ == 0 );
+        for (String comment : review.mComments) {
+            DatumComment item = new DatumComment(id, comment, i++ == 0);
             comments.add(item);
         }
 
         ArrayList<DataImage> images = new ArrayList<>();
         i = 0;
-        for(Image image : review.mImages) {
-            DatumImage item = new DatumImage(id, image.mBitmap, 
-                    new DatumDate(id, image.mDate.getTime()), image.mCaption, i++ == 0 );
+        for (Image image : review.mImages) {
+            DatumImage item = new DatumImage(id, image.mBitmap,
+                    new DatumDate(id, image.mDate.getTime()), image.mCaption, i++ == 0);
             images.add(item);
         }
 
         ArrayList<DataFact> facts = new ArrayList<>();
-        for(Fact fact : review.mFacts) {
+        for (Fact fact : review.mFacts) {
             DataFact item;
-            if(fact.mIsUrl) {
+            if (fact.mIsUrl) {
                 try {
                     URL url = new URL(URLUtil.guessUrl(fact.mValue));
                     item = new DatumUrl(id, fact.mLabel, url);
                 } catch (Exception e) {
                     fail();
-                    item = new DatumFact(id, fact.mLabel,fact.mValue);
+                    item = new DatumFact(id, fact.mLabel, fact.mValue);
                 }
             } else {
-                item = new DatumFact(id, fact.mLabel,fact.mValue);
+                item = new DatumFact(id, fact.mLabel, fact.mValue);
             }
             facts.add(item);
         }
 
         ArrayList<DataLocation> locations = new ArrayList<>();
-        for(Location location : review.mLocations) {
+        for (Location location : review.mLocations) {
             DatumLocation item = new DatumLocation(id, location.mLatLng, location.mName);
             locations.add(item);
         }
@@ -286,7 +288,7 @@ public class TestReviews {
 
         ArrayList<DataCriterion> criteria = new ArrayList<>();
         float avgRating = 0f;
-        for(Criterion criterion : review.mCriteria) {
+        for (Criterion criterion : review.mCriteria) {
             criteria.add(new DatumCriterion(id, criterion.mSubject, criterion.mRating));
             avgRating += criterion.mRating / review.mCriteria.size();
         }
@@ -323,6 +325,55 @@ public class TestReviews {
         }
 
         return bitmap;
+    }
+
+    private static class StaticReviewsRepo implements ReviewsRepoReadable {
+        private IdableCollection<Review> mReviews;
+        private TagsManager mManger;
+
+        public StaticReviewsRepo(IdableCollection<Review> reviews, TagsManager manger) {
+            mReviews = reviews;
+            mManger = manger;
+        }
+
+        @Override
+        public TagsManager getTagsManager() {
+            return mManger;
+        }
+
+        @Override
+        public void getReviews(RepoCallback callback) {
+            callback.onRepoCallback(new RepoResult(mReviews, CallbackMessage.ok()));
+        }
+
+        @Override
+        public void getReviews(AuthorName author, RepoCallback callback) {
+
+        }
+
+        @Override
+        public void registerObserver(ReviewsRepositoryObserver observer) {
+
+        }
+
+        @Override
+        public void unregisterObserver(ReviewsRepositoryObserver observer) {
+
+        }
+
+        @Override
+        public void getReview(ReviewId reviewId, RepoCallback callback) {
+            Review ret = null;
+            CallbackMessage message = CallbackMessage.error("Review not found");
+            for (Review review : mReviews) {
+                if (review.getReviewId().equals(reviewId)) {
+                    ret = review;
+                    message = CallbackMessage.ok();
+                    break;
+                }
+            }
+            callback.onRepoCallback(new RepoResult(ret, message));
+        }
     }
 
     public class TestReview {
@@ -387,55 +438,6 @@ public class TestReviews {
             mCaption = caption;
             mDate = date;
             mIsCover = isCover;
-        }
-    }
-
-    private static class StaticReviewsRepo implements ReviewsRepoReadable {
-        private IdableCollection<Review> mReviews;
-        private TagsManager mManger;
-
-        public StaticReviewsRepo(IdableCollection<Review> reviews, TagsManager manger) {
-            mReviews = reviews;
-            mManger = manger;
-        }
-
-        @Override
-        public void getReview(ReviewId reviewId, RepoCallback callback) {
-            Review ret = null;
-            CallbackMessage message = CallbackMessage.error("Review not found");
-            for(Review review : mReviews) {
-                if(review.getReviewId().equals(reviewId)) {
-                    ret = review;
-                    message = CallbackMessage.ok();
-                    break;
-                }
-            }
-            callback.onRepoCallback(new RepoResult(ret, message));
-        }
-
-        @Override
-        public void getReviews(RepoCallback callback) {
-            callback.onRepoCallback(new RepoResult(mReviews, CallbackMessage.ok()));
-        }
-
-        @Override
-        public void getReviews(AuthorName author, RepoCallback callback) {
-
-        }
-
-        @Override
-        public TagsManager getTagsManager() {
-            return mManger;
-        }
-
-        @Override
-        public void registerObserver(ReviewsRepositoryObserver observer) {
-
-        }
-
-        @Override
-        public void unregisterObserver(ReviewsRepositoryObserver observer) {
-
         }
     }
 

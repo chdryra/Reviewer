@@ -22,9 +22,8 @@ import android.support.annotation.Nullable;
 /**
  * Takes care of packing and unpacking data into Bundles/Intents between different fragments
  * and activities.
- *
  */
-public class ParcelablePacker<T extends Parcelable>{
+public class ParcelablePacker<T extends Parcelable> {
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW = "com.chdryra.android.reviewer.data_new";
 
@@ -53,13 +52,13 @@ public class ParcelablePacker<T extends Parcelable>{
 
     @Nullable
     public T unpack(CurrentNewDatum currentNew, Bundle args) {
-        if(args == null) return null;
+        if (args == null) return null;
         return args.getParcelable(currentNew.getPackingTag());
     }
 
     @Nullable
     public T unpack(CurrentNewDatum currentNew, Intent data) {
-        if(data == null) return null;
+        if (data == null) return null;
         return data.getParcelableExtra(currentNew.getPackingTag());
     }
 }

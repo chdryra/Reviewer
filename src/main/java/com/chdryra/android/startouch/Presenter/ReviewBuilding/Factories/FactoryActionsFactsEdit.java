@@ -13,8 +13,10 @@ import com.chdryra.android.startouch.Presenter.Interfaces.Actions.GridItemAction
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ButtonAddFacts;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.GridItemEditFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories.FactoryLaunchCommands;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Factories
+        .FactoryLaunchCommands;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchableConfig;

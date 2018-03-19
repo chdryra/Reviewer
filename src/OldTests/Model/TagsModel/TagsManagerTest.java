@@ -10,10 +10,10 @@ package com.chdryra.android.startouch.test.Model.TagsModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
@@ -29,11 +29,6 @@ import junit.framework.TestCase;
 public class TagsManagerTest extends TestCase {
     private static final int NUM = 4;
     private TagsManager mTagsManager;
-
-    @Override
-    protected void setUp() throws Exception {
-        mTagsManager = new TagsManager();
-    }
 
     @SmallTest
     public void testTagAndGetTag() {
@@ -160,5 +155,10 @@ public class TagsManagerTest extends TestCase {
         }
 
         assertEquals(0, mTagsManager.getTags().size());
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        mTagsManager = new TagsManager();
     }
 }

@@ -6,17 +6,17 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.Aggregation.ItemCounter;
-import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.HasReviewId;
 
 /**
  * Created by: Rizwan Choudrey

@@ -6,17 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ImageData;
-
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.ReviewItemConverter;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ImageData;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.ReviewItemConverter;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumDate;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumImage;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataImage;
@@ -28,7 +30,8 @@ import com.firebase.client.DataSnapshot;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterImage implements SnapshotConverter<DataImage>, ReviewItemConverter<DataImage> {
+public class ConverterImage implements SnapshotConverter<DataImage>,
+        ReviewItemConverter<DataImage> {
     private ReviewId mId;
 
     public ConverterImage() {
@@ -47,9 +50,10 @@ public class ConverterImage implements SnapshotConverter<DataImage>, ReviewItemC
     @Override
     public DataImage convert(ReviewId id, DataSnapshot snapshot) {
         ImageData value = snapshot.getValue(ImageData.class);
-        if(value == null) return null;
+        if (value == null) return null;
         Bitmap bitmap = ImageData.asBitmap(value.getBitmap());
         return new DatumImage(id, bitmap,
-                new DatumDate(id, value.getDate()), value.getCaption(), value.toLatLng(), value.isCover());
+                new DatumDate(id, value.getDate()), value.getCaption(), value.toLatLng(), value
+                .isCover());
     }
 }

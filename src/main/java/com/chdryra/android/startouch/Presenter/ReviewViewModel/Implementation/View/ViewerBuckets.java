@@ -24,13 +24,14 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Factories.Factory
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvBucketList;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewId;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhBucket;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .ViewHolderFactory;
-
 
 import java.util.Collections;
 import java.util.List;
@@ -95,10 +96,11 @@ public class ViewerBuckets<BucketingValue, Data extends HasReviewId> extends
     public ReviewViewAdapter<?> expandGridData() {
         GvDataList<GvBucket> gridData = getGridData();
         IdableCollection<GvReviewId> data = new IdableDataCollection<>();
-        for(GvBucket bucket : gridData) {
+        for (GvBucket bucket : gridData) {
             data.addAll(getBucketedIds((Bucket<BucketingValue, Data>) bucket.getBucket()));
         }
-        return mAdapterFactory.newReviewsListAdapter(data, getReviewNode().getSubject().getSubject());
+        return mAdapterFactory.newReviewsListAdapter(data, getReviewNode().getSubject()
+                .getSubject());
     }
 
     @Nullable

@@ -32,7 +32,7 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
         TwitterSession session = TwitterCore.getInstance().getSessionManager()
                 .getActiveSession();
 
-        if(session == null) return null;
+        if (session == null) return null;
 
         TwitterAuthToken authToken = session.getAuthToken();
         return authToken != null ? new AccessToken(authToken.token, authToken.secret) : null;
@@ -40,20 +40,20 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
 
     @Override
     public void getFollowers(FollowersListener listener) {
-        FollowersFetcher.FollowersGetter getter = (FollowersFetcher.FollowersGetter)getPublisher();
+        FollowersFetcher.FollowersGetter getter = (FollowersFetcher.FollowersGetter) getPublisher();
         new FollowersFetcher(getter).getFollowers(listener);
     }
 
     @Override
     public void setAuthorisation(@Nullable AccessToken token) {
-        PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
+        PublisherTwitter4j publisher = (PublisherTwitter4j) getPublisher();
         publisher.setAccessToken(token);
         super.setAuthorisation(token);
     }
 
     @Override
     public void logout() {
-        PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
+        PublisherTwitter4j publisher = (PublisherTwitter4j) getPublisher();
         publisher.logout();
         TwitterCore.getInstance().getSessionManager().clearActiveSession();
         setAuthorisation(null);

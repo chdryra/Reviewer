@@ -48,10 +48,6 @@ public class TreeListReferences<Value extends HasReviewId,
         mReferenceFactory = referenceFactory;
     }
 
-    FactoryReferences getReferenceFactory() {
-        return mReferenceFactory.getReferenceFactory();
-    }
-
     @Nullable
     @Override
     protected IdableList<Value> getNullValue() {
@@ -82,11 +78,16 @@ public class TreeListReferences<Value extends HasReviewId,
     }
 
     @Override
-    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<Value> callback) {
+    public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<Value>
+            callback) {
         VisitorDataGetter<List> getter = castVisitor(visitor);
         ListsDereferencer<Value, Reference, List> dereferencer
                 = new ListsDereferencer<>(getter.getData(), callback);
         dereferencer.dereference();
+    }
+
+    FactoryReferences getReferenceFactory() {
+        return mReferenceFactory.getReferenceFactory();
     }
 
     private VisitorDataGetter<List> castVisitor(VisitorReviewNode visitor) {
@@ -94,7 +95,8 @@ public class TreeListReferences<Value extends HasReviewId,
         return (VisitorDataGetter<List>) visitor;
     }
 
-    private static class ListRefsToItemRefs<V extends HasReviewId, R extends ReviewItemReference<V>, L extends ReviewListReference<V, R>> {
+    private static class ListRefsToItemRefs<V extends HasReviewId, R extends
+            ReviewItemReference<V>, L extends ReviewListReference<V, R>> {
         private final IdableList<L> mRefs;
         private final ItemReferencesCallback<V, R> mCallback;
         private IdableList<R> mData;

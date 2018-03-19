@@ -13,7 +13,8 @@ import android.os.Bundle;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
@@ -78,7 +79,8 @@ public class GvDataPackerTest extends TestCase {
             ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, itemCurrent, args);
             ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, itemNew, args);
         } else {
-            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, itemCurrent, intent);
+            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, itemCurrent,
+                    intent);
             ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, itemNew, intent);
         }
 

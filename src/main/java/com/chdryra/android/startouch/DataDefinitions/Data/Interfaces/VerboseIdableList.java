@@ -14,5 +14,5 @@ package com.chdryra.android.startouch.DataDefinitions.Data.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VerboseIdableList<T extends VerboseDataReview>
-        extends VerboseIdableCollection<T>, IdableList<T>{
+        extends VerboseIdableCollection<T>, IdableList<T> {
 }

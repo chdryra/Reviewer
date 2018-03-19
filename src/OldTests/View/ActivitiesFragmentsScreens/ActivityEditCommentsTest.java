@@ -151,19 +151,12 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvComment> 
         assertFalse(newHeadline.equals(newnewHeadline));
     }
 
-    //private methods
-    private DialogAlertFragment getAlertDialog() {
-        FragmentManager manager = getEditActivity().getFragmentManager();
-        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
-        return (DialogAlertFragment) f;
-    }
-
     //Overridden
     @Override
     protected GvComment newEditDatum(GvComment oldDatum) {
         GvComment newComment = (GvComment) GvDataMocker.getDatum
                 (mDataType);
-        newComment.setIsHeadline(( oldDatum).isHeadline());
+        newComment.setIsHeadline((oldDatum).isHeadline());
 
         return newComment;
     }
@@ -184,5 +177,12 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvComment> 
     protected GvComment parentDatum(GvComment currentDatum) {
         currentDatum.setIsHeadline(true);
         return currentDatum;
+    }
+
+    //private methods
+    private DialogAlertFragment getAlertDialog() {
+        FragmentManager manager = getEditActivity().getFragmentManager();
+        Fragment f = manager.findFragmentByTag(DialogAlertFragment.ALERT_TAG);
+        return (DialogAlertFragment) f;
     }
 }

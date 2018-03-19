@@ -6,19 +6,20 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
+import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.chdryra.android.corelibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataLocation;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
-import com.chdryra.android.corelibrary.LocationServices.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -29,6 +30,17 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
+    @NonNull
+    @Override
+    protected ItemGetter<DataLocation, String> getStringGetter() {
+        return new ItemGetter<DataLocation, String>() {
+            @Override
+            public String getItem(DataLocation datum) {
+                return datum.getName();
+            }
+        };
+    }
+
     @Override
     public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
         ReviewId id = data.getReviewId();
@@ -36,7 +48,8 @@ public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
 
         String name = getModeString(data);
         LatLng latLng = getMidLatLng(data);
-        return new DatumLocation(id, latLng, name, "aggregate", LocationId.withProviderName(name, latLng));
+        return new DatumLocation(id, latLng, name, "aggregate", LocationId.withProviderName(name,
+                latLng));
     }
 
     private LatLng getMidLatLng(IdableList<? extends DataLocation> locations) {
@@ -47,16 +60,5 @@ public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
 
         LatLngMidpoint midpoint = new LatLngMidpoint();
         return midpoint.getGeoMidpoint(latLngs);
-    }
-
-    @NonNull
-    @Override
-    protected ItemGetter<DataLocation, String> getStringGetter() {
-        return new ItemGetter<DataLocation, String>() {
-            @Override
-            public String getItem(DataLocation datum) {
-                return datum.getName();
-            }
-        };
     }
 }

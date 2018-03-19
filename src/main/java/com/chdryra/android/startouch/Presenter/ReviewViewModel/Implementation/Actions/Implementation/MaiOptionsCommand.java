@@ -6,14 +6,15 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Actions.MenuOptionsItem;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.startouch.Presenter.Interfaces.View.OptionSelectListener;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.OptionsCommand;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.OptionsCommand;
 
 
 /**
@@ -21,18 +22,19 @@ import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Co
  * On: 10/09/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiOptionsCommand<T extends GvData> extends MaiCommand<T> implements MenuOptionsItem<T> {
+public class MaiOptionsCommand<T extends GvData> extends MaiCommand<T> implements
+        MenuOptionsItem<T> {
     public MaiOptionsCommand(OptionsCommand command) {
         super(command);
     }
 
     @Override
     public boolean onOptionSelected(int requestCode, String option) {
-        return ((OptionSelectListener)getCommand()).onOptionSelected(requestCode, option);
+        return ((OptionSelectListener) getCommand()).onOptionSelected(requestCode, option);
     }
 
     @Override
     public boolean onOptionsCancelled(int requestCode) {
-        return ((OptionSelectListener)getCommand()).onOptionsCancelled(requestCode);
+        return ((OptionSelectListener) getCommand()).onOptionsCancelled(requestCode);
     }
 }

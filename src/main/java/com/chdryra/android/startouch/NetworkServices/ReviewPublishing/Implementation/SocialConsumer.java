@@ -13,9 +13,10 @@ import com.chdryra.android.corelibrary.AsyncUtils.QueueConsumer;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumReviewId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.startouch.Social.Implementation.PublishResults;
+import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces
+        .FactorySocialPublisher;
 import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.SocialUploader;
-import com.chdryra.android.startouch.NetworkServices.ReviewPublishing.Interfaces.FactorySocialPublisher;
+import com.chdryra.android.startouch.Social.Implementation.PublishResults;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,14 +37,6 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
         mPublisherFactory = publisherFactory;
         mPlatformsMap = new HashMap<>();
         mListeners = new ArrayList<>();
-    }
-
-    void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
-        mPlatformsMap.put(reviewId.toString(), platforms);
-    }
-
-    void unsetPlatforms(ReviewId reviewId) {
-        unsetPlatforms(reviewId.toString());
     }
 
     public void registerListener(SocialUploader.Listener listener) {
@@ -94,6 +87,14 @@ public class SocialConsumer extends QueueConsumer<Review> implements SocialUploa
         DatumReviewId id = new DatumReviewId(reviewId);
         ArrayList<String> platformNames = mPlatformsMap.get(reviewId);
         return new PublisherWorker(mPublisherFactory.newPublisher(id, platformNames));
+    }
+
+    void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
+        mPlatformsMap.put(reviewId.toString(), platforms);
+    }
+
+    void unsetPlatforms(ReviewId reviewId) {
+        unsetPlatforms(reviewId.toString());
     }
 
     private void unsetPlatforms(String itemId) {

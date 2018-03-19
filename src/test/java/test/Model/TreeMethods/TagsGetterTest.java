@@ -8,12 +8,12 @@
 
 package test.Model.TreeMethods;
 
+import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataTag;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.Model.Factories.FactoryTagsManager;
-import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TagsGetter;
 import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.Model.TreeMethods.Implementation.TagsGetter;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class TagsGetterTest {
     public void setup() {
         FactoryTagsManager factory = new FactoryTagsManager();
         mTagsManager = factory.newTagsManager();
-        mTags= new ArrayList<>();
+        mTags = new ArrayList<>();
         mTags.add(RandomString.nextWordLowerCase());
         mTags.add(RandomString.nextWordLowerCase());
         mTags.add(RandomString.nextWordLowerCase());
@@ -55,7 +55,7 @@ public class TagsGetterTest {
         IdableList<DataTag> tags = getter.getData(node);
 
         assertThat(tags.size(), is(mTags.size()));
-        for(DataTag tag : tags) {
+        for (DataTag tag : tags) {
             assertThat(tag.getReviewId(), is(node.getReviewId()));
             String tagString = tag.getTag().toLowerCase();
             assertThat(mTags.contains(tagString), is(true));

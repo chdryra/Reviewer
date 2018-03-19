@@ -6,19 +6,19 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import com.chdryra.android.corelibrary.Aggregation.DifferenceBoolean;
+import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataAuthorName;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
-        .Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +28,8 @@ import com.chdryra.android.corelibrary.Aggregation.DifferenceComparator;
 public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorName> {
     private final DifferenceComparator<? super DataAuthorName, DifferenceBoolean> mComparitor;
 
-    public CanonicalAuthor(DifferenceComparator<? super DataAuthorName, DifferenceBoolean> comparitor) {
+    public CanonicalAuthor(DifferenceComparator<? super DataAuthorName, DifferenceBoolean>
+                                   comparitor) {
         mComparitor = comparitor;
     }
 

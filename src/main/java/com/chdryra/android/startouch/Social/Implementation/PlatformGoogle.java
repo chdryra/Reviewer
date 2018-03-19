@@ -51,17 +51,6 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
                 .build();
     }
 
-    @Override
-    public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
-        return new LoginUiDefault<>(loginLaunchable, this, listener,
-                new AuthorisationTokenGetter<String>() {
-            @Override
-            public String getAuthorisationToken() {
-                return PlatformGoogle.this.getAccessToken();
-            }
-        });
-    }
-
     public GoogleSignInOptions getSignInOptions() {
         return mSignInOptions;
     }
@@ -70,9 +59,24 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
         return mGoogleApiClient;
     }
 
+    public GoogleSignInResultCallback newSignInResultHandler() {
+        return new GoogleSignInResultCallback();
+    }
+
+    @Override
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, PlatformAuthoriser.Callback listener) {
+        return new LoginUiDefault<>(loginLaunchable, this, listener,
+                new AuthorisationTokenGetter<String>() {
+                    @Override
+                    public String getAuthorisationToken() {
+                        return PlatformGoogle.this.getAccessToken();
+                    }
+                });
+    }
+
     @Override
     public void getFollowers(FollowersListener listener) {
-        if(mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient.isConnected()) {
             mListener = listener;
             Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(this);
         }
@@ -101,19 +105,15 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
         }
     }
 
-    public GoogleSignInResultCallback newSignInResultHandler() {
-        return new GoogleSignInResultCallback();
-    }
-
     private class GoogleSignInResultCallback
             implements BinaryResultCallback<GoogleSignInResult, GoogleSignInResult> {
 
         @Override
         public void onSuccess(GoogleSignInResult result) {
             GoogleSignInAccount signInAccount = result.getSignInAccount();
-            if(signInAccount != null) {
+            if (signInAccount != null) {
                 String id = signInAccount.getId();
-                if(id != null) setAuthorisation(id);
+                if (id != null) setAuthorisation(id);
             }
         }
 

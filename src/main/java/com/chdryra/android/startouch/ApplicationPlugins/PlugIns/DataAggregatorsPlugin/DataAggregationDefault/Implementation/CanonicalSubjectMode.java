@@ -6,18 +6,18 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin
+        .DataAggregationDefault.Implementation;
 
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 import com.chdryra.android.startouch.DataDefinitions.Data.Factories.FactoryNullData;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataSubject;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,14 +25,6 @@ import com.chdryra.android.corelibrary.Aggregation.ItemGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalSubjectMode extends CanonicalStringMaker<DataSubject> {
-    @Override
-    public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
-        ReviewId id = data.getReviewId();
-        if (data.size() == 0) return FactoryNullData.nullSubject(id);
-
-        return new DatumSubject(id, getModeString(data));
-    }
-
     @NonNull
     @Override
     protected ItemGetter<DataSubject, String> getStringGetter() {
@@ -42,5 +34,13 @@ public class CanonicalSubjectMode extends CanonicalStringMaker<DataSubject> {
                 return datum.getSubject().toLowerCase();
             }
         };
+    }
+
+    @Override
+    public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
+        ReviewId id = data.getReviewId();
+        if (data.size() == 0) return FactoryNullData.nullSubject(id);
+
+        return new DatumSubject(id, getModeString(data));
     }
 }

@@ -6,13 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.GoogleLocationServices;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin
+        .GoogleLocationServices;
 
 import android.content.Context;
 
 import com.chdryra.android.corelibrary.Permissions.PermissionsManager;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServices;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesPlugin;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,7 +33,7 @@ public class LocationServicesGoogle implements LocationServicesPlugin {
 
     @Override
     public LocationServices getApi(PermissionsManager permissions) {
-        if(sServices == null) sServices = new GoogleLocationServices(mContext, permissions);
+        if (sServices == null) sServices = new GoogleLocationServices(mContext, permissions);
         return sServices;
     }
 }

@@ -11,10 +11,11 @@ package com.chdryra.android.startouch.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddEditFact;
 import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddEditFact;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -41,13 +42,18 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFact> {
         testCreateGvDatumFromViews(true);
     }
 
-    private void testCreateGvDatumFromViews(boolean isUrl) {
-        mUrlData = isUrl;
-        GvFact datum = newDatum();
-        enterData(datum);
-        GvFact fromLayout = mLayout.createGvData();
-        assertEquals(isUrl, fromLayout.isUrl());
-        assertEquals(datum, mLayout.createGvData());
+    @Override
+    public void testCreateGvDataFromViews() {
+        testCreateGvDatumFromViews(false);
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mLabel = (EditText) getView(AddEditFact.LABEL);
+        mEditText = (EditText) getView(AddEditFact.VALUE);
+        assertNotNull(mLabel);
+        assertNotNull(mEditText);
     }
 
     //Overridden
@@ -64,11 +70,6 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFact> {
     }
 
     @Override
-    public void testCreateGvDataFromViews() {
-        testCreateGvDatumFromViews(false);
-    }
-
-    @Override
     protected GvFact newDatum() {
         if (mUrlData) {
             try {
@@ -82,12 +83,12 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFact> {
         return super.newDatum();
     }
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        mLabel = (EditText) getView(AddEditFact.LABEL);
-        mEditText = (EditText) getView(AddEditFact.VALUE);
-        assertNotNull(mLabel);
-        assertNotNull(mEditText);
+    private void testCreateGvDatumFromViews(boolean isUrl) {
+        mUrlData = isUrl;
+        GvFact datum = newDatum();
+        enterData(datum);
+        GvFact fromLayout = mLayout.createGvData();
+        assertEquals(isUrl, fromLayout.isUrl());
+        assertEquals(datum, mLayout.createGvData());
     }
 }

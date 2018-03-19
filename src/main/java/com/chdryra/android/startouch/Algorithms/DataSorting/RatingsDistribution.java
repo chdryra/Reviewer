@@ -41,7 +41,7 @@ public class RatingsDistribution extends BucketDistribution<Float, DataRating> {
         float min = MIN;
         float max = MIN + bucketSize;
 
-        for(int i = 0; i < numBuckets - 1; ++i) {
+        for (int i = 0; i < numBuckets - 1; ++i) {
             buckets.add(new Bucket<Float, DataRating>(new RatingRange(min, max, false)));
             min = max;
             max += bucketSize;

@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataImage extends HasReviewId, Validatable{
+public interface DataImage extends HasReviewId, Validatable {
     String TYPE_NAME = "image";
 
     Bitmap getBitmap();

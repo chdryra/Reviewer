@@ -14,17 +14,16 @@ import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.IdableD
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataComment;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableCollection;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.IdableList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.startouch.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.NodeDataGetter;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.startouch.Model.TreeMethods.Interfaces.VisitorDataGetter;
 
 import org.junit.Test;
 
 import test.TestUtils.RandomReview;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,12 +34,13 @@ public class ItemGetterTest {
     @Test
     public void testVisit() {
         ReviewNode node = RandomReview.nextReviewNode();
-        VisitorDataGetter<DataComment> visitor = new VisitorDataGetter.ItemGetter<>(new CommentsGetter());
+        VisitorDataGetter<DataComment> visitor = new VisitorDataGetter.ItemGetter<>(new
+                CommentsGetter());
         visitor.visit(node);
         IdableCollection<DataComment> comments = visitor.getData();
         IdableList<? extends DataComment> nodeComments = node.getData();
         assertThat(comments.size(), is(nodeComments.size()));
-        for(int i = 0; i < comments.size(); ++i) {
+        for (int i = 0; i < comments.size(); ++i) {
             DataComment comment = nodeComments.get(i);
             assertThat(comments.contains(comment), is(true));
             comments.remove(comment);

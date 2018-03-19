@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions.Implementation;
-
+package com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Actions
+        .Implementation;
 
 
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands.Implementation.Command;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Commands
+        .Implementation.Command;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,7 +33,7 @@ public class RatingBarCommand<T extends GvData> extends RatingBarActionNone<T> {
 
     @Override
     public void onClick(View v) {
-        if(mToast != null) showToast(mToast);
+        if (mToast != null) showToast(mToast);
         mCommand.execute();
     }
 }

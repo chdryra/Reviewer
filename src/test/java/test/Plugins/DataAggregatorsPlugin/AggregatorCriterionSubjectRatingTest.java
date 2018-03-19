@@ -12,10 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.startouch.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
+        .DataAggregatorsApi;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataCriterion;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.ReviewId;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import test.TestUtils.RandomRating;
@@ -26,10 +27,12 @@ import test.TestUtils.RandomReviewId;
  * On: 08/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatorCriterionSubjectRatingTest extends AggregatedDistinctItemsTest<DataCriterion>{
+public class AggregatorCriterionSubjectRatingTest extends
+        AggregatedDistinctItemsTest<DataCriterion> {
     @NonNull
     @Override
-    protected DataAggregator<DataCriterion> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
+    protected DataAggregator<DataCriterion> newAggregator(DataAggregatorsApi factory,
+                                                          DataAggregatorParams params) {
         return factory.newCriteriaAggregatorSameSubjectRating(params.getSimilarBoolean());
     }
 

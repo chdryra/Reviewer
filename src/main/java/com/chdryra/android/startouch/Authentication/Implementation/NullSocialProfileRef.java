@@ -9,12 +9,12 @@
 package com.chdryra.android.startouch.Authentication.Implementation;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
+import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfile;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthorId;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
-import com.chdryra.android.corelibrary.ReferenceModel.Interfaces.Size;
-import com.chdryra.android.corelibrary.ReferenceModel.Implementation.NullDataReference;
 import com.chdryra.android.startouch.DataDefinitions.References.Interfaces.AuthorListRef;
 
 import java.util.List;
@@ -91,6 +91,6 @@ public class NullSocialProfileRef implements SocialProfileRef {
 
     private static class NullAuthorListRef extends
             NullDataReference.NullList<AuthorId, List<AuthorId>, Size>
-    implements AuthorListRef {
+            implements AuthorListRef {
     }
 }

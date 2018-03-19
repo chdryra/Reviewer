@@ -10,7 +10,8 @@ package com.chdryra.android.startouch.test.View.Configs;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.startouch.View.Configs.Interfaces.LaunchablesList;
 import com.chdryra.android.startouch.View.LauncherModel.Interfaces.LaunchableUi;

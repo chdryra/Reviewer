@@ -11,7 +11,8 @@ package com.chdryra.android.startouch.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +29,7 @@ public class CommentBuilderAdapter extends DataBuilderAdapterDefault<GvComment> 
     }
 
     public void setSplitComments(boolean isSplit) {
-        if(isSplit) {
+        if (isSplit) {
             GvDataList<GvComment> data = getGridData();
             GvCommentList splitComments = new GvCommentList(data.getGvReviewId());
             for (GvComment comment : data) {
@@ -38,7 +39,7 @@ public class CommentBuilderAdapter extends DataBuilderAdapterDefault<GvComment> 
             mGridViewData = splitComments;
         }
 
-        if(mIsSplit != isSplit) {
+        if (mIsSplit != isSplit) {
             mIsSplit = isSplit;
             onDataChanged();
         }

@@ -18,32 +18,44 @@ import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Implementation.ReviewerDbContractImpl;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.ReviewerPersistence;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.LocalReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdCriterionList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.startouch.Model.ReviewsModel.Implementation
-        .MdIdableCollection;
-import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
-import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.corelibrary.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin
+        .LocalRelationalDb.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Implementation.ReviewerDbContractImpl;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.ReviewerPersistence;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.startouch.DataDefinitions.Data.Implementation.DatumAuthor;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.startouch.Model.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.startouch.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.startouch.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.startouch.test.TestUtils.GvDataMocker;
@@ -83,7 +95,8 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetDatabaseName() {
-        assertEquals("Reviewer.db", ReviewerPersistence.getDatabase(getContext(), mTagsManager).getDatabaseName());
+        assertEquals("Reviewer.db", ReviewerPersistence.getDatabase(getContext(), mTagsManager)
+                .getDatabaseName());
         assertEquals("TestReviewer.db", ReviewerPersistence.getTestDatabase(getContext(),
                 mTagsManager).getDatabaseName());
     }
@@ -214,6 +227,26 @@ public class ReviewerDbTest extends AndroidTestCase {
             fromDb = mDatabase.getReviews();
             assertNull(fromDb.get(review.getMdReviewId()));
         }
+    }
+
+    //Overridden
+    @Override
+    protected void setUp() throws Exception {
+        mTagsManager = new TagsManager();
+        mDatabase = ReviewerPersistence.getTestDatabase(getContext(), mTagsManager);
+        mReviews = new ArrayList<>();
+        ReviewStamp publisher = RandomPublisher.nextPublisher();
+        for (int i = 0; i < NUM; ++i) {
+            if (i > 1) publisher = RandomPublisher.nextPublisher();
+            mReviews.add(ReviewMocker.newReview(publisher));
+        }
+        mTagsMap = tagReviews();
+        deleteDatabaseIfNecessary();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        deleteDatabaseIfNecessary();
     }
 
     private void testReviewInReviewsTable(Review review, boolean hasData) {
@@ -511,25 +544,5 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     private void deleteReviewFromDb(Review review) {
         mDatabase.removeReview(review.getMdReviewId().toString());
-    }
-
-    //Overridden
-    @Override
-    protected void setUp() throws Exception {
-        mTagsManager = new TagsManager();
-        mDatabase = ReviewerPersistence.getTestDatabase(getContext(), mTagsManager);
-        mReviews = new ArrayList<>();
-        ReviewStamp publisher = RandomPublisher.nextPublisher();
-        for (int i = 0; i < NUM; ++i) {
-            if (i > 1) publisher = RandomPublisher.nextPublisher();
-            mReviews.add(ReviewMocker.newReview(publisher));
-        }
-        mTagsMap = tagReviews();
-        deleteDatabaseIfNecessary();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        deleteDatabaseIfNecessary();
     }
 }

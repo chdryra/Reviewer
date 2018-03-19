@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolder;
 import com.chdryra.android.corelibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.startouch.Presenter.Interfaces.Data.GvDataCollection;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDualText;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataType;
+import com.chdryra.android.startouch.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDualText;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +30,12 @@ public class VhDataCollection implements ViewHolder {
 
     public VhDataCollection() {
         mDataView = new VhDualText();
+    }
+
+    protected void updateDataView(GvDataCollection data) {
+        String upper = getUpperString(data.size());
+        String lower = getLowerString(data.size(), data.getGvDataType());
+        mDataView.updateView(new GvDualText(upper, lower));
     }
 
     @Override
@@ -52,11 +60,5 @@ public class VhDataCollection implements ViewHolder {
 
     String getLowerString(int number, GvDataType dataType) {
         return number == 1 ? dataType.getDatumName() : dataType.getDataName();
-    }
-
-    protected void updateDataView(GvDataCollection data) {
-        String upper = getUpperString(data.size());
-        String lower = getLowerString(data.size(), data.getGvDataType());
-        mDataView.updateView(new GvDualText(upper, lower));
     }
 }

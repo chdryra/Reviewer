@@ -40,7 +40,7 @@ class DbTableForTesting<T extends DbTableRow> extends DbTableImpl<T> {
 
     @Override
     public void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow>
-                                                    constraint) {
+                                                constraint) {
         super.addForeignKeyConstraint(constraint);
     }
 }

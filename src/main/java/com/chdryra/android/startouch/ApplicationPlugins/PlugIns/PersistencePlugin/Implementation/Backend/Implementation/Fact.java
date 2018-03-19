@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation;
 
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.DataFact;
 
@@ -29,6 +30,10 @@ public class Fact {
         url = fact.isUrl();
     }
 
+    public static int size() {
+        return 3;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -39,9 +44,5 @@ public class Fact {
 
     public boolean isUrl() {
         return url;
-    }
-
-    public static int size() {
-        return 3;
     }
 }

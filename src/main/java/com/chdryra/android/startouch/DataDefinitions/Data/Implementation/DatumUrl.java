@@ -18,7 +18,7 @@ import java.net.URL;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumUrl extends DatumFact implements DataUrl{
+public class DatumUrl extends DatumFact implements DataUrl {
     private final URL mUrl;
 
     public DatumUrl(ReviewId reviewId, String label, URL url) {

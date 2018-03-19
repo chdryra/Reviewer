@@ -6,18 +6,21 @@
  *
  */
 
-package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Implementation;
-
+package com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.corelibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FactoryFbProfile;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Factories.FbDataReferencer;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.BackendFirebase.Interfaces.SnapshotConverter;
-
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FactoryFbProfile;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Factories.FbDataReferencer;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.startouch.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .BackendFirebase.Interfaces.SnapshotConverter;
 import com.chdryra.android.startouch.Authentication.Interfaces.AuthorProfileRef;
 import com.chdryra.android.startouch.Authentication.Interfaces.SocialProfileRef;
 import com.chdryra.android.startouch.DataDefinitions.Data.Interfaces.AuthorId;
@@ -77,6 +80,34 @@ public class FbAuthorsRepo implements AuthorsRepo {
         return mProfileFactory.newSocialProfile(authorId);
     }
 
+    @Override
+    public void search(String nameQuery, final SearchAuthorsCallback callback) {
+        if (nameQuery.length() == 0) {
+            callback.onAuthors(new ArrayList<AuthorName>(), CallbackMessage.ok());
+            return;
+        }
+
+        Firebase db = mStructure.getNameAuthorMapDb(mDataRoot);
+        Query query = db.orderByKey().startAt(nameQuery).endAt(nameQuery + "\uf8ff").limitToFirst
+                (SEARCH_LIMIT);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<AuthorName> authors = new ArrayList<>();
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    authors.add(mConverter.convert(child));
+                }
+                callback.onAuthors(authors, CallbackMessage.ok());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                callback.onAuthors(new ArrayList<AuthorName>(), CallbackMessage.error(Error
+                        .CANCELLED.name()));
+            }
+        });
+    }
+
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
         root.addListenerForSingleValueEvent(listener);
     }
@@ -101,31 +132,5 @@ public class FbAuthorsRepo implements AuthorsRepo {
                         CallbackMessage.error(Error.NETWORK_ERROR.name()));
             }
         };
-    }
-
-    @Override
-    public void search(String nameQuery, final SearchAuthorsCallback callback) {
-        if(nameQuery.length() == 0) {
-            callback.onAuthors(new ArrayList<AuthorName>(), CallbackMessage.ok());
-            return;
-        }
-
-        Firebase db = mStructure.getNameAuthorMapDb(mDataRoot);
-        Query query = db.orderByKey().startAt(nameQuery).endAt(nameQuery + "\uf8ff").limitToFirst(SEARCH_LIMIT);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<AuthorName> authors = new ArrayList<>();
-                for(DataSnapshot child : dataSnapshot.getChildren()) {
-                    authors.add(mConverter.convert(child));
-                }
-                callback.onAuthors(authors, CallbackMessage.ok());
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                callback.onAuthors(new ArrayList<AuthorName>(), CallbackMessage.error(Error.CANCELLED.name()));
-            }
-        });
     }
 }

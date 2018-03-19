@@ -49,12 +49,6 @@ public abstract class ViewUi<V extends View, Value> implements Bindable<Value> {
         if (mOnLongClick == null) mOnLongClick = onClick;
     }
 
-    void setClickable() {
-        getView().setClickable(true);
-        setOnClick();
-        setOnLongClick();
-    }
-
     public void onClick(View v) {
         if (mOnClick != null) mOnClick.execute();
     }
@@ -65,6 +59,12 @@ public abstract class ViewUi<V extends View, Value> implements Bindable<Value> {
             return true;
         }
         return false;
+    }
+
+    void setClickable() {
+        getView().setClickable(true);
+        setOnClick();
+        setOnLongClick();
     }
 
     void setBackgroundAlpha(int alpha) {
