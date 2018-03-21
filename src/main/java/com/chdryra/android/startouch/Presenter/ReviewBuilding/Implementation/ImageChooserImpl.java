@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -74,13 +75,20 @@ public class ImageChooserImpl implements ImageChooser {
             if (data == null) {
                 isCamera = true;
             } else {
+                //Check inline data
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = null;
+                if(extras != null) imageBitmap = (Bitmap) extras.get("data");
+                if(imageBitmap != null) return true;
+
                 final String action = data.getAction();
                 isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
             }
 
             if (!isCamera) {
                 deleteCreatedCaptureFile();
-                mCaptureFile = getImagePathFromUri(mContext, data.getData());
+                Uri uri = data.getData();
+                if(uri != null) mCaptureFile = getImagePathFromUri(mContext, uri);
             }
 
             if (ImageHelper.bitmapExists(mCaptureFile)) {

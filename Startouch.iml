@@ -172,5 +172,8 @@
     <orderEntry type="library" name="com.squareup.okio:okio:1.9.0@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-license-11.8.0" level="project" />
     <orderEntry type="module" module-name="CoreLibrary" />
+    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
+    <orderEntry type="module" module-name="CoreLibrary" />
+    <orderEntry type="module" module-name="CoreLibrary" />
   </component>
 </module>
